@@ -201,9 +201,9 @@ class ComposeActivity :
 
         viewModel.setup(composeOptions)
         setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
-        val tootText = composeOptions?.tootText
-        if (!tootText.isNullOrEmpty()) {
-            binding.composeEditField.setText(tootText)
+        val statusContent = composeOptions?.content
+        if (!statusContent.isNullOrEmpty()) {
+            binding.composeEditField.setText(statusContent)
         }
 
         if (!composeOptions?.scheduledAt.isNullOrEmpty()) {
@@ -1022,7 +1022,7 @@ class ComposeActivity :
         // Let's keep fields var until all consumers are Kotlin
         var scheduledTootId: String? = null,
         var draftId: Int? = null,
-        var tootText: String? = null,
+        var content: String? = null,
         var mediaUrls: List<String>? = null,
         var mediaDescriptions: List<String>? = null,
         var mentionedUsernames: Set<String>? = null,

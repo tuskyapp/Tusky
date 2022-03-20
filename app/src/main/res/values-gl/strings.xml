@@ -2,7 +2,7 @@
 <resources>
     <string name="action_content_warning">Aviso sobre o contido</string>
     <string name="action_toggle_visibility">Visibilidade do toot</string>
-    <string name="action_access_scheduled_toot">Toots programados</string>
+    <string name="action_access_scheduled_posts">Toots programados</string>
     <string name="action_access_drafts">Borradores</string>
     <string name="action_search">Buscar</string>
     <string name="action_reject">Rexeitar</string>
@@ -84,7 +84,7 @@
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">Licenzas</string>
     <string name="title_announcements">Anuncios</string>
-    <string name="title_scheduled_toot">Toots programados</string>
+    <string name="title_scheduled_posts">Toots programados</string>
     <string name="title_drafts">Borradores</string>
     <string name="title_edit_profile">Edita o teu perfil</string>
     <string name="title_follow_requests">Solicitudes de seguimento</string>
@@ -128,7 +128,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="action_unsubscribe_account">Desubscribir</string>
     <string name="action_subscribe_account">Subscribir</string>
-    <string name="drafts_toot_reply_removed">Eliminouse o toot para o que redactaches a resposta</string>
+    <string name="drafts_post_reply_removed">Eliminouse o toot para o que redactaches a resposta</string>
     <string name="duration_indefinite">Sen límite</string>
     <string name="label_duration">Duración</string>
     <string name="create_poll_title">Enquisa</string>
@@ -241,7 +241,7 @@
     <string name="later">Máis tarde</string>
     <string name="restart_emoji">Deberás reiniciar Tusky para aplicar os cambios</string>
     <string name="restart_required">Require reiniciar app</string>
-    <string name="action_open_toot">Abrir toot</string>
+    <string name="action_open_post">Abrir toot</string>
     <string name="expand_collapse_all_statuses">Expandir/Pregar tódolos estados</string>
     <string name="performing_lookup_title">Realizando a busca…</string>
     <string name="download_fonts">Deberás descargar primeiro estos conxuntos de emojis</string>
@@ -250,11 +250,11 @@
     <string name="copy_to_clipboard_success">Copiado ao portapapeis</string>
     <string name="error_no_custom_emojis">A túa instancia %s non ten emojis personalizados</string>
     <string name="action_compose_shortcut">Redactar</string>
-    <string name="send_toot_notification_saved_content">Gardouse unha copia do toot nos borradores</string>
-    <string name="send_toot_notification_cancel_title">Envío cancelado</string>
-    <string name="send_toot_notification_channel_name">Enviando Toots</string>
-    <string name="send_toot_notification_error_title">Erro ao enviar o toot</string>
-    <string name="send_toot_notification_title">Enviando Toot…</string>
+    <string name="send_post_notification_saved_content">Gardouse unha copia do toot nos borradores</string>
+    <string name="send_post_notification_cancel_title">Envío cancelado</string>
+    <string name="send_post_notification_channel_name">Enviando Toots</string>
+    <string name="send_post_notification_error_title">Erro ao enviar o toot</string>
+    <string name="send_post_notification_title">Enviando Toot…</string>
     <string name="compose_save_draft">Gardar borrador\?</string>
     <string name="lock_account_label_description">Require que aprobes manualmente as seguidoras</string>
     <string name="lock_account_label">Bloquear conta</string>
@@ -411,8 +411,8 @@
     <string name="dialog_block_warning">Bloquear @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Agochar todo o dominio</string>
     <string name="mute_domain_warning">Tes a certeza de querer bloquear a todo %s\? Non verás o contido dese dominio en ningunha cronoloxía pública ou nas notificacións. As túas seguidoras nese dominio serán eliminadas.</string>
-    <string name="dialog_redraft_toot_warning">Eliminar e reescribir este toot\?</string>
-    <string name="dialog_delete_toot_warning">Eliminar este toot\?</string>
+    <string name="dialog_redraft_post_warning">Eliminar e reescribir este toot\?</string>
+    <string name="dialog_delete_post_warning">Eliminar este toot\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
     <string name="dialog_message_cancel_follow_request">Revogar a solicitude de seguimento\?</string>
     <string name="dialog_download_image">Descargar</string>
@@ -438,7 +438,7 @@
     <string name="hint_compose">Que contas\?</string>
     <string name="draft_deleted">Borrador eliminado</string>
     <string name="drafts_failed_loading_reply">Fallou a carga da información da Resposta</string>
-    <string name="drafts_toot_failed_to_send">Fallou o envío do toot!</string>
+    <string name="drafts_post_failed_to_send">Fallou o envío do toot!</string>
     <string name="dialog_delete_list_warning">Tes a certeza de querer eliminar a listaxe %s\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Non podes subir máis de %1$d anexo multimedia.</item>
@@ -505,7 +505,7 @@
     <string name="action_links">Ligazóns</string>
     <string name="action_add_tab">Engadir lapela</string>
     <string name="action_reset_schedule">Restablecer</string>
-    <string name="action_schedule_toot">Programar Toot</string>
+    <string name="action_schedule_post">Programar Toot</string>
     <string name="action_emoji_keyboard">Teclado Emoji</string>
     <string name="follow_requests_info">Aínda que a túa conta non está bloqueada, a administración de %1$s opina que debes revisar manualmente as peticións de seguimento destas contas.</string>
     <string name="dialog_delete_conversation_warning">Eliminar esta conversa\?</string>

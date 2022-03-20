@@ -17,6 +17,6 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_open_status"
-        android:title="@string/action_open_toot"
+        android:title="@string/action_open_post"
         app:showAsAction="never" />
 </menu>

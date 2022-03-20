@@ -68,7 +68,7 @@ import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
-import com.keylesspalace.tusky.components.scheduled.ScheduledTootActivity
+import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
@@ -460,10 +460,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 },
                 primaryDrawerItem {
-                    nameRes = R.string.action_access_scheduled_toot
+                    nameRes = R.string.action_access_scheduled_posts
                     iconRes = R.drawable.ic_access_time
                     onClick = {
-                        startActivityWithSlideInAnimation(ScheduledTootActivity.newIntent(context))
+                        startActivityWithSlideInAnimation(ScheduledStatusActivity.newIntent(context))
                     }
                 },
                 primaryDrawerItem {

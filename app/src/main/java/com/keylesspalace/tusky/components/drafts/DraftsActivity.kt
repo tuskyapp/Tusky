@@ -90,14 +90,14 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
         if (draft.inReplyToId != null) {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-            viewModel.getToot(draft.inReplyToId)
+            viewModel.getStatus(draft.inReplyToId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(from(this))
                 .subscribe(
                     { status ->
                         val composeOptions = ComposeActivity.ComposeOptions(
                             draftId = draft.id,
-                            tootText = draft.content,
+                            content = draft.content,
                             contentWarning = draft.contentWarning,
                             inReplyToId = draft.inReplyToId,
                             replyingStatusContent = status.content.toString(),
@@ -121,7 +121,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                         if (throwable is HttpException && throwable.code() == 404) {
                             // the original status to which a reply was drafted has been deleted
                             // let's open the ComposeActivity without reply information
-                            Toast.makeText(this, getString(R.string.drafts_toot_reply_removed), Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, getString(R.string.drafts_post_reply_removed), Toast.LENGTH_LONG).show()
                             openDraftWithoutReply(draft)
                         } else {
                             Snackbar.make(binding.root, getString(R.string.drafts_failed_loading_reply), Snackbar.LENGTH_SHORT)
@@ -137,7 +137,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
     private fun openDraftWithoutReply(draft: DraftEntity) {
         val composeOptions = ComposeActivity.ComposeOptions(
             draftId = draft.id,
-            tootText = draft.content,
+            content = draft.content,
             contentWarning = draft.contentWarning,
             draftAttachments = draft.attachments,
             poll = draft.poll,

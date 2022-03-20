@@ -35,9 +35,9 @@
     <string name="add_account_description">ⵔⵏⵓ ⵢⵉⵡⴻⵏ ⵏ ⵓⵎⵉⴹⴰⵏ ⴰⵎⴰⵢⵏⵓⵝ ⵏ ⵎⴰⵚⵟⵓⴷⵓⵏ</string>
     <string name="add_account_name">ⵔⵏⵓ ⴰⵎⵉⴹⴰⵏ</string>
     <string name="hint_compose">ⴸⴰⵛⵓ ⵉⴳⴻⵍⵍⴰⵏ ⴸ ⴰⵎⴰⵢⵏⵓⵝ\?</string>
-    <string name="action_schedule_toot">ⵙⵖⵉⵡⴻⵙ ⵝⵉⵊⴻⵡⵡⵉⵇⵝⴰ</string>
-    <string name="action_access_scheduled_toot">ⵝⵉⵊⴻⵡⵡⵉⵇⵉⵏ ⵢⴻⵜⵜⵖⴰⵙⵖⴰⵡⵙⴻⵏ</string>
-    <string name="title_scheduled_toot">ⵝⵉⵊⴻⵡⵡⵉⵇⵉⵏ ⵢⴻⵜⵜⵖⴰⵙⵖⴰⵡⵙⴻⵏ</string>
+    <string name="action_schedule_post">ⵙⵖⵉⵡⴻⵙ ⵝⵉⵊⴻⵡⵡⵉⵇⵝⴰ</string>
+    <string name="action_access_scheduled_posts">ⵝⵉⵊⴻⵡⵡⵉⵇⵉⵏ ⵢⴻⵜⵜⵖⴰⵙⵖⴰⵡⵙⴻⵏ</string>
+    <string name="title_scheduled_posts">ⵝⵉⵊⴻⵡⵡⵉⵇⵉⵏ ⵢⴻⵜⵜⵖⴰⵙⵖⴰⵡⵙⴻⵏ</string>
     <string name="title_bookmarks">ⵝⵉⵛⵔⴰⴹ</string>
     <string name="action_view_bookmarks">ⵝⵉⵛⵔⴰⴹ</string>
 </resources>

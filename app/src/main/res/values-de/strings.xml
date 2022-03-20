@@ -153,7 +153,7 @@
     <string name="dialog_download_image">Herunterladen</string>
     <string name="dialog_message_cancel_follow_request">Folgeanfrage zurückziehen?</string>
     <string name="dialog_unfollow_warning">Willst du diesem Profil wirklich nicht mehr folgen?</string>
-    <string name="dialog_delete_toot_warning">Diesen Beitrag löschen?</string>
+    <string name="dialog_delete_post_warning">Diesen Beitrag löschen?</string>
     <string name="visibility_public">Öffentlich: Für alle sichtbar</string>
     <string name="visibility_unlisted">Ungelistet: Nicht in der öffentlichen Timeline sichtbar</string>
     <string name="visibility_private">Nur Folgende: Nur für Folgende sichtbar</string>
@@ -272,11 +272,11 @@
     <string name="lock_account_label">Gesperrtes Profil</string>
     <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
-    <string name="send_toot_notification_title">Beitrag senden…</string>
-    <string name="send_toot_notification_error_title">Fehler beim Senden</string>
-    <string name="send_toot_notification_channel_name">Beiträge senden</string>
-    <string name="send_toot_notification_cancel_title">Senden abgebrochen</string>
-    <string name="send_toot_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
+    <string name="send_post_notification_title">Beitrag senden…</string>
+    <string name="send_post_notification_error_title">Fehler beim Senden</string>
+    <string name="send_post_notification_channel_name">Beiträge senden</string>
+    <string name="send_post_notification_cancel_title">Senden abgebrochen</string>
+    <string name="send_post_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
     <string name="action_compose_shortcut">Beitrag erstellen</string>
     <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
     <string name="copy_to_clipboard_success">In die Zwischenablage kopiert</string>
@@ -285,7 +285,7 @@
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
     <string name="performing_lookup_title">Nachschlagen…</string>
     <string name="expand_collapse_all_statuses">Alle Beiträge aus-/einklappen</string>
-    <string name="action_open_toot">Beitrag öffnen</string>
+    <string name="action_open_post">Beitrag öffnen</string>
     <string name="restart_required">App-Neustart erforderlich</string>
     <string name="restart_emoji">Du musst Tusky neustarten um die Änderungen anzuwenden</string>
     <string name="later">Später</string>
@@ -346,7 +346,7 @@
     <string name="description_status_reblogged">Geteilt</string>
     <string name="description_visiblity_unlisted">Ungelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
-    <string name="dialog_redraft_toot_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu erstellen möchtest\?</string>
+    <string name="dialog_redraft_post_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu erstellen möchtest\?</string>
     <string name="pref_title_notification_filter_poll">Umfragen beendet sind</string>
     <string name="notification_poll_name">Umfragen</string>
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
@@ -422,10 +422,10 @@
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
     <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
     <string name="poll_new_choice_hint">Möglichkeit %d</string>
-    <string name="title_scheduled_toot">Geplante Beiträge</string>
+    <string name="title_scheduled_posts">Geplante Beiträge</string>
     <string name="action_edit">Editieren</string>
-    <string name="action_access_scheduled_toot">Geplante Beiträge</string>
-    <string name="action_schedule_toot">Plane Beitrag</string>
+    <string name="action_access_scheduled_posts">Geplante Beiträge</string>
+    <string name="action_schedule_post">Plane Beitrag</string>
     <string name="action_reset_schedule">Zurücksetzen</string>
     <string name="error_audio_upload_size">Audiodateien müssen kleiner als 40 MB sein.</string>
     <string name="title_bookmarks">Lesezeichen</string>
@@ -478,9 +478,9 @@
     <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation verstecken</string>
     <string name="no_announcements">Im Moment gibt es keine Ankündigungen.</string>
     <string name="title_announcements">Ankündigungen</string>
-    <string name="drafts_toot_reply_removed">Der Beitrag auf den du antworten willst wurde gelöscht</string>
+    <string name="drafts_post_reply_removed">Der Beitrag auf den du antworten willst wurde gelöscht</string>
     <string name="draft_deleted">Entwurf gelöscht</string>
-    <string name="drafts_toot_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
+    <string name="drafts_post_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
     <string name="dialog_delete_list_warning">Willst du die Liste %s wirklich löschen\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kannst nicht mehr als %1$d Anhang hochladen.</item>
@@ -521,4 +521,10 @@
     <string name="pref_title_confirm_favourites">Bestätigungsdialog vor dem Favorisieren eines Beitrags</string>
     <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
     <string name="action_delete_conversation">Unterhaltung löschen</string>
+    <string name="duration_30_days">30 Tage</string>
+    <string name="duration_60_days">60 Tage</string>
+    <string name="duration_90_days">90 Tage</string>
+    <string name="duration_365_days">365 Tage</string>
+    <string name="duration_14_days">14 Tage</string>
+    <string name="duration_180_days">180 Tage</string>
 </resources>

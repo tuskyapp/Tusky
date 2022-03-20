@@ -152,7 +152,7 @@
     <string name="dialog_download_image">Scarica</string>
     <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
     <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
-    <string name="dialog_delete_toot_warning">Eliminare questo toot?</string>
+    <string name="dialog_delete_post_warning">Eliminare questo toot?</string>
     <string name="visibility_public">Pubblico: visibile sulla timeline pubblica</string>
     <string name="visibility_unlisted">Non Elencato: non visibile sulla timeline pubblica e locale</string>
     <string name="visibility_private">Solo Follower: visibile solo dai tuoi follower</string>
@@ -290,11 +290,11 @@
     <string name="lock_account_label">Blocca account</string>
     <string name="lock_account_label_description">Richiede la tua approvazione manuale di chi ti segue</string>
     <string name="compose_save_draft">Salvare bozza?</string>
-    <string name="send_toot_notification_title">Inviando il Toot…</string>
-    <string name="send_toot_notification_error_title">Errore durante l\'invio</string>
-    <string name="send_toot_notification_channel_name">Invio Toot</string>
-    <string name="send_toot_notification_cancel_title">Invio annullato</string>
-    <string name="send_toot_notification_saved_content">Una copia del toot è stata salvata nelle tue bozze</string>
+    <string name="send_post_notification_title">Inviando il Toot…</string>
+    <string name="send_post_notification_error_title">Errore durante l\'invio</string>
+    <string name="send_post_notification_channel_name">Invio Toot</string>
+    <string name="send_post_notification_cancel_title">Invio annullato</string>
+    <string name="send_post_notification_saved_content">Una copia del toot è stata salvata nelle tue bozze</string>
     <string name="action_compose_shortcut">Componi</string>
     <string name="error_no_custom_emojis">La tua istanza %s non ha nessuna emoji personalizzata</string>
     <string name="copy_to_clipboard_success">Copiato negli appunti</string>
@@ -303,7 +303,7 @@
     <string name="download_fonts">Dovrai prima scaricare questo pacchetto di emoji</string>
     <string name="performing_lookup_title">Eseguendo una ricerca…</string>
     <string name="expand_collapse_all_statuses">Espandi/Riduci tutti gli stati</string>
-    <string name="action_open_toot">Apri toot</string>
+    <string name="action_open_post">Apri toot</string>
     <string name="restart_required">Riavvio dell\'app richiesto</string>
     <string name="restart_emoji">Devi riavviare Tusky per applicare queste modifiche</string>
     <string name="later">Più tardi</string>
@@ -374,7 +374,7 @@
     <string name="pref_title_bot_overlay">Mostra indicatore per bot</string>
     <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
     <string name="action_delete_and_redraft">Cancella e riscrivi</string>
-    <string name="dialog_redraft_toot_warning">Cancellare e riscrivere questo toot\?</string>
+    <string name="dialog_redraft_post_warning">Cancellare e riscrivere questo toot\?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voto</item>
         <item quantity="other">%s voti</item>
@@ -451,9 +451,9 @@
     <string name="poll_new_choice_hint">Scelta %d</string>
     <string name="edit_poll">Modifica</string>
     <string name="post_lookup_error_format">Errore nella ricerca del post %s</string>
-    <string name="title_scheduled_toot">Toot programmati</string>
-    <string name="action_access_scheduled_toot">Toot programmati</string>
-    <string name="action_schedule_toot">Programma un toot</string>
+    <string name="title_scheduled_posts">Toot programmati</string>
+    <string name="action_access_scheduled_posts">Toot programmati</string>
+    <string name="action_schedule_post">Programma un toot</string>
     <string name="action_reset_schedule">RIpristina</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="no_drafts">Non hai bozze.</string>
@@ -504,9 +504,9 @@
         <item quantity="one">Non puoi caricare più di %1$d allegato multimediale.</item>
         <item quantity="other">Non puoi caricare più di %1$d allegati multimediali.</item>
     </plurals>
-    <string name="drafts_toot_reply_removed">Il toot a cui hai scritto una risposta è stato rimosso</string>
+    <string name="drafts_post_reply_removed">Il toot a cui hai scritto una risposta è stato rimosso</string>
     <string name="draft_deleted">Bozza cancellata</string>
-    <string name="drafts_toot_failed_to_send">L\'invio di questo toot è fallito!</string>
+    <string name="drafts_post_failed_to_send">L\'invio di questo toot è fallito!</string>
     <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %s\?</string>
     <string name="duration_indefinite">Indefinita</string>
     <string name="label_duration">Durata</string>

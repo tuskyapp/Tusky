@@ -110,7 +110,7 @@
     <string name="later">ภายหลัง</string>
     <string name="restart_emoji">จำเป็นต้องเริ่ม Tusky ใหม่ เพื่อใช้การเปลี่ยนแปลงเหล่านี้</string>
     <string name="restart_required">จำเป็นต้องเริ่มแอปใหม่</string>
-    <string name="action_open_toot">เปิด Toot</string>
+    <string name="action_open_post">เปิด Toot</string>
     <string name="expand_collapse_all_statuses">ขยาย/ย่อทั้งหมด</string>
     <string name="performing_lookup_title">กำลังค้นหา…</string>
     <string name="download_fonts">ต้องดาวน์โหลดชุดเอโมจิเหล่านี้ก่อน</string>
@@ -119,11 +119,11 @@
     <string name="copy_to_clipboard_success">คัดลอกไปยังคลิบบอร์ดแล้ว</string>
     <string name="error_no_custom_emojis">Instance %s ไม่มีเอโมจิแบบกำหนดเอง</string>
     <string name="action_compose_shortcut">เขียน</string>
-    <string name="send_toot_notification_saved_content">สำเนา Toot บันทึกเป็นฉบับร่างแล้ว</string>
-    <string name="send_toot_notification_cancel_title">การส่งถูกยกเลิก</string>
-    <string name="send_toot_notification_channel_name">ส่ง Toot</string>
-    <string name="send_toot_notification_error_title">การส่ง Toot เกิดข้อผิดผลาด</string>
-    <string name="send_toot_notification_title">กำลังส่ง Toot…</string>
+    <string name="send_post_notification_saved_content">สำเนา Toot บันทึกเป็นฉบับร่างแล้ว</string>
+    <string name="send_post_notification_cancel_title">การส่งถูกยกเลิก</string>
+    <string name="send_post_notification_channel_name">ส่ง Toot</string>
+    <string name="send_post_notification_error_title">การส่ง Toot เกิดข้อผิดผลาด</string>
+    <string name="send_post_notification_title">กำลังส่ง Toot…</string>
     <string name="compose_save_draft">บันทึกฉบับร่าง\?</string>
     <string name="lock_account_label_description">ต้องอนุมัติผู้ติดตามด้วยตัวเอง</string>
     <string name="lock_account_label">ล็อกบัญชี</string>
@@ -265,8 +265,8 @@
     <string name="dialog_block_warning">บล็อก @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">ซ่อนทั้งโดเมน</string>
     <string name="mute_domain_warning">ต้องการบล็อกทุกอย่างจาก %s \? คุณจะไม่เห็นเนื้อหาจากโดเมนนั้นในไทม์ไลน์สาธารณะหรือในการแจ้งเตือน ผู้ติดตามของคุณจากโดเมนนั้นจะถูกลบออก</string>
-    <string name="dialog_redraft_toot_warning">ลบ แล้ว ร่าง Toot นี้ใหม่\?</string>
-    <string name="dialog_delete_toot_warning">ลบ Toot นี้\?</string>
+    <string name="dialog_redraft_post_warning">ลบ แล้ว ร่าง Toot นี้ใหม่\?</string>
+    <string name="dialog_delete_post_warning">ลบ Toot นี้\?</string>
     <string name="dialog_unfollow_warning">เลิกติดตามผู้ใช้นี้\?</string>
     <string name="dialog_message_cancel_follow_request">ยกเลิกคำขอติดตาม\?</string>
     <string name="dialog_download_image">ดาวน์โหลด</string>
@@ -316,11 +316,11 @@
     <string name="action_mentions">โต้ตอบ</string>
     <string name="action_links">ลิงก์</string>
     <string name="action_add_tab">เพิ่มแท็บ</string>
-    <string name="action_schedule_toot">Toot แบบตั้งเวลา</string>
+    <string name="action_schedule_post">Toot แบบตั้งเวลา</string>
     <string name="action_emoji_keyboard">คีย์บอร์ดเอโมจิ</string>
     <string name="action_content_warning">เตือนเนื้อหา</string>
     <string name="action_toggle_visibility">การมองเห็น Toot</string>
-    <string name="action_access_scheduled_toot">Toot แบบตั้งเวลา</string>
+    <string name="action_access_scheduled_posts">Toot แบบตั้งเวลา</string>
     <string name="action_access_drafts">ฉบับร่าง</string>
     <string name="action_reject">ปฏิเสธ</string>
     <string name="action_accept">ยอมรับ</string>
@@ -390,7 +390,7 @@
     <string name="status_boosted_format">%s ได้ดัน</string>
     <string name="status_username_format">\@%s</string>
     <string name="title_licenses">สัญญาอนุญาต</string>
-    <string name="title_scheduled_toot">โพสต์แบบกำหนดเวลา</string>
+    <string name="title_scheduled_posts">โพสต์แบบกำหนดเวลา</string>
     <string name="title_edit_profile">แก้ไขโปรไฟล์</string>
     <string name="title_follow_requests">คำขอติดตาม</string>
     <string name="title_domain_mutes">โดเมนที่ซ่อนไว้</string>
@@ -461,7 +461,7 @@
     <string name="dialog_mute_hide_notifications">ซ่อนการแจ้งเตือน</string>
     <string name="action_mute_notifications_desc">ปิดเสียงการแจ้งเตือนจาก %s</string>
     <string name="pref_title_hide_top_toolbar">ซ่อนหัวข้อของแถบเครื่องมือด้านบน</string>
-    <string name="drafts_toot_failed_to_send">ล้มเหลวในการส่งโพสต์นี้!</string>
+    <string name="drafts_post_failed_to_send">ล้มเหลวในการส่งโพสต์นี้!</string>
     <string name="wellbeing_mode_notice">ข้อมูลบางอย่างที่อาจส่งผลต่อสุขภาพจิตของคุณจะถูกซ่อนไว้ซึ่งรวมถึง:
 \n
 \n- การแจ้งเตือน ชื่นชอบ/ดัน/ติดตาม
@@ -477,7 +477,7 @@
     <string name="pref_title_wellbeing_mode">สุขภาวะ</string>
     <string name="account_note_hint">บันทึกส่วนตัวของคุณเกี่ยวกับบัญชีนี้</string>
     <string name="notification_subscription_description">แจ้งเตือน เมื่อคนที่คุณติดตาม ได้เผยแพร่โพสต์ใหม่</string>
-    <string name="drafts_toot_reply_removed">โพสต์ที่คุณได้ร่างตอบไว้ ถูกลบแลัว</string>
+    <string name="drafts_post_reply_removed">โพสต์ที่คุณได้ร่างตอบไว้ ถูกลบแลัว</string>
     <string name="draft_deleted">ลบฉบับร่างแล้ว</string>
     <string name="drafts_failed_loading_reply">ล้มเหลวในการโหลดข้อมูลตอบกลับ</string>
     <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %s ใช่ไหม\?</string>

@@ -10,7 +10,7 @@ import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
-import com.keylesspalace.tusky.components.scheduled.ScheduledTootViewModel
+import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
@@ -85,8 +85,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ScheduledTootViewModel::class)
-    internal abstract fun scheduledTootViewModel(viewModel: ScheduledTootViewModel): ViewModel
+    @ViewModelKey(ScheduledStatusViewModel::class)
+    internal abstract fun scheduledStatusViewModel(viewModel: ScheduledStatusViewModel): ViewModel
 
     @Binds
     @IntoMap
