@@ -121,15 +121,11 @@ class MediaUploader @Inject constructor(
                             Log.w(TAG, "empty uri path $uri")
                             throw CouldNotOpenFileException()
                         }
-                        val dotIndex = path.lastIndexOf(".")
-                        val suffix = if (dotIndex == -1) {
-                            ".tmp"
-                        } else {
-                            path.substring(dotIndex)
-                        }
+                        val inputFile = File(path)
+                        val suffix = "." + inputFile.name.substringAfterLast('.', "tmp")
                         mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix.drop(1))
                         val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
-                        val input = FileInputStream(File(path))
+                        val input = FileInputStream(inputFile)
 
                         FileOutputStream(file.absoluteFile).use { out ->
                             input.copyTo(out)
