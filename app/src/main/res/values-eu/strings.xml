@@ -131,7 +131,7 @@
     <string name="dialog_download_image">Jaitsi</string>
     <string name="dialog_message_cancel_follow_request">Jarraipen-eskakizunari uko egin\?</string>
     <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi\?</string>
-    <string name="dialog_delete_toot_warning">Tuta ezabatu\?</string>
+    <string name="dialog_delete_post_warning">Tuta ezabatu\?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
@@ -246,11 +246,11 @@
     <string name="lock_account_label">Kontua babestu</string>
     <string name="lock_account_label_description">Jarraitzaileak eskuz onartu beharko dituzu</string>
     <string name="compose_save_draft">Zirriborroa gorde?</string>
-    <string name="send_toot_notification_title">Tuta bidaltzen…</string>
-    <string name="send_toot_notification_error_title">Errorea tuta bidaltzerakoan</string>
-    <string name="send_toot_notification_channel_name">Tuta bidaltzen</string>
-    <string name="send_toot_notification_cancel_title">Bidalketa ezeztatua</string>
-    <string name="send_toot_notification_saved_content">Tutaren kopia zirriborroetan sartu da</string>
+    <string name="send_post_notification_title">Tuta bidaltzen…</string>
+    <string name="send_post_notification_error_title">Errorea tuta bidaltzerakoan</string>
+    <string name="send_post_notification_channel_name">Tuta bidaltzen</string>
+    <string name="send_post_notification_cancel_title">Bidalketa ezeztatua</string>
+    <string name="send_post_notification_saved_content">Tutaren kopia zirriborroetan sartu da</string>
     <string name="action_compose_shortcut">Idatzi</string>
     <string name="error_no_custom_emojis">%s instantziak ez ditu emoji pertsonalizatuak eskaintzen</string>
     <string name="copy_to_clipboard_success">Arbelean kopiatua</string>
@@ -259,7 +259,7 @@
     <string name="download_fonts">Lehenago jaitsi beharko dituzu</string>
     <string name="performing_lookup_title">Bilatzen…</string>
     <string name="expand_collapse_all_statuses">Tut guztiak ezkutatu/zabaldu</string>
-    <string name="action_open_toot">Ireki</string>
+    <string name="action_open_post">Ireki</string>
     <string name="restart_required">Berrabiaraztea beharrezkoa da</string>
     <string name="restart_emoji">Aplikazioa berrabiarazi beharko duzu aldaketa ezartzeko</string>
     <string name="later">Beranduago</string>
@@ -287,7 +287,7 @@
     <string name="title_tab_preferences">Fitxak</string>
     <string name="title_statuses_pinned">Lotuta</string>
     <string name="title_domain_mutes">Ezkutuko domeinuak</string>
-    <string name="title_scheduled_toot">Programatutako tutak</string>
+    <string name="title_scheduled_posts">Programatutako tutak</string>
     <string name="status_username_format">\@%s</string>
     <string name="message_empty">Kilkerrak besterik ez hemen.</string>
     <string name="action_unreblog">Bultzada kendu</string>
@@ -297,8 +297,8 @@
     <string name="action_view_domain_mutes">Ezkutuko domeinuak</string>
     <string name="action_add_poll">Galdeketa gehitu</string>
     <string name="action_mute_domain">Mututu %s</string>
-    <string name="action_access_scheduled_toot">Programatutako tutak</string>
-    <string name="action_schedule_toot">Tuta programatu</string>
+    <string name="action_access_scheduled_posts">Programatutako tutak</string>
+    <string name="action_schedule_post">Tuta programatu</string>
     <string name="action_reset_schedule">Berrezarri</string>
     <string name="action_add_tab">Kategoria gehitu</string>
     <string name="action_links">Estekak</string>
@@ -313,7 +313,7 @@
     <string name="download_media">Media jaisten</string>
     <string name="downloading_media">Media jaisten</string>
     <string name="confirmation_domain_unmuted">%s ez dago ezkutatua</string>
-    <string name="dialog_redraft_toot_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
+    <string name="dialog_redraft_post_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
     <string name="mute_domain_warning">Ziur al zaude %s ezabatu nahi duzula\? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenetan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
     <string name="mute_domain_warning_dialog_ok">Domeinu osoa ezkutatu</string>
     <string name="pref_title_notification_filter_poll">Galdeketak bukatu dira</string>
@@ -489,7 +489,7 @@
     <string name="drafts_failed_loading_reply">Erantzunaren informazioa ezin izan da kargatu</string>
     <string name="wellbeing_hide_stats_profile">Profiletan estatistika kuantitatiboak ezkutatu</string>
     <string name="draft_deleted">Zirriborroa ezabatu da</string>
-    <string name="drafts_toot_reply_removed">Erantzuna idatzi zenuen tuta ezabatu da</string>
+    <string name="drafts_post_reply_removed">Erantzuna idatzi zenuen tuta ezabatu da</string>
     <string name="pref_title_wellbeing_mode">Ongizatea</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Ezin duzu multimedia eranskin %1$d baino gehiago kargatu.</item>
@@ -511,7 +511,7 @@
     <string name="title_announcements">Iragarpenak</string>
     <string name="notification_subscription_description">Jakinarazpenak harpidetuta zauden norbaitek tut berria argitaratu duenean</string>
     <string name="account_note_hint">Kontu honi buruzko zure ohar pribatua</string>
-    <string name="drafts_toot_failed_to_send">Tut honek ezin izan du bidali!</string>
+    <string name="drafts_post_failed_to_send">Tut honek ezin izan du bidali!</string>
     <string name="wellbeing_mode_notice">Zure ongizate mentalean eragina izan dezaketen zenbait informazio ezkutatuta egongo dira. Honek honako hauek ditu:
 \n
 \n - Gogokoak, bultzadak eta jarraitzaileen jakinarazpenak

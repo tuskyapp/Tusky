@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
-import com.keylesspalace.tusky.databinding.ActivityScheduledTootBinding
+import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injectable {
+class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -48,19 +48,19 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
     @Inject
     lateinit var eventHub: EventHub
 
-    private val viewModel: ScheduledTootViewModel by viewModels { viewModelFactory }
+    private val viewModel: ScheduledStatusViewModel by viewModels { viewModelFactory }
 
-    private val adapter = ScheduledTootAdapter(this)
+    private val adapter = ScheduledStatusAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityScheduledTootBinding.inflate(layoutInflater)
+        val binding = ActivityScheduledStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
-            title = getString(R.string.title_scheduled_toot)
+            title = getString(R.string.title_scheduled_posts)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
@@ -121,7 +121,7 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
             this,
             ComposeActivity.ComposeOptions(
                 scheduledTootId = item.id,
-                tootText = item.params.text,
+                content = item.params.text,
                 contentWarning = item.params.spoilerText,
                 mediaAttachments = item.mediaAttachments,
                 inReplyToId = item.params.inReplyToId,
@@ -138,6 +138,6 @@ class ScheduledTootActivity : BaseActivity(), ScheduledTootActionListener, Injec
     }
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, ScheduledTootActivity::class.java)
+        fun newIntent(context: Context) = Intent(context, ScheduledStatusActivity::class.java)
     }
 }

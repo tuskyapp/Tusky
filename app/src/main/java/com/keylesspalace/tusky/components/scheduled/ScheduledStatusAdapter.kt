@@ -20,18 +20,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.keylesspalace.tusky.databinding.ItemScheduledTootBinding
+import com.keylesspalace.tusky.databinding.ItemScheduledStatusBinding
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.BindingHolder
 
-interface ScheduledTootActionListener {
+interface ScheduledStatusActionListener {
     fun edit(item: ScheduledStatus)
     fun delete(item: ScheduledStatus)
 }
 
-class ScheduledTootAdapter(
-    val listener: ScheduledTootActionListener
-) : PagingDataAdapter<ScheduledStatus, BindingHolder<ItemScheduledTootBinding>>(
+class ScheduledStatusAdapter(
+    val listener: ScheduledStatusActionListener
+) : PagingDataAdapter<ScheduledStatus, BindingHolder<ItemScheduledStatusBinding>>(
     object : DiffUtil.ItemCallback<ScheduledStatus>() {
         override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
             return oldItem.id == newItem.id
@@ -43,12 +43,12 @@ class ScheduledTootAdapter(
     }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemScheduledTootBinding> {
-        val binding = ItemScheduledTootBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemScheduledStatusBinding> {
+        val binding = ItemScheduledStatusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: BindingHolder<ItemScheduledTootBinding>, position: Int) {
+    override fun onBindViewHolder(holder: BindingHolder<ItemScheduledStatusBinding>, position: Int) {
         getItem(position)?.let { item ->
             holder.binding.edit.isEnabled = true
             holder.binding.delete.isEnabled = true

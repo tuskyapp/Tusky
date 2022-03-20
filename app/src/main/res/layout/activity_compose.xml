@@ -313,10 +313,10 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="4dp"
-            android:contentDescription="@string/action_schedule_toot"
+            android:contentDescription="@string/action_schedule_post"
             android:padding="4dp"
             app:srcCompat="@drawable/ic_access_time"
-            app:tooltipText="@string/action_schedule_toot" />
+            app:tooltipText="@string/action_schedule_post" />
 
         <Space
             android:layout_width="0dp"

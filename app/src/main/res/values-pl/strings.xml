@@ -237,11 +237,11 @@
     <string name="lock_account_label">Zablokuj konto</string>
     <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o śledzenie</string>
     <string name="compose_save_draft">Czy chcesz zapisać szkic?</string>
-    <string name="send_toot_notification_title">Wysyłanie wpisu…</string>
-    <string name="send_toot_notification_error_title">Wystąpił błąd podczas wysyłania wpisu</string>
-    <string name="send_toot_notification_channel_name">Wysyłanie wpisów</string>
-    <string name="send_toot_notification_cancel_title">Anulowano wysyłanie</string>
-    <string name="send_toot_notification_saved_content">Kopia wpisu została zapisana jako szkic</string>
+    <string name="send_post_notification_title">Wysyłanie wpisu…</string>
+    <string name="send_post_notification_error_title">Wystąpił błąd podczas wysyłania wpisu</string>
+    <string name="send_post_notification_channel_name">Wysyłanie wpisów</string>
+    <string name="send_post_notification_cancel_title">Anulowano wysyłanie</string>
+    <string name="send_post_notification_saved_content">Kopia wpisu została zapisana jako szkic</string>
     <string name="action_compose_shortcut">Nowy wpis</string>
     <string name="error_no_custom_emojis">Twoja instancja %s nie używa żadnych niestandardowych emoji</string>
     <string name="copy_to_clipboard_success">Skopiowano do schowka</string>
@@ -250,7 +250,7 @@
     <string name="download_fonts">Musisz najpierw pobrać te zestawy emoji</string>
     <string name="performing_lookup_title">Wyszukiwanie…</string>
     <string name="expand_collapse_all_statuses">Rozwiń/zwiń wszystkie wpisy</string>
-    <string name="action_open_toot">Otwórz wpis</string>
+    <string name="action_open_post">Otwórz wpis</string>
     <string name="restart_required">Wymagane jest ponowne uruchomienie</string>
     <string name="restart_emoji">Musisz uruchomić ponownie Tuskyego, aby zastosować zmiany</string>
     <string name="later">Później</string>
@@ -302,8 +302,8 @@
     <string name="downloading_media">Pobieranie mediów</string>
     <string name="send_media_to">Wyślij media do…</string>
     <string name="confirmation_domain_unmuted">Domena %s nie jest już schowana</string>
-    <string name="dialog_delete_toot_warning">Usunąć ten wpis\?</string>
-    <string name="dialog_redraft_toot_warning">Usunąć i napisać ponownie ten wpis\?</string>
+    <string name="dialog_delete_post_warning">Usunąć ten wpis\?</string>
+    <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis\?</string>
     <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny nie będą usunięci.</string>
     <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
     <string name="pref_title_notification_filter_poll">głosowania zostały zakończone</string>
@@ -453,10 +453,10 @@
     <string name="poll_allow_multiple_choices">Kilka wyborów</string>
     <string name="poll_new_choice_hint">Opcja %d</string>
     <string name="edit_poll">Edytuj</string>
-    <string name="title_scheduled_toot">Zaplanowane wpisy</string>
+    <string name="title_scheduled_posts">Zaplanowane wpisy</string>
     <string name="action_edit">Edytuj</string>
-    <string name="action_access_scheduled_toot">Zaplanowane wpisy</string>
-    <string name="action_schedule_toot">Zaplanuj wpis</string>
+    <string name="action_access_scheduled_posts">Zaplanowane wpisy</string>
+    <string name="action_schedule_post">Zaplanuj wpis</string>
     <string name="action_reset_schedule">Resetuj</string>
     <string name="about_powered_by_tusky">Napędzane przez Tusky</string>
     <string name="post_lookup_error_format">Błąd przy wyszukiwaniu wpisu %s</string>
@@ -500,7 +500,7 @@
         <item quantity="other">Nie możesz przesłać więcej niż %1$d załączników.</item>
     </plurals>
     <string name="drafts_failed_loading_reply">Nie udało się załadować informacji o odpowiedzi</string>
-    <string name="drafts_toot_failed_to_send">Przesłanie wpisu nie powiodło się!</string>
+    <string name="drafts_post_failed_to_send">Przesłanie wpisu nie powiodło się!</string>
     <string name="dialog_delete_list_warning">Czy na pewno chcesz usunąć listę %s\?</string>
     <string name="no_announcements">Nie ma ogłoszeń.</string>
     <string name="limit_notifications">Ogranicz liczbę powiadomień o zmianach na osi czasu</string>
@@ -523,7 +523,7 @@
     <string name="action_unsubscribe_account">Anuluj subskrypcję</string>
     <string name="action_subscribe_account">Zasubskrybuj</string>
     <string name="follow_requests_info">Mimo tego, że twoje konto nie jest zablokowane, administracja %1$s uznała, że możesz chcieć ręcznie przejrzeć te prośby o możliwość śledzenia od tych kont.</string>
-    <string name="drafts_toot_reply_removed">Wpis dla którego naszkicowałeś/naszkicowałaś odpowiedź został usunięty</string>
+    <string name="drafts_post_reply_removed">Wpis dla którego naszkicowałeś/naszkicowałaś odpowiedź został usunięty</string>
     <string name="draft_deleted">Usunięto szkic</string>
     <string name="wellbeing_hide_stats_profile">Ukryj ilościowe statystyki na profilach</string>
     <string name="wellbeing_hide_stats_posts">Ukryj ilościowe statystyki na postach</string>

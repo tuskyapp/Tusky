@@ -149,8 +149,8 @@
     <string name="dialog_download_image">下載</string>
     <string name="dialog_message_cancel_follow_request">移除關注請求？</string>
     <string name="dialog_unfollow_warning">停止關注此使用者？</string>
-    <string name="dialog_delete_toot_warning">刪除這條嘟文？</string>
-    <string name="dialog_redraft_toot_warning">刪除並重新編輯這條嘟文？</string>
+    <string name="dialog_delete_post_warning">刪除這條嘟文？</string>
+    <string name="dialog_redraft_post_warning">刪除並重新編輯這條嘟文？</string>
     <string name="visibility_public">公開：所有人可見，並會出現在公開時間軸上</string>
     <string name="visibility_unlisted">不公開：所有人可見，但不會出現在公開時間軸上</string>
     <string name="visibility_private">僅關注者：只有經過你確認後關注你的使用者可見</string>
@@ -291,11 +291,11 @@
     <string name="lock_account_label">保護你的帳戶（鎖嘟）</string>
     <string name="lock_account_label_description">你需要手動審核所有關注請求</string>
     <string name="compose_save_draft">儲存為草稿？</string>
-    <string name="send_toot_notification_title">正在發送…</string>
-    <string name="send_toot_notification_error_title">發送失敗</string>
-    <string name="send_toot_notification_channel_name">嘟文發送中</string>
-    <string name="send_toot_notification_cancel_title">發送已被取消</string>
-    <string name="send_toot_notification_saved_content">嘟文已儲存為草稿</string>
+    <string name="send_post_notification_title">正在發送…</string>
+    <string name="send_post_notification_error_title">發送失敗</string>
+    <string name="send_post_notification_channel_name">嘟文發送中</string>
+    <string name="send_post_notification_cancel_title">發送已被取消</string>
+    <string name="send_post_notification_saved_content">嘟文已儲存為草稿</string>
     <string name="action_compose_shortcut">發表新嘟文</string>
     <string name="error_no_custom_emojis">當前站點 %s 沒有自訂表情符號</string>
     <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
@@ -304,7 +304,7 @@
     <string name="download_fonts">你需要先下載這些表情符號包</string>
     <string name="performing_lookup_title">正在查詢…</string>
     <string name="expand_collapse_all_statuses">展開/摺疊所有嘟文</string>
-    <string name="action_open_toot">開啟嘟文</string>
+    <string name="action_open_post">開啟嘟文</string>
     <string name="restart_required">需要重啟應用程式</string>
     <string name="restart_emoji">你需要重啟 Tusky 才能生效</string>
     <string name="later">稍後</string>

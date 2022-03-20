@@ -22,16 +22,16 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.rx3.await
 
-class ScheduledTootPagingSourceFactory(
+class ScheduledStatusPagingSourceFactory(
     private val mastodonApi: MastodonApi
-) : () -> ScheduledTootPagingSource {
+) : () -> ScheduledStatusPagingSource {
 
     private val scheduledTootsCache = mutableListOf<ScheduledStatus>()
 
-    private var pagingSource: ScheduledTootPagingSource? = null
+    private var pagingSource: ScheduledStatusPagingSource? = null
 
-    override fun invoke(): ScheduledTootPagingSource {
-        return ScheduledTootPagingSource(mastodonApi, scheduledTootsCache).also {
+    override fun invoke(): ScheduledStatusPagingSource {
+        return ScheduledStatusPagingSource(mastodonApi, scheduledTootsCache).also {
             pagingSource = it
         }
     }
@@ -42,9 +42,9 @@ class ScheduledTootPagingSourceFactory(
     }
 }
 
-class ScheduledTootPagingSource(
+class ScheduledStatusPagingSource(
     private val mastodonApi: MastodonApi,
-    private val scheduledTootsCache: MutableList<ScheduledStatus>
+    private val scheduledStatusesCache: MutableList<ScheduledStatus>
 ) : PagingSource<String, ScheduledStatus>() {
 
     override fun getRefreshKey(state: PagingState<String, ScheduledStatus>): String? {
@@ -52,11 +52,11 @@ class ScheduledTootPagingSource(
     }
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, ScheduledStatus> {
-        return if (params is LoadParams.Refresh && scheduledTootsCache.isNotEmpty()) {
+        return if (params is LoadParams.Refresh && scheduledStatusesCache.isNotEmpty()) {
             LoadResult.Page(
-                data = scheduledTootsCache,
+                data = scheduledStatusesCache,
                 prevKey = null,
-                nextKey = scheduledTootsCache.lastOrNull()?.id
+                nextKey = scheduledStatusesCache.lastOrNull()?.id
             )
         } else {
             try {
@@ -71,7 +71,7 @@ class ScheduledTootPagingSource(
                     nextKey = result.lastOrNull()?.id
                 )
             } catch (e: Exception) {
-                Log.w("ScheduledTootPgngSrc", "Error loading scheduled statuses", e)
+                Log.w("ScheduledStatuses", "Error loading scheduled statuses", e)
                 LoadResult.Error(e)
             }
         }

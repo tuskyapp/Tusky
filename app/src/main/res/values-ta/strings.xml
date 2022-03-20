@@ -224,11 +224,11 @@
     <string name="lock_account_label">கணக்கை முடக்கு</string>
     <string name="lock_account_label_description">நீங்களாக பின்பற்றுபவர்களை அங்கீகரிக்க</string>
     <string name="compose_save_draft">வரைவை சேமிக்கவா?</string>
-    <string name="send_toot_notification_title">Toot அனுப்பபடுகிறது…</string>
-    <string name="send_toot_notification_error_title">Toot அனுப்புவதில் பிழை</string>
-    <string name="send_toot_notification_channel_name">Toots அனுப்பபடுகிறது</string>
-    <string name="send_toot_notification_cancel_title">Toot அனுப்பபல் நீக்கபட்டது</string>
-    <string name="send_toot_notification_saved_content">நகலெடுக்கபட்ட toot வரைவில் சேமிக்கபட்டது</string>
+    <string name="send_post_notification_title">Toot அனுப்பபடுகிறது…</string>
+    <string name="send_post_notification_error_title">Toot அனுப்புவதில் பிழை</string>
+    <string name="send_post_notification_channel_name">Toots அனுப்பபடுகிறது</string>
+    <string name="send_post_notification_cancel_title">Toot அனுப்பபல் நீக்கபட்டது</string>
+    <string name="send_post_notification_saved_content">நகலெடுக்கபட்ட toot வரைவில் சேமிக்கபட்டது</string>
     <string name="action_compose_shortcut">எழுது</string>
     <string name="error_no_custom_emojis">தங்கள் %s instance(களம்)-ல் எந்தவொரு custom emojis-ம் இல்லை </string>
     <string name="copy_to_clipboard_success">பிடிப்புப்பலகையில் நகலெடுக்க</string>
@@ -237,7 +237,7 @@
     <string name="download_fonts">தாங்கள் முதலில் இந்த Emoji sets-னை பதிவிறக்கவேண்டும்</string>
     <string name="performing_lookup_title">சேயல்பாட்டு தேடல்…</string>
     <string name="expand_collapse_all_statuses">அதிகமாக்கு/கம்மியாக்கு பற்றிய நிலைகள்</string>
-    <string name="action_open_toot">Tootயை திற</string>
+    <string name="action_open_post">Tootயை திற</string>
     <string name="restart_required">செயலி மறுதொடக்கம் தேவைபடுகிறது</string>
     <string name="restart_emoji">இந்த மாறுதல்கள் செயற்படுத்த செயலியை மறுதொடக்கம் செய்ய வேண்டும்</string>
     <string name="later">பிறகு</string>

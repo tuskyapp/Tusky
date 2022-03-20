@@ -19,7 +19,7 @@
         android:drawablePadding="4dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_vertical"
-        android:text="@string/drafts_toot_failed_to_send"
+        android:text="@string/drafts_post_failed_to_send"
         android:textColor="@color/tusky_red"
         android:textSize="?attr/status_text_medium"
         app:drawableStartCompat="@drawable/ic_alert_circle"
@@ -53,7 +53,7 @@
         app:layout_constraintEnd_toStartOf="@id/deleteButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contentWarning"
-        tools:text="Some toot content. May be very long." />
+        tools:text="Some post content. May be very long." />
 
     <ImageButton
         android:id="@+id/deleteButton"

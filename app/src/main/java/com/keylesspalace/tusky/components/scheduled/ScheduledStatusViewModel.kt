@@ -28,12 +28,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
-class ScheduledTootViewModel @Inject constructor(
+class ScheduledStatusViewModel @Inject constructor(
     val mastodonApi: MastodonApi,
     val eventHub: EventHub
 ) : ViewModel() {
 
-    private val pagingSourceFactory = ScheduledTootPagingSourceFactory(mastodonApi)
+    private val pagingSourceFactory = ScheduledStatusPagingSourceFactory(mastodonApi)
 
     val data = Pager(
         config = PagingConfig(pageSize = 20, initialLoadSize = 20),

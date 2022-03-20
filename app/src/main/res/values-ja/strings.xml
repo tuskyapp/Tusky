@@ -143,7 +143,7 @@
     <string name="dialog_download_image">ダウンロード</string>
     <string name="dialog_message_cancel_follow_request">フォローリクエストを取り消しますか？</string>
     <string name="dialog_unfollow_warning">このアカウントをフォロー解除しますか？</string>
-    <string name="dialog_delete_toot_warning">本当に削除しますか？</string>
+    <string name="dialog_delete_post_warning">本当に削除しますか？</string>
     <string name="visibility_public">公開：公開タイムラインに投稿する</string>
     <string name="visibility_unlisted">未収載：公開タイムラインには表示しない</string>
     <string name="visibility_private">フォロワー限定：フォロワーだけに公開</string>
@@ -268,11 +268,11 @@
     <string name="lock_account_label">アカウントをロック</string>
     <string name="lock_account_label_description">フォロワーを手動で承認する必要があります</string>
     <string name="compose_save_draft">下書きを保存しますか？</string>
-    <string name="send_toot_notification_title">トゥートを送信中です…</string>
-    <string name="send_toot_notification_error_title">トゥート送信エラー</string>
-    <string name="send_toot_notification_channel_name">トゥートの送信</string>
-    <string name="send_toot_notification_cancel_title">送信がキャンセルされました</string>
-    <string name="send_toot_notification_saved_content">トゥートのコピーが下書きに保存されました</string>
+    <string name="send_post_notification_title">トゥートを送信中です…</string>
+    <string name="send_post_notification_error_title">トゥート送信エラー</string>
+    <string name="send_post_notification_channel_name">トゥートの送信</string>
+    <string name="send_post_notification_cancel_title">送信がキャンセルされました</string>
+    <string name="send_post_notification_saved_content">トゥートのコピーが下書きに保存されました</string>
     <string name="action_compose_shortcut">新規投稿</string>
     <string name="error_no_custom_emojis">インスタンス %s にはカスタム絵文字がありません</string>
     <string name="copy_to_clipboard_success">クリップボードにコピーされました</string>
@@ -281,7 +281,7 @@
     <string name="download_fonts">最初にこれらの絵文字セットをダウンロードする必要があります</string>
     <string name="performing_lookup_title">検索中…</string>
     <string name="expand_collapse_all_statuses">全て開く/閉じる</string>
-    <string name="action_open_toot">トゥートを開く</string>
+    <string name="action_open_post">トゥートを開く</string>
     <string name="restart_required">アプリの再起動が必要です</string>
     <string name="restart_emoji">これらの変更を適用するには、Tuskyの再起動が必要になります</string>
     <string name="later">後で</string>
@@ -362,7 +362,7 @@
     <string name="action_add_poll">投票</string>
     <string name="action_mentions">返信</string>
     <string name="title_mentions_dialog">返信</string>
-    <string name="dialog_redraft_toot_warning">このトゥートを削除し、下書きに戻しますか？</string>
+    <string name="dialog_redraft_post_warning">このトゥートを削除し、下書きに戻しますか？</string>
     <string name="filter_dialog_remove_button">削除</string>
     <string name="filter_dialog_update_button">更新</string>
     <string name="error_create_list">リストを作成できませんでした</string>
@@ -401,9 +401,9 @@
     <string name="action_bookmark">ブックマーク</string>
     <string name="action_edit">編集</string>
     <string name="action_view_bookmarks">ブックマーク</string>
-    <string name="title_scheduled_toot">予約トゥート</string>
-    <string name="action_access_scheduled_toot">予約トゥート</string>
-    <string name="action_schedule_toot">予約トゥート</string>
+    <string name="title_scheduled_posts">予約トゥート</string>
+    <string name="action_access_scheduled_posts">予約トゥート</string>
+    <string name="action_schedule_post">予約トゥート</string>
     <string name="description_visiblity_private">フォロワー</string>
     <string name="conversation_2_recipients">%1$sさん、%2$sさん</string>
     <string name="notification_follow_request_name">フォローリクエスト</string>

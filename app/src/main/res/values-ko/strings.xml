@@ -158,8 +158,8 @@
     <string name="dialog_download_image">다운로드</string>
     <string name="dialog_message_cancel_follow_request">팔로우 요청을 취소하시겠습니까\?</string>
     <string name="dialog_unfollow_warning">이 계정을 팔로우 해제하시겠습니까\?</string>
-    <string name="dialog_delete_toot_warning">이 툿을 삭제하시겠습니까\?</string>
-    <string name="dialog_redraft_toot_warning">이 툿을 지우고 다시 작성하시겠습니까\?</string>
+    <string name="dialog_delete_post_warning">이 툿을 삭제하시겠습니까\?</string>
+    <string name="dialog_redraft_post_warning">이 툿을 지우고 다시 작성하시겠습니까\?</string>
     <string name="mute_domain_warning">정말로 %s 전체를 숨기시겠습니까\? 모든 공개 타임라인과 알림에서 해당 도메인에서 작성된 컨텐츠를 보지 못합니다. 해당 도메인 팔로워와의 관계가 사라집니다.</string>
     <string name="mute_domain_warning_dialog_ok">도메인 전체를 숨기기</string>
     <string name="visibility_public">공개: 공개 타임라인에 표시</string>
@@ -304,11 +304,11 @@
     <string name="lock_account_label">계정 잠금</string>
     <string name="lock_account_label_description">팔로워를 수동으로 승인합니다</string>
     <string name="compose_save_draft">작성 중인 내용을 저장하시겠습니까\?</string>
-    <string name="send_toot_notification_title">툿을 보내고 있습니다…</string>
-    <string name="send_toot_notification_error_title">툿을 보낼 수 없습니다</string>
-    <string name="send_toot_notification_channel_name">툿을 보내고 있습니다</string>
-    <string name="send_toot_notification_cancel_title">보내기 취소됨</string>
-    <string name="send_toot_notification_saved_content">복사본이 임시 저장에 저장되었습니다</string>
+    <string name="send_post_notification_title">툿을 보내고 있습니다…</string>
+    <string name="send_post_notification_error_title">툿을 보낼 수 없습니다</string>
+    <string name="send_post_notification_channel_name">툿을 보내고 있습니다</string>
+    <string name="send_post_notification_cancel_title">보내기 취소됨</string>
+    <string name="send_post_notification_saved_content">복사본이 임시 저장에 저장되었습니다</string>
     <string name="action_compose_shortcut">글쓰기</string>
     <string name="error_no_custom_emojis">이 인스턴스 %s 은(는) 커스텀 이모지가 없습니다.</string>
     <string name="copy_to_clipboard_success">클립보드에 복사되었습니다</string>
@@ -317,7 +317,7 @@
     <string name="download_fonts">시스템 기본 외의 이모지를 설정하시려면 우선 다운로드해야 합니다</string>
     <string name="performing_lookup_title">탐색하고 있습니다…</string>
     <string name="expand_collapse_all_statuses">모두 보이기/줄이기</string>
-    <string name="action_open_toot">툿 열기</string>
+    <string name="action_open_post">툿 열기</string>
     <string name="restart_required">어플리케이션 재시작 필요</string>
     <string name="restart_emoji">변경 사항을 적용하려면 Tusky를 재시작해야 합니다</string>
     <string name="later">다음에</string>
