@@ -85,6 +85,11 @@ android {
     }
     kotlinOptions {
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-Xjvm-default=compatibility"
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
     }
 }
 
@@ -96,11 +101,12 @@ ext.okhttpVersion = '4.9.3'
 ext.glideVersion = '4.13.1'
 ext.daggerVersion = '2.41'
 ext.materialdrawerVersion = '8.4.5'
-ext.emoji2_version = '1.2.0-alpha01'
-ext.filemojicompat_version = '3.2.0-alpha2'
+ext.emoji2_version = '1.1.0'
+ext.filemojicompat_version = '3.2.0-alpha3'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
