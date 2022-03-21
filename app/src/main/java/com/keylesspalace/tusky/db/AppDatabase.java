@@ -29,10 +29,9 @@ import java.io.File;
 /**
  * DB version & declare DAO
  */
-
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 30)
+        }, version = 31)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -472,6 +471,16 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `charactersReservedPerUrl` INTEGER");
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `minPollDuration` INTEGER");
             database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxPollDuration` INTEGER");
+        }
+    };
+
+    public static final Migration MIGRATION_30_31 = new Migration(30, 31) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            // no actual scheme change, but placeholder ids are now used differently so the cache needs to be cleared to avoid bugs
+            database.execSQL("DELETE FROM `TimelineAccountEntity`");
+            database.execSQL("DELETE FROM `TimelineStatusEntity`");
         }
     };
 }

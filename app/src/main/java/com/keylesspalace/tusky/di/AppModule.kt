@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import androidx.room.migration.Migration
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
@@ -62,7 +63,7 @@ class AppModule {
                 AppDatabase.MIGRATION_22_23, AppDatabase.MIGRATION_23_24, AppDatabase.MIGRATION_24_25,
                 AppDatabase.Migration25_26(appContext.getExternalFilesDir("Tusky")),
                 AppDatabase.MIGRATION_26_27, AppDatabase.MIGRATION_27_28, AppDatabase.MIGRATION_28_29,
-                AppDatabase.MIGRATION_29_30
+                AppDatabase.MIGRATION_29_30, AppDatabase.MIGRATION_30_31
             )
             .build()
     }
