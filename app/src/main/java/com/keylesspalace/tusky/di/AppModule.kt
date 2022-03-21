@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
-import androidx.room.migration.Migration
 import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
