@@ -92,7 +92,7 @@ class NetworkTimelineRemoteMediator(
                 viewModel.statusData.addAll(0, data)
 
                 if (insertPlaceholder) {
-                    viewModel.statusData.add(statuses.size - 1, StatusViewData.Placeholder(statuses.last().id, false))
+                    viewModel.statusData[statuses.size - 1] = StatusViewData.Placeholder(statuses.last().id, false)
                 }
             } else {
                 val linkHeader = statusResponse.headers()["Link"]

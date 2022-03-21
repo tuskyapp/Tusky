@@ -194,9 +194,8 @@ class CachedTimelineRemoteMediatorTest {
             listOf(
                 mockStatusEntityWithAccount("8"),
                 mockStatusEntityWithAccount("7"),
-                mockStatusEntityWithAccount("5"),
                 TimelineStatusWithAccount().apply {
-                    status = Placeholder("4", loading = false).toEntity(1)
+                    status = Placeholder("5", loading = false).toEntity(1)
                 },
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
