@@ -35,9 +35,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.getDomain
-import com.keylesspalace.tusky.util.inc
 import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
@@ -142,8 +140,10 @@ class NetworkTimelineViewModel @Inject constructor(
                     statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
                 statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
 
+                val idAbovePlaceholder = statusData.getOrNull(placeholderIndex - 1)?.id
+
                 val statusResponse = fetchStatusesForKind(
-                    fromId = placeholderId.inc(),
+                    fromId = idAbovePlaceholder,
                     uptoId = null,
                     limit = 20
                 )
@@ -157,7 +157,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 statusData.removeAt(placeholderIndex)
 
                 val activeAccount = accountManager.activeAccount!!
-                val data = statuses.map { status ->
+                val data: MutableList<StatusViewData> = statuses.map { status ->
                     status.toViewData(
                         isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                         isExpanded = activeAccount.alwaysOpenSpoiler,
@@ -175,7 +175,7 @@ class NetworkTimelineViewModel @Inject constructor(
                         data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
                             .filter { (_, oldStatus) -> oldStatus != null }
                             .forEach { (i, oldStatus) ->
-                                data[i] = data[i]
+                                data[i] = data[i].asStatusOrNull()!!
                                     .copy(
                                         isShowingContent = oldStatus!!.isShowingContent,
                                         isExpanded = oldStatus.isExpanded,
@@ -190,7 +190,7 @@ class NetworkTimelineViewModel @Inject constructor(
                             }
                         }
                     } else {
-                        statusData.add(overlappedFrom, StatusViewData.Placeholder(statuses.last().id.dec(), isLoading = false))
+                        data[data.size - 1] = StatusViewData.Placeholder(statuses.last().id, isLoading = false)
                     }
                 }
 
@@ -240,7 +240,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun fullReload() {
-        nextKey = statusData.firstOrNull { it is StatusViewData.Concrete }?.asStatusOrNull()?.id?.inc()
+        nextKey = statusData.firstOrNull { it is StatusViewData.Concrete }?.asStatusOrNull()?.id
         statusData.clear()
         currentSource?.invalidate()
     }
