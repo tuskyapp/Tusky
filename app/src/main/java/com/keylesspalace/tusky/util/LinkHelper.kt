@@ -32,11 +32,13 @@ import androidx.annotation.VisibleForTesting
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
+import com.keylesspalace.tusky.settings.makePrefStore
 
 fun getDomain(urlString: String?): String {
     val host = urlString?.toUri()?.host
@@ -56,7 +58,13 @@ fun getDomain(urlString: String?): String {
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
  */
-fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener) {
+fun setClickableText(
+    view: TextView,
+    content: CharSequence,
+    mentions: List<Mention>,
+    tags: List<HashTag>?,
+    listener: LinkListener
+) {
     view.text = SpannableStringBuilder.valueOf(content).apply {
         getSpans(0, content.length, URLSpan::class.java).forEach {
             setClickableText(it, this, mentions, tags, listener)
@@ -82,7 +90,8 @@ fun setClickableText(
         '#' -> getCustomSpanForTag(text, tags, span, listener)
         '@' -> getCustomSpanForMention(mentions, span, listener)
         else -> null
-    } ?: object : NoUnderlineURLSpan(span.url) {
+    } ?: object : NoUnderlineURLSpan(span.url, false) {
+        // It doesn't matter what we pass for customTabs because we override onCLick() anyway
         override fun onClick(view: View) = listener.onViewUrl(url)
     }
 
@@ -106,23 +115,36 @@ fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
     }
 }
 
-private fun getCustomSpanForTag(text: CharSequence, tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
+private fun getCustomSpanForTag(
+    text: CharSequence,
+    tags: List<HashTag>?,
+    span: URLSpan,
+    listener: LinkListener
+): ClickableSpan? {
     return getTagName(text, tags)?.let {
-        object : NoUnderlineURLSpan(span.url) {
+        object : NoUnderlineURLSpan(span.url, false) {
             override fun onClick(view: View) = listener.onViewTag(it)
         }
     }
 }
 
-private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, listener: LinkListener): ClickableSpan? {
+private fun getCustomSpanForMention(
+    mentions: List<Mention>,
+    span: URLSpan,
+    listener: LinkListener
+): ClickableSpan? {
     // https://github.com/tuskyapp/Tusky/pull/2339
     return mentions.firstOrNull { it.url == span.url }?.let {
         getCustomSpanForMentionUrl(span.url, it.id, listener)
     }
 }
 
-private fun getCustomSpanForMentionUrl(url: String, mentionId: String, listener: LinkListener): ClickableSpan {
-    return object : NoUnderlineURLSpan(url) {
+private fun getCustomSpanForMentionUrl(
+    url: String,
+    mentionId: String,
+    listener: LinkListener
+): ClickableSpan {
+    return object : NoUnderlineURLSpan(url, false) {
         override fun onClick(view: View) = listener.onViewAccount(mentionId)
     }
 }
@@ -170,9 +192,14 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
     view.movementMethod = LinkMovementMethod.getInstance()
 }
 
-fun createClickableText(text: String, link: String): CharSequence {
+fun createClickableText(text: String, link: String, useCustomTabs: Boolean): CharSequence {
     return SpannableStringBuilder(text).apply {
-        setSpan(NoUnderlineURLSpan(link), 0, text.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        setSpan(
+            NoUnderlineURLSpan(link, useCustomTabs),
+            0,
+            text.length,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE,
+        )
     }
 }
 
@@ -181,12 +208,11 @@ fun createClickableText(text: String, link: String): CharSequence {
  *
  * @receiver the Context to open the link from
  * @param url a string containing the url to open
+ * @param customTabs whether to use customs tabs or open link in system browser
  */
-fun Context.openLink(url: String) {
+fun Context.openLink(url: String, customTabs: Boolean) {
     val uri = url.toUri().normalizeScheme()
-    val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("customTabs", false)
-
-    if (useCustomTabs) {
+    if (customTabs) {
         openLinkInCustomTab(uri, this)
     } else {
         openLinkInBrowser(uri, this)

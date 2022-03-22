@@ -20,18 +20,20 @@ import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import androidx.emoji.text.EmojiCompat
-import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
+import com.keylesspalace.tusky.settings.makePrefStore
 import com.keylesspalace.tusky.util.EmojiCompatFont
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.ThemeUtils
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import kotlinx.coroutines.runBlocking
 import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
@@ -43,6 +45,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var notificationWorkerFactory: NotificationWorkerFactory
+
+    @Inject
+    lateinit var prefStore: PrefStore
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -63,17 +68,16 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         // init the custom emoji fonts
-        val emojiSelection = preferences.getInt(PrefKeys.EMOJI, 0)
+        val emojiSelection = prefStore.getBlocking().emojiFont
         val emojiConfig = EmojiCompatFont.byId(emojiSelection)
             .getConfig(this)
             .setReplaceAll(true)
         EmojiCompat.init(emojiConfig)
 
         // init night mode
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val theme = prefStore.getBlocking().appTheme
         ThemeUtils.setAppNightMode(theme)
 
         RxJavaPlugins.setErrorHandler {
@@ -89,8 +93,13 @@ class TuskyApplication : Application(), HasAndroidInjector {
     }
 
     override fun attachBaseContext(base: Context) {
-        localeManager = LocaleManager(base)
-        super.attachBaseContext(localeManager.setLocale(base))
+        // Special case: injected field cannot be injected here yet so we create Prefs by hand
+        // Give it a blocking scope so that it will be closed and pref store will be released
+        runBlocking {
+            val prefs = makePrefStore(base, this)
+            localeManager = LocaleManager(prefs)
+            super.attachBaseContext(localeManager.setLocale(base))
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

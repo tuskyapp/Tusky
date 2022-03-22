@@ -17,12 +17,10 @@ package com.keylesspalace.tusky.components.announcements
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -33,7 +31,8 @@ import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.databinding.ActivityAnnouncementsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
@@ -47,6 +46,8 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var prefs: PrefStore
 
     private val viewModel: AnnouncementsViewModel by viewModels { viewModelFactory }
 
@@ -86,9 +87,8 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         binding.announcementsList.addItemDecoration(divider)
 
-        val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
-        val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val wellbeingEnabled = prefStore.getBlocking().hideStatsPosts
+        val animateEmojis = prefStore.getBlocking().animateEmojis
 
         adapter = AnnouncementAdapter(emptyList(), this, wellbeingEnabled, animateEmojis)
 

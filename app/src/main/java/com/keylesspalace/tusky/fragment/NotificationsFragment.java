@@ -15,10 +15,13 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -37,8 +40,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.util.Pair;
+import androidx.datastore.core.DataStore;
 import androidx.lifecycle.Lifecycle;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
@@ -72,7 +75,9 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.settings.PrefData;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
@@ -110,10 +115,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
-
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
-import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -156,6 +157,8 @@ public class NotificationsFragment extends SFragment implements
     AccountManager accountManager;
     @Inject
     EventHub eventHub;
+    @Inject
+    DataStore<PrefData> prefStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -213,9 +216,9 @@ public class NotificationsFragment extends SFragment implements
         View rootView = inflater.inflate(R.layout.fragment_timeline_notifications, container, false);
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        boolean showNotificationsFilterSetting = preferences.getBoolean("showNotificationsFilter", true);
+        PrefData prefs = Prefs.getBlocking(prefStore);
+        boolean showNotificationsFilterSetting = prefs.getShowNotificationsFilter();
         //Clear notifications on filter visibility change to force refresh
         if (showNotificationsFilterSetting != showNotificationsFilter)
             notifications.clear();
@@ -238,7 +241,7 @@ public class NotificationsFragment extends SFragment implements
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, (pos) -> {
+                new ListStatusAccessibilityDelegate(recyclerView, this, prefStore, (pos) -> {
                     NotificationViewData notification = notifications.getPairedItemOrNull(pos);
                     // We support replies only for now
                     if (notification instanceof NotificationViewData.Concrete) {
@@ -251,16 +254,16 @@ public class NotificationsFragment extends SFragment implements
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
-                preferences.getBoolean("animateGifAvatars", false),
+                prefs.getAnimateAvatars(),
                 accountManager.getActiveAccount().getMediaPreviewEnabled(),
-                preferences.getBoolean("absoluteTimeView", false),
-                preferences.getBoolean("showBotOverlay", true),
-                preferences.getBoolean("useBlurhash", true),
+                prefs.getUseAbsoluteTime(),
+                prefs.getShowBotOverlay(),
+                prefs.getUseBlurhash(),
                 CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true),
-                preferences.getBoolean("confirmFavourites", false),
-                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                prefs.getConfirmReblogs(),
+                prefs.getConfirmFavourites(),
+                prefs.getHideStatsPosts(),
+                prefs.getAnimateEmojis()
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
@@ -324,12 +327,12 @@ public class NotificationsFragment extends SFragment implements
         Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
 
-        /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
-         * guaranteed to be set until then.
-         * Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
-         * the compose button on down-scroll. */
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        hideFab = preferences.getBoolean("fabHide", false);
+        // This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
+        // guaranteed to be set until then.
+        // Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
+        // the compose button on down-scroll.
+
+        hideFab = Prefs.getBlocking(prefStore).getHideFab();
         scrollListener = new EndlessOnScrollListener(layoutManager) {
             @Override
             public void onScrolled(@NonNull RecyclerView view, int dx, int dy) {
@@ -798,11 +801,11 @@ public class NotificationsFragment extends SFragment implements
 
     private void onPreferenceChanged(String key) {
         switch (key) {
-            case "fabHide": {
-                hideFab = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("fabHide", false);
+            case PrefKeys.FAB_HIDE: {
+                hideFab = Prefs.getBlocking(prefStore).getHideFab();
                 break;
             }
-            case "mediaPreviewEnabled": {
+            case PrefKeys.MEDIA_PREVIEW_ENABLED: {
                 boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
                 if (enabled != adapter.isMediaPreviewEnabled()) {
                     adapter.setMediaPreviewEnabled(enabled);
@@ -810,9 +813,9 @@ public class NotificationsFragment extends SFragment implements
                 }
                 break;
             }
-            case "showNotificationsFilter": {
+            case PrefKeys.SHOW_NOTIFICATIONS_FILTER: {
                 if (isAdded()) {
-                    showNotificationsFilter = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showNotificationsFilter", true);
+                    showNotificationsFilter = Prefs.getBlocking(prefStore).getShowNotificationsFilter();
                     updateFilterVisibility();
                     fullyRefreshWithProgressBar(true);
                 }
@@ -1224,8 +1227,7 @@ public class NotificationsFragment extends SFragment implements
      * Auto dispose observable on pause
      */
     private void startUpdateTimestamp() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
+        boolean useAbsoluteTime = Prefs.getBlocking(prefStore).getUseAbsoluteTime();
         if (!useAbsoluteTime) {
             Observable.interval(1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())

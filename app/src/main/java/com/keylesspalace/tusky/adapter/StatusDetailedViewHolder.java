@@ -91,7 +91,11 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
             timestampInfo.append("  •  ");
 
             if (app.getWebsite() != null) {
-                CharSequence text = LinkHelper.createClickableText(app.getName(), app.getWebsite());
+                CharSequence text = LinkHelper.createClickableText(
+                        app.getName(),
+                        app.getWebsite(),
+                        false // This seems like a sensible default for clicking on app name
+                        );
                 timestampInfo.append(text);
                 timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
             } else {

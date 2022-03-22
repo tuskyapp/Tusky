@@ -20,7 +20,8 @@ import android.text.style.URLSpan
 import android.view.View
 
 open class NoUnderlineURLSpan(
-    url: String
+    url: String,
+    private val useCustomTabs: Boolean,
 ) : URLSpan(url) {
 
     override fun updateDrawState(ds: TextPaint) {
@@ -29,6 +30,6 @@ open class NoUnderlineURLSpan(
     }
 
     override fun onClick(view: View) {
-        view.context.openLink(url)
+        view.context.openLink(url, useCustomTabs)
     }
 }

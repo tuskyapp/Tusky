@@ -11,10 +11,16 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
+import javax.inject.Inject
 
 class AboutActivity : BottomSheetActivity(), Injectable {
+
+    @Inject
+    lateinit var prefStore: PrefStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,28 +54,28 @@ class AboutActivity : BottomSheetActivity(), Injectable {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
     }
-}
 
-private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
+    private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
 
-    val text = SpannableString(context.getText(textId))
+        val text = SpannableString(context.getText(textId))
 
-    Linkify.addLinks(text, Linkify.WEB_URLS)
+        Linkify.addLinks(text, Linkify.WEB_URLS)
 
-    val builder = SpannableStringBuilder(text)
-    val urlSpans = text.getSpans(0, text.length, URLSpan::class.java)
-    for (span in urlSpans) {
-        val start = builder.getSpanStart(span)
-        val end = builder.getSpanEnd(span)
-        val flags = builder.getSpanFlags(span)
+        val builder = SpannableStringBuilder(text)
+        val urlSpans = text.getSpans(0, text.length, URLSpan::class.java)
+        for (span in urlSpans) {
+            val start = builder.getSpanStart(span)
+            val end = builder.getSpanEnd(span)
+            val flags = builder.getSpanFlags(span)
 
-        val customSpan = NoUnderlineURLSpan(span.url)
+            val customSpan = NoUnderlineURLSpan(span.url, prefStore.getBlocking().customTabs)
 
-        builder.removeSpan(span)
-        builder.setSpan(customSpan, start, end, flags)
+            builder.removeSpan(span)
+            builder.setSpan(customSpan, start, end, flags)
+        }
+
+        setText(builder)
+        linksClickable = true
+        movementMethod = LinkMovementMethod.getInstance()
     }
-
-    setText(builder)
-    linksClickable = true
-    movementMethod = LinkMovementMethod.getInstance()
 }

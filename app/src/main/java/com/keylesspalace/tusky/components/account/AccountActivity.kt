@@ -40,7 +40,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.emoji.text.EmojiCompat
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
@@ -68,7 +67,8 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
@@ -78,7 +78,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -96,6 +95,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var prefStore: PrefStore
 
     private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
@@ -146,10 +147,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
-        animateEmojis = sharedPrefs.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        hideFab = sharedPrefs.getBoolean("fabHide", false)
+        val prefs = prefStore.getBlocking()
+        animateAvatar = prefs.animateAvatars
+        animateEmojis = prefs.animateEmojis
+        hideFab = prefs.hideFab
 
         handleWindowInsets()
         setupToolbar()
@@ -188,7 +189,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountFollowsYouTextView.hide()
 
         // setup the RecyclerView for the account fields
-        accountFieldAdapter = AccountFieldAdapter(this, animateEmojis)
+        accountFieldAdapter = AccountFieldAdapter(
+            this,
+            animateEmojis, prefStore.getBlocking().customTabs,
+        )
         binding.accountFieldList.isNestedScrollingEnabled = false
         binding.accountFieldList.layoutManager = LinearLayoutManager(this)
         binding.accountFieldList.adapter = accountFieldAdapter
@@ -214,8 +218,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         }
 
         // If wellbeing mode is enabled, follow stats and posts count should be hidden
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
+        val wellbeingEnabled = prefStore.getBlocking().hideStatsProfile
 
         if (wellbeingEnabled) {
             binding.accountStatuses.hide()
@@ -577,8 +580,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         showingReblogs = relation.showingReblogs
 
         // If wellbeing mode is enabled, "follows you" text should not be visible
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
+        val wellbeingEnabled = prefStore.getBlocking().hideStatsProfile
 
         binding.accountFollowsYouTextView.visible(relation.followedBy && !wellbeingEnabled)
 

@@ -29,6 +29,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         displayName = itemView.findViewById(R.id.account_display_name);
         avatar = itemView.findViewById(R.id.account_avatar);
         avatarInset = itemView.findViewById(R.id.account_avatar_inset);
+        // TODO: wtf
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
         showBotOverlay = sharedPrefs.getBoolean("showBotOverlay", true);
     }

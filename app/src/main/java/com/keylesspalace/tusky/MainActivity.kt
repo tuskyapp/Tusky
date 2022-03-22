@@ -40,7 +40,6 @@ import androidx.emoji.text.EmojiCompat
 import androidx.emoji.text.EmojiCompat.InitCallback
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import autodispose2.androidx.lifecycle.autoDispose
 import com.bumptech.glide.Glide
@@ -77,7 +76,8 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
@@ -136,6 +136,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     @Inject
     lateinit var draftHelper: DraftHelper
 
+    @Inject
+    lateinit var prefs: PrefStore
+
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
     private lateinit var header: AccountHeaderView
@@ -144,8 +147,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
     private var unreadAnnouncementsCount = 0
-
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private lateinit var glide: RequestManager
 
@@ -215,7 +216,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 showNotificationTab = true
             }
         }
-        window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
+        window.statusBarColor =
+            Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
 
         glide = Glide.with(this)
@@ -225,7 +227,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             startActivity(composeIntent)
         }
 
-        val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
+        val hideTopToolbar = prefStore.getBlocking().hideTopToolbar
         binding.mainToolbar.visible(!hideTopToolbar)
 
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
@@ -362,7 +364,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header = AccountHeaderView(this).apply {
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
             currentHiddenInList = true
-            onAccountHeaderListener = { _: View?, profile: IProfile, current: Boolean -> handleProfileClick(profile, current) }
+            onAccountHeaderListener = { _: View?, profile: IProfile, current: Boolean ->
+                handleProfileClick(
+                    profile,
+                    current
+                )
+            }
             addProfile(
                 ProfileSettingDrawerItem().apply {
                     identifier = DRAWER_ITEM_ADD_ACCOUNT
@@ -377,9 +384,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             closeDrawerOnProfileListClick = true
         }
 
-        header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.headerBackgroundFilter))
-        header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        header.accountHeaderBackground.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                R.color.headerBackgroundFilter
+            )
+        )
+        header.accountHeaderBackground.setBackgroundColor(
+            ThemeUtils.getColor(
+                this,
+                R.attr.colorBackgroundAccent
+            )
+        )
+        val animateAvatars = prefStore.getBlocking().animateAvatars
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
@@ -440,7 +457,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     nameRes = R.string.action_view_follow_requests
                     iconicsIcon = GoogleMaterial.Icon.gmd_person_add
                     onClick = {
-                        val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+                        val intent = AccountListActivity.newIntent(
+                            context,
+                            AccountListActivity.Type.FOLLOW_REQUESTS,
+                            accountLocked = accountLocked
+                        )
                         startActivityWithSlideInAnimation(intent)
                     }
                 },
@@ -474,8 +495,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
                     }
                     badgeStyle = BadgeStyle().apply {
-                        textColor = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorOnPrimary))
-                        color = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorPrimary))
+                        textColor = ColorHolder.fromColor(
+                            ThemeUtils.getColor(
+                                this@MainActivity,
+                                R.attr.colorOnPrimary
+                            )
+                        )
+                        color = ColorHolder.fromColor(
+                            ThemeUtils.getColor(
+                                this@MainActivity,
+                                R.attr.colorPrimary
+                            )
+                        )
                     }
                 },
                 DividerDrawerItem(),
@@ -483,7 +514,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     nameRes = R.string.action_view_account_preferences
                     iconRes = R.drawable.ic_account_settings
                     onClick = {
-                        val intent = PreferencesActivity.newIntent(context, PreferencesActivity.ACCOUNT_PREFERENCES)
+                        val intent = PreferencesActivity.newIntent(
+                            context,
+                            PreferencesActivity.ACCOUNT_PREFERENCES
+                        )
                         startActivityWithSlideInAnimation(intent)
                     }
                 },
@@ -491,7 +525,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     nameRes = R.string.action_view_preferences
                     iconicsIcon = GoogleMaterial.Icon.gmd_settings
                     onClick = {
-                        val intent = PreferencesActivity.newIntent(context, PreferencesActivity.GENERAL_PREFERENCES)
+                        val intent = PreferencesActivity.newIntent(
+                            context,
+                            PreferencesActivity.GENERAL_PREFERENCES
+                        )
                         startActivityWithSlideInAnimation(intent)
                     }
                 },
@@ -543,17 +580,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
-
-        val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
+        val activeTabLayout = if (prefStore.getBlocking().mainNavPosition == "bottom") {
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
-            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
+            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
+                actionBarSize + fabMargin
             binding.tabLayout.hide()
             binding.bottomTabLayout
         } else {
             binding.bottomNav.hide()
             (binding.viewPager.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
-            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).anchorId = R.id.viewPager
+            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).anchorId =
+                R.id.viewPager
             binding.tabLayout
         }
 
@@ -561,7 +599,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val adapter = MainPagerAdapter(tabs, this)
         binding.viewPager.adapter = adapter
-        TabLayoutMediator(activeTabLayout, binding.viewPager) { _: TabLayout.Tab?, _: Int -> }.attach()
+        TabLayoutMediator(
+            activeTabLayout,
+            binding.viewPager
+        ) { _: TabLayout.Tab?, _: Int -> }.attach()
         activeTabLayout.removeAllTabs()
         for (i in tabs.indices) {
             val tab = activeTabLayout.newTab()
@@ -584,8 +625,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
 
-        val enableSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
-        binding.viewPager.isUserInputEnabled = enableSwipeForTabs
+        binding.viewPager.isUserInputEnabled = prefStore.getBlocking().enableSwipeForTabs
 
         onTabSelectedListener?.let {
             activeTabLayout.removeOnTabSelectedListener(it)
@@ -594,7 +634,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == notificationTabPosition) {
-                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
+                    NotificationHelper.clearNotificationsForActiveAccount(
+                        this@MainActivity,
+                        accountManager
+                    )
                 }
 
                 binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
@@ -660,7 +703,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                 .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                     lifecycleScope.launch {
-                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this@MainActivity)
+                        NotificationHelper.deleteNotificationChannelsForAccount(
+                            activeAccount,
+                            this@MainActivity
+                        )
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
                         draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
@@ -709,7 +755,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         loadDrawerAvatar(me.avatar, false)
 
         accountManager.updateActiveAccount(me)
-        NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
+        NotificationHelper.createNotificationChannelsForAccount(
+            accountManager.activeAccount!!,
+            this
+        )
 
         accountLocked = me.locked
 
@@ -720,7 +769,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
         val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = prefStore.getBlocking().animateAvatars
 
         if (animateAvatars) {
             glide.asDrawable()
@@ -737,20 +786,26 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
                     override fun onLoadStarted(placeholder: Drawable?) {
                         if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            binding.mainToolbar.navigationIcon =
+                                FixedSizeDrawable(placeholder, navIconSize, navIconSize)
                         }
                     }
 
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
                         if (resource is Animatable) {
                             resource.start()
                         }
-                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
+                        binding.mainToolbar.navigationIcon =
+                            FixedSizeDrawable(resource, navIconSize, navIconSize)
                     }
 
                     override fun onLoadCleared(placeholder: Drawable?) {
                         if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            binding.mainToolbar.navigationIcon =
+                                FixedSizeDrawable(placeholder, navIconSize, navIconSize)
                         }
                     }
                 })
@@ -769,17 +824,26 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
                     override fun onLoadStarted(placeholder: Drawable?) {
                         if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            binding.mainToolbar.navigationIcon =
+                                FixedSizeDrawable(placeholder, navIconSize, navIconSize)
                         }
                     }
 
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(BitmapDrawable(resources, resource), navIconSize, navIconSize)
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(
+                            BitmapDrawable(resources, resource),
+                            navIconSize,
+                            navIconSize
+                        )
                     }
 
                     override fun onLoadCleared(placeholder: Drawable?) {
                         if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            binding.mainToolbar.navigationIcon =
+                                FixedSizeDrawable(placeholder, navIconSize, navIconSize)
                         }
                     }
                 })
@@ -802,23 +866,28 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun updateAnnouncementsBadge() {
-        binding.mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()))
+        binding.mainDrawer.updateBadge(
+            DRAWER_ITEM_ANNOUNCEMENTS,
+            StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString())
+        )
     }
 
     private fun updateProfiles() {
-        val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))
+        val animateEmojis = prefStore.getBlocking().animateEmojis
+        val profiles: MutableList<IProfile> =
+            accountManager.getAllAccountsOrderedByActive().map { acc ->
+                val emojifiedName = EmojiCompat.get()
+                    .process(acc.displayName.emojify(acc.emojis, header, animateEmojis))
 
-            ProfileDrawerItem().apply {
-                isSelected = acc.isActive
-                nameText = emojifiedName
-                iconUrl = acc.profilePictureUrl
-                isNameShown = true
-                identifier = acc.id
-                descriptionText = acc.fullName
-            }
-        }.toMutableList()
+                ProfileDrawerItem().apply {
+                    isSelected = acc.isActive
+                    nameText = emojifiedName
+                    iconUrl = acc.profilePictureUrl
+                    isNameShown = true
+                    identifier = acc.id
+                    descriptionText = acc.fullName
+                }
+            }.toMutableList()
 
         // reuse the already existing "add account" item
         for (profile in header.profiles.orEmpty()) {

@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +27,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.arch.core.util.Function;
+import androidx.datastore.core.DataStore;
 import androidx.lifecycle.Lifecycle;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -58,7 +58,9 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.network.FilterModel;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.settings.PrefData;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.settings.Prefs;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
@@ -93,6 +95,8 @@ public final class ViewThreadFragment extends SFragment implements
     public EventHub eventHub;
     @Inject
     public FilterModel filterModel;
+    @Inject
+    public DataStore<PrefData> prefStore;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -129,22 +133,21 @@ public final class ViewThreadFragment extends SFragment implements
         super.onCreate(savedInstanceState);
 
         thisThreadsStatusId = getArguments().getString("id");
-        SharedPreferences preferences =
-                PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        PrefData prefs = Prefs.getBlocking(prefStore);
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
-                preferences.getBoolean("animateGifAvatars", false),
+                prefs.getAnimateAvatars(),
                 accountManager.getActiveAccount().getMediaPreviewEnabled(),
-                preferences.getBoolean("absoluteTimeView", false),
-                preferences.getBoolean("showBotOverlay", true),
-                preferences.getBoolean("useBlurhash", true),
-                preferences.getBoolean("showCardsInTimelines", false) ?
+                prefs.getUseAbsoluteTime(),
+                prefs.getShowBotOverlay(),
+                prefs.getUseBlurhash(),
+                prefs.getShowCardsInTimelines() ?
                         CardViewMode.INDENTED :
                         CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true),
-                preferences.getBoolean("confirmFavourites", false),
-                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                prefs.getConfirmReblogs(),
+                prefs.getConfirmFavourites(),
+                prefs.getHideStatsPosts(),
+                prefs.getAnimateEmojis()
         );
         adapter = new ThreadAdapter(statusDisplayOptions, this);
     }
@@ -164,7 +167,7 @@ public final class ViewThreadFragment extends SFragment implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, statuses::getPairedItemOrNull));
+                new ListStatusAccessibilityDelegate(recyclerView, this, prefStore, statuses::getPairedItemOrNull));
         DividerItemDecoration divider = new DividerItemDecoration(
                 context, layoutManager.getOrientation());
         recyclerView.addItemDecoration(divider);
@@ -330,7 +333,7 @@ public final class ViewThreadFragment extends SFragment implements
             // already viewing the status with this url
             // probably just a preview federated and the user is clicking again to view more -> open the browser
             // this can happen with some friendica statuses
-            LinkHelper.openLink(requireContext(), url);
+            LinkHelper.openLink(requireContext(), url, Prefs.getBlocking(prefStore).getCustomTabs());
             return;
         }
         super.onViewUrl(url);

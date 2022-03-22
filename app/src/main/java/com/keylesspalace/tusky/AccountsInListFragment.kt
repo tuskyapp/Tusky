@@ -24,7 +24,6 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -35,7 +34,8 @@ import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.TimelineAccount
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
@@ -56,6 +56,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var prefs: PrefStore
+
     private val viewModel: AccountsInListViewModel by viewModels { viewModelFactory }
     private val binding by viewBinding(FragmentAccountsInListBinding::bind)
 
@@ -65,9 +68,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     private val searchAdapter = SearchAdapter()
 
     private val radius by lazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
-    private val pm by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
-    private val animateAvatar by lazy { pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
-    private val animateEmojis by lazy { pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
+    private val animateAvatar by lazy { prefs.getBlocking().animateAvatars }
+    private val animateEmojis by lazy { prefs.getBlocking().animateEmojis }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

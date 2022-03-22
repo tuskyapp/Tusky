@@ -18,6 +18,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlin.math.min
 
@@ -29,10 +31,11 @@ fun interface StatusProvider {
 class ListStatusAccessibilityDelegate(
     private val recyclerView: RecyclerView,
     private val statusActionListener: StatusActionListener,
-    private val statusProvider: StatusProvider
+    private val prefStore: PrefStore,
+    private val statusProvider: StatusProvider,
 ) : RecyclerViewAccessibilityDelegate(recyclerView) {
     private val a11yManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
-        as AccessibilityManager
+            as AccessibilityManager
 
     override fun getItemDelegate(): AccessibilityDelegateCompat = itemDelegate
 
@@ -182,7 +185,12 @@ class ListStatusAccessibilityDelegate(
                         android.R.layout.simple_list_item_1,
                         textLinks
                     )
-                ) { _, which -> host.context.openLink(links[which].link) }
+                ) { _, which ->
+                    host.context.openLink(
+                        links[which].link,
+                        prefStore.getBlocking().customTabs,
+                    )
+                }
                 .show()
                 .let { forceFocus(it.listView) }
         }

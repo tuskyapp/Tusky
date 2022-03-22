@@ -20,7 +20,6 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,7 +45,8 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -65,6 +65,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     lateinit var api: MastodonApi
     @Inject
     lateinit var accountManager: AccountManager
+    @Inject
+    lateinit var prefStore: PrefStore
 
     private val binding by viewBinding(FragmentAccountListBinding::bind)
 
@@ -92,9 +94,9 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
 
-        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
-        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val prefs = prefStore.getBlocking()
+        val animateAvatar = prefs.animateAvatars
+        val animateEmojis = prefs.animateEmojis
 
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)

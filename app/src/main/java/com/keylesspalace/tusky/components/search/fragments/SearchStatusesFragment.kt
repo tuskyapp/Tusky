@@ -34,7 +34,6 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
@@ -52,7 +51,8 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.openLink
@@ -61,8 +61,11 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
+    @Inject
+    lateinit var prefStore: PrefStore
 
     override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
@@ -71,22 +74,28 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
+        val prefs = prefStore.getBlocking()
         val statusDisplayOptions = StatusDisplayOptions(
-            animateAvatars = preferences.getBoolean("animateGifAvatars", false),
+            animateAvatars = prefs.animateAvatars,
             mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
-            useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
-            showBotOverlay = preferences.getBoolean("showBotOverlay", true),
-            useBlurhash = preferences.getBoolean("useBlurhash", true),
+            useAbsoluteTime = prefs.useAbsoluteTime,
+            showBotOverlay = prefs.showBotOverlay,
+            useBlurhash = prefs.useBlurhash,
             cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean("confirmReblogs", true),
-            confirmFavourites = preferences.getBoolean("confirmFavourites", false),
-            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            confirmReblogs = prefs.confirmReblogs,
+            confirmFavourites = prefs.confirmFavourites,
+            hideStats = prefs.hideStatsPosts,
+            animateEmojis = prefs.animateEmojis,
         )
 
-        binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
-        binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
+        binding.searchRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                binding.searchRecyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        binding.searchRecyclerView.layoutManager =
+            LinearLayoutManager(binding.searchRecyclerView.context)
         return SearchStatusesAdapter(statusDisplayOptions, this)
     }
 
@@ -142,7 +151,10 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     }
                 }
                 Attachment.Type.UNKNOWN -> {
-                    context?.openLink(actionable.attachments[attachmentIndex].url)
+                    context?.openLink(
+                        actionable.attachments[attachmentIndex].url,
+                        prefStore.getBlocking().customTabs,
+                    )
                 }
             }
         }
@@ -238,7 +250,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             menu.findItem(R.id.status_open_as).isVisible = !statusUrl.isNullOrBlank()
             when (status.visibility) {
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
-                    val textId = getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action)
+                    val textId =
+                        getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action)
                     menu.add(0, R.id.pin, 1, textId)
                 }
                 Status.Visibility.PRIVATE -> {
@@ -264,7 +277,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             openAsItem.title = openAsText
         }
 
-        val mutable = statusIsByCurrentUser || accountIsInMentions(viewModel.activeAccount, status.mentions)
+        val mutable =
+            statusIsByCurrentUser || accountIsInMentions(viewModel.activeAccount, status.mentions)
         val muteConversationItem = popup.menu.findItem(R.id.status_mute_conversation).apply {
             isVisible = mutable
         }
@@ -287,11 +301,16 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     sendIntent.action = Intent.ACTION_SEND
 
                     val stringToShare = statusToShare.account.username +
-                        " - " +
-                        statusToShare.content.toString()
+                            " - " +
+                            statusToShare.content.toString()
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_status_content_to)))
+                    startActivity(
+                        Intent.createChooser(
+                            sendIntent,
+                            resources.getText(R.string.send_status_content_to)
+                        )
+                    )
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_share_link -> {
@@ -299,11 +318,17 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_status_link_to)))
+                    startActivity(
+                        Intent.createChooser(
+                            sendIntent,
+                            resources.getText(R.string.send_status_link_to)
+                        )
+                    )
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_copy_link -> {
-                    val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard =
+                        requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, statusUrl))
                     return@setOnMenuItemClickListener true
                 }
@@ -399,7 +424,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             val uri = Uri.parse(url)
             val filename = uri.lastPathSegment
 
-            val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager =
+                requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager.Request(uri)
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
             downloadManager.enqueue(request)
@@ -412,13 +438,24 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadAllMedia(status)
             } else {
-                Toast.makeText(context, R.string.error_media_download_permission, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    R.string.error_media_download_permission,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
     private fun openReportPage(accountId: String, accountUsername: String, statusId: String) {
-        startActivity(ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId))
+        startActivity(
+            ReportActivity.getIntent(
+                requireContext(),
+                accountId,
+                accountUsername,
+                statusId
+            )
+        )
     }
 
     private fun showConfirmDeleteDialog(id: String, position: Int) {
@@ -468,7 +505,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                             },
                             { error ->
                                 Log.w("SearchStatusesFragment", "error deleting status", error)
-                                Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         )
                 }
