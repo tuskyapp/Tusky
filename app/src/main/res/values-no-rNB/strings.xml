@@ -18,14 +18,14 @@
     <string name="error_media_download_permission">Trenger tillatelse for å lagre media.</string>
     <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme status.</string>
     <string name="error_media_upload_sending">Opplastingen feilet.</string>
-    <string name="error_sender_account_gone">En feil oppsto under sending av tootet.</string>
+    <string name="error_sender_account_gone">En feil oppsto under sending av innlegget.</string>
     <string name="title_home">Hjem</string>
     <string name="title_notifications">Varsler</string>
     <string name="title_public_local">Lokal</string>
     <string name="title_public_federated">Forent</string>
     <string name="title_direct_messages">Direktemeldinger</string>
     <string name="title_tab_preferences">Faner</string>
-    <string name="title_view_thread">Toot</string>
+    <string name="title_view_thread">Tråd</string>
     <string name="title_statuses">Toots</string>
     <string name="title_statuses_with_replies">Med svar</string>
     <string name="title_statuses_pinned">Festet</string>
@@ -49,8 +49,8 @@
     <string name="status_content_show_less">Kollaps</string>
     <string name="message_empty">Her er det ingenting.</string>
     <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
-    <string name="notification_reblog_format">%s boostet tootet ditt</string>
-    <string name="notification_favourite_format">%s favoriserte tootet ditt</string>
+    <string name="notification_reblog_format">%s boostet innlegget ditt</string>
+    <string name="notification_favourite_format">%s favoriserte innlegget ditt</string>
     <string name="notification_follow_format">%s følger deg</string>
     <string name="report_username_format">Rapporter @%s</string>
     <string name="report_comment_hint">Ytterligere kommentarer\?</string>
@@ -102,7 +102,7 @@
     <string name="action_reject">Avvis</string>
     <string name="action_search">Søk</string>
     <string name="action_access_drafts">Kladder</string>
-    <string name="action_toggle_visibility">Toot-synlighet</string>
+    <string name="action_toggle_visibility">Synlighet på innlegg</string>
     <string name="action_content_warning">Innholdsadvarsel</string>
     <string name="action_emoji_keyboard">Emoji-tastatur</string>
     <string name="action_add_tab">Legg til fane</string>
@@ -122,8 +122,8 @@
     <string name="action_share_as">Del som …</string>
     <string name="download_media">Last ned media</string>
     <string name="downloading_media">Laster ned media</string>
-    <string name="send_status_link_to">Del toot-URL til…</string>
-    <string name="send_status_content_to">Del toot til…</string>
+    <string name="send_status_link_to">Del innlegg-URL til…</string>
+    <string name="send_status_content_to">Del innlegg til…</string>
     <string name="send_media_to">Del media til…</string>
     <string name="confirmation_reported">Sendt!</string>
     <string name="confirmation_unblocked">Fjernet blokkering av bruker</string>
@@ -195,9 +195,9 @@
     <string name="notification_follow_name">Nye følgere</string>
     <string name="notification_follow_description">Varsler om nye følgere</string>
     <string name="notification_boost_name">Booster</string>
-    <string name="notification_boost_description">Varsler når tootene dine blir boostet</string>
+    <string name="notification_boost_description">Varsler når innleggene dine blir boostet</string>
     <string name="notification_favourite_name">Favoritter</string>
-    <string name="notification_favourite_description">Varsler når tootene dine blir favorisert</string>
+    <string name="notification_favourite_description">Varsler når innleggene dine blir favorisert</string>
     <string name="notification_mention_format">%s nevnte deg</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d anre</string>
     <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
@@ -212,8 +212,8 @@
     <string name="about_bug_feature_request_site">Rapporter feil og ønsker om funksjonalitet her: 
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tuskys Mastodon-profil</string>
-    <string name="status_share_content">Del inneholdet i tootet</string>
-    <string name="status_share_link">Del link til toot</string>
+    <string name="status_share_content">Del inneholdet i innlegget</string>
+    <string name="status_share_link">Del link til innlegget</string>
     <string name="status_media_images">Bilder</string>
     <string name="status_media_video">Video</string>
     <string name="state_follow_requested">Forespørsel sendt</string>
@@ -271,9 +271,9 @@
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
     <string name="compose_save_draft">Lagre kladd\?</string>
-    <string name="send_post_notification_title">Sender Toot…</string>
+    <string name="send_post_notification_title">Sender toot…</string>
     <string name="send_post_notification_error_title">Det oppsto en feil under sending av tootet</string>
-    <string name="send_post_notification_channel_name">Sender Toots</string>
+    <string name="send_post_notification_channel_name">Sender toots</string>
     <string name="send_post_notification_cancel_title">Sending avbrutt</string>
     <string name="send_post_notification_saved_content">En kopi av tootet er lagret i kladdene dine</string>
     <string name="action_compose_shortcut">Skriv</string>
@@ -340,7 +340,7 @@
     <string name="notifications_clear">Fjern</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Bruk</string>
-    <string name="compose_shortcut_long_label">Skriv Toot</string>
+    <string name="compose_shortcut_long_label">Skriv innlegg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
     <string name="pref_title_bot_overlay">Vis at konto er en robot</string>
     <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
@@ -413,7 +413,7 @@
     <string name="filter_dialog_whole_word_description">Når nøkkelordet kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
     <string name="title_accounts">Kontoer</string>
     <string name="failed_search">Klarte ikke å søke</string>
-    <string name="pref_title_alway_open_spoiler">Ekspander alltid toots markert med innholdsadvarsel</string>
+    <string name="pref_title_alway_open_spoiler">Ekspander alltid innlegg markert med innholdsadvarsel</string>
     <string name="action_add_poll">Legg til avstemming</string>
     <string name="create_poll_title">Avstemming</string>
     <string name="duration_5_min">5 minutter</string>
@@ -482,14 +482,14 @@
     <string name="wellbeing_mode_notice">Informasjon som kan påvirke ditt mentale velvære vil bli skjult. Dette inkluderer:
 \n
 \n - Varsler om favorisering, boosts og følgere
-\n - Antall favoriseringer og boots på toots
-\n - Antall følgere og toots på profiler
+\n - Antall favoriseringer og boots på innlegg
+\n - Antall følgere og innlegg på profiler
 \n
 \n Push-varsler vil ikke påvirkes, men du kan se over dine varselinnstillinger manuelt.</string>
     <string name="pref_title_wellbeing_mode">Velvære</string>
-    <string name="notification_subscription_description">Varsler når noen jeg følger publiserer en ny toot</string>
-    <string name="notification_subscription_name">Nye toots</string>
-    <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer en ny toot</string>
+    <string name="notification_subscription_description">Varsler når noen jeg følger publiserer et nytt innlegg</string>
+    <string name="notification_subscription_name">Nye innlegg</string>
+    <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer et nytt innlegg</string>
     <string name="notification_subscription_format">%s tootet akkurat</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
@@ -518,4 +518,5 @@
     <string name="duration_180_days">180 dager</string>
     <string name="duration_365_days">365 dager</string>
     <string name="duration_14_days">14 dager</string>
+    <string name="tusky_compose_post_quicksetting_label">Komponer toot</string>
 </resources>
