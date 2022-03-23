@@ -193,6 +193,7 @@ class TimelineFragment :
             } else {
                 CardViewMode.NONE
             },
+            embedCardHtml = preferences.getBoolean(PrefKeys.SHOW_EMBEDS_IN_TIMELINES, false),
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),

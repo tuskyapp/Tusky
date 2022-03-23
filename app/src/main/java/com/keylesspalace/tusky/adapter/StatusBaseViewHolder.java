@@ -1118,7 +1118,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             String embedHtml = card.getHtml();
             String url = card.getUrl();
 
-            if (cardEmbedWebView != null && !TextUtils.isEmpty(embedHtml)) {
+            if (statusDisplayOptions.embedCardHtml() && cardEmbedWebView != null && !TextUtils.isEmpty(embedHtml)) {
                 cardView.setVisibility(View.VISIBLE);
                 cardEmbedWebView.setVisibility(View.VISIBLE);
                 cardImage.setVisibility(View.GONE);

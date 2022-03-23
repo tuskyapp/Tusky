@@ -115,6 +115,7 @@ class ViewThreadFragment :
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            embedCardHtml = preferences.getBoolean(PrefKeys.SHOW_EMBEDS_IN_TIMELINES, false),
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
         adapter = ThreadAdapter(statusDisplayOptions, this)

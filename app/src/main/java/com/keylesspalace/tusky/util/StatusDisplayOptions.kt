@@ -34,6 +34,8 @@ data class StatusDisplayOptions(
     val useBlurhash: Boolean,
     @get:JvmName("cardViewMode")
     val cardViewMode: CardViewMode,
+    @get:JvmName("embedCardHtml")
+    val embedCardHtml: Boolean,
     @get:JvmName("confirmReblogs")
     val confirmReblogs: Boolean,
     @get:JvmName("confirmFavourites")
@@ -107,7 +109,8 @@ data class StatusDisplayOptions(
             PrefKeys.MEDIA_PREVIEW_ENABLED,
             PrefKeys.SHOW_BOT_OVERLAY,
             PrefKeys.USE_BLURHASH,
-            PrefKeys.WELLBEING_HIDE_STATS_POSTS
+            PrefKeys.WELLBEING_HIDE_STATS_POSTS,
+            PrefKeys.SHOW_EMBEDS_IN_TIMELINES
         )
 
         fun from(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
@@ -123,6 +126,7 @@ data class StatusDisplayOptions(
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = account.alwaysShowSensitiveMedia,
+            embedCardHtml = preferences.getBoolean(PrefKeys.SHOW_EMBEDS_IN_TIMELINES, false),
             openSpoiler = account.alwaysOpenSpoiler
         )
     }

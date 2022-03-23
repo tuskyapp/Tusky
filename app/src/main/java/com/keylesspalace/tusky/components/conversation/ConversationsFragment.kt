@@ -106,6 +106,7 @@ class ConversationsFragment :
             showBotOverlay = preferences.getBoolean("showBotOverlay", true),
             useBlurhash = preferences.getBoolean("useBlurhash", true),
             cardViewMode = CardViewMode.NONE,
+            embedCardHtml = false,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),

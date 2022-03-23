@@ -195,6 +195,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.SHOW_EMBEDS_IN_TIMELINES
+                    setTitle(R.string.pref_title_show_embeds_in_timelines)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
                     setTitle(R.string.pref_title_show_notifications_filter)
