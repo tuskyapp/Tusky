@@ -152,7 +152,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 20) } doReturn Single.just(
+                on { homeTimeline(limit = 3) } doReturn Single.just(
                     Response.success(
                         listOf(
                             mockStatus("8"),
@@ -161,7 +161,7 @@ class CachedTimelineRemoteMediatorTest {
                         )
                     )
                 )
-                on { homeTimeline(maxId = "3", limit = 20) } doReturn Single.just(
+                on { homeTimeline(maxId = "3", limit = 3) } doReturn Single.just(
                     Response.success(
                         listOf(
                             mockStatus("3"),
@@ -176,13 +176,14 @@ class CachedTimelineRemoteMediatorTest {
         )
 
         val state = state(
-            listOf(
+            pages = listOf(
                 PagingSource.LoadResult.Page(
                     data = statusesAlreadyInDb,
                     prevKey = null,
                     nextKey = 0
                 )
-            )
+            ),
+            pageSize = 3
         )
 
         val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
@@ -486,11 +487,14 @@ class CachedTimelineRemoteMediatorTest {
         )
     }
 
-    private fun state(pages: List<PagingSource.LoadResult.Page<Int, TimelineStatusWithAccount>> = emptyList()) = PagingState(
+    private fun state(
+        pages: List<PagingSource.LoadResult.Page<Int, TimelineStatusWithAccount>> = emptyList(),
+        pageSize: Int = 20
+    ) = PagingState(
         pages = pages,
         anchorPosition = null,
         config = PagingConfig(
-            pageSize = 20
+            pageSize = pageSize
         ),
         leadingPlaceholderCount = 0
     )
