@@ -716,7 +716,9 @@ class ComposeActivity :
         val urlSpans = binding.composeEditField.urls
         if (urlSpans != null) {
             for (span in urlSpans) {
-                offset += max(0, span.url.length - charactersReservedPerUrl)
+                // it's expected that this will be negative
+                // when the url length is less than the reserved character count
+                offset += (span.url.length - charactersReservedPerUrl)
             }
         }
         var length = binding.composeEditField.length() - offset
