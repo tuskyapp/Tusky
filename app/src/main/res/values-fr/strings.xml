@@ -25,7 +25,7 @@
     <string name="title_public_federated">Global</string>
     <string name="title_direct_messages">Messages directs</string>
     <string name="title_tab_preferences">Onglets</string>
-    <string name="title_view_thread">Pouet</string>
+    <string name="title_view_thread">Fil</string>
     <string name="title_statuses">Messages</string>
     <string name="title_statuses_with_replies">Pouets &amp; réponses</string>
     <string name="title_statuses_pinned">Épinglés</string>
@@ -49,8 +49,8 @@
     <string name="status_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
     <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
-    <string name="notification_reblog_format">%s a partagé votre pouet</string>
-    <string name="notification_favourite_format">%s a ajouté votre pouet à ses favoris</string>
+    <string name="notification_reblog_format">%s a partagé votre message</string>
+    <string name="notification_favourite_format">%s a ajouté votre message à ses favoris</string>
     <string name="notification_follow_format">%s vous suit</string>
     <string name="report_username_format">Signaler @%s</string>
     <string name="report_comment_hint">Commentaires additionnels \?</string>
@@ -102,7 +102,7 @@
     <string name="action_reject">Refuser</string>
     <string name="action_search">Rechercher</string>
     <string name="action_access_drafts">Brouillons</string>
-    <string name="action_toggle_visibility">Visibilité du pouet</string>
+    <string name="action_toggle_visibility">Visibilité du message</string>
     <string name="action_content_warning">Contenu sensible</string>
     <string name="action_emoji_keyboard">Clavier d’émojis</string>
     <string name="action_add_tab">Ajouter un onglet</string>
@@ -122,8 +122,8 @@
     <string name="action_share_as">Partager comme …</string>
     <string name="download_media">Télécharger le média</string>
     <string name="downloading_media">Téléchargement du média</string>
-    <string name="send_status_link_to">Partager le lien de votre pouet avec…</string>
-    <string name="send_status_content_to">Partager le pouet avec…</string>
+    <string name="send_status_link_to">Partager le lien du message avec…</string>
+    <string name="send_status_content_to">Partager le mesage avec…</string>
     <string name="send_media_to">Partager l’image avec …</string>
     <string name="confirmation_reported">Envoyé !</string>
     <string name="confirmation_unblocked">Le compte est débloqué</string>
@@ -213,7 +213,7 @@
     <string name="notification_follow_name">Nouveaux abonnés</string>
     <string name="notification_follow_description">Notifications pour les nouveaux abonnés</string>
     <string name="notification_boost_name">Partages</string>
-    <string name="notification_boost_description">Notifications quand vos pouets sont partagés</string>
+    <string name="notification_boost_description">Notifications quand vos messages sont partagés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
     <string name="notification_mention_format">%s vous a mentionné</string>
@@ -503,7 +503,7 @@
 \n - des statistiques sur les profils
 \n
 \n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
-    <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau pouet</string>
+    <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau message</string>
     <string name="notification_subscription_format">%s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
     <string name="notification_subscription_name">Nouveaux pouets</string>
@@ -539,4 +539,5 @@
     <string name="duration_365_days">365 jours</string>
     <string name="duration_14_days">14 jours</string>
     <string name="duration_180_days">180 jours</string>
+    <string name="tusky_compose_post_quicksetting_label">Rédiger un message</string>
 </resources>
