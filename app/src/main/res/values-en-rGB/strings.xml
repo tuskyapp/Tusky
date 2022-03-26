@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="report_description_remote_instance">The account is from another server. Send an anonymised copy of the report there as well\?</string>
-    <string name="description_status_favourited">Favourited</string>
+    <string name="description_post_favourited">Favourited</string>
     <string name="title_favourited_by">Favourited by</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favourite</item>

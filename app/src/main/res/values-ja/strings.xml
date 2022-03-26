@@ -25,9 +25,9 @@
     <string name="title_direct_messages">ダイレクトメッセージ</string>
     <string name="title_tab_preferences">タブ</string>
     <string name="title_view_thread">スレッド</string>
-    <string name="title_statuses">投稿</string>
-    <string name="title_statuses_with_replies">投稿と返信</string>
-    <string name="title_statuses_pinned">ピン留め</string>
+    <string name="title_posts">投稿</string>
+    <string name="title_posts_with_replies">投稿と返信</string>
+    <string name="title_posts_pinned">ピン留め</string>
     <string name="title_follows">フォロー</string>
     <string name="title_followers">フォロワー</string>
     <string name="title_favourites">お気に入り</string>
@@ -37,14 +37,14 @@
     <string name="title_edit_profile">プロフィールを編集</string>
     <string name="title_drafts">下書き</string>
     <string name="title_licenses">ライセンス</string>
-    <string name="status_boosted_format">%sさんがブーストしました</string>
-    <string name="status_sensitive_media_title">閲覧注意</string>
-    <string name="status_media_hidden_title">非表示のメディア</string>
-    <string name="status_sensitive_media_directions">タップして表示</string>
-    <string name="status_content_warning_show_more">続きを表示</string>
-    <string name="status_content_warning_show_less">続きを隠す</string>
-    <string name="status_content_show_more">続きを読む</string>
-    <string name="status_content_show_less">閉じる</string>
+    <string name="post_boosted_format">%sさんがブーストしました</string>
+    <string name="post_sensitive_media_title">閲覧注意</string>
+    <string name="post_media_hidden_title">非表示のメディア</string>
+    <string name="post_sensitive_media_directions">タップして表示</string>
+    <string name="post_content_warning_show_more">続きを表示</string>
+    <string name="post_content_warning_show_less">続きを隠す</string>
+    <string name="post_content_show_more">続きを読む</string>
+    <string name="post_content_show_less">閉じる</string>
     <string name="message_empty">何もありません。</string>
     <string name="footer_empty">現在トゥートはありません。更新するにはプルダウンしてください！</string>
     <string name="notification_reblog_format">%sさんがトゥートをブーストしました</string>
@@ -111,14 +111,14 @@
     <string name="action_copy_link">リンクをコピー</string>
     <string name="action_open_as">%s として開く</string>
     <string name="action_share_as">共有先…</string>
-    <string name="send_status_link_to">トゥートのURLを共有…</string>
-    <string name="send_status_content_to">トゥートを共有…</string>
+    <string name="send_post_link_to">トゥートのURLを共有…</string>
+    <string name="send_post_content_to">トゥートを共有…</string>
     <string name="send_media_to">メディアを共有…</string>
     <string name="confirmation_reported">送信しました！</string>
     <string name="confirmation_unblocked">ブロックを解除しました</string>
     <string name="confirmation_unmuted">ミュートを解除しました</string>
-    <string name="status_sent">送信しました！</string>
-    <string name="status_sent_long">返信しました。</string>
+    <string name="post_sent">送信しました！</string>
+    <string name="post_sent_long">返信しました。</string>
     <string name="hint_domain">インスタンス</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>
@@ -171,8 +171,8 @@
     <string name="pref_title_custom_tabs">Chrome Custom Tabsを使用する</string>
     <string name="pref_title_hide_follow_button">スクロール中は投稿ボタンを隠す</string>
     <string name="pref_title_language">言語</string>
-    <string name="pref_title_status_filter">タイムラインのフィルタリング</string>
-    <string name="pref_title_status_tabs">タブ</string>
+    <string name="pref_title_post_filter">タイムラインのフィルタリング</string>
+    <string name="pref_title_post_tabs">タブ</string>
     <string name="pref_title_show_boosts">ブーストを表示</string>
     <string name="pref_title_show_replies">返信を表示</string>
     <string name="pref_title_show_media_preview">メディアのプレビューを表示する</string>
@@ -188,12 +188,12 @@
     <string name="post_privacy_public">公開</string>
     <string name="post_privacy_unlisted">未収載</string>
     <string name="post_privacy_followers_only">フォロワーに限定</string>
-    <string name="pref_status_text_size">トゥートのテキストサイズ</string>
-    <string name="status_text_size_smallest">最小</string>
-    <string name="status_text_size_small">小</string>
-    <string name="status_text_size_medium">中</string>
-    <string name="status_text_size_large">大</string>
-    <string name="status_text_size_largest">最大</string>
+    <string name="pref_post_text_size">トゥートのテキストサイズ</string>
+    <string name="post_text_size_smallest">最小</string>
+    <string name="post_text_size_small">小</string>
+    <string name="post_text_size_medium">中</string>
+    <string name="post_text_size_large">大</string>
+    <string name="post_text_size_largest">最大</string>
     <string name="notification_mention_name">新しい返信</string>
     <string name="notification_mention_descriptions">新しい返信の通知</string>
     <string name="notification_follow_name">新しいフォロワー</string>
@@ -228,10 +228,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tusky公式アカウント</string>
-    <string name="status_share_content">トゥートの内容を共有</string>
-    <string name="status_share_link">トゥートへのリンクを共有</string>
-    <string name="status_media_images">画像</string>
-    <string name="status_media_video">動画</string>
+    <string name="post_share_content">トゥートの内容を共有</string>
+    <string name="post_share_link">トゥートへのリンクを共有</string>
+    <string name="post_media_images">画像</string>
+    <string name="post_media_video">動画</string>
     <string name="state_follow_requested">フォローリクエスト中</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d年後</string>
@@ -280,7 +280,7 @@
     <string name="system_default">システムのデフォルト</string>
     <string name="download_fonts">最初にこれらの絵文字セットをダウンロードする必要があります</string>
     <string name="performing_lookup_title">検索中…</string>
-    <string name="expand_collapse_all_statuses">全て開く/閉じる</string>
+    <string name="expand_collapse_all_posts">全て開く/閉じる</string>
     <string name="action_open_post">トゥートを開く</string>
     <string name="restart_required">アプリの再起動が必要です</string>
     <string name="restart_emoji">これらの変更を適用するには、Tuskyの再起動が必要になります</string>
@@ -325,7 +325,7 @@
     </string>
     <string name="hint_list_name">リスト名</string>
     <string name="error_network">ネットワークエラーが発生しました！接続を確認してもう一度試してください！</string>
-    <string name="status_username_format">\@%s</string>
+    <string name="post_username_format">\@%s</string>
     <string name="action_unreblog">ブーストを解除</string>
     <string name="action_unfavourite">お気に入りを解除</string>
     <string name="action_open_reblogged_by">ブーストを表示</string>
@@ -389,7 +389,7 @@
     <string name="pref_title_bot_overlay">ボットマークを表示</string>
     <string name="pref_title_animate_gif_avatars">GIFアバターを動かす</string>
     <string name="pref_title_public_filter_keywords">公開タイムライン</string>
-    <string name="description_status_cw">閲覧注意：%s</string>
+    <string name="description_post_cw">閲覧注意：%s</string>
     <string name="filter_apply">適用</string>
     <string name="poll_info_closed">投票終了</string>
     <string name="title_accounts">アカウント</string>
@@ -410,12 +410,12 @@
     <string name="action_unmute_desc">%sさんのミュートを解除</string>
     <string name="notification_follow_request_format">%sさんがあなたにフォローリクエストしました</string>
     <string name="report_sent_success">\@%sさんを通報しました</string>
-    <string name="no_scheduled_status">予約した投稿はありません。</string>
+    <string name="no_scheduled_posts">予約した投稿はありません。</string>
     <string name="no_drafts">下書きはありません。</string>
     <string name="poll_new_choice_hint">項目 %d</string>
     <string name="report_description_remote_instance">このアカウントは外部のサーバーにあります。匿名化された通報の複製をそちらにも送信しますか？</string>
     <string name="report_description_1">通報をサーバーのモデレーターに送信します。以下にこのアカウントを通報理由を入力できます:</string>
-    <string name="failed_fetch_statuses">投稿を取得できませんでした</string>
+    <string name="failed_fetch_posts">投稿を取得できませんでした</string>
     <string name="button_done">完了</string>
     <string name="button_back">戻る</string>
     <string name="button_continue">続ける</string>
@@ -424,8 +424,8 @@
     <string name="list">リスト</string>
     <string name="hashtags">ハッシュタグ</string>
     <string name="add_hashtag_title">ハッシュタグを追加</string>
-    <string name="description_status_media_no_description_placeholder">説明なし</string>
-    <string name="description_status_media">メディア: %s</string>
+    <string name="description_post_media_no_description_placeholder">説明なし</string>
+    <string name="description_post_media">メディア: %s</string>
     <string name="conversation_more_recipients">%1$sさん、%2$sさんと他%3$d人</string>
     <string name="conversation_1_recipients">%1$sさん</string>
     <string name="filter_add_description">フィルターする語句</string>
@@ -465,7 +465,7 @@
     <string name="notification_subscription_format">%sさんがトゥートしました</string>
     <string name="title_announcements">お知らせ</string>
     <string name="mute_domain_warning">本当に %s のすべてをブロックするのですか？ そのドメインからのコンテンツは、公開タイムラインや通知に表示されなくなります。また、そのドメインのフォロワーは削除されます。</string>
-    <string name="status_media_audio">音声</string>
+    <string name="post_media_audio">音声</string>
     <string name="mute_domain_warning_dialog_ok">ドメイン全体を非表示</string>
     <string name="about_powered_by_tusky">Tuskyによって提供されています</string>
 </resources>

@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Direktnachrichten</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Beitrag</string>
-    <string name="title_statuses">Beiträge</string>
-    <string name="title_statuses_with_replies">mit Antworten</string>
-    <string name="title_statuses_pinned">Angeheftet</string>
+    <string name="title_posts">Beiträge</string>
+    <string name="title_posts_with_replies">mit Antworten</string>
+    <string name="title_posts_pinned">Angeheftet</string>
     <string name="title_follows">Folgt</string>
     <string name="title_followers">Folgende</string>
     <string name="title_favourites">Favoriten</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="title_drafts">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s teilte</string>
-    <string name="status_sensitive_media_title">Heikle Inhalte</string>
-    <string name="status_media_hidden_title">Medien versteckt</string>
-    <string name="status_sensitive_media_directions">Zum Anzeigen tippen</string>
-    <string name="status_content_warning_show_more">Zeige mehr</string>
-    <string name="status_content_warning_show_less">Zeige weniger</string>
-    <string name="status_content_show_more">Mehr</string>
-    <string name="status_content_show_less">Weniger</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s teilte</string>
+    <string name="post_sensitive_media_title">Heikle Inhalte</string>
+    <string name="post_media_hidden_title">Medien versteckt</string>
+    <string name="post_sensitive_media_directions">Zum Anzeigen tippen</string>
+    <string name="post_content_warning_show_more">Zeige mehr</string>
+    <string name="post_content_warning_show_less">Zeige weniger</string>
+    <string name="post_content_show_more">Mehr</string>
+    <string name="post_content_show_less">Weniger</string>
     <string name="message_empty">Hier ist nichts.</string>
     <string name="footer_empty">Noch keine Beiträge hier! Ziehe nach unten um zu aktualisieren!</string>
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
@@ -119,14 +119,14 @@
     <string name="action_copy_link">Link kopieren</string>
     <string name="action_open_as">Öffne als %s</string>
     <string name="action_share_as">Teilen als …</string>
-    <string name="send_status_link_to">Beitragslink teilen…</string>
-    <string name="send_status_content_to">Beitragsinhalt teilen…</string>
+    <string name="send_post_link_to">Beitragslink teilen…</string>
+    <string name="send_post_content_to">Beitragsinhalt teilen…</string>
     <string name="send_media_to">Mediendatei teilen…</string>
     <string name="confirmation_reported">Gesendet!</string>
     <string name="confirmation_unblocked">entblockt</string>
     <string name="confirmation_unmuted">Stummschaltung aufgehoben</string>
-    <string name="status_sent">Gesendet!</string>
-    <string name="status_sent_long">Antwort erfolgreich gesendet.</string>
+    <string name="post_sent">Gesendet!</string>
+    <string name="post_sent_long">Antwort erfolgreich gesendet.</string>
     <string name="hint_domain">Welche Instanz?</string>
     <string name="hint_compose">Was gibt\'s Neues?</string>
     <string name="hint_content_warning">Inhaltswarnung</string>
@@ -182,8 +182,8 @@
     <string name="pref_title_custom_tabs">Links in der App (Browser Custom Tabs) öffnen</string>
     <string name="pref_title_hide_follow_button">Verstecke Button bei Bildlauf </string>
     <string name="pref_title_language">Sprache</string>
-    <string name="pref_title_status_filter">Timeline-Filter</string>
-    <string name="pref_title_status_tabs">Tabs</string>
+    <string name="pref_title_post_filter">Timeline-Filter</string>
+    <string name="pref_title_post_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Geteilte Beiträge anzeigen</string>
     <string name="pref_title_show_replies">Zeige Antworten</string>
     <string name="pref_title_show_media_preview">Medienvorschauen herunterladen</string>
@@ -199,12 +199,12 @@
     <string name="post_privacy_public">Öffentlich</string>
     <string name="post_privacy_unlisted">Nicht gelistet</string>
     <string name="post_privacy_followers_only">Nur Folgende</string>
-    <string name="pref_status_text_size">Schriftgröße</string>
-    <string name="status_text_size_smallest">Kleiner</string>
-    <string name="status_text_size_small">Klein</string>
-    <string name="status_text_size_medium">Normal</string>
-    <string name="status_text_size_large">Groß</string>
-    <string name="status_text_size_largest">Größer</string>
+    <string name="pref_post_text_size">Schriftgröße</string>
+    <string name="post_text_size_smallest">Kleiner</string>
+    <string name="post_text_size_small">Klein</string>
+    <string name="post_text_size_medium">Normal</string>
+    <string name="post_text_size_large">Groß</string>
+    <string name="post_text_size_largest">Größer</string>
     <string name="notification_mention_name">Neue Erwähnungen</string>
     <string name="notification_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_follow_name">Neue Folgende</string>
@@ -236,10 +236,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tuskys Profil</string>
-    <string name="status_share_content">Inhalt teilen</string>
-    <string name="status_share_link">Link teilen</string>
-    <string name="status_media_images">Bilder</string>
-    <string name="status_media_video">Video</string>
+    <string name="post_share_content">Inhalt teilen</string>
+    <string name="post_share_link">Link teilen</string>
+    <string name="post_media_images">Bilder</string>
+    <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Folgeanfrage gesendet</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Folgt dir</string>
@@ -284,7 +284,7 @@
     <string name="system_default">System-Standard</string>
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
     <string name="performing_lookup_title">Nachschlagen…</string>
-    <string name="expand_collapse_all_statuses">Alle Beiträge aus-/einklappen</string>
+    <string name="expand_collapse_all_posts">Alle Beiträge aus-/einklappen</string>
     <string name="action_open_post">Beitrag öffnen</string>
     <string name="restart_required">App-Neustart erforderlich</string>
     <string name="restart_emoji">Du musst Tusky neustarten um die Änderungen anzuwenden</string>
@@ -319,8 +319,8 @@
         <item quantity="one">Maximum von %1$d Tab erreicht</item>
         <item quantity="other">Maximum von %1$d Tabs erreicht</item>
     </plurals>
-    <string name="description_status_media_no_description_placeholder">        Keine Beschreibung    </string>
-    <string name="description_status_favourited">Favorisiert    </string>
+    <string name="description_post_media_no_description_placeholder">        Keine Beschreibung    </string>
+    <string name="description_post_favourited">Favorisiert    </string>
     <string name="description_visiblity_public">Öffentlich    </string>
     <string name="description_visiblity_private">Folgende</string>
     <string name="description_visiblity_direct">Direkt    </string>
@@ -341,9 +341,9 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriten</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
-    <string name="description_status_media">Medien: %s</string>
-    <string name="description_status_cw">Inhaltswarnung: %s</string>
-    <string name="description_status_reblogged">Geteilt</string>
+    <string name="description_post_media">Medien: %s</string>
+    <string name="description_post_cw">Inhaltswarnung: %s</string>
+    <string name="description_post_reblogged">Geteilt</string>
     <string name="description_visiblity_unlisted">Ungelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
     <string name="dialog_redraft_post_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu erstellen möchtest\?</string>
@@ -416,7 +416,7 @@
     <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>
-    <string name="failed_fetch_statuses">Fehler beim Holen der Beiträge</string>
+    <string name="failed_fetch_posts">Fehler beim Holen der Beiträge</string>
     <string name="title_accounts">Konten</string>
     <string name="failed_search">Fehler beim Suchen</string>
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
@@ -432,12 +432,12 @@
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
     <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
-    <string name="description_status_bookmarked">Als Lesezeichen gespeichert</string>
+    <string name="description_post_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
     <string name="post_lookup_error_format">Fehler beim Nachschlagen von Post %s</string>
     <string name="no_drafts">Du hast keine Entwürfe.</string>
-    <string name="no_scheduled_status">Du hast keine geplanten Beiträge.</string>
+    <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Toots muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
     <string name="pref_title_notification_filter_follow_requests">Neue Folgeanfragen</string>
@@ -489,8 +489,8 @@
     <string name="pref_title_wellbeing_mode">Wohlbefinden</string>
     <string name="label_duration">Dauer</string>
     <string name="duration_indefinite">Für immer</string>
-    <string name="status_media_attachments">Anhänge</string>
-    <string name="status_media_audio">Audio</string>
+    <string name="post_media_attachments">Anhänge</string>
+    <string name="post_media_audio">Audio</string>
     <string name="notification_subscription_description">Benachrichtigungen, wenn jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_name">Neue Beiträge</string>
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>

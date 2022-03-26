@@ -18,7 +18,7 @@
         <item>private</item>
     </string-array>
 
-    <string-array name="status_text_size_values">
+    <string-array name="post_text_size_values">
         <item>smallest</item>
         <item>small</item>
         <item>medium</item>

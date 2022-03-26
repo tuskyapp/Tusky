@@ -35,7 +35,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
 
     public void setupWithAccount(TimelineAccount account, boolean animateAvatar, boolean animateEmojis) {
         accountId = account.getId();
-        String format = username.getContext().getString(R.string.status_username_format);
+        String format = username.getContext().getString(R.string.post_username_format);
         String formattedUsername = String.format(format, account.getUsername());
         username.setText(formattedUsername);
         CharSequence emojifiedName = CustomEmojiHelper.emojify(account.getName(), account.getEmojis(), displayName, animateEmojis);

@@ -152,7 +152,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
 
     private fun showError() {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_statuses, Snackbar.LENGTH_INDEFINITE)
+            snackbarErrorRetry = Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_posts, Snackbar.LENGTH_INDEFINITE)
             snackbarErrorRetry?.setAction(R.string.action_retry) {
                 adapter.retry()
             }

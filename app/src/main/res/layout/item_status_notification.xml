@@ -98,7 +98,7 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        tools:text="@string/status_content_warning_show_more"
+        tools:text="@string/post_content_warning_show_more"
         style="@style/TuskyButton.Outlined"
         android:textSize="?attr/status_text_medium" />
 
@@ -130,7 +130,7 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        tools:text="@string/status_content_show_less"
+        tools:text="@string/post_content_show_less"
         style="@style/TuskyButton.Outlined"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone" />

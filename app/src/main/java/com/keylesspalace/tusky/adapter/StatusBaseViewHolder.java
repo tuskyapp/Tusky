@@ -191,7 +191,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected void setUsername(String name) {
         Context context = username.getContext();
-        String usernameText = context.getString(R.string.status_username_format, name);
+        String usernameText = context.getString(R.string.post_username_format, name);
         username.setText(usernameText);
     }
 
@@ -236,9 +236,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void setContentWarningButtonText(boolean expanded) {
         if (expanded) {
-            contentWarningButton.setText(R.string.status_content_warning_show_less);
+            contentWarningButton.setText(R.string.post_content_warning_show_less);
         } else {
-            contentWarningButton.setText(R.string.status_content_warning_show_more);
+            contentWarningButton.setText(R.string.post_content_warning_show_more);
         }
     }
 
@@ -508,9 +508,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (sensitive) {
-            sensitiveMediaWarning.setText(R.string.status_sensitive_media_title);
+            sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
         } else {
-            sensitiveMediaWarning.setText(R.string.status_media_hidden_title);
+            sensitiveMediaWarning.setText(R.string.post_media_hidden_title);
         }
 
         sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
@@ -555,7 +555,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void updateMediaLabel(int index, boolean sensitive, boolean showingContent) {
         Context context = itemView.getContext();
         CharSequence label = (sensitive && !showingContent) ?
-                context.getString(R.string.status_sensitive_media_title) :
+                context.getString(R.string.post_sensitive_media_title) :
                 mediaDescriptions[index];
         mediaLabels[index].setText(label);
     }
@@ -607,7 +607,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             duration = formatDuration(attachment.getMeta().getDuration()) + " ";
         }
         if (TextUtils.isEmpty(attachment.getDescription())) {
-            return duration + context.getString(R.string.description_status_media_no_description_placeholder);
+            return duration + context.getString(R.string.description_post_media_no_description_placeholder);
         } else {
             return duration + attachment.getDescription();
         }
@@ -826,9 +826,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 getCreatedAtDescription(actionable.getCreatedAt(), statusDisplayOptions),
                 getReblogDescription(context, status),
                 status.getUsername(),
-                actionable.getReblogged() ? context.getString(R.string.description_status_reblogged) : "",
-                actionable.getFavourited() ? context.getString(R.string.description_status_favourited) : "",
-                actionable.getBookmarked() ? context.getString(R.string.description_status_bookmarked) : "",
+                actionable.getReblogged() ? context.getString(R.string.description_post_reblogged) : "",
+                actionable.getFavourited() ? context.getString(R.string.description_post_favourited) : "",
+                actionable.getBookmarked() ? context.getString(R.string.description_post_bookmarked) : "",
                 getMediaDescription(context, status),
                 getVisibilityDescription(context, actionable.getVisibility()),
                 getFavsText(context, actionable.getFavouritesCount()),
@@ -843,7 +843,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Status reblog = status.getRebloggingStatus();
         if (reblog != null) {
             return context
-                    .getString(R.string.status_boosted_format, reblog.getAccount().getUsername());
+                    .getString(R.string.post_boosted_format, reblog.getAccount().getUsername());
         } else {
             return "";
         }
@@ -860,20 +860,20 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 (builder, a) -> {
                     if (a.getDescription() == null) {
                         String placeholder =
-                                context.getString(R.string.description_status_media_no_description_placeholder);
+                                context.getString(R.string.description_post_media_no_description_placeholder);
                         return builder.append(placeholder);
                     } else {
                         builder.append("; ");
                         return builder.append(a.getDescription());
                     }
                 });
-        return context.getString(R.string.description_status_media, mediaDescriptions);
+        return context.getString(R.string.description_post_media, mediaDescriptions);
     }
 
     private static CharSequence getContentWarningDescription(Context context,
                                                              @NonNull StatusViewData.Concrete status) {
         if (!TextUtils.isEmpty(status.getSpoilerText())) {
-            return context.getString(R.string.description_status_cw, status.getSpoilerText());
+            return context.getString(R.string.description_post_cw, status.getSpoilerText());
         } else {
             return "";
         }

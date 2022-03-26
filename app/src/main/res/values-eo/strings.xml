@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Rektaj mesaĝoj</string>
     <string name="title_tab_preferences">Langetoj</string>
     <string name="title_view_thread">Mesaĝo</string>
-    <string name="title_statuses">Mesaĝoj</string>
-    <string name="title_statuses_with_replies">Kun respondoj</string>
-    <string name="title_statuses_pinned">Alpinglitaj</string>
+    <string name="title_posts">Mesaĝoj</string>
+    <string name="title_posts_with_replies">Kun respondoj</string>
+    <string name="title_posts_pinned">Alpinglitaj</string>
     <string name="title_follows">Sekvatoj</string>
     <string name="title_followers">Sekvantoj</string>
     <string name="title_favourites">Stelumoj</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Redakti vian profilon</string>
     <string name="title_drafts">Malnetoj</string>
     <string name="title_licenses">Permesiloj</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s diskonigis</string>
-    <string name="status_sensitive_media_title">Tikla enhavo</string>
-    <string name="status_media_hidden_title">Kaŝitaj aŭdovidaĵoj</string>
-    <string name="status_sensitive_media_directions">Alklaki por vidi</string>
-    <string name="status_content_warning_show_more">Montri pli</string>
-    <string name="status_content_warning_show_less">Montri malpli</string>
-    <string name="status_content_show_more">Pligrandigi</string>
-    <string name="status_content_show_less">Malgrandigi</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s diskonigis</string>
+    <string name="post_sensitive_media_title">Tikla enhavo</string>
+    <string name="post_media_hidden_title">Kaŝitaj aŭdovidaĵoj</string>
+    <string name="post_sensitive_media_directions">Alklaki por vidi</string>
+    <string name="post_content_warning_show_more">Montri pli</string>
+    <string name="post_content_warning_show_less">Montri malpli</string>
+    <string name="post_content_show_more">Pligrandigi</string>
+    <string name="post_content_show_less">Malgrandigi</string>
     <string name="message_empty">Nenio ĉi tie.</string>
     <string name="footer_empty">Nenio ĉi tie. Tiru malsupren por aktualigi!</string>
     <string name="notification_reblog_format">%s diskonigis vian mesaĝon</string>
@@ -122,14 +122,14 @@
     <string name="action_share_as">Konigi kiel …</string>
     <string name="download_media">Elŝuti aŭdovidaĵon</string>
     <string name="downloading_media">Elŝutante aŭdovidaĵo</string>
-    <string name="send_status_link_to">Konigi URL de mesaĝo al…</string>
-    <string name="send_status_content_to">Konigi mesaĝon al…</string>
+    <string name="send_post_link_to">Konigi URL de mesaĝo al…</string>
+    <string name="send_post_content_to">Konigi mesaĝon al…</string>
     <string name="send_media_to">Konigi aŭdovidaĵon al…</string>
     <string name="confirmation_reported">Sendita!</string>
     <string name="confirmation_unblocked">Malblokita uzanto</string>
     <string name="confirmation_unmuted">Malsilentigita uzanto</string>
-    <string name="status_sent">Sendita!</string>
-    <string name="status_sent_long">Respondi sukcese sendita.</string>
+    <string name="post_sent">Sendita!</string>
+    <string name="post_sent_long">Respondi sukcese sendita.</string>
     <string name="hint_domain">Kiu nodo?</string>
     <string name="hint_compose">Kio okazas?</string>
     <string name="hint_content_warning">Enhava averto</string>
@@ -181,8 +181,8 @@
     <string name="pref_title_custom_tabs">Uzi la integritan retumilon</string>
     <string name="pref_title_hide_follow_button">Kâsi butonon de verko dum rulumado</string>
     <string name="pref_title_language">Lingvo</string>
-    <string name="pref_title_status_filter">Filtrado de tempolinioj</string>
-    <string name="pref_title_status_tabs">Langetoj</string>
+    <string name="pref_title_post_filter">Filtrado de tempolinioj</string>
+    <string name="pref_title_post_tabs">Langetoj</string>
     <string name="pref_title_show_boosts">Montri diskonigojn</string>
     <string name="pref_title_show_replies">Montri la respondojn</string>
     <string name="pref_title_show_media_preview">Elŝuti antaŭvidojn de aŭdovidaĵoj</string>
@@ -198,12 +198,12 @@
     <string name="post_privacy_public">Publika</string>
     <string name="post_privacy_unlisted">Nelistigita</string>
     <string name="post_privacy_followers_only">Nur por sekvantoj</string>
-    <string name="pref_status_text_size">Grando de teksto de mesaĝoj</string>
-    <string name="status_text_size_smallest">La plej malgranda</string>
-    <string name="status_text_size_small">Malgranda</string>
-    <string name="status_text_size_medium">Meza</string>
-    <string name="status_text_size_large">Granda</string>
-    <string name="status_text_size_largest">La plej granda</string>
+    <string name="pref_post_text_size">Grando de teksto de mesaĝoj</string>
+    <string name="post_text_size_smallest">La plej malgranda</string>
+    <string name="post_text_size_small">Malgranda</string>
+    <string name="post_text_size_medium">Meza</string>
+    <string name="post_text_size_large">Granda</string>
+    <string name="post_text_size_largest">La plej granda</string>
     <string name="notification_mention_name">Novaj mencioj</string>
     <string name="notification_mention_descriptions">Sciigoj pri novajn menciojn</string>
     <string name="notification_follow_name">Novaj sekvantoj</string>
@@ -239,10 +239,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profilo de Tusky</string>
-    <string name="status_share_content">Konigi enhavon de la mesaĝo</string>
-    <string name="status_share_link">Konigi ligilon al mesaĝo</string>
-    <string name="status_media_images">Bildoj</string>
-    <string name="status_media_video">Video</string>
+    <string name="post_share_content">Konigi enhavon de la mesaĝo</string>
+    <string name="post_share_link">Konigi ligilon al mesaĝo</string>
+    <string name="post_media_images">Bildoj</string>
+    <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Sekvado petita</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %dj</string>
@@ -304,7 +304,7 @@
     <string name="system_default">Sistema valoro</string>
     <string name="download_fonts">Vi unue devos elŝuti ĉi tiujn emoĝiarojn</string>
     <string name="performing_lookup_title">Serĉante…</string>
-    <string name="expand_collapse_all_statuses">Pligrandigi/malgrandigi ĉiujn mesaĝojn</string>
+    <string name="expand_collapse_all_posts">Pligrandigi/malgrandigi ĉiujn mesaĝojn</string>
     <string name="action_open_post">Malfermi mesaĝon</string>
     <string name="restart_required">Restartigo necesas</string>
     <string name="restart_emoji">Vi devos restartigi Tusky por apliki ĉi tiujn ŝanĝojn</string>
@@ -347,15 +347,15 @@
         <item quantity="one">maksimumo da %1$d langeto atingita</item>
         <item quantity="other">maksimumo da %1$d langetoj atingita</item>
     </plurals>
-    <string name="description_status_media">        Aŭdovidaĵo: %s
+    <string name="description_post_media">        Aŭdovidaĵo: %s
     </string>
-    <string name="description_status_cw">        Enhava averto: %s
+    <string name="description_post_cw">        Enhava averto: %s
     </string>
-    <string name="description_status_media_no_description_placeholder">        Neniu priskribo
+    <string name="description_post_media_no_description_placeholder">        Neniu priskribo
     </string>
-    <string name="description_status_reblogged">        Diskonigita
+    <string name="description_post_reblogged">        Diskonigita
     </string>
-    <string name="description_status_favourited">        Stelumita
+    <string name="description_post_favourited">        Stelumita
     </string>
     <string name="description_visiblity_public">        Publika
     </string>
@@ -404,7 +404,7 @@
     <string name="hint_additional_info">Pliaj komentoj</string>
     <string name="report_remote_instance">Plusendi al %s</string>
     <string name="failed_report">Signalo malsukcesis</string>
-    <string name="failed_fetch_statuses">Venigo de statusoj malsukcesis</string>
+    <string name="failed_fetch_posts">Venigo de statusoj malsukcesis</string>
     <string name="report_description_1">La signalo estos sendita al la kontrolantoj de via servilo. Vi povas doni klarigon pri kial vi signalas ĉi tiun konton sube:</string>
     <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien\?</string>
     <string name="pref_title_show_notifications_filter">Montri filtrilon de Sciigoj</string>
@@ -435,13 +435,13 @@
     <string name="action_schedule_post">Plani mesaĝon</string>
     <string name="action_reset_schedule">Restarigi</string>
     <string name="about_powered_by_tusky">Funkciigita de Tusky</string>
-    <string name="description_status_bookmarked">Aldonita al la legosignoj</string>
+    <string name="description_post_bookmarked">Aldonita al la legosignoj</string>
     <string name="select_list_title">Elekti la liston</string>
     <string name="list">Listo</string>
     <string name="post_lookup_error_format">Eraro dum elserĉo de la mesaĝo %s</string>
     <string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
     <string name="no_drafts">Vi ne havas iun ajn malneton.</string>
-    <string name="no_scheduled_status">Vi ne havas iun ajn planitan mesaĝon.</string>
+    <string name="no_scheduled_posts">Vi ne havas iun ajn planitan mesaĝon.</string>
     <string name="notification_follow_request_name">Petoj de sekvado</string>
     <string name="hashtags">Kradvortoj</string>
     <plurals name="poll_info_people">
@@ -490,10 +490,10 @@
     <string name="no_announcements">Estas neniu anonco.</string>
     <string name="pref_title_enable_swipe_for_tabs">Ebligi ŝovumadon por ŝanĝi inter la langetoj</string>
     <string name="warning_scheduling_interval">Mastodon havas minimuman intervalon de planado de 5 minutoj.</string>
-    <string name="status_media_attachments">Kunsendaĵoj</string>
+    <string name="post_media_attachments">Kunsendaĵoj</string>
     <string name="pref_title_notification_filter_subscriptions">iu kiun mi sekvas afiŝis novan mesaĝon</string>
     <string name="dialog_delete_list_warning">Ĉu vi vere volas forigi la liston %s\?</string>
-    <string name="status_media_audio">Aŭdio</string>
+    <string name="post_media_audio">Aŭdio</string>
     <string name="action_subscribe_account">Aboni</string>
     <string name="draft_deleted">Malneto forigita</string>
     <plurals name="error_upload_max_media_reached">

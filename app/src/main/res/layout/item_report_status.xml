@@ -46,7 +46,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/guideBegin"
         app:layout_constraintTop_toBottomOf="@id/statusContentWarningDescription"
-        tools:text="@string/status_content_warning_show_more"
+        tools:text="@string/post_content_warning_show_more"
         tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView
@@ -79,7 +79,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/guideBegin"
         app:layout_constraintTop_toBottomOf="@id/statusContent"
-        tools:text="@string/status_content_show_less"
+        tools:text="@string/post_content_show_less"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -270,12 +270,12 @@ class ListStatusAccessibilityDelegate(
 
     private val collapseCwAction = AccessibilityActionCompat(
         R.id.action_collapse_cw,
-        context.getString(R.string.status_content_warning_show_less)
+        context.getString(R.string.post_content_warning_show_less)
     )
 
     private val expandCwAction = AccessibilityActionCompat(
         R.id.action_expand_cw,
-        context.getString(R.string.status_content_warning_show_more)
+        context.getString(R.string.post_content_warning_show_more)
     )
 
     private val replyAction = AccessibilityActionCompat(

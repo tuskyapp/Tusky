@@ -9,7 +9,7 @@
     <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
     <string name="error_authorization_denied">Authorization was denied.</string>
     <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
-    <string name="error_compose_character_limit">The status is too long!</string>
+    <string name="error_compose_character_limit">The post is too long!</string>
     <string name="error_image_upload_size">The file must be less than 8MB.</string>
     <string name="error_video_upload_size">Video files must be less than 40MB.</string>
     <string name="error_audio_upload_size">Audio files must be less than 40MB.</string>
@@ -17,7 +17,7 @@
     <string name="error_media_upload_opening">That file could not be opened.</string>
     <string name="error_media_upload_permission">Permission to read media is required.</string>
     <string name="error_media_download_permission">Permission to store media is required.</string>
-    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same status.</string>
+    <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same post.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_sender_account_gone">Error sending post.</string>
 
@@ -28,9 +28,9 @@
     <string name="title_direct_messages">Direct Messages</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Thread</string>
-    <string name="title_statuses">Posts</string>
-    <string name="title_statuses_with_replies">With replies</string>
-    <string name="title_statuses_pinned">Pinned</string>
+    <string name="title_posts">Posts</string>
+    <string name="title_posts_with_replies">With replies</string>
+    <string name="title_posts_pinned">Pinned</string>
     <string name="title_follows">Follows</string>
     <string name="title_followers">Followers</string>
     <string name="title_favourites">Favorites</string>
@@ -45,15 +45,15 @@
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
 
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boosted</string>
-    <string name="status_sensitive_media_title">Sensitive content</string>
-    <string name="status_media_hidden_title">Media hidden</string>
-    <string name="status_sensitive_media_directions">Click to view</string>
-    <string name="status_content_warning_show_more">Show More</string>
-    <string name="status_content_warning_show_less">Show Less</string>
-    <string name="status_content_show_more">Expand</string>
-    <string name="status_content_show_less">Collapse</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s boosted</string>
+    <string name="post_sensitive_media_title">Sensitive content</string>
+    <string name="post_media_hidden_title">Media hidden</string>
+    <string name="post_sensitive_media_directions">Click to view</string>
+    <string name="post_content_warning_show_more">Show More</string>
+    <string name="post_content_warning_show_less">Show Less</string>
+    <string name="post_content_show_more">Expand</string>
+    <string name="post_content_show_less">Collapse</string>
 
     <string name="message_empty">Nothing here.</string>
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>
@@ -157,8 +157,8 @@
     <string name="download_media">Download media</string>
     <string name="downloading_media">Downloading media</string>
 
-    <string name="send_status_link_to">Share post URL to…</string>
-    <string name="send_status_content_to">Share post to…</string>
+    <string name="send_post_link_to">Share post URL to…</string>
+    <string name="send_post_content_to">Share post to…</string>
     <string name="send_media_to">Share media to…</string>
 
     <string name="confirmation_reported">Sent!</string>
@@ -166,8 +166,8 @@
     <string name="confirmation_unmuted">User unmuted</string>
     <string name="confirmation_domain_unmuted">%s unhidden</string>
 
-    <string name="status_sent">Sent!</string>
-    <string name="status_sent_long">Reply sent successfully.</string>
+    <string name="post_sent">Sent!</string>
+    <string name="post_sent_long">Reply sent successfully.</string>
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
@@ -248,8 +248,8 @@
     <string name="pref_title_gradient_for_media">Show colorful gradients for hidden media</string>
     <string name="pref_title_animate_custom_emojis">Animate custom emojis</string>
 
-    <string name="pref_title_status_filter">Timeline filtering</string>
-    <string name="pref_title_status_tabs">Tabs</string>
+    <string name="pref_title_post_filter">Timeline filtering</string>
+    <string name="pref_title_post_tabs">Tabs</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
@@ -273,13 +273,13 @@
     <string name="post_privacy_unlisted">Unlisted</string>
     <string name="post_privacy_followers_only">Followers-only</string>
 
-    <string name="pref_status_text_size">Status text size</string>
+    <string name="pref_post_text_size">Post text size</string>
 
-    <string name="status_text_size_smallest">Smallest</string>
-    <string name="status_text_size_small">Small</string>
-    <string name="status_text_size_medium">Medium</string>
-    <string name="status_text_size_large">Large</string>
-    <string name="status_text_size_largest">Largest</string>
+    <string name="post_text_size_smallest">Smallest</string>
+    <string name="post_text_size_small">Small</string>
+    <string name="post_text_size_medium">Medium</string>
+    <string name="post_text_size_large">Large</string>
+    <string name="post_text_size_largest">Largest</string>
 
     <string name="notification_mention_name">New Mentions</string>
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
@@ -290,7 +290,7 @@
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notifications when your posts get boosted</string>
     <string name="notification_favourite_name">Favorites</string>
-    <string name="notification_favourite_description">Notifications when your postss get marked as favorite</string>
+    <string name="notification_favourite_description">Notifications when your posts get marked as favorite</string>
     <string name="notification_poll_name">Polls</string>
     <string name="notification_poll_description">Notifications about polls that have ended</string>
     <string name="notification_subscription_name">New posts</string>
@@ -329,16 +329,16 @@
     </string>
     <string name="about_tusky_account">Tusky\'s Profile</string>
 
-    <string name="status_share_content">Share content of post</string>
-    <string name="status_share_link">Share link to post</string>
-    <string name="status_media_images">Images</string>
-    <string name="status_media_video">Video</string>
-    <string name="status_media_audio">Audio</string>
-    <string name="status_media_attachments">Attachments</string>
+    <string name="post_share_content">Share content of post</string>
+    <string name="post_share_link">Share link to post</string>
+    <string name="post_media_images">Images</string>
+    <string name="post_media_video">Video</string>
+    <string name="post_media_audio">Audio</string>
+    <string name="post_media_attachments">Attachments</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
-    <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <!--These are for timestamps on posts. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %dy</string>
     <string name="abbreviated_in_days">in %dd</string>
     <string name="abbreviated_in_hours">in %dh</string>
@@ -408,7 +408,7 @@
     <string name="system_default">System default</string>
     <string name="download_fonts">You\'ll need to download these emoji sets first</string>
     <string name="performing_lookup_title">Performing lookup…</string>
-    <string name="expand_collapse_all_statuses">Expand/Collapse all statuses</string>
+    <string name="expand_collapse_all_posts">Expand/Collapse all posts</string>
     <string name="action_open_post">Open post</string>
     <string name="restart_required">App restart required</string>
     <string name="restart_emoji">You\'ll need to restart Tusky in order to apply these changes</string>
@@ -465,22 +465,22 @@
         <item quantity="other">maximum of %1$d tabs reached</item>
     </plurals>
 
-    <string name="description_status_media">
+    <string name="description_post_media">
         Media: %s
     </string>
-    <string name="description_status_cw">
+    <string name="description_post_cw">
         Content warning: %s
     </string>
-    <string name="description_status_media_no_description_placeholder">
+    <string name="description_post_media_no_description_placeholder">
         No description
     </string>
-    <string name="description_status_reblogged">
+    <string name="description_post_reblogged">
         Reblogged
     </string>
-    <string name="description_status_favourited">
+    <string name="description_post_favourited">
         Favorited
     </string>
-    <string name="description_status_bookmarked">
+    <string name="description_post_bookmarked">
         Bookmarked
     </string>
     <string name="description_visiblity_public">
@@ -560,7 +560,7 @@
     <string name="hint_additional_info">Additional comments</string>
     <string name="report_remote_instance">Forward to %s</string>
     <string name="failed_report">Failed to report</string>
-    <string name="failed_fetch_statuses">Failed to fetch statuses</string>
+    <string name="failed_fetch_posts">Failed to fetch posts</string>
     <string name="report_description_1">The report will be sent to your server moderator. You can provide an explanation of why you are reporting this account below:</string>
     <string name="report_description_remote_instance">The account is from another server. Send an anonymized copy of the report there as well?</string>
     <string name="title_accounts">Accounts</string>
@@ -593,7 +593,7 @@
     <string name="post_lookup_error_format">Error looking up post %s</string>
 
     <string name="no_drafts">You don\'t have any drafts.</string>
-    <string name="no_scheduled_status">You don\'t have any scheduled statuses.</string>
+    <string name="no_scheduled_posts">You don\'t have any scheduled posts.</string>
     <string name="no_announcements">There are no announcements.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>

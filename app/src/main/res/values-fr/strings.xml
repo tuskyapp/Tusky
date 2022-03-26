@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Messages directs</string>
     <string name="title_tab_preferences">Onglets</string>
     <string name="title_view_thread">Pouet</string>
-    <string name="title_statuses">Messages</string>
-    <string name="title_statuses_with_replies">Pouets &amp; réponses</string>
-    <string name="title_statuses_pinned">Épinglés</string>
+    <string name="title_posts">Messages</string>
+    <string name="title_posts_with_replies">Pouets &amp; réponses</string>
+    <string name="title_posts_pinned">Épinglés</string>
     <string name="title_follows">Abonnements</string>
     <string name="title_followers">Abonné·e·s</string>
     <string name="title_favourites">Favoris</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Modifier votre profil</string>
     <string name="title_drafts">Brouillons</string>
     <string name="title_licenses">Licences</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s a partagé</string>
-    <string name="status_sensitive_media_title">Contenu sensible</string>
-    <string name="status_media_hidden_title">Média caché</string>
-    <string name="status_sensitive_media_directions">Cliquer pour voir</string>
-    <string name="status_content_warning_show_more">Voir plus</string>
-    <string name="status_content_warning_show_less">Voir moins</string>
-    <string name="status_content_show_more">Déplier</string>
-    <string name="status_content_show_less">Replier</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s a partagé</string>
+    <string name="post_sensitive_media_title">Contenu sensible</string>
+    <string name="post_media_hidden_title">Média caché</string>
+    <string name="post_sensitive_media_directions">Cliquer pour voir</string>
+    <string name="post_content_warning_show_more">Voir plus</string>
+    <string name="post_content_warning_show_less">Voir moins</string>
+    <string name="post_content_show_more">Déplier</string>
+    <string name="post_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
     <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
     <string name="notification_reblog_format">%s a partagé votre pouet</string>
@@ -122,14 +122,14 @@
     <string name="action_share_as">Partager comme …</string>
     <string name="download_media">Télécharger le média</string>
     <string name="downloading_media">Téléchargement du média</string>
-    <string name="send_status_link_to">Partager le lien de votre pouet avec…</string>
-    <string name="send_status_content_to">Partager le pouet avec…</string>
+    <string name="send_post_link_to">Partager le lien de votre pouet avec…</string>
+    <string name="send_post_content_to">Partager le pouet avec…</string>
     <string name="send_media_to">Partager l’image avec …</string>
     <string name="confirmation_reported">Envoyé !</string>
     <string name="confirmation_unblocked">Le compte est débloqué</string>
     <string name="confirmation_unmuted">Le compte n’est plus masqué</string>
-    <string name="status_sent">Envoyé !</string>
-    <string name="status_sent_long">Réponse envoyée avec succès.</string>
+    <string name="post_sent">Envoyé !</string>
+    <string name="post_sent_long">Réponse envoyée avec succès.</string>
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
     <string name="hint_content_warning">Contenu sensible</string>
@@ -185,8 +185,8 @@
     <string name="pref_title_custom_tabs">Utiliser le navigateur intégré</string>
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
     <string name="pref_title_language">Langue</string>
-    <string name="pref_title_status_filter">Filtrage des fils</string>
-    <string name="pref_title_status_tabs">Onglets</string>
+    <string name="pref_title_post_filter">Filtrage des fils</string>
+    <string name="pref_title_post_tabs">Onglets</string>
     <string name="pref_title_show_boosts">Afficher les partages</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
@@ -202,12 +202,12 @@
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Non listé</string>
     <string name="post_privacy_followers_only">Abonné·e·s uniquement</string>
-    <string name="pref_status_text_size">Taille du texte pour les statuts</string>
-    <string name="status_text_size_smallest">Plus petit</string>
-    <string name="status_text_size_small">Petit</string>
-    <string name="status_text_size_medium">Moyen</string>
-    <string name="status_text_size_large">Grand</string>
-    <string name="status_text_size_largest">Plus grand</string>
+    <string name="pref_post_text_size">Taille du texte pour les statuts</string>
+    <string name="post_text_size_smallest">Plus petit</string>
+    <string name="post_text_size_small">Petit</string>
+    <string name="post_text_size_medium">Moyen</string>
+    <string name="post_text_size_large">Grand</string>
+    <string name="post_text_size_largest">Plus grand</string>
     <string name="notification_mention_name">Nouvelles mentions</string>
     <string name="notification_mention_descriptions">Notifications pour les nouvelles mentions</string>
     <string name="notification_follow_name">Nouveaux abonnés</string>
@@ -243,10 +243,10 @@
       https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil de Tusky</string>
-    <string name="status_share_content">Partager le contenu du pouet</string>
-    <string name="status_share_link">Partager le lien du pouet</string>
-    <string name="status_media_images">Images</string>
-    <string name="status_media_video">Vidéo</string>
+    <string name="post_share_content">Partager le contenu du pouet</string>
+    <string name="post_share_link">Partager le lien du pouet</string>
+    <string name="post_media_images">Images</string>
+    <string name="post_media_video">Vidéo</string>
     <string name="state_follow_requested">Demande d’abonnement effectuée</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %da</string>
@@ -309,7 +309,7 @@
     <string name="system_default">Par défaut du système</string>
     <string name="download_fonts">Vous devez commencer par télécharger ces jeux d’émojis</string>
     <string name="performing_lookup_title">Recherche en cours…</string>
-    <string name="expand_collapse_all_statuses">Déplier/replier tout les statuts</string>
+    <string name="expand_collapse_all_posts">Déplier/replier tout les statuts</string>
     <string name="action_open_post">Ouvrir le pouet</string>
     <string name="restart_required">Un redémarrage de l’application est nécessaire</string>
     <string name="restart_emoji">Vous devrez redémarrer Tusky pour appliquer ces modifications</string>
@@ -352,15 +352,15 @@
         <item quantity="one">maximum de %1$d onglet atteint</item>
         <item quantity="other">maximum de %1$d onglets atteint</item>
     </plurals>
-    <string name="description_status_media">        Média : %s
+    <string name="description_post_media">        Média : %s
     </string>
-    <string name="description_status_cw">        Avertissement : %s
+    <string name="description_post_cw">        Avertissement : %s
     </string>
-    <string name="description_status_media_no_description_placeholder">        Pas de description
+    <string name="description_post_media_no_description_placeholder">        Pas de description
     </string>
-    <string name="description_status_reblogged">        Reblogué
+    <string name="description_post_reblogged">        Reblogué
     </string>
-    <string name="description_status_favourited">        Mis en favoris
+    <string name="description_post_favourited">        Mis en favoris
     </string>
     <string name="description_visiblity_public">        Public
     </string>
@@ -420,7 +420,7 @@
     <string name="hint_additional_info">Commentaires additionnels</string>
     <string name="report_remote_instance">Transférer à %s</string>
     <string name="failed_report">Échec du signalement</string>
-    <string name="failed_fetch_statuses">Échec de récupération des statuts</string>
+    <string name="failed_fetch_posts">Échec de récupération des statuts</string>
     <string name="report_description_1">Le rapport sera envoyé aux modérateur·rice·s de votre instance. Vous pouvez expliquer pourquoi vous signalez le compte ci-dessous :</string>
     <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
     <string name="button_done">Terminé</string>
@@ -454,12 +454,12 @@
     <string name="title_bookmarks">Signets</string>
     <string name="action_bookmark">Marquer comme signet</string>
     <string name="action_view_bookmarks">Signets</string>
-    <string name="description_status_bookmarked">Ajouté aux signets</string>
+    <string name="description_post_bookmarked">Ajouté aux signets</string>
     <string name="select_list_title">Sélectionner la liste</string>
     <string name="list">Liste</string>
     <string name="error_audio_upload_size">Les fichiers audio doivent avoir moins de 40 Mo.</string>
     <string name="no_drafts">Vous n’avez aucun brouillon.</string>
-    <string name="no_scheduled_status">Vous n’avez aucun pouet planifié.</string>
+    <string name="no_scheduled_posts">Vous n’avez aucun pouet planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
     <string name="notification_follow_request_name">Demandes d\'abonnement</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
@@ -517,7 +517,7 @@
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
     <string name="action_unbookmark">Supprimer le marque-page</string>
-    <string name="status_media_attachments">Pièces jointes</string>
+    <string name="post_media_attachments">Pièces jointes</string>
     <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %s \?</string>
     <string name="action_subscribe_account">S’abonner</string>
     <string name="dialog_delete_conversation_warning">Supprimer cette conversation \?</string>
@@ -527,7 +527,7 @@
     <string name="duration_indefinite">Indéfinie</string>
     <string name="action_unsubscribe_account">Se désabonner</string>
     <string name="action_delete_conversation">Supprimer la conversation</string>
-    <string name="status_media_audio">Audio</string>
+    <string name="post_media_audio">Audio</string>
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
     <string name="drafts_post_reply_removed">Le message auquel répondait ce brouillon a été supprimé</string>
     <string name="drafts_post_failed_to_send">Échec d’envoi du pouet !</string>
