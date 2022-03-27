@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/action_reveal"
-        android:title="@string/expand_collapse_all_statuses"
+        android:title="@string/expand_collapse_all_posts"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_eye_24dp" />
 

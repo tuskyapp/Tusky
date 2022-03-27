@@ -145,7 +145,7 @@ public class ComposeAutoCompleteAdapter extends BaseAdapter
                 if (accountResult != null) {
                     TimelineAccount account = accountResult.account;
                     String formattedUsername = context.getString(
-                            R.string.status_username_format,
+                            R.string.post_username_format,
                             account.getUsername()
                     );
                     accountViewHolder.username.setText(formattedUsername);

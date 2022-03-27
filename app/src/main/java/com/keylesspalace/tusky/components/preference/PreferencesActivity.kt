@@ -78,7 +78,7 @@ class PreferencesActivity :
                     NotificationPreferencesFragment.newInstance()
                 }
                 TAB_FILTER_PREFERENCES -> {
-                    setTitle(R.string.pref_title_status_tabs)
+                    setTitle(R.string.pref_title_post_tabs)
                     TabFilterPreferencesFragment.newInstance()
                 }
                 PROXY_PREFERENCES -> {

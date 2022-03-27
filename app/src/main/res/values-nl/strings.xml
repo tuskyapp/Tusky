@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Directe berichten</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_statuses">Toots</string>
-    <string name="title_statuses_with_replies">Met reacties</string>
-    <string name="title_statuses_pinned">Vastgezet</string>
+    <string name="title_posts">Toots</string>
+    <string name="title_posts_with_replies">Met reacties</string>
+    <string name="title_posts_pinned">Vastgezet</string>
     <string name="title_follows">Volgend</string>
     <string name="title_followers">Volgers</string>
     <string name="title_favourites">Favorieten</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Profiel bewerken</string>
     <string name="title_drafts">Concepten</string>
     <string name="title_licenses">Licenties</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostte</string>
-    <string name="status_sensitive_media_title">Gevoelige inhoud</string>
-    <string name="status_media_hidden_title">Verborgen media</string>
-    <string name="status_sensitive_media_directions">Klik om te bekijken</string>
-    <string name="status_content_warning_show_more">Meer tonen</string>
-    <string name="status_content_warning_show_less">Minder tonen</string>
-    <string name="status_content_show_more">Uitklappen</string>
-    <string name="status_content_show_less">Inklappen</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s boostte</string>
+    <string name="post_sensitive_media_title">Gevoelige inhoud</string>
+    <string name="post_media_hidden_title">Verborgen media</string>
+    <string name="post_sensitive_media_directions">Klik om te bekijken</string>
+    <string name="post_content_warning_show_more">Meer tonen</string>
+    <string name="post_content_warning_show_less">Minder tonen</string>
+    <string name="post_content_show_more">Uitklappen</string>
+    <string name="post_content_show_less">Inklappen</string>
     <string name="message_empty">Hier is niets.</string>
     <string name="footer_empty">Niets te zien. Swipe naar beneden om te verversen!</string>
     <string name="notification_reblog_format">%s boostte jouw toot</string>
@@ -120,14 +120,14 @@
     <string name="action_copy_link">Link kopiëren</string>
     <string name="action_open_as">Als %s openen</string>
     <string name="action_share_as">Delen als …</string>
-    <string name="send_status_link_to">Link van de toot delen</string>
-    <string name="send_status_content_to">Inhoud van de toot delen met…</string>
+    <string name="send_post_link_to">Link van de toot delen</string>
+    <string name="send_post_content_to">Inhoud van de toot delen met…</string>
     <string name="send_media_to">Media delen met …</string>
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
     <string name="confirmation_unmuted">Gebruiker wordt niet langer genegeerd</string>
-    <string name="status_sent">Verzonden!</string>
-    <string name="status_sent_long">Reactie succesvol verzonden.</string>
+    <string name="post_sent">Verzonden!</string>
+    <string name="post_sent_long">Reactie succesvol verzonden.</string>
     <string name="hint_domain">Welke Mastodonserver?</string>
     <string name="hint_compose">Wat wil je kwijt?</string>
     <string name="hint_content_warning">Tekstwaarschuwing</string>
@@ -180,8 +180,8 @@
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
     <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
     <string name="pref_title_language">Taal</string>
-    <string name="pref_title_status_filter">Filteren</string>
-    <string name="pref_title_status_tabs">Tijdlijnen</string>
+    <string name="pref_title_post_filter">Filteren</string>
+    <string name="pref_title_post_tabs">Tijdlijnen</string>
     <string name="pref_title_show_boosts">Boosts tonen</string>
     <string name="pref_title_show_replies">Reacties tonen</string>
     <string name="pref_title_show_media_preview">Voorbeelden van media tonen</string>
@@ -197,12 +197,12 @@
     <string name="post_privacy_public">Openbaar</string>
     <string name="post_privacy_unlisted">Minder openbaar</string>
     <string name="post_privacy_followers_only">Alleen volgers</string>
-    <string name="pref_status_text_size">Tekstgrootte van toots</string>
-    <string name="status_text_size_smallest">Kleinst</string>
-    <string name="status_text_size_small">Klein</string>
-    <string name="status_text_size_medium">Standaard</string>
-    <string name="status_text_size_large">Groot</string>
-    <string name="status_text_size_largest">Grootst</string>
+    <string name="pref_post_text_size">Tekstgrootte van toots</string>
+    <string name="post_text_size_smallest">Kleinst</string>
+    <string name="post_text_size_small">Klein</string>
+    <string name="post_text_size_medium">Standaard</string>
+    <string name="post_text_size_large">Groot</string>
+    <string name="post_text_size_largest">Grootst</string>
     <string name="notification_mention_name">Nieuwe vermeldingen</string>
     <string name="notification_mention_descriptions">Meldingen over nieuwe vermeldingen</string>
     <string name="notification_follow_name">Nieuwe volgers</string>
@@ -234,10 +234,10 @@
     <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:\n
                     https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s profiel</string>
-    <string name="status_share_content">Deel de inhoud van de toot</string>
-    <string name="status_share_link">Deel de link van de toot</string>
-    <string name="status_media_images">Afbeeldingen</string>
-    <string name="status_media_video">Video</string>
+    <string name="post_share_content">Deel de inhoud van de toot</string>
+    <string name="post_share_link">Deel de link van de toot</string>
+    <string name="post_media_images">Afbeeldingen</string>
+    <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Volgverzoek verzonden</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">over %dj</string>
@@ -282,7 +282,7 @@
     <string name="system_default">Systeemstandaard</string>
     <string name="download_fonts">Je moet eerst deze emoji-sets downloaden</string>
     <string name="performing_lookup_title">Aan het zoeken…</string>
-    <string name="expand_collapse_all_statuses">Alle toots in- of uitklappen</string>
+    <string name="expand_collapse_all_posts">Alle toots in- of uitklappen</string>
     <string name="action_open_post">Toot openen</string>
     <string name="restart_required">Herstarten app vereist</string>
     <string name="restart_emoji">Je moet Tusky herstarten om deze veranderingen te kunnen doorvoeren</string>
@@ -325,15 +325,15 @@
         <item quantity="one">maximum van %1$d tab bereikt</item>
         <item quantity="other">maximum van %1$d tabs bereikt</item>
     </plurals>
-    <string name="description_status_media">        Media: %s
+    <string name="description_post_media">        Media: %s
     </string>
-    <string name="description_status_cw">        Inhoudswaarschuwing: %s
+    <string name="description_post_cw">        Inhoudswaarschuwing: %s
     </string>
-    <string name="description_status_media_no_description_placeholder">        Geen omschrijving
+    <string name="description_post_media_no_description_placeholder">        Geen omschrijving
     </string>
-    <string name="description_status_reblogged">        Geboost
+    <string name="description_post_reblogged">        Geboost
     </string>
-    <string name="description_status_favourited">        Aan favorieten toegevoegd
+    <string name="description_post_favourited">        Aan favorieten toegevoegd
     </string>
     <string name="description_visiblity_public">        Openbaar
     </string>
@@ -420,7 +420,7 @@
     <string name="hint_additional_info">Extra opmerkingen</string>
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
-    <string name="failed_fetch_statuses">Het ophalen van toots is mislukt</string>
+    <string name="failed_fetch_posts">Het ophalen van toots is mislukt</string>
     <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt hieronder een uitleg geven over waarom je het account wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
@@ -449,7 +449,7 @@
     <string name="action_reset_schedule">Herstellen</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="pref_title_alway_open_spoiler">Altijd toots met tekstwaarschuwingen uitklappen</string>
-    <string name="description_status_bookmarked">Als bladwijzer toegevoegd</string>
+    <string name="description_post_bookmarked">Als bladwijzer toegevoegd</string>
     <string name="select_list_title">Kies een lijst</string>
     <string name="list">Lijst</string>
     <string name="title_accounts">Accounts</string>
@@ -457,11 +457,11 @@
     <string name="create_poll_title">Poll</string>
     <string name="post_lookup_error_format">Fout tijdens opzoeken toot %s</string>
     <string name="no_drafts">Je hebt nog geen concepten</string>
-    <string name="no_scheduled_status">Je hebt nog geen ingeplande toots</string>
+    <string name="no_scheduled_posts">Je hebt nog geen ingeplande toots</string>
     <string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
     <string name="notification_follow_request_name">Volgverzoeken</string>
     <string name="hashtags">Hashtags</string>
-    <string name="status_media_attachments">Bijlagen</string>
+    <string name="post_media_attachments">Bijlagen</string>
     <string name="pref_title_notification_filter_follow_requests">volgverzoek verstuurd</string>
     <string name="action_unsubscribe_account">Afmelden</string>
     <string name="action_subscribe_account">Abonneren</string>
@@ -488,7 +488,7 @@
         <item quantity="other">%s personen</item>
     </plurals>
     <string name="add_hashtag_title">Hashtag toevoegen</string>
-    <string name="status_media_audio">Geluid</string>
+    <string name="post_media_audio">Geluid</string>
     <string name="notification_subscription_description">Meldingen wanneer iemand waar je op bent geabonneerd een nieuwe toot plaatst</string>
     <string name="notification_subscription_name">Nieuwe toots</string>
     <string name="notification_follow_request_description">Meldingen over volgverzoeken</string>

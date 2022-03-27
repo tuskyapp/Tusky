@@ -216,7 +216,7 @@ public abstract class SFragment extends Fragment implements Injectable {
 
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.status_share_content: {
+                case R.id.post_share_content: {
                     Status statusToShare = status;
                     if (statusToShare.getReblog() != null)
                         statusToShare = statusToShare.getReblog();
@@ -230,15 +230,15 @@ public abstract class SFragment extends Fragment implements Injectable {
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
                     sendIntent.putExtra(Intent.EXTRA_SUBJECT, statusUrl);
                     sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_content_to)));
+                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_post_content_to)));
                     return true;
                 }
-                case R.id.status_share_link: {
+                case R.id.post_share_link: {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
                     sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl);
                     sendIntent.setType("text/plain");
-                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_status_link_to)));
+                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_post_link_to)));
                     return true;
                 }
                 case R.id.status_copy_link: {

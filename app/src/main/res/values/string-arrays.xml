@@ -15,12 +15,12 @@
         <item>@string/post_privacy_followers_only</item>
     </string-array>
 
-    <string-array name="status_text_size_names">
-        <item>@string/status_text_size_smallest</item>
-        <item>@string/status_text_size_small</item>
-        <item>@string/status_text_size_medium</item>
-        <item>@string/status_text_size_large</item>
-        <item>@string/status_text_size_largest</item>
+    <string-array name="post_text_size_names">
+        <item>@string/post_text_size_smallest</item>
+        <item>@string/post_text_size_small</item>
+        <item>@string/post_text_size_medium</item>
+        <item>@string/post_text_size_large</item>
+        <item>@string/post_text_size_largest</item>
     </string-array>
 
 </resources>

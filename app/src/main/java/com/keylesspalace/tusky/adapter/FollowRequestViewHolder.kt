@@ -45,7 +45,7 @@ class FollowRequestViewHolder(
             }.emojify(account.emojis, itemView, animateEmojis)
         }
         binding.notificationTextView.visible(showHeader)
-        val format = itemView.context.getString(R.string.status_username_format)
+        val format = itemView.context.getString(R.string.post_username_format)
         val formattedUsername = String.format(format, account.username)
         binding.usernameTextView.text = formattedUsername
         val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)

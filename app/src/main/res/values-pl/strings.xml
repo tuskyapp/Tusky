@@ -22,8 +22,8 @@
     <string name="title_public_local">Lokalne</string>
     <string name="title_public_federated">Globalne</string>
     <string name="title_view_thread">Wątek</string>
-    <string name="title_statuses">Wpisy</string>
-    <string name="title_statuses_with_replies">Z odpowiedziami</string>
+    <string name="title_posts">Wpisy</string>
+    <string name="title_posts_with_replies">Z odpowiedziami</string>
     <string name="title_follows">Śledzeni</string>
     <string name="title_followers">Śledzący</string>
     <string name="title_favourites">Ulubione</string>
@@ -33,12 +33,12 @@
     <string name="title_edit_profile">Edytuj profil</string>
     <string name="title_drafts">Szkice</string>
     <string name="title_licenses">Licencje</string>
-    <string name="status_boosted_format">%s podbił</string>
-    <string name="status_sensitive_media_title">Wrażliwe treści</string>
-    <string name="status_media_hidden_title">Ukryto zawartość multimedialną</string>
-    <string name="status_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
-    <string name="status_content_warning_show_more">Pokaż więcej</string>
-    <string name="status_content_warning_show_less">Ukryj</string>
+    <string name="post_boosted_format">%s podbił</string>
+    <string name="post_sensitive_media_title">Wrażliwe treści</string>
+    <string name="post_media_hidden_title">Ukryto zawartość multimedialną</string>
+    <string name="post_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
+    <string name="post_content_warning_show_more">Pokaż więcej</string>
+    <string name="post_content_warning_show_less">Ukryj</string>
     <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
     <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
     <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
@@ -95,13 +95,13 @@
     <string name="action_emoji_keyboard">Klawiatura emoji</string>
     <string name="download_image">Pobieranie %1$s</string>
     <string name="action_copy_link">Skopiuj odnośnik</string>
-    <string name="send_status_link_to">Udostępnij odnośnik do wpisu…</string>
-    <string name="send_status_content_to">Udostępnij wpis do…</string>
+    <string name="send_post_link_to">Udostępnij odnośnik do wpisu…</string>
+    <string name="send_post_content_to">Udostępnij wpis do…</string>
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
-    <string name="status_sent">Wyślij!</string>
-    <string name="status_sent_long">Pomyślnie wysłano odpowiedź.</string>
+    <string name="post_sent">Wyślij!</string>
+    <string name="post_sent_long">Pomyślnie wysłano odpowiedź.</string>
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
     <string name="hint_content_warning">Ostrzeżenie o zawartości</string>
@@ -150,8 +150,8 @@
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
     <string name="pref_title_hide_follow_button">Ukryj przycisk śledzenia podczas przewijania</string>
-    <string name="pref_title_status_filter">Filtrowanie osi czasu</string>
-    <string name="pref_title_status_tabs">Zakładki</string>
+    <string name="pref_title_post_filter">Filtrowanie osi czasu</string>
+    <string name="pref_title_post_tabs">Zakładki</string>
     <string name="pref_title_show_boosts">Pokaż podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
@@ -164,12 +164,12 @@
     <string name="post_privacy_public">Publiczne</string>
     <string name="post_privacy_unlisted">Niewypisane</string>
     <string name="post_privacy_followers_only">Tylko dla śledzonych</string>
-    <string name="pref_status_text_size">Rozmiar tekstu wpisów</string>
-    <string name="status_text_size_smallest">Najmniejszy</string>
-    <string name="status_text_size_small">Mały</string>
-    <string name="status_text_size_medium">Średni</string>
-    <string name="status_text_size_large">Duży</string>
-    <string name="status_text_size_largest">Ogromny</string>
+    <string name="pref_post_text_size">Rozmiar tekstu wpisów</string>
+    <string name="post_text_size_smallest">Najmniejszy</string>
+    <string name="post_text_size_small">Mały</string>
+    <string name="post_text_size_medium">Średni</string>
+    <string name="post_text_size_large">Duży</string>
+    <string name="post_text_size_largest">Ogromny</string>
     <string name="notification_mention_name">Nowe wspomnienia</string>
     <string name="notification_mention_descriptions">Powiadomienia o nowych wspomnieniach</string>
     <string name="notification_follow_name">Nowi śledzący</string>
@@ -204,10 +204,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil Tusky’ego</string>
-    <string name="status_share_content">Udostępnij zawartość wpisu</string>
-    <string name="status_share_link">Udostępnij link do postu</string>
-    <string name="status_media_images">Obrazy</string>
-    <string name="status_media_video">Wideo</string>
+    <string name="post_share_content">Udostępnij zawartość wpisu</string>
+    <string name="post_share_link">Udostępnij link do postu</string>
+    <string name="post_media_images">Obrazy</string>
+    <string name="post_media_video">Wideo</string>
     <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">w %d lata</string>
@@ -249,7 +249,7 @@
     <string name="system_default">Domyślny systemu</string>
     <string name="download_fonts">Musisz najpierw pobrać te zestawy emoji</string>
     <string name="performing_lookup_title">Wyszukiwanie…</string>
-    <string name="expand_collapse_all_statuses">Rozwiń/zwiń wszystkie wpisy</string>
+    <string name="expand_collapse_all_posts">Rozwiń/zwiń wszystkie wpisy</string>
     <string name="action_open_post">Otwórz wpis</string>
     <string name="restart_required">Wymagane jest ponowne uruchomienie</string>
     <string name="restart_emoji">Musisz uruchomić ponownie Tuskyego, aby zastosować zmiany</string>
@@ -271,9 +271,9 @@
     <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
     <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
     <string name="title_direct_messages">Wiadomości bezpośrednie</string>
-    <string name="title_statuses_pinned">Przypięte</string>
-    <string name="status_content_show_more">Rozwiń</string>
-    <string name="status_content_show_less">Zwiń</string>
+    <string name="title_posts_pinned">Przypięte</string>
+    <string name="post_content_show_more">Rozwiń</string>
+    <string name="post_content_show_less">Zwiń</string>
     <string name="message_empty">Nic tu nie ma.</string>
     <string name="action_unfavourite">Usuń z ulubionych</string>
     <string name="action_delete_and_redraft">Usuń i przeredaguj</string>
@@ -289,7 +289,7 @@
     <string name="action_share_as">Udostępnij jako …</string>
     <string name="title_tab_preferences">Zakładki</string>
     <string name="title_domain_mutes">Ukryte domeny</string>
-    <string name="status_username_format">\@%s</string>
+    <string name="post_username_format">\@%s</string>
     <string name="action_unreblog">Cofnij podbicie</string>
     <string name="action_view_domain_mutes">Ukryte domeny</string>
     <string name="action_add_poll">Dodaj głosowanie</string>
@@ -373,11 +373,11 @@
         <item quantity="many">maksymalna liczba zakładek (%1$d) osiągnięta</item>
         <item quantity="other">maksymalna liczba zakładek (%1$d) osiągnięta</item>
     </plurals>
-    <string name="description_status_media">Media: %s</string>
-    <string name="description_status_cw">Ostrzeżenie o zawartości: %s</string>
-    <string name="description_status_media_no_description_placeholder">Brak opisu</string>
-    <string name="description_status_reblogged">Podbity</string>
-    <string name="description_status_favourited">Polubiony</string>
+    <string name="description_post_media">Media: %s</string>
+    <string name="description_post_cw">Ostrzeżenie o zawartości: %s</string>
+    <string name="description_post_media_no_description_placeholder">Brak opisu</string>
+    <string name="description_post_reblogged">Podbity</string>
+    <string name="description_post_favourited">Polubiony</string>
     <string name="description_visiblity_public">Publiczny</string>
     <string name="description_visiblity_unlisted">Niewidoczne</string>
     <string name="description_visiblity_private">Śledzący</string>
@@ -435,7 +435,7 @@
     <string name="hint_additional_info">Dodatkowe komentarze</string>
     <string name="report_remote_instance">Wyślij zgłoszenie do %s</string>
     <string name="failed_report">Zgłoszenie nie powiodło się</string>
-    <string name="failed_fetch_statuses">Pobieranie wpisów nie powiodło się</string>
+    <string name="failed_fetch_posts">Pobieranie wpisów nie powiodło się</string>
     <string name="report_description_1">Zgłoszenie zostanie przesłąne do moderatora twojego serwera. Możesz podać przyczynę zgłoszenia tego konta poniżej:</string>
     <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer\?</string>
     <string name="title_accounts">Konta</string>
@@ -463,12 +463,12 @@
     <string name="title_bookmarks">Zakładki</string>
     <string name="action_bookmark">Dodaj do zakładek</string>
     <string name="action_view_bookmarks">Zakładki</string>
-    <string name="description_status_bookmarked">Dodane do zakładek</string>
+    <string name="description_post_bookmarked">Dodane do zakładek</string>
     <string name="select_list_title">Wybierz listę</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
     <string name="no_drafts">Nie masz żadnych szkiców.</string>
-    <string name="no_scheduled_status">Nie masz żadnych zaplanowanych wpisów.</string>
+    <string name="no_scheduled_posts">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
     <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
@@ -514,7 +514,7 @@
 \n
 \nNie będzie to miało wpływu na powiadomienia typu push, ale możesz zmienić ustawienia powiadomień ręcznie.</string>
     <string name="pref_title_enable_swipe_for_tabs">Włącz gest przesuwania by przełączać między zakładkami</string>
-    <string name="status_media_attachments">Załączniki</string>
+    <string name="post_media_attachments">Załączniki</string>
     <string name="notification_follow_request_description">Powiadomienia o prośbach o obserwowanie</string>
     <string name="pref_title_notification_filter_subscriptions">ktoś kogo zasubskrybowałem/zasubskrybowałam opublikował nowy wpis</string>
     <string name="pref_title_notification_filter_follow_requests">Wysłano prośbę o obserwowanie</string>
@@ -531,7 +531,7 @@
     <string name="account_note_saved">Zapisano!</string>
     <string name="account_note_hint">Twoja prywatna notatka o tym koncie</string>
     <string name="duration_indefinite">Czas nieokreślony</string>
-    <string name="status_media_audio">Dźwięk</string>
+    <string name="post_media_audio">Dźwięk</string>
     <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
     <string name="pref_title_animate_custom_emojis">Animuj niestandardowe emoji</string>

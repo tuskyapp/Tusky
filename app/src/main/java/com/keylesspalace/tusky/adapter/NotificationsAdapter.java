@@ -346,7 +346,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             );
             message.setText(emojifiedMessage);
 
-            String username = context.getString(R.string.status_username_format, account.getUsername());
+            String username = context.getString(R.string.post_username_format, account.getUsername());
             usernameView.setText(username);
 
             CharSequence emojifiedDisplayName = CustomEmojiHelper.emojify(
@@ -440,7 +440,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         private void setUsername(String name) {
             Context context = username.getContext();
-            String format = context.getString(R.string.status_username_format);
+            String format = context.getString(R.string.post_username_format);
             String usernameText = String.format(format, name);
             username.setText(usernameText);
         }
@@ -538,9 +538,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 contentWarningDescriptionTextView.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 contentWarningButton.setVisibility(hasSpoiler ? View.VISIBLE : View.GONE);
                 if (statusViewData.isExpanded()) {
-                    contentWarningButton.setText(R.string.status_content_warning_show_less);
+                    contentWarningButton.setText(R.string.post_content_warning_show_less);
                 } else {
-                    contentWarningButton.setText(R.string.status_content_warning_show_more);
+                    contentWarningButton.setText(R.string.post_content_warning_show_more);
                 }
 
                 contentWarningButton.setOnClickListener(view -> {
@@ -630,10 +630,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
                 contentCollapseButton.setVisibility(View.VISIBLE);
                 if (statusViewData.isCollapsed()) {
-                    contentCollapseButton.setText(R.string.status_content_warning_show_more);
+                    contentCollapseButton.setText(R.string.post_content_warning_show_more);
                     statusContent.setFilters(COLLAPSE_INPUT_FILTER);
                 } else {
-                    contentCollapseButton.setText(R.string.status_content_warning_show_less);
+                    contentCollapseButton.setText(R.string.post_content_warning_show_less);
                     statusContent.setFilters(NO_INPUT_FILTER);
                 }
             } else {

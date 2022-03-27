@@ -12,18 +12,18 @@
     <string name="error_generic">Vyskytla sa chyba.</string>
     <string name="title_notifications">Oznámenia</string>
     <string name="title_direct_messages">Priame správy</string>
-    <string name="title_statuses_with_replies">S odpoveďmi</string>
-    <string name="title_statuses_pinned">Pripnuté</string>
+    <string name="title_posts_with_replies">S odpoveďmi</string>
+    <string name="title_posts_pinned">Pripnuté</string>
     <string name="title_followers">Sledujúci</string>
     <string name="title_bookmarks">Záložky</string>
     <string name="title_licenses">Licencie</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_sensitive_media_title">Citlivý obsah</string>
-    <string name="status_sensitive_media_directions">Kliknite pre zobrazenie</string>
-    <string name="status_content_warning_show_more">Zobraziť viac</string>
-    <string name="status_content_warning_show_less">Zobraziť menej</string>
-    <string name="status_content_show_more">Rozbaliť</string>
-    <string name="status_content_show_less">Zabaliť</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_sensitive_media_title">Citlivý obsah</string>
+    <string name="post_sensitive_media_directions">Kliknite pre zobrazenie</string>
+    <string name="post_content_warning_show_more">Zobraziť viac</string>
+    <string name="post_content_warning_show_less">Zobraziť menej</string>
+    <string name="post_content_show_more">Rozbaliť</string>
+    <string name="post_content_show_less">Zabaliť</string>
     <string name="report_username_format">Nahlásiť používateľa @%s</string>
     <string name="action_quick_reply">Rýchla odpoveď</string>
     <string name="action_reply">Odpovedať</string>
@@ -63,8 +63,8 @@
     <string name="action_open_as">Otvoriť ako %s</string>
     <string name="confirmation_reported">Odoslané!</string>
     <string name="confirmation_unblocked">Používateľ bol odblokovaný</string>
-    <string name="status_sent">Odoslané!</string>
-    <string name="status_sent_long">Odpoveď bola úspešne odoslaná.</string>
+    <string name="post_sent">Odoslané!</string>
+    <string name="post_sent_long">Odpoveď bola úspešne odoslaná.</string>
     <string name="hint_domain">Ktorý server\?</string>
     <string name="hint_display_name">Zobrazované meno</string>
     <string name="hint_note">O vás</string>
@@ -88,8 +88,8 @@
     <string name="action_schedule_post">Naplánovať toot</string>
     <string name="dialog_delete_post_warning">Vymazať tento toot\?</string>
     <string name="dialog_redraft_post_warning">Vymazať a prepísať tento toot\?</string>
-    <string name="status_share_content">Zdieľať obsah tootu</string>
-    <string name="status_share_link">Zdieľať odkaz tootu</string>
+    <string name="post_share_content">Zdieľať obsah tootu</string>
+    <string name="post_share_link">Zdieľať odkaz tootu</string>
     <string name="send_post_notification_title">Odosielanie tootu…</string>
     <string name="send_post_notification_error_title">Chyba pri odosielaní tootu</string>
     <string name="send_post_notification_saved_content">Kópia vášho tootu bola uložená do konceptov</string>
@@ -114,7 +114,7 @@
     <string name="profile_metadata_content_label">Obsah</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
-    <string name="description_status_media_no_description_placeholder">Žiadny popis</string>
+    <string name="description_post_media_no_description_placeholder">Žiadny popis</string>
     <string name="description_visiblity_public">Verejný</string>
     <string name="action_reblog">Podporiť</string>
     <string name="action_unreblog">Prestať podporovať</string>
@@ -131,5 +131,5 @@
     <string name="action_view_favourites">Obľúbené</string>
     <string name="filter_dialog_remove_button">Odstrániť</string>
     <string name="notification_favourite_name">Obľúbené</string>
-    <string name="pref_title_status_tabs">Panely</string>
+    <string name="pref_title_post_tabs">Panely</string>
 </resources>

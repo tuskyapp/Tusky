@@ -5,11 +5,11 @@
         android:title="@string/action_share">
         <menu>
             <item
-                android:id="@+id/status_share_link"
-                android:title="@string/status_share_link" />
+                android:id="@+id/post_share_link"
+                android:title="@string/post_share_link" />
             <item
-                android:id="@+id/status_share_content"
-                android:title="@string/status_share_content" />
+                android:id="@+id/post_share_content"
+                android:title="@string/post_share_content" />
         </menu>
     </item>
     <item

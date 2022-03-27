@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Közvetlen üzenetek</string>
     <string name="title_tab_preferences">Fülek</string>
     <string name="title_view_thread">Tülk</string>
-    <string name="title_statuses">Tülkök</string>
-    <string name="title_statuses_with_replies">Válaszokkal</string>
-    <string name="title_statuses_pinned">Rögzített</string>
+    <string name="title_posts">Tülkök</string>
+    <string name="title_posts_with_replies">Válaszokkal</string>
+    <string name="title_posts_pinned">Rögzített</string>
     <string name="title_follows">Követett</string>
     <string name="title_followers">Követő</string>
     <string name="title_favourites">Kedvencek</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Profilod szerkesztése</string>
     <string name="title_drafts">Piszkozatok</string>
     <string name="title_licenses">Licenszek</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s megtolta</string>
-    <string name="status_sensitive_media_title">Kényes tartalom</string>
-    <string name="status_media_hidden_title">Rejtett média</string>
-    <string name="status_sensitive_media_directions">Kattints a megnézéshez</string>
-    <string name="status_content_warning_show_more">Mutass többet</string>
-    <string name="status_content_warning_show_less">Mutass kevesebbet</string>
-    <string name="status_content_show_more">Kibontás</string>
-    <string name="status_content_show_less">Összecsukás</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s megtolta</string>
+    <string name="post_sensitive_media_title">Kényes tartalom</string>
+    <string name="post_media_hidden_title">Rejtett média</string>
+    <string name="post_sensitive_media_directions">Kattints a megnézéshez</string>
+    <string name="post_content_warning_show_more">Mutass többet</string>
+    <string name="post_content_warning_show_less">Mutass kevesebbet</string>
+    <string name="post_content_show_more">Kibontás</string>
+    <string name="post_content_show_less">Összecsukás</string>
     <string name="message_empty">Nincs itt semmi.</string>
     <string name="footer_empty">Üres tartalom. Húzd le a frissítéshez!</string>
     <string name="notification_reblog_format">%s megtolta a tülködet</string>
@@ -115,13 +115,13 @@
     <string name="action_copy_link">Link másolása</string>
     <string name="action_open_as">Megnyitás mint %s</string>
     <string name="action_share_as">Megosztás mint …</string>
-    <string name="send_status_link_to">Tülk URL megosztása…</string>
-    <string name="send_status_content_to">Tülk megosztása…</string>
+    <string name="send_post_link_to">Tülk URL megosztása…</string>
+    <string name="send_post_content_to">Tülk megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
     <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
-    <string name="status_sent">Elküldve!</string>
-    <string name="status_sent_long">Válasz sikeresen elküldve.</string>
+    <string name="post_sent">Elküldve!</string>
+    <string name="post_sent_long">Válasz sikeresen elküldve.</string>
     <string name="hint_domain">Melyik példány\?</string>
     <string name="hint_compose">Mi jár a fejedben\?</string>
     <string name="hint_content_warning">Tartalom figyelmeztetés</string>
@@ -171,8 +171,8 @@
     <string name="pref_title_browser_settings">Böngésző</string>
     <string name="pref_title_custom_tabs">Linkek megnyitása applikáción belül</string>
     <string name="pref_title_hide_follow_button">Szerkesztés gomb elrejtése görgetés közben</string>
-    <string name="pref_title_status_filter">Idővonal szűrése</string>
-    <string name="pref_title_status_tabs">Fülek</string>
+    <string name="pref_title_post_filter">Idővonal szűrése</string>
+    <string name="pref_title_post_tabs">Fülek</string>
     <string name="pref_title_show_boosts">Megtolások mutatása</string>
     <string name="pref_title_show_replies">Válaszok mutatása</string>
     <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
@@ -187,12 +187,12 @@
     <string name="post_privacy_public">Nyilvános</string>
     <string name="post_privacy_unlisted">Listázatlan</string>
     <string name="post_privacy_followers_only">Csak követőknek</string>
-    <string name="pref_status_text_size">Tülkölés szöveg mérete</string>
-    <string name="status_text_size_smallest">Legkisebb</string>
-    <string name="status_text_size_small">Kicsi</string>
-    <string name="status_text_size_medium">Közepes</string>
-    <string name="status_text_size_large">Nagy</string>
-    <string name="status_text_size_largest">Legnagyobb</string>
+    <string name="pref_post_text_size">Tülkölés szöveg mérete</string>
+    <string name="post_text_size_smallest">Legkisebb</string>
+    <string name="post_text_size_small">Kicsi</string>
+    <string name="post_text_size_medium">Közepes</string>
+    <string name="post_text_size_large">Nagy</string>
+    <string name="post_text_size_largest">Legnagyobb</string>
     <string name="notification_mention_name">Új említések</string>
     <string name="notification_mention_descriptions">Értesítések új említések esetén</string>
     <string name="notification_follow_name">Új követők</string>
@@ -224,10 +224,10 @@
     <string name="about_bug_feature_request_site">Hibajelentés &amp; új funkciók igénylése:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky profilja</string>
-    <string name="status_share_content">Tülk tartalmának megosztása</string>
-    <string name="status_share_link">Tülk linkjének megosztása</string>
-    <string name="status_media_images">Képek</string>
-    <string name="status_media_video">Videók</string>
+    <string name="post_share_content">Tülk tartalmának megosztása</string>
+    <string name="post_share_link">Tülk linkjének megosztása</string>
+    <string name="post_media_images">Képek</string>
+    <string name="post_media_video">Videók</string>
     <string name="state_follow_requested">Követés kérelmezve</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Követ téged</string>
@@ -280,7 +280,7 @@
         <item quantity="one">elérted a fülek maximális számát (%1$d)</item>
         <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
     </plurals>
-    <string name="description_status_media_no_description_placeholder">        Nincs leírás
+    <string name="description_post_media_no_description_placeholder">        Nincs leírás
     </string>
     <string name="description_visiblity_public">Nyilvános    </string>
     <string name="description_visiblity_private">Követők</string>
@@ -350,7 +350,7 @@
     </plurals>
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
-    <string name="expand_collapse_all_statuses">Minden tülk kibontása/összecsukása</string>
+    <string name="expand_collapse_all_posts">Minden tülk kibontása/összecsukása</string>
     <string name="caption_notoemoji">A Google jelenlegi emodzsi készlete</string>
     <string name="reblog_private">Megtolás az eredeti közönségnek</string>
     <string name="unreblog_private">Megtolás visszavonása</string>
@@ -367,10 +367,10 @@
     </plurals>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s és még %3$d</string>
-    <string name="description_status_media">Média: %s</string>
-    <string name="description_status_cw">Tartalom figyelmeztetés: %s</string>
-    <string name="description_status_reblogged">Megtolt</string>
-    <string name="description_status_favourited">Kedvelt</string>
+    <string name="description_post_media">Média: %s</string>
+    <string name="description_post_cw">Tartalom figyelmeztetés: %s</string>
+    <string name="description_post_reblogged">Megtolt</string>
+    <string name="description_post_favourited">Kedvelt</string>
     <string name="description_visiblity_unlisted">Listázatlan</string>
     <string name="description_visiblity_direct">Közvetlen</string>
     <string name="description_poll">Szavazás válaszokkal: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -416,7 +416,7 @@
     <string name="hint_additional_info">Egyéb megjegyzések</string>
     <string name="report_remote_instance">Továbbítás neki %s</string>
     <string name="failed_report">Nem sikerült a bejelentés</string>
-    <string name="failed_fetch_statuses">Nem sikerült a tülkök letöltése</string>
+    <string name="failed_fetch_posts">Nem sikerült a tülkök letöltése</string>
     <string name="report_description_1">A bejelentést a szervered moderátorának küldjük el. Alább megadhatsz egy magyarázatot arra, hogy miért jelented be ezt a fiókot:</string>
     <string name="report_description_remote_instance">A fiók egy másik szerverről származik. Küldjünk oda is egy anonimizált másolatot a bejelentésről\?</string>
     <string name="pref_title_show_notifications_filter">Értesítések szűrőjének mutatása</string>
@@ -446,12 +446,12 @@
     <string name="action_bookmark">Könyvjelzőzés</string>
     <string name="action_view_bookmarks">Könyvjelzők</string>
     <string name="about_powered_by_tusky">Tusky által hajtva</string>
-    <string name="description_status_bookmarked">Könyvjelzőzve</string>
+    <string name="description_post_bookmarked">Könyvjelzőzve</string>
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">A hangfájloknak kisebbnek kell lenniük, mint 40 MB.</string>
     <string name="no_drafts">Nincs egy piszkozatod sem.</string>
-    <string name="no_scheduled_status">Nincs egy ütemezett tülköd sem.</string>
+    <string name="no_scheduled_posts">Nincs egy ütemezett tülköd sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
     <string name="pref_title_confirm_reblogs">Jóváhagyó ablak mutatása megtolás előtt</string>
@@ -506,8 +506,8 @@
 \nA Push-értesítéseket ez nem befolyásolja, de kézzel átállíthatod az értesítési beállításaidat.</string>
     <string name="duration_indefinite">Végtelen</string>
     <string name="label_duration">Időtartam</string>
-    <string name="status_media_attachments">Csatolmányok</string>
-    <string name="status_media_audio">Audio</string>
+    <string name="post_media_attachments">Csatolmányok</string>
+    <string name="post_media_audio">Audio</string>
     <string name="notification_subscription_description">Értesítések általam követett személy új tülkjeiről</string>
     <string name="notification_subscription_name">Új tülkök</string>
     <string name="pref_title_notification_filter_subscriptions">valaki, akit követek újat tülkölt</string>

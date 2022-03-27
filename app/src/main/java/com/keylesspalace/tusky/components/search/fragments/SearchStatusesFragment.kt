@@ -280,7 +280,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.status_share_content -> {
+                R.id.post_share_content -> {
                     val statusToShare: Status = status.actionableStatus
 
                     val sendIntent = Intent()
@@ -291,15 +291,15 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         statusToShare.content.toString()
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_status_content_to)))
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_post_content_to)))
                     return@setOnMenuItemClickListener true
                 }
-                R.id.status_share_link -> {
+                R.id.post_share_link -> {
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_status_link_to)))
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_post_link_to)))
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_copy_link -> {

@@ -86,7 +86,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> getString(R.string.title_statuses)
+            0 -> getString(R.string.title_posts)
             1 -> getString(R.string.title_accounts)
             2 -> getString(R.string.title_hashtags_dialog)
             else -> throw IllegalArgumentException("Unknown page index: $position")

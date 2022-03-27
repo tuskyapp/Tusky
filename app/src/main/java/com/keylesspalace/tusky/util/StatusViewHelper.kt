@@ -176,9 +176,9 @@ class StatusViewHelper(private val itemView: View) {
             sensitiveMediaShow.visibility = View.GONE
         } else {
             sensitiveMediaWarning.text = if (sensitive) {
-                context.getString(R.string.status_sensitive_media_title)
+                context.getString(R.string.post_sensitive_media_title)
             } else {
-                context.getString(R.string.status_media_hidden_title)
+                context.getString(R.string.post_media_hidden_title)
             }
 
             sensitiveMediaWarning.visibility = if (showingContent) View.GONE else View.VISIBLE
@@ -225,7 +225,7 @@ class StatusViewHelper(private val itemView: View) {
         val context = mediaLabel.context
         var labelText = getLabelTypeText(context, attachments[0].type)
         if (sensitive) {
-            val sensitiveText = context.getString(R.string.status_sensitive_media_title)
+            val sensitiveText = context.getString(R.string.post_sensitive_media_title)
             labelText += String.format(" (%s)", sensitiveText)
         }
         mediaLabel.text = labelText
@@ -239,10 +239,10 @@ class StatusViewHelper(private val itemView: View) {
 
     private fun getLabelTypeText(context: Context, type: Attachment.Type): String {
         return when (type) {
-            Attachment.Type.IMAGE -> context.getString(R.string.status_media_images)
-            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.status_media_video)
-            Attachment.Type.AUDIO -> context.getString(R.string.status_media_audio)
-            else -> context.getString(R.string.status_media_attachments)
+            Attachment.Type.IMAGE -> context.getString(R.string.post_media_images)
+            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.post_media_video)
+            Attachment.Type.AUDIO -> context.getString(R.string.post_media_audio)
+            else -> context.getString(R.string.post_media_attachments)
         }
     }
 
