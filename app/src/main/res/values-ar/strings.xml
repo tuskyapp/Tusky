@@ -216,7 +216,7 @@
     <string name="description_account_locked">حساب مقفل</string>
     <string name="about_title_activity">عن التطبيق</string>
     <string name="about_tusky_version">توسكي %1$s</string>
-    <string name="about_tusky_license">Tuksy برنامج حر و مفتوح المصدر.         مطور تحت رخصة GNU General Public License Version 3.         يمكنكم الإطلاع على الرخصة على : https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tuksy برنامج حر و مفتوح المصدر. مطور تحت رخصة GNU General Public License Version 3. يمكنكم الإطلاع على الرخصة على : https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
