@@ -136,7 +136,7 @@
     <string name="label_quick_reply">Svar…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Overskrift</string>
-    <string name="link_whats_an_instance">Hva er en instans\?</string>
+    <string name="link_whats_an_instance">Hva er en instans?</string>
     <string name="login_connection">Kobler til…</string>
     <string name="dialog_whats_an_instance">Addressen eller domenet til enhver instans kan legges til her, f. eks. mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">mer!</a>
 \n
@@ -149,8 +149,8 @@
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
     <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
-    <string name="dialog_unfollow_warning">Slutt å følge denne kontoen\?</string>
-    <string name="dialog_delete_post_warning">Slett dette innlegget\?</string>
+    <string name="dialog_unfollow_warning">Slutt å følge denne kontoen?</string>
+    <string name="dialog_delete_post_warning">Slett dette innlegget?</string>
     <string name="visibility_public">Offentlig: Vis i offentlige tidslinjer</string>
     <string name="visibility_unlisted">Ikke oppført: Ikke vis i offentlige tidslinjer</string>
     <string name="visibility_private">Bare følgere: Vis bare til følgere</string>
@@ -260,7 +260,7 @@
     <string name="action_remove">Slett</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
-    <string name="compose_save_draft">Lagre utkast\?</string>
+    <string name="compose_save_draft">Lagre utkast?</string>
     <string name="send_post_notification_title">Sender innlegg…</string>
     <string name="send_post_notification_error_title">Det oppsto en feil under sending av innlegget</string>
     <string name="send_post_notification_channel_name">Sender innleggene</string>
@@ -390,7 +390,7 @@
     <string name="action_view_domain_mutes">Skjulte domener</string>
     <string name="action_mute_domain">Demp %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s er ikke lenger skjult</string>
-    <string name="mute_domain_warning">Er du sikker på at du vil blokkere alt fra %1$s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra dette domenet vil bli fjernet.</string>
+    <string name="mute_domain_warning">Er du sikker på at du vil blokkere alt fra %1$s? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra dette domenet vil bli fjernet.</string>
     <string name="mute_domain_warning_dialog_ok">Skjul hele domenet</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">Når nøkkelordet eller frasen kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
@@ -475,7 +475,7 @@
     </plurals>
     <string name="duration_indefinite">Uendelig</string>
     <string name="label_duration">Varighet</string>
-    <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %1$s\?</string>
+    <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %1$s?</string>
     <string name="post_media_attachments">Vedlegg</string>
     <string name="post_media_audio">Lyd</string>
     <string name="drafts_post_reply_removed">Innlegget du hadde opprettet et utkast som svar på har blitt fjernet</string>
@@ -486,7 +486,7 @@
     <string name="action_unsubscribe_account">Avslutt abonnementet</string>
     <string name="action_subscribe_account">Abonner</string>
     <string name="follow_requests_info">Selv om kontoen din ikke er låst, har %1$s administratorer markert disse følgeforespørsler for manuell godkjenning.</string>
-    <string name="dialog_delete_conversation_warning">Slett denne samtalen\?</string>
+    <string name="dialog_delete_conversation_warning">Slett denne samtalen?</string>
     <string name="action_delete_conversation">Slett samtale</string>
     <string name="action_unbookmark">Fjern bokmerke</string>
     <string name="pref_title_confirm_favourites">Vis bekreftelser når favoritt skal legges til</string>
@@ -525,10 +525,10 @@
     <string name="pref_show_self_username_disambiguate">Når flere konti er logget inn</string>
     <string name="pref_show_self_username_never">Aldri</string>
     <string name="pref_title_show_self_username">Vis brukernavn på verktøylinjer</string>
-    <string name="delete_scheduled_post_warning">Slette dette planlagte innlegget\?</string>
+    <string name="delete_scheduled_post_warning">Slette dette planlagte innlegget?</string>
     <string name="instance_rule_title">Regler på %1$s</string>
     <string name="instance_rule_info">Ved å logge inn godtar du reglene på %1$s.</string>
-    <string name="compose_save_draft_loses_media">Lagre utkast\? (Vedlegg vil bli lastet opp igjen når du fortsetter å jobbe på utkastet.)</string>
+    <string name="compose_save_draft_loses_media">Lagre utkast? (Vedlegg vil bli lastet opp igjen når du fortsetter å jobbe på utkastet.)</string>
     <string name="failed_to_pin">Klarte ikke å feste</string>
     <string name="failed_to_unpin">Klarte ikke å løsne</string>
     <string name="action_add_reaction">Legg til reaksjon</string>
@@ -551,7 +551,7 @@
     <string name="report_category_violation">Regelbrudd</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Annet</string>
-    <string name="action_unfollow_hashtag_format">Slutte å følge #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Slutte å følge #%1$s?</string>
     <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%1$s</string>
     <string name="a11y_label_loading_thread">Laster tråd</string>
     <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger.
