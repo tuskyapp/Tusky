@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.compose
 
+import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
@@ -37,6 +38,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Date
@@ -83,36 +85,70 @@ class MediaUploader @Inject constructor(
 
     fun prepareMedia(inUri: Uri): Single<PreparedMedia> {
         return Single.fromCallable {
-            var mediaSize = getMediaSize(contentResolver, inUri)
+            var mediaSize = MEDIA_SIZE_UNKNOWN
             var uri = inUri
-            val mimeType = contentResolver.getType(uri)
-
-            val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
+            var mimeType: String? = null
 
             try {
-                contentResolver.openInputStream(inUri).use { input ->
-                    if (input == null) {
-                        Log.w(TAG, "Media input is null")
-                        uri = inUri
-                        return@use
+                when (inUri.scheme) {
+                    ContentResolver.SCHEME_CONTENT -> {
+
+                        mimeType = contentResolver.getType(uri)
+
+                        val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
+
+                        contentResolver.openInputStream(inUri).use { input ->
+                            if (input == null) {
+                                Log.w(TAG, "Media input is null")
+                                uri = inUri
+                                return@use
+                            }
+                            val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
+                            FileOutputStream(file.absoluteFile).use { out ->
+                                input.copyTo(out)
+                                uri = FileProvider.getUriForFile(
+                                    context,
+                                    BuildConfig.APPLICATION_ID + ".fileprovider",
+                                    file
+                                )
+                                mediaSize = getMediaSize(contentResolver, uri)
+                            }
+                        }
                     }
-                    val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
-                    FileOutputStream(file.absoluteFile).use { out ->
-                        input.copyTo(out)
-                        uri = FileProvider.getUriForFile(
-                            context,
-                            BuildConfig.APPLICATION_ID + ".fileprovider",
-                            file
-                        )
-                        mediaSize = getMediaSize(contentResolver, uri)
+                    ContentResolver.SCHEME_FILE -> {
+                        val path = uri.path
+                        if (path == null) {
+                            Log.w(TAG, "empty uri path $uri")
+                            throw CouldNotOpenFileException()
+                        }
+                        val inputFile = File(path)
+                        val suffix = inputFile.name.substringAfterLast('.', "tmp")
+                        mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix)
+                        val file = File.createTempFile("randomTemp1", ".$suffix", context.cacheDir)
+                        val input = FileInputStream(inputFile)
+
+                        FileOutputStream(file.absoluteFile).use { out ->
+                            input.copyTo(out)
+                            uri = FileProvider.getUriForFile(
+                                context,
+                                BuildConfig.APPLICATION_ID + ".fileprovider",
+                                file
+                            )
+                            mediaSize = getMediaSize(contentResolver, uri)
+                        }
+                    }
+                    else -> {
+                        Log.w(TAG, "Unknown uri scheme $uri")
+                        throw CouldNotOpenFileException()
                     }
                 }
             } catch (e: IOException) {
                 Log.w(TAG, e)
-                uri = inUri
+                throw CouldNotOpenFileException()
             }
             if (mediaSize == MEDIA_SIZE_UNKNOWN) {
-                throw CouldNotOpenFileException()
+                Log.w(TAG, "Could not determine file size of upload")
+                throw MediaTypeException()
             }
 
             if (mimeType != null) {
@@ -138,6 +174,7 @@ class MediaUploader @Inject constructor(
                     }
                 }
             } else {
+                Log.w(TAG, "Could not determine mime type of upload")
                 throw MediaTypeException()
             }
         }

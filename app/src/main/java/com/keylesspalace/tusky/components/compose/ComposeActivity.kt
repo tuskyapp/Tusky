@@ -236,26 +236,25 @@ class ComposeActivity :
                             }
                         }
                     }
-                } else if (type == "text/plain" && intent.action == Intent.ACTION_SEND) {
+                }
 
-                    val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
-                    val text = intent.getStringExtra(Intent.EXTRA_TEXT).orEmpty()
-                    val shareBody = if (!subject.isNullOrBlank() && subject !in text) {
-                        subject + '\n' + text
-                    } else {
-                        text
-                    }
+                val subject = intent.getStringExtra(Intent.EXTRA_SUBJECT)
+                val text = intent.getStringExtra(Intent.EXTRA_TEXT).orEmpty()
+                val shareBody = if (!subject.isNullOrBlank() && subject !in text) {
+                    subject + '\n' + text
+                } else {
+                    text
+                }
 
-                    if (shareBody.isNotBlank()) {
-                        val start = binding.composeEditField.selectionStart.coerceAtLeast(0)
-                        val end = binding.composeEditField.selectionEnd.coerceAtLeast(0)
-                        val left = min(start, end)
-                        val right = max(start, end)
-                        binding.composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
-                        // move edittext cursor to first when shareBody parsed
-                        binding.composeEditField.text.insert(0, "\n")
-                        binding.composeEditField.setSelection(0)
-                    }
+                if (shareBody.isNotBlank()) {
+                    val start = binding.composeEditField.selectionStart.coerceAtLeast(0)
+                    val end = binding.composeEditField.selectionEnd.coerceAtLeast(0)
+                    val left = min(start, end)
+                    val right = max(start, end)
+                    binding.composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
+                    // move edittext cursor to first when shareBody parsed
+                    binding.composeEditField.text.insert(0, "\n")
+                    binding.composeEditField.setSelection(0)
                 }
             }
         }
