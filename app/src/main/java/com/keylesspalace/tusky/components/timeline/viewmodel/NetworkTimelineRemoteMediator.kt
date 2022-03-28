@@ -22,7 +22,6 @@ import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.dec
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import retrofit2.HttpException
@@ -93,7 +92,7 @@ class NetworkTimelineRemoteMediator(
                 viewModel.statusData.addAll(0, data)
 
                 if (insertPlaceholder) {
-                    viewModel.statusData.add(statuses.size, StatusViewData.Placeholder(statuses.last().id.dec(), false))
+                    viewModel.statusData[statuses.size - 1] = StatusViewData.Placeholder(statuses.last().id, false)
                 }
             } else {
                 val linkHeader = statusResponse.headers()["Link"]
