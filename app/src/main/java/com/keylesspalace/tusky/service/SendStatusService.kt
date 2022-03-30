@@ -30,13 +30,12 @@ import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.Timer
-import java.util.TimerTask
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -57,8 +56,6 @@ class SendStatusService : Service(), Injectable {
 
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
-
-    private val timer = Timer()
 
     private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
@@ -154,7 +151,6 @@ class SendStatusService : Service(), Injectable {
 
         val callback = object : Callback<Status> {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
-
                 serviceScope.launch {
 
                     val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
@@ -196,19 +192,15 @@ class SendStatusService : Service(), Injectable {
             }
 
             override fun onFailure(call: Call<Status>, t: Throwable) {
-                var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
-                if (backoff > MAX_RETRY_INTERVAL) {
-                    backoff = MAX_RETRY_INTERVAL
-                }
+                serviceScope.launch {
+                    var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
+                    if (backoff > MAX_RETRY_INTERVAL) {
+                        backoff = MAX_RETRY_INTERVAL
+                    }
 
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            sendStatus(statusId)
-                        }
-                    },
-                    backoff
-                )
+                    delay(backoff)
+                    sendStatus(statusId)
+                }
             }
         }
 
@@ -239,15 +231,7 @@ class SendStatusService : Service(), Injectable {
 
             notificationManager.notify(statusId, builder.build())
 
-            timer.schedule(
-                object : TimerTask() {
-                    override fun run() {
-                        notificationManager.cancel(statusId)
-                        stopSelfWhenDone()
-                    }
-                },
-                5000
-            )
+            delay(5000)
         }
     }
 
