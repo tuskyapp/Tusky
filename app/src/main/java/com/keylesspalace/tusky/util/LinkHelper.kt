@@ -149,7 +149,7 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
 
         for (mention in mentions) {
             val customSpan = getCustomSpanForMentionUrl(mention.url, mention.id, listener)
-            end += 1 + mention.username.length // length of @ + username
+            end += 1 + mention.localUsername.length // length of @ + username
             flags = getSpanFlags(customSpan)
             if (firstMention) {
                 firstMention = false
@@ -160,7 +160,7 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
             }
 
             append("@")
-            append(mention.username)
+            append(mention.localUsername)
             setSpan(customSpan, start, end, flags)
             append("\u200B") // same reasoning as in setClickableText
             end += 1 // shift position to take the previous character into account
