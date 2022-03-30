@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.conversation;
 
 import android.content.Context;
 import android.text.InputFilter;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -107,7 +108,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         setupButtons(listener, account.getId(), status.getContent().toString(),
                 statusDisplayOptions);
 
-        setSpoilerAndContent(status.getExpanded(), status.getContent(), status.getSpoilerText(),
+        setSpoilerAndContent(status.getExpanded(), new SpannableString(status.getContent()), status.getSpoilerText(),
                 status.getMentions(), status.getTags(), status.getEmojis(),
                 PollViewDataKt.toViewData(status.getPoll()), statusDisplayOptions, listener);
 

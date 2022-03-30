@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.entity
 
 import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 import java.util.Date
@@ -29,7 +27,7 @@ data class Status(
     @SerializedName("in_reply_to_id") var inReplyToId: String?,
     @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
     val reblog: Status?,
-    val content: Spanned,
+    val content: String,
     @SerializedName("created_at") val createdAt: Date,
     val emojis: List<Emoji>,
     @SerializedName("reblogs_count") val reblogsCount: Int,
@@ -135,7 +133,7 @@ data class Status(
 
     private fun getEditableText(): String {
         val builder = SpannableStringBuilder(content)
-        for (span in content.getSpans(0, content.length, URLSpan::class.java)) {
+     /*   for (span in content.getSpans(0, content.length, URLSpan::class.java)) {
             val url = span.url
             for ((_, url1, username) in mentions) {
                 if (url == url1) {
@@ -145,73 +143,8 @@ data class Status(
                     break
                 }
             }
-        }
+        }*/
         return builder.toString()
-    }
-
-    /**
-     * overriding equals & hashcode because Spanned does not always compare correctly otherwise
-     */
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as Status
-
-        if (id != other.id) return false
-        if (url != other.url) return false
-        if (account != other.account) return false
-        if (inReplyToId != other.inReplyToId) return false
-        if (inReplyToAccountId != other.inReplyToAccountId) return false
-        if (reblog != other.reblog) return false
-        if (content.toString() != other.content.toString()) return false
-        if (createdAt != other.createdAt) return false
-        if (emojis != other.emojis) return false
-        if (reblogsCount != other.reblogsCount) return false
-        if (favouritesCount != other.favouritesCount) return false
-        if (reblogged != other.reblogged) return false
-        if (favourited != other.favourited) return false
-        if (bookmarked != other.bookmarked) return false
-        if (sensitive != other.sensitive) return false
-        if (spoilerText != other.spoilerText) return false
-        if (visibility != other.visibility) return false
-        if (attachments != other.attachments) return false
-        if (mentions != other.mentions) return false
-        if (tags != other.tags) return false
-        if (application != other.application) return false
-        if (pinned != other.pinned) return false
-        if (muted != other.muted) return false
-        if (poll != other.poll) return false
-        if (card != other.card) return false
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + (url?.hashCode() ?: 0)
-        result = 31 * result + account.hashCode()
-        result = 31 * result + (inReplyToId?.hashCode() ?: 0)
-        result = 31 * result + (inReplyToAccountId?.hashCode() ?: 0)
-        result = 31 * result + (reblog?.hashCode() ?: 0)
-        result = 31 * result + content.toString().hashCode()
-        result = 31 * result + createdAt.hashCode()
-        result = 31 * result + emojis.hashCode()
-        result = 31 * result + reblogsCount
-        result = 31 * result + favouritesCount
-        result = 31 * result + reblogged.hashCode()
-        result = 31 * result + favourited.hashCode()
-        result = 31 * result + bookmarked.hashCode()
-        result = 31 * result + sensitive.hashCode()
-        result = 31 * result + spoilerText.hashCode()
-        result = 31 * result + visibility.hashCode()
-        result = 31 * result + attachments.hashCode()
-        result = 31 * result + mentions.hashCode()
-        result = 31 * result + (tags?.hashCode() ?: 0)
-        result = 31 * result + (application?.hashCode() ?: 0)
-        result = 31 * result + (pinned?.hashCode() ?: 0)
-        result = 31 * result + (muted?.hashCode() ?: 0)
-        result = 31 * result + (poll?.hashCode() ?: 0)
-        result = 31 * result + (card?.hashCode() ?: 0)
-        return result
     }
 
     data class Mention(

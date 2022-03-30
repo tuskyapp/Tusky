@@ -15,9 +15,6 @@
 
 package com.keylesspalace.tusky.components.timeline
 
-import android.text.SpannedString
-import androidx.core.text.parseAsHtml
-import androidx.core.text.toHtml
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.TimelineAccountEntity
@@ -29,8 +26,6 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
-import com.keylesspalace.tusky.util.shouldTrimStatus
-import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
@@ -119,7 +114,7 @@ fun Status.toEntity(
         authorServerId = actionableStatus.account.id,
         inReplyToId = actionableStatus.inReplyToId,
         inReplyToAccountId = actionableStatus.inReplyToAccountId,
-        content = actionableStatus.content.toHtml(),
+        content = actionableStatus.content,
         createdAt = actionableStatus.createdAt.time,
         emojis = actionableStatus.emojis.let(gson::toJson),
         reblogsCount = actionableStatus.reblogsCount,
@@ -165,8 +160,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
             reblog = null,
-            content = status.content?.parseAsHtml()?.trimTrailingWhitespace()
-                ?: SpannedString(""),
+            content = status.content.orEmpty(),
             createdAt = Date(status.createdAt),
             emojis = emojis,
             reblogsCount = status.reblogsCount,
@@ -195,7 +189,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             inReplyToId = null,
             inReplyToAccountId = null,
             reblog = reblog,
-            content = SpannedString(""),
+            content = "",
             createdAt = Date(status.createdAt), // lie but whatever?
             emojis = listOf(),
             reblogsCount = 0,
@@ -223,8 +217,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
             reblog = null,
-            content = status.content?.parseAsHtml()?.trimTrailingWhitespace()
-                ?: SpannedString(""),
+            content = status.content.orEmpty(),
             createdAt = Date(status.createdAt),
             emojis = emojis,
             reblogsCount = status.reblogsCount,
@@ -249,7 +242,6 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
         status = status,
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
-        isCollapsible = shouldTrimStatus(status.content),
         isCollapsed = this.status.contentCollapsed
     )
 }
