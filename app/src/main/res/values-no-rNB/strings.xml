@@ -9,14 +9,14 @@
     <string name="error_authorization_unknown">En ukjent autoriseringsfeil oppsto.</string>
     <string name="error_authorization_denied">Autorisasjon ble nektet.</string>
     <string name="error_retrieving_oauth_token">Henting av logintoken feilet.</string>
-    <string name="error_compose_character_limit">Statusen er for lang!</string>
+    <string name="error_compose_character_limit">Innlegget er for langt!</string>
     <string name="error_image_upload_size">Filen må være mindre enn 8MB.</string>
     <string name="error_video_upload_size">Videofiler må være mindre enn 40MB.</string>
     <string name="error_media_upload_type">Den filtypen kan ikke lastes opp.</string>
     <string name="error_media_upload_opening">Den filen kunne ikke åpnes.</string>
     <string name="error_media_upload_permission">Trenger tillatelse til å lese media.</string>
     <string name="error_media_download_permission">Trenger tillatelse for å lagre media.</string>
-    <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme status.</string>
+    <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme innlegg.</string>
     <string name="error_media_upload_sending">Opplastingen feilet.</string>
     <string name="error_sender_account_gone">En feil oppsto under sending av innlegget.</string>
     <string name="title_home">Hjem</string>
@@ -26,7 +26,7 @@
     <string name="title_direct_messages">Direktemeldinger</string>
     <string name="title_tab_preferences">Faner</string>
     <string name="title_view_thread">Tråd</string>
-    <string name="title_posts">Toots</string>
+    <string name="title_posts">Innlegg</string>
     <string name="title_posts_with_replies">Med svar</string>
     <string name="title_posts_pinned">Festet</string>
     <string name="title_follows">Følger</string>
@@ -329,7 +329,7 @@
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innholdsadvarsel: %s</string>
     <string name="description_post_media_no_description_placeholder">Ingen beskrivelse</string>
-    <string name="description_post_reblogged">Reblogged</string>
+    <string name="description_post_reblogged">Reblogget</string>
     <string name="description_post_favourited">Favorisert</string>
     <string name="description_visiblity_public">Offentlig</string>
     <string name="description_visiblity_unlisted">Ikke listet</string>
@@ -399,7 +399,7 @@
     <string name="hint_additional_info">Flere kommentarer</string>
     <string name="report_remote_instance">Videresend til %s</string>
     <string name="failed_report">Klarte ikke å rapportere</string>
-    <string name="failed_fetch_posts">Klarte ikke å hente statuser</string>
+    <string name="failed_fetch_posts">Klarte ikke å hente innlegg</string>
     <string name="report_description_1">Rapporten vil bli sendt til instansmoderatoren. Under kan du skrive en forklaring på hvorfor du rapporterer denne kontoen:</string>
     <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit\?</string>
     <string name="title_domain_mutes">Skjulte domener</string>
@@ -440,7 +440,7 @@
     <string name="description_post_bookmarked">Bokmerke lagt til</string>
     <string name="select_list_title">Velg liste</string>
     <string name="list">Liste</string>
-    <string name="no_scheduled_posts">Du har ingen planlagte statuser.</string>
+    <string name="no_scheduled_posts">Du har ingen planlagte innlegg.</string>
     <string name="no_drafts">Du har ikke lagret noen kladder.</string>
     <string name="error_audio_upload_size">Lydfiler må være mindre enn 40MB.</string>
     <string name="warning_scheduling_interval">Mastodon har et minimums planleggingsinterval på 5 minutter.</string>
