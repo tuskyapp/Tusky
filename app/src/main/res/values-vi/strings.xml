@@ -192,7 +192,7 @@
     <string name="title_posts_pinned">Ghim</string>
     <string name="title_posts_with_replies">Trả lời</string>
     <string name="title_posts">Tút</string>
-    <string name="title_view_thread">Tút</string>
+    <string name="title_view_thread">Chuỗi tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Tin nhắn</string>
     <string name="title_public_federated">Thế giới</string>
@@ -472,12 +472,12 @@
     <string name="wellbeing_mode_notice">Các thông tin ảnh hưởng tới tâm lý hành vi của bạn sẽ bị ẩn. Bao gồm:
 \n
 \n - Thông báo Lượt thích/Đăng lại/Theo dõi
-\n - Số Lượt thích/Đăng lại của tút
+\n - Số Lượt thích/Đăng lại tút
 \n - Số Người theo dõi/Tút trên trang cá nhân
 \n
 \nThông báo đẩy sẽ không ảnh hưởng, bạn có thể tự thiết lập trong phần cài đặt điện thoại của bạn.</string>
     <string name="pref_title_wellbeing_mode">Chống nghiện</string>
-    <string name="notification_subscription_description">Thông báo khi người bạn đăng ký theo dõi đăng tút mới</string>
+    <string name="notification_subscription_description">Thông báo khi người bạn theo dõi đăng tút mới</string>
     <string name="notification_subscription_name">Tút mới</string>
     <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_format">%s vừa đăng tút</string>
@@ -507,4 +507,5 @@
     <string name="duration_90_days">90 ngày</string>
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
+    <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
 </resources>
