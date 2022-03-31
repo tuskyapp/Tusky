@@ -11,10 +11,10 @@
     <string name="about_title_activity">Ɣef</string>
     <string name="action_lists">Tabdart</string>
     <string name="title_lists">Tabdarin</string>
-    <string name="error_compose_character_limit">Tijewwiqt-ik aṭas i ɣuzzifet!</string>
+    <string name="error_compose_character_limit">Izen-ik·im aṭas i ɣezzif!</string>
     <string name="title_home">Agejdan</string>
     <string name="title_tab_preferences">Iccaren</string>
-    <string name="title_view_thread">Tijewwiqt</string>
+    <string name="title_view_thread">Sensla</string>
     <string name="title_posts">Iznan</string>
     <string name="title_posts_with_replies">S tririyin</string>
     <string name="title_edit_profile">Ẓreg amaɣnu-ik</string>
@@ -117,7 +117,7 @@
     <string name="action_add_media">Rnu amidya</string>
     <string name="action_add_poll">Rnu assenqed</string>
     <string name="action_photo_take">Ṭef tugna</string>
-    <string name="action_toggle_visibility">Timeẓriwt n tijewwaqt</string>
+    <string name="action_toggle_visibility">Timeẓriwt n yizen</string>
     <string name="action_schedule_post">Sɣiwes tijewwaqt-a</string>
     <string name="post_share_content">Bḍu agbur n tijewwiqt-a</string>
     <string name="post_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
@@ -168,7 +168,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s akked %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s akked %3$d nniḍen</string>
-    <string name="compose_shortcut_long_label">Aru tijewwiqt</string>
+    <string name="compose_shortcut_long_label">Aru izen</string>
     <string name="poll_info_format"> <!-- 15 n wadɣaren • 1 n wesrag id yeqqimen --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s n wedɣar</item>
@@ -242,8 +242,8 @@
     <string name="title_public_local">Adigan</string>
     <string name="title_licenses">Turagin</string>
     <string name="post_boosted_format">Yebḍa-t %s</string>
-    <string name="notification_reblog_format">%s yebḍa tijewwiqt-ik·im</string>
-    <string name="notification_favourite_format">%s yerna tijewwiqt-ik·im ɣer ismenyafen-is</string>
+    <string name="notification_reblog_format">%s yebḍa izen-ik·im</string>
+    <string name="notification_favourite_format">%s yerna izen-ik·im ɣer ismenyafen-is</string>
     <string name="action_quick_reply">Tiririt taruradt</string>
     <string name="action_reblog">Bḍu</string>
     <string name="action_unreblog">Kkes beṭu</string>
