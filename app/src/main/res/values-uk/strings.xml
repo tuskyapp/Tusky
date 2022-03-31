@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Сталася помилка.</string>
-    <string name="status_username_format">\@%s</string>
+    <string name="post_username_format">\@%s</string>
     <string name="title_licenses">Ліцензії</string>
     <string name="title_edit_profile">Редагувати профіль</string>
     <string name="title_follow_requests">Запити на підписку</string>
     <string name="title_bookmarks">Закладки</string>
     <string name="title_followers">Підписники</string>
     <string name="title_follows">Підписки</string>
-    <string name="title_statuses_pinned">Прикріплені</string>
-    <string name="title_statuses_with_replies">З відповідями</string>
+    <string name="title_posts_pinned">Прикріплені</string>
+    <string name="title_posts_with_replies">З відповідями</string>
     <string name="title_public_federated">Загальні</string>
     <string name="title_public_local">Локальні</string>
     <string name="title_direct_messages">Приватні повідомлення</string>
     <string name="title_notifications">Сповіщення</string>
     <string name="title_home">Головна</string>
-    <string name="error_sender_account_gone">Помилка надіслання допису.</string>
+    <string name="error_sender_account_gone">Помилка надсилання допису.</string>
     <string name="error_media_upload_image_or_video">Зображення та відео не можуть бути прикріплені до статусу одночасно.</string>
     <string name="error_media_download_permission">Потрібен дозвіл на зберігання медіа.</string>
     <string name="error_media_upload_permission">Потрібен дозвіл на читання медіа.</string>
@@ -45,7 +45,7 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="status_sent">Надіслати!</string>
+    <string name="post_sent">Надіслати!</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
@@ -101,10 +101,10 @@
     <string name="notification_follow_format">%s підписується на вас</string>
     <string name="footer_empty">Тут нічого немає. Потягніть вниз, щоб оновити!</string>
     <string name="message_empty">Тут нічого немає.</string>
-    <string name="status_content_warning_show_less">Згорнути</string>
-    <string name="status_content_warning_show_more">Розгорнути</string>
-    <string name="status_sensitive_media_directions">Натисніть для перегляду</string>
-    <string name="status_media_hidden_title">Медіа приховано</string>
+    <string name="post_content_warning_show_less">Згорнути</string>
+    <string name="post_content_warning_show_more">Розгорнути</string>
+    <string name="post_sensitive_media_directions">Натисніть для перегляду</string>
+    <string name="post_media_hidden_title">Медіа приховано</string>
     <string name="hint_content_warning">Попередження про вміст</string>
     <string name="edit_poll">Змінити</string>
     <string name="compose_shortcut_short_label">Написати</string>
@@ -130,16 +130,16 @@
     <string name="action_more">Розгорнути</string>
     <string name="action_unreblog">Прибрати просування</string>
     <string name="action_reblog">Просунути</string>
-    <string name="notification_favourite_format">%s вподобує ваш дмух</string>
-    <string name="notification_reblog_format">%s просуває ваш дмух</string>
-    <string name="status_content_show_less">Згорнути</string>
-    <string name="status_content_show_more">Розгорнути</string>
-    <string name="status_sensitive_media_title">Делікатний вміст</string>
-    <string name="status_boosted_format">%s просуває</string>
+    <string name="notification_favourite_format">%s вподобує ваш допис</string>
+    <string name="notification_reblog_format">%s просуває ваш допис</string>
+    <string name="post_content_show_less">Згорнути</string>
+    <string name="post_content_show_more">Розгорнути</string>
+    <string name="post_sensitive_media_title">Делікатний вміст</string>
+    <string name="post_boosted_format">%s просуває</string>
     <string name="title_domain_mutes">Приховані домени</string>
     <string name="title_mutes">Заглушені користувачі</string>
-    <string name="title_statuses">Дописи</string>
-    <string name="title_view_thread">Дмухнути</string>
+    <string name="title_posts">Дописи</string>
+    <string name="title_view_thread">Тред</string>
     <string name="title_tab_preferences">Вкладки</string>
     <string name="error_media_upload_sending">Не вдалося відвантажити.</string>
     <string name="error_retrieving_oauth_token">Не вдалося отримати токен входу.</string>
@@ -149,17 +149,17 @@
     <string name="error_invalid_domain">Введено недійсний домен</string>
     <string name="action_open_reblogged_by">Показати просування</string>
     <string name="pref_title_show_boosts">Показати просування</string>
-    <string name="pref_title_status_tabs">Вкладки</string>
+    <string name="pref_title_post_tabs">Вкладки</string>
     <string name="action_unmute_domain">Не глушити %s</string>
-    <string name="action_toggle_visibility">Видимість дмухів</string>
+    <string name="action_toggle_visibility">Видимість дописів</string>
     <string name="wellbeing_mode_notice">Деякі відомості, які можуть вплинути на ваше психічний стан, буде приховано. Це включає:
 \n
 \n - Вподобання/Просування/Сповіщення про підписки
-\n - Вподобання/Кількість просувань дмухів
+\n - Вподобання/Кількість просувань дописів
 \n - Статистика підписників/Публікацій у профілях
 \n
 \n На push-сповіщення це не вплине, але ви можете переглянути налаштування сповіщень вручну.</string>
-    <string name="description_status_favourited">Вподобано</string>
+    <string name="description_post_favourited">Вподобано</string>
     <string name="title_favourited_by">Вподобали</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> вподобання</item>
@@ -167,7 +167,7 @@
         <item quantity="many"><b>%1$s</b> вподобань</item>
         <item quantity="other"><b>%1$s</b> вподобань</item>
     </plurals>
-    <string name="notification_favourite_description">Сповіщати про вподобання кимось дмухів</string>
+    <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
     <string name="pref_title_notification_filter_favourites">мої дописи вподобано</string>
     <string name="action_hide_media">Сховати медіа</string>
     <string name="action_mute_notifications_desc">Заглушити сповіщення від %s</string>
@@ -256,9 +256,9 @@
         <item quantity="other">%s голосів</item>
     </plurals>
     <string name="poll_info_format"> <!-- 15 голосів • 1 година залишилась --> %1$s • %2$s</string>
-    <string name="description_status_media_no_description_placeholder">Без опису</string>
-    <string name="description_status_cw">Попередження про вміст: %s</string>
-    <string name="description_status_media">Медіа: %s</string>
+    <string name="description_post_media_no_description_placeholder">Без опису</string>
+    <string name="description_post_cw">Попередження про вміст: %s</string>
+    <string name="description_post_media">Медіа: %s</string>
     <string name="title_reblogged_by">Просунули</string>
     <string name="profile_metadata_content_label">Вміст</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -269,7 +269,7 @@
     <string name="restart_emoji">Вам потрібно буде перезапустити Tusky, щоб застосувати ці зміни</string>
     <string name="restart_required">Необхідно перезапустити застосунок</string>
     <string name="action_open_post">Відкрити дмух</string>
-    <string name="expand_collapse_all_statuses">Розгорнути/згорнути всі статуси</string>
+    <string name="expand_collapse_all_posts">Розгорнути/згорнути всі статуси</string>
     <string name="send_post_notification_saved_content">Копію дмуху збережено до ваших чернеток</string>
     <string name="send_post_notification_cancel_title">Надсилання скасовано</string>
     <string name="send_post_notification_channel_name">Надсилання дмухів</string>
@@ -302,7 +302,7 @@
     <string name="pref_title_public_filter_keywords">Загальнодоступні стрічки</string>
     <string name="load_more_placeholder_text">завантажити ще</string>
     <string name="replying_to">Відповідь для @%s</string>
-    <string name="pref_title_alway_open_spoiler">Завжди розгортати дмухи, з попередженнями про вміст</string>
+    <string name="pref_title_alway_open_spoiler">Завжди розгортати допис, з попередженнями про вміст</string>
     <string name="follows_you">Підписники</string>
     <string name="pref_title_alway_show_sensitive_media">Завжди показувати делікатний вміст</string>
     <string name="abbreviated_seconds_ago">%dс</string>
@@ -316,12 +316,12 @@
     <string name="abbreviated_in_days">за %dдн</string>
     <string name="abbreviated_in_years">за %dр.</string>
     <string name="state_follow_requested">Запит на підписку надіслано</string>
-    <string name="status_media_attachments">Вкладення</string>
-    <string name="status_media_audio">Звуки</string>
-    <string name="status_media_video">Відео</string>
-    <string name="status_media_images">Зображення</string>
-    <string name="status_share_link">Поділитися посиланням на дмух</string>
-    <string name="status_share_content">Поділитися вмістом дмуху</string>
+    <string name="post_media_attachments">Вкладення</string>
+    <string name="post_media_audio">Звуки</string>
+    <string name="post_media_video">Відео</string>
+    <string name="post_media_images">Зображення</string>
+    <string name="post_share_link">Поділитися посиланням на допис</string>
+    <string name="post_share_content">Поділитися вмістом допису</string>
     <string name="about_tusky_account">Профіль Tusky</string>
     <string name="about_bug_feature_request_site">Звіти про вади та запити функцій:
 \n https://github.com/tuskyapp/Tusky/issues</string>
@@ -344,23 +344,23 @@
     <string name="notification_summary_medium">%1$s, %2$s, та %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s та %4$d інших</string>
     <string name="notification_mention_format">%s згадує вас</string>
-    <string name="notification_subscription_description">Сповіщати про нові дмухи осіб, на яких ви підписалися</string>
-    <string name="notification_subscription_name">Нові дмухи</string>
+    <string name="notification_subscription_description">Сповіщати про нові дописи осіб, на яких ви підписалися</string>
+    <string name="notification_subscription_name">Нові дописи</string>
     <string name="notification_poll_description">Сповіщати про завершення опитувань</string>
     <string name="notification_poll_name">Опитування</string>
-    <string name="notification_boost_description">Сповіщати про просування кимось</string>
+    <string name="notification_boost_description">Сповіщати про просування кимось допису</string>
     <string name="notification_boost_name">Просування</string>
     <string name="notification_follow_request_description">Сповіщати про нові запити на підписки</string>
     <string name="notification_follow_description">Сповіщати про нових підписників</string>
     <string name="notification_follow_name">Нові підписники</string>
     <string name="notification_mention_descriptions">Сповіщати про нові згадки</string>
     <string name="notification_mention_name">Нові згадки</string>
-    <string name="status_text_size_largest">Найбільший</string>
-    <string name="status_text_size_large">Великий</string>
-    <string name="status_text_size_medium">Середній</string>
-    <string name="status_text_size_small">Маленький</string>
-    <string name="status_text_size_smallest">Найменший</string>
-    <string name="pref_status_text_size">Розмір шрифту статусу</string>
+    <string name="post_text_size_largest">Найбільший</string>
+    <string name="post_text_size_large">Великий</string>
+    <string name="post_text_size_medium">Середній</string>
+    <string name="post_text_size_small">Маленький</string>
+    <string name="post_text_size_smallest">Найменший</string>
+    <string name="pref_post_text_size">Розмір шрифту статусу</string>
     <string name="post_privacy_followers_only">Лише для підписників</string>
     <string name="description_visiblity_unlisted">Приховано</string>
     <string name="post_privacy_unlisted">Приховано</string>
@@ -380,7 +380,7 @@
     <string name="pref_title_proxy_settings">Проксі</string>
     <string name="pref_title_show_media_preview">Завантаження попереднього перегляду медіа</string>
     <string name="pref_title_show_replies">Показати відповіді</string>
-    <string name="pref_title_status_filter">Фільтрування стрічки</string>
+    <string name="pref_title_post_filter">Фільтрування стрічки</string>
     <string name="pref_title_animate_custom_emojis">Анімувати власні емодзі</string>
     <string name="pref_title_gradient_for_media">Показувати барвисті градієнти замість прихованих медіа</string>
     <string name="pref_title_animate_gif_avatars">Анімовані GIF-аватарки</string>
@@ -398,7 +398,7 @@
     <string name="pref_title_timelines">Стрічки</string>
     <string name="pref_title_app_theme">Тема застосунку</string>
     <string name="pref_title_appearance_settings">Вигляд</string>
-    <string name="pref_title_notification_filter_subscriptions">хтось, на кого мене підписано, публікує новий дмух</string>
+    <string name="pref_title_notification_filter_subscriptions">хтось, на кого мене підписано, публікує новий допис</string>
     <string name="pref_title_notification_filter_poll">опитування завершено</string>
     <string name="pref_title_notification_filter_reblogs">мої дописи просунуто</string>
     <string name="pref_title_notification_filter_follow_requests">отримано запит на підписку</string>
@@ -438,13 +438,13 @@
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Відповісти…</string>
     <string name="hint_display_name">Показуване ім\'я</string>
-    <string name="status_sent_long">Відповідь успішно надіслано.</string>
+    <string name="post_sent_long">Відповідь успішно надіслано.</string>
     <string name="confirmation_domain_unmuted">%s показано</string>
     <string name="confirmation_unmuted">Глушіння користувача прибрано</string>
     <string name="confirmation_unblocked">Користувача розблоковано</string>
     <string name="send_media_to">Поділитися медіа з…</string>
-    <string name="send_status_content_to">Поділитися дмухом з…</string>
-    <string name="send_status_link_to">Поділитися URL-адресою дмуха з…</string>
+    <string name="send_post_content_to">Поділитися дописом з…</string>
+    <string name="send_post_link_to">Поділитися URL-адресою допису з…</string>
     <string name="downloading_media">Завантаження медіа</string>
     <string name="download_media">Завантажити медіа</string>
     <string name="action_open_media_n">Відкрити медіа #%d</string>
@@ -477,7 +477,7 @@
     <string name="pref_title_show_cards_in_timelines">Показувати попередній перегляд посилань у стрічках</string>
     <string name="warning_scheduling_interval">Найкоротший час планування Mastodon становить 5 хвилин.</string>
     <string name="no_announcements">Оголошень немає.</string>
-    <string name="no_scheduled_status">Черга статусів порожня.</string>
+    <string name="no_scheduled_posts">Черга статусів порожня.</string>
     <string name="no_drafts">У вас немає чернеток.</string>
     <string name="post_lookup_error_format">Помилка пошуку допису %s</string>
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
@@ -485,11 +485,11 @@
     <string name="failed_search">Не вдалося здійснити пошук</string>
     <string name="report_description_remote_instance">Обліковий запис з іншого сервера. Надіслати анонімізовану копію звіту й туди\?</string>
     <string name="report_description_1">Скаргу буде надіслано вашому модератору сервера. Ви можете надати пояснення, чому ви повідомляєте про цей обліковий запис знизу:</string>
-    <string name="failed_fetch_statuses">Не вдалося отримати статуси</string>
+    <string name="failed_fetch_posts">Не вдалося отримати статуси</string>
     <string name="report_remote_instance">Переслати до %s</string>
     <string name="compose_preview_image_description">Дії для зображення %s</string>
     <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення\?</string>
-    <string name="compose_shortcut_long_label">Створити дмух</string>
+    <string name="compose_shortcut_long_label">Створити допис</string>
     <string name="filter_apply">Застосувати</string>
     <string name="notifications_apply_filter">Фільтр</string>
     <string name="notifications_clear">Очистити</string>
@@ -500,8 +500,8 @@
     <string name="hint_list_name">Назва списку</string>
     <string name="description_poll">Опитування з варіантами: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visiblity_direct">Безпосередньо</string>
-    <string name="description_status_bookmarked">Додано до закладок</string>
-    <string name="description_status_reblogged">Просунуто</string>
+    <string name="description_post_bookmarked">Додано до закладок</string>
+    <string name="description_post_reblogged">Просунуто</string>
     <plurals name="max_tab_number_reached">
         <item quantity="one">досягнено обмеження %1$d вкладка</item>
         <item quantity="few">досягнено обмеження %1$d вкладки</item>
@@ -540,4 +540,5 @@
     <string name="duration_90_days">90 днів</string>
     <string name="duration_180_days">180 днів</string>
     <string name="duration_365_days">365 днів</string>
+    <string name="tusky_compose_post_quicksetting_label">Створити допис</string>
 </resources>

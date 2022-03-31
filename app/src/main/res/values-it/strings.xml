@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Messaggi Diretti</string>
     <string name="title_tab_preferences">Schede</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_statuses">Post</string>
-    <string name="title_statuses_with_replies">Con risposte</string>
-    <string name="title_statuses_pinned">Fissati in alto</string>
+    <string name="title_posts">Post</string>
+    <string name="title_posts_with_replies">Con risposte</string>
+    <string name="title_posts_pinned">Fissati in alto</string>
     <string name="title_follows">Seguiti</string>
     <string name="title_followers">Seguono</string>
     <string name="title_favourites">Preferiti</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Modifica il tuo profilo</string>
     <string name="title_drafts">Bozze</string>
     <string name="title_licenses">Licenze</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s ha boostato</string>
-    <string name="status_sensitive_media_title">Contenuto sensibile</string>
-    <string name="status_media_hidden_title">Media nascosto</string>
-    <string name="status_sensitive_media_directions">Clicca per visualizzare</string>
-    <string name="status_content_warning_show_more">Mostra di Più</string>
-    <string name="status_content_warning_show_less">Mostra Meno</string>
-    <string name="status_content_show_more">Espandi</string>
-    <string name="status_content_show_less">Riduci</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s ha boostato</string>
+    <string name="post_sensitive_media_title">Contenuto sensibile</string>
+    <string name="post_media_hidden_title">Media nascosto</string>
+    <string name="post_sensitive_media_directions">Clicca per visualizzare</string>
+    <string name="post_content_warning_show_more">Mostra di Più</string>
+    <string name="post_content_warning_show_less">Mostra Meno</string>
+    <string name="post_content_show_more">Espandi</string>
+    <string name="post_content_show_less">Riduci</string>
     <string name="message_empty">Qui non c\'è niente.</string>
     <string name="footer_empty">Qui non c\'è niente. Trascina verso il basso per aggiornare!</string>
     <string name="notification_reblog_format">%s ha boostato il tuo toot</string>
@@ -120,14 +120,14 @@
     <string name="action_copy_link">Copia il link</string>
     <string name="action_open_as">Apri come %s</string>
     <string name="action_share_as">Condividi come …</string>
-    <string name="send_status_link_to">Condividi URL del toot su…</string>
-    <string name="send_status_content_to">Condividi toot su…</string>
+    <string name="send_post_link_to">Condividi URL del toot su…</string>
+    <string name="send_post_content_to">Condividi toot su…</string>
     <string name="send_media_to">Condividi media su…</string>
     <string name="confirmation_reported">Inviato!</string>
     <string name="confirmation_unblocked">Utente sbloccato</string>
     <string name="confirmation_unmuted">Utente non più silenziato</string>
-    <string name="status_sent">Inviato!</string>
-    <string name="status_sent_long">Risposta inviata con successo.</string>
+    <string name="post_sent">Inviato!</string>
+    <string name="post_sent_long">Risposta inviata con successo.</string>
     <string name="hint_domain">Quale istanza?</string>
     <string name="hint_compose">Cosa succede?</string>
     <string name="hint_content_warning">Avviso di contenuto sensibile</string>
@@ -181,8 +181,8 @@
     <string name="pref_title_custom_tabs">Usa Tab Personalizzate di Chrome</string>
     <string name="pref_title_hide_follow_button">Nascondi il pulsante componi mentre scorri</string>
     <string name="pref_title_language">Lingua</string>
-    <string name="pref_title_status_filter">Filtraggio della timeline</string>
-    <string name="pref_title_status_tabs">Schede</string>
+    <string name="pref_title_post_filter">Filtraggio della timeline</string>
+    <string name="pref_title_post_tabs">Schede</string>
     <string name="pref_title_show_boosts">Mostra boost</string>
     <string name="pref_title_show_replies">Mostra risposte</string>
     <string name="pref_title_show_media_preview">Mostra anteprime media</string>
@@ -198,12 +198,12 @@
     <string name="post_privacy_public">Pubblico</string>
     <string name="post_privacy_unlisted">Non elencato</string>
     <string name="post_privacy_followers_only">Solo per chi ti segue</string>
-    <string name="pref_status_text_size">Dimensione del testo degli stati</string>
-    <string name="status_text_size_smallest">Piccolissimo</string>
-    <string name="status_text_size_small">Piccolo</string>
-    <string name="status_text_size_medium">Normale</string>
-    <string name="status_text_size_large">Grande</string>
-    <string name="status_text_size_largest">Grandissimo</string>
+    <string name="pref_post_text_size">Dimensione del testo degli stati</string>
+    <string name="post_text_size_smallest">Piccolissimo</string>
+    <string name="post_text_size_small">Piccolo</string>
+    <string name="post_text_size_medium">Normale</string>
+    <string name="post_text_size_large">Grande</string>
+    <string name="post_text_size_largest">Grandissimo</string>
     <string name="notification_mention_name">Nuove Menzioni</string>
     <string name="notification_mention_descriptions">Notifiche quando qualcuno ti menziona</string>
     <string name="notification_follow_name">Nuove persone che ti seguono</string>
@@ -237,10 +237,10 @@
     <string name="about_bug_feature_request_site">Segnala problemi &amp; richiedi funzionalità:\n
 		https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profilo di Tusky</string>
-    <string name="status_share_content">Condividi contenuto del toot</string>
-    <string name="status_share_link">Condividi link al toot</string>
-    <string name="status_media_images">Immagini</string>
-    <string name="status_media_video">Video</string>
+    <string name="post_share_content">Condividi contenuto del toot</string>
+    <string name="post_share_link">Condividi link al toot</string>
+    <string name="post_media_images">Immagini</string>
+    <string name="post_media_video">Video</string>
     <string name="state_follow_requested">In attesa di approvazione</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">in %d a</string>
@@ -302,7 +302,7 @@
     <string name="system_default">Predefiniti del sistema</string>
     <string name="download_fonts">Dovrai prima scaricare questo pacchetto di emoji</string>
     <string name="performing_lookup_title">Eseguendo una ricerca…</string>
-    <string name="expand_collapse_all_statuses">Espandi/Riduci tutti gli stati</string>
+    <string name="expand_collapse_all_posts">Espandi/Riduci tutti gli stati</string>
     <string name="action_open_post">Apri toot</string>
     <string name="restart_required">Riavvio dell\'app richiesto</string>
     <string name="restart_emoji">Devi riavviare Tusky per applicare queste modifiche</string>
@@ -345,15 +345,15 @@
         <item quantity="one">limite massimo di %1$d tab raggiunto</item>
         <item quantity="other">limite massimo di %1$d tab raggiunto</item>
     </plurals>
-    <string name="description_status_media">        Media: %s
+    <string name="description_post_media">        Media: %s
     </string>
-    <string name="description_status_cw">        Contenuto sensibile: %s
+    <string name="description_post_cw">        Contenuto sensibile: %s
     </string>
-    <string name="description_status_media_no_description_placeholder">        Nessuna descrizione
+    <string name="description_post_media_no_description_placeholder">        Nessuna descrizione
     </string>
-    <string name="description_status_reblogged">        Ribloggato
+    <string name="description_post_reblogged">        Ribloggato
     </string>
-    <string name="description_status_favourited">        Apprezzato
+    <string name="description_post_favourited">        Apprezzato
     </string>
     <string name="description_visiblity_public">        Pubblico
     </string>
@@ -402,7 +402,7 @@
     <string name="action_add_poll">Aggiungi sondaggio</string>
     <string name="about_powered_by_tusky">Fatto con Tusky</string>
     <string name="pref_title_alway_open_spoiler">Espandi sempre i toot segnalati come contenuto sensibile</string>
-    <string name="description_status_bookmarked">Messo nei segalibri</string>
+    <string name="description_post_bookmarked">Messo nei segalibri</string>
     <string name="description_poll">Sondaggio con scelte: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="select_list_title">Scegli lista</string>
     <string name="list">Lista</string>
@@ -432,7 +432,7 @@
     <string name="hint_additional_info">Altri commenti</string>
     <string name="report_remote_instance">Inoltra a %s</string>
     <string name="failed_report">Errore durante l\'invio</string>
-    <string name="failed_fetch_statuses">Errore durante lo scaricamento degli aggiornamenti</string>
+    <string name="failed_fetch_posts">Errore durante lo scaricamento degli aggiornamenti</string>
     <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perchè vuoi segnalare questo utente qui sotto:</string>
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
@@ -479,7 +479,7 @@
     <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle timelines</string>
     <string name="warning_scheduling_interval">Mastodon ha un intervallo minimo di programmazione di 5 minuti.</string>
     <string name="no_announcements">Non ci sono annunci.</string>
-    <string name="no_scheduled_status">Non hai stati pianificati.</string>
+    <string name="no_scheduled_posts">Non hai stati pianificati.</string>
     <string name="pref_title_enable_swipe_for_tabs">Abilita il gesto di scorrimento per passare da una scheda all\'altra</string>
     <string name="notification_follow_request_description">Notifiche sulle richieste di essere seguiti</string>
     <string name="pref_main_nav_position_option_bottom">Parte inferiore</string>
@@ -510,8 +510,8 @@
     <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %s\?</string>
     <string name="duration_indefinite">Indefinita</string>
     <string name="label_duration">Durata</string>
-    <string name="status_media_attachments">Allegati</string>
-    <string name="status_media_audio">Audio</string>
+    <string name="post_media_attachments">Allegati</string>
+    <string name="post_media_audio">Audio</string>
     <string name="pref_title_animate_custom_emojis">Mostra le animazioni delle emojis personalizzate</string>
     <string name="action_subscribe_account">Iscriviti</string>
     <string name="dialog_delete_conversation_warning">Rimuovere questa conversazione\?</string>

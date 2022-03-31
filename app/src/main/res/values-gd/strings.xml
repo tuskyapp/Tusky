@@ -58,9 +58,9 @@
     <string name="drafts_post_reply_removed">Bha againn ris a’ phost a bha thu airson freagairt dha a thoirt air falbh</string>
     <string name="draft_deleted">Chaidh an dreach a sguabadh às</string>
     <string name="drafts_failed_loading_reply">Cha deach leinn fiosrachadh na freagairte a luchdadh</string>
-    <string name="drafts_post_failed_to_send">Cha b’ urrainn dhuinn an dùd a chur!</string>
-    <string name="status_media_attachments">Ceanglachain</string>
-    <string name="status_media_audio">Fuaim</string>
+    <string name="drafts_post_failed_to_send">Cha b’ urrainn dhuinn am post a chur!</string>
+    <string name="post_media_attachments">Ceanglachain</string>
+    <string name="post_media_audio">Fuaim</string>
     <string name="dialog_delete_list_warning">A bheil thu cinnteach gu bheil thu airson an liosta %s a sguabadh às\?</string>
     <string name="duration_7_days">7 làithean</string>
     <string name="duration_3_days">3 làithean</string>
@@ -81,12 +81,12 @@
     <string name="wellbeing_hide_stats_posts">Falaich an stadastaireachd àireamhail air postaichean</string>
     <string name="limit_notifications">Cuingich na brathan mun loidhne-ama</string>
     <string name="review_notifications">Thoir sùil air na brathan</string>
-    <string name="wellbeing_mode_notice">Thèid cuid a dh’fhiosrachadh a dh’fhaodadh droch-bhuaidh a thoirt air d’ shlàinte-inntinn fhalach. Tha seo a’ gabhail a-staigh: 
-\n 
-\n - Brathan air annsachdan/brosnachaidhean/leantainn 
-\n - Cunntas nan annsachdan/brosnachaidhean air postaichean 
-\n - Stadastaireachd an luchd-leantainn/nam postaichean air pròifilean 
-\n 
+    <string name="wellbeing_mode_notice">Thèid cuid a dh’fhiosrachadh a dh’fhaodadh droch-bhuaidh a thoirt air d’ shlàinte-inntinn fhalach. Tha seo a’ gabhail a-staigh:
+\n
+\n - Brathan air annsachdan/brosnachaidhean/leanntainn
+\n - Cunntas nan annsachdan/brosnachaidhean air postaichean
+\n - Stadastaireachd an luchd-leantainn/nam postaichean air pròifilean
+\n
 \n Cha doir seo buaidh air na brathan-putaidh ach ’s urrainn dhut roghainnean nam brathan agad atharrachadh a làimh.</string>
     <string name="pref_title_wellbeing_mode">Slàinte-inntinn</string>
     <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
@@ -104,7 +104,7 @@
     <string name="pref_title_confirm_reblogs">Seall còmhradh dearbhaidh mus dèan thu brosnachadh</string>
     <string name="pref_title_show_cards_in_timelines">Seall ro-sheallaidhean air ceanglaichean sna loidhnichean-ama</string>
     <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar staidean sgeidealaichte air Mastodon.</string>
-    <string name="no_scheduled_status">Chan eil staid sam bith air an sgeideal agad.</string>
+    <string name="no_scheduled_posts">Chan eil staid sam bith air an sgeideal agad.</string>
     <string name="no_drafts">Chan eil dreachd sam bith agad.</string>
     <string name="post_lookup_error_format">Thachair mearachd le lorg a’ phuist %s</string>
     <string name="poll_new_choice_hint">Roghainn %d</string>
@@ -117,7 +117,7 @@
     <string name="title_accounts">Cunntasan</string>
     <string name="report_description_remote_instance">Chaidh an cunntas a chlàradh air frithealaiche eile. A bheil thu airson lethbhreac dhen ghearan a chur dha-san gun ainm cuideachd\?</string>
     <string name="report_description_1">Thèid do ghearan a chur gu maor an fhrithealaiche agad. ’S urrainn dhut mìneachadh a sholar air carson a tha thu a’ gearan mun chunntas gu h-ìosal:</string>
-    <string name="failed_fetch_statuses">Cha b’ urrainn dhuinn na staidean fhaighinn</string>
+    <string name="failed_fetch_posts">Cha b’ urrainn dhuinn na staidean fhaighinn</string>
     <string name="failed_report">Cha b’ urrainn dhuinn do ghearan a chlàradh</string>
     <string name="report_remote_instance">Sìn air adhart gu %s</string>
     <string name="hint_additional_info">Beachdan a bharrachd</string>
@@ -180,12 +180,12 @@
     <string name="hint_list_name">Ainm na liosta</string>
     <string name="description_poll">Cunntas-bheachd le roghainnean: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visiblity_direct">Dìreach</string>
-    <string name="description_status_bookmarked">’Na chomharra-lìn</string>
-    <string name="description_status_favourited">’Na annsachd</string>
-    <string name="description_status_reblogged">Air ath-bhlogadh</string>
-    <string name="description_status_media_no_description_placeholder">Gun tuairisgeul</string>
-    <string name="description_status_cw">Rabhadh susbainte: %s</string>
-    <string name="description_status_media">Meadhan: %s</string>
+    <string name="description_post_bookmarked">’Na chomharra-lìn</string>
+    <string name="description_post_favourited">’Na annsachd</string>
+    <string name="description_post_reblogged">Air ath-bhlogadh</string>
+    <string name="description_post_media_no_description_placeholder">Gun tuairisgeul</string>
+    <string name="description_post_cw">Rabhadh susbainte: %s</string>
+    <string name="description_post_media">Meadhan: %s</string>
     <plurals name="max_tab_number_reached">
         <item quantity="one">ràinig thu na tha ceadaichte dhe %1$d taba</item>
         <item quantity="two">ràinig thu na tha ceadaichte dhe %1$d thaba</item>
@@ -234,7 +234,7 @@
     <string name="restart_emoji">Feumaidh tu Tusky ath-thòiseachadh gus na roghainnean seo a chur an sàs</string>
     <string name="restart_required">Feumaidh tu an aplacaid ath-thòiseachadh</string>
     <string name="action_open_post">Fosgail am post</string>
-    <string name="expand_collapse_all_statuses">Leudaich/Co-theannaich gach staid</string>
+    <string name="expand_collapse_all_posts">Leudaich/Co-theannaich gach staid</string>
     <string name="performing_lookup_title">’Ga lorg…</string>
     <string name="download_fonts">Feumaidh tu na seataichean seo de dh’Emojis a luchdadh a-nuas an toiseach</string>
     <string name="system_default">Bun-roghainn an t-siostaim</string>
@@ -251,8 +251,11 @@
     <string name="lock_account_label">Glais an cunntas</string>
     <string name="action_set_caption">Suidhidh am fo-thiotal</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
+        <item quantity="one">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
 \n(%d caractar(an) air a char as fhaide)</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh leis a’ chunntas %1$s</string>
@@ -271,29 +274,29 @@
     <string name="filter_add_description">An abairt ri chriathradh</string>
     <string name="filter_dialog_whole_word_description">Mur eil ach litrichean is àireamhan san fhacal-luirg, cha dèid a chur an sàs ach ma bhios e a’ maidseadh an fhacail shlàin</string>
     <string name="pref_title_alway_open_spoiler">Leudaich postaichean ris a bheil rabhadh susbainte an-còmhnaidh</string>
-    <string name="status_share_link">Co-roinn ceangal dhan phost</string>
-    <string name="status_share_content">Co-roinn susbaint a’ phuist</string>
+    <string name="post_share_link">Co-roinn ceangal dhan phost</string>
+    <string name="post_share_content">Co-roinn susbaint a’ phuist</string>
     <string name="about_tusky_license">’S e bathar-bog saor le bun-tùs fosgailte a th’ ann an Tusky. Tha e fo cheadachas GNU General Public License tionndadh 3. Chì thu an ceadachas an-seo: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="notification_favourite_description">Brathan nuair a thèid post agad a chomharrachadh ’na annsachd</string>
     <string name="notification_boost_description">Brathan nuair a thèid post agad brosnachadh</string>
     <string name="dialog_redraft_post_warning">A bheil thu airson am post seo a sguabadh às is dreachd ùr a dhèanamh air\?</string>
     <string name="dialog_delete_post_warning">A bheil thu airson am post seo a sguabadh às\?</string>
-    <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a> 
+    <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a>
 \n
 \nMur eil cunntas agad fhathast, cuir a-steach ainm an ionstans sa bheil thu airson ballrachd fhaighinn airson cunntas a chruthachadh ann.
 \n
-\n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach. 
+\n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach.
 \n
 \nGheibh thu barrachd fiosrachaidh air <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="send_status_content_to">Co-roinn am post le…</string>
-    <string name="send_status_link_to">Co-roinn URL a’ phuist le…</string>
+    <string name="send_post_content_to">Co-roinn am post le…</string>
+    <string name="send_post_link_to">Co-roinn URL a’ phuist le…</string>
     <string name="action_schedule_post">Cuir post air an sgeideal</string>
     <string name="action_toggle_visibility">Faicsinneachd a’ phuist</string>
     <string name="action_access_scheduled_posts">Postaichean air an sgeideal</string>
     <string name="notification_favourite_format">Chuir %s am post agad ris na h-annsachdan</string>
     <string name="notification_reblog_format">Bhrosnaich %s am post agad</string>
     <string name="title_scheduled_posts">Postaichean air an sgeideal</string>
-    <string name="title_view_thread">Post</string>
+    <string name="title_view_thread">Snàithlean</string>
     <string name="error_sender_account_gone">Mearachd a’ cur a’ phuist.</string>
     <string name="action_unmute_desc">Dì-mhùch %s</string>
     <string name="hashtags">Tagaichean hais</string>
@@ -324,8 +327,8 @@
     <string name="abbreviated_in_days">an ceann %dl</string>
     <string name="abbreviated_in_years">an ceann %db</string>
     <string name="state_follow_requested">Iarrar leantainn orm</string>
-    <string name="status_media_video">Videothan</string>
-    <string name="status_media_images">Dealbhan</string>
+    <string name="post_media_video">Videothan</string>
+    <string name="post_media_images">Dealbhan</string>
     <string name="about_tusky_account">Pròifil Tusky</string>
     <string name="about_bug_feature_request_site">Aithrisean air bugaichean ⁊ iarrtasan air gleusan:
 \n https://github.com/tuskyapp/Tusky/issues</string>
@@ -353,12 +356,12 @@
     <string name="notification_follow_name">Luchd-leantainn ùr</string>
     <string name="notification_mention_descriptions">Brathan mu iomraidhean ùra</string>
     <string name="notification_mention_name">Iomraidhean ùra</string>
-    <string name="status_text_size_largest">As motha</string>
-    <string name="status_text_size_large">Mòr</string>
-    <string name="status_text_size_medium">Meadhanach</string>
-    <string name="status_text_size_small">Beag</string>
-    <string name="status_text_size_smallest">As lugha</string>
-    <string name="pref_status_text_size">Meud teacsa na staid</string>
+    <string name="post_text_size_largest">As motha</string>
+    <string name="post_text_size_large">Mòr</string>
+    <string name="post_text_size_medium">Meadhanach</string>
+    <string name="post_text_size_small">Beag</string>
+    <string name="post_text_size_smallest">As lugha</string>
+    <string name="pref_post_text_size">Meud teacsa na staid</string>
     <string name="post_privacy_followers_only">Luchd-leantainn a-mhàin</string>
     <string name="post_privacy_unlisted">Neo-liostaichte</string>
     <string name="post_privacy_public">Poblach</string>
@@ -376,8 +379,8 @@
     <string name="pref_title_proxy_settings">Progsaidh</string>
     <string name="pref_title_show_media_preview">Luchdaich a-nuas ro-sheallaidhean air meadhanan</string>
     <string name="pref_title_show_replies">Seall na freagairtean</string>
-    <string name="pref_title_status_tabs">Tabaichean</string>
-    <string name="pref_title_status_filter">Criathradh na loidhne-ama</string>
+    <string name="pref_title_post_tabs">Tabaichean</string>
+    <string name="pref_title_post_filter">Criathradh na loidhne-ama</string>
     <string name="pref_title_gradient_for_media">Seall caiseadan dathte an àite meadhanan falaichte</string>
     <string name="pref_title_animate_gif_avatars">Beothaich avataran GIF</string>
     <string name="pref_title_bot_overlay">Seall taisbeanair do bhotaichean</string>
@@ -423,8 +426,8 @@
     <string name="label_avatar">Avatar</string>
     <string name="search_no_results">Chan eil toradh ann</string>
     <string name="hint_domain">Cò an t-ionstans\?</string>
-    <string name="status_sent_long">Chaidh an fhreagairt a chur.</string>
-    <string name="status_sent">Chaidh a chur!</string>
+    <string name="post_sent_long">Chaidh an fhreagairt a chur.</string>
+    <string name="post_sent">Chaidh a chur!</string>
     <string name="confirmation_domain_unmuted">Chan eil %s falaichte tuilleadh</string>
     <string name="confirmation_unmuted">Chaidh an cleachdaiche dhì-mhùchadh</string>
     <string name="confirmation_unblocked">Chaidh an cleachdaiche a dhì-bhacadh</string>
@@ -485,15 +488,15 @@
     <string name="notification_follow_format">Lean %s ort</string>
     <string name="footer_empty">Chan eil dad an-seo. Tarraing a-nuas airson ath-nuadhachadh!</string>
     <string name="message_empty">Chan eil dad an-seo.</string>
-    <string name="status_content_show_less">Co-theannaich</string>
-    <string name="status_content_show_more">Leudaich</string>
-    <string name="status_content_warning_show_less">Seall nas lugha dheth</string>
-    <string name="status_content_warning_show_more">Seall barrachd dheth</string>
-    <string name="status_sensitive_media_directions">Briog air gus a shealltainn</string>
-    <string name="status_media_hidden_title">Meadhanan falaichte</string>
-    <string name="status_sensitive_media_title">Susbaint fhrionasach</string>
-    <string name="status_boosted_format">’Ga bhrosnachadh le %s</string>
-    <string name="status_username_format">\@%s</string>
+    <string name="post_content_show_less">Co-theannaich</string>
+    <string name="post_content_show_more">Leudaich</string>
+    <string name="post_content_warning_show_less">Seall nas lugha dheth</string>
+    <string name="post_content_warning_show_more">Seall barrachd dheth</string>
+    <string name="post_sensitive_media_directions">Briog air gus a shealltainn</string>
+    <string name="post_media_hidden_title">Meadhanan falaichte</string>
+    <string name="post_sensitive_media_title">Susbaint fhrionasach</string>
+    <string name="post_boosted_format">’Ga bhrosnachadh le %s</string>
+    <string name="post_username_format">\@%s</string>
     <string name="title_licenses">Ceadachasan</string>
     <string name="title_follow_requests">Iarrtasan leantainn</string>
     <string name="title_domain_mutes">Àrainnean falaichte</string>
@@ -502,9 +505,9 @@
     <string name="title_bookmarks">Comharran-lìn</string>
     <string name="title_followers">Luchd-leantainn</string>
     <string name="title_follows">A’ leantainn air</string>
-    <string name="title_statuses_pinned">Prìnichte</string>
-    <string name="title_statuses_with_replies">Le freagairt</string>
-    <string name="title_statuses">Postaichean</string>
+    <string name="title_posts_pinned">Prìnichte</string>
+    <string name="title_posts_with_replies">Le freagairt</string>
+    <string name="title_posts">Postaichean</string>
     <string name="title_tab_preferences">Tabaichean</string>
     <string name="title_direct_messages">Teachdaireachdan dìreach</string>
     <string name="title_public_federated">Co-naisgte</string>
@@ -540,4 +543,5 @@
     <string name="duration_365_days">365 latha</string>
     <string name="duration_14_days">14 làithean</string>
     <string name="duration_60_days">60 latha</string>
+    <string name="tusky_compose_post_quicksetting_label">Sgrìobh post</string>
 </resources>

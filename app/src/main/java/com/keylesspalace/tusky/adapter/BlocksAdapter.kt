@@ -59,7 +59,7 @@ class BlocksAdapter(
             id = account.id
             val emojifiedName = account.name.emojify(account.emojis, displayName, animateEmojis)
             displayName.text = emojifiedName
-            val format = username.context.getString(R.string.status_username_format)
+            val format = username.context.getString(R.string.post_username_format)
             val formattedUsername = String.format(format, account.username)
             username.text = formattedUsername
             val avatarRadius = avatar.context.resources

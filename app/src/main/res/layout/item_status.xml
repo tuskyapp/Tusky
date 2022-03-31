@@ -132,13 +132,13 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textOff="@string/status_content_warning_show_more"
-        android:textOn="@string/status_content_warning_show_less"
+        android:textOff="@string/post_content_warning_show_more"
+        android:textOn="@string/post_content_warning_show_less"
         android:textSize="?attr/status_text_medium"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_description"
-        tools:text="@string/status_content_warning_show_more"
+        tools:text="@string/post_content_warning_show_more"
         tools:visibility="visible" />
 
     <TextView
@@ -243,7 +243,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_content"
-        tools:text="@string/status_content_show_less"
+        tools:text="@string/post_content_show_less"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

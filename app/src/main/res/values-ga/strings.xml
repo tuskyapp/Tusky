@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="status_content_show_more">Leathnaigh</string>
-    <string name="status_content_warning_show_less">Taispeáin Níos Lú</string>
-    <string name="status_content_warning_show_more">Taispeáin Níos Mó</string>
-    <string name="status_sensitive_media_directions">Cliceáil chun amharc</string>
-    <string name="status_media_hidden_title">Meáin i bhfolach</string>
-    <string name="status_sensitive_media_title">Ábhar íogair</string>
-    <string name="status_boosted_format">threisigh %s</string>
+    <string name="post_content_show_more">Leathnaigh</string>
+    <string name="post_content_warning_show_less">Taispeáin Níos Lú</string>
+    <string name="post_content_warning_show_more">Taispeáin Níos Mó</string>
+    <string name="post_sensitive_media_directions">Cliceáil chun amharc</string>
+    <string name="post_media_hidden_title">Meáin i bhfolach</string>
+    <string name="post_sensitive_media_title">Ábhar íogair</string>
+    <string name="post_boosted_format">threisigh %s</string>
     <string name="title_licenses">Ceadúnais</string>
     <string name="title_scheduled_posts">Tútanna sceidealta</string>
     <string name="title_edit_profile">Cuir do phróifíl in eagar</string>
@@ -17,8 +17,8 @@
     <string name="title_bookmarks">Leabharmharcanna</string>
     <string name="title_followers">Leanúna</string>
     <string name="title_follows">Leanúna</string>
-    <string name="title_statuses_pinned">Greamaithe</string>
-    <string name="title_statuses_with_replies">Le freagraí</string>
+    <string name="title_posts_pinned">Greamaithe</string>
+    <string name="title_posts_with_replies">Le freagraí</string>
     <string name="title_view_thread">Tút</string>
     <string name="title_direct_messages">Teachtaireachtaí Díreacha</string>
     <string name="title_public_federated">Cónaidhme</string>
@@ -81,15 +81,15 @@
     <string name="hint_content_warning">Rabhadh ábhair</string>
     <string name="hint_compose">Cad atá ag tarlú\?</string>
     <string name="hint_domain">Cén cás\?</string>
-    <string name="status_sent_long">Cuireadh an freagra go rathúil.</string>
-    <string name="status_sent">Seolta!</string>
+    <string name="post_sent_long">Cuireadh an freagra go rathúil.</string>
+    <string name="post_sent">Seolta!</string>
     <string name="confirmation_domain_unmuted">%s neamhcheangailte</string>
     <string name="confirmation_unmuted">Úsáideoir gan trácht</string>
     <string name="confirmation_unblocked">Úsáideoir gan bhac</string>
     <string name="confirmation_reported">Seolta!</string>
     <string name="send_media_to">Comhroinn na meáin le…</string>
-    <string name="send_status_content_to">Comhroinn tút chuig…</string>
-    <string name="send_status_link_to">Comhroinn URL tút chuig…</string>
+    <string name="send_post_content_to">Comhroinn tút chuig…</string>
+    <string name="send_post_link_to">Comhroinn URL tút chuig…</string>
     <string name="downloading_media">Meáin íoslódála</string>
     <string name="download_media">Íoslódáil na meáin</string>
     <string name="action_share_as">Comhroinn mar …</string>
@@ -182,9 +182,9 @@
     <string name="error_failed_app_registration">Theip ar fhíordheimhniú leis an gcás sin.</string>
     <string name="link_whats_an_instance">Cad is sampla ann\?</string>
     <string name="action_login">Logáil isteach le Mastodon</string>
-    <string name="status_media_images">Íomhánna</string>
-    <string name="status_share_link">Comhroinn nasc le tút</string>
-    <string name="status_share_content">Comhroinn ábhar na tút</string>
+    <string name="post_media_images">Íomhánna</string>
+    <string name="post_share_link">Comhroinn nasc le tút</string>
+    <string name="post_share_content">Comhroinn ábhar na tút</string>
     <string name="about_tusky_account">Próifíl Tusky</string>
     <string name="about_tusky_license">Is bogearraí foinse oscailte agus saor in aisce é Tusky. Tá sé ceadúnaithe faoi Leagan 3. Ceadúnas Poiblí Ginearálta GNU 3. Is féidir leat an ceadúnas a fheiceáil anseo: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Cumhachtaithe ag Tusky</string>
@@ -209,12 +209,12 @@
     <string name="notification_follow_name">Leantóirí Nua</string>
     <string name="notification_mention_descriptions">Fógraí faoi luanna nua</string>
     <string name="notification_mention_name">Tagairtí Nua</string>
-    <string name="status_text_size_largest">Is mó</string>
-    <string name="status_text_size_large">Móra</string>
-    <string name="status_text_size_medium">Mheán</string>
-    <string name="status_text_size_small">Beag</string>
-    <string name="status_text_size_smallest">Lúide</string>
-    <string name="pref_status_text_size">Méid an téacs stádais</string>
+    <string name="post_text_size_largest">Is mó</string>
+    <string name="post_text_size_large">Móra</string>
+    <string name="post_text_size_medium">Mheán</string>
+    <string name="post_text_size_small">Beag</string>
+    <string name="post_text_size_smallest">Lúide</string>
+    <string name="pref_post_text_size">Méid an téacs stádais</string>
     <string name="post_privacy_followers_only">Leantóirí-amháin</string>
     <string name="post_privacy_unlisted">Neamhliostaithe</string>
     <string name="post_privacy_public">Poiblí</string>
@@ -233,7 +233,7 @@
     <string name="pref_title_show_media_preview">Íoslódáil réamhamharcanna na meán</string>
     <string name="pref_title_show_replies">Taispeáin freagraí</string>
     <string name="pref_title_show_boosts">Taispeáin borradh</string>
-    <string name="pref_title_status_filter">Scagadh amlíne</string>
+    <string name="pref_title_post_filter">Scagadh amlíne</string>
     <string name="pref_title_gradient_for_media">Taispeáin grádáin ildaite do na meáin i bhfolach</string>
     <string name="pref_title_animate_gif_avatars">Beochan abhatár GIF</string>
     <string name="pref_title_bot_overlay">Taispeáin táscaire do róbónna</string>
@@ -251,9 +251,9 @@
     <string name="notification_reblog_format">Chuir %s borradh faoi do tút</string>
     <string name="footer_empty">Níl aon rud anseo. Tarraingt anuas chun athnuachan a dhéanamh!</string>
     <string name="message_empty">Níl aon rud anseo.</string>
-    <string name="status_content_show_less">Dlúth</string>
+    <string name="post_content_show_less">Dlúth</string>
     <string name="filter_dialog_whole_word_description">Nuair atá an eochairfhocal nó an frása alfa-uimhriúil amháin, ní chuirfear i bhfeidhm é ach má oireann sé don fhocal iomlán</string>
-    <string name="title_statuses">Tútanna</string>
+    <string name="title_posts">Tútanna</string>
     <string name="notification_favourite_format">Bhí %s i bhfabhar do tút</string>
     <string name="action_unmute_desc">Unmute %s</string>
     <string name="action_mute_conversation">Comhrá tost</string>
@@ -270,7 +270,7 @@
 \n https://tusky.app</string>
     <string name="about_bug_feature_request_site">Tuarascálacha ar fhabhtanna &amp; iarratais ar ghnéithe:
 \n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="status_media_video">Físeán</string>
+    <string name="post_media_video">Físeán</string>
     <string name="state_follow_requested">Lean iarrtha</string>
     <string name="follows_you">Leanann tú</string>
     <string name="pref_title_alway_show_sensitive_media">Taispeáin ábhar íogair i gcónaí</string>
@@ -287,7 +287,7 @@
     <string name="filter_edit_dialog_title">Cuir scagaire in eagar</string>
     <string name="filter_dialog_remove_button">Bain</string>
     <string name="pref_title_public_filter_keywords">Amlínte poiblí</string>
-    <string name="expand_collapse_all_statuses">Gach stádas a leathnú/a thit amach</string>
+    <string name="expand_collapse_all_posts">Gach stádas a leathnú/a thit amach</string>
     <string name="restart_emoji">Beidh ort Tusky a atosú chun na hathruithe seo a chur i bhfeidhm</string>
     <string name="caption_notoemoji">Sraith emoji reatha Google</string>
     <string name="license_description">Tá cód agus sócmhainní ó na tionscadail foinse oscailte seo a leanas i Tusky:</string>
@@ -307,7 +307,7 @@
         <item quantity="many">D\'imigh %d nóiméad</item>
         <item quantity="other">D\'imigh %d nóiméad</item>
     </plurals>
-    <string name="failed_fetch_statuses">Theip ar stádas a fháil</string>
+    <string name="failed_fetch_posts">Theip ar stádas a fháil</string>
     <string name="report_description_1">Seolfar an tuarascáil chuig do mhodhnóir freastalaí. Féadfaidh tú míniú a thabhairt ar an bhfáth go bhfuil tú ag tuairisciú an chuntais seo thíos:</string>
     <string name="add_account_description">Cuir Cuntas Mastodon nua leis</string>
     <string name="title_list_timeline">Liostaigh amlíne</string>
@@ -380,11 +380,11 @@
     <string name="title_favourited_by">Ainmnithe ag</string>
     <string name="conversation_2_recipients">%1$s agus %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s agus %3$d níos mó</string>
-    <string name="description_status_media">Meáin: %s</string>
-    <string name="description_status_cw">Rabhadh ábhair: %s</string>
-    <string name="description_status_media_no_description_placeholder">Gan tuairisc</string>
-    <string name="description_status_favourited">Ainmnithe</string>
-    <string name="description_status_bookmarked">Leabharmharcáilte</string>
+    <string name="description_post_media">Meáin: %s</string>
+    <string name="description_post_cw">Rabhadh ábhair: %s</string>
+    <string name="description_post_media_no_description_placeholder">Gan tuairisc</string>
+    <string name="description_post_favourited">Ainmnithe</string>
+    <string name="description_post_bookmarked">Leabharmharcáilte</string>
     <string name="description_visiblity_public">Poiblí</string>
     <string name="description_visiblity_unlisted">Neamhliostaithe</string>
     <string name="description_visiblity_private">Leanúna</string>
@@ -464,17 +464,17 @@
     <string name="edit_poll">Cuir in Eagar</string>
     <string name="post_lookup_error_format">Earráid agus an post á lorg %s</string>
     <string name="no_drafts">Níl aon dréachtaí agat.</string>
-    <string name="no_scheduled_status">Níl aon stádas sceidealta agat.</string>
+    <string name="no_scheduled_posts">Níl aon stádas sceidealta agat.</string>
     <string name="warning_scheduling_interval">Tá eatramh sceidealaithe íosta 5 nóiméad ag Mastodon.</string>
     <string name="pref_title_show_cards_in_timelines">Taispeáin réamhamhairc nasc in amlínte</string>
     <string name="pref_title_confirm_reblogs">Taispeáin dialóg dearbhaithe sula ndéantar borradh faoi</string>
     <string name="title_tab_preferences">Cluaisíní</string>
-    <string name="status_username_format">\@%s</string>
+    <string name="post_username_format">\@%s</string>
     <string name="action_mute_domain">Tost %s</string>
     <string name="action_unmute_domain">Unmute %s</string>
     <string name="action_unmute_conversation">Comhrá unmute</string>
     <string name="dialog_mute_warning">Tost @%s\?</string>
-    <string name="pref_title_status_tabs">Cluaisíní</string>
+    <string name="pref_title_post_tabs">Cluaisíní</string>
     <string name="abbreviated_in_years">in %dy</string>
     <string name="abbreviated_in_days">in %dd</string>
     <string name="abbreviated_in_hours">in %dh</string>
@@ -490,6 +490,6 @@
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="unpin_action">Unpin</string>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="description_status_reblogged">Reblogged</string>
+    <string name="description_post_reblogged">Reblogged</string>
     <string name="hashtags">Hashtags</string>
 </resources>

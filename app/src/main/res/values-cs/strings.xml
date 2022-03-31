@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Přímé zprávy</string>
     <string name="title_tab_preferences">Panely</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_statuses">Tooty</string>
-    <string name="title_statuses_with_replies">S odpověďmi</string>
-    <string name="title_statuses_pinned">Připnuté</string>
+    <string name="title_posts">Tooty</string>
+    <string name="title_posts_with_replies">S odpověďmi</string>
+    <string name="title_posts_pinned">Připnuté</string>
     <string name="title_follows">Sledovaní</string>
     <string name="title_followers">Sledující</string>
     <string name="title_favourites">Oblíbené</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Upravit váš profil</string>
     <string name="title_drafts">Koncepty</string>
     <string name="title_licenses">Licence</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s boostnul/a</string>
-    <string name="status_sensitive_media_title">Citlivý obsah</string>
-    <string name="status_media_hidden_title">Média skryta</string>
-    <string name="status_sensitive_media_directions">Klikněte pro zobrazení</string>
-    <string name="status_content_warning_show_more">Zobrazit více</string>
-    <string name="status_content_warning_show_less">Zobrazit méně</string>
-    <string name="status_content_show_more">Rozbalit</string>
-    <string name="status_content_show_less">Zabalit</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s boostnul/a</string>
+    <string name="post_sensitive_media_title">Citlivý obsah</string>
+    <string name="post_media_hidden_title">Média skryta</string>
+    <string name="post_sensitive_media_directions">Klikněte pro zobrazení</string>
+    <string name="post_content_warning_show_more">Zobrazit více</string>
+    <string name="post_content_warning_show_less">Zobrazit méně</string>
+    <string name="post_content_show_more">Rozbalit</string>
+    <string name="post_content_show_less">Zabalit</string>
     <string name="message_empty">Tady nic není.</string>
     <string name="footer_empty">Tady nic není. Obnovte přetažnením dolů!</string>
     <string name="notification_reblog_format">%s boostnul/a váš toot</string>
@@ -122,14 +122,14 @@
     <string name="action_share_as">Sdílet jako…</string>
     <string name="download_media">Stáhnout média</string>
     <string name="downloading_media">Stahuji média</string>
-    <string name="send_status_link_to">Sdílet URL tootu na…</string>
-    <string name="send_status_content_to">Sdílet toot na…</string>
+    <string name="send_post_link_to">Sdílet URL tootu na…</string>
+    <string name="send_post_content_to">Sdílet toot na…</string>
     <string name="send_media_to">Sdílet média na…</string>
     <string name="confirmation_reported">Odesláno!</string>
     <string name="confirmation_unblocked">Uživatel odblokován</string>
     <string name="confirmation_unmuted">Uživatel odkryt</string>
-    <string name="status_sent">Odesláno!</string>
-    <string name="status_sent_long">Odpověď byla úspěšně odeslána.</string>
+    <string name="post_sent">Odesláno!</string>
+    <string name="post_sent_long">Odpověď byla úspěšně odeslána.</string>
     <string name="hint_domain">Který server?</string>
     <string name="hint_compose">Co se právě děje?</string>
     <string name="hint_content_warning">Varování o obsahu</string>
@@ -185,8 +185,8 @@
     <string name="pref_title_custom_tabs">Používat Vlastní karty Chrome</string>
     <string name="pref_title_hide_follow_button">Skrýt tlačítko pro psaní při rolování</string>
     <string name="pref_title_language">Jazyk</string>
-    <string name="pref_title_status_filter">Filtrování časových os</string>
-    <string name="pref_title_status_tabs">Panely</string>
+    <string name="pref_title_post_filter">Filtrování časových os</string>
+    <string name="pref_title_post_tabs">Panely</string>
     <string name="pref_title_show_boosts">Zobrazi boosty</string>
     <string name="pref_title_show_replies">Zobrazit odpovědi</string>
     <string name="pref_title_show_media_preview">Stahovat náhledy médií</string>
@@ -202,12 +202,12 @@
     <string name="post_privacy_public">Veřejné</string>
     <string name="post_privacy_unlisted">Neuvedené</string>
     <string name="post_privacy_followers_only">Pouze pro sledující</string>
-    <string name="pref_status_text_size">Velikost textu příspěvků</string>
-    <string name="status_text_size_smallest">Nejmenší</string>
-    <string name="status_text_size_small">Malý</string>
-    <string name="status_text_size_medium">Střední</string>
-    <string name="status_text_size_large">Velký</string>
-    <string name="status_text_size_largest">Největší</string>
+    <string name="pref_post_text_size">Velikost textu příspěvků</string>
+    <string name="post_text_size_smallest">Nejmenší</string>
+    <string name="post_text_size_small">Malý</string>
+    <string name="post_text_size_medium">Střední</string>
+    <string name="post_text_size_large">Velký</string>
+    <string name="post_text_size_largest">Největší</string>
     <string name="notification_mention_name">Nové zmínky</string>
     <string name="notification_mention_descriptions">Oznámení o nových zmínkách</string>
     <string name="notification_follow_name">Noví sledující</string>
@@ -242,10 +242,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil aplikace Tusky</string>
-    <string name="status_share_content">Sdílet obsah tootu</string>
-    <string name="status_share_link">Sdílet odkaz k tootu</string>
-    <string name="status_media_images">Obrázky</string>
-    <string name="status_media_video">Video</string>
+    <string name="post_share_content">Sdílet obsah tootu</string>
+    <string name="post_share_link">Sdílet odkaz k tootu</string>
+    <string name="post_media_images">Obrázky</string>
+    <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Vyžádáno sledování</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">za %d let</string>
@@ -307,7 +307,7 @@
     <string name="system_default">Výchozí nastavení systému</string>
     <string name="download_fonts">Musíte si nejprve stáhnout tyto sady emoji</string>
     <string name="performing_lookup_title">Provádím prohledávání…</string>
-    <string name="expand_collapse_all_statuses">Rozbalit/zabalit všechny příspěvky</string>
+    <string name="expand_collapse_all_posts">Rozbalit/zabalit všechny příspěvky</string>
     <string name="action_open_post">Otevřít toot</string>
     <string name="restart_required">Je vyžadován restart aplikace</string>
     <string name="restart_emoji">Pro použití těchto změn musíte restartovat aplikaci Tusky</string>
@@ -351,15 +351,15 @@
     <plurals name="max_tab_number_reached">
         <item quantity="other">bylo dosaženo maxima %1$d panelů</item>
     </plurals>
-    <string name="description_status_media">        Média %s
+    <string name="description_post_media">        Média %s
     </string>
-    <string name="description_status_cw">        Varování o obsahu: %s
+    <string name="description_post_cw">        Varování o obsahu: %s
     </string>
-    <string name="description_status_media_no_description_placeholder">        Žádný popis
+    <string name="description_post_media_no_description_placeholder">        Žádný popis
     </string>
-    <string name="description_status_reblogged">        Boostnutý
+    <string name="description_post_reblogged">        Boostnutý
     </string>
-    <string name="description_status_favourited">        Oblíbený
+    <string name="description_post_favourited">        Oblíbený
     </string>
     <string name="description_visiblity_public">Veřejný</string>
     <string name="description_visiblity_unlisted">Neuvedený</string>
@@ -423,7 +423,7 @@
     <string name="hint_additional_info">Dodatečné komentáře</string>
     <string name="report_remote_instance">Přeposlat na %s</string>
     <string name="failed_report">Nahlášení selhalo</string>
-    <string name="failed_fetch_statuses">Stahování tootů neuspělo</string>
+    <string name="failed_fetch_posts">Stahování tootů neuspělo</string>
     <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii\?</string>
     <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
@@ -464,12 +464,12 @@
     <string name="error_audio_upload_size">Audio soubory musí být menší než 40MB.</string>
     <string name="pref_title_show_cards_in_timelines">Ukazovat náhledy k odkazům</string>
     <string name="warning_scheduling_interval">Mastodon neumožňuje pracovat s intervalem menším než 5 minut.</string>
-    <string name="no_scheduled_status">Zatím zde nemáte žádné naplánované statusy.</string>
+    <string name="no_scheduled_posts">Zatím zde nemáte žádné naplánované statusy.</string>
     <string name="no_drafts">Zatím zde nejsou žádné koncepty.</string>
     <string name="pref_title_enable_swipe_for_tabs">Možnost přetahování prstem pro přechod mezi kartami</string>
     <string name="list">Seznam</string>
     <string name="add_hashtag_title">Přidat hashtag</string>
-    <string name="description_status_bookmarked">Uloženo do Záložek</string>
+    <string name="description_post_bookmarked">Uloženo do Záložek</string>
     <string name="select_list_title">Vybrat seznam</string>
     <string name="pref_main_nav_position">Umístění hlavní navigační lišty</string>
     <string name="hashtags">Hashtagy</string>

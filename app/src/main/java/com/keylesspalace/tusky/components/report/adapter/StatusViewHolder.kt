@@ -123,9 +123,9 @@ class StatusViewHolder(
 
     private fun setContentWarningButtonText(contentShown: Boolean) {
         if (contentShown) {
-            binding.statusContentWarningButton.setText(R.string.status_content_warning_show_less)
+            binding.statusContentWarningButton.setText(R.string.post_content_warning_show_less)
         } else {
-            binding.statusContentWarningButton.setText(R.string.status_content_warning_show_more)
+            binding.statusContentWarningButton.setText(R.string.post_content_warning_show_more)
         }
     }
 
@@ -177,10 +177,10 @@ class StatusViewHolder(
 
             binding.buttonToggleContent.show()
             if (collapsed) {
-                binding.buttonToggleContent.setText(R.string.status_content_show_more)
+                binding.buttonToggleContent.setText(R.string.post_content_show_more)
                 binding.statusContent.filters = COLLAPSE_INPUT_FILTER
             } else {
-                binding.buttonToggleContent.setText(R.string.status_content_show_less)
+                binding.buttonToggleContent.setText(R.string.post_content_show_less)
                 binding.statusContent.filters = NO_INPUT_FILTER
             }
         } else {

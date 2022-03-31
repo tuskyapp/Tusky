@@ -15,12 +15,12 @@
     <string name="title_home">Agejdan</string>
     <string name="title_tab_preferences">Iccaren</string>
     <string name="title_view_thread">Tijewwiqt</string>
-    <string name="title_statuses">Iznan</string>
-    <string name="title_statuses_with_replies">S tririyin</string>
+    <string name="title_posts">Iznan</string>
+    <string name="title_posts_with_replies">S tririyin</string>
     <string name="title_edit_profile">Ẓreg amaɣnu-ik</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_content_warning_show_more">Zeṛ ugar</string>
-    <string name="status_content_warning_show_less">Zeṛ kra kan</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_content_warning_show_more">Zeṛ ugar</string>
+    <string name="post_content_warning_show_less">Zeṛ kra kan</string>
     <string name="message_empty">Ulac walu da.</string>
     <string name="notification_follow_format">%s yeṭṭafar-ik·ikem-id</string>
     <string name="action_reply">Err</string>
@@ -64,8 +64,8 @@
     <string name="action_copy_link">Nɣel aseɣwen</string>
     <string name="action_open_as">Ldi amzun d %s</string>
     <string name="action_share_as">Bḍu amzun d…</string>
-    <string name="send_status_link_to">Bḍu aseɣwen n tijewwiq s…</string>
-    <string name="send_status_content_to">Bḍu tijewwiqt d…</string>
+    <string name="send_post_link_to">Bḍu aseɣwen n tijewwiq s…</string>
+    <string name="send_post_content_to">Bḍu tijewwiqt d…</string>
     <string name="hint_domain">Anta tummant\?</string>
     <string name="hint_compose">d-acu i gellan d amaynut\?</string>
     <string name="hint_search">Nadi…</string>
@@ -78,15 +78,15 @@
     <string name="app_theme_light">Aceɛlal</string>
     <string name="app_theme_black">Aberkan</string>
     <string name="pref_title_language">Tutlayt</string>
-    <string name="pref_title_status_tabs">Iccaren</string>
+    <string name="pref_title_post_tabs">Iccaren</string>
     <string name="pref_title_proxy_settings">Apṛuksi</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s d %4$d nniḍen</string>
     <string name="notification_summary_medium">%1$s, %2$s, akked %3$s</string>
     <string name="notification_summary_small">%1$s akked %2$s</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_account">Amaɣnu n Tusky</string>
-    <string name="status_media_images">Tugniwin</string>
-    <string name="status_media_video">Tibidyutin</string>
+    <string name="post_media_images">Tugniwin</string>
+    <string name="post_media_video">Tibidyutin</string>
     <string name="follows_you">Yeṭṭafar-ik·ikem-id</string>
     <string name="filter_dialog_remove_button">Kkes</string>
     <string name="filter_dialog_update_button">Lqem</string>
@@ -113,14 +113,14 @@
     <string name="action_remove">Kkes</string>
     <string name="compose_shortcut_short_label">Azen</string>
     <string name="edit_poll">Ẓreg</string>
-    <string name="title_statuses_pinned">Yettwanṭḍen</string>
+    <string name="title_posts_pinned">Yettwanṭḍen</string>
     <string name="action_add_media">Rnu amidya</string>
     <string name="action_add_poll">Rnu assenqed</string>
     <string name="action_photo_take">Ṭef tugna</string>
     <string name="action_toggle_visibility">Timeẓriwt n tijewwaqt</string>
     <string name="action_schedule_post">Sɣiwes tijewwaqt-a</string>
-    <string name="status_share_content">Bḍu agbur n tijewwiqt-a</string>
-    <string name="status_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
+    <string name="post_share_content">Bḍu agbur n tijewwiqt-a</string>
+    <string name="post_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
     <string name="filter_addition_dialog_title">Rnu amsizdeg</string>
     <string name="filter_edit_dialog_title">Ẓreg amsizdeg</string>
     <string name="action_create_list">Snulfu-d tabdart</string>
@@ -213,10 +213,10 @@
     <string name="title_mentions_dialog">Tibdarin</string>
     <string name="title_links_dialog">Iseɣwan</string>
     <string name="confirmation_reported">Yettwaceyyeɛ!</string>
-    <string name="status_sent">Yettwaceyyaɛ!</string>
+    <string name="post_sent">Yettwaceyyaɛ!</string>
     <string name="search_no_results">Ula d yiwen n ugmuḍ</string>
     <string name="post_privacy_followers_only">I yimeḍfaṛen kan</string>
-    <string name="pref_status_text_size">Teɣzi n weḍṛis</string>
+    <string name="pref_post_text_size">Teɣzi n weḍṛis</string>
     <string name="about_powered_by_tusky">Yettwamdemmar s Tusky</string>
     <string name="about_project_site">Asmel Web n usenfaṛ:
 \n https://tusky.app</string>
@@ -226,7 +226,7 @@
     <string name="compose_save_draft">Sekles amzun d arewway\?</string>
     <string name="later">Ticki</string>
     <string name="profile_badge_bot_text">Aṛubut</string>
-    <string name="description_status_bookmarked">Yettwarna ɣer ticṛad</string>
+    <string name="description_post_bookmarked">Yettwarna ɣer ticṛad</string>
     <string name="abbreviated_in_hours">deg %dsr</string>
     <string name="abbreviated_in_minutes">deg %dtsd</string>
     <string name="abbreviated_in_seconds">deg %dtsn</string>
@@ -234,14 +234,14 @@
         <item quantity="one">%d n tasint id yugran</item>
         <item quantity="other">%d n tasinin id yugran</item>
     </plurals>
-    <string name="status_sensitive_media_title">Agbur amḥulfu</string>
+    <string name="post_sensitive_media_title">Agbur amḥulfu</string>
     <string name="pref_default_media_sensitivity">Creḍ allal n teywalt amzun d amḥulfu</string>
     <string name="action_reset_schedule">Wennez tikkelt-nniḍen</string>
     <string name="error_media_upload_sending">Asali ur yeddi ara.</string>
     <string name="error_sender_account_gone">Tuccḍa deg tuzna n tijewwiqt.</string>
     <string name="title_public_local">Adigan</string>
     <string name="title_licenses">Turagin</string>
-    <string name="status_boosted_format">Yebḍa-t %s</string>
+    <string name="post_boosted_format">Yebḍa-t %s</string>
     <string name="notification_reblog_format">%s yebḍa tijewwiqt-ik·im</string>
     <string name="notification_favourite_format">%s yerna tijewwiqt-ik·im ɣer ismenyafen-is</string>
     <string name="action_quick_reply">Tiririt taruradt</string>
@@ -268,7 +268,7 @@
     </plurals>
     <string name="report_remote_instance">Bren-it ɣer %s</string>
     <string name="pref_title_app_theme">Asentel n wesnas</string>
-    <string name="no_scheduled_status">Ulac ɣur-k·m ula d yiwet n tjewwiqt yettwasɣawsen.</string>
+    <string name="no_scheduled_posts">Ulac ɣur-k·m ula d yiwet n tjewwiqt yettwasɣawsen.</string>
     <string name="action_access_scheduled_posts">Tijewwiqin yettwasɣawsen</string>
     <string name="title_scheduled_posts">Tijewwiqin yettwasɣawsen</string>
     <string name="pref_title_show_boosts">Sken-d beṭuyat</string>

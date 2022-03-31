@@ -154,10 +154,10 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
             contentCollapseButton.setVisibility(View.VISIBLE);
             if (collapsed) {
-                contentCollapseButton.setText(R.string.status_content_warning_show_more);
+                contentCollapseButton.setText(R.string.post_content_warning_show_more);
                 content.setFilters(COLLAPSE_INPUT_FILTER);
             } else {
-                contentCollapseButton.setText(R.string.status_content_warning_show_less);
+                contentCollapseButton.setText(R.string.post_content_warning_show_less);
                 content.setFilters(NO_INPUT_FILTER);
             }
         } else {

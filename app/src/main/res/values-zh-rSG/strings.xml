@@ -26,9 +26,9 @@
     <string name="title_direct_messages">私信</string>
     <string name="title_tab_preferences">标签页</string>
     <string name="title_view_thread">嘟文</string>
-    <string name="title_statuses">嘟文</string>
-    <string name="title_statuses_with_replies">嘟文和回复</string>
-    <string name="title_statuses_pinned">已置顶</string>
+    <string name="title_posts">嘟文</string>
+    <string name="title_posts_with_replies">嘟文和回复</string>
+    <string name="title_posts_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
     <string name="title_favourites">收藏</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">编辑个人资料</string>
     <string name="title_drafts">草稿</string>
     <string name="title_licenses">开源协议</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s 转嘟了</string>
-    <string name="status_sensitive_media_title">敏感内容</string>
-    <string name="status_media_hidden_title">已隐藏的照片或视频</string>
-    <string name="status_sensitive_media_directions">点击显示</string>
-    <string name="status_content_warning_show_more">显示更多</string>
-    <string name="status_content_warning_show_less">折叠内容</string>
-    <string name="status_content_show_more">展开</string>
-    <string name="status_content_show_less">折叠</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s 转嘟了</string>
+    <string name="post_sensitive_media_title">敏感内容</string>
+    <string name="post_media_hidden_title">已隐藏的照片或视频</string>
+    <string name="post_sensitive_media_directions">点击显示</string>
+    <string name="post_content_warning_show_more">显示更多</string>
+    <string name="post_content_warning_show_less">折叠内容</string>
+    <string name="post_content_show_more">展开</string>
+    <string name="post_content_show_less">折叠</string>
     <string name="message_empty">还没有内容</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
@@ -123,14 +123,14 @@
     <string name="action_share_as">分享为 …</string>
     <string name="download_media">下载媒体文件</string>
     <string name="downloading_media">正在下载媒体文件</string>
-    <string name="send_status_link_to">分享链接到…</string>
-    <string name="send_status_content_to">分享嘟文到…</string>
+    <string name="send_post_link_to">分享链接到…</string>
+    <string name="send_post_content_to">分享嘟文到…</string>
     <string name="send_media_to">分享媒体到…</string>
     <string name="confirmation_reported">报告已发送！</string>
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
-    <string name="status_sent">已发送！</string>
-    <string name="status_sent_long">成功发布回复</string>
+    <string name="post_sent">已发送！</string>
+    <string name="post_sent_long">成功发布回复</string>
     <string name="hint_domain">域名</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">设置内容提醒信息</string>
@@ -183,8 +183,8 @@
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">浏览时自动隐藏发嘟按钮</string>
     <string name="pref_title_language">界面语言</string>
-    <string name="pref_title_status_filter">时间轴过滤</string>
-    <string name="pref_title_status_tabs">标签页</string>
+    <string name="pref_title_post_filter">时间轴过滤</string>
+    <string name="pref_title_post_tabs">标签页</string>
     <string name="pref_title_show_boosts">显示转嘟</string>
     <string name="pref_title_show_replies">显示回复</string>
     <string name="pref_title_show_media_preview">显示预览图</string>
@@ -200,12 +200,12 @@
     <string name="post_privacy_public">公开</string>
     <string name="post_privacy_unlisted">不公开</string>
     <string name="post_privacy_followers_only">仅关注者</string>
-    <string name="pref_status_text_size">字体大小</string>
-    <string name="status_text_size_smallest">最小</string>
-    <string name="status_text_size_small">小</string>
-    <string name="status_text_size_medium">标准</string>
-    <string name="status_text_size_large">大</string>
-    <string name="status_text_size_largest">最大</string>
+    <string name="pref_post_text_size">字体大小</string>
+    <string name="post_text_size_smallest">最小</string>
+    <string name="post_text_size_small">小</string>
+    <string name="post_text_size_medium">标准</string>
+    <string name="post_text_size_large">大</string>
+    <string name="post_text_size_largest">最大</string>
     <string name="notification_mention_name">提及</string>
     <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>
     <string name="notification_follow_name">关注</string>
@@ -242,10 +242,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tusky 官方帐号</string>
-    <string name="status_share_content">分享嘟文内容</string>
-    <string name="status_share_link">分享嘟文链接</string>
-    <string name="status_media_images">照片</string>
-    <string name="status_media_video">视频</string>
+    <string name="post_share_content">分享嘟文内容</string>
+    <string name="post_share_link">分享嘟文链接</string>
+    <string name="post_media_images">照片</string>
+    <string name="post_media_video">视频</string>
     <string name="state_follow_requested">已发送关注请求</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">%d 年内</string>
@@ -307,7 +307,7 @@
     <string name="system_default">系统默认</string>
     <string name="download_fonts">需要下载表情符号数据</string>
     <string name="performing_lookup_title">正在查询…</string>
-    <string name="expand_collapse_all_statuses">展开/折叠所有嘟文</string>
+    <string name="expand_collapse_all_posts">展开/折叠所有嘟文</string>
     <string name="action_open_post">打开嘟文</string>
     <string name="restart_required">需要重启应用</string>
     <string name="restart_emoji">你需要重启 Tusky 才能生效</string>
@@ -348,19 +348,19 @@
     <plurals name="max_tab_number_reached">
         <item quantity="other">标签页不能超过 %1$d 个</item>
     </plurals>
-    <string name="description_status_media">
+    <string name="description_post_media">
         媒体: %s
     </string>
-    <string name="description_status_cw">
+    <string name="description_post_cw">
         内容提醒: %s
     </string>
-    <string name="description_status_media_no_description_placeholder">
+    <string name="description_post_media_no_description_placeholder">
         没有媒体描述信息
     </string>
-    <string name="description_status_reblogged">
+    <string name="description_post_reblogged">
         被转嘟
     </string>
-    <string name="description_status_favourited">
+    <string name="description_post_favourited">
         被收藏
     </string>
     <string name="description_visiblity_public">

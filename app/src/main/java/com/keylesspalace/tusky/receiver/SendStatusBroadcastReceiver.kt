@@ -118,8 +118,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     .setGroup(senderFullName)
                     .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
-                builder.setContentTitle(context.getString(R.string.status_sent))
-                builder.setContentText(context.getString(R.string.status_sent_long))
+                builder.setContentTitle(context.getString(R.string.post_sent))
+                builder.setContentText(context.getString(R.string.post_sent_long))
 
                 builder.setSubText(senderFullName)
                 builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

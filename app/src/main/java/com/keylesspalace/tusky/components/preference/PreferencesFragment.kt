@@ -88,11 +88,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 listPreference {
                     setDefaultValue("medium")
-                    setEntries(R.array.status_text_size_names)
-                    setEntryValues(R.array.status_text_size_values)
+                    setEntries(R.array.post_text_size_names)
+                    setEntryValues(R.array.post_text_size_values)
                     key = PrefKeys.STATUS_TEXT_SIZE
                     setSummaryProvider { entry }
-                    setTitle(R.string.pref_status_text_size)
+                    setTitle(R.string.pref_post_text_size)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
                 }
 
@@ -201,7 +201,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preferenceCategory(R.string.pref_title_timeline_filters) {
                 preference {
-                    setTitle(R.string.pref_title_status_tabs)
+                    setTitle(R.string.pref_title_post_tabs)
                     setOnPreferenceClickListener {
                         activity?.let { activity ->
                             val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)

@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Direkta meddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
     <string name="title_view_thread">Toot</string>
-    <string name="title_statuses">Inlägg</string>
-    <string name="title_statuses_with_replies">Med svar</string>
-    <string name="title_statuses_pinned">Fastnålade</string>
+    <string name="title_posts">Inlägg</string>
+    <string name="title_posts_with_replies">Med svar</string>
+    <string name="title_posts_pinned">Fastnålade</string>
     <string name="title_follows">Följer</string>
     <string name="title_followers">Följare</string>
     <string name="title_favourites">Favoriter</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Ändra din profil</string>
     <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Licenser</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s knuffade</string>
-    <string name="status_sensitive_media_title">Känsligt innehåll</string>
-    <string name="status_media_hidden_title">Dold media</string>
-    <string name="status_sensitive_media_directions">Tryck för att visa</string>
-    <string name="status_content_warning_show_more">Visa mer</string>
-    <string name="status_content_warning_show_less">Visa mindre</string>
-    <string name="status_content_show_more">Expandera</string>
-    <string name="status_content_show_less">Dölj</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s knuffade</string>
+    <string name="post_sensitive_media_title">Känsligt innehåll</string>
+    <string name="post_media_hidden_title">Dold media</string>
+    <string name="post_sensitive_media_directions">Tryck för att visa</string>
+    <string name="post_content_warning_show_more">Visa mer</string>
+    <string name="post_content_warning_show_less">Visa mindre</string>
+    <string name="post_content_show_more">Expandera</string>
+    <string name="post_content_show_less">Dölj</string>
     <string name="message_empty">Ingenting här.</string>
     <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
     <string name="notification_reblog_format">%s knuffade din toot</string>
@@ -120,14 +120,14 @@
     <string name="action_copy_link">Kopiera länk</string>
     <string name="action_open_as">Öppna med %s</string>
     <string name="action_share_as">Dela som …</string>
-    <string name="send_status_link_to">Dela toot-URL till…</string>
-    <string name="send_status_content_to">Dela toot till…</string>
+    <string name="send_post_link_to">Dela toot-URL till…</string>
+    <string name="send_post_content_to">Dela toot till…</string>
     <string name="send_media_to">Dela media till…</string>
     <string name="confirmation_reported">Skickat!</string>
     <string name="confirmation_unblocked">Användare avblockerad</string>
     <string name="confirmation_unmuted">Användaren är inte tystad längre</string>
-    <string name="status_sent">Skickat!</string>
-    <string name="status_sent_long">Svar skickades framgångsrikt.</string>
+    <string name="post_sent">Skickat!</string>
+    <string name="post_sent_long">Svar skickades framgångsrikt.</string>
     <string name="hint_domain">Vilken instans?</string>
     <string name="hint_compose">Vad händer?</string>
     <string name="hint_content_warning">Innehållsvarning</string>
@@ -182,8 +182,8 @@
     <string name="pref_title_custom_tabs">Använd Chrome-anpassade flikar</string>
     <string name="pref_title_hide_follow_button">Dölj skriv-knappen vid skrollning</string>
     <string name="pref_title_language">Språk</string>
-    <string name="pref_title_status_filter">Filtrering av tidslinje</string>
-    <string name="pref_title_status_tabs">Flikar</string>
+    <string name="pref_title_post_filter">Filtrering av tidslinje</string>
+    <string name="pref_title_post_tabs">Flikar</string>
     <string name="pref_title_show_boosts">Visa knuffar</string>
     <string name="pref_title_show_replies">Visa svar</string>
     <string name="pref_title_show_media_preview">Visa en förhandsgranskning</string>
@@ -199,12 +199,12 @@
     <string name="post_privacy_public">Offentlig</string>
     <string name="post_privacy_unlisted">Olistad</string>
     <string name="post_privacy_followers_only">Endast följare</string>
-    <string name="pref_status_text_size">Textstorlek på status</string>
-    <string name="status_text_size_smallest">Minsta</string>
-    <string name="status_text_size_small">Liten</string>
-    <string name="status_text_size_medium">Mellan</string>
-    <string name="status_text_size_large">Stor</string>
-    <string name="status_text_size_largest">Största</string>
+    <string name="pref_post_text_size">Textstorlek på status</string>
+    <string name="post_text_size_smallest">Minsta</string>
+    <string name="post_text_size_small">Liten</string>
+    <string name="post_text_size_medium">Mellan</string>
+    <string name="post_text_size_large">Stor</string>
+    <string name="post_text_size_largest">Största</string>
     <string name="notification_mention_name">Nya omnämnanden</string>
     <string name="notification_mention_descriptions">Aviseringar om nya omnämnanden</string>
     <string name="notification_follow_name">Nya följare</string>
@@ -237,10 +237,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Tuskys Profil</string>
-    <string name="status_share_content">Dela innehåll av toot</string>
-    <string name="status_share_link">Dela länk till toot</string>
-    <string name="status_media_images">Bilder</string>
-    <string name="status_media_video">Video</string>
+    <string name="post_share_content">Dela innehåll av toot</string>
+    <string name="post_share_link">Dela länk till toot</string>
+    <string name="post_media_images">Bilder</string>
+    <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Följarförfrågan</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">om %dy</string>
@@ -302,7 +302,7 @@
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>
     <string name="performing_lookup_title">Utför sökning…</string>
-    <string name="expand_collapse_all_statuses">Expandera/Dölj alla statusar</string>
+    <string name="expand_collapse_all_posts">Expandera/Dölj alla statusar</string>
     <string name="action_open_post">Öppna toot</string>
     <string name="restart_required">Omstart av appen krävs</string>
     <string name="restart_emoji">Du måste starta om Tusky för att tillämpa ändringarna</string>
@@ -344,14 +344,14 @@
     <plurals name="max_tab_number_reached">
         <item quantity="other">max antal flikar %1$d uppnådd</item>
     </plurals>
-    <string name="description_status_media">        Media: %s
+    <string name="description_post_media">        Media: %s
     </string>
-    <string name="description_status_cw">Innehållsvarning: %s</string>
-    <string name="description_status_media_no_description_placeholder">        Ingen beskrivning
+    <string name="description_post_cw">Innehållsvarning: %s</string>
+    <string name="description_post_media_no_description_placeholder">        Ingen beskrivning
     </string>
-    <string name="description_status_reblogged">        Knuffad
+    <string name="description_post_reblogged">        Knuffad
     </string>
-    <string name="description_status_favourited">        Favoriserad
+    <string name="description_post_favourited">        Favoriserad
     </string>
     <string name="description_visiblity_public">        Publik
     </string>
@@ -420,7 +420,7 @@
     <string name="hint_additional_info">Ytterligare kommentarer</string>
     <string name="report_remote_instance">Vidarebefordra till %s</string>
     <string name="failed_report">Misslyckades att anmäla</string>
-    <string name="failed_fetch_statuses">Misslyckades att hämta status</string>
+    <string name="failed_fetch_posts">Misslyckades att hämta status</string>
     <string name="report_description_1">Anmälan kommer att skickas till din servermoderator. Du kan beskriva varför du anmäler kontot nedan:</string>
     <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
@@ -452,10 +452,10 @@
     <string name="action_bookmark">Bokmärk</string>
     <string name="action_view_bookmarks">Bokmärken</string>
     <string name="about_powered_by_tusky">Drivs av Tusky</string>
-    <string name="description_status_bookmarked">Bokmärkt</string>
+    <string name="description_post_bookmarked">Bokmärkt</string>
     <string name="select_list_title">Välj lista</string>
     <string name="list">Lista</string>
-    <string name="no_scheduled_status">Du har inga schemalagda statusar.</string>
+    <string name="no_scheduled_posts">Du har inga schemalagda statusar.</string>
     <string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
     <string name="no_drafts">Du har inga utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har ett minimalt schemaläggningsintervall på 5 minuter.</string>

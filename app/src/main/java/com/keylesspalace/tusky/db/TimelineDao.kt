@@ -186,6 +186,15 @@ AND timelineUserId = :accountId
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
     abstract suspend fun getTopPlaceholderId(accountId: Long): String?
 
+    /**
+     * Returns the id directly above [serverId], or null if [serverId] is the id of the top status
+     */
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) < LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId < serverId)) ORDER BY LENGTH(serverId) ASC, serverId ASC LIMIT 1")
+    abstract suspend fun getIdAbove(accountId: Long, serverId: String): String?
+
+    /**
+     * Returns the id of the next placeholder after [serverId]
+     */
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
     abstract suspend fun getNextPlaceholderIdAfter(accountId: Long, serverId: String): String?
 }

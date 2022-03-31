@@ -234,7 +234,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountFragmentViewPager.adapter = adapter
         binding.accountFragmentViewPager.offscreenPageLimit = 2
 
-        val pageTitles = arrayOf(getString(R.string.title_statuses), getString(R.string.title_statuses_with_replies), getString(R.string.title_statuses_pinned), getString(R.string.title_media))
+        val pageTitles = arrayOf(getString(R.string.title_posts), getString(R.string.title_posts_with_replies), getString(R.string.title_posts_pinned), getString(R.string.title_media))
 
         TabLayoutMediator(binding.accountTabLayout, binding.accountFragmentViewPager) { tab, position ->
             tab.text = pageTitles[position]
@@ -406,7 +406,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun onAccountChanged(account: Account?) {
         loadedAccount = account ?: return
 
-        val usernameFormatted = getString(R.string.status_username_format, account.username)
+        val usernameFormatted = getString(R.string.post_username_format, account.username)
         binding.accountUsernameTextView.text = usernameFormatted
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
 
@@ -477,7 +477,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             } catch (e: IllegalStateException) {
                 supportActionBar?.title = emojifiedName
             }
-            supportActionBar?.subtitle = String.format(getString(R.string.status_username_format), account.username)
+            supportActionBar?.subtitle = String.format(getString(R.string.post_username_format), account.username)
         }
     }
 
@@ -494,7 +494,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
 
             binding.accountMovedDisplayName.text = movedAccount.name
-            binding.accountMovedUsername.text = getString(R.string.status_username_format, movedAccount.username)
+            binding.accountMovedUsername.text = getString(R.string.post_username_format, movedAccount.username)
 
             val avatarRadius = resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
 

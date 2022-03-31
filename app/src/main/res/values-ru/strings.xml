@@ -26,9 +26,9 @@
     <string name="title_direct_messages">Личные сообщения</string>
     <string name="title_tab_preferences">Вкладки</string>
     <string name="title_view_thread">Кутеж</string>
-    <string name="title_statuses">Посты</string>
-    <string name="title_statuses_with_replies">Посты и ответы</string>
-    <string name="title_statuses_pinned">Закреплённые</string>
+    <string name="title_posts">Посты</string>
+    <string name="title_posts_with_replies">Посты и ответы</string>
+    <string name="title_posts_pinned">Закреплённые</string>
     <string name="title_follows">Подписки</string>
     <string name="title_followers">Подписчики</string>
     <string name="title_favourites">Избранное</string>
@@ -38,15 +38,15 @@
     <string name="title_edit_profile">Редактировать профиль</string>
     <string name="title_drafts">Черновики</string>
     <string name="title_licenses">Лицензии</string>
-    <string name="status_username_format">\@%s</string>
-    <string name="status_boosted_format">%s продвинул(а)</string>
-    <string name="status_sensitive_media_title">Чувствительный контент</string>
-    <string name="status_media_hidden_title">Медиа скрыто</string>
-    <string name="status_sensitive_media_directions">Нажмите для просмотра</string>
-    <string name="status_content_warning_show_more">Показать больше</string>
-    <string name="status_content_warning_show_less">Показать меньше</string>
-    <string name="status_content_show_more">Развернуть</string>
-    <string name="status_content_show_less">Свернуть</string>
+    <string name="post_username_format">\@%s</string>
+    <string name="post_boosted_format">%s продвинул(а)</string>
+    <string name="post_sensitive_media_title">Чувствительный контент</string>
+    <string name="post_media_hidden_title">Медиа скрыто</string>
+    <string name="post_sensitive_media_directions">Нажмите для просмотра</string>
+    <string name="post_content_warning_show_more">Показать больше</string>
+    <string name="post_content_warning_show_less">Показать меньше</string>
+    <string name="post_content_show_more">Развернуть</string>
+    <string name="post_content_show_less">Свернуть</string>
     <string name="message_empty">Ничего нет.</string>
     <string name="footer_empty">Ничего нет. Потяните вниз, чтобы обновить!</string>
     <string name="notification_reblog_format">%s продвинул(а) вашу запись</string>
@@ -123,14 +123,14 @@
     <string name="action_share_as">Поделиться как…</string>
     <string name="download_media">Скачать медиафайл</string>
     <string name="downloading_media">Скачивание медиафайла</string>
-    <string name="send_status_link_to">Поделиться ссылкой на гудок…</string>
-    <string name="send_status_content_to">Поделиться гудком с…</string>
+    <string name="send_post_link_to">Поделиться ссылкой на гудок…</string>
+    <string name="send_post_content_to">Поделиться гудком с…</string>
     <string name="send_media_to">Поделиться медифайлом…</string>
     <string name="confirmation_reported">Отправить!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Пользователь включен</string>
-    <string name="status_sent">Отправлено!</string>
-    <string name="status_sent_long">Ответ успешно отправлен.</string>
+    <string name="post_sent">Отправлено!</string>
+    <string name="post_sent_long">Ответ успешно отправлен.</string>
     <string name="hint_domain">Какой узел?</string>
     <string name="hint_compose">Что тут происходит\?</string>
     <string name="hint_content_warning">Предупреждение о содержании</string>
@@ -185,8 +185,8 @@
     <string name="pref_title_custom_tabs">Используйте пользовательские вкладки Chrome</string>
     <string name="pref_title_hide_follow_button">Скрывать кнопку композиционирования гудка при прокрутке ленты</string>
     <string name="pref_title_language">Язык</string>
-    <string name="pref_title_status_filter">Фильтрование ленты</string>
-    <string name="pref_title_status_tabs">Вкладки</string>
+    <string name="pref_title_post_filter">Фильтрование ленты</string>
+    <string name="pref_title_post_tabs">Вкладки</string>
     <string name="pref_title_show_boosts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показывать ответы</string>
     <string name="pref_title_show_media_preview">Загрузить предпросмотр медиаконтента</string>
@@ -202,12 +202,12 @@
     <string name="post_privacy_public">Публичные</string>
     <string name="post_privacy_unlisted">Неизвестно</string>
     <string name="post_privacy_followers_only">Для подписчиков</string>
-    <string name="pref_status_text_size">Размер текста статусов</string>
-    <string name="status_text_size_smallest">Крохотный</string>
-    <string name="status_text_size_small">Маленький</string>
-    <string name="status_text_size_medium">Средний</string>
-    <string name="status_text_size_large">Большой</string>
-    <string name="status_text_size_largest">Огромный</string>
+    <string name="pref_post_text_size">Размер текста статусов</string>
+    <string name="post_text_size_smallest">Крохотный</string>
+    <string name="post_text_size_small">Маленький</string>
+    <string name="post_text_size_medium">Средний</string>
+    <string name="post_text_size_large">Большой</string>
+    <string name="post_text_size_largest">Огромный</string>
     <string name="notification_mention_name">Новые Упоминания</string>
     <string name="notification_mention_descriptions">Уведомлять о новых упоминаниях</string>
     <string name="notification_follow_name">Новые подписчики</string>
@@ -239,10 +239,10 @@
     <string name="about_bug_feature_request_site">Отчеты об ошибках и ваши пожелания:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Профиль Tusky</string>
-    <string name="status_share_content">Поделиться содержанием гудка</string>
-    <string name="status_share_link">Поделиться ссылкой на гудок</string>
-    <string name="status_media_images">Изображения</string>
-    <string name="status_media_video">Видео</string>
+    <string name="post_share_content">Поделиться содержанием гудка</string>
+    <string name="post_share_link">Поделиться ссылкой на гудок</string>
+    <string name="post_media_images">Изображения</string>
+    <string name="post_media_video">Видео</string>
     <string name="state_follow_requested">Запрошенные подписки</string>
     <!--Отметки времени у постов: "16s" or "2d"-->
     <string name="abbreviated_in_years">через %dг</string>
@@ -329,7 +329,7 @@
     <string name="system_default">Системный</string>
     <string name="download_fonts">Сперва эти наборы эмодзи нужно скачать</string>
     <string name="performing_lookup_title">Производится поиск…</string>
-    <string name="expand_collapse_all_statuses">Раскрыть/свернуть все статусы</string>
+    <string name="expand_collapse_all_posts">Раскрыть/свернуть все статусы</string>
     <string name="action_open_post">Открыть гудок</string>
     <string name="restart_required">Необходимо перезапустить приложение</string>
     <string name="restart_emoji">Вам нужно перезапустить Tusky для применения изменений</string>
@@ -378,15 +378,15 @@
         <item quantity="many">достигнут лимит в %1$d вкладок</item>
         <item quantity="other">достигнут лимит в %1$d вкладок</item>
     </plurals>
-    <string name="description_status_media">
+    <string name="description_post_media">
         Медиафайл: %s
     </string>
-    <string name="description_status_cw">Предупреждение о содержании: %s</string>
-    <string name="description_status_media_no_description_placeholder">
+    <string name="description_post_cw">Предупреждение о содержании: %s</string>
+    <string name="description_post_media_no_description_placeholder">
         Без описания
     </string>
-    <string name="description_status_reblogged">Реблогнуто</string>
-    <string name="description_status_favourited">Понравилось</string>
+    <string name="description_post_reblogged">Реблогнуто</string>
+    <string name="description_post_favourited">Понравилось</string>
     <string name="description_visiblity_public">
         Публичный
     </string>
@@ -436,7 +436,7 @@
     <string name="report_sent_success">Жалоба на @%s отправлена</string>
     <string name="report_remote_instance">Переслать в %s</string>
     <string name="failed_report">Не удалось пожаловаться</string>
-    <string name="failed_fetch_statuses">Не удалось получить статусы</string>
+    <string name="failed_fetch_posts">Не удалось получить статусы</string>
     <string name="report_description_1">Жалоба будет отправлена модератору вашего узла. Ниже вы можете добавить пояснение о причинах жалобы:</string>
     <string name="report_description_remote_instance">Этот аккаунт расположен на другом узле. Отправить анонимную копию жалобы туда\?</string>
     <string name="pref_title_show_notifications_filter">Показать фильтр уведомлений</string>
@@ -465,13 +465,13 @@
     <string name="action_bookmark">Добавить в закладки</string>
     <string name="action_view_bookmarks">Закладки</string>
     <string name="about_powered_by_tusky">Работает на Tusky</string>
-    <string name="description_status_bookmarked">Добавлено в закладки</string>
+    <string name="description_post_bookmarked">Добавлено в закладки</string>
     <string name="select_list_title">Выбрать список</string>
     <string name="list">Список</string>
     <string name="error_audio_upload_size">Аудиофайлы должны быть меньше 40МБ.</string>
     <string name="post_lookup_error_format">Ошибка поиска поста %s</string>
     <string name="no_drafts">У вас нет черновиков.</string>
-    <string name="no_scheduled_status">У вас нет запланированный статусов.</string>
+    <string name="no_scheduled_posts">У вас нет запланированный статусов.</string>
     <string name="warning_scheduling_interval">Минимальный интервал планирования в Mastodon составляет 5 минут.</string>
     <string name="pref_title_confirm_reblogs">Показывать диалог подтверждения перед продвижением</string>
     <string name="pref_title_show_cards_in_timelines">Показывать предпросмотр ссылок в лентах</string>
@@ -516,8 +516,8 @@
     <string name="pref_title_wellbeing_mode">Самочувствие</string>
     <string name="duration_indefinite">Неопределённая</string>
     <string name="label_duration">Продолжительность</string>
-    <string name="status_media_attachments">Вложения</string>
-    <string name="status_media_audio">Аудио</string>
+    <string name="post_media_attachments">Вложения</string>
+    <string name="post_media_audio">Аудио</string>
     <string name="notification_subscription_format">%s только что опубликовал(а)</string>
     <string name="follow_requests_info">Несмотря на то, что ваша учетная запись не закрыта, наши сотрудники %1$s решили, что вы, возможно, захотите просмотреть запросы на отслеживание от этих учетных записей вручную.</string>
     <plurals name="error_upload_max_media_reached">

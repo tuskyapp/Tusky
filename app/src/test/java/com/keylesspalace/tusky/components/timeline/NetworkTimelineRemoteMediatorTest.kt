@@ -217,8 +217,7 @@ class NetworkTimelineRemoteMediatorTest {
         val newStatusData = mutableListOf(
             mockStatusViewData("10"),
             mockStatusViewData("9"),
-            mockStatusViewData("7"),
-            StatusViewData.Placeholder("6", false),
+            StatusViewData.Placeholder("7", false),
             mockStatusViewData("3"),
             mockStatusViewData("2"),
             mockStatusViewData("1"),

@@ -16,51 +16,6 @@ fun randomAlphanumericString(count: Int): String {
     return String(chars)
 }
 
-// We sort statuses by ID. Something we need to invent some ID for placeholder.
-
-/**
- * "Increment" string so that during sorting it's bigger than [this]. Inverse operation to [dec].
- */
-fun String.inc(): String {
-    val builder = this.toCharArray()
-    var i = builder.lastIndex
-
-    while (i >= 0) {
-        if (builder[i] < 'z') {
-            builder[i] = builder[i].inc()
-            return String(builder)
-        } else {
-            builder[i] = '0'
-        }
-        i--
-    }
-    return String(
-        CharArray(builder.size + 1) { index ->
-            if (index == 0) '0' else builder[index - 1]
-        }
-    )
-}
-
-/**
- * "Decrement" string so that during sorting it's smaller than [this]. Inverse operation to [inc].
- */
-fun String.dec(): String {
-    if (this.isEmpty()) return this
-
-    val builder = this.toCharArray()
-    var i = builder.lastIndex
-    while (i >= 0) {
-        if (builder[i] > '0') {
-            builder[i] = builder[i].dec()
-            return String(builder)
-        } else {
-            builder[i] = 'z'
-        }
-        i--
-    }
-    return String(builder.copyOfRange(1, builder.size))
-}
-
 /**
  * A < B (strictly) by length and then by content.
  * Examples:

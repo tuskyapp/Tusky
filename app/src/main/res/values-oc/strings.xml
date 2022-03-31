@@ -22,8 +22,8 @@
     <string name="title_notifications">Notificacions</string>
     <string name="title_public_federated">Federacion</string>
     <string name="title_view_thread">Tut</string>
-    <string name="title_statuses">Pòstes</string>
-    <string name="title_statuses_with_replies">Amb responsas</string>
+    <string name="title_posts">Pòstes</string>
+    <string name="title_posts_with_replies">Amb responsas</string>
     <string name="title_follows">Abonament</string>
     <string name="title_followers">Seguidors</string>
     <string name="title_favourites">Preferits</string>
@@ -33,14 +33,14 @@
     <string name="title_edit_profile">Modificar lo perfil</string>
     <string name="title_drafts">Borrolhons</string>
     <string name="title_licenses">Licéncias</string>
-    <string name="status_boosted_format">%s partejat</string>
-    <string name="status_sensitive_media_title">Contengut sensible</string>
-    <string name="status_media_hidden_title">Mèdia amagat</string>
-    <string name="status_sensitive_media_directions">Clicar per mostrar</string>
-    <string name="status_content_warning_show_more">Mostrar mai</string>
-    <string name="status_content_warning_show_less">Mostrar mens</string>
-    <string name="status_content_show_more">Desplegar</string>
-    <string name="status_content_show_less">Replegar</string>
+    <string name="post_boosted_format">%s partejat</string>
+    <string name="post_sensitive_media_title">Contengut sensible</string>
+    <string name="post_media_hidden_title">Mèdia amagat</string>
+    <string name="post_sensitive_media_directions">Clicar per mostrar</string>
+    <string name="post_content_warning_show_more">Mostrar mai</string>
+    <string name="post_content_warning_show_less">Mostrar mens</string>
+    <string name="post_content_show_more">Desplegar</string>
+    <string name="post_content_show_less">Replegar</string>
     <string name="footer_empty">I a pas res aquí. Davalatz per actualizar !</string>
     <string name="notification_reblog_format">%s a partajat vòstre tut</string>
     <string name="notification_favourite_format">%s a aimat vòstre tut</string>
@@ -97,14 +97,14 @@
     <string name="action_emoji_keyboard">Clavièr Emoji</string>
     <string name="download_image">Telecargament %1$s</string>
     <string name="action_copy_link">Copiar lo ligam</string>
-    <string name="send_status_link_to">Partejar l\'URL del tut amb…</string>
-    <string name="send_status_content_to">Partejar vòstre tut amb…</string>
+    <string name="send_post_link_to">Partejar l\'URL del tut amb…</string>
+    <string name="send_post_content_to">Partejar vòstre tut amb…</string>
     <string name="send_media_to">Partejar l’imatge amb…</string>
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
-    <string name="status_sent">Enviat !</string>
-    <string name="status_sent_long">Responsa ben enviada.</string>
+    <string name="post_sent">Enviat !</string>
+    <string name="post_sent_long">Responsa ben enviada.</string>
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
     <string name="hint_content_warning">Avís de contengut</string>
@@ -153,8 +153,8 @@
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Onglets personalizats de Chrome</string>
     <string name="pref_title_hide_follow_button">Amagar lo boton de redaccion en desplaçament</string>
-    <string name="pref_title_status_filter">Filtre de la cronologia</string>
-    <string name="pref_title_status_tabs">Onglets</string>
+    <string name="pref_title_post_filter">Filtre de la cronologia</string>
+    <string name="pref_title_post_tabs">Onglets</string>
     <string name="pref_title_show_boosts">Mostrar los retuts</string>
     <string name="pref_title_show_replies">Mostrar las responsas</string>
     <string name="pref_title_show_media_preview">Mostrar los apercebuts</string>
@@ -167,12 +167,12 @@
     <string name="post_privacy_public">Publica</string>
     <string name="post_privacy_unlisted">Pas listat</string>
     <string name="post_privacy_followers_only">Seguidors solament</string>
-    <string name="pref_status_text_size">Talha de text de l\'estatut</string>
-    <string name="status_text_size_smallest">Mendre</string>
-    <string name="status_text_size_small">Pichona</string>
-    <string name="status_text_size_medium">Mejana</string>
-    <string name="status_text_size_large">Granda</string>
-    <string name="status_text_size_largest">Grandassa</string>
+    <string name="pref_post_text_size">Talha de text de l\'estatut</string>
+    <string name="post_text_size_smallest">Mendre</string>
+    <string name="post_text_size_small">Pichona</string>
+    <string name="post_text_size_medium">Mejana</string>
+    <string name="post_text_size_large">Granda</string>
+    <string name="post_text_size_largest">Grandassa</string>
     <string name="notification_mention_name">Mencions nòvas</string>
     <string name="notification_mention_descriptions">Notificacions de mencions noves</string>
     <string name="notification_follow_name">Seguidors nòus</string>
@@ -207,10 +207,10 @@
         https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Perfil de Tusky</string>
-    <string name="status_share_content">Partejar lo contengut del tut</string>
-    <string name="status_share_link">Partejar lo ligam del tut</string>
-    <string name="status_media_images">Imatges</string>
-    <string name="status_media_video">Vidèo</string>
+    <string name="post_share_content">Partejar lo contengut del tut</string>
+    <string name="post_share_link">Partejar lo ligam del tut</string>
+    <string name="post_media_images">Imatges</string>
+    <string name="post_media_video">Vidèo</string>
     <string name="state_follow_requested">Demanda d’abonament</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">en %d ans</string>
@@ -248,7 +248,7 @@
     <string name="system_default">Çò del sistèma</string>
     <string name="download_fonts">D’en primièr vos cal telecargar los emojis seguents</string>
     <string name="performing_lookup_title">Recèrca…</string>
-    <string name="expand_collapse_all_statuses">Desplegar/Plegar totes los estatuts</string>
+    <string name="expand_collapse_all_posts">Desplegar/Plegar totes los estatuts</string>
     <string name="action_open_post">Dobrir lo tut</string>
     <string name="restart_required">Reaviada necessària</string>
     <string name="restart_emoji">Vos caldrà reaviar Tusky per aplicar aquestes cambiaments</string>
@@ -276,8 +276,8 @@
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>
-    <string name="title_statuses_pinned">Penjats</string>
-    <string name="status_username_format">\@%s</string>
+    <string name="title_posts_pinned">Penjats</string>
+    <string name="post_username_format">\@%s</string>
     <string name="message_empty">Pas res aicí.</string>
     <string name="action_unreblog">Suprimir lo partatge</string>
     <string name="action_unfavourite">Suprimir lo favorit</string>
@@ -349,11 +349,11 @@
         <item quantity="one">nombre maximum d’onglet %1$d atengut</item>
         <item quantity="other">nombre maximum d’onglets %1$d atengut</item>
     </plurals>
-    <string name="description_status_media">Mèdia : %s</string>
-    <string name="description_status_cw">Avertiment : %s</string>
-    <string name="description_status_media_no_description_placeholder">Cap de descripcion</string>
-    <string name="description_status_reblogged">Repartajat</string>
-    <string name="description_status_favourited">Mes en favorit</string>
+    <string name="description_post_media">Mèdia : %s</string>
+    <string name="description_post_cw">Avertiment : %s</string>
+    <string name="description_post_media_no_description_placeholder">Cap de descripcion</string>
+    <string name="description_post_reblogged">Repartajat</string>
+    <string name="description_post_favourited">Mes en favorit</string>
     <string name="description_visiblity_public">Public</string>
     <string name="description_visiblity_unlisted">Pas listada</string>
     <string name="description_visiblity_private">Seguidors</string>
@@ -410,7 +410,7 @@
     <string name="hint_additional_info">Comentaris suplementaris</string>
     <string name="report_remote_instance">Transferir a %s</string>
     <string name="failed_report">Fracàs del senhalament</string>
-    <string name="failed_fetch_statuses">Recuperacion dels estatuts impossibla</string>
+    <string name="failed_fetch_posts">Recuperacion dels estatuts impossibla</string>
     <string name="report_description_1">Lo senhalament serà enviat a vòstre moderator de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
     <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
     <string name="title_domain_mutes">Domenis resconduts</string>
@@ -448,12 +448,12 @@
     <string name="title_bookmarks">Marcapaginas</string>
     <string name="action_bookmark">Ajustar als marcapaginas</string>
     <string name="action_view_bookmarks">Marcapaginas</string>
-    <string name="description_status_bookmarked">Ajustat als marcapaginas</string>
+    <string name="description_post_bookmarked">Ajustat als marcapaginas</string>
     <string name="select_list_title">Seleccionar la list</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Los fichièrs àudio devon èsser inferiors a 40 Mo.</string>
     <string name="no_drafts">Avètz pas cap de borrolhon.</string>
-    <string name="no_scheduled_status">Avètz pas cap de tut planificat.</string>
+    <string name="no_scheduled_posts">Avètz pas cap de tut planificat.</string>
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
     <string name="notification_follow_request_name">Demandas d’abonament</string>
     <string name="hashtags">Etiquetas</string>
@@ -482,8 +482,8 @@
         <item quantity="other">%s personas</item>
     </plurals>
     <string name="add_hashtag_title">Apondre hashtag</string>
-    <string name="status_media_attachments">Pèças juntas</string>
-    <string name="status_media_audio">Àudio</string>
+    <string name="post_media_attachments">Pèças juntas</string>
+    <string name="post_media_audio">Àudio</string>
     <string name="notification_subscription_name">Tuts novèls</string>
     <string name="notification_follow_request_description">Notificacions de demandas de seguiment</string>
     <string name="pref_main_nav_position_option_bottom">Enbàs</string>

@@ -86,7 +86,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                                            final StatusDisplayOptions statusDisplayOptions) {
         Context context = statusInfo.getContext();
         CharSequence wrappedName = StringUtils.unicodeWrap(name);
-        CharSequence boostedText = context.getString(R.string.status_boosted_format, wrappedName);
+        CharSequence boostedText = context.getString(R.string.post_boosted_format, wrappedName);
         CharSequence emojifiedText = CustomEmojiHelper.emojify(
                 boostedText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
         );
@@ -118,10 +118,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
             contentCollapseButton.setVisibility(View.VISIBLE);
             if (status.isCollapsed()) {
-                contentCollapseButton.setText(R.string.status_content_warning_show_more);
+                contentCollapseButton.setText(R.string.post_content_warning_show_more);
                 content.setFilters(COLLAPSE_INPUT_FILTER);
             } else {
-                contentCollapseButton.setText(R.string.status_content_warning_show_less);
+                contentCollapseButton.setText(R.string.post_content_warning_show_less);
                 content.setFilters(NO_INPUT_FILTER);
             }
         } else {
