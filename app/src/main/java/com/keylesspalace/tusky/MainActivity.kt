@@ -281,8 +281,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         NotificationHelper.clearNotificationsForActiveAccount(this, accountManager)
         val currentEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
         if (currentEmojiPack != selectedEmojiPack) {
-            Log.d(TAG, "onResume: EmojiPack has been changed from %s to %s"
-                .format(selectedEmojiPack, currentEmojiPack))
+            Log.d(
+                TAG,
+                "onResume: EmojiPack has been changed from %s to %s"
+                    .format(selectedEmojiPack, currentEmojiPack)
+            )
             selectedEmojiPack = currentEmojiPack
             // FIXME: This is a quick and dirty method to refresh all TextViews.
             //        Not good, but better than completely restarting the app
