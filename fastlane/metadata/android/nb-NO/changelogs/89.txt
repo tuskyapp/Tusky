@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- "Åpne som..." er nå også tilgjengelig i profil-menyen når flere profiler er i bruk
+- Innlogging blir nå gjort ved hjelp av WebView i applikasjonen
+- Støtte for Android 12
+- Støtte for Mastodons nye instanskonfigurasjons-APIet
+- og mange andre små fikser og forbedringer
