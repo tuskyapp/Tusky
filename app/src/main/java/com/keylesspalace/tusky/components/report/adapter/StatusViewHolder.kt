@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusViewHelper
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
@@ -49,6 +50,7 @@ class StatusViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
     private val statusViewHelper = StatusViewHelper(itemView)
+    private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
     private val previewListener = object : StatusViewHelper.MediaPreviewListener {
         override fun onViewMedia(v: View?, idx: Int) {
@@ -152,7 +154,7 @@ class StatusViewHolder(
 
     private fun setCreatedAt(createdAt: Date?) {
         if (statusDisplayOptions.useAbsoluteTime) {
-            binding.timestampInfo.text = statusViewHelper.getAbsoluteTime(createdAt)
+            binding.timestampInfo.text = absoluteTimeFormatter.format(createdAt)
         } else {
             binding.timestampInfo.text = if (createdAt != null) {
                 val then = createdAt.time

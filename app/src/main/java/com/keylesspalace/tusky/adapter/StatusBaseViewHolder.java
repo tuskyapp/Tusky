@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
@@ -54,10 +55,8 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -103,10 +102,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private TextView cardUrl;
     private PollAdapter pollAdapter;
 
-    private SimpleDateFormat shortSdf;
-    private SimpleDateFormat longSdf;
-
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     protected int avatarRadius48dp;
     private int avatarRadius36dp;
@@ -169,9 +166,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollOptions.setAdapter(pollAdapter);
         pollOptions.setLayoutManager(new LinearLayoutManager(pollOptions.getContext()));
         ((DefaultItemAnimator) pollOptions.getItemAnimator()).setSupportsChangeAnimations(false);
-
-        this.shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-        this.longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
 
         this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
         this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
@@ -320,7 +314,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected void setCreatedAt(Date createdAt, StatusDisplayOptions statusDisplayOptions) {
         if (statusDisplayOptions.useAbsoluteTime()) {
-            timestampInfo.setText(getAbsoluteTime(createdAt));
+            timestampInfo.setText(absoluteTimeFormatter.format(createdAt, true));
         } else {
             if (createdAt == null) {
                 timestampInfo.setText("?m");
@@ -333,21 +327,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private String getAbsoluteTime(Date createdAt) {
-        if (createdAt == null) {
-            return "??:??:??";
-        }
-        if (DateUtils.isToday(createdAt.getTime())) {
-            return shortSdf.format(createdAt);
-        } else {
-            return longSdf.format(createdAt);
-        }
-    }
-
     private CharSequence getCreatedAtDescription(Date createdAt,
                                                  StatusDisplayOptions statusDisplayOptions) {
         if (statusDisplayOptions.useAbsoluteTime()) {
-            return getAbsoluteTime(createdAt);
+            return absoluteTimeFormatter.format(createdAt, true);
         } else {
             /* This one is for screen-readers. Frequently, they would mispronounce timestamps like "17m"
              * as 17 meters instead of minutes. */
@@ -1028,7 +1011,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             return votesText;
         } else {
             if (statusDisplayOptions.useAbsoluteTime()) {
-                pollDurationInfo = context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.getExpiresAt()));
+                pollDurationInfo = context.getString(R.string.poll_info_time_absolute, absoluteTimeFormatter.format(poll.getExpiresAt(), false));
             } else {
                 pollDurationInfo = TimestampUtils.formatPollDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), timestamp);
             }
