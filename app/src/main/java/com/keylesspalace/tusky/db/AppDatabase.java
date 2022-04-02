@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 31)
+        }, version = 32)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -481,6 +481,43 @@ public abstract class AppDatabase extends RoomDatabase {
             // no actual scheme change, but placeholder ids are now used differently so the cache needs to be cleared to avoid bugs
             database.execSQL("DELETE FROM `TimelineAccountEntity`");
             database.execSQL("DELETE FROM `TimelineStatusEntity`");
+        }
+    };
+
+    public static final Migration MIGRATION_31_32 = new Migration(31, 32) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            // ConversationEntity lost the s_collapsible column
+            // since SQLite does not support removing columns and it is just a cache table, we recreate the whole table.
+            database.execSQL("DROP TABLE `ConversationEntity`");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `ConversationEntity` (" +
+                    "`accountId` INTEGER NOT NULL," +
+                    "`id` TEXT NOT NULL," +
+                    "`accounts` TEXT NOT NULL," +
+                    "`unread` INTEGER NOT NULL," +
+                    "`s_id` TEXT NOT NULL," +
+                    "`s_url` TEXT," +
+                    "`s_inReplyToId` TEXT," +
+                    "`s_inReplyToAccountId` TEXT," +
+                    "`s_account` TEXT NOT NULL," +
+                    "`s_content` TEXT NOT NULL," +
+                    "`s_createdAt` INTEGER NOT NULL," +
+                    "`s_emojis` TEXT NOT NULL," +
+                    "`s_favouritesCount` INTEGER NOT NULL," +
+                    "`s_favourited` INTEGER NOT NULL," +
+                    "`s_bookmarked` INTEGER NOT NULL," +
+                    "`s_sensitive` INTEGER NOT NULL," +
+                    "`s_spoilerText` TEXT NOT NULL," +
+                    "`s_attachments` TEXT NOT NULL," +
+                    "`s_mentions` TEXT NOT NULL," +
+                    "`s_tags` TEXT," +
+                    "`s_showingHiddenContent` INTEGER NOT NULL," +
+                    "`s_expanded` INTEGER NOT NULL," +
+                    "`s_collapsed` INTEGER NOT NULL," +
+                    "`s_muted` INTEGER NOT NULL," +
+                    "`s_poll` TEXT," +
+                    "PRIMARY KEY(`id`, `accountId`))");
         }
     };
 }

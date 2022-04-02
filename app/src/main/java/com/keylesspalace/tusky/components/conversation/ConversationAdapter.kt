@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 class ConversationAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val listener: StatusActionListener
-) : PagingDataAdapter<ConversationEntity, ConversationViewHolder>(CONVERSATION_COMPARATOR) {
+) : PagingDataAdapter<ConversationViewData, ConversationViewHolder>(CONVERSATION_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_conversation, parent, false)
@@ -37,17 +37,13 @@ class ConversationAdapter(
         holder.setupWithConversation(getItem(position))
     }
 
-    fun item(position: Int): ConversationEntity? {
-        return getItem(position)
-    }
-
     companion object {
-        val CONVERSATION_COMPARATOR = object : DiffUtil.ItemCallback<ConversationEntity>() {
-            override fun areItemsTheSame(oldItem: ConversationEntity, newItem: ConversationEntity): Boolean {
+        val CONVERSATION_COMPARATOR = object : DiffUtil.ItemCallback<ConversationViewData>() {
+            override fun areItemsTheSame(oldItem: ConversationViewData, newItem: ConversationViewData): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: ConversationEntity, newItem: ConversationEntity): Boolean {
+            override fun areContentsTheSame(oldItem: ConversationViewData, newItem: ConversationViewData): Boolean {
                 return oldItem == newItem
             }
         }

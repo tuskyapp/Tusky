@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
-import com.keylesspalace.tusky.util.shouldTrimStatus
+import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -37,7 +37,16 @@ data class ConversationEntity(
     val accounts: List<ConversationAccountEntity>,
     val unread: Boolean,
     @Embedded(prefix = "s_") val lastStatus: ConversationStatusEntity
-)
+) {
+    fun toViewData(): ConversationViewData {
+        return ConversationViewData(
+            id = id,
+            accounts = accounts,
+            unread = unread,
+            lastStatus = lastStatus.toViewData()
+        )
+    }
+}
 
 data class ConversationAccountEntity(
     val id: String,
@@ -79,39 +88,43 @@ data class ConversationStatusEntity(
     val tags: List<HashTag>?,
     val showingHiddenContent: Boolean,
     val expanded: Boolean,
-    val collapsible: Boolean,
     val collapsed: Boolean,
     val muted: Boolean,
     val poll: Poll?
 ) {
 
-    fun toStatus(): Status {
-        return Status(
-            id = id,
-            url = url,
-            account = account.toAccount(),
-            inReplyToId = inReplyToId,
-            inReplyToAccountId = inReplyToAccountId,
-            content = content,
-            reblog = null,
-            createdAt = createdAt,
-            emojis = emojis,
-            reblogsCount = 0,
-            favouritesCount = favouritesCount,
-            reblogged = false,
-            favourited = favourited,
-            bookmarked = bookmarked,
-            sensitive = sensitive,
-            spoilerText = spoilerText,
-            visibility = Status.Visibility.DIRECT,
-            attachments = attachments,
-            mentions = mentions,
-            tags = tags,
-            application = null,
-            pinned = false,
-            muted = muted,
-            poll = poll,
-            card = null
+    fun toViewData(): StatusViewData.Concrete {
+        return StatusViewData.Concrete(
+            status = Status(
+                id = id,
+                url = url,
+                account = account.toAccount(),
+                inReplyToId = inReplyToId,
+                inReplyToAccountId = inReplyToAccountId,
+                content = content,
+                reblog = null,
+                createdAt = createdAt,
+                emojis = emojis,
+                reblogsCount = 0,
+                favouritesCount = favouritesCount,
+                reblogged = false,
+                favourited = favourited,
+                bookmarked = bookmarked,
+                sensitive = sensitive,
+                spoilerText = spoilerText,
+                visibility = Status.Visibility.DIRECT,
+                attachments = attachments,
+                mentions = mentions,
+                tags = tags,
+                application = null,
+                pinned = false,
+                muted = muted,
+                poll = poll,
+                card = null
+            ),
+            isExpanded = expanded,
+            isShowingContent = showingHiddenContent,
+            isCollapsed = collapsed
         )
     }
 }
@@ -145,7 +158,6 @@ fun Status.toEntity() =
         tags = tags,
         showingHiddenContent = false,
         expanded = false,
-        collapsible = false, //TODO
         collapsed = true,
         muted = muted ?: false,
         poll = poll

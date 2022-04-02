@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.conversation;
 
 import android.content.Context;
 import android.text.InputFilter;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -29,11 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
+import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.List;
 
@@ -70,11 +72,12 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
     }
 
-    void setupWithConversation(ConversationEntity conversation) {
-        ConversationStatusEntity status = conversation.getLastStatus();
-        ConversationAccountEntity account = status.getAccount();
+    void setupWithConversation(ConversationViewData conversation) {
+        StatusViewData.Concrete statusViewData = conversation.getLastStatus();
+        Status status = statusViewData.getStatus();
+        TimelineAccount account = status.getAccount();
 
-        setupCollapsedState(status.getCollapsible(), status.getCollapsed(), status.getExpanded(), status.getSpoilerText(), listener);
+        setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), statusViewData.getSpoilerText(), listener);
 
         setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
         setUsername(account.getUsername());
@@ -85,7 +88,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         List<Attachment> attachments = status.getAttachments();
         boolean sensitive = status.getSensitive();
         if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
-            setMediaPreviews(attachments, sensitive, listener, status.getShowingHiddenContent(),
+            setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
                     statusDisplayOptions.useBlurhash());
 
             if (attachments.size() == 0) {
@@ -96,7 +99,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
                 mediaLabel.setVisibility(View.GONE);
             }
         } else {
-            setMediaLabel(attachments, sensitive, listener, status.getShowingHiddenContent());
+            setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent());
             // Hide all unused views.
             mediaPreviews[0].setVisibility(View.GONE);
             mediaPreviews[1].setVisibility(View.GONE);
@@ -105,10 +108,10 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             hideSensitiveMediaWarning();
         }
 
-        setupButtons(listener, account.getId(), status.getContent().toString(),
+        setupButtons(listener, account.getId(), statusViewData.getContent().toString(),
                 statusDisplayOptions);
 
-        setSpoilerAndContent(status.getExpanded(), new SpannableString(status.getContent()), status.getSpoilerText(),
+        setSpoilerAndContent(statusViewData.isExpanded(), statusViewData.getContent(), status.getSpoilerText(),
                 status.getMentions(), status.getTags(), status.getEmojis(),
                 PollViewDataKt.toViewData(status.getPoll()), statusDisplayOptions, listener);
 
