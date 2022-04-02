@@ -38,8 +38,6 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizePx
-import de.c1710.filemojicompat_ui.helpers.EmojiPackList
-import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 import javax.inject.Inject
 
@@ -52,13 +50,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     private var httpProxyPref: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val emojiPackImporter = EmojiPackImporter(
-            requireActivity().activityResultRegistry,
-            EmojiPackList.defaultList!!,
-            requireContext()
-        )
-        requireActivity().lifecycle.addObserver(emojiPackImporter)
-
         makePreferenceScreen {
             preferenceCategory(R.string.pref_title_appearance_settings) {
                 listPreference {
@@ -71,7 +62,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     icon = makeIcon(GoogleMaterial.Icon.gmd_palette)
                 }
 
-                emojiPreference(emojiPackImporter) {
+                emojiPreference(requireActivity()) {
                     setTitle(R.string.emoji_style)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied)
                 }
