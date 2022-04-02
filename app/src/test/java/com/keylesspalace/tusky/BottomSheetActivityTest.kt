@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky
 
-import android.text.SpannedString
 import android.widget.LinearLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -74,7 +73,7 @@ class BottomSheetActivityTest {
         inReplyToId = null,
         inReplyToAccountId = null,
         reblog = null,
-        content = SpannedString("omgwat"),
+        content = "omgwat",
         createdAt = Date(),
         emojis = emptyList(),
         reblogsCount = 0,

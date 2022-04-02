@@ -17,7 +17,6 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Looper.getMainLooper
-import android.text.SpannedString
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.compose.ComposeActivity
@@ -470,7 +469,7 @@ class ComposeActivityTest {
                 "admin",
                 "admin",
                 "admin",
-                SpannedString(""),
+                "",
                 "https://example.token",
                 "",
                 "",
@@ -490,7 +489,7 @@ class ComposeActivityTest {
         )
     }
 
-    fun getCustomInstanceConfiguration(maximumStatusCharacters: Int? = null, charactersReservedPerUrl: Int? = null): InstanceConfiguration {
+    private fun getCustomInstanceConfiguration(maximumStatusCharacters: Int? = null, charactersReservedPerUrl: Int? = null): InstanceConfiguration {
         return InstanceConfiguration(
             statuses = StatusConfiguration(
                 maxCharacters = maximumStatusCharacters,

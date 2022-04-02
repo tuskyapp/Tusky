@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky
 
-import android.text.SpannedString
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
@@ -22,7 +21,7 @@ import java.util.Date
 @RunWith(AndroidJUnit4::class)
 class FilterTest {
 
-    lateinit var filterModel: FilterModel
+    private lateinit var filterModel: FilterModel
 
     @Before
     fun setup() {
@@ -162,7 +161,7 @@ class FilterTest {
             inReplyToId = null,
             inReplyToAccountId = null,
             reblog = null,
-            content = SpannedString(content),
+            content = content,
             createdAt = Date(),
             emojis = emptyList(),
             reblogsCount = 0,
