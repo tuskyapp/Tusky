@@ -30,13 +30,12 @@ import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.Timer
-import java.util.TimerTask
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -57,8 +56,6 @@ class SendStatusService : Service(), Injectable {
 
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
     private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
-
-    private val timer = Timer()
 
     private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
@@ -154,56 +151,56 @@ class SendStatusService : Service(), Injectable {
 
         val callback = object : Callback<Status> {
             override fun onResponse(call: Call<Status>, response: Response<Status>) {
+                serviceScope.launch {
 
-                val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
-                statusesToSend.remove(statusId)
+                    val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
+                    statusesToSend.remove(statusId)
 
-                if (response.isSuccessful) {
-                    // If the status was loaded from a draft, delete the draft and associated media files.
-                    if (statusToSend.draftId != 0) {
-                        serviceScope.launch {
+                    if (response.isSuccessful) {
+                        // If the status was loaded from a draft, delete the draft and associated media files.
+                        if (statusToSend.draftId != 0) {
                             draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
                         }
-                    }
 
-                    if (scheduled) {
-                        response.body()?.let(::StatusScheduledEvent)?.let(eventHub::dispatch)
+                        if (scheduled) {
+                            response.body()?.let(::StatusScheduledEvent)?.let(eventHub::dispatch)
+                        } else {
+                            response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
+                        }
+
+                        notificationManager.cancel(statusId)
                     } else {
-                        response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
+                        // the server refused to accept the status, save status & show error message
+                        saveStatusToDrafts(statusToSend)
+
+                        val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
+                            .setSmallIcon(R.drawable.ic_notify)
+                            .setContentTitle(getString(R.string.send_post_notification_error_title))
+                            .setContentText(getString(R.string.send_post_notification_saved_content))
+                            .setColor(
+                                ContextCompat.getColor(
+                                    this@SendStatusService,
+                                    R.color.notification_color
+                                )
+                            )
+
+                        notificationManager.cancel(statusId)
+                        notificationManager.notify(errorNotificationId--, builder.build())
                     }
-
-                    notificationManager.cancel(statusId)
-                } else {
-                    // the server refused to accept the status, save status & show error message
-                    saveStatusToDrafts(statusToSend)
-
-                    val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_notify)
-                        .setContentTitle(getString(R.string.send_post_notification_error_title))
-                        .setContentText(getString(R.string.send_post_notification_saved_content))
-                        .setColor(ContextCompat.getColor(this@SendStatusService, R.color.notification_color))
-
-                    notificationManager.cancel(statusId)
-                    notificationManager.notify(errorNotificationId--, builder.build())
+                    stopSelfWhenDone()
                 }
-
-                stopSelfWhenDone()
             }
 
             override fun onFailure(call: Call<Status>, t: Throwable) {
-                var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
-                if (backoff > MAX_RETRY_INTERVAL) {
-                    backoff = MAX_RETRY_INTERVAL
-                }
+                serviceScope.launch {
+                    var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
+                    if (backoff > MAX_RETRY_INTERVAL) {
+                        backoff = MAX_RETRY_INTERVAL
+                    }
 
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            sendStatus(statusId)
-                        }
-                    },
-                    backoff
-                )
+                    delay(backoff)
+                    sendStatus(statusId)
+                }
             }
         }
 
@@ -218,7 +215,7 @@ class SendStatusService : Service(), Injectable {
         }
     }
 
-    private fun cancelSending(statusId: Int) {
+    private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
             val sendCall = sendCalls.remove(statusId)
@@ -230,38 +227,28 @@ class SendStatusService : Service(), Injectable {
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(getString(R.string.send_post_notification_cancel_title))
                 .setContentText(getString(R.string.send_post_notification_saved_content))
-                .setColor(ContextCompat.getColor(this, R.color.notification_color))
+                .setColor(ContextCompat.getColor(this@SendStatusService, R.color.notification_color))
 
             notificationManager.notify(statusId, builder.build())
 
-            timer.schedule(
-                object : TimerTask() {
-                    override fun run() {
-                        notificationManager.cancel(statusId)
-                        stopSelfWhenDone()
-                    }
-                },
-                5000
-            )
+            delay(5000)
         }
     }
 
-    private fun saveStatusToDrafts(status: StatusToSend) {
-        serviceScope.launch {
-            draftHelper.saveDraft(
-                draftId = status.draftId,
-                accountId = status.accountId,
-                inReplyToId = status.inReplyToId,
-                content = status.text,
-                contentWarning = status.warningText,
-                sensitive = status.sensitive,
-                visibility = Status.Visibility.byString(status.visibility),
-                mediaUris = status.mediaUris,
-                mediaDescriptions = status.mediaDescriptions,
-                poll = status.poll,
-                failedToSend = true
-            )
-        }
+    private suspend fun saveStatusToDrafts(status: StatusToSend) {
+        draftHelper.saveDraft(
+            draftId = status.draftId,
+            accountId = status.accountId,
+            inReplyToId = status.inReplyToId,
+            content = status.text,
+            contentWarning = status.warningText,
+            sensitive = status.sensitive,
+            visibility = Status.Visibility.byString(status.visibility),
+            mediaUris = status.mediaUris,
+            mediaDescriptions = status.mediaDescriptions,
+            poll = status.poll,
+            failedToSend = true
+        )
     }
 
     private fun cancelSendingIntent(statusId: Int): PendingIntent {
