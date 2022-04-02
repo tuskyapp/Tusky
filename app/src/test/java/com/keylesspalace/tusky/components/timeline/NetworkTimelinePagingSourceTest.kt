@@ -3,11 +3,11 @@ package com.keylesspalace.tusky.components.timeline
 import androidx.paging.PagingSource
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelinePagingSource
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 
 class NetworkTimelinePagingSourceTest {
 

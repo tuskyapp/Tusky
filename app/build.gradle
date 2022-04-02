@@ -177,8 +177,8 @@ dependencies {
 
     testImplementation "androidx.test.ext:junit:1.1.3"
     testImplementation "org.robolectric:robolectric:4.4"
-    testImplementation "org.mockito:mockito-inline:3.6.28"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation "org.mockito:mockito-inline:4.4.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
