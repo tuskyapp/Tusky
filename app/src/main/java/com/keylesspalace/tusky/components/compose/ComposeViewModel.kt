@@ -48,6 +48,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.rxSingle
 import java.util.Locale
 import javax.inject.Inject
 
@@ -105,7 +106,10 @@ class ComposeViewModel @Inject constructor(
     init {
 
         Single.zip(
-            api.getCustomEmojis(), api.getInstance()
+            api.getCustomEmojis(),
+            rxSingle {
+                api.getInstance().getOrThrow()
+            }
         ) { emojis, instance ->
             InstanceEntity(
                 instance = accountManager.activeAccount?.domain!!,
@@ -291,7 +295,7 @@ class ComposeViewModel @Inject constructor(
     ): LiveData<Unit> {
 
         val deletionObservable = if (isEditingScheduledToot) {
-            api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map { }
+            rxSingle { api.deleteScheduledStatus(scheduledTootId.toString()) }.toObservable().map { }
         } else {
             Observable.just(Unit)
         }.toLiveData()

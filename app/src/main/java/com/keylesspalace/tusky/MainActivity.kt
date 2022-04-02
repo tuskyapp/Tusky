@@ -687,18 +687,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
-    private fun fetchUserInfo() {
-        mastodonApi.accountVerifyCredentials()
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe(
-                { userInfo ->
-                    onFetchUserInfoSuccess(userInfo)
-                },
-                { throwable ->
-                    Log.e(TAG, "Failed to fetch user info. " + throwable.message)
-                }
-            )
+    private fun fetchUserInfo() = lifecycleScope.launch {
+        mastodonApi.accountVerifyCredentials().fold(
+            { userInfo ->
+                onFetchUserInfoSuccess(userInfo)
+            },
+            { throwable ->
+                Log.e(TAG, "Failed to fetch user info. " + throwable.message)
+            }
+        )
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {

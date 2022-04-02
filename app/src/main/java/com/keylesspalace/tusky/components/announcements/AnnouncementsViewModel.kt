@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.Success
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.rx3.rxSingle
 import javax.inject.Inject
 
 class AnnouncementsViewModel @Inject constructor(
@@ -56,8 +57,9 @@ class AnnouncementsViewModel @Inject constructor(
             appDatabase.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
                 .map<Either<InstanceEntity, Instance>> { Either.Left(it) }
                 .onErrorResumeNext {
-                    mastodonApi.getInstance()
-                        .map { Either.Right(it) }
+                    rxSingle {
+                        mastodonApi.getInstance().getOrThrow()
+                    }.map { Either.Right(it) }
                 }
         ) { emojis, either ->
             either.asLeftOrNull()?.copy(emojiList = emojis)
