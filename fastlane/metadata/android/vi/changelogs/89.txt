@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- Hiện "Mở bằng..." trong menu Tài khoản kể cả khi dùng nhiều tài khoản
+- Hiện đăng nhập bằng WebView ngay trong app
+- Hỗ trợ Android 12
+- Hỗ trợ thiết lập API máy chủ Mastodon mới
+- Sửa lỗi nhỏ và cải thiện
