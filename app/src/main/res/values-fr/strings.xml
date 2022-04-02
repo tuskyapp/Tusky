@@ -9,14 +9,14 @@
     <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
     <string name="error_authorization_denied">Authentification refusée.</string>
     <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
-    <string name="error_compose_character_limit">Votre pouet est trop long !</string>
+    <string name="error_compose_character_limit">Votre message est trop long !</string>
     <string name="error_image_upload_size">Le fichier doit avoir moins de 8 Mo.</string>
     <string name="error_video_upload_size">Les fichiers vidéos doivent avoir moins de 40 Mo.</string>
     <string name="error_media_upload_type">Ce type de fichier ne peut pas être téléversé.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
     <string name="error_media_upload_permission">Permission requise pour lire le média.</string>
     <string name="error_media_download_permission">Permission requise pour enregistrer le média.</string>
-    <string name="error_media_upload_image_or_video">Un même pouet ne peut contenir à la fois une vidéo et une image.</string>
+    <string name="error_media_upload_image_or_video">Un même message ne peut contenir à la fois une vidéo et une image.</string>
     <string name="error_media_upload_sending">Échec d’envoi du média.</string>
     <string name="error_sender_account_gone">Erreur lors de l’envoi du message.</string>
     <string name="title_home">Accueil</string>
@@ -170,8 +170,8 @@
     <string name="pref_title_notification_filters">Me notifier quand</string>
     <string name="pref_title_notification_filter_mentions">on me mentionne</string>
     <string name="pref_title_notification_filter_follows">on vient de me suivre</string>
-    <string name="pref_title_notification_filter_reblogs">mes pouets sont partagés</string>
-    <string name="pref_title_notification_filter_favourites">mes pouets sont mis en favoris</string>
+    <string name="pref_title_notification_filter_reblogs">mes messages sont partagés</string>
+    <string name="pref_title_notification_filter_favourites">mes messages sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
     <string name="pref_title_timelines">Fils chronologiques</string>
@@ -215,7 +215,7 @@
     <string name="notification_boost_name">Partages</string>
     <string name="notification_boost_description">Notifications quand vos messages sont partagés</string>
     <string name="notification_favourite_name">Favoris</string>
-    <string name="notification_favourite_description">Notifications quand vos pouets sont mis en favoris</string>
+    <string name="notification_favourite_description">Notifications quand vos messages sont mis en favoris</string>
     <string name="notification_mention_format">%s vous a mentionné</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d autres</string>
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
@@ -374,7 +374,7 @@
     <string name="notifications_clear">Nettoyer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
-    <string name="compose_shortcut_long_label">Écrire un pouet</string>
+    <string name="compose_shortcut_long_label">Écrire un message</string>
     <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
@@ -389,19 +389,19 @@
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d jour restant</item>
-        <item quantity="other">%d jours restant</item>
+        <item quantity="other">%d jours restants</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d heure restant</item>
-        <item quantity="other">%d heures restant</item>
+        <item quantity="other">%d heures restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minute restant</item>
-        <item quantity="other">%d minutes restant</item>
+        <item quantity="other">%d minutes restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d seconde restant</item>
-        <item quantity="other">%d secondes restant</item>
+        <item quantity="other">%d secondes restantes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
     <string name="compose_preview_image_description">Actions pour l’image %s</string>
@@ -430,7 +430,7 @@
     <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliqué·e seulement s’il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
     <string name="failed_search">Échec de la recherche</string>
-    <string name="pref_title_alway_open_spoiler">Toujours ouvrir les pouets avec un contenu sensible</string>
+    <string name="pref_title_alway_open_spoiler">Toujours ouvrir les messages ayant un contenu sensible</string>
     <string name="action_add_poll">Ajouter un sondage</string>
     <string name="create_poll_title">Sondage</string>
     <string name="duration_5_min">5 minutes</string>
@@ -496,23 +496,23 @@
     <string name="account_note_hint">Votre note privée sur ce compte</string>
     <string name="no_announcements">Il n’y a pas d’annonce.</string>
     <string name="title_announcements">Annonces</string>
-    <string name="wellbeing_mode_notice">Certaines informations susceptibles d\'affecter votre bien-être mental seront cachées. Il s\'agit :
+    <string name="wellbeing_mode_notice">Certaines informations susceptibles d’affecter votre bien-être mental seront cachées. Il s’agit :
 \n
 \n - des notifications de favoris, de partage et de suivi
-\n - du compte des favoris/partages sur les pouets
+\n - du nombre des favoris/partages des messages
 \n - des statistiques sur les profils
 \n
-\n Les notifications \"push\" ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
+\n Les notifications « push » ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
     <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau message</string>
     <string name="notification_subscription_format">%s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
-    <string name="notification_subscription_name">Nouveaux pouets</string>
+    <string name="notification_subscription_name">Nouveaux messages</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Vous ne pouvez pas téléverser plus d’ %1$d pièce jointe.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>
-    <string name="notification_subscription_description">Notifications quand quelqu\'un que vous suivez publie un nouveau pouet</string>
+    <string name="notification_subscription_description">Notifications quand quelqu’un que vous suivez publie un nouveau message</string>
     <string name="limit_notifications">Limiter les notifications du fil</string>
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
