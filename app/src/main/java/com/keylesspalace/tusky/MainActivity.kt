@@ -287,8 +287,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     .format(selectedEmojiPack, currentEmojiPack)
             )
             selectedEmojiPack = currentEmojiPack
-            // FIXME: This is a quick and dirty method to refresh all TextViews.
-            //        Not good, but better than completely restarting the app
             recreate()
         }
     }

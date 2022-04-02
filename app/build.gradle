@@ -85,11 +85,6 @@ android {
     }
     kotlinOptions {
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-        freeCompilerArgs += "-Xjvm-default=compatibility"
-    }
-
-    compileOptions {
-        coreLibraryDesugaringEnabled true
     }
 }
 
@@ -106,7 +101,6 @@ ext.filemojicompat_version = '3.2.0-beta01'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
