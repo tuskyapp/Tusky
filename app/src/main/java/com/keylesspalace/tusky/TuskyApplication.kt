@@ -68,7 +68,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
         // In this case, we want to have the emoji preferences merged with the other ones
         // Copied from PreferenceManager.getDefaultSharedPreferenceName
         EmojiPreference.sharedPreferenceName = packageName + "_preferences"
-        EmojiPackHelper.init(this, DefaultEmojiPackList.get(this))
+        EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
