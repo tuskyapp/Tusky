@@ -22,16 +22,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.components.report.model.StatusViewState
 import com.keylesspalace.tusky.databinding.ItemReportStatusBinding
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.viewdata.StatusViewData
 
 class StatusesAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusViewState: StatusViewState,
     private val adapterHandler: AdapterHandler
-) : PagingDataAdapter<Status, StatusViewHolder>(STATUS_COMPARATOR) {
+) : PagingDataAdapter<StatusViewData.Concrete, StatusViewHolder>(STATUS_COMPARATOR) {
 
-    private val statusForPosition: (Int) -> Status? = { position: Int ->
+    private val statusForPosition: (Int) -> StatusViewData.Concrete? = { position: Int ->
         if (position != RecyclerView.NO_POSITION) getItem(position) else null
     }
 
@@ -50,11 +50,11 @@ class StatusesAdapter(
     }
 
     companion object {
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<Status>() {
-            override fun areContentsTheSame(oldItem: Status, newItem: Status): Boolean =
+        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
+            override fun areContentsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
                 oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: Status, newItem: Status): Boolean =
+            override fun areItemsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
                 oldItem.id == newItem.id
         }
     }
