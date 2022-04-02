@@ -280,7 +280,7 @@ class EmojiCompatFont(
             R.string.caption_blobmoji,
             R.drawable.ic_blobmoji,
             "https://tusky.app/hosted/emoji/BlobmojiCompat.ttf",
-            "12.0.0"
+            "14.0.1"
         )
         val TWEMOJI = EmojiCompatFont(
             "Twemoji",
@@ -288,7 +288,7 @@ class EmojiCompatFont(
             R.string.caption_twemoji,
             R.drawable.ic_twemoji,
             "https://tusky.app/hosted/emoji/TwemojiCompat.ttf",
-            "12.0.0"
+            "14.0.0"
         )
         val NOTOEMOJI = EmojiCompatFont(
             "NotoEmoji",
@@ -296,7 +296,7 @@ class EmojiCompatFont(
             R.string.caption_notoemoji,
             R.drawable.ic_notoemoji,
             "https://tusky.app/hosted/emoji/NotoEmojiCompat.ttf",
-            "11.0.0"
+            "14.0.0"
         )
 
         /**

@@ -47,7 +47,7 @@
     <string name="message_empty">Tukaj ni ničesar.</string>
     <string name="footer_empty">Tukaj ni ničesar. Potegnite navzdol za osvežitev!</string>
     <string name="notification_reblog_format">%s je spodbudil tvoj tut</string>
-    <string name="notification_favourite_format">% je vzljubil vaš tut</string>
+    <string name="notification_favourite_format">%s je vzljubil vaš tut</string>
     <string name="notification_follow_format">%s vam sledi</string>
     <string name="report_username_format">Prijavi @%s</string>
     <string name="report_comment_hint">Dodatni komentarji\?</string>
@@ -287,7 +287,7 @@
     <string name="restart_emoji">Če želite uveljaviti te spremembe, morate znova zagnati Tusky</string>
     <string name="later">Kasneje</string>
     <string name="restart">Znova zaženi</string>
-    <string name="caption_systememoji">"Privzeti komplet emotikonov vaše naprave "</string>
+    <string name="caption_systememoji">Privzeti komplet emotikonov vaše naprave</string>
     <string name="caption_blobmoji">Blob emotikoni so znani od Android 4.4-7.1</string>
     <string name="caption_twemoji">Mastodonov privzeti komplet emotikonov</string>
     <string name="download_failed">Prenos ni uspel</string>
