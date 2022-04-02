@@ -15,7 +15,6 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.os.Build
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.replaceCrashingCharacters

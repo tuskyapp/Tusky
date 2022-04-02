@@ -2,13 +2,14 @@ package com.keylesspalace.tusky.util
 
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.SpannedString
 import androidx.core.text.parseAsHtml
-import com.keylesspalace.tusky.viewdata.StatusViewData
 
+/**
+ * parse a String containing html from the Mastodon api to Spanned
+ */
 fun String.toSpanned(): Spanned {
     return this.replace("<br> ", "<br>&nbsp;")
-    .replace("<br /> ", "<br />&nbsp;")
+        .replace("<br /> ", "<br />&nbsp;")
         .replace("<br/> ", "<br/>&nbsp;")
         .replace("  ", "&nbsp;&nbsp;")
         .parseAsHtml()
@@ -16,7 +17,6 @@ fun String.toSpanned(): Spanned {
          * most status contents do, so it should be trimmed. */
         .trimTrailingWhitespace()
 }
-
 
 fun replaceCrashingCharacters(content: Spanned): Spanned {
     return replaceCrashingCharacters(content as CharSequence) as Spanned
