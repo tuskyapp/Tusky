@@ -16,7 +16,9 @@
 package com.keylesspalace.tusky.entity
 
 import android.text.SpannableStringBuilder
+import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.util.toSpanned
 import java.util.ArrayList
 import java.util.Date
 
@@ -132,8 +134,9 @@ data class Status(
     }
 
     private fun getEditableText(): String {
-        val builder = SpannableStringBuilder(content)
-     /*   for (span in content.getSpans(0, content.length, URLSpan::class.java)) {
+        val contentSpanned = content.toSpanned()
+        val builder = SpannableStringBuilder(content.toSpanned())
+        for (span in contentSpanned.getSpans(0, content.length, URLSpan::class.java)) {
             val url = span.url
             for ((_, url1, username) in mentions) {
                 if (url == url1) {
@@ -143,7 +146,7 @@ data class Status(
                     break
                 }
             }
-        }*/
+        }
         return builder.toString()
     }
 
