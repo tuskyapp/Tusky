@@ -1,4 +1,4 @@
-/* Copyright 2021 Tusky Contributors
+/* Copyright 2022 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
