@@ -29,8 +29,8 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.createClickableText
 import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.setClickableText
 
 class AccountFieldAdapter(
     private val linkListener: LinkListener,

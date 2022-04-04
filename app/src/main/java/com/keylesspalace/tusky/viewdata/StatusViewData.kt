@@ -17,9 +17,9 @@ package com.keylesspalace.tusky.viewdata
 import android.os.Build
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.replaceCrashingCharacters
 import com.keylesspalace.tusky.util.shouldTrimStatus
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 
 /**
  * Created by charlag on 11/07/2017.
