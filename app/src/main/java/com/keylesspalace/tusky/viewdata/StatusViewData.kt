@@ -19,7 +19,7 @@ import android.text.Spanned
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.replaceCrashingCharacters
 import com.keylesspalace.tusky.util.shouldTrimStatus
-import com.keylesspalace.tusky.util.toSpanned
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 
 /**
  * Created by charlag on 11/07/2017.
@@ -77,13 +77,13 @@ sealed class StatusViewData {
         init {
             if (Build.VERSION.SDK_INT == 23) {
                 // https://github.com/tuskyapp/Tusky/issues/563
-                this.content = replaceCrashingCharacters(status.actionableStatus.content.toSpanned())
+                this.content = replaceCrashingCharacters(status.actionableStatus.content.parseAsMastodonHtml())
                 this.spoilerText =
                     replaceCrashingCharacters(status.actionableStatus.spoilerText).toString()
                 this.username =
                     replaceCrashingCharacters(status.actionableStatus.account.username).toString()
             } else {
-                this.content = status.actionableStatus.content.toSpanned()
+                this.content = status.actionableStatus.content.parseAsMastodonHtml()
                 this.spoilerText = status.actionableStatus.spoilerText
                 this.username = status.actionableStatus.account.username
             }

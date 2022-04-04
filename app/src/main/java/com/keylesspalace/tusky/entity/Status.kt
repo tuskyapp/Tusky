@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.entity
 import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.util.toSpanned
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import java.util.ArrayList
 import java.util.Date
 
@@ -134,8 +134,8 @@ data class Status(
     }
 
     private fun getEditableText(): String {
-        val contentSpanned = content.toSpanned()
-        val builder = SpannableStringBuilder(content.toSpanned())
+        val contentSpanned = content.parseAsMastodonHtml()
+        val builder = SpannableStringBuilder(content.parseAsMastodonHtml())
         for (span in contentSpanned.getSpans(0, content.length, URLSpan::class.java)) {
             val url = span.url
             for ((_, url1, username) in mentions) {

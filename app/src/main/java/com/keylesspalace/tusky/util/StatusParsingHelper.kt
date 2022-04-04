@@ -22,7 +22,7 @@ import androidx.core.text.parseAsHtml
 /**
  * parse a String containing html from the Mastodon api to Spanned
  */
-fun String.toSpanned(): Spanned {
+fun String.parseAsMastodonHtml(): Spanned {
     return this.replace("<br> ", "<br>&nbsp;")
         .replace("<br /> ", "<br />&nbsp;")
         .replace("<br/> ", "<br/>&nbsp;")
