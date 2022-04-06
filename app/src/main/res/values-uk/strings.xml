@@ -16,7 +16,7 @@
     <string name="title_notifications">Сповіщення</string>
     <string name="title_home">Головна</string>
     <string name="error_sender_account_gone">Помилка надсилання допису.</string>
-    <string name="error_media_upload_image_or_video">Зображення та відео не можуть бути прикріплені до статусу одночасно.</string>
+    <string name="error_media_upload_image_or_video">Зображення та відео не можуть бути прикріплені до допису одночасно.</string>
     <string name="error_media_download_permission">Потрібен дозвіл на зберігання медіа.</string>
     <string name="error_media_upload_permission">Потрібен дозвіл на читання медіа.</string>
     <string name="error_media_upload_opening">Не вдається відкрити цей файл.</string>
@@ -24,7 +24,7 @@
     <string name="error_audio_upload_size">Аудіофайли повинні бути менше 40 МБ.</string>
     <string name="error_video_upload_size">Відео повинне бути менше 40 МБ.</string>
     <string name="error_image_upload_size">Файл повинен бути менше 8 МБ.</string>
-    <string name="error_compose_character_limit">Статус надто довгий!</string>
+    <string name="error_compose_character_limit">Допис задовгий!</string>
     <string name="error_no_web_browser_found">Не вдалося знайти браузер, який можна використати.</string>
     <string name="error_empty">Не може бути порожнім.</string>
     <string name="error_network">Сталася помилка мережі! Перевірте інтернет-з\'єднання та спробуйте знову!</string>
