@@ -15,6 +15,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.DialogEmojicompatBinding
 import com.keylesspalace.tusky.databinding.ItemEmojiPrefBinding
 import com.keylesspalace.tusky.util.EmojiCompatFont
@@ -220,7 +221,7 @@ class EmojiPreference(
                         context,
                         0x1f973, // This is the codepoint of the party face emoji :D
                         launchIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT
+                        NotificationHelper.pendingIntentFlags(false)
                     )
                     val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     mgr.set(
