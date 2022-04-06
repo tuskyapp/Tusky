@@ -40,6 +40,9 @@ import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
@@ -79,10 +82,11 @@ class NetworkTimelineViewModel @Inject constructor(
         remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
     ).flow
         .map { pagingData ->
-            pagingData.filter { statusViewData ->
+            pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
                 !shouldFilterStatus(statusViewData)
             }
         }
+        .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
