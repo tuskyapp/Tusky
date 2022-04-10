@@ -22,32 +22,16 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.listPreference
-import com.keylesspalace.tusky.settings.makePreferenceScreen
-import com.keylesspalace.tusky.settings.preference
-import com.keylesspalace.tusky.settings.preferenceCategory
-import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeRes
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,203 +49,203 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
-        makePreferenceScreen {
-            preference {
-                setTitle(R.string.pref_title_edit_notification_settings)
-                icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).apply {
-                    sizeRes = R.dimen.preference_icon_size
-                    colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
-                }
-                setOnPreferenceClickListener {
-                    openNotificationPrefs()
-                    true
-                }
-            }
-
-            preference {
-                setTitle(R.string.title_tab_preferences)
-                setIcon(R.drawable.ic_tabs)
-                setOnPreferenceClickListener {
-                    val intent = Intent(context, TabPreferenceActivity::class.java)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
-                    true
-                }
-            }
-
-            preference {
-                setTitle(R.string.action_view_mutes)
-                setIcon(R.drawable.ic_mute_24dp)
-                setOnPreferenceClickListener {
-                    val intent = Intent(context, AccountListActivity::class.java)
-                    intent.putExtra("type", AccountListActivity.Type.MUTES)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
-                    true
-                }
-            }
-
-            preference {
-                setTitle(R.string.action_view_blocks)
-                icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).apply {
-                    sizeRes = R.dimen.preference_icon_size
-                    colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
-                }
-                setOnPreferenceClickListener {
-                    val intent = Intent(context, AccountListActivity::class.java)
-                    intent.putExtra("type", AccountListActivity.Type.BLOCKS)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
-                    true
-                }
-            }
-
-            preference {
-                setTitle(R.string.title_domain_mutes)
-                setIcon(R.drawable.ic_mute_24dp)
-                setOnPreferenceClickListener {
-                    val intent = Intent(context, InstanceListActivity::class.java)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
-                    true
-                }
-            }
-
-            preferenceCategory(R.string.pref_publishing) {
-                listPreference {
-                    setTitle(R.string.pref_default_post_privacy)
-                    setEntries(R.array.post_privacy_names)
-                    setEntryValues(R.array.post_privacy_values)
-                    key = PrefKeys.DEFAULT_POST_PRIVACY
-                    setSummaryProvider { entry }
-                    val visibility = accountManager.activeAccount?.defaultPostPrivacy
-                        ?: Status.Visibility.PUBLIC
-                    value = visibility.serverString()
-                    setIcon(getIconForVisibility(visibility))
-                    setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
-                        syncWithServer(visibility = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
-                }
-
-                switchPreference {
-                    setTitle(R.string.pref_default_media_sensitivity)
-                    setIcon(R.drawable.ic_eye_24dp)
-                    key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
-                    isSingleLineTitle = false
-                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity
-                        ?: false
-                    setDefaultValue(sensitivity)
-                    setIcon(getIconForSensitivity(sensitivity))
-                    setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(getIconForSensitivity(newValue as Boolean))
-                        syncWithServer(sensitive = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
-                }
-            }
-
-            preferenceCategory(R.string.pref_title_timelines) {
-                switchPreference {
-                    key = PrefKeys.MEDIA_PREVIEW_ENABLED
-                    setTitle(R.string.pref_title_show_media_preview)
-                    isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.mediaPreviewEnabled ?: true
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.mediaPreviewEnabled = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
-                }
-
-                switchPreference {
-                    key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
-                    setTitle(R.string.pref_title_alway_show_sensitive_media)
-                    isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.alwaysShowSensitiveMedia = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
-                }
-
-                switchPreference {
-                    key = PrefKeys.ALWAYS_OPEN_SPOILER
-                    setTitle(R.string.pref_title_alway_open_spoiler)
-                    isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysOpenSpoiler ?: false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.alwaysOpenSpoiler = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
-                }
-            }
-
-            preferenceCategory(R.string.pref_title_timeline_filters) {
-                preference {
-                    setTitle(R.string.pref_title_public_filter_keywords)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.PUBLIC,
-                            R.string.pref_title_public_filter_keywords
-                        )
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_notifications)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.NOTIFICATIONS, R.string.title_notifications)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_home)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.HOME, R.string.title_home)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.pref_title_thread_filter_keywords)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.THREAD,
-                            R.string.pref_title_thread_filter_keywords
-                        )
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_accounts)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.ACCOUNT, R.string.title_accounts)
-                        true
-                    }
-                }
-            }
-        }
+//        makePreferenceScreen {
+//            preference {
+//                setTitle(R.string.pref_title_edit_notification_settings)
+//                icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).apply {
+//                    sizeRes = R.dimen.preference_icon_size
+//                    colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
+//                }
+//                setOnPreferenceClickListener {
+//                    openNotificationPrefs()
+//                    true
+//                }
+//            }
+//
+//            preference {
+//                setTitle(R.string.title_tab_preferences)
+//                setIcon(R.drawable.ic_tabs)
+//                setOnPreferenceClickListener {
+//                    val intent = Intent(context, TabPreferenceActivity::class.java)
+//                    activity?.startActivity(intent)
+//                    activity?.overridePendingTransition(
+//                        R.anim.slide_from_right,
+//                        R.anim.slide_to_left
+//                    )
+//                    true
+//                }
+//            }
+//
+//            preference {
+//                setTitle(R.string.action_view_mutes)
+//                setIcon(R.drawable.ic_mute_24dp)
+//                setOnPreferenceClickListener {
+//                    val intent = Intent(context, AccountListActivity::class.java)
+//                    intent.putExtra("type", AccountListActivity.Type.MUTES)
+//                    activity?.startActivity(intent)
+//                    activity?.overridePendingTransition(
+//                        R.anim.slide_from_right,
+//                        R.anim.slide_to_left
+//                    )
+//                    true
+//                }
+//            }
+//
+//            preference {
+//                setTitle(R.string.action_view_blocks)
+//                icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).apply {
+//                    sizeRes = R.dimen.preference_icon_size
+//                    colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
+//                }
+//                setOnPreferenceClickListener {
+//                    val intent = Intent(context, AccountListActivity::class.java)
+//                    intent.putExtra("type", AccountListActivity.Type.BLOCKS)
+//                    activity?.startActivity(intent)
+//                    activity?.overridePendingTransition(
+//                        R.anim.slide_from_right,
+//                        R.anim.slide_to_left
+//                    )
+//                    true
+//                }
+//            }
+//
+//            preference {
+//                setTitle(R.string.title_domain_mutes)
+//                setIcon(R.drawable.ic_mute_24dp)
+//                setOnPreferenceClickListener {
+//                    val intent = Intent(context, InstanceListActivity::class.java)
+//                    activity?.startActivity(intent)
+//                    activity?.overridePendingTransition(
+//                        R.anim.slide_from_right,
+//                        R.anim.slide_to_left
+//                    )
+//                    true
+//                }
+//            }
+//
+//            preferenceCategory(R.string.pref_publishing) {
+//                listPreference {
+//                    setTitle(R.string.pref_default_post_privacy)
+//                    setEntries(R.array.post_privacy_names)
+//                    setEntryValues(R.array.post_privacy_values)
+//                    key = PrefKeys.DEFAULT_POST_PRIVACY
+//                    setSummaryProvider { entry }
+//                    val visibility = accountManager.activeAccount?.defaultPostPrivacy
+//                        ?: Status.Visibility.PUBLIC
+//                    value = visibility.serverString()
+//                    setIcon(getIconForVisibility(visibility))
+//                    setOnPreferenceChangeListener { _, newValue ->
+//                        setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
+//                        syncWithServer(visibility = newValue)
+//                        eventHub.dispatch(PreferenceChangedEvent(key))
+//                        true
+//                    }
+//                }
+//
+//                switchPreference {
+//                    setTitle(R.string.pref_default_media_sensitivity)
+//                    setIcon(R.drawable.ic_eye_24dp)
+//                    key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
+//                    isSingleLineTitle = false
+//                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity
+//                        ?: false
+//                    setDefaultValue(sensitivity)
+//                    setIcon(getIconForSensitivity(sensitivity))
+//                    setOnPreferenceChangeListener { _, newValue ->
+//                        setIcon(getIconForSensitivity(newValue as Boolean))
+//                        syncWithServer(sensitive = newValue)
+//                        eventHub.dispatch(PreferenceChangedEvent(key))
+//                        true
+//                    }
+//                }
+//            }
+//
+//            preferenceCategory(R.string.pref_title_timelines) {
+//                switchPreference {
+//                    key = PrefKeys.MEDIA_PREVIEW_ENABLED
+//                    setTitle(R.string.pref_title_show_media_preview)
+//                    isSingleLineTitle = false
+//                    isChecked = accountManager.activeAccount?.mediaPreviewEnabled ?: true
+//                    setOnPreferenceChangeListener { _, newValue ->
+//                        updateAccount { it.mediaPreviewEnabled = newValue as Boolean }
+//                        eventHub.dispatch(PreferenceChangedEvent(key))
+//                        true
+//                    }
+//                }
+//
+//                switchPreference {
+//                    key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
+//                    setTitle(R.string.pref_title_alway_show_sensitive_media)
+//                    isSingleLineTitle = false
+//                    isChecked = accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false
+//                    setOnPreferenceChangeListener { _, newValue ->
+//                        updateAccount { it.alwaysShowSensitiveMedia = newValue as Boolean }
+//                        eventHub.dispatch(PreferenceChangedEvent(key))
+//                        true
+//                    }
+//                }
+//
+//                switchPreference {
+//                    key = PrefKeys.ALWAYS_OPEN_SPOILER
+//                    setTitle(R.string.pref_title_alway_open_spoiler)
+//                    isSingleLineTitle = false
+//                    isChecked = accountManager.activeAccount?.alwaysOpenSpoiler ?: false
+//                    setOnPreferenceChangeListener { _, newValue ->
+//                        updateAccount { it.alwaysOpenSpoiler = newValue as Boolean }
+//                        eventHub.dispatch(PreferenceChangedEvent(key))
+//                        true
+//                    }
+//                }
+//            }
+//
+//            preferenceCategory(R.string.pref_title_timeline_filters) {
+//                preference {
+//                    setTitle(R.string.pref_title_public_filter_keywords)
+//                    setOnPreferenceClickListener {
+//                        launchFilterActivity(
+//                            Filter.PUBLIC,
+//                            R.string.pref_title_public_filter_keywords
+//                        )
+//                        true
+//                    }
+//                }
+//
+//                preference {
+//                    setTitle(R.string.title_notifications)
+//                    setOnPreferenceClickListener {
+//                        launchFilterActivity(Filter.NOTIFICATIONS, R.string.title_notifications)
+//                        true
+//                    }
+//                }
+//
+//                preference {
+//                    setTitle(R.string.title_home)
+//                    setOnPreferenceClickListener {
+//                        launchFilterActivity(Filter.HOME, R.string.title_home)
+//                        true
+//                    }
+//                }
+//
+//                preference {
+//                    setTitle(R.string.pref_title_thread_filter_keywords)
+//                    setOnPreferenceClickListener {
+//                        launchFilterActivity(
+//                            Filter.THREAD,
+//                            R.string.pref_title_thread_filter_keywords
+//                        )
+//                        true
+//                    }
+//                }
+//
+//                preference {
+//                    setTitle(R.string.title_accounts)
+//                    setOnPreferenceClickListener {
+//                        launchFilterActivity(Filter.ACCOUNT, R.string.title_accounts)
+//                        true
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun openNotificationPrefs() {

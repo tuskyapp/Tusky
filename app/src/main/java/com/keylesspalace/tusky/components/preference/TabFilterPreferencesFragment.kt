@@ -17,33 +17,28 @@ package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.checkBoxPreference
-import com.keylesspalace.tusky.settings.makePreferenceScreen
-import com.keylesspalace.tusky.settings.preferenceCategory
 
 class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        makePreferenceScreen {
-            preferenceCategory(R.string.title_home) { category ->
-                category.isIconSpaceReserved = false
-
-                checkBoxPreference {
-                    setTitle(R.string.pref_title_show_boosts)
-                    key = PrefKeys.TAB_FILTER_HOME_BOOSTS
-                    setDefaultValue(true)
-                    isIconSpaceReserved = false
-                }
-
-                checkBoxPreference {
-                    setTitle(R.string.pref_title_show_replies)
-                    key = PrefKeys.TAB_FILTER_HOME_REPLIES
-                    setDefaultValue(false)
-                    isIconSpaceReserved = false
-                }
-            }
-        }
+//        makePreferenceScreen {
+//            preferenceCategory(R.string.title_home) { category ->
+//                category.isIconSpaceReserved = false
+//
+//                checkBoxPreference {
+//                    setTitle(R.string.pref_title_show_boosts)
+//                    key = PrefKeys.TAB_FILTER_HOME_BOOSTS
+//                    setDefaultValue(true)
+//                    isIconSpaceReserved = false
+//                }
+//
+//                checkBoxPreference {
+//                    setTitle(R.string.pref_title_show_replies)
+//                    key = PrefKeys.TAB_FILTER_HOME_REPLIES
+//                    setDefaultValue(false)
+//                    isIconSpaceReserved = false
+//                }
+//            }
+//        }
     }
 
     companion object {

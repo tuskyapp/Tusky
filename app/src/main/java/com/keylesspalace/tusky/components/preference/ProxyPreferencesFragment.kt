@@ -17,39 +17,34 @@ package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.editTextPreference
-import com.keylesspalace.tusky.settings.makePreferenceScreen
-import com.keylesspalace.tusky.settings.switchPreference
 import kotlin.system.exitProcess
 
 class ProxyPreferencesFragment : PreferenceFragmentCompat() {
     private var pendingRestart = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        makePreferenceScreen {
-            switchPreference {
-                setTitle(R.string.pref_title_http_proxy_enable)
-                isIconSpaceReserved = false
-                key = PrefKeys.HTTP_PROXY_ENABLED
-                setDefaultValue(false)
-            }
-
-            editTextPreference {
-                setTitle(R.string.pref_title_http_proxy_server)
-                key = PrefKeys.HTTP_PROXY_SERVER
-                isIconSpaceReserved = false
-                setSummaryProvider { text }
-            }
-
-            editTextPreference {
-                setTitle(R.string.pref_title_http_proxy_port)
-                key = PrefKeys.HTTP_PROXY_PORT
-                isIconSpaceReserved = false
-                setSummaryProvider { text }
-            }
-        }
+//        makePreferenceScreen {
+//            switchPreference {
+//                setTitle(R.string.pref_title_http_proxy_enable)
+//                isIconSpaceReserved = false
+//                key = PrefKeys.HTTP_PROXY_ENABLED
+//                setDefaultValue(false)
+//            }
+//
+//            editTextPreference {
+//                setTitle(R.string.pref_title_http_proxy_server)
+//                key = PrefKeys.HTTP_PROXY_SERVER
+//                isIconSpaceReserved = false
+//                setSummaryProvider { text }
+//            }
+//
+//            editTextPreference {
+//                setTitle(R.string.pref_title_http_proxy_port)
+//                key = PrefKeys.HTTP_PROXY_PORT
+//                isIconSpaceReserved = false
+//                setSummaryProvider { text }
+//            }
+//        }
     }
 
     override fun onPause() {

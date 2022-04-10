@@ -19,25 +19,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.settings.AppTheme
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.emojiPreference
-import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
-import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
-import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.getNonNullString
-import com.keylesspalace.tusky.util.serialize
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -54,14 +45,20 @@ class PreferencesFragment : Fragment(), Injectable {
     lateinit var accountManager: AccountManager
 
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
-    private var httpProxyPref: Preference? = null
+//    private var httpProxyPref: Preference? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val view = FrameLayout(inflater.context)
+        makePreferenceScreen(view) {
+            preferenceCategory(R.string.pref_title_appearance_settings) {
+
+            }
+        }
+        return view
     }
 
 //    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -288,29 +285,29 @@ class PreferencesFragment : Fragment(), Injectable {
 
     override fun onResume() {
         super.onResume()
-        updateHttpProxySummary()
+//        updateHttpProxySummary()
     }
 
-    private fun updateHttpProxySummary() {
-        preferenceManager.sharedPreferences?.let { sharedPreferences ->
-            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
-            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
-
-            try {
-                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
-                    .toInt()
-
-                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                    httpProxyPref?.summary = "$httpServer:$httpPort"
-                    return
-                }
-            } catch (e: NumberFormatException) {
-                // user has entered wrong port, fall back to empty summary
-            }
-
-            httpProxyPref?.summary = ""
-        }
-    }
+//    private fun updateHttpProxySummary() {
+//        preferenceManager.sharedPreferences?.let { sharedPreferences ->
+//            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
+//            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
+//
+//            try {
+//                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
+//                    .toInt()
+//
+//                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
+//                    httpProxyPref?.summary = "$httpServer:$httpPort"
+//                    return
+//                }
+//            } catch (e: NumberFormatException) {
+//                // user has entered wrong port, fall back to empty summary
+//            }
+//
+//            httpProxyPref?.summary = ""
+//        }
+//    }
 
     companion object {
         fun newInstance(): PreferencesFragment {
