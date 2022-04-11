@@ -66,15 +66,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (!setsTheme()) {
-            /* There isn't presently a way to globally change the theme of a whole application at
-             * runtime, just individual activities. So, each activity has to set its theme before any
-             * views are created. */
-            String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
-            Log.d("activeTheme", theme);
-            if (theme.equals("black")) {
-                setTheme(R.style.TuskyBlackTheme);
-            }
+        /* There isn't presently a way to globally change the theme of a whole application at
+         * runtime, just individual activities. So, each activity has to set its theme before any
+         * views are created. */
+        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        Log.d("activeTheme", theme);
+        if (theme.equals("black")) {
+            setTheme(R.style.TuskyBlackTheme);
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */
@@ -101,12 +99,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
     protected boolean requiresLogin() {
         return true;
-    }
-
-    /* override this in your activity if it does set it's own theme
-       and BaseActivity should not handle it*/
-    protected boolean setsTheme() {
-        return false;
     }
 
     private static int textStyle(String name) {

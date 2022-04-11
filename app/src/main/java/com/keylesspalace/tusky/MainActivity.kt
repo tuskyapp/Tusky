@@ -81,7 +81,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.removeShortcut
 import com.keylesspalace.tusky.util.updateShortcut
@@ -161,13 +160,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val theme = preferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
-        if (theme == "black") {
-            setTheme(R.style.BlackSplashTheme)
-        }
-
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
 
         // delete old notification channels
@@ -284,8 +277,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
         }
     }
-
-    override fun setsTheme() = true
 
     override fun onResume() {
         super.onResume()

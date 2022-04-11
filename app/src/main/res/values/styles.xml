@@ -36,12 +36,6 @@
         <item name="postSplashScreenTheme">@style/TuskyTheme</item>
     </style>
 
-    <style name="BlackSplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-        <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="postSplashScreenTheme">@style/TuskyBlackTheme</item>
-    </style>
-
     <style name="TuskyTheme" parent="TuskyBaseTheme" />
 
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
