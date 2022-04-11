@@ -15,55 +15,45 @@
 
 package com.keylesspalace.tusky.util
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import java.text.SimpleDateFormat
-import java.time.ZoneId
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
+import java.util.TimeZone
 
-public class AbsoluteTimeFormatter {
-    private val sameDaySdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-    private val sameYearSdf = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault())
-    private val otherYearSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    private val otherYearCompleteSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+class AbsoluteTimeFormatter @JvmOverloads constructor(timeZone: TimeZone = TimeZone.getDefault()) {
+    private val sameDaySdf = SimpleDateFormat("HH:mm", Locale.getDefault()).apply { this.timeZone = timeZone }
+    private val sameYearSdf = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = timeZone }
+    private val otherYearSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).apply { this.timeZone = timeZone }
+    private val otherYearCompleteSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = timeZone }
 
-    fun format(time: Date?, shortFormat: Boolean = true): String {
-        return if (time == null) {
-            "??"
-        } else if (android.text.format.DateUtils.isToday(time.time)) {
-            sameDaySdf.format(time)
-        } else if (AbsoluteTimeFormatter.isThisYear(time)) {
-            sameYearSdf.format(time)
-        } else if (shortFormat) {
-            otherYearSdf.format(time)
-        } else {
-            otherYearCompleteSdf.format(time)
+    @JvmOverloads
+    fun format(time: Date?, shortFormat: Boolean = true, now: Date = Date()): String {
+        return when {
+            time == null -> "??"
+            isSameDate(time, now) -> sameDaySdf.format(time)
+            isSameYear(time, now) -> sameYearSdf.format(time)
+            shortFormat -> otherYearSdf.format(time)
+            else -> otherYearCompleteSdf.format(time)
         }
     }
 
     companion object {
-        private fun isThisYear(time: Date): Boolean {
-            val dateYear = time.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear()
-            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-            return dateYear == currentYear
+
+        private fun isSameDate(dateOne: Date, dateTwo: Date): Boolean {
+            val calendarOne = Calendar.getInstance().apply { time = dateOne }
+            val calendarTwo = Calendar.getInstance().apply { time = dateTwo }
+
+            return calendarOne.get(Calendar.YEAR) == calendarTwo.get(Calendar.YEAR) &&
+                calendarOne.get(Calendar.MONTH) == calendarTwo.get(Calendar.MONTH) &&
+                calendarOne.get(Calendar.DAY_OF_MONTH) == calendarTwo.get(Calendar.DAY_OF_MONTH)
         }
-    }
-}
 
-@RunWith(AndroidJUnit4::class)
-class AbsoluteTimeFormatterTest {
-    private val absoluteTimeFormatter: AbsoluteTimeFormatter = AbsoluteTimeFormatter(Locale.US)
+        private fun isSameYear(dateOne: Date, dateTwo: Date): Boolean {
+            val calendarOne = Calendar.getInstance().apply { time = dateOne }
+            val calendarTwo = Calendar.getInstance().apply { time = dateTwo }
 
-    @Test
-    fun shouldFormatWithInterrogationPoints() {
-        assertTrue(absoluteTimeFormatter.format(null).equals("??"))
-        assertTrue(absoluteTimeFormatter.format(null, false).equals("??"))
+            return calendarOne.get(Calendar.YEAR) == calendarTwo.get(Calendar.YEAR)
+        }
     }
 }
