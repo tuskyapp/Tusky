@@ -68,7 +68,7 @@ import retrofit2.http.Query
 interface MastodonApi {
 
     companion object {
-        const val ENDPOINT_AUTHORIZE = "/oauth/authorize"
+        const val ENDPOINT_AUTHORIZE = "oauth/authorize"
         const val DOMAIN_HEADER = "domain"
         const val PLACEHOLDER_DOMAIN = "dummy.placeholder"
     }
