@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
-import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.DialogEmojicompatBinding
 import com.keylesspalace.tusky.databinding.ItemEmojiPrefBinding
@@ -216,7 +216,7 @@ class EmojiPreference(
                 .setPositiveButton(R.string.restart) { _, _ ->
                     // Restart the app
                     // From https://stackoverflow.com/a/17166729/5070653
-                    val launchIntent = Intent(context, MainActivity::class.java)
+                    val launchIntent = Intent(context, SplashActivity::class.java)
                     val mPendingIntent = PendingIntent.getActivity(
                         context,
                         0x1f973, // This is the codepoint of the party face emoji :D

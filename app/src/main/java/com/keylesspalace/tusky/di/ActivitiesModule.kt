@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.MainActivity
+import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.ViewMediaActivity
@@ -116,4 +117,7 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract fun contributesDraftActivity(): DraftsActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesSplashActivity(): SplashActivity
 }
