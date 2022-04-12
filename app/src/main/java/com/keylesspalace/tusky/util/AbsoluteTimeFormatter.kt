@@ -21,18 +21,18 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class AbsoluteTimeFormatter @JvmOverloads constructor(timeZone: TimeZone = TimeZone.getDefault()) {
-    private val sameDaySdf = SimpleDateFormat("HH:mm", Locale.getDefault()).apply { this.timeZone = timeZone }
-    private val sameYearSdf = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = timeZone }
-    private val otherYearSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).apply { this.timeZone = timeZone }
-    private val otherYearCompleteSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = timeZone }
+class AbsoluteTimeFormatter @JvmOverloads constructor(private val tz: TimeZone = TimeZone.getDefault()) {
+    private val sameDaySdf = SimpleDateFormat("HH:mm", Locale.getDefault()).apply { this.timeZone = tz }
+    private val sameYearSdf = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = tz }
+    private val otherYearSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).apply { this.timeZone = tz }
+    private val otherYearCompleteSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = tz }
 
     @JvmOverloads
     fun format(time: Date?, shortFormat: Boolean = true, now: Date = Date()): String {
         return when {
             time == null -> "??"
-            isSameDate(time, now) -> sameDaySdf.format(time)
-            isSameYear(time, now) -> sameYearSdf.format(time)
+            isSameDate(time, now, tz) -> sameDaySdf.format(time)
+            isSameYear(time, now, tz) -> sameYearSdf.format(time)
             shortFormat -> otherYearSdf.format(time)
             else -> otherYearCompleteSdf.format(time)
         }
@@ -40,18 +40,18 @@ class AbsoluteTimeFormatter @JvmOverloads constructor(timeZone: TimeZone = TimeZ
 
     companion object {
 
-        private fun isSameDate(dateOne: Date, dateTwo: Date): Boolean {
-            val calendarOne = Calendar.getInstance().apply { time = dateOne }
-            val calendarTwo = Calendar.getInstance().apply { time = dateTwo }
+        private fun isSameDate(dateOne: Date, dateTwo: Date, tz: TimeZone): Boolean {
+            val calendarOne = Calendar.getInstance(tz).apply { time = dateOne }
+            val calendarTwo = Calendar.getInstance(tz).apply { time = dateTwo }
 
             return calendarOne.get(Calendar.YEAR) == calendarTwo.get(Calendar.YEAR) &&
                 calendarOne.get(Calendar.MONTH) == calendarTwo.get(Calendar.MONTH) &&
                 calendarOne.get(Calendar.DAY_OF_MONTH) == calendarTwo.get(Calendar.DAY_OF_MONTH)
         }
 
-        private fun isSameYear(dateOne: Date, dateTwo: Date): Boolean {
-            val calendarOne = Calendar.getInstance().apply { time = dateOne }
-            val calendarTwo = Calendar.getInstance().apply { time = dateTwo }
+        private fun isSameYear(dateOne: Date, dateTwo: Date, timeZone1: TimeZone): Boolean {
+            val calendarOne = Calendar.getInstance(timeZone1).apply { time = dateOne }
+            val calendarTwo = Calendar.getInstance(timeZone1).apply { time = dateTwo }
 
             return calendarOne.get(Calendar.YEAR) == calendarTwo.get(Calendar.YEAR)
         }
