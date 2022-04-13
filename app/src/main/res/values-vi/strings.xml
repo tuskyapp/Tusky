@@ -2,7 +2,7 @@
 <resources>
     <string name="notification_clear_text">Bạn có muốn xóa toàn bộ thông báo\?</string>
     <string name="send_post_notification_saved_content">Đã lưu tút vào nháp</string>
-    <string name="send_post_notification_cancel_title">Đã hủy đăng</string>
+    <string name="send_post_notification_cancel_title">Hủy đăng</string>
     <string name="send_post_notification_channel_name">Đăng Tút</string>
     <string name="send_post_notification_title">Đang đăng…</string>
     <plurals name="notification_title_summary">
@@ -192,7 +192,7 @@
     <string name="title_posts_pinned">Ghim</string>
     <string name="title_posts_with_replies">Trả lời</string>
     <string name="title_posts">Tút</string>
-    <string name="title_view_thread">Chuỗi tút</string>
+    <string name="title_view_thread">Nội dung tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Tin nhắn</string>
     <string name="title_public_federated">Thế giới</string>
@@ -394,7 +394,7 @@
     <string name="title_favourited_by">Những người thích tút này</string>
     <string name="title_reblogged_by">Những người đăng lại tút này</string>
     <plurals name="reblogs">
-        <item quantity="other"><b>%s</b> lượt đăng lại</item>
+        <item quantity="other"><b>%s</b> Đăng lại</item>
     </plurals>
     <plurals name="favs">
         <item quantity="other"><b>%1$s</b> Thích</item>
