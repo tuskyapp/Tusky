@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Logika ładowania osi czasu została przepisana w celu przyspieszenia jej i naprawienia błędów.
+- Tusky wspiera teraz animowane emotikony w formatach APNG i Animated WebP.
+- Mnóstwo poprawek
+- Wsparcie dla Androida 11
+- Nowe tłumaczenia: Gaelicki szkocki, galicyjski, ukraiński
+- Ulepszone tłumaczenia
