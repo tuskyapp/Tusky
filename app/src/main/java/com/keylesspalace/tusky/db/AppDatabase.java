@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 31)
+        }, version = 32)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -481,6 +481,13 @@ public abstract class AppDatabase extends RoomDatabase {
             // no actual scheme change, but placeholder ids are now used differently so the cache needs to be cleared to avoid bugs
             database.execSQL("DELETE FROM `TimelineAccountEntity`");
             database.execSQL("DELETE FROM `TimelineStatusEntity`");
+        }
+    };
+
+    public static final Migration MIGRATION_31_32 = new Migration(31, 32) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsSignUps` INTEGER NOT NULL DEFAULT 1");
         }
     };
 }
