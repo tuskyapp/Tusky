@@ -1043,9 +1043,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             StatusDisplayOptions statusDisplayOptions,
             final StatusActionListener listener
     ) {
-        final Card card = status.getActionable().getCard();
+        final Status actionable = status.getActionable();
+        final Card card = actionable.getCard();
         if (cardViewMode != CardViewMode.NONE &&
-                status.getActionable().getAttachments().size() == 0 &&
+                actionable.getAttachments().size() == 0 &&
+                actionable.getPoll() == null &&
                 card != null &&
                 !TextUtils.isEmpty(card.getUrl()) &&
                 (!status.isCollapsible() || !status.isCollapsed())) {
@@ -1067,7 +1069,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // Statuses from other activitypub sources can be marked sensitive even if there's no media,
             // so let's blur the preview in that case
             // If media previews are disabled, show placeholder for cards as well
-            if (statusDisplayOptions.mediaPreviewEnabled() && !status.getActionable().getSensitive() && !TextUtils.isEmpty(card.getImage())) {
+            if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
 
                 int topLeftRadius = 0;
                 int topRightRadius = 0;
