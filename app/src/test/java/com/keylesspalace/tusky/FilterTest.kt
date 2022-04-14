@@ -7,12 +7,12 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
-import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
 import java.util.ArrayList
 import java.util.Date

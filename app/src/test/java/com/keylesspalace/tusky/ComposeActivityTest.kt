@@ -23,8 +23,6 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
 import com.keylesspalace.tusky.components.compose.DEFAULT_MAXIMUM_URL_LENGTH
-import com.keylesspalace.tusky.components.compose.MediaUploader
-import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -36,18 +34,16 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.service.ServiceClient
-import com.nhaarman.mockitokotlin2.any
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.core.SingleObserver
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
@@ -93,44 +89,47 @@ class ComposeActivityTest {
         val controller = Robolectric.buildActivity(ComposeActivity::class.java)
         activity = controller.get()
 
-        accountManagerMock = mock(AccountManager::class.java)
-        `when`(accountManagerMock.activeAccount).thenReturn(account)
+        accountManagerMock = mock {
+            on { activeAccount } doReturn account
+        }
 
-        apiMock = mock(MastodonApi::class.java)
-        `when`(apiMock.getCustomEmojis()).thenReturn(Single.just(emptyList()))
-        `when`(apiMock.getInstance()).thenReturn(object : Single<Instance>() {
-            override fun subscribeActual(observer: SingleObserver<in Instance>) {
-                val instance = instanceResponseCallback?.invoke()
+        apiMock = mock {
+            on { getCustomEmojis() } doReturn Single.just(emptyList())
+            onBlocking { getInstance() } doReturn instanceResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
-                    observer.onError(Throwable())
+                    Result.failure(Throwable())
                 } else {
-                    observer.onSuccess(instance)
+                    Result.success(instance)
                 }
             }
-        })
+        }
 
-        val instanceDaoMock = mock(InstanceDao::class.java)
-        `when`(instanceDaoMock.loadMetadataForInstance(any())).thenReturn(
-            Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
-        )
+        val instanceDaoMock: InstanceDao = mock {
+            on { loadMetadataForInstance(any()) } doReturn
+                Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
+            on { loadMetadataForInstance(any()) } doReturn
+                Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
+        }
 
-        val dbMock = mock(AppDatabase::class.java)
-        `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
+        val dbMock: AppDatabase = mock {
+            on { instanceDao() } doReturn instanceDaoMock
+        }
 
         val viewModel = ComposeViewModel(
             apiMock,
             accountManagerMock,
-            mock(MediaUploader::class.java),
-            mock(ServiceClient::class.java),
-            mock(DraftHelper::class.java),
+            mock(),
+            mock(),
+            mock(),
             dbMock
         )
         activity.intent = Intent(activity, ComposeActivity::class.java).apply {
             putExtra(ComposeActivity.COMPOSE_OPTIONS_EXTRA, composeOptions)
         }
 
-        val viewModelFactoryMock = mock(ViewModelFactory::class.java)
-        `when`(viewModelFactoryMock.create(ComposeViewModel::class.java)).thenReturn(viewModel)
+        val viewModelFactoryMock: ViewModelFactory = mock {
+            on { create(ComposeViewModel::class.java) } doReturn viewModel
+        }
 
         activity.accountManager = accountManagerMock
         activity.viewModelFactory = viewModelFactoryMock
