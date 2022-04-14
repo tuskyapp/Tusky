@@ -80,7 +80,7 @@ interface MastodonApi {
     fun getCustomEmojis(): Single<List<Emoji>>
 
     @GET("api/v1/instance")
-    fun getInstance(): Single<Instance>
+    suspend fun getInstance(): Result<Instance>
 
     @GET("api/v1/filters")
     fun getFilters(): Single<List<Filter>>
@@ -249,12 +249,12 @@ interface MastodonApi {
     ): Single<List<ScheduledStatus>>
 
     @DELETE("api/v1/scheduled_statuses/{id}")
-    fun deleteScheduledStatus(
+    suspend fun deleteScheduledStatus(
         @Path("id") scheduledStatusId: String
-    ): Single<ResponseBody>
+    ): Result<ResponseBody>
 
     @GET("api/v1/accounts/verify_credentials")
-    fun accountVerifyCredentials(): Single<Account>
+    suspend fun accountVerifyCredentials(): Result<Account>
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
@@ -265,7 +265,7 @@ interface MastodonApi {
 
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")
-    fun accountUpdateCredentials(
+    suspend fun accountUpdateCredentials(
         @Part(value = "display_name") displayName: RequestBody?,
         @Part(value = "note") note: RequestBody?,
         @Part(value = "locked") locked: RequestBody?,
@@ -279,7 +279,7 @@ interface MastodonApi {
         @Part(value = "fields_attributes[2][value]") fieldValue2: RequestBody?,
         @Part(value = "fields_attributes[3][name]") fieldName3: RequestBody?,
         @Part(value = "fields_attributes[3][value]") fieldValue3: RequestBody?
-    ): Call<Account>
+    ): Result<Account>
 
     @GET("api/v1/accounts/search")
     fun searchAccounts(
@@ -447,7 +447,7 @@ interface MastodonApi {
         @Field("redirect_uris") redirectUris: String,
         @Field("scopes") scopes: String,
         @Field("website") website: String
-    ): AppCredentials
+    ): Result<AppCredentials>
 
     @FormUrlEncoded
     @POST("oauth/token")
@@ -458,7 +458,7 @@ interface MastodonApi {
         @Field("redirect_uri") redirectUri: String,
         @Field("code") code: String,
         @Field("grant_type") grantType: String
-    ): AccessToken
+    ): Result<AccessToken>
 
     @FormUrlEncoded
     @POST("api/v1/lists")

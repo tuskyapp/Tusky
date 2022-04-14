@@ -25,7 +25,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class ScheduledStatusViewModel @Inject constructor(
@@ -43,12 +42,14 @@ class ScheduledStatusViewModel @Inject constructor(
 
     fun deleteScheduledStatus(status: ScheduledStatus) {
         viewModelScope.launch {
-            try {
-                mastodonApi.deleteScheduledStatus(status.id).await()
-                pagingSourceFactory.remove(status)
-            } catch (throwable: Throwable) {
-                Log.w("ScheduledTootViewModel", "Error deleting scheduled status", throwable)
-            }
+            mastodonApi.deleteScheduledStatus(status.id).fold(
+                {
+                    pagingSourceFactory.remove(status)
+                },
+                { throwable ->
+                    Log.w("ScheduledTootViewModel", "Error deleting scheduled status", throwable)
+                }
+            )
         }
     }
 }

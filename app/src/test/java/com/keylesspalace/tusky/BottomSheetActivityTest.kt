@@ -16,15 +16,11 @@
 package com.keylesspalace.tusky
 
 import android.text.SpannedString
-import android.widget.LinearLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
@@ -39,8 +35,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.Mockito.eq
-import org.mockito.Mockito.mock
-import java.util.ArrayList
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -306,7 +302,7 @@ class BottomSheetActivityTest {
         init {
             mastodonApi = api
             @Suppress("UNCHECKED_CAST")
-            bottomSheet = mock(BottomSheetBehavior::class.java) as BottomSheetBehavior<LinearLayout>
+            bottomSheet = mock()
         }
 
         override fun openLink(url: String) {
