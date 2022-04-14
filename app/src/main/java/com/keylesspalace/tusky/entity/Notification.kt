@@ -37,7 +37,9 @@ data class Notification(
         FOLLOW("follow"),
         FOLLOW_REQUEST("follow_request"),
         POLL("poll"),
-        STATUS("status");
+        STATUS("status"),
+        SIGN_UP("admin.sign_up"),
+        ;
 
         companion object {
 
@@ -49,7 +51,7 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS)
+            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP)
         }
 
         override fun toString(): String {

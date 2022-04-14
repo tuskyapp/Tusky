@@ -102,7 +102,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
         initSwipeToRefresh()
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.conversationFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }

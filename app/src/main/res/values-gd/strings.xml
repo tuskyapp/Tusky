@@ -253,9 +253,6 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
 \n(%d caractar(an) air a char as fhaide)</item>
-        <item quantity="two"/>
-        <item quantity="few"/>
-        <item quantity="other"/>
     </plurals>
     <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh leis a’ chunntas %1$s</string>

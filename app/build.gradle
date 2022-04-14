@@ -20,8 +20,8 @@ android {
         applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 88
-        versionName "17.0 beta 1"
+        versionCode 89
+        versionName "17.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -128,7 +128,7 @@ dependencies {
     implementation "androidx.room:room-paging:$roomVersion"
     implementation "androidx.room:room-rxjava3:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     implementation "com.google.android.material:material:1.5.0"
 
