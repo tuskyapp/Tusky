@@ -32,6 +32,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -201,7 +203,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                             holder.setUsername(status.getAccount().getUsername());
                             holder.setCreatedAt(status.getCreatedAt());
 
-                            if (concreteNotificaton.getType() == Notification.Type.STATUS) {
+                            if (concreteNotificaton.getType() == Notification.Type.STATUS ||
+                                concreteNotificaton.getType() == Notification.Type.UPDATE) {
                                 holder.setAvatar(status.getAccount().getAvatar(), status.getAccount().getBot());
                             } else {
                                 holder.setAvatars(status.getAccount().getAvatar(),
@@ -280,7 +283,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 }
                 case STATUS:
                 case FAVOURITE:
-                case REBLOG: {
+                case REBLOG:
+                case UPDATE: {
                     return VIEW_TYPE_STATUS_NOTIFICATION;
                 }
                 case FOLLOW:
@@ -482,6 +486,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             }
         }
 
+        Drawable getIconWithColor(Context context, @DrawableRes int drawable, @ColorRes int color) {
+            Drawable icon = ContextCompat.getDrawable(context, drawable);
+            if (icon != null) {
+                icon.setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP);
+            }
+            return icon;
+        }
+
         void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
@@ -494,33 +506,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             switch (type) {
                 default:
                 case FAVOURITE: {
-                    icon = ContextCompat.getDrawable(context, R.drawable.ic_star_24dp);
-                    if (icon != null) {
-                        icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.tusky_orange), PorterDuff.Mode.SRC_ATOP);
-                    }
-
+                    icon = getIconWithColor(context, R.drawable.ic_star_24dp, R.color.tusky_orange);
                     format = context.getString(R.string.notification_favourite_format);
                     break;
                 }
                 case REBLOG: {
-                    icon = ContextCompat.getDrawable(context, R.drawable.ic_repeat_24dp);
-                    if (icon != null) {
-                        icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
-                    }
-
+                    icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.tusky_blue);
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
                 case STATUS: {
-                    icon = ContextCompat.getDrawable(context, R.drawable.ic_home_24dp);
-                    if (icon != null) {
-                        icon.setColorFilter(ContextCompat.getColor(context,
-                                R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP);
-                    }
-
+                    icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue);
                     format = context.getString(R.string.notification_subscription_format);
+                    break;
+                }
+                case UPDATE: {
+                    icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue);
+                    format = context.getString(R.string.notification_update_format);
                     break;
                 }
             }
