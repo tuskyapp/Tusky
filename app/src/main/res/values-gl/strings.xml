@@ -54,7 +54,7 @@
     <string name="action_follow">Seguir</string>
     <string name="action_logout_confirm">Tes a certeza de que queres desconectar a conta %1$s\?</string>
     <string name="action_logout">Desconectar</string>
-    <string name="action_login">Conecta con Mastodon</string>
+    <string name="action_login">Accede con Mastodon</string>
     <string name="action_compose">Redactar</string>
     <string name="action_more">Máis</string>
     <string name="action_unfavourite">Eliminar favorito</string>
@@ -116,7 +116,7 @@
     <string name="error_video_upload_size">Os ficheiros de vídeo teñen que ser menores de 40MB.</string>
     <string name="error_image_upload_size">O ficheiro debe ser menor de 8MB.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
-    <string name="error_retrieving_oauth_token">Fallou a obtención do token de conexión.</string>
+    <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada.</string>
     <string name="error_authorization_unknown">Aconteceu un erro non identificado de autorización.</string>
     <string name="error_no_web_browser_found">Non se atopou un navegador para utilizar.</string>
@@ -411,8 +411,8 @@
     <string name="dialog_block_warning">Bloquear @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Agochar todo o dominio</string>
     <string name="mute_domain_warning">Tes a certeza de querer bloquear a todo %s\? Non verás o contido dese dominio en ningunha cronoloxía pública ou nas notificacións. As túas seguidoras nese dominio serán eliminadas.</string>
-    <string name="dialog_redraft_post_warning">Eliminar e reescribir este toot\?</string>
-    <string name="dialog_delete_post_warning">Eliminar este toot\?</string>
+    <string name="dialog_redraft_post_warning">Eliminar e reescribir esta publicación\?</string>
+    <string name="dialog_delete_post_warning">Eliminar esta publicación\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
     <string name="dialog_message_cancel_follow_request">Revogar a solicitude de seguimento\?</string>
     <string name="dialog_download_image">Descargar</string>

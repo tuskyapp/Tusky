@@ -21,23 +21,23 @@
     <string name="error_authorization_unknown">Óskilgreind auðkenningarvilla kom upp.</string>
     <string name="error_authorization_denied">Heimild var hafnað.</string>
     <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn.</string>
-    <string name="error_compose_character_limit">Stöðufærslan er of löng!</string>
+    <string name="error_compose_character_limit">Færslan er of löng!</string>
     <string name="error_image_upload_size">Skráin verður að vera minni en 8MB.</string>
     <string name="error_video_upload_size">Myndskeiðaskrár verða að vera minni en 40MB.</string>
     <string name="error_media_upload_type">Þessa tegund skrár er ekki hægt að senda inn.</string>
     <string name="error_media_upload_opening">Ekki var hægt að opna skrána.</string>
     <string name="error_media_upload_permission">Krafist er heimilda til að lesa gögn.</string>
     <string name="error_media_download_permission">Krafist er heimilda til að geyma gögn.</string>
-    <string name="error_media_upload_image_or_video">Ekki er hægt að hengja bæði myndir og myndskeið við sömu stöðufærslu.</string>
+    <string name="error_media_upload_image_or_video">Ekki er hægt að hengja bæði myndir og myndskeið við sömu færslu.</string>
     <string name="error_media_upload_sending">Sendingin mistókst.</string>
-    <string name="error_sender_account_gone">Villa við að senda tíst.</string>
+    <string name="error_sender_account_gone">Villa við að senda færslu.</string>
     <string name="title_home">Heim</string>
     <string name="title_notifications">Tilkynningar</string>
     <string name="title_public_local">Staðvært</string>
     <string name="title_public_federated">Sameiginlegt</string>
     <string name="title_direct_messages">Bein skilaboð</string>
     <string name="title_tab_preferences">Flipar</string>
-    <string name="title_view_thread">Tíst</string>
+    <string name="title_view_thread">Þráður</string>
     <string name="title_posts">Færslur</string>
     <string name="title_posts_with_replies">Með svörum</string>
     <string name="title_posts_pinned">Fest</string>
@@ -62,8 +62,8 @@
     <string name="post_content_show_less">Fella saman</string>
     <string name="message_empty">Ekkert hér.</string>
     <string name="footer_empty">Ekkert hér. Togaðu niður til að endurhlaða!</string>
-    <string name="notification_reblog_format">%s endurbirti tístið þitt</string>
-    <string name="notification_favourite_format">%s setti tíst frá þér í eftirlæti</string>
+    <string name="notification_reblog_format">%s endurbirti færsluna þína</string>
+    <string name="notification_favourite_format">%s setti færslu frá þér í eftirlæti</string>
     <string name="notification_follow_format">%s fylgist núna með þér</string>
     <string name="report_username_format">Kæra @%s</string>
     <string name="report_comment_hint">Aðrar athugasemdir\?</string>
@@ -117,7 +117,7 @@
     <string name="action_reject">Hafna</string>
     <string name="action_access_drafts">Drög</string>
     <string name="action_access_scheduled_posts">Áætluð tíst</string>
-    <string name="action_toggle_visibility">Sýnileiki tísts</string>
+    <string name="action_toggle_visibility">Sýnileiki færslu</string>
     <string name="action_content_warning">Aðvörun vegna efnis</string>
     <string name="action_emoji_keyboard">Lyklaborð með tjáningartáknum</string>
     <string name="action_schedule_post">Tímasetja tíst</string>
@@ -234,9 +234,9 @@
     <string name="notification_follow_name">Nýir fylgjendur</string>
     <string name="notification_follow_description">Tilkynningar um nýja fylgjendur</string>
     <string name="notification_boost_name">Endurbirtingar</string>
-    <string name="notification_boost_description">Tilkynningar þegar tístin þín eru endurbirt</string>
+    <string name="notification_boost_description">Tilkynningar þegar færslurnar þínar eru endurbirtar</string>
     <string name="notification_favourite_name">Eftirlæti</string>
-    <string name="notification_favourite_description">Tilkynningar þegar tístin þín eru sett í eftirlæti</string>
+    <string name="notification_favourite_description">Tilkynningar þegar færslurnar þínar eru settar í eftirlæti</string>
     <string name="notification_poll_name">Kannanir</string>
     <string name="notification_poll_description">Tilkynningar um kannanir sem er lokið</string>
     <string name="notification_mention_format">%s minntist á þig</string>
@@ -273,7 +273,7 @@
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Fylgir þér</string>
     <string name="pref_title_alway_show_sensitive_media">Alltaf birta myndefni sem merkt er viðkvæmt</string>
-    <string name="pref_title_alway_open_spoiler">Alltaf fletta út tístum sem eru með aðvörun vegna efnis</string>
+    <string name="pref_title_alway_open_spoiler">Alltaf fletta út færslum sem eru með aðvörun vegna efnis</string>
     <string name="title_media">Gagnaskrár</string>
     <string name="replying_to">Svar til @%s</string>
     <string name="load_more_placeholder_text">hlaða inn fleiru</string>
@@ -376,7 +376,7 @@
     <string name="notifications_clear">Hreinsa</string>
     <string name="notifications_apply_filter">Sía</string>
     <string name="filter_apply">Virkja</string>
-    <string name="compose_shortcut_long_label">Semja tíst</string>
+    <string name="compose_shortcut_long_label">Semja færslu</string>
     <string name="compose_shortcut_short_label">Semja skilaboð</string>
     <string name="notification_clear_text">Ertu viss um að þú viljir endanlega eyða öllum tilkynningunum þínum\?</string>
     <string name="compose_preview_image_description">Aðgerðir fyrir mynd %s</string>
@@ -478,7 +478,7 @@
     <string name="wellbeing_mode_notice">Sumar upplýsingar sem gætu haft áhrif á andlega vellíðan þína verða faldar. Þetta hefur áhrif á:
 \n
 \n - Eftirlæti/Endurbirtingar/Tilkynningar um fylgjendabeiðnir
-\n - Eftirlæti/Talningu á endurbirtingum tísta
+\n - Eftirlæti/Talningu á endurbirtingum færslna
 \n - Fylgjendur/Tölfræði færslna í notendasniðum
 \n
 \n Þetta hefur ekki áhrif á ýti-tilkynningar, en þú getur yfirfarið handvirkt kjörstillingar þínar varðandi tilkynningar.</string>
@@ -503,9 +503,9 @@
     <string name="limit_notifications">Takmarka tilkynningar á tímalínu</string>
     <string name="review_notifications">Yfirfara tilkynningar</string>
     <string name="pref_title_wellbeing_mode">Vellíðan</string>
-    <string name="notification_subscription_description">Tilkynningar þegar einhver sem þú ert áskrifandi að hefur birt nýtt tíst</string>
-    <string name="notification_subscription_name">Ný tíst</string>
-    <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýtt tíst</string>
+    <string name="notification_subscription_description">Tilkynningar þegar einhver sem þú ert áskrifandi að hefur birt nýja færslu</string>
+    <string name="notification_subscription_name">Nýjar færslur</string>
+    <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýja færslu</string>
     <string name="notification_subscription_format">%s sendi inn rétt í þessu</string>
     <string name="follow_requests_info">Jafnvel þótt aðgangurinn þinn sé ekki læstur, fannst starfsfólki %1$s að þú gætir viljað yfirfara handvirkt fylgjendabeiðnir frá þessum aðgöngum.</string>
     <string name="action_unbookmark">Fjarlægja bókamerki</string>
@@ -518,4 +518,5 @@
     <string name="duration_180_days">180 dagar</string>
     <string name="duration_365_days">365 dagar</string>
     <string name="duration_14_days">14 dagar</string>
+    <string name="tusky_compose_post_quicksetting_label">Semja færslu</string>
 </resources>
