@@ -16,6 +16,7 @@ import android.webkit.WebStorage
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.core.net.toUri
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.databinding.LoginWebviewBinding
@@ -103,8 +104,8 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
 
         webView.webViewClient = object : WebViewClient() {
             override fun onReceivedError(
-                view: WebView?,
-                request: WebResourceRequest?,
+                view: WebView,
+                request: WebResourceRequest,
                 error: WebResourceError
             ) {
                 Log.d("LoginWeb", "Failed to load ${data.url}: $error")
@@ -115,7 +116,17 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                val url = request.url
+                return shouldOverrideUrlLoading(request.url)
+            }
+
+            /* overriding this deprecated method is necessary for it to work on api levels < 24 */
+            @Suppress("OVERRIDE_DEPRECATION")
+            override fun shouldOverrideUrlLoading(view: WebView?, urlString: String?): Boolean {
+                val url = urlString?.toUri() ?: return false
+                return shouldOverrideUrlLoading(url)
+            }
+
+            fun shouldOverrideUrlLoading(url: Uri): Boolean {
                 return if (url.scheme == oauthUrl.scheme && url.host == oauthUrl.host) {
                     val error = url.getQueryParameter("error")
                     if (error != null) {
@@ -130,6 +141,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
                 }
             }
         }
+
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         if (savedInstanceState == null) {
