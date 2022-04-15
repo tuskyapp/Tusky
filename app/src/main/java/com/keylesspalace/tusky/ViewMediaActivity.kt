@@ -283,7 +283,6 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             }
             return@fromCallable false
         }
-
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnDispose {
