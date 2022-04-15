@@ -63,6 +63,7 @@ class AppModule {
                 AppDatabase.Migration25_26(appContext.getExternalFilesDir("Tusky")),
                 AppDatabase.MIGRATION_26_27, AppDatabase.MIGRATION_27_28, AppDatabase.MIGRATION_28_29,
                 AppDatabase.MIGRATION_29_30, AppDatabase.MIGRATION_30_31, AppDatabase.MIGRATION_31_32,
+                AppDatabase.MIGRATION_32_33
             )
             .build()
     }

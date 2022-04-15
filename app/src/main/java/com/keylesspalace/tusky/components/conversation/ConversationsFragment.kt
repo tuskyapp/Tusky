@@ -153,24 +153,24 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
             viewModel.favourite(favourite, conversation)
         }
     }
 
     override fun onBookmark(favourite: Boolean, position: Int) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
             viewModel.bookmark(favourite, conversation)
         }
     }
 
     override fun onMore(view: View, position: Int) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
 
             val popup = PopupMenu(requireContext(), view)
             popup.inflate(R.menu.conversation_more)
 
-            if (conversation.lastStatus.muted) {
+            if (conversation.lastStatus.status.muted == true) {
                 popup.menu.removeItem(R.id.status_mute_conversation)
             } else {
                 popup.menu.removeItem(R.id.status_unmute_conversation)
@@ -189,14 +189,14 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        adapter.item(position)?.let { conversation ->
-            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.toStatus()), view)
+        adapter.peek(position)?.let { conversation ->
+            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.status), view)
         }
     }
 
     override fun onViewThread(position: Int) {
-        adapter.item(position)?.let { conversation ->
-            viewThread(conversation.lastStatus.id, conversation.lastStatus.url)
+        adapter.peek(position)?.let { conversation ->
+            viewThread(conversation.lastStatus.id, conversation.lastStatus.status.url)
         }
     }
 
@@ -205,13 +205,13 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
             viewModel.expandHiddenStatus(expanded, conversation)
         }
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
             viewModel.showContent(isShowing, conversation)
         }
     }
@@ -221,7 +221,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
             viewModel.collapseLongStatus(isCollapsed, conversation)
         }
     }
@@ -241,12 +241,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onReply(position: Int) {
-        adapter.item(position)?.let { conversation ->
-            reply(conversation.lastStatus.toStatus())
+        adapter.peek(position)?.let { conversation ->
+            reply(conversation.lastStatus.status)
         }
     }
 
-    private fun deleteConversation(conversation: ConversationEntity) {
+    private fun deleteConversation(conversation: ConversationViewData) {
         AlertDialog.Builder(requireContext())
             .setMessage(R.string.dialog_delete_conversation_warning)
             .setNegativeButton(android.R.string.cancel, null)
@@ -268,7 +268,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        adapter.item(position)?.let { conversation ->
+        adapter.peek(position)?.let { conversation ->
             viewModel.voteInPoll(choices, conversation)
         }
     }

@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
@@ -34,11 +35,13 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.toViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -74,6 +77,11 @@ class ReportViewModel @Inject constructor(
             pagingSourceFactory = { StatusesPagingSource(accountId, mastodonApi) }
         ).flow
     }
+        .map { pagingData ->
+            /* TODO: refactor reports to use the isShowingContent / isExpanded / isCollapsed attributes from StatusViewData.Concrete
+             instead of StatusViewState */
+            pagingData.map { status -> status.toViewData(false, false, false) }
+        }
         .cachedIn(viewModelScope)
 
     private val selectedIds = HashSet<String>()
@@ -155,7 +163,7 @@ class ReportViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { relationship ->
-                    val muting = relationship?.muting == true
+                    val muting = relationship.muting
                     muteStateMutable.value = Success(muting)
                     if (muting) {
                         eventHub.dispatch(MuteEvent(accountId))
@@ -180,7 +188,7 @@ class ReportViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { relationship ->
-                    val blocking = relationship?.blocking == true
+                    val blocking = relationship.blocking
                     blockStateMutable.value = Success(blocking)
                     if (blocking) {
                         eventHub.dispatch(BlockEvent(accountId))

@@ -78,7 +78,7 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -375,12 +375,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
         }
         viewModel.accountFieldData.observe(
-            this,
-            {
-                accountFieldAdapter.fields = it
-                accountFieldAdapter.notifyDataSetChanged()
-            }
-        )
+            this
+        ) {
+            accountFieldAdapter.fields = it
+            accountFieldAdapter.notifyDataSetChanged()
+        }
         viewModel.noteSaved.observe(this) {
             binding.saveNoteInfo.visible(it, View.INVISIBLE)
         }
@@ -395,11 +394,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             adapter.refreshContent()
         }
         viewModel.isRefreshing.observe(
-            this,
-            { isRefreshing ->
-                binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
-            }
-        )
+            this
+        ) { isRefreshing ->
+            binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
+        }
         binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
@@ -410,7 +408,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountUsernameTextView.text = usernameFormatted
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
 
-        val emojifiedNote = account.note.emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
+        val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
         // accountFieldAdapter.fields = account.fields ?: emptyList()

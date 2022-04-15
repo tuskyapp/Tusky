@@ -15,13 +15,12 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.text.Spanned
 import com.google.gson.annotations.SerializedName
 
 data class Card(
     val url: String,
-    val title: Spanned,
-    val description: Spanned,
+    val title: String,
+    val description: String,
     @SerializedName("author_name") val authorName: String,
     val image: String,
     val type: String,
@@ -31,9 +30,7 @@ data class Card(
     val embed_url: String?
 ) {
 
-    override fun hashCode(): Int {
-        return url.hashCode()
-    }
+    override fun hashCode() = url.hashCode()
 
     override fun equals(other: Any?): Boolean {
         if (other !is Card) {

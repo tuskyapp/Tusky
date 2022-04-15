@@ -42,7 +42,10 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
@@ -79,15 +82,13 @@ class CachedTimelineViewModel @Inject constructor(
         }
     ).flow
         .map { pagingData ->
-            pagingData.map { timelineStatus ->
+            pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
                 timelineStatus.toViewData(gson)
-            }
-        }
-        .map { pagingData ->
-            pagingData.filter { statusViewData ->
+            }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
                 !shouldFilterStatus(statusViewData)
             }
         }
+        .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
 
     init {

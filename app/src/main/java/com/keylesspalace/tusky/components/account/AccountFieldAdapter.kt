@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.createClickableText
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 
 class AccountFieldAdapter(
@@ -65,7 +66,7 @@ class AccountFieldAdapter(
             val emojifiedName = field.name.emojify(emojis, nameTextView, animateEmojis)
             nameTextView.text = emojifiedName
 
-            val emojifiedValue = field.value.emojify(emojis, valueTextView, animateEmojis)
+            val emojifiedValue = field.value.parseAsMastodonHtml().emojify(emojis, valueTextView, animateEmojis)
             setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener)
 
             if (field.verifiedAt != null) {

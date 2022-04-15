@@ -27,12 +27,9 @@ fun Status.toViewData(
     isExpanded: Boolean,
     isCollapsed: Boolean
 ): StatusViewData.Concrete {
-    val visibleStatus = this.reblog ?: this
-
     return StatusViewData.Concrete(
         status = this,
         isShowingContent = isShowingContent,
-        isCollapsible = shouldTrimStatus(visibleStatus.content),
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
     )

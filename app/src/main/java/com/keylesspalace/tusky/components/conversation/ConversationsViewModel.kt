@@ -16,16 +16,18 @@
 package com.keylesspalace.tusky.components.conversation
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
-import com.keylesspalace.tusky.util.RxAwareViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
@@ -35,7 +37,7 @@ class ConversationsViewModel @Inject constructor(
     private val database: AppDatabase,
     private val accountManager: AccountManager,
     private val api: MastodonApi
-) : RxAwareViewModel() {
+) : ViewModel() {
 
     @OptIn(ExperimentalPagingApi::class)
     val conversationFlow = Pager(
@@ -44,104 +46,117 @@ class ConversationsViewModel @Inject constructor(
         pagingSourceFactory = { database.conversationDao().conversationsForAccount(accountManager.activeAccount!!.id) }
     )
         .flow
+        .map { pagingData ->
+            pagingData.map { conversation -> conversation.toViewData() }
+        }
         .cachedIn(viewModelScope)
 
-    fun favourite(favourite: Boolean, conversation: ConversationEntity) {
+    fun favourite(favourite: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
                 timelineCases.favourite(conversation.lastStatus.id, favourite).await()
 
-                val newConversation = conversation.copy(
-                    lastStatus = conversation.lastStatus.copy(favourited = favourite)
+                val newConversation = conversation.toEntity(
+                    accountId = accountManager.activeAccount!!.id,
+                    favourited = favourite
                 )
 
-                database.conversationDao().insert(newConversation)
+                saveConversationToDb(newConversation)
             } catch (e: Exception) {
                 Log.w(TAG, "failed to favourite status", e)
             }
         }
     }
 
-    fun bookmark(bookmark: Boolean, conversation: ConversationEntity) {
+    fun bookmark(bookmark: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
                 timelineCases.bookmark(conversation.lastStatus.id, bookmark).await()
 
-                val newConversation = conversation.copy(
-                    lastStatus = conversation.lastStatus.copy(bookmarked = bookmark)
+                val newConversation = conversation.toEntity(
+                    accountId = accountManager.activeAccount!!.id,
+                    bookmarked = bookmark
                 )
 
-                database.conversationDao().insert(newConversation)
+                saveConversationToDb(newConversation)
             } catch (e: Exception) {
                 Log.w(TAG, "failed to bookmark status", e)
             }
         }
     }
 
-    fun voteInPoll(choices: List<Int>, conversation: ConversationEntity) {
+    fun voteInPoll(choices: List<Int>, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
-                val poll = timelineCases.voteInPoll(conversation.lastStatus.id, conversation.lastStatus.poll?.id!!, choices).await()
-                val newConversation = conversation.copy(
-                    lastStatus = conversation.lastStatus.copy(poll = poll)
+                val poll = timelineCases.voteInPoll(conversation.lastStatus.id, conversation.lastStatus.status.poll?.id!!, choices).await()
+                val newConversation = conversation.toEntity(
+                    accountId = accountManager.activeAccount!!.id,
+                    poll = poll
                 )
 
-                database.conversationDao().insert(newConversation)
+                saveConversationToDb(newConversation)
             } catch (e: Exception) {
                 Log.w(TAG, "failed to vote in poll", e)
             }
         }
     }
 
-    fun expandHiddenStatus(expanded: Boolean, conversation: ConversationEntity) {
+    fun expandHiddenStatus(expanded: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
-            val newConversation = conversation.copy(
-                lastStatus = conversation.lastStatus.copy(expanded = expanded)
+            val newConversation = conversation.toEntity(
+                accountId = accountManager.activeAccount!!.id,
+                expanded = expanded
             )
             saveConversationToDb(newConversation)
         }
     }
 
-    fun collapseLongStatus(collapsed: Boolean, conversation: ConversationEntity) {
+    fun collapseLongStatus(collapsed: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
-            val newConversation = conversation.copy(
-                lastStatus = conversation.lastStatus.copy(collapsed = collapsed)
+            val newConversation = conversation.toEntity(
+                accountId = accountManager.activeAccount!!.id,
+                collapsed = collapsed
             )
             saveConversationToDb(newConversation)
         }
     }
 
-    fun showContent(showing: Boolean, conversation: ConversationEntity) {
+    fun showContent(showing: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
-            val newConversation = conversation.copy(
-                lastStatus = conversation.lastStatus.copy(showingHiddenContent = showing)
+            val newConversation = conversation.toEntity(
+                accountId = accountManager.activeAccount!!.id,
+                showingHiddenContent = showing
             )
             saveConversationToDb(newConversation)
         }
     }
 
-    fun remove(conversation: ConversationEntity) {
+    fun remove(conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
                 api.deleteConversation(conversationId = conversation.id)
 
-                database.conversationDao().delete(conversation)
+                database.conversationDao().delete(
+                    id = conversation.id,
+                    accountId = accountManager.activeAccount!!.id
+                )
             } catch (e: Exception) {
                 Log.w(TAG, "failed to delete conversation", e)
             }
         }
     }
 
-    fun muteConversation(conversation: ConversationEntity) {
+    fun muteConversation(conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
-                val newStatus = timelineCases.muteConversation(
+                timelineCases.muteConversation(
                     conversation.lastStatus.id,
-                    !conversation.lastStatus.muted
+                    !(conversation.lastStatus.status.muted ?: false)
                 ).await()
 
-                val newConversation = conversation.copy(
-                    lastStatus = newStatus.toEntity()
+                val newConversation = conversation.toEntity(
+                    accountId = accountManager.activeAccount!!.id,
+                    muted = !(conversation.lastStatus.status.muted ?: false)
                 )
 
                 database.conversationDao().insert(newConversation)
@@ -151,7 +166,7 @@ class ConversationsViewModel @Inject constructor(
         }
     }
 
-    suspend fun saveConversationToDb(conversation: ConversationEntity) {
+    private suspend fun saveConversationToDb(conversation: ConversationEntity) {
         database.conversationDao().insert(conversation)
     }
 

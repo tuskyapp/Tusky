@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.text.Spanned
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
@@ -24,7 +23,7 @@ data class Account(
     @SerializedName("username") val localUsername: String,
     @SerializedName("acct") val username: String,
     @SerializedName("display_name") val displayName: String?, // should never be null per Api definition, but some servers break the contract
-    val note: Spanned,
+    val note: String,
     val url: String,
     val avatar: String,
     val header: String,
@@ -46,56 +45,6 @@ data class Account(
         } else displayName
 
     fun isRemote(): Boolean = this.username != this.localUsername
-
-    /**
-     * overriding equals & hashcode because Spanned does not always compare correctly otherwise
-     */
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as Account
-
-        if (id != other.id) return false
-        if (localUsername != other.localUsername) return false
-        if (username != other.username) return false
-        if (displayName != other.displayName) return false
-        if (note.toString() != other.note.toString()) return false
-        if (url != other.url) return false
-        if (avatar != other.avatar) return false
-        if (header != other.header) return false
-        if (locked != other.locked) return false
-        if (followersCount != other.followersCount) return false
-        if (followingCount != other.followingCount) return false
-        if (statusesCount != other.statusesCount) return false
-        if (source != other.source) return false
-        if (bot != other.bot) return false
-        if (emojis != other.emojis) return false
-        if (fields != other.fields) return false
-        if (moved != other.moved) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + localUsername.hashCode()
-        result = 31 * result + username.hashCode()
-        result = 31 * result + (displayName?.hashCode() ?: 0)
-        result = 31 * result + note.toString().hashCode()
-        result = 31 * result + url.hashCode()
-        result = 31 * result + avatar.hashCode()
-        result = 31 * result + header.hashCode()
-        result = 31 * result + locked.hashCode()
-        result = 31 * result + followersCount
-        result = 31 * result + followingCount
-        result = 31 * result + statusesCount
-        result = 31 * result + (source?.hashCode() ?: 0)
-        result = 31 * result + bot.hashCode()
-        result = 31 * result + (emojis?.hashCode() ?: 0)
-        result = 31 * result + (fields?.hashCode() ?: 0)
-        result = 31 * result + (moved?.hashCode() ?: 0)
-        return result
-    }
 }
 
 data class AccountSource(
@@ -107,7 +56,7 @@ data class AccountSource(
 
 data class Field(
     val name: String,
-    val value: Spanned,
+    val value: String,
     @SerializedName("verified_at") val verifiedAt: Date?
 )
 
