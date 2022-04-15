@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- L'option « Ouvrir comme… » disponible quand plusieurs comptes sont connectés est maintenant aussi accessible depuis le menu sur les profils
+- L'identification se fait maintenant par une WebView dans l'application
+- Android 12 est pris en charge
+- La nouvelle API Mastodon de configuration d'instance est prise en charge
+- et beaucoup d'autres petites corrections et améliorations
