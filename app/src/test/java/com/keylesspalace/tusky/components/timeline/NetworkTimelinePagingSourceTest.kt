@@ -8,9 +8,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.robolectric.annotation.Config
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
