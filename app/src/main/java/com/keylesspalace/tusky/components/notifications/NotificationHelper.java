@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky.components.notifications;
 
+import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
 import android.app.NotificationChannel;
@@ -341,7 +342,7 @@ public class NotificationHelper {
         Status status = body.getStatus();
 
         String citedLocalAuthor = status.getAccount().getLocalUsername();
-        String citedText = status.getContent().toString();
+        String citedText = parseAsMastodonHtml(status.getContent()).toString();
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
         Status.Visibility replyVisibility = actionableStatus.getVisibility();
@@ -690,13 +691,13 @@ public class NotificationHelper {
                 if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
                     return notification.getStatus().getSpoilerText();
                 } else {
-                    return notification.getStatus().getContent().toString();
+                    return parseAsMastodonHtml(notification.getStatus().getContent()).toString();
                 }
             case POLL:
                 if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
                     return notification.getStatus().getSpoilerText();
                 } else {
-                    StringBuilder builder = new StringBuilder(notification.getStatus().getContent());
+                    StringBuilder builder = new StringBuilder(parseAsMastodonHtml(notification.getStatus().getContent()));
                     builder.append('\n');
                     Poll poll = notification.getStatus().getPoll();
                     List<PollOption> options = poll.getOptions();

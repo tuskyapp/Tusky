@@ -15,13 +15,12 @@
 
 package com.keylesspalace.tusky.entity
 
-import android.text.Spanned
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class Announcement(
     val id: String,
-    val content: Spanned,
+    val content: String,
     @SerializedName("starts_at") val startsAt: Date?,
     @SerializedName("ends_at") val endsAt: Date?,
     @SerializedName("all_day") val allDay: Boolean,

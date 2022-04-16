@@ -88,7 +88,7 @@ android {
     }
 }
 
-ext.coroutinesVersion = "1.6.0"
+ext.coroutinesVersion = "1.6.1"
 ext.lifecycleVersion = "2.4.1"
 ext.roomVersion = '2.4.2'
 ext.retrofitVersion = '2.9.0'
@@ -99,8 +99,6 @@ ext.materialdrawerVersion = '8.4.5'
 
 // if libraries are changed here, they should also be changed in LicenseActivity
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$coroutinesVersion"
 
