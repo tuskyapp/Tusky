@@ -20,8 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
@@ -499,13 +497,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             loadAvatar(movedAccount.avatar, binding.accountMovedAvatar, avatarRadius, animateAvatar)
 
             binding.accountMovedText.text = getString(R.string.account_moved_description, movedAccount.name)
-
-            // this is necessary because API 19 can't handle vector compound drawables
-            val movedIcon = ContextCompat.getDrawable(this, R.drawable.ic_briefcase)?.mutate()
-            val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
-            movedIcon?.colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
-
-            binding.accountMovedText.setCompoundDrawablesRelativeWithIntrinsicBounds(movedIcon, null, null, null)
         }
     }
 
