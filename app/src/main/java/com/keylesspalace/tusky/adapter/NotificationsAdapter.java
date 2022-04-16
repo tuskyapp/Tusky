@@ -521,7 +521,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     break;
                 }
                 case UPDATE: {
-                    icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue);
+                    icon = getIconWithColor(context, R.drawable.ic_edit_24dp, R.color.tusky_blue);
                     format = context.getString(R.string.notification_update_format);
                     break;
                 }
