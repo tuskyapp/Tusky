@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.LinkListener;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
+import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
@@ -58,10 +59,8 @@ import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 
@@ -90,6 +89,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private NotificationActionListener notificationActionListener;
     private AccountActionListener accountActionListener;
     private AdapterDataSource<NotificationViewData> dataSource;
+    private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     public NotificationsAdapter(String accountId,
                                 AdapterDataSource<NotificationViewData> dataSource,
@@ -119,7 +119,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = inflater
                         .inflate(R.layout.item_status_notification, parent, false);
-                return new StatusNotificationViewHolder(view, statusDisplayOptions);
+                return new StatusNotificationViewHolder(view, statusDisplayOptions, absoluteTimeFormatter);
             }
             case VIEW_TYPE_FOLLOW: {
                 View view = inflater
@@ -383,19 +383,22 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final Button contentWarningButton;
         private final Button contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
         private StatusDisplayOptions statusDisplayOptions;
+        private final AbsoluteTimeFormatter absoluteTimeFormatter;
 
         private String accountId;
         private String notificationId;
         private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
-        private SimpleDateFormat shortSdf;
-        private SimpleDateFormat longSdf;
 
         private int avatarRadius48dp;
         private int avatarRadius36dp;
         private int avatarRadius24dp;
 
-        StatusNotificationViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
+        StatusNotificationViewHolder(
+            View itemView,
+            StatusDisplayOptions statusDisplayOptions,
+            AbsoluteTimeFormatter absoluteTimeFormatter
+        ) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
@@ -409,6 +412,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
             contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
             this.statusDisplayOptions = statusDisplayOptions;
+            this.absoluteTimeFormatter = absoluteTimeFormatter;
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
@@ -417,8 +421,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(this);
             message.setOnClickListener(this);
             statusContent.setOnClickListener(this);
-            shortSdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-            longSdf = new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
 
             this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
             this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
@@ -448,17 +450,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
         protected void setCreatedAt(@Nullable Date createdAt) {
             if (statusDisplayOptions.useAbsoluteTime()) {
-                String time;
-                if (createdAt != null) {
-                    if (System.currentTimeMillis() - createdAt.getTime() > 86400000L) {
-                        time = longSdf.format(createdAt);
-                    } else {
-                        time = shortSdf.format(createdAt);
-                    }
-                } else {
-                    time = "??:??:??";
-                }
-                timestampInfo.setText(time);
+                timestampInfo.setText(absoluteTimeFormatter.format(createdAt, true));
             } else {
                 // This is the visible timestampInfo.
                 String readout;
