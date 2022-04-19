@@ -51,19 +51,12 @@ fun downsizeImage(
         return false
     }
     // Initially, just get the image dimensions.
-    // Initially, just get the image dimensions.
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
     BitmapFactory.decodeStream(inputStream, null, options)
     IOUtils.closeQuietly(inputStream)
     // Get EXIF data, for orientation info.
-    // Get EXIF data, for orientation info.
     val orientation = getImageOrientation(uri, contentResolver)
-    /* Unfortunately, there isn't a determined worst case compression ratio for image
-             * formats. So, the only way to tell if they're too big is to compress them and
-             * test, and keep trying at smaller sizes. The initial estimate should be good for
-             * many cases, so it should only iterate once, but the loop is used to be absolutely
-             * sure it gets downsized to below the limit. */
     /* Unfortunately, there isn't a determined worst case compression ratio for image
              * formats. So, the only way to tell if they're too big is to compress them and
              * test, and keep trying at smaller sizes. The initial estimate should be good for
