@@ -118,6 +118,7 @@ public class NotificationHelper {
     public static final String CHANNEL_POLL = "CHANNEL_POLL";
     public static final String CHANNEL_SUBSCRIPTIONS = "CHANNEL_SUBSCRIPTIONS";
     public static final String CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP";
+    public static final String CHANNEL_UPDATES = "CHANNEL_UPDATES";
 
     /**
      * WorkManager Tag
@@ -395,6 +396,7 @@ public class NotificationHelper {
                     CHANNEL_POLL + account.getIdentifier(),
                     CHANNEL_SUBSCRIPTIONS + account.getIdentifier(),
                     CHANNEL_SIGN_UP + account.getIdentifier(),
+                    CHANNEL_UPDATES + account.getIdentifier(),
             };
             int[] channelNames = {
                     R.string.notification_mention_name,
@@ -405,6 +407,7 @@ public class NotificationHelper {
                     R.string.notification_poll_name,
                     R.string.notification_subscription_name,
                     R.string.notification_sign_up_name,
+                    R.string.notification_update_name,
             };
             int[] channelDescriptions = {
                     R.string.notification_mention_descriptions,
@@ -415,6 +418,7 @@ public class NotificationHelper {
                     R.string.notification_poll_description,
                     R.string.notification_subscription_description,
                     R.string.notification_sign_up_description,
+                    R.string.notification_update_description,
             };
 
             List<NotificationChannel> channels = new ArrayList<>(6);
@@ -567,6 +571,8 @@ public class NotificationHelper {
                 return account.getNotificationsPolls();
             case SIGN_UP:
                 return account.getNotificationsSignUps();
+            case UPDATE:
+                return account.getNotificationsUpdates();
             default:
                 return false;
         }
@@ -674,6 +680,8 @@ public class NotificationHelper {
                 }
             case SIGN_UP:
                 return String.format(context.getString(R.string.notification_sign_up_format), accountName);
+            case UPDATE:
+                return String.format(context.getString(R.string.notification_update_format), accountName);
         }
         return null;
     }

@@ -51,6 +51,7 @@ data class AccountEntity(
     var notificationsPolls: Boolean = true,
     var notificationsSubscriptions: Boolean = true,
     var notificationsSignUps: Boolean = true,
+    var notificationsUpdates: Boolean = true,
     var notificationSound: Boolean = true,
     var notificationVibration: Boolean = true,
     var notificationLight: Boolean = true,

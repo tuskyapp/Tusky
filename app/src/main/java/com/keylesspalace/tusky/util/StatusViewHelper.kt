@@ -34,19 +34,15 @@ import com.keylesspalace.tusky.viewdata.PollViewData
 import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlin.math.min
 
 class StatusViewHelper(private val itemView: View) {
+    private val absoluteTimeFormatter = AbsoluteTimeFormatter()
+
     interface MediaPreviewListener {
         fun onViewMedia(v: View?, idx: Int)
         fun onContentHiddenChange(isShowing: Boolean)
     }
-
-    private val shortSdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-    private val longSdf = SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault())
 
     fun setMediasPreview(
         statusDisplayOptions: StatusDisplayOptions,
@@ -295,7 +291,7 @@ class StatusViewHelper(private val itemView: View) {
             context.getString(R.string.poll_info_closed)
         } else {
             if (useAbsoluteTime) {
-                context.getString(R.string.poll_info_time_absolute, getAbsoluteTime(poll.expiresAt))
+                context.getString(R.string.poll_info_time_absolute, absoluteTimeFormatter.format(poll.expiresAt, false))
             } else {
                 TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
             }
@@ -327,18 +323,6 @@ class StatusViewHelper(private val itemView: View) {
             } else {
                 pollResults[i].visibility = View.GONE
             }
-        }
-    }
-
-    fun getAbsoluteTime(time: Date?): String {
-        return if (time != null) {
-            if (android.text.format.DateUtils.isToday(time.time)) {
-                shortSdf.format(time)
-            } else {
-                longSdf.format(time)
-            }
-        } else {
-            "??:??:??"
         }
     }
 

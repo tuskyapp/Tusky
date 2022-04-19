@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 33)
+        }, version = 34)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -525,6 +525,13 @@ public abstract class AppDatabase extends RoomDatabase {
                     "`s_muted` INTEGER NOT NULL," +
                     "`s_poll` TEXT," +
                     "PRIMARY KEY(`id`, `accountId`))");
+        }
+    };
+
+    public static final Migration MIGRATION_33_34 = new Migration(33, 34) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsUpdates` INTEGER NOT NULL DEFAULT 1");
         }
     };
 }
