@@ -719,9 +719,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.setupWithStatus(status, listener, statusDisplayOptions, null);
     }
 
-    public void setupWithStatus(StatusViewData.Concrete status,
-                                final StatusActionListener listener,
-                                StatusDisplayOptions statusDisplayOptions,
+    public void setupWithStatus(@NonNull StatusViewData.Concrete status,
+                                @NonNull final StatusActionListener listener,
+                                @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
         if (payloads == null) {
             Status actionable = status.getActionable();
@@ -1131,6 +1131,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             cardView.setVisibility(View.GONE);
         }
+    }
+
+    public void showStatusContent(boolean show) {
+        avatar.setVisibility(show ? View.VISIBLE : View.GONE);
+        avatarInset.setVisibility(show ? View.VISIBLE : View.GONE);
+        displayName.setVisibility(show ? View.VISIBLE : View.GONE);
+        username.setVisibility(show ? View.VISIBLE : View.GONE);
+        timestampInfo.setVisibility(show ? View.VISIBLE : View.GONE);
+        contentWarningDescription.setVisibility(show ? View.VISIBLE : View.GONE);
+        contentWarningButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        content.setVisibility(show ? View.VISIBLE : View.GONE);
+        cardView.setVisibility(show ? View.VISIBLE : View.GONE);
+        itemView.findViewById(R.id.status_media_preview_container).setVisibility(show ? View.VISIBLE : View.GONE);
+        pollOptions.setVisibility(show ? View.VISIBLE : View.GONE);
+        pollButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        pollDescription.setVisibility(show ? View.VISIBLE : View.GONE);
+        replyButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        reblogButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        favouriteButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        bookmarkButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        moreButton.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private static String formatDuration(double durationInSeconds) {

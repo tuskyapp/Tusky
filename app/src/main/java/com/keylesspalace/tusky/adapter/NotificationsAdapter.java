@@ -180,8 +180,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_STATUS: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
-                    holder.setupWithStatus(status,
-                            statusListener, statusDisplayOptions, payloadForHolder);
+                    if (status == null) {
+                        holder.showStatusContent(false);
+                    } else {
+                        holder.showStatusContent(true);
+                        holder.setupWithStatus(status, statusListener, statusDisplayOptions, payloadForHolder);
+                    }
                     if (concreteNotificaton.getType() == Notification.Type.POLL) {
                         holder.setPollInfo(accountId.equals(concreteNotificaton.getAccount().getId()));
                     } else {
