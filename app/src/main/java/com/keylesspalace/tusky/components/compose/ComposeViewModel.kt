@@ -293,22 +293,22 @@ class ComposeViewModel @Inject constructor(
 
     suspend fun updateDescription(localId: Long, description: String): Boolean {
         val newList = media.value!!.toMutableList()
-       val index = newList.indexOfFirst { it.localId == localId }
-       if (index != -1) {
-           newList[index] = newList[index].copy(description = description)
-       }
-       media.value = newList
-       val updatedItem = newList.find { it.localId == localId }
-       if (updatedItem?.id != null) {
-           return api.updateMedia(updatedItem.id, description)
-               .fold({
-                     true
-               }, {throwable ->
-                   Log.w(TAG, "failed to update media", throwable)
-                   false
-               })
-       }
-       return true
+        val index = newList.indexOfFirst { it.localId == localId }
+        if (index != -1) {
+            newList[index] = newList[index].copy(description = description)
+        }
+        media.value = newList
+        val updatedItem = newList.find { it.localId == localId }
+        if (updatedItem?.id != null) {
+            return api.updateMedia(updatedItem.id, description)
+                .fold({
+                    true
+                }, { throwable ->
+                    Log.w(TAG, "failed to update media", throwable)
+                    false
+                })
+        }
+        return true
     }
 
     fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
