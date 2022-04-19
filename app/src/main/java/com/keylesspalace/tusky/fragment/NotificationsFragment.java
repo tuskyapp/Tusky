@@ -709,6 +709,8 @@ public class NotificationsFragment extends SFragment implements
                 return getString(R.string.notification_subscription_name);
             case SIGN_UP:
                 return getString(R.string.notification_sign_up_name);
+            case UPDATE:
+                return getString(R.string.notification_update_name);
             default:
                 return "Unknown";
         }

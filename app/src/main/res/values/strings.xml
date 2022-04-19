@@ -64,6 +64,7 @@
     <string name="notification_follow_request_format">%s requested to follow you</string>
     <string name="notification_sign_up_format">%s signed up</string>
     <string name="notification_subscription_format">%s just posted</string>
+    <string name="notification_update_format">%s edited their post</string>
 
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
@@ -230,6 +231,7 @@
     <string name="pref_title_notification_filter_poll">polls have ended</string>
     <string name="pref_title_notification_filter_subscriptions">somebody I\'m subscribed to published a new post</string>
     <string name="pref_title_notification_filter_sign_ups">somebody signed up</string>
+    <string name="pref_title_notification_filter_updates">a post I\'ve interacted with is edited</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -299,6 +301,8 @@
     <string name="notification_subscription_description">Notifications when somebody you\'re subscribed to published a new post</string>
     <string name="notification_sign_up_name">Sign ups</string>
     <string name="notification_sign_up_description">Notifications about new users</string>
+    <string name="notification_update_name">Post edits</string>
+    <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
