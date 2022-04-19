@@ -21,20 +21,19 @@ import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
-import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
-import com.keylesspalace.tusky.components.compose.DEFAULT_MAXIMUM_URL_LENGTH
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceDao
-import com.keylesspalace.tusky.db.InstanceEntity
+import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -94,7 +93,7 @@ class ComposeActivityTest {
         }
 
         apiMock = mock {
-            on { getCustomEmojis() } doReturn Single.just(emptyList())
+            onBlocking { getCustomEmojis() } doReturn Result.success(emptyList())
             onBlocking { getInstance() } doReturn instanceResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
                     Result.failure(Throwable())
@@ -105,15 +104,17 @@ class ComposeActivityTest {
         }
 
         val instanceDaoMock: InstanceDao = mock {
-            on { loadMetadataForInstance(any()) } doReturn
-                Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
-            on { loadMetadataForInstance(any()) } doReturn
-                Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
+            onBlocking { getInstanceInfo(any()) } doReturn
+                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null)
+            onBlocking { getEmojiInfo(any()) } doReturn
+                EmojisEntity(instanceDomain, emptyList())
         }
 
         val dbMock: AppDatabase = mock {
             on { instanceDao() } doReturn instanceDaoMock
         }
+
+        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock)
 
         val viewModel = ComposeViewModel(
             apiMock,
@@ -121,7 +122,7 @@ class ComposeActivityTest {
             mock(),
             mock(),
             mock(),
-            dbMock
+            instanceInfoRepo
         )
         activity.intent = Intent(activity, ComposeActivity::class.java).apply {
             putExtra(ComposeActivity.COMPOSE_OPTIONS_EXTRA, composeOptions)
@@ -135,6 +136,7 @@ class ComposeActivityTest {
         activity.viewModelFactory = viewModelFactoryMock
 
         controller.create().start()
+        shadowOf(getMainLooper()).idle()
     }
 
     @Test
@@ -185,7 +187,7 @@ class ComposeActivityTest {
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
         instanceResponseCallback = { getInstanceWithCustomConfiguration(null) }
         setupActivity()
-        assertEquals(DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
+        assertEquals(InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
     @Test
@@ -236,7 +238,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + DEFAULT_MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL)
     }
 
     @Test
@@ -245,7 +247,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
     }
 
     @Test
@@ -253,7 +255,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
     }
 
     @Test

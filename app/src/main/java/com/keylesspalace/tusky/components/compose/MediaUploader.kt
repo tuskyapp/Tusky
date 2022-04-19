@@ -32,9 +32,14 @@ import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
 import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import java.io.File
@@ -72,61 +77,40 @@ class MediaUploader @Inject constructor(
     private val context: Context,
     private val mastodonApi: MastodonApi
 ) {
-    fun uploadMedia(media: QueuedMedia): Observable<UploadEvent> {
-        return Observable
-            .fromCallable {
-                if (shouldResizeMedia(media)) {
-                    downsize(media)
-                } else media
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun uploadMedia(media: QueuedMedia): Flow<UploadEvent> {
+        return flow {
+            if (shouldResizeMedia(media)) {
+                emit(downsize(media))
+            } else {
+                emit(media)
             }
-            .switchMap { upload(it) }
-            .subscribeOn(Schedulers.io())
+        }
+            .flatMapLatest { upload(it) }
+            .flowOn(Dispatchers.IO)
     }
 
-    fun prepareMedia(inUri: Uri): Single<PreparedMedia> {
-        return Single.fromCallable {
-            var mediaSize = MEDIA_SIZE_UNKNOWN
-            var uri = inUri
-            var mimeType: String? = null
+    fun prepareMedia(inUri: Uri): PreparedMedia {
+        var mediaSize = MEDIA_SIZE_UNKNOWN
+        var uri = inUri
+        val mimeType: String?
 
-            try {
-                when (inUri.scheme) {
-                    ContentResolver.SCHEME_CONTENT -> {
+        try {
+            when (inUri.scheme) {
+                ContentResolver.SCHEME_CONTENT -> {
 
-                        mimeType = contentResolver.getType(uri)
+                    mimeType = contentResolver.getType(uri)
 
-                        val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
+                    val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
 
-                        contentResolver.openInputStream(inUri).use { input ->
-                            if (input == null) {
-                                Log.w(TAG, "Media input is null")
-                                uri = inUri
-                                return@use
-                            }
-                            val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
-                            FileOutputStream(file.absoluteFile).use { out ->
-                                input.copyTo(out)
-                                uri = FileProvider.getUriForFile(
-                                    context,
-                                    BuildConfig.APPLICATION_ID + ".fileprovider",
-                                    file
-                                )
-                                mediaSize = getMediaSize(contentResolver, uri)
-                            }
+                    contentResolver.openInputStream(inUri).use { input ->
+                        if (input == null) {
+                            Log.w(TAG, "Media input is null")
+                            uri = inUri
+                            return@use
                         }
-                    }
-                    ContentResolver.SCHEME_FILE -> {
-                        val path = uri.path
-                        if (path == null) {
-                            Log.w(TAG, "empty uri path $uri")
-                            throw CouldNotOpenFileException()
-                        }
-                        val inputFile = File(path)
-                        val suffix = inputFile.name.substringAfterLast('.', "tmp")
-                        mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix)
-                        val file = File.createTempFile("randomTemp1", ".$suffix", context.cacheDir)
-                        val input = FileInputStream(inputFile)
-
+                        val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
                         FileOutputStream(file.absoluteFile).use { out ->
                             input.copyTo(out)
                             uri = FileProvider.getUriForFile(
@@ -137,53 +121,74 @@ class MediaUploader @Inject constructor(
                             mediaSize = getMediaSize(contentResolver, uri)
                         }
                     }
-                    else -> {
-                        Log.w(TAG, "Unknown uri scheme $uri")
+                }
+                ContentResolver.SCHEME_FILE -> {
+                    val path = uri.path
+                    if (path == null) {
+                        Log.w(TAG, "empty uri path $uri")
                         throw CouldNotOpenFileException()
                     }
-                }
-            } catch (e: IOException) {
-                Log.w(TAG, e)
-                throw CouldNotOpenFileException()
-            }
-            if (mediaSize == MEDIA_SIZE_UNKNOWN) {
-                Log.w(TAG, "Could not determine file size of upload")
-                throw MediaTypeException()
-            }
+                    val inputFile = File(path)
+                    val suffix = inputFile.name.substringAfterLast('.', "tmp")
+                    mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix)
+                    val file = File.createTempFile("randomTemp1", ".$suffix", context.cacheDir)
+                    val input = FileInputStream(inputFile)
 
-            if (mimeType != null) {
-                val topLevelType = mimeType.substring(0, mimeType.indexOf('/'))
-                when (topLevelType) {
-                    "video" -> {
-                        if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
-                            throw VideoSizeException()
-                        }
-                        PreparedMedia(QueuedMedia.Type.VIDEO, uri, mediaSize)
-                    }
-                    "image" -> {
-                        PreparedMedia(QueuedMedia.Type.IMAGE, uri, mediaSize)
-                    }
-                    "audio" -> {
-                        if (mediaSize > STATUS_AUDIO_SIZE_LIMIT) {
-                            throw AudioSizeException()
-                        }
-                        PreparedMedia(QueuedMedia.Type.AUDIO, uri, mediaSize)
-                    }
-                    else -> {
-                        throw MediaTypeException()
+                    FileOutputStream(file.absoluteFile).use { out ->
+                        input.copyTo(out)
+                        uri = FileProvider.getUriForFile(
+                            context,
+                            BuildConfig.APPLICATION_ID + ".fileprovider",
+                            file
+                        )
+                        mediaSize = getMediaSize(contentResolver, uri)
                     }
                 }
-            } else {
-                Log.w(TAG, "Could not determine mime type of upload")
-                throw MediaTypeException()
+                else -> {
+                    Log.w(TAG, "Unknown uri scheme $uri")
+                    throw CouldNotOpenFileException()
+                }
             }
+        } catch (e: IOException) {
+            Log.w(TAG, e)
+            throw CouldNotOpenFileException()
+        }
+        if (mediaSize == MEDIA_SIZE_UNKNOWN) {
+            Log.w(TAG, "Could not determine file size of upload")
+            throw MediaTypeException()
+        }
+
+        if (mimeType != null) {
+            return when (mimeType.substring(0, mimeType.indexOf('/'))) {
+                "video" -> {
+                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
+                        throw VideoSizeException()
+                    }
+                    PreparedMedia(QueuedMedia.Type.VIDEO, uri, mediaSize)
+                }
+                "image" -> {
+                    PreparedMedia(QueuedMedia.Type.IMAGE, uri, mediaSize)
+                }
+                "audio" -> {
+                    if (mediaSize > STATUS_AUDIO_SIZE_LIMIT) {
+                        throw AudioSizeException()
+                    }
+                    PreparedMedia(QueuedMedia.Type.AUDIO, uri, mediaSize)
+                }
+                else -> {
+                    throw MediaTypeException()
+                }
+            }
+        } else {
+            Log.w(TAG, "Could not determine mime type of upload")
+            throw MediaTypeException()
         }
     }
 
     private val contentResolver = context.contentResolver
 
-    private fun upload(media: QueuedMedia): Observable<UploadEvent> {
-        return Observable.create { emitter ->
+    private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
+        return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
@@ -200,11 +205,11 @@ class MediaUploader @Inject constructor(
 
             var lastProgress = -1
             val fileBody = ProgressRequestBody(
-                stream, media.mediaSize,
-                mimeType.toMediaTypeOrNull()
+                stream!!, media.mediaSize,
+                mimeType.toMediaTypeOrNull()!!
             ) { percentage ->
                 if (percentage != lastProgress) {
-                    emitter.onNext(UploadEvent.ProgressEvent(percentage))
+                    trySend(UploadEvent.ProgressEvent(percentage))
                 }
                 lastProgress = percentage
             }
@@ -217,28 +222,15 @@ class MediaUploader @Inject constructor(
                 null
             }
 
-            val uploadDisposable = mastodonApi.uploadMedia(body, description)
-                .subscribe(
-                    { result ->
-                        emitter.onNext(UploadEvent.FinishedEvent(result.id))
-                        emitter.onComplete()
-                    },
-                    { e ->
-                        emitter.onError(e)
-                    }
-                )
-
-            // Cancel the request when our observable is cancelled
-            emitter.setDisposable(uploadDisposable)
+            val result = mastodonApi.uploadMedia(body, description).getOrThrow()
+            send(UploadEvent.FinishedEvent(result.id))
+            awaitClose()
         }
     }
 
     private fun downsize(media: QueuedMedia): QueuedMedia {
         val file = createNewImageFile(context)
-        DownsizeImageTask.resize(
-            arrayOf(media.uri),
-            STATUS_IMAGE_SIZE_LIMIT, context.contentResolver, file
-        )
+        downsizeImage(media.uri, STATUS_IMAGE_SIZE_LIMIT, contentResolver, file)
         return media.copy(uri = file.toUri(), mediaSize = file.length())
     }
 

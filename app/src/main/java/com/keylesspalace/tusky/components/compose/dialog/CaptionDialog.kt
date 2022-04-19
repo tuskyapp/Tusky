@@ -27,7 +27,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
@@ -35,7 +35,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.util.withLifecycleContext
+import kotlinx.coroutines.launch
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
@@ -43,7 +43,7 @@ private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
 fun <T> T.makeCaptionDialog(
     existingDescription: String?,
     previewUri: Uri,
-    onUpdateDescription: (String) -> LiveData<Boolean>
+    onUpdateDescription: suspend (String) -> Boolean
 ) where T : Activity, T : LifecycleOwner {
     val dialogLayout = LinearLayout(this)
     val padding = Utils.dpToPx(this, 8)
@@ -77,12 +77,11 @@ fun <T> T.makeCaptionDialog(
     input.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
 
     val okListener = { dialog: DialogInterface, _: Int ->
-        onUpdateDescription(input.text.toString())
-        withLifecycleContext {
-            onUpdateDescription(input.text.toString())
-                .observe { success -> if (!success) showFailedCaptionMessage() }
+        lifecycleScope.launch {
+            if (!onUpdateDescription(input.text.toString())) {
+                showFailedCaptionMessage()
+            }
         }
-
         dialog.dismiss()
     }
 

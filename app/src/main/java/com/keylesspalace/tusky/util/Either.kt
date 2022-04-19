@@ -45,3 +45,6 @@ sealed class Either<out L, out R> {
         }
     }
 }
+
+fun <V> V.left(): Either<V, Nothing> = Either.Left(this)
+fun <V> V.right(): Either<Nothing, V> = Either.Right(this)
