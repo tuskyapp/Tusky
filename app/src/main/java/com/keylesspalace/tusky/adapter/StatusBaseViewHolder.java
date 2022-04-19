@@ -20,6 +20,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -76,6 +77,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private SparkButton favouriteButton;
     private SparkButton bookmarkButton;
     private ImageButton moreButton;
+    private ConstraintLayout mediaContainer;
     protected MediaPreviewImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
@@ -124,7 +126,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         bookmarkButton = itemView.findViewById(R.id.status_bookmark);
         moreButton = itemView.findViewById(R.id.status_more);
 
-        itemView.findViewById(R.id.status_media_preview_container).setClipToOutline(true);
+        mediaContainer = itemView.findViewById(R.id.status_media_preview_container);
+        mediaContainer.setClipToOutline(true);
 
         mediaPreviews = new MediaPreviewImageView[]{
                 itemView.findViewById(R.id.status_media_preview_0),
@@ -1144,7 +1147,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningButton.setVisibility(visibility);
         content.setVisibility(visibility);
         cardView.setVisibility(visibility);
-        itemView.findViewById(R.id.status_media_preview_container).setVisibility(visibility);
+        mediaContainer.setVisibility(visibility);
         pollOptions.setVisibility(visibility);
         pollButton.setVisibility(visibility);
         pollDescription.setVisibility(visibility);
