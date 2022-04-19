@@ -35,6 +35,11 @@ class InstanceInfoRepository @Inject constructor(
     private val dao = db.instanceDao()
     private val instanceName = accountManager.activeAccount!!.domain
 
+    /**
+     * Returns the custom emojis of the instance.
+     * Will always try to fetch them from the api, falls back to cached Emojis in case it is not available.
+     * Never throws, returns empty list in case of error.
+     */
     suspend fun getEmojis() = withContext(Dispatchers.IO) {
         api.getCustomEmojis()
             .onSuccess { emojiList -> dao.insertOrReplace(EmojisEntity(instanceName, emojiList)) }
@@ -44,6 +49,11 @@ class InstanceInfoRepository @Inject constructor(
             }
     }
 
+    /**
+     * Returns information about the instance.
+     * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
+     * Never throws, returns defaults of vanilla Mastodon in case of error.
+     */
     suspend fun getInstanceInfo(): InstanceInfo = withContext(Dispatchers.IO) {
         api.getInstance()
             .fold(
