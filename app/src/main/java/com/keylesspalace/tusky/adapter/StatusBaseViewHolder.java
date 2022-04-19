@@ -1134,24 +1134,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void showStatusContent(boolean show) {
-        avatar.setVisibility(show ? View.VISIBLE : View.GONE);
-        avatarInset.setVisibility(show ? View.VISIBLE : View.GONE);
-        displayName.setVisibility(show ? View.VISIBLE : View.GONE);
-        username.setVisibility(show ? View.VISIBLE : View.GONE);
-        timestampInfo.setVisibility(show ? View.VISIBLE : View.GONE);
-        contentWarningDescription.setVisibility(show ? View.VISIBLE : View.GONE);
-        contentWarningButton.setVisibility(show ? View.VISIBLE : View.GONE);
-        content.setVisibility(show ? View.VISIBLE : View.GONE);
-        cardView.setVisibility(show ? View.VISIBLE : View.GONE);
-        itemView.findViewById(R.id.status_media_preview_container).setVisibility(show ? View.VISIBLE : View.GONE);
-        pollOptions.setVisibility(show ? View.VISIBLE : View.GONE);
-        pollButton.setVisibility(show ? View.VISIBLE : View.GONE);
-        pollDescription.setVisibility(show ? View.VISIBLE : View.GONE);
-        replyButton.setVisibility(show ? View.VISIBLE : View.GONE);
-        reblogButton.setVisibility(show ? View.VISIBLE : View.GONE);
-        favouriteButton.setVisibility(show ? View.VISIBLE : View.GONE);
-        bookmarkButton.setVisibility(show ? View.VISIBLE : View.GONE);
-        moreButton.setVisibility(show ? View.VISIBLE : View.GONE);
+        int visibility = show ? View.VISIBLE : View.GONE;
+        avatar.setVisibility(visibility);
+        avatarInset.setVisibility(visibility);
+        displayName.setVisibility(visibility);
+        username.setVisibility(visibility);
+        timestampInfo.setVisibility(visibility);
+        contentWarningDescription.setVisibility(visibility);
+        contentWarningButton.setVisibility(visibility);
+        content.setVisibility(visibility);
+        cardView.setVisibility(visibility);
+        itemView.findViewById(R.id.status_media_preview_container).setVisibility(visibility);
+        pollOptions.setVisibility(visibility);
+        pollButton.setVisibility(visibility);
+        pollDescription.setVisibility(visibility);
+        replyButton.setVisibility(visibility);
+        reblogButton.setVisibility(visibility);
+        favouriteButton.setVisibility(visibility);
+        bookmarkButton.setVisibility(visibility);
+        moreButton.setVisibility(visibility);
     }
 
     private static String formatDuration(double durationInSeconds) {

@@ -183,7 +183,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     if (status == null) {
                         holder.showStatusContent(false);
                     } else {
-                        holder.showStatusContent(true);
+                        if (payloads == null) {
+                            holder.showStatusContent(true);
+                        }
                         holder.setupWithStatus(status, statusListener, statusDisplayOptions, payloadForHolder);
                     }
                     if (concreteNotificaton.getType() == Notification.Type.POLL) {
