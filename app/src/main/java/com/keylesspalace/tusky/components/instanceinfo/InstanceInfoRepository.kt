@@ -20,6 +20,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceInfoEntity
+import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.VersionUtils
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +41,7 @@ class InstanceInfoRepository @Inject constructor(
      * Will always try to fetch them from the api, falls back to cached Emojis in case it is not available.
      * Never throws, returns empty list in case of error.
      */
-    suspend fun getEmojis() = withContext(Dispatchers.IO) {
+    suspend fun getEmojis(): List<Emoji> = withContext(Dispatchers.IO) {
         api.getCustomEmojis()
             .onSuccess { emojiList -> dao.insertOrReplace(EmojisEntity(instanceName, emojiList)) }
             .getOrElse { throwable ->
