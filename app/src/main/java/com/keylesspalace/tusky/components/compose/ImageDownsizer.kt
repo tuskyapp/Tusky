@@ -27,8 +27,6 @@ import com.keylesspalace.tusky.util.reorientBitmap
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 
 /**
  * @param uri             the uri pointing to the input file
@@ -44,8 +42,7 @@ fun downsizeImage(
     tempFile: File
 ): Boolean {
 
-    var inputStream: InputStream?
-    inputStream = try {
+    val decodeBoundsInputStream = try {
         contentResolver.openInputStream(uri)
     } catch (e: FileNotFoundException) {
         return false
@@ -53,8 +50,8 @@ fun downsizeImage(
     // Initially, just get the image dimensions.
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
-    BitmapFactory.decodeStream(inputStream, null, options)
-    IOUtils.closeQuietly(inputStream)
+    BitmapFactory.decodeStream(decodeBoundsInputStream, null, options)
+    IOUtils.closeQuietly(decodeBoundsInputStream)
     // Get EXIF data, for orientation info.
     val orientation = getImageOrientation(uri, contentResolver)
     /* Unfortunately, there isn't a determined worst case compression ratio for image
@@ -64,13 +61,12 @@ fun downsizeImage(
              * sure it gets downsized to below the limit. */
     var scaledImageSize = 1024
     do {
-        var stream: OutputStream?
-        try {
-            stream = FileOutputStream(tempFile)
+        val outputStream = try {
+            FileOutputStream(tempFile)
         } catch (e: FileNotFoundException) {
             return false
         }
-        inputStream = try {
+        val decodeBitmapInputStream = try {
             contentResolver.openInputStream(uri)
         } catch (e: FileNotFoundException) {
             return false
@@ -78,11 +74,11 @@ fun downsizeImage(
         options.inSampleSize = calculateInSampleSize(options, scaledImageSize, scaledImageSize)
         options.inJustDecodeBounds = false
         val scaledBitmap: Bitmap = try {
-            BitmapFactory.decodeStream(inputStream, null, options)
+            BitmapFactory.decodeStream(decodeBitmapInputStream, null, options)
         } catch (error: OutOfMemoryError) {
             return false
         } finally {
-            IOUtils.closeQuietly(inputStream)
+            IOUtils.closeQuietly(decodeBitmapInputStream)
         } ?: return false
 
         val reorientedBitmap = reorientBitmap(scaledBitmap, orientation)
@@ -90,14 +86,13 @@ fun downsizeImage(
             scaledBitmap.recycle()
             return false
         }
-        /* It's not likely the user will give transparent images over the upload limit, but
-                 * if they do, make sure the transparency is retained. */
+        /* Retain transparency if there is any by encoding as png */
         val format: CompressFormat = if (!reorientedBitmap.hasAlpha()) {
             CompressFormat.JPEG
         } else {
             CompressFormat.PNG
         }
-        reorientedBitmap.compress(format, 85, stream)
+        reorientedBitmap.compress(format, 85, outputStream)
         reorientedBitmap.recycle()
         scaledImageSize /= 2
     } while (tempFile.length() > sizeLimit)
