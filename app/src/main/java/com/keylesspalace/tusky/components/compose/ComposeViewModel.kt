@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.filter
 import com.keylesspalace.tusky.util.map
@@ -48,6 +47,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.rxSingle
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
@@ -100,28 +100,22 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    fun pickMedia(mediaUri: Uri, description: String? = null): LiveData<Either<Throwable, QueuedMedia>> {
-        // We are not calling .toLiveData() here because we don't want to stop the process when
-        // the Activity goes away temporarily (like on screen rotation).
-        val liveData = MutableLiveData<Either<Throwable, QueuedMedia>>()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val (type, uri, size) = mediaUploader.prepareMedia(mediaUri)
-                val mediaItems = media.value!!
-                if (type != QueuedMedia.Type.IMAGE &&
-                    mediaItems.isNotEmpty() &&
-                    mediaItems[0].type == QueuedMedia.Type.IMAGE
-                ) {
-                    liveData.postValue(Either.Left(VideoOrImageException()))
-                } else {
-                    val queuedMedia = addMediaToQueue(type, uri, size, description)
-                    liveData.postValue(Either.Right(queuedMedia))
-                }
-            } catch (e: Exception) {
-                liveData.postValue(Either.Left(e))
+    suspend fun pickMedia(mediaUri: Uri, description: String? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
+        try {
+            val (type, uri, size) = mediaUploader.prepareMedia(mediaUri)
+            val mediaItems = media.value!!
+            if (type != QueuedMedia.Type.IMAGE &&
+                mediaItems.isNotEmpty() &&
+                mediaItems[0].type == QueuedMedia.Type.IMAGE
+            ) {
+                Result.failure(VideoOrImageException())
+            } else {
+                val queuedMedia = addMediaToQueue(type, uri, size, description)
+                Result.success(queuedMedia)
             }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-        return liveData
     }
 
     private fun addMediaToQueue(
@@ -137,7 +131,7 @@ class ComposeViewModel @Inject constructor(
             mediaSize = mediaSize,
             description = description
         )
-        media.value = media.value!! + mediaItem
+        media.postValue(media.value!! + mediaItem)
         mediaToJob[mediaItem.localId] = viewModelScope.launch {
             mediaUploader
                 .uploadMedia(mediaItem)
@@ -390,7 +384,11 @@ class ComposeViewModel @Inject constructor(
         val draftAttachments = composeOptions?.draftAttachments
         if (draftAttachments != null) {
             // when coming from DraftActivity
-            draftAttachments.forEach { attachment -> pickMedia(attachment.uri, attachment.description) }
+            draftAttachments.forEach { attachment ->
+                viewModelScope.launch {
+                    pickMedia(attachment.uri, attachment.description)
+                }
+            }
         } else composeOptions?.mediaAttachments?.forEach { a ->
             // when coming from redraft or ScheduledTootActivity
             val mediaType = when (a.type) {

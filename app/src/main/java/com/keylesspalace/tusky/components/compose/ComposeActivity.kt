@@ -51,6 +51,7 @@ import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -94,6 +95,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
@@ -867,25 +869,15 @@ class ComposeActivity :
     }
 
     private fun pickMedia(uri: Uri) {
-        withLifecycleContext {
-            viewModel.pickMedia(uri).observe { exceptionOrItem ->
-                exceptionOrItem.asLeftOrNull()?.let {
-                    val errorId = when (it) {
-                        is VideoSizeException -> {
-                            R.string.error_video_upload_size
-                        }
-                        is AudioSizeException -> {
-                            R.string.error_audio_upload_size
-                        }
-                        is VideoOrImageException -> {
-                            R.string.error_media_upload_image_or_video
-                        }
-                        else -> {
-                            R.string.error_media_upload_opening
-                        }
-                    }
-                    displayTransientError(errorId)
+        lifecycleScope.launch {
+            viewModel.pickMedia(uri).onFailure { throwable ->
+                val errorId = when (throwable) {
+                    is VideoSizeException -> R.string.error_video_upload_size
+                    is AudioSizeException -> R.string.error_audio_upload_size
+                    is VideoOrImageException -> R.string.error_media_upload_image_or_video
+                    else -> R.string.error_media_upload_opening
                 }
+                displayTransientError(errorId)
             }
         }
     }
