@@ -192,7 +192,7 @@
     <string name="title_posts_pinned">Ghim</string>
     <string name="title_posts_with_replies">Trả lời</string>
     <string name="title_posts">Tút</string>
-    <string name="title_view_thread">Nội dung tút</string>
+    <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Tin nhắn</string>
     <string name="title_public_federated">Thế giới</string>
@@ -508,4 +508,12 @@
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
     <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
+    <string name="pref_title_notification_filter_sign_ups">ai đó đăng ký trên máy chủ</string>
+    <string name="notification_sign_up_format">%s đăng ký</string>
+    <string name="notification_sign_up_name">Đăng ký</string>
+    <string name="notification_sign_up_description">Thông báo về người dùng mới đăng ký</string>
+    <string name="notification_update_format">%s đã sửa tút của họ</string>
+    <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
+    <string name="notification_update_name">Sửa tút</string>
+    <string name="notification_update_description">Thông báo khi tút mà tôi tương tác bị sửa</string>
 </resources>
