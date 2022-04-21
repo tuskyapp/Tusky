@@ -97,7 +97,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun onReply(position: Int) {
-        searchAdapter.peek(position)?.status?.let { status ->
+        searchAdapter.peek(position)?.let { status ->
             reply(status)
         }
     }
@@ -199,8 +199,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         fun newInstance() = SearchStatusesFragment()
     }
 
-    private fun reply(status: Status) {
-        val actionableStatus = status.actionableStatus
+    private fun reply(status: StatusViewData.Concrete) {
+        val actionableStatus = status.actionable
         val mentionedUsernames = actionableStatus.mentions.map { it.username }
             .toMutableSet()
             .apply {
@@ -216,7 +216,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 contentWarning = actionableStatus.spoilerText,
                 mentionedUsernames = mentionedUsernames,
                 replyingStatusAuthor = actionableStatus.account.localUsername,
-                replyingStatusContent = actionableStatus.content.toString()
+                replyingStatusContent = status.content.toString()
             )
         )
         startActivity(intent)

@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
+
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.ClipData;
@@ -150,7 +152,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         composeOptions.setContentWarning(contentWarning);
         composeOptions.setMentionedUsernames(mentionedUsernames);
         composeOptions.setReplyingStatusAuthor(actionableStatus.getAccount().getLocalUsername());
-        composeOptions.setReplyingStatusContent(actionableStatus.getContent().toString());
+        composeOptions.setReplyingStatusContent(parseAsMastodonHtml(actionableStatus.getContent()).toString());
 
         Intent intent = ComposeActivity.startIntent(getContext(), composeOptions);
         getActivity().startActivity(intent);
