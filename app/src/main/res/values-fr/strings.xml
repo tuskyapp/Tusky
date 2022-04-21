@@ -540,4 +540,8 @@
     <string name="duration_14_days">14 jours</string>
     <string name="duration_180_days">180 jours</string>
     <string name="tusky_compose_post_quicksetting_label">Rédiger un message</string>
+    <string name="notification_sign_up_format">%s a créé un compte</string>
+    <string name="notification_sign_up_name">Nouveaux comptes</string>
+    <string name="notification_sign_up_description">Notifications quand quelqu\'un crée un nouveau compte</string>
+    <string name="pref_title_notification_filter_sign_ups">un nouveau compte a été créé</string>
 </resources>
