@@ -51,6 +51,7 @@ import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -65,6 +66,7 @@ import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityComposeBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftAttachment
@@ -93,6 +95,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
@@ -123,8 +126,8 @@ class ComposeActivity :
     private var photoUploadUri: Uri? = null
 
     @VisibleForTesting
-    var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
-    var charactersReservedPerUrl = DEFAULT_MAXIMUM_URL_LENGTH
+    var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
+    var charactersReservedPerUrl = InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL
 
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
@@ -328,7 +331,7 @@ class ComposeActivity :
 
     private fun subscribeToUpdates(mediaAdapter: MediaPreviewAdapter) {
         withLifecycleContext {
-            viewModel.instanceParams.observe { instanceData ->
+            viewModel.instanceInfo.observe { instanceData ->
                 maximumTootCharacters = instanceData.maxChars
                 charactersReservedPerUrl = instanceData.charactersReservedPerUrl
                 updateVisibleCharactersLeft()
@@ -666,7 +669,7 @@ class ComposeActivity :
 
     private fun openPollDialog() {
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        val instanceParams = viewModel.instanceParams.value!!
+        val instanceParams = viewModel.instanceInfo.value!!
         showAddPollDialog(
             this, viewModel.poll.value, instanceParams.pollMaxOptions,
             instanceParams.pollMaxLength, instanceParams.pollMinDuration, instanceParams.pollMaxDuration,
@@ -866,25 +869,15 @@ class ComposeActivity :
     }
 
     private fun pickMedia(uri: Uri) {
-        withLifecycleContext {
-            viewModel.pickMedia(uri).observe { exceptionOrItem ->
-                exceptionOrItem.asLeftOrNull()?.let {
-                    val errorId = when (it) {
-                        is VideoSizeException -> {
-                            R.string.error_video_upload_size
-                        }
-                        is AudioSizeException -> {
-                            R.string.error_audio_upload_size
-                        }
-                        is VideoOrImageException -> {
-                            R.string.error_media_upload_image_or_video
-                        }
-                        else -> {
-                            R.string.error_media_upload_opening
-                        }
-                    }
-                    displayTransientError(errorId)
+        lifecycleScope.launch {
+            viewModel.pickMedia(uri).onFailure { throwable ->
+                val errorId = when (throwable) {
+                    is VideoSizeException -> R.string.error_video_upload_size
+                    is AudioSizeException -> R.string.error_audio_upload_size
+                    is VideoOrImageException -> R.string.error_media_upload_image_or_video
+                    else -> R.string.error_media_upload_opening
                 }
+                displayTransientError(errorId)
             }
         }
     }

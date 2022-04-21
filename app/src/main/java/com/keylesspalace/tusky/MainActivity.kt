@@ -779,18 +779,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun fetchAnnouncements() {
-        mastodonApi.listAnnouncements(false)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe(
-                { announcements ->
-                    unreadAnnouncementsCount = announcements.count { !it.read }
-                    updateAnnouncementsBadge()
-                },
-                {
-                    Log.w(TAG, "Failed to fetch announcements.", it)
-                }
-            )
+        lifecycleScope.launch {
+            mastodonApi.listAnnouncements(false)
+                .fold(
+                    { announcements ->
+                        unreadAnnouncementsCount = announcements.count { !it.read }
+                        updateAnnouncementsBadge()
+                    },
+                    { throwable ->
+                        Log.w(TAG, "Failed to fetch announcements.", throwable)
+                    }
+                )
+        }
     }
 
     private fun updateAnnouncementsBadge() {

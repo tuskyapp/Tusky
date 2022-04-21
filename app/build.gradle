@@ -124,7 +124,6 @@ dependencies {
     implementation "androidx.work:work-runtime:2.7.1"
     implementation "androidx.room:room-ktx:$roomVersion"
     implementation "androidx.room:room-paging:$roomVersion"
-    implementation "androidx.room:room-rxjava3:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 

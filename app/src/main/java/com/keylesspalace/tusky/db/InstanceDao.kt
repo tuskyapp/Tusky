@@ -19,13 +19,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface InstanceDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(instance: InstanceEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
+    suspend fun insertOrReplace(instance: InstanceInfoEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
+    suspend fun insertOrReplace(emojis: EmojisEntity)
 
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
-    fun loadMetadataForInstance(instance: String): Single<InstanceEntity>
+    suspend fun getInstanceInfo(instance: String): InstanceInfoEntity?
+
+    @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
+    suspend fun getEmojiInfo(instance: String): EmojisEntity?
 }
