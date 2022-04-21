@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -101,10 +102,10 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    public void setupWithStatus(final StatusViewData.Concrete status,
-                                   final StatusActionListener listener,
-                                   StatusDisplayOptions statusDisplayOptions,
-                                   @Nullable Object payloads) {
+    public void setupWithStatus(@NonNull final StatusViewData.Concrete status,
+                                @NonNull final StatusActionListener listener,
+                                @NonNull StatusDisplayOptions statusDisplayOptions,
+                                @Nullable Object payloads) {
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
         setupCard(status, CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
         if (payloads == null) {

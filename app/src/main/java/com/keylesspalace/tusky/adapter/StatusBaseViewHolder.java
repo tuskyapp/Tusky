@@ -20,6 +20,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -76,6 +77,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private SparkButton favouriteButton;
     private SparkButton bookmarkButton;
     private ImageButton moreButton;
+    private ConstraintLayout mediaContainer;
     protected MediaPreviewImageView[] mediaPreviews;
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
@@ -124,7 +126,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         bookmarkButton = itemView.findViewById(R.id.status_bookmark);
         moreButton = itemView.findViewById(R.id.status_more);
 
-        itemView.findViewById(R.id.status_media_preview_container).setClipToOutline(true);
+        mediaContainer = itemView.findViewById(R.id.status_media_preview_container);
+        mediaContainer.setClipToOutline(true);
 
         mediaPreviews = new MediaPreviewImageView[]{
                 itemView.findViewById(R.id.status_media_preview_0),
@@ -719,9 +722,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.setupWithStatus(status, listener, statusDisplayOptions, null);
     }
 
-    public void setupWithStatus(StatusViewData.Concrete status,
-                                final StatusActionListener listener,
-                                StatusDisplayOptions statusDisplayOptions,
+    public void setupWithStatus(@NonNull StatusViewData.Concrete status,
+                                @NonNull final StatusActionListener listener,
+                                @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
         if (payloads == null) {
             Status actionable = status.getActionable();
@@ -1131,6 +1134,28 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         } else {
             cardView.setVisibility(View.GONE);
         }
+    }
+
+    public void showStatusContent(boolean show) {
+        int visibility = show ? View.VISIBLE : View.GONE;
+        avatar.setVisibility(visibility);
+        avatarInset.setVisibility(visibility);
+        displayName.setVisibility(visibility);
+        username.setVisibility(visibility);
+        timestampInfo.setVisibility(visibility);
+        contentWarningDescription.setVisibility(visibility);
+        contentWarningButton.setVisibility(visibility);
+        content.setVisibility(visibility);
+        cardView.setVisibility(visibility);
+        mediaContainer.setVisibility(visibility);
+        pollOptions.setVisibility(visibility);
+        pollButton.setVisibility(visibility);
+        pollDescription.setVisibility(visibility);
+        replyButton.setVisibility(visibility);
+        reblogButton.setVisibility(visibility);
+        favouriteButton.setVisibility(visibility);
+        bookmarkButton.setVisibility(visibility);
+        moreButton.setVisibility(visibility);
     }
 
     private static String formatDuration(double durationInSeconds) {

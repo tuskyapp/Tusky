@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,9 +59,9 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    public void setupWithStatus(StatusViewData.Concrete status,
-                                final StatusActionListener listener,
-                                StatusDisplayOptions statusDisplayOptions,
+    public void setupWithStatus(@NonNull StatusViewData.Concrete status,
+                                @NonNull final StatusActionListener listener,
+                                @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
         if (payloads == null) {
 
@@ -128,5 +129,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             contentCollapseButton.setVisibility(View.GONE);
             content.setFilters(NO_INPUT_FILTER);
         }
+    }
+
+    public void showStatusContent(boolean show) {
+        super.showStatusContent(show);
+        contentCollapseButton.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }

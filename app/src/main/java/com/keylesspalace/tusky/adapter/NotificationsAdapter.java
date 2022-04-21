@@ -180,8 +180,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_STATUS: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
                     StatusViewData.Concrete status = concreteNotificaton.getStatusViewData();
-                    holder.setupWithStatus(status,
-                            statusListener, statusDisplayOptions, payloadForHolder);
+                    if (status == null) {
+                        /* in some very rare cases servers sends null status even though they should not,
+                         * we have to handle it somehow */
+                        holder.showStatusContent(false);
+                    } else {
+                        if (payloads == null) {
+                            holder.showStatusContent(true);
+                        }
+                        holder.setupWithStatus(status, statusListener, statusDisplayOptions, payloadForHolder);
+                    }
                     if (concreteNotificaton.getType() == Notification.Type.POLL) {
                         holder.setPollInfo(accountId.equals(concreteNotificaton.getAccount().getId()));
                     } else {
@@ -194,6 +202,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     StatusViewData.Concrete statusViewData = concreteNotificaton.getStatusViewData();
                     if (payloadForHolder == null) {
                         if (statusViewData == null) {
+                            /* in some very rare cases servers sends null status even though they should not,
+                             * we have to handle it somehow */
                             holder.showNotificationContent(false);
                         } else {
                             holder.showNotificationContent(true);
