@@ -208,7 +208,7 @@
     <string name="notification_mention_name">Neue Erwähnungen</string>
     <string name="notification_mention_descriptions">Benachrichtigungen über neue Erwähnungen</string>
     <string name="notification_follow_name">Neue Folgende</string>
-    <string name="notification_follow_description">Benachrichtigunen über neue Folgende</string>
+    <string name="notification_follow_description">Benachrichtigungen über neue Folgende</string>
     <string name="notification_boost_name">Geteilte Beiträge</string>
     <string name="notification_boost_description">Benachrichtigungen, wenn deine Beiträge geteilt werden</string>
     <string name="notification_favourite_name">Favorisierte Beiträge</string>
@@ -528,4 +528,11 @@
     <string name="duration_14_days">14 Tage</string>
     <string name="duration_180_days">180 Tage</string>
     <string name="tusky_compose_post_quicksetting_label">Beitrag erstellen</string>
+    <string name="notification_update_format">%s hat den Beitrag bearbeitet</string>
+    <string name="pref_title_notification_filter_updates">Ein Beitrag, mit dem ich interagiert habe, wurde bearbeitet</string>
+    <string name="notification_sign_up_name">Registrierungen</string>
+    <string name="notification_sign_up_description">Benachrichtigungen über neue Profile</string>
+    <string name="notification_sign_up_format">%s hat sich registriert</string>
+    <string name="pref_title_notification_filter_sign_ups">Jemand hat sich registriert</string>
+    <string name="notification_update_description">Benachrichtigungen, wenn Beiträge bearbeitet werden, mit denen du interagiert hast</string>
 </resources>

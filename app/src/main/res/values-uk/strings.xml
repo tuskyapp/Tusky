@@ -541,4 +541,12 @@
     <string name="duration_180_days">180 днів</string>
     <string name="duration_365_days">365 днів</string>
     <string name="tusky_compose_post_quicksetting_label">Створити допис</string>
+    <string name="notification_sign_up_format">%s реєструється</string>
+    <string name="pref_title_notification_filter_sign_ups">хтось реєструється</string>
+    <string name="notification_sign_up_name">Реєстрації</string>
+    <string name="notification_sign_up_description">Сповіщення про нових користувачів</string>
+    <string name="notification_update_format">%s редагує свій допис</string>
+    <string name="pref_title_notification_filter_updates">допис, з яким у мене була взаємодія, відредаговано</string>
+    <string name="notification_update_description">Сповіщення, коли редагується повідомлення, з яким ви взаємодіяли</string>
+    <string name="notification_update_name">Редакції допису</string>
 </resources>

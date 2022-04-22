@@ -519,4 +519,12 @@
     <string name="duration_365_days">365 dager</string>
     <string name="duration_14_days">14 dager</string>
     <string name="tusky_compose_post_quicksetting_label">Komponer toot</string>
+    <string name="notification_sign_up_format">%s registrerte seg</string>
+    <string name="pref_title_notification_filter_sign_ups">noen registrerte seg</string>
+    <string name="notification_sign_up_name">Registreringer</string>
+    <string name="notification_sign_up_description">Varslinger om nye brukere</string>
+    <string name="notification_update_format">%s redigerte innlegget sitt</string>
+    <string name="pref_title_notification_filter_updates">et innlegg jeg har hatt en interaksjon med er redigert</string>
+    <string name="notification_update_name">Redigerte innlegg</string>
+    <string name="notification_update_description">Varslinger når et innlegg du har hatt en interaksjon med er redigert</string>
 </resources>

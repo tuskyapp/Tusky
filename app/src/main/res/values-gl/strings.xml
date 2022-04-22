@@ -519,4 +519,8 @@
     <string name="duration_180_days">180 días</string>
     <string name="duration_365_days">365 días</string>
     <string name="tusky_compose_post_quicksetting_label">Redactar publicación</string>
+    <string name="notification_sign_up_format">%s rexistrouse</string>
+    <string name="pref_title_notification_filter_sign_ups">hai unha nova usuaria</string>
+    <string name="notification_sign_up_name">Rexistros</string>
+    <string name="notification_sign_up_description">Notificacións sobre novas usuarias</string>
 </resources>
