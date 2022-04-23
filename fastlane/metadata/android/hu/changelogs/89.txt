@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- "Megnyit, mint..." már a fiókok profiljainak menüjében is elérhető, amikor több fiókot használsz
+- A bejelentkezés az appon belül már WebView-ban működik
+- Android 12 támogatása
+- új Mastodon szerverkonfigurációs API támogatása
+- sok más kisebb javítás és fejlesztés
