@@ -29,13 +29,12 @@ import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.HttpException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -55,7 +54,7 @@ class SendStatusService : Service(), Injectable {
     private val serviceScope = CoroutineScope(Dispatchers.Main + supervisorJob)
 
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
-    private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
+    private val sendJobs = ConcurrentHashMap<Int, Job>()
 
     private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
@@ -64,12 +63,9 @@ class SendStatusService : Service(), Injectable {
         super.onCreate()
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-
         if (intent.hasExtra(KEY_STATUS)) {
             val statusToSend = intent.getParcelableExtra<StatusToSend>(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
@@ -140,59 +136,49 @@ class SendStatusService : Service(), Injectable {
             statusToSend.poll
         )
 
-        val sendCall = mastodonApi.createStatus(
-            "Bearer " + account.accessToken,
-            account.domain,
-            statusToSend.idempotencyKey,
-            newStatus
-        )
-
-        sendCalls[statusId] = sendCall
-
-        val callback = object : Callback<Status> {
-            override fun onResponse(call: Call<Status>, response: Response<Status>) {
-                serviceScope.launch {
-
-                    val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
-                    statusesToSend.remove(statusId)
-
-                    if (response.isSuccessful) {
-                        // If the status was loaded from a draft, delete the draft and associated media files.
-                        if (statusToSend.draftId != 0) {
-                            draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
-                        }
-
-                        if (scheduled) {
-                            response.body()?.let(::StatusScheduledEvent)?.let(eventHub::dispatch)
-                        } else {
-                            response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
-                        }
-
-                        notificationManager.cancel(statusId)
-                    } else {
-                        // the server refused to accept the status, save status & show error message
-                        saveStatusToDrafts(statusToSend)
-
-                        val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_notify)
-                            .setContentTitle(getString(R.string.send_post_notification_error_title))
-                            .setContentText(getString(R.string.send_post_notification_saved_content))
-                            .setColor(
-                                ContextCompat.getColor(
-                                    this@SendStatusService,
-                                    R.color.notification_color
-                                )
-                            )
-
-                        notificationManager.cancel(statusId)
-                        notificationManager.notify(errorNotificationId--, builder.build())
-                    }
-                    stopSelfWhenDone()
+        sendJobs[statusId] = serviceScope.launch {
+            mastodonApi.createStatus(
+                "Bearer " + account.accessToken,
+                account.domain,
+                statusToSend.idempotencyKey,
+                newStatus
+            ).fold({ sentStatus ->
+                statusesToSend.remove(statusId)
+                // If the status was loaded from a draft, delete the draft and associated media files.
+                if (statusToSend.draftId != 0) {
+                    draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
                 }
-            }
 
-            override fun onFailure(call: Call<Status>, t: Throwable) {
-                serviceScope.launch {
+                val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
+
+                if (scheduled) {
+                    eventHub.dispatch(StatusScheduledEvent(sentStatus))
+                } else {
+                    eventHub.dispatch(StatusComposedEvent(sentStatus))
+                }
+
+                notificationManager.cancel(statusId)
+            }, { throwable ->
+                if (throwable is HttpException) {
+                    // the server refused to accept the status, save status & show error message
+                    statusesToSend.remove(statusId)
+                    saveStatusToDrafts(statusToSend)
+
+                    val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_notify)
+                        .setContentTitle(getString(R.string.send_post_notification_error_title))
+                        .setContentText(getString(R.string.send_post_notification_saved_content))
+                        .setColor(
+                            ContextCompat.getColor(
+                                this@SendStatusService,
+                                R.color.notification_color
+                            )
+                        )
+
+                    notificationManager.cancel(statusId)
+                    notificationManager.notify(errorNotificationId--, builder.build())
+                } else {
+                    // a network problem occurred, let's retry sending the status
                     var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
                     if (backoff > MAX_RETRY_INTERVAL) {
                         backoff = MAX_RETRY_INTERVAL
@@ -201,10 +187,9 @@ class SendStatusService : Service(), Injectable {
                     delay(backoff)
                     sendStatus(statusId)
                 }
-            }
+            })
+            stopSelfWhenDone()
         }
-
-        sendCall.enqueue(callback)
     }
 
     private fun stopSelfWhenDone() {
@@ -218,8 +203,8 @@ class SendStatusService : Service(), Injectable {
     private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
-            val sendCall = sendCalls.remove(statusId)
-            sendCall?.cancel()
+            val sendJob = sendJobs.remove(statusId)
+            sendJob?.cancel()
 
             saveStatusToDrafts(statusToCancel)
 
