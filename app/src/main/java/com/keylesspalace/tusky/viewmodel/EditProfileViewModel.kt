@@ -20,6 +20,7 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.entity.Account
@@ -31,8 +32,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -40,9 +40,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.HttpException
 import java.io.File
 import javax.inject.Inject
 
@@ -63,24 +61,20 @@ class EditProfileViewModel @Inject constructor(
 
     private var oldProfileData: Account? = null
 
-    private val disposables = CompositeDisposable()
-
-    fun obtainProfile() {
+    fun obtainProfile() = viewModelScope.launch {
         if (profileData.value == null || profileData.value is Error) {
 
             profileData.postValue(Loading())
 
-            mastodonApi.accountVerifyCredentials()
-                .subscribe(
-                    { profile ->
-                        oldProfileData = profile
-                        profileData.postValue(Success(profile))
-                    },
-                    {
-                        profileData.postValue(Error())
-                    }
-                )
-                .addTo(disposables)
+            mastodonApi.accountVerifyCredentials().fold(
+                { profile ->
+                    oldProfileData = profile
+                    profileData.postValue(Success(profile))
+                },
+                {
+                    profileData.postValue(Error())
+                }
+            )
         }
     }
 
@@ -151,34 +145,34 @@ class EditProfileViewModel @Inject constructor(
             return
         }
 
-        mastodonApi.accountUpdateCredentials(
-            displayName, note, locked, avatar, header,
-            field1?.first, field1?.second, field2?.first, field2?.second, field3?.first, field3?.second, field4?.first, field4?.second
-        ).enqueue(object : Callback<Account> {
-            override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                val newProfileData = response.body()
-                if (!response.isSuccessful || newProfileData == null) {
-                    val errorResponse = response.errorBody()?.string()
-                    val errorMsg = if (!errorResponse.isNullOrBlank()) {
-                        try {
-                            JSONObject(errorResponse).optString("error", null)
-                        } catch (e: JSONException) {
+        viewModelScope.launch {
+            mastodonApi.accountUpdateCredentials(
+                displayName, note, locked, avatar, header,
+                field1?.first, field1?.second, field2?.first, field2?.second, field3?.first, field3?.second, field4?.first, field4?.second
+            ).fold(
+                { newProfileData ->
+                    saveData.postValue(Success())
+                    eventHub.dispatch(ProfileEditedEvent(newProfileData))
+                },
+                { throwable ->
+                    if (throwable is HttpException) {
+                        val errorResponse = throwable.response()?.errorBody()?.string()
+                        val errorMsg = if (!errorResponse.isNullOrBlank()) {
+                            try {
+                                JSONObject(errorResponse).optString("error", "")
+                            } catch (e: JSONException) {
+                                null
+                            }
+                        } else {
                             null
                         }
+                        saveData.postValue(Error(errorMessage = errorMsg))
                     } else {
-                        null
+                        saveData.postValue(Error())
                     }
-                    saveData.postValue(Error(errorMessage = errorMsg))
-                    return
                 }
-                saveData.postValue(Success())
-                eventHub.dispatch(ProfileEditedEvent(newProfileData))
-            }
-
-            override fun onFailure(call: Call<Account>, t: Throwable) {
-                saveData.postValue(Error())
-            }
-        })
+            )
+        }
     }
 
     // cache activity state for rotation change
@@ -208,15 +202,11 @@ class EditProfileViewModel @Inject constructor(
         return File(application.cacheDir, filename)
     }
 
-    override fun onCleared() {
-        disposables.dispose()
-    }
-
-    fun obtainInstance() {
+    fun obtainInstance() = viewModelScope.launch {
         if (instanceData.value == null || instanceData.value is Error) {
             instanceData.postValue(Loading())
 
-            mastodonApi.getInstance().subscribe(
+            mastodonApi.getInstance().fold(
                 { instance ->
                     instanceData.postValue(Success(instance))
                 },
@@ -224,7 +214,6 @@ class EditProfileViewModel @Inject constructor(
                     instanceData.postValue(Error())
                 }
             )
-                .addTo(disposables)
         }
     }
 }

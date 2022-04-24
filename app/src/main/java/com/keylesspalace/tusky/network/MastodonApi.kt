@@ -68,7 +68,7 @@ import retrofit2.http.Query
 interface MastodonApi {
 
     companion object {
-        const val ENDPOINT_AUTHORIZE = "/oauth/authorize"
+        const val ENDPOINT_AUTHORIZE = "oauth/authorize"
         const val DOMAIN_HEADER = "domain"
         const val PLACEHOLDER_DOMAIN = "dummy.placeholder"
     }
@@ -77,10 +77,10 @@ interface MastodonApi {
     fun getLists(): Single<List<MastoList>>
 
     @GET("/api/v1/custom_emojis")
-    fun getCustomEmojis(): Single<List<Emoji>>
+    suspend fun getCustomEmojis(): Result<List<Emoji>>
 
     @GET("api/v1/instance")
-    fun getInstance(): Single<Instance>
+    suspend fun getInstance(): Result<Instance>
 
     @GET("api/v1/filters")
     fun getFilters(): Single<List<Filter>>
@@ -145,17 +145,17 @@ interface MastodonApi {
 
     @Multipart
     @POST("api/v2/media")
-    fun uploadMedia(
+    suspend fun uploadMedia(
         @Part file: MultipartBody.Part,
         @Part description: MultipartBody.Part? = null
-    ): Single<MediaUploadResult>
+    ): Result<MediaUploadResult>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
-    fun updateMedia(
+    suspend fun updateMedia(
         @Path("mediaId") mediaId: String,
         @Field("description") description: String
-    ): Single<Attachment>
+    ): Result<Attachment>
 
     @POST("api/v1/statuses")
     fun createStatus(
@@ -249,12 +249,12 @@ interface MastodonApi {
     ): Single<List<ScheduledStatus>>
 
     @DELETE("api/v1/scheduled_statuses/{id}")
-    fun deleteScheduledStatus(
+    suspend fun deleteScheduledStatus(
         @Path("id") scheduledStatusId: String
-    ): Single<ResponseBody>
+    ): Result<ResponseBody>
 
     @GET("api/v1/accounts/verify_credentials")
-    fun accountVerifyCredentials(): Single<Account>
+    suspend fun accountVerifyCredentials(): Result<Account>
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
@@ -265,7 +265,7 @@ interface MastodonApi {
 
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")
-    fun accountUpdateCredentials(
+    suspend fun accountUpdateCredentials(
         @Part(value = "display_name") displayName: RequestBody?,
         @Part(value = "note") note: RequestBody?,
         @Part(value = "locked") locked: RequestBody?,
@@ -279,7 +279,7 @@ interface MastodonApi {
         @Part(value = "fields_attributes[2][value]") fieldValue2: RequestBody?,
         @Part(value = "fields_attributes[3][name]") fieldName3: RequestBody?,
         @Part(value = "fields_attributes[3][value]") fieldValue3: RequestBody?
-    ): Call<Account>
+    ): Result<Account>
 
     @GET("api/v1/accounts/search")
     fun searchAccounts(
@@ -447,7 +447,7 @@ interface MastodonApi {
         @Field("redirect_uris") redirectUris: String,
         @Field("scopes") scopes: String,
         @Field("website") website: String
-    ): AppCredentials
+    ): Result<AppCredentials>
 
     @FormUrlEncoded
     @POST("oauth/token")
@@ -458,7 +458,7 @@ interface MastodonApi {
         @Field("redirect_uri") redirectUri: String,
         @Field("code") code: String,
         @Field("grant_type") grantType: String
-    ): AccessToken
+    ): Result<AccessToken>
 
     @FormUrlEncoded
     @POST("api/v1/lists")
@@ -544,26 +544,26 @@ interface MastodonApi {
     ): Single<Poll>
 
     @GET("api/v1/announcements")
-    fun listAnnouncements(
+    suspend fun listAnnouncements(
         @Query("with_dismissed") withDismissed: Boolean = true
-    ): Single<List<Announcement>>
+    ): Result<List<Announcement>>
 
     @POST("api/v1/announcements/{id}/dismiss")
-    fun dismissAnnouncement(
+    suspend fun dismissAnnouncement(
         @Path("id") announcementId: String
-    ): Single<ResponseBody>
+    ): Result<ResponseBody>
 
     @PUT("api/v1/announcements/{id}/reactions/{name}")
-    fun addAnnouncementReaction(
+    suspend fun addAnnouncementReaction(
         @Path("id") announcementId: String,
         @Path("name") name: String
-    ): Single<ResponseBody>
+    ): Result<ResponseBody>
 
     @DELETE("api/v1/announcements/{id}/reactions/{name}")
-    fun removeAnnouncementReaction(
+    suspend fun removeAnnouncementReaction(
         @Path("id") announcementId: String,
         @Path("name") name: String
-    ): Single<ResponseBody>
+    ): Result<ResponseBody>
 
     @FormUrlEncoded
     @POST("api/v1/reports")

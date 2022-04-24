@@ -18,14 +18,14 @@
     <string name="error_media_download_permission">التصريح لازم للإحتفاظ بالوسائط.</string>
     <string name="error_media_upload_image_or_video">لا يمكنك إرفاق كلا من الصور والفيديوهات في نفس المنشور في آن واحد.</string>
     <string name="error_media_upload_sending">اخفقت عملية الرفع.</string>
-    <string name="error_sender_account_gone">خطأ عند إرسال التبويق.</string>
+    <string name="error_sender_account_gone">خطأ عند إرسال المنشور.</string>
     <string name="title_home">الرئيسي</string>
     <string name="title_notifications">الاشعارات</string>
     <string name="title_public_local">المحلي</string>
     <string name="title_public_federated">الفدرالي</string>
     <string name="title_direct_messages">الرسائل المباشرة</string>
     <string name="title_tab_preferences">الألسنة</string>
-    <string name="title_view_thread">تبويق</string>
+    <string name="title_view_thread">خيط</string>
     <string name="title_posts">المنشورات</string>
     <string name="title_posts_with_replies">التبويقات والردود</string>
     <string name="title_posts_pinned">المدبّسة</string>
@@ -49,8 +49,8 @@
     <string name="post_content_show_less">تصغير</string>
     <string name="message_empty">لا شيء هنا.</string>
     <string name="footer_empty">لا يوجد شيء هنا. إسحب إلى أسفل للإنعاش!</string>
-    <string name="notification_reblog_format">شارَك %s تبويقك</string>
-    <string name="notification_favourite_format">أعجِب %s بتبويقك</string>
+    <string name="notification_reblog_format">شارَك %s منشورك</string>
+    <string name="notification_favourite_format">أعجِب %s بمنشورك</string>
     <string name="notification_follow_format">%s يتبعك</string>
     <string name="report_username_format">أبلغ عن @%s</string>
     <string name="report_comment_hint">تعليقات إضافية؟</string>
@@ -102,7 +102,7 @@
     <string name="action_reject">رفض</string>
     <string name="action_search">البحث</string>
     <string name="action_access_drafts">المسودات</string>
-    <string name="action_toggle_visibility">كيفية عرض التبويق</string>
+    <string name="action_toggle_visibility">كيفية عرض المنشور</string>
     <string name="action_content_warning">تحذير عن المحتوى</string>
     <string name="action_emoji_keyboard">لوحة مفاتيح الإيموجي</string>
     <string name="action_add_tab">إضافة لسان</string>
@@ -207,9 +207,9 @@
     <string name="notification_follow_name">متابِعون جدد</string>
     <string name="notification_follow_description">إخطارات عند تلقي متابعين جدد</string>
     <string name="notification_boost_name">الترقيات</string>
-    <string name="notification_boost_description">إخطارات عندما يقوم أحدهم بترقية تبويقاتي</string>
+    <string name="notification_boost_description">إخطارات عندما يقوم أحدهم بمشاركة منشوراتي</string>
     <string name="notification_favourite_name">المفضلة</string>
-    <string name="notification_favourite_description">الإشعار عندما يقوم أحدهم بإضافة تبويقاتك إلى مفضلاته</string>
+    <string name="notification_favourite_description">الإشعار عندما يقوم أحدهم بإضافة منشوراتك إلى مفضلاته</string>
     <string name="notification_mention_format">%s أشار إليك</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s و %4$d آخرون</string>
     <string name="notification_summary_medium">%1$s, %2$s, و %3$s</string>
@@ -362,7 +362,7 @@
     <string name="notifications_clear">مسح</string>
     <string name="notifications_apply_filter">عامل تصفية</string>
     <string name="filter_apply">طَبِّق</string>
-    <string name="compose_shortcut_long_label">تحرير تبويق</string>
+    <string name="compose_shortcut_long_label">تحرير منشور</string>
     <string name="compose_shortcut_short_label">كتابة</string>
     <string name="notification_clear_text">هل تريد حقا مسح كافة إشعاراتك؟</string>
     <string name="poll_info_time_absolute">ينتهي في %s</string>
@@ -455,7 +455,7 @@
     <string name="title_accounts">الحسابات</string>
     <string name="failed_search">فشل البحث</string>
     <string name="action_add_poll">إضافة استطلاع رأي</string>
-    <string name="pref_title_alway_open_spoiler">افتح دائما التبويقات التي تحتوي على محتوى حساس</string>
+    <string name="pref_title_alway_open_spoiler">افتح دائما المنشورات التي تحتوي على محتوى حساس</string>
     <string name="create_poll_title">استطلاع رأي</string>
     <string name="duration_5_min">5 دقائق</string>
     <string name="duration_30_min">30 دقيقة</string>
@@ -527,7 +527,7 @@
     <string name="notification_subscription_format">نشر %s للتوّ</string>
     <string name="action_delete_conversation">احذف المحادثة</string>
     <string name="dialog_delete_conversation_warning">هل تريد حذف هذه المحادثة؟</string>
-    <string name="notification_subscription_name">تبويقات جديدة</string>
+    <string name="notification_subscription_name">منشورات جديدة</string>
     <string name="post_media_attachments">مرفقات</string>
     <string name="label_duration">المدة</string>
     <string name="no_announcements">لا توجد إعلانات.</string>
@@ -536,7 +536,7 @@
     <string name="review_notifications">راجع الإشعارات</string>
     <string name="post_media_audio">صوت</string>
     <string name="drafts_post_reply_removed">لقد حُذِف التبويق الذي حررت من أجله مسودة الرد</string>
-    <string name="pref_title_notification_filter_subscriptions">شخص ما أنا مشترك في حسابه قد نشر تبويقا جديدا</string>
+    <string name="pref_title_notification_filter_subscriptions">شخص ما أنا مشترك في حسابه قد نشر منشورا جديدا</string>
     <string name="pref_title_animate_custom_emojis">حرّك الإيموجيات المخصصة</string>
     <string name="wellbeing_hide_stats_posts">إخفاء الإحصائيات الكمية عن المنشورات</string>
     <string name="wellbeing_hide_stats_profile">إخفاء الإحصائيات الكمية عن الملفات التعريفية</string>
@@ -551,4 +551,5 @@
     <string name="duration_90_days">90 يومًا</string>
     <string name="duration_180_days">180 يومًا</string>
     <string name="duration_365_days">365 يومًا</string>
+    <string name="tusky_compose_post_quicksetting_label">تحرير منشور</string>
 </resources>

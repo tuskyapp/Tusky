@@ -20,14 +20,14 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.drafts.DraftHelper
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.InstanceEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
@@ -35,9 +35,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.RxAwareViewModel
-import com.keylesspalace.tusky.util.VersionUtils
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.filter
 import com.keylesspalace.tusky.util.map
@@ -45,9 +42,12 @@ import com.keylesspalace.tusky.util.randomAlphanumericString
 import com.keylesspalace.tusky.util.toLiveData
 import com.keylesspalace.tusky.util.withoutFirstWhich
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.rxSingle
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
@@ -57,8 +57,8 @@ class ComposeViewModel @Inject constructor(
     private val mediaUploader: MediaUploader,
     private val serviceClient: ServiceClient,
     private val draftHelper: DraftHelper,
-    private val db: AppDatabase
-) : RxAwareViewModel() {
+    private val instanceInfoRepo: InstanceInfoRepository
+) : ViewModel() {
 
     private var replyingStatusAuthor: String? = null
     private var replyingStatusContent: String? = null
@@ -72,19 +72,8 @@ class ComposeViewModel @Inject constructor(
     private var contentWarningStateChanged: Boolean = false
     private var modifiedInitialState: Boolean = false
 
-    private val instance: MutableLiveData<InstanceEntity?> = MutableLiveData(null)
+    val instanceInfo: MutableLiveData<InstanceInfo> = MutableLiveData()
 
-    val instanceParams: LiveData<ComposeInstanceParams> = instance.map { instance ->
-        ComposeInstanceParams(
-            maxChars = instance?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
-            pollMaxOptions = instance?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
-            pollMaxLength = instance?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
-            pollMinDuration = instance?.minPollDuration ?: DEFAULT_MIN_POLL_DURATION,
-            pollMaxDuration = instance?.maxPollDuration ?: DEFAULT_MAX_POLL_DURATION,
-            charactersReservedPerUrl = instance?.charactersReservedPerUrl ?: DEFAULT_MAXIMUM_URL_LENGTH,
-            supportsScheduled = instance?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
-        )
-    }
     val emoji: MutableLiveData<List<Emoji>?> = MutableLiveData()
     val markMediaAsSensitive =
         mutableLiveData(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
@@ -98,72 +87,35 @@ class ComposeViewModel @Inject constructor(
     val media = mutableLiveData<List<QueuedMedia>>(listOf())
     val uploadError = MutableLiveData<Throwable>()
 
-    private val mediaToDisposable = mutableMapOf<Long, Disposable>()
+    private val mediaToJob = mutableMapOf<Long, Job>()
 
     private val isEditingScheduledToot get() = !scheduledTootId.isNullOrEmpty()
 
     init {
-
-        Single.zip(
-            api.getCustomEmojis(), api.getInstance()
-        ) { emojis, instance ->
-            InstanceEntity(
-                instance = accountManager.activeAccount?.domain!!,
-                emojiList = emojis,
-                maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
-                maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
-                maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
-                minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
-                maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
-                charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
-                version = instance.version
-            )
+        viewModelScope.launch {
+            emoji.postValue(instanceInfoRepo.getEmojis())
         }
-            .doOnSuccess {
-                db.instanceDao().insertOrReplace(it)
-            }
-            .onErrorResumeNext {
-                db.instanceDao().loadMetadataForInstance(accountManager.activeAccount?.domain!!)
-            }
-            .subscribe(
-                { instanceEntity ->
-                    emoji.postValue(instanceEntity.emojiList)
-                    instance.postValue(instanceEntity)
-                },
-                { throwable ->
-                    // this can happen on network error when no cached data is available
-                    Log.w(TAG, "error loading instance data", throwable)
-                }
-            )
-            .autoDispose()
+        viewModelScope.launch {
+            instanceInfo.postValue(instanceInfoRepo.getInstanceInfo())
+        }
     }
 
-    fun pickMedia(uri: Uri, description: String? = null): LiveData<Either<Throwable, QueuedMedia>> {
-        // We are not calling .toLiveData() here because we don't want to stop the process when
-        // the Activity goes away temporarily (like on screen rotation).
-        val liveData = MutableLiveData<Either<Throwable, QueuedMedia>>()
-        mediaUploader.prepareMedia(uri)
-            .map { (type, uri, size) ->
-                val mediaItems = media.value!!
-                if (type != QueuedMedia.Type.IMAGE &&
-                    mediaItems.isNotEmpty() &&
-                    mediaItems[0].type == QueuedMedia.Type.IMAGE
-                ) {
-                    throw VideoOrImageException()
-                } else {
-                    addMediaToQueue(type, uri, size, description)
-                }
+    suspend fun pickMedia(mediaUri: Uri, description: String? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
+        try {
+            val (type, uri, size) = mediaUploader.prepareMedia(mediaUri)
+            val mediaItems = media.value!!
+            if (type != QueuedMedia.Type.IMAGE &&
+                mediaItems.isNotEmpty() &&
+                mediaItems[0].type == QueuedMedia.Type.IMAGE
+            ) {
+                Result.failure(VideoOrImageException())
+            } else {
+                val queuedMedia = addMediaToQueue(type, uri, size, description)
+                Result.success(queuedMedia)
             }
-            .subscribe(
-                { queuedMedia ->
-                    liveData.postValue(Either.Right(queuedMedia))
-                },
-                { error ->
-                    liveData.postValue(Either.Left(error))
-                }
-            )
-            .autoDispose()
-        return liveData
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     private fun addMediaToQueue(
@@ -179,13 +131,17 @@ class ComposeViewModel @Inject constructor(
             mediaSize = mediaSize,
             description = description
         )
-        media.value = media.value!! + mediaItem
-        mediaToDisposable[mediaItem.localId] = mediaUploader
-            .uploadMedia(mediaItem)
-            .subscribe(
-                { event ->
+        media.postValue(media.value!! + mediaItem)
+        mediaToJob[mediaItem.localId] = viewModelScope.launch {
+            mediaUploader
+                .uploadMedia(mediaItem)
+                .catch { error ->
+                    media.postValue(media.value?.filter { it.localId != mediaItem.localId } ?: emptyList())
+                    uploadError.postValue(error)
+                }
+                .collect { event ->
                     val item = media.value?.find { it.localId == mediaItem.localId }
-                        ?: return@subscribe
+                        ?: return@collect
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
@@ -203,12 +159,8 @@ class ComposeViewModel @Inject constructor(
                             }
                         )
                     }
-                },
-                { error ->
-                    media.postValue(media.value?.filter { it.localId != mediaItem.localId } ?: emptyList())
-                    uploadError.postValue(error)
                 }
-            )
+        }
         return mediaItem
     }
 
@@ -218,7 +170,7 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
-        mediaToDisposable[item.localId]?.dispose()
+        mediaToJob[item.localId]?.cancel()
         media.value = media.value!!.withoutFirstWhich { it.localId == item.localId }
     }
 
@@ -291,7 +243,7 @@ class ComposeViewModel @Inject constructor(
     ): LiveData<Unit> {
 
         val deletionObservable = if (isEditingScheduledToot) {
-            api.deleteScheduledStatus(scheduledTootId.toString()).toObservable().map { }
+            rxSingle { api.deleteScheduledStatus(scheduledTootId.toString()) }.toObservable().map { }
         } else {
             Observable.just(Unit)
         }.toLiveData()
@@ -333,35 +285,24 @@ class ComposeViewModel @Inject constructor(
         return combineLiveData(deletionObservable, sendObservable) { _, _ -> }
     }
 
-    fun updateDescription(localId: Long, description: String): LiveData<Boolean> {
+    suspend fun updateDescription(localId: Long, description: String): Boolean {
         val newList = media.value!!.toMutableList()
         val index = newList.indexOfFirst { it.localId == localId }
         if (index != -1) {
             newList[index] = newList[index].copy(description = description)
         }
         media.value = newList
-        val completedCaptioningLiveData = MutableLiveData<Boolean>()
-        media.observeForever(object : Observer<List<QueuedMedia>> {
-            override fun onChanged(mediaItems: List<QueuedMedia>) {
-                val updatedItem = mediaItems.find { it.localId == localId }
-                if (updatedItem == null) {
-                    media.removeObserver(this)
-                } else if (updatedItem.id != null) {
-                    api.updateMedia(updatedItem.id, description)
-                        .subscribe(
-                            {
-                                completedCaptioningLiveData.postValue(true)
-                            },
-                            {
-                                completedCaptioningLiveData.postValue(false)
-                            }
-                        )
-                        .autoDispose()
-                    media.removeObserver(this)
-                }
-            }
-        })
-        return completedCaptioningLiveData
+        val updatedItem = newList.find { it.localId == localId }
+        if (updatedItem?.id != null) {
+            return api.updateMedia(updatedItem.id, description)
+                .fold({
+                    true
+                }, { throwable ->
+                    Log.w(TAG, "failed to update media", throwable)
+                    false
+                })
+        }
+        return true
     }
 
     fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
@@ -443,7 +384,11 @@ class ComposeViewModel @Inject constructor(
         val draftAttachments = composeOptions?.draftAttachments
         if (draftAttachments != null) {
             // when coming from DraftActivity
-            draftAttachments.forEach { attachment -> pickMedia(attachment.uri, attachment.description) }
+            draftAttachments.forEach { attachment ->
+                viewModelScope.launch {
+                    pickMedia(attachment.uri, attachment.description)
+                }
+            }
         } else composeOptions?.mediaAttachments?.forEach { a ->
             // when coming from redraft or ScheduledTootActivity
             val mediaType = when (a.type) {
@@ -494,38 +439,12 @@ class ComposeViewModel @Inject constructor(
         scheduledAt.value = newScheduledAt
     }
 
-    override fun onCleared() {
-        for (uploadDisposable in mediaToDisposable.values) {
-            uploadDisposable.dispose()
-        }
-        super.onCleared()
-    }
-
     private companion object {
         const val TAG = "ComposeViewModel"
     }
 }
 
 fun <T> mutableLiveData(default: T) = MutableLiveData<T>().apply { value = default }
-
-const val DEFAULT_CHARACTER_LIMIT = 500
-private const val DEFAULT_MAX_OPTION_COUNT = 4
-private const val DEFAULT_MAX_OPTION_LENGTH = 50
-private const val DEFAULT_MIN_POLL_DURATION = 300
-private const val DEFAULT_MAX_POLL_DURATION = 604800
-
-// Mastodon only counts URLs as this long in terms of status character limits
-const val DEFAULT_MAXIMUM_URL_LENGTH = 23
-
-data class ComposeInstanceParams(
-    val maxChars: Int,
-    val pollMaxOptions: Int,
-    val pollMaxLength: Int,
-    val pollMinDuration: Int,
-    val pollMaxDuration: Int,
-    val charactersReservedPerUrl: Int,
-    val supportsScheduled: Boolean
-)
 
 /**
  * Thrown when trying to add an image when video is already present or the other way around

@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.components.timeline
 
-import android.text.SpannedString
 import com.google.gson.Gson
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
@@ -25,7 +24,7 @@ fun mockStatus(id: String = "100") = Status(
     inReplyToId = null,
     inReplyToAccountId = null,
     reblog = null,
-    content = SpannedString("Test"),
+    content = "Test",
     createdAt = fixedDate,
     emojis = emptyList(),
     reblogsCount = 1,
@@ -50,7 +49,6 @@ fun mockStatusViewData(id: String = "100") = StatusViewData.Concrete(
     status = mockStatus(id),
     isExpanded = false,
     isShowingContent = false,
-    isCollapsible = false,
     isCollapsed = true,
 )
 

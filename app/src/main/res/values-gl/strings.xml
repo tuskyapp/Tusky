@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_content_warning">Aviso sobre o contido</string>
-    <string name="action_toggle_visibility">Visibilidade do toot</string>
+    <string name="action_toggle_visibility">Visibilidade da publicación</string>
     <string name="action_access_scheduled_posts">Toots programados</string>
     <string name="action_access_drafts">Borradores</string>
     <string name="action_search">Buscar</string>
@@ -54,7 +54,7 @@
     <string name="action_follow">Seguir</string>
     <string name="action_logout_confirm">Tes a certeza de que queres desconectar a conta %1$s\?</string>
     <string name="action_logout">Desconectar</string>
-    <string name="action_login">Conecta con Mastodon</string>
+    <string name="action_login">Accede con Mastodon</string>
     <string name="action_compose">Redactar</string>
     <string name="action_more">Máis</string>
     <string name="action_unfavourite">Eliminar favorito</string>
@@ -69,8 +69,8 @@
     <string name="notification_subscription_format">%s publicou agora</string>
     <string name="notification_follow_request_format">%s solicitou seguirte</string>
     <string name="notification_follow_format">%s seguiute</string>
-    <string name="notification_favourite_format">%s fixo favorito o teu toot</string>
-    <string name="notification_reblog_format">%s promoveu o teu toot</string>
+    <string name="notification_favourite_format">%s fixo favorita a publicación</string>
+    <string name="notification_reblog_format">%s promoveu a túa publicación</string>
     <string name="footer_empty">Nada por aquí. Arrastra hacia abaixo para actualizar!</string>
     <string name="message_empty">Nada por aquí.</string>
     <string name="post_content_show_less">Pregar</string>
@@ -98,16 +98,16 @@
     <string name="title_posts_pinned">Fixado</string>
     <string name="title_posts_with_replies">Con resposta</string>
     <string name="title_posts">Publicacións</string>
-    <string name="title_view_thread">Toot</string>
+    <string name="title_view_thread">Fío</string>
     <string name="title_tab_preferences">Lapelas</string>
     <string name="title_direct_messages">Mensaxes directas</string>
     <string name="title_public_federated">Federada</string>
     <string name="title_public_local">Local</string>
     <string name="title_notifications">Notificacións</string>
     <string name="title_home">Inicio</string>
-    <string name="error_sender_account_gone">Erro ao enviar o toot.</string>
+    <string name="error_sender_account_gone">Erro ao enviar a publicación.</string>
     <string name="error_media_upload_sending">Fallou a subida.</string>
-    <string name="error_media_upload_image_or_video">As imaxes e vídeo non poden engadirse simultáneamente a un mesmo estado.</string>
+    <string name="error_media_upload_image_or_video">As imaxes e vídeo non poden engadirse simultáneamente á mesma publicación.</string>
     <string name="error_media_download_permission">Requírese o permiso de almacenaxe do multimedia.</string>
     <string name="error_media_upload_permission">Requírese o permiso de lectura do multimedia.</string>
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
@@ -115,8 +115,8 @@
     <string name="error_audio_upload_size">Os ficheiros de audio teñen que ser menores de 40MB.</string>
     <string name="error_video_upload_size">Os ficheiros de vídeo teñen que ser menores de 40MB.</string>
     <string name="error_image_upload_size">O ficheiro debe ser menor de 8MB.</string>
-    <string name="error_compose_character_limit">O estado é demasiado longo!</string>
-    <string name="error_retrieving_oauth_token">Fallou a obtención do token de conexión.</string>
+    <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
+    <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada.</string>
     <string name="error_authorization_unknown">Aconteceu un erro non identificado de autorización.</string>
     <string name="error_no_web_browser_found">Non se atopou un navegador para utilizar.</string>
@@ -179,7 +179,7 @@
     <string name="compose_preview_image_description">Accións para a imaxe %s</string>
     <string name="notification_clear_text">Tes a certeza de que queres borrar permanentemente todas as notificacións\?</string>
     <string name="compose_shortcut_short_label">Redactar</string>
-    <string name="compose_shortcut_long_label">Redactar Toot</string>
+    <string name="compose_shortcut_long_label">Redactar publicación</string>
     <string name="filter_apply">Aplicar</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="notifications_clear">Despexar</string>
@@ -293,7 +293,7 @@
     <string name="load_more_placeholder_text">cargar máis</string>
     <string name="replying_to">Respondendo a @%s</string>
     <string name="title_media">Multimedia</string>
-    <string name="pref_title_alway_open_spoiler">Expandir sempre toots marcados con avisos sobre o contido</string>
+    <string name="pref_title_alway_open_spoiler">Despregar sempre publicacións marcadas con avisos sobre o contido</string>
     <string name="pref_title_alway_show_sensitive_media">Mostrar sempre contido sensible</string>
     <string name="follows_you">Séguete</string>
     <string name="abbreviated_seconds_ago">%ds</string>
@@ -331,13 +331,13 @@
     <string name="notification_summary_medium">%1$s, %2$s, e %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d outras</string>
     <string name="notification_mention_format">%s mencionoute</string>
-    <string name="notification_subscription_description">Notificacións cando alguén a quen estás subscrita publica un novo toot</string>
-    <string name="notification_subscription_name">Novos toots</string>
+    <string name="notification_subscription_description">Notificacións cando alguén a quen estás subscrita publica novo contido</string>
+    <string name="notification_subscription_name">Novas publicacións</string>
     <string name="notification_poll_description">Notificacións cando rematan as enquisas</string>
     <string name="notification_poll_name">Enquisas</string>
-    <string name="notification_favourite_description">Notificacións cando os teus toots son marcados como favoritos</string>
+    <string name="notification_favourite_description">Notificacións cando as túas publicacións son favorecidas</string>
     <string name="notification_favourite_name">Favoritos</string>
-    <string name="notification_boost_description">Notificacións cando os teus toots son promovidos</string>
+    <string name="notification_boost_description">Notificacións cando as túas publicacións sexan promovidas</string>
     <string name="notification_boost_name">Promocións</string>
     <string name="notification_follow_request_description">Notificación acerca de solicitudes de seguimento</string>
     <string name="notification_follow_request_name">Solicitudes de seguimento</string>
@@ -388,7 +388,7 @@
     <string name="pref_title_timelines">Cronoloxías</string>
     <string name="pref_title_app_theme">Decorado da app</string>
     <string name="pref_title_appearance_settings">Aparencia</string>
-    <string name="pref_title_notification_filter_subscriptions">alguén a quen eu siga publique un toot</string>
+    <string name="pref_title_notification_filter_subscriptions">alguén a quen eu siga publique novo contido</string>
     <string name="pref_title_notification_filter_poll">rematen as enquisas</string>
     <string name="pref_title_notification_filter_favourites">marquen un toot meu como favorito</string>
     <string name="pref_title_notification_filter_reblogs">promocionen un dos meus toots</string>
@@ -411,8 +411,8 @@
     <string name="dialog_block_warning">Bloquear @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Agochar todo o dominio</string>
     <string name="mute_domain_warning">Tes a certeza de querer bloquear a todo %s\? Non verás o contido dese dominio en ningunha cronoloxía pública ou nas notificacións. As túas seguidoras nese dominio serán eliminadas.</string>
-    <string name="dialog_redraft_post_warning">Eliminar e reescribir este toot\?</string>
-    <string name="dialog_delete_post_warning">Eliminar este toot\?</string>
+    <string name="dialog_redraft_post_warning">Eliminar e reescribir esta publicación\?</string>
+    <string name="dialog_delete_post_warning">Eliminar esta publicación\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
     <string name="dialog_message_cancel_follow_request">Revogar a solicitude de seguimento\?</string>
     <string name="dialog_download_image">Descargar</string>
@@ -451,7 +451,7 @@
     <string name="wellbeing_mode_notice">Agocharemos algunha información que podería afectar ao teu benestar mental. Esto inclúe:
 \n
 \n- Notificacións acerca de Favoritos/Promocións/Seguimentos
-\n- Número de Favoritos/Promocións nos toots
+\n- Número de Favoritos/Promocións nas publicacións
 \n- Estatísticas de Seguidoras/Publicacións nos perfís
 \n
 \nAs notificacións tipo push non estarán afectadas, mais podes revisar as preferencias de notificacións manualmente.</string>
@@ -518,4 +518,9 @@
     <string name="duration_90_days">90 días</string>
     <string name="duration_180_days">180 días</string>
     <string name="duration_365_days">365 días</string>
+    <string name="tusky_compose_post_quicksetting_label">Redactar publicación</string>
+    <string name="notification_sign_up_format">%s rexistrouse</string>
+    <string name="pref_title_notification_filter_sign_ups">hai unha nova usuaria</string>
+    <string name="notification_sign_up_name">Rexistros</string>
+    <string name="notification_sign_up_description">Notificacións sobre novas usuarias</string>
 </resources>

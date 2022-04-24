@@ -35,7 +35,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.emoji2.text.EmojiCompat
 import androidx.lifecycle.Lifecycle
@@ -152,15 +151,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private var accountLocked: Boolean = false
 
-    // We need to know when the emoji pack has been changed
+    // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        // delete old notification channels
-        NotificationHelper.deleteLegacyNotificationChannels(this, accountManager)
 
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
@@ -697,18 +692,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
-    private fun fetchUserInfo() {
-        mastodonApi.accountVerifyCredentials()
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe(
-                { userInfo ->
-                    onFetchUserInfoSuccess(userInfo)
-                },
-                { throwable ->
-                    Log.e(TAG, "Failed to fetch user info. " + throwable.message)
-                }
-            )
+    private fun fetchUserInfo() = lifecycleScope.launch {
+        mastodonApi.accountVerifyCredentials().fold(
+            { userInfo ->
+                onFetchUserInfoSuccess(userInfo)
+            },
+            { throwable ->
+                Log.e(TAG, "Failed to fetch user info. " + throwable.message)
+            }
+        )
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {
@@ -797,18 +789,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun fetchAnnouncements() {
-        mastodonApi.listAnnouncements(false)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe(
-                { announcements ->
-                    unreadAnnouncementsCount = announcements.count { !it.read }
-                    updateAnnouncementsBadge()
-                },
-                {
-                    Log.w(TAG, "Failed to fetch announcements.", it)
-                }
-            )
+        lifecycleScope.launch {
+            mastodonApi.listAnnouncements(false)
+                .fold(
+                    { announcements ->
+                        unreadAnnouncementsCount = announcements.count { !it.read }
+                        updateAnnouncementsBadge()
+                    },
+                    { throwable ->
+                        Log.w(TAG, "Failed to fetch announcements.", throwable)
+                    }
+                )
+        }
     }
 
     private fun updateAnnouncementsBadge() {

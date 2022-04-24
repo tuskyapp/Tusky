@@ -1,14 +1,19 @@
 package com.keylesspalace.tusky.components.timeline
 
 import androidx.paging.PagingSource
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelinePagingSource
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.robolectric.annotation.Config
 
+@Config(sdk = [28])
+@RunWith(AndroidJUnit4::class)
 class NetworkTimelinePagingSourceTest {
 
     private val status = mockStatusViewData()

@@ -103,8 +103,8 @@
     <string name="action_unmute_notifications_desc">Dì-mhùch na brathan o %s</string>
     <string name="pref_title_confirm_reblogs">Seall còmhradh dearbhaidh mus dèan thu brosnachadh</string>
     <string name="pref_title_show_cards_in_timelines">Seall ro-sheallaidhean air ceanglaichean sna loidhnichean-ama</string>
-    <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar staidean sgeidealaichte air Mastodon.</string>
-    <string name="no_scheduled_posts">Chan eil staid sam bith air an sgeideal agad.</string>
+    <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar postaichean sgeidealaichte air Mastodon.</string>
+    <string name="no_scheduled_posts">Chan eil post sam bith air an sgeideal agad.</string>
     <string name="no_drafts">Chan eil dreachd sam bith agad.</string>
     <string name="post_lookup_error_format">Thachair mearachd le lorg a’ phuist %s</string>
     <string name="poll_new_choice_hint">Roghainn %d</string>
@@ -117,7 +117,7 @@
     <string name="title_accounts">Cunntasan</string>
     <string name="report_description_remote_instance">Chaidh an cunntas a chlàradh air frithealaiche eile. A bheil thu airson lethbhreac dhen ghearan a chur dha-san gun ainm cuideachd\?</string>
     <string name="report_description_1">Thèid do ghearan a chur gu maor an fhrithealaiche agad. ’S urrainn dhut mìneachadh a sholar air carson a tha thu a’ gearan mun chunntas gu h-ìosal:</string>
-    <string name="failed_fetch_posts">Cha b’ urrainn dhuinn na staidean fhaighinn</string>
+    <string name="failed_fetch_posts">Cha b’ urrainn dhuinn na postaichean fhaighinn</string>
     <string name="failed_report">Cha b’ urrainn dhuinn do ghearan a chlàradh</string>
     <string name="report_remote_instance">Sìn air adhart gu %s</string>
     <string name="hint_additional_info">Beachdan a bharrachd</string>
@@ -234,7 +234,7 @@
     <string name="restart_emoji">Feumaidh tu Tusky ath-thòiseachadh gus na roghainnean seo a chur an sàs</string>
     <string name="restart_required">Feumaidh tu an aplacaid ath-thòiseachadh</string>
     <string name="action_open_post">Fosgail am post</string>
-    <string name="expand_collapse_all_posts">Leudaich/Co-theannaich gach staid</string>
+    <string name="expand_collapse_all_posts">Leudaich/Co-theannaich gach post</string>
     <string name="performing_lookup_title">’Ga lorg…</string>
     <string name="download_fonts">Feumaidh tu na seataichean seo de dh’Emojis a luchdadh a-nuas an toiseach</string>
     <string name="system_default">Bun-roghainn an t-siostaim</string>
@@ -253,9 +253,12 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
 \n(%d caractar(an) air a char as fhaide)</item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
+        <item quantity="two">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
+\n(%d caractar(an) air a char as fhaide)</item>
+        <item quantity="few">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
+\n(%d caractar(an) air a char as fhaide)</item>
+        <item quantity="other">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
+\n(%d caractar(an) air a char as fhaide)</item>
     </plurals>
     <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh leis a’ chunntas %1$s</string>
@@ -361,7 +364,7 @@
     <string name="post_text_size_medium">Meadhanach</string>
     <string name="post_text_size_small">Beag</string>
     <string name="post_text_size_smallest">As lugha</string>
-    <string name="pref_post_text_size">Meud teacsa na staid</string>
+    <string name="pref_post_text_size">Meud teacsa nam post</string>
     <string name="post_privacy_followers_only">Luchd-leantainn a-mhàin</string>
     <string name="post_privacy_unlisted">Neo-liostaichte</string>
     <string name="post_privacy_public">Poblach</string>
@@ -514,7 +517,7 @@
     <string name="title_public_local">Ionadail</string>
     <string name="title_home">Dachaigh</string>
     <string name="error_media_upload_sending">Dh’fhàillig leis an luchdadh suas.</string>
-    <string name="error_media_upload_image_or_video">Chan urrainn dhut an dà chuid dealbhan is videothan a cheangal ris an aon staid.</string>
+    <string name="error_media_upload_image_or_video">Chan urrainn dhut an dà chuid dealbhan is videothan a cheangal ris an aon phost.</string>
     <string name="error_media_download_permission">Tha feum air cead gus meadhanan a stòradh.</string>
     <string name="error_media_upload_permission">Tha feum air cead gus meadhanan a leughadh.</string>
     <string name="error_media_upload_opening">Cha b’ urrainn dhuinn am faidhle sin fhosgladh.</string>
@@ -522,7 +525,7 @@
     <string name="error_audio_upload_size">Feumaidh faidhlichean fuaime a bhith nas lugha na 40MB.</string>
     <string name="error_video_upload_size">Feumaidh faidhlichean video a bhith nas lugha na 40MB.</string>
     <string name="error_image_upload_size">Feumaidh am faidhle a bhith nas lugha na 8MB.</string>
-    <string name="error_compose_character_limit">Tha an staid ro fhada!</string>
+    <string name="error_compose_character_limit">Tha am post ro fhada!</string>
     <string name="error_retrieving_oauth_token">Cha deach leinn tòcan clàraidh a-steach fhaighinn.</string>
     <string name="error_authorization_denied">Chaidh an t-ùghdarrachadh a dhiùltadh.</string>
     <string name="error_authorization_unknown">Thachair mearachd leis an ùghdarrachadh nach do dh’aithnich sinn.</string>
@@ -544,4 +547,9 @@
     <string name="duration_14_days">14 làithean</string>
     <string name="duration_60_days">60 latha</string>
     <string name="tusky_compose_post_quicksetting_label">Sgrìobh post</string>
+    <string name="notification_sign_up_format">Chlàraich %s</string>
+    <string name="notification_sign_up_name">Clàraidhean</string>
+    <string name="notification_sign_up_description">Brathan mu cleachdaichean ùra</string>
+    <string name="pref_title_notification_filter_sign_ups">chlàraich cuideigin</string>
+    <string name="notification_update_format">Dheasaich %s am post aca</string>
 </resources>

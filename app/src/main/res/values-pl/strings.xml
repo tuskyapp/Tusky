@@ -506,10 +506,10 @@
     <string name="limit_notifications">Ogranicz liczbę powiadomień o zmianach na osi czasu</string>
     <string name="label_duration">Czas trwania</string>
     <string name="notification_subscription_name">Nowe wpisy</string>
-    <string name="wellbeing_mode_notice">Niektóre informacje, które mogą wpływać na Twoj dobrostan psychiczny zostaną ukryte. W ich skład wchodzą: 
+    <string name="wellbeing_mode_notice">Niektóre informacje, które mogą wpływać na Twój dobrostan psychiczny zostaną ukryte. W ich skład wchodzą:
 \n
 \n - powiadomienia o ulubionych/podbiciach/obserwowaniu
-\n - liczba polubień/podbić toota
+\n - liczba polubień/podbić wpisu
 \n - statystyki obserwujących/postów na profilach
 \n
 \nNie będzie to miało wpływu na powiadomienia typu push, ale możesz zmienić ustawienia powiadomień ręcznie.</string>
@@ -542,4 +542,11 @@
     <string name="notification_follow_request_format">%s poprosił(a) o możliwość śledzenia Cię</string>
     <string name="action_unbookmark">Usuń z zakładek</string>
     <string name="pref_title_confirm_favourites">Pytaj o potwierdzenie przed dodaniem do ulubionych</string>
+    <string name="duration_14_days">14 dni</string>
+    <string name="duration_30_days">30 dni</string>
+    <string name="duration_60_days">60 dni</string>
+    <string name="duration_90_days">90 dni</string>
+    <string name="duration_180_days">180 dni</string>
+    <string name="duration_365_days">365 dni</string>
+    <string name="tusky_compose_post_quicksetting_label">Utwórz wpis</string>
 </resources>

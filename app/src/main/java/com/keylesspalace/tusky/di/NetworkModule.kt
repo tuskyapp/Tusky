@@ -18,12 +18,10 @@ package com.keylesspalace.tusky.di
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import android.text.Spanned
+import at.connyduck.calladapter.kotlinresult.KotlinResultCallAdapterFactory
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.json.SpannedTypeAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
@@ -51,11 +49,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesGson(): Gson {
-        return GsonBuilder()
-            .registerTypeAdapter(Spanned::class.java, SpannedTypeAdapter())
-            .create()
-    }
+    fun providesGson() = Gson()
 
     @Provides
     @Singleton
@@ -111,6 +105,7 @@ class NetworkModule {
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addCallAdapterFactory(KotlinResultCallAdapterFactory.create())
             .build()
     }
 

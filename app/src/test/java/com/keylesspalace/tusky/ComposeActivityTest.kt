@@ -17,38 +17,32 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.os.Looper.getMainLooper
-import android.text.SpannedString
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
-import com.keylesspalace.tusky.components.compose.DEFAULT_CHARACTER_LIMIT
-import com.keylesspalace.tusky.components.compose.DEFAULT_MAXIMUM_URL_LENGTH
-import com.keylesspalace.tusky.components.compose.MediaUploader
-import com.keylesspalace.tusky.components.drafts.DraftHelper
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceDao
-import com.keylesspalace.tusky.db.InstanceEntity
+import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.service.ServiceClient
-import com.nhaarman.mockitokotlin2.any
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.core.SingleObserver
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
@@ -94,49 +88,55 @@ class ComposeActivityTest {
         val controller = Robolectric.buildActivity(ComposeActivity::class.java)
         activity = controller.get()
 
-        accountManagerMock = mock(AccountManager::class.java)
-        `when`(accountManagerMock.activeAccount).thenReturn(account)
+        accountManagerMock = mock {
+            on { activeAccount } doReturn account
+        }
 
-        apiMock = mock(MastodonApi::class.java)
-        `when`(apiMock.getCustomEmojis()).thenReturn(Single.just(emptyList()))
-        `when`(apiMock.getInstance()).thenReturn(object : Single<Instance>() {
-            override fun subscribeActual(observer: SingleObserver<in Instance>) {
-                val instance = instanceResponseCallback?.invoke()
+        apiMock = mock {
+            onBlocking { getCustomEmojis() } doReturn Result.success(emptyList())
+            onBlocking { getInstance() } doReturn instanceResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
-                    observer.onError(Throwable())
+                    Result.failure(Throwable())
                 } else {
-                    observer.onSuccess(instance)
+                    Result.success(instance)
                 }
             }
-        })
+        }
 
-        val instanceDaoMock = mock(InstanceDao::class.java)
-        `when`(instanceDaoMock.loadMetadataForInstance(any())).thenReturn(
-            Single.just(InstanceEntity(instanceDomain, emptyList(), null, null, null, null, null, null, null))
-        )
+        val instanceDaoMock: InstanceDao = mock {
+            onBlocking { getInstanceInfo(any()) } doReturn
+                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null)
+            onBlocking { getEmojiInfo(any()) } doReturn
+                EmojisEntity(instanceDomain, emptyList())
+        }
 
-        val dbMock = mock(AppDatabase::class.java)
-        `when`(dbMock.instanceDao()).thenReturn(instanceDaoMock)
+        val dbMock: AppDatabase = mock {
+            on { instanceDao() } doReturn instanceDaoMock
+        }
+
+        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock)
 
         val viewModel = ComposeViewModel(
             apiMock,
             accountManagerMock,
-            mock(MediaUploader::class.java),
-            mock(ServiceClient::class.java),
-            mock(DraftHelper::class.java),
-            dbMock
+            mock(),
+            mock(),
+            mock(),
+            instanceInfoRepo
         )
         activity.intent = Intent(activity, ComposeActivity::class.java).apply {
             putExtra(ComposeActivity.COMPOSE_OPTIONS_EXTRA, composeOptions)
         }
 
-        val viewModelFactoryMock = mock(ViewModelFactory::class.java)
-        `when`(viewModelFactoryMock.create(ComposeViewModel::class.java)).thenReturn(viewModel)
+        val viewModelFactoryMock: ViewModelFactory = mock {
+            on { create(ComposeViewModel::class.java) } doReturn viewModel
+        }
 
         activity.accountManager = accountManagerMock
         activity.viewModelFactory = viewModelFactoryMock
 
         controller.create().start()
+        shadowOf(getMainLooper()).idle()
     }
 
     @Test
@@ -187,7 +187,7 @@ class ComposeActivityTest {
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
         instanceResponseCallback = { getInstanceWithCustomConfiguration(null) }
         setupActivity()
-        assertEquals(DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
+        assertEquals(InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
     @Test
@@ -238,7 +238,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + DEFAULT_MAXIMUM_URL_LENGTH)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL)
     }
 
     @Test
@@ -247,7 +247,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
     }
 
     @Test
@@ -255,7 +255,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_MAXIMUM_URL_LENGTH * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
     }
 
     @Test
@@ -470,7 +470,7 @@ class ComposeActivityTest {
                 "admin",
                 "admin",
                 "admin",
-                SpannedString(""),
+                "",
                 "https://example.token",
                 "",
                 "",
@@ -490,7 +490,7 @@ class ComposeActivityTest {
         )
     }
 
-    fun getCustomInstanceConfiguration(maximumStatusCharacters: Int? = null, charactersReservedPerUrl: Int? = null): InstanceConfiguration {
+    private fun getCustomInstanceConfiguration(maximumStatusCharacters: Int? = null, charactersReservedPerUrl: Int? = null): InstanceConfiguration {
         return InstanceConfiguration(
             statuses = StatusConfiguration(
                 maxCharacters = maximumStatusCharacters,

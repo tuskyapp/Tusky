@@ -122,6 +122,28 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                         true
                     }
                 }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_sign_ups)
+                    key = PrefKeys.NOTIFICATION_FILTER_SIGN_UPS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsSignUps
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsSignUps = newValue as Boolean }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_updates)
+                    key = PrefKeys.NOTIFICATION_FILTER_UPDATES
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsUpdates
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { it.notificationsUpdates = newValue as Boolean }
+                        true
+                    }
+                }
             }
 
             preferenceCategory(R.string.pref_title_notification_alerts) { category ->

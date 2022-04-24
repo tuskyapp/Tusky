@@ -15,9 +15,6 @@
 
 package com.keylesspalace.tusky.db
 
-import android.text.Spanned
-import androidx.core.text.parseAsHtml
-import androidx.core.text.toHtml
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
@@ -31,10 +28,8 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.trimTrailingWhitespace
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.util.ArrayList
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -138,22 +133,6 @@ class Converters @Inject constructor (
     @TypeConverter
     fun longToDate(date: Long): Date {
         return Date(date)
-    }
-
-    @TypeConverter
-    fun spannedToString(spanned: Spanned?): String? {
-        if (spanned == null) {
-            return null
-        }
-        return spanned.toHtml()
-    }
-
-    @TypeConverter
-    fun stringToSpanned(spannedString: String?): Spanned? {
-        if (spannedString == null) {
-            return null
-        }
-        return spannedString.parseAsHtml().trimTrailingWhitespace()
     }
 
     @TypeConverter

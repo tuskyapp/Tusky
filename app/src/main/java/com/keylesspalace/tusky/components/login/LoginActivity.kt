@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.AppCredentials
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.rickRoll
@@ -166,32 +165,33 @@ class LoginActivity : BaseActivity(), Injectable {
         setLoading(true)
 
         lifecycleScope.launch {
-            val credentials: AppCredentials = try {
-                mastodonApi.authenticateApp(
-                    domain, getString(R.string.app_name), oauthRedirectUri,
-                    OAUTH_SCOPES, getString(R.string.tusky_website)
-                )
-            } catch (e: Exception) {
-                binding.loginButton.isEnabled = true
-                binding.domainTextInputLayout.error =
-                    getString(R.string.error_failed_app_registration)
-                setLoading(false)
-                Log.e(TAG, Log.getStackTraceString(e))
-                return@launch
-            }
+            mastodonApi.authenticateApp(
+                domain, getString(R.string.app_name), oauthRedirectUri,
+                OAUTH_SCOPES, getString(R.string.tusky_website)
+            ).fold(
+                { credentials ->
+                    // Before we open browser page we save the data.
+                    // Even if we don't open other apps user may go to password manager or somewhere else
+                    // and we will need to pick up the process where we left off.
+                    // Alternatively we could pass it all as part of the intent and receive it back
+                    // but it is a bit of a workaround.
+                    preferences.edit()
+                        .putString(DOMAIN, domain)
+                        .putString(CLIENT_ID, credentials.clientId)
+                        .putString(CLIENT_SECRET, credentials.clientSecret)
+                        .apply()
 
-            // Before we open browser page we save the data.
-            // Even if we don't open other apps user may go to password manager or somewhere else
-            // and we will need to pick up the process where we left off.
-            // Alternatively we could pass it all as part of the intent and receive it back
-            // but it is a bit of a workaround.
-            preferences.edit()
-                .putString(DOMAIN, domain)
-                .putString(CLIENT_ID, credentials.clientId)
-                .putString(CLIENT_SECRET, credentials.clientSecret)
-                .apply()
-
-            redirectUserToAuthorizeAndLogin(domain, credentials.clientId)
+                    redirectUserToAuthorizeAndLogin(domain, credentials.clientId)
+                },
+                { e ->
+                    binding.loginButton.isEnabled = true
+                    binding.domainTextInputLayout.error =
+                        getString(R.string.error_failed_app_registration)
+                    setLoading(false)
+                    Log.e(TAG, Log.getStackTraceString(e))
+                    return@launch
+                }
+            )
         }
     }
 
@@ -224,29 +224,28 @@ class LoginActivity : BaseActivity(), Injectable {
 
         setLoading(true)
 
-        val accessToken = try {
-            mastodonApi.fetchOAuthToken(
-                domain, clientId, clientSecret, oauthRedirectUri, code,
-                "authorization_code"
-            )
-        } catch (e: Exception) {
-            setLoading(false)
-            binding.domainTextInputLayout.error =
-                getString(R.string.error_retrieving_oauth_token)
-            Log.e(
-                TAG,
-                "%s %s".format(getString(R.string.error_retrieving_oauth_token), e.message),
-            )
-            return
-        }
+        mastodonApi.fetchOAuthToken(
+            domain, clientId, clientSecret, oauthRedirectUri, code, "authorization_code"
+        ).fold(
+            { accessToken ->
+                accountManager.addAccount(accessToken.accessToken, domain)
 
-        accountManager.addAccount(accessToken.accessToken, domain)
-
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
-        overridePendingTransition(R.anim.explode, R.anim.explode)
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+                overridePendingTransition(R.anim.explode, R.anim.explode)
+            },
+            { e ->
+                setLoading(false)
+                binding.domainTextInputLayout.error =
+                    getString(R.string.error_retrieving_oauth_token)
+                Log.e(
+                    TAG,
+                    "%s %s".format(getString(R.string.error_retrieving_oauth_token), e.message),
+                )
+            }
+        )
     }
 
     private fun setLoading(loadingState: Boolean) {

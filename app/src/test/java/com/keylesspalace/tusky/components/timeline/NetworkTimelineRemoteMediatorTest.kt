@@ -12,11 +12,6 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineView
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.nhaarman.mockitokotlin2.anyOrNull
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.doThrow
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -24,6 +19,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
@@ -331,7 +331,6 @@ class NetworkTimelineRemoteMediatorTest {
             mockStatusViewData("2"),
             mockStatusViewData("1"),
         )
-
         verify(timelineViewModel).nextKey = "0"
         assertTrue(result is RemoteMediator.MediatorResult.Success)
         assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)

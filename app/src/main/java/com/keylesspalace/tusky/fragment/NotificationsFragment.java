@@ -15,6 +15,10 @@
 
 package com.keylesspalace.tusky.fragment;
 
+import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -110,10 +114,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
-
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
-import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -707,6 +707,10 @@ public class NotificationsFragment extends SFragment implements
                 return getString(R.string.notification_poll_name);
             case STATUS:
                 return getString(R.string.notification_subscription_name);
+            case SIGN_UP:
+                return getString(R.string.notification_sign_up_name);
+            case UPDATE:
+                return getString(R.string.notification_update_name);
             default:
                 return "Unknown";
         }

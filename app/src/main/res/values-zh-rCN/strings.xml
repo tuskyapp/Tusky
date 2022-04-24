@@ -16,7 +16,7 @@
     <string name="error_media_upload_opening">打不开此文件。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
     <string name="error_media_download_permission">需要授予 Tusky 存储媒体的权限。</string>
-    <string name="error_media_upload_image_or_video">无法在嘟文中同时插入视频和图片。</string>
+    <string name="error_media_upload_image_or_video">无法在一篇嘟文中同时插入视频和图片。</string>
     <string name="error_media_upload_sending">上传失败。</string>
     <string name="error_sender_account_gone">嘟文发送时出错。</string>
     <string name="title_home">主页</string>

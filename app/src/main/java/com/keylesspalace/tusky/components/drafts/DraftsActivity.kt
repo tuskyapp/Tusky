@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
@@ -100,7 +101,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                             content = draft.content,
                             contentWarning = draft.contentWarning,
                             inReplyToId = draft.inReplyToId,
-                            replyingStatusContent = status.content.toString(),
+                            replyingStatusContent = status.content.parseAsMastodonHtml().toString(),
                             replyingStatusAuthor = status.account.localUsername,
                             draftAttachments = draft.attachments,
                             poll = draft.poll,

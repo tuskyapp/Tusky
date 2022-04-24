@@ -163,7 +163,7 @@
     <string name="mute_domain_warning">정말로 %s 전체를 숨기시겠습니까\? 모든 공개 타임라인과 알림에서 해당 도메인에서 작성된 컨텐츠를 보지 못합니다. 해당 도메인 팔로워와의 관계가 사라집니다.</string>
     <string name="mute_domain_warning_dialog_ok">도메인 전체를 숨기기</string>
     <string name="visibility_public">공개: 공개 타임라인에 표시</string>
-    <string name="visibility_unlisted">"비표시: 공개 타임라인에 표시하지 않음 "</string>
+    <string name="visibility_unlisted">비표시: 공개 타임라인에 표시하지 않음</string>
     <string name="visibility_private">비공개: 팔로워에게만 공개</string>
     <string name="visibility_direct">다이렉트: 멘션한 사용자에게만 공개</string>
     <string name="pref_title_edit_notification_settings">알림</string>

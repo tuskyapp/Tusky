@@ -15,9 +15,11 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.os.Build
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.replaceCrashingCharacters
+import com.keylesspalace.tusky.util.shouldTrimStatus
 
 /**
  * Created by charlag on 11/07/2017.
@@ -33,13 +35,6 @@ sealed class StatusViewData {
         val isExpanded: Boolean,
         val isShowingContent: Boolean,
         /**
-         * Specifies whether the content of this post is allowed to be collapsed or if it should show
-         * all content regardless.
-         *
-         * @return Whether the post is collapsible or never collapsed.
-         */
-        val isCollapsible: Boolean,
-        /**
          * Specifies whether the content of this post is currently limited in visibility to the first
          * 500 characters or not.
          *
@@ -50,6 +45,14 @@ sealed class StatusViewData {
     ) : StatusViewData() {
         override val id: String
             get() = status.id
+
+        /**
+         * Specifies whether the content of this post is allowed to be collapsed or if it should show
+         * all content regardless.
+         *
+         * @return Whether the post is collapsible or never collapsed.
+         */
+        val isCollapsible: Boolean
 
         val content: Spanned
         val spoilerText: String
@@ -74,45 +77,17 @@ sealed class StatusViewData {
         init {
             if (Build.VERSION.SDK_INT == 23) {
                 // https://github.com/tuskyapp/Tusky/issues/563
-                this.content = replaceCrashingCharacters(status.actionableStatus.content)
+                this.content = replaceCrashingCharacters(status.actionableStatus.content.parseAsMastodonHtml())
                 this.spoilerText =
                     replaceCrashingCharacters(status.actionableStatus.spoilerText).toString()
                 this.username =
                     replaceCrashingCharacters(status.actionableStatus.account.username).toString()
             } else {
-                this.content = status.actionableStatus.content
+                this.content = status.actionableStatus.content.parseAsMastodonHtml()
                 this.spoilerText = status.actionableStatus.spoilerText
                 this.username = status.actionableStatus.account.username
             }
-        }
-
-        companion object {
-            private const val SOFT_HYPHEN = '\u00ad'
-            private const val ASCII_HYPHEN = '-'
-            fun replaceCrashingCharacters(content: Spanned): Spanned {
-                return replaceCrashingCharacters(content as CharSequence) as Spanned
-            }
-
-            fun replaceCrashingCharacters(content: CharSequence): CharSequence? {
-                var replacing = false
-                var builder: SpannableStringBuilder? = null
-                val length = content.length
-                for (index in 0 until length) {
-                    val character = content[index]
-
-                    // If there are more than one or two, switch to a map
-                    if (character == SOFT_HYPHEN) {
-                        if (!replacing) {
-                            replacing = true
-                            builder = SpannableStringBuilder(content, 0, index)
-                        }
-                        builder!!.append(ASCII_HYPHEN)
-                    } else if (replacing) {
-                        builder!!.append(character)
-                    }
-                }
-                return if (replacing) builder else content
-            }
+            this.isCollapsible = shouldTrimStatus(this.content)
         }
 
         /** Helper for Java */
