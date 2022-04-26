@@ -2,26 +2,17 @@ package com.keylesspalace.tusky.settings
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
-import androidx.preference.CheckBoxPreference
-import androidx.preference.EditTextPreference
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceScreen
-import androidx.preference.SwitchPreference
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.preference.EmojiPreference
-import okhttp3.OkHttpClient
 
 class PreferenceParent(
     val context: Context,
@@ -70,22 +61,58 @@ class PreferenceParent(
 //    return pref
 //}
 //
-//inline fun PreferenceParent.checkBoxPreference(
-//    builder: CheckBoxPreference.() -> Unit
-//): CheckBoxPreference {
-//    val pref = CheckBoxPreference(context)
+
+private fun itemLayout(context: Context): LinearLayout {
+    return LinearLayout(context).apply {
+        layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.MarginLayoutParams.MATCH_PARENT,
+            ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+        )
+        setPadding(dpToPx(16), 0, dpToPx(16), 0)
+        gravity = Gravity.CENTER_VERTICAL or Gravity.START
+
+        val spacer = ImageView(context).apply {
+            minimumWidth = dpToPx(56)
+            setPadding(0, dpToPx(4), dpToPx(8), dpToPx(4))
+        }
+        addView(spacer)
+    }
+}
+
+fun PreferenceParent.checkBoxPreference(
+   text: String,
+   selected: Boolean,
+   onSelection: (Boolean) -> Unit
+) {
+    val layout = itemLayout(context)
+
+    val textView = TextView(context)
+    layout.addView(textView)
+    textView.text = text
+
+    val checkbox = CheckBox(context)
+    layout.addView(checkbox)
+    checkbox.isSelected = selected
+
+    // TODO listener
 //    builder(pref)
 //    addPref(pref)
-//    return pref
-//}
-//
+    addPref(layout)
+}
 
-inline fun PreferenceParent.preferenceCategory(
+
+fun PreferenceParent.preferenceCategory(
     @StringRes title: Int,
     builder: PreferenceParent.() -> Unit
 ) {
-    val category = LinearLayout(context)
-    addPref(category)
+    val categoryLayout = LinearLayout(context)
+    categoryLayout.orientation = LinearLayout.VERTICAL
+
+    addPref(categoryLayout)
+
+    val titleLayout = itemLayout(context)
+    categoryLayout.addView(titleLayout)
+
     val titleView = TextView(context).apply {
         layoutParams = ViewGroup.MarginLayoutParams(
             ViewGroup.MarginLayoutParams.WRAP_CONTENT,
@@ -104,8 +131,8 @@ inline fun PreferenceParent.preferenceCategory(
         setText(title)
     }
 
-    category.addView(titleView)
-    val newParent = PreferenceParent(context) { category.addView(it) }
+    titleLayout.addView(titleView)
+    val newParent = PreferenceParent(context) { categoryLayout.addView(it) }
     builder(newParent)
 }
 

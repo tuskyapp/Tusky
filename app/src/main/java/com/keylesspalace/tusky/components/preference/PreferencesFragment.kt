@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.settings.checkBoxPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -55,7 +56,7 @@ class PreferencesFragment : Fragment(), Injectable {
         val view = FrameLayout(inflater.context)
         makePreferenceScreen(view) {
             preferenceCategory(R.string.pref_title_appearance_settings) {
-
+                checkBoxPreference("TEST", true) {}
             }
         }
         return view
