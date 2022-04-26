@@ -11,7 +11,7 @@
     android:paddingStart="12dp"
     android:paddingEnd="14dp">
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/conversation_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         tools:src="#000"
         tools:visibility="visible" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/status_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
         app:layout_constraintTop_toTopOf="@id/status_display_name"
         tools:text="13:37" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
         tools:text="@string/post_content_warning_show_more"
         tools:visibility="visible" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/status_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

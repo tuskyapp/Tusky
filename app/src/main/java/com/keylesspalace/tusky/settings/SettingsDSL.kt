@@ -1,7 +1,9 @@
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.annotation.StringRes
+import androidx.lifecycle.LifecycleOwner
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -10,8 +12,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
-import com.keylesspalace.tusky.components.preference.EmojiPreference
-import okhttp3.OkHttpClient
+import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 
 class PreferenceParent(
     val context: Context,
@@ -32,8 +33,9 @@ inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): 
     return pref
 }
 
-inline fun PreferenceParent.emojiPreference(okHttpClient: OkHttpClient, builder: EmojiPreference.() -> Unit): EmojiPreference {
-    val pref = EmojiPreference(context, okHttpClient)
+inline fun <A> PreferenceParent.emojiPreference(activity: A, builder: EmojiPickerPreference.() -> Unit): EmojiPickerPreference
+    where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
+    val pref = EmojiPickerPreference.get(activity)
     builder(pref)
     addPref(pref)
     return pref

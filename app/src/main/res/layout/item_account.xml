@@ -32,7 +32,7 @@
         tools:src="#000"
         tools:visibility="visible" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/account_display_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

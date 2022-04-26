@@ -19,7 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.emoji.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemPollBinding

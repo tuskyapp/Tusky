@@ -17,7 +17,7 @@
         android:paddingEnd="16dp"
         android:paddingBottom="8dp">
 
-        <androidx.emoji.widget.EmojiEditText
+        <androidx.emoji2.widget.EmojiEditText
             android:id="@+id/accountFieldName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textColorHint="?android:attr/textColorTertiary"
             android:textSize="?attr/status_text_medium" />
 
-        <androidx.emoji.widget.EmojiEditText
+        <androidx.emoji2.widget.EmojiEditText
             android:id="@+id/accountFieldValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

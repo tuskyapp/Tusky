@@ -38,13 +38,10 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizePx
-import okhttp3.OkHttpClient
+import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 import javax.inject.Inject
 
 class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
-
-    @Inject
-    lateinit var okhttpclient: OkHttpClient
 
     @Inject
     lateinit var accountManager: AccountManager
@@ -65,11 +62,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     icon = makeIcon(GoogleMaterial.Icon.gmd_palette)
                 }
 
-                emojiPreference(okhttpclient) {
-                    setDefaultValue("system_default")
-                    setIcon(R.drawable.ic_emoji_24dp)
-                    key = PrefKeys.EMOJI
-                    setSummary(R.string.system_default)
+                emojiPreference(requireActivity()) {
                     setTitle(R.string.emoji_style)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied)
                 }
@@ -297,6 +290,12 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             }
 
             httpProxyPref?.summary = ""
+        }
+    }
+
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        if (!EmojiPickerPreference.onDisplayPreferenceDialog(this, preference)) {
+            super.onDisplayPreferenceDialog(preference)
         }
     }
 

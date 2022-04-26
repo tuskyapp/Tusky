@@ -19,18 +19,18 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
-import androidx.emoji.text.EmojiCompat
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.EmojiCompatFont
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.ThemeUtils
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
+import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
+import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
@@ -65,12 +65,10 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        // init the custom emoji fonts
-        val emojiSelection = preferences.getInt(PrefKeys.EMOJI, 0)
-        val emojiConfig = EmojiCompatFont.byId(emojiSelection)
-            .getConfig(this)
-            .setReplaceAll(true)
-        EmojiCompat.init(emojiConfig)
+        // In this case, we want to have the emoji preferences merged with the other ones
+        // Copied from PreferenceManager.getDefaultSharedPreferenceName
+        EmojiPreference.sharedPreferenceName = packageName + "_preferences"
+        EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)

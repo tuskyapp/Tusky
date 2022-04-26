@@ -26,7 +26,7 @@ import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.inputmethod.EditorInfoCompat
 import androidx.core.view.inputmethod.InputConnectionCompat
-import androidx.emoji.widget.EmojiEditTextHelper
+import androidx.emoji2.viewsintegration.EmojiEditTextHelper
 
 class EditTextTyped @JvmOverloads constructor(
     context: Context,

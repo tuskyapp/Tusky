@@ -18,16 +18,16 @@ package com.keylesspalace.tusky
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import androidx.emoji.text.EmojiCompat
 import com.keylesspalace.tusky.util.LocaleManager
-import de.c1710.filemojicompat.FileEmojiCompatConfig
+import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
+import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 
 // override TuskyApplication for Robolectric tests, only initialize the necessary stuff
 class TuskyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        EmojiCompat.init(FileEmojiCompatConfig(this, ""))
+        EmojiPackHelper.init(this, DefaultEmojiPackList.get(this))
     }
 
     override fun attachBaseContext(base: Context) {

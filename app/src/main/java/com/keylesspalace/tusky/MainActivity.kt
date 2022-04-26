@@ -35,8 +35,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.emoji.text.EmojiCompat
-import androidx.emoji.text.EmojiCompat.InitCallback
+import androidx.core.view.GravityCompat
+import androidx.emoji2.text.EmojiCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -114,6 +114,7 @@ import com.mikepenz.materialdrawer.util.updateBadge
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -150,13 +151,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private var accountLocked: Boolean = false
 
-    private val emojiInitCallback = object : InitCallback() {
-        override fun onInitialized() {
-            if (!isDestroyed) {
-                updateProfiles()
-            }
-        }
-    }
+    // We need to know if the emoji pack has been changed
+    private var selectedEmojiPack: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -271,11 +267,31 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             // Flush old media that was cached for sharing
             deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
         }
+
+        selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
     }
 
     override fun onResume() {
         super.onResume()
         NotificationHelper.clearNotificationsForActiveAccount(this, accountManager)
+        val currentEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
+        if (currentEmojiPack != selectedEmojiPack) {
+            Log.d(
+                TAG,
+                "onResume: EmojiPack has been changed from %s to %s"
+                    .format(selectedEmojiPack, currentEmojiPack)
+            )
+            selectedEmojiPack = currentEmojiPack
+            recreate()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // For some reason the navigation drawer is opened when the activity is recreated
+        if (binding.mainDrawerLayout.isOpen) {
+            binding.mainDrawerLayout.closeDrawer(GravityCompat.START, false)
+        }
     }
 
     override fun onBackPressed() {
@@ -331,11 +347,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 viewUrl(redirectUrl, PostLookupFallbackBehavior.DISPLAY_ERROR)
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EmojiCompat.get().unregisterInitCallback(emojiInitCallback)
     }
 
     private fun forwardShare(intent: Intent) {
@@ -530,7 +541,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             )
         }
-        EmojiCompat.get().registerInitCallback(emojiInitCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -800,7 +810,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun updateProfiles() {
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))
+            val emojifiedName = EmojiCompat.get().process(acc.displayName.emojify(acc.emojis, header, animateEmojis))!!
 
             ProfileDrawerItem().apply {
                 isSelected = acc.isActive
