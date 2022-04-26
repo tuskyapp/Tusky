@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.account
 
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,11 +22,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountFieldBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Field
-import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.createClickableText
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
@@ -38,7 +34,7 @@ class AccountFieldAdapter(
 ) : RecyclerView.Adapter<BindingHolder<ItemAccountFieldBinding>>() {
 
     var emojis: List<Emoji> = emptyList()
-    var fields: List<Either<IdentityProof, Field>> = emptyList()
+    var fields: List<Field> = emptyList()
 
     override fun getItemCount() = fields.size
 
@@ -48,32 +44,20 @@ class AccountFieldAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemAccountFieldBinding>, position: Int) {
-        val proofOrField = fields[position]
+        val field = fields[position]
         val nameTextView = holder.binding.accountFieldName
         val valueTextView = holder.binding.accountFieldValue
 
-        if (proofOrField.isLeft()) {
-            val identityProof = proofOrField.asLeft()
+        val emojifiedName = field.name.emojify(emojis, nameTextView, animateEmojis)
+        nameTextView.text = emojifiedName
 
-            nameTextView.text = identityProof.provider
-            valueTextView.text = createClickableText(identityProof.username, identityProof.profileUrl)
+        val emojifiedValue = field.value.parseAsMastodonHtml().emojify(emojis, valueTextView, animateEmojis)
+        setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener)
 
-            valueTextView.movementMethod = LinkMovementMethod.getInstance()
-
+        if (field.verifiedAt != null) {
             valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)
         } else {
-            val field = proofOrField.asRight()
-            val emojifiedName = field.name.emojify(emojis, nameTextView, animateEmojis)
-            nameTextView.text = emojifiedName
-
-            val emojifiedValue = field.value.parseAsMastodonHtml().emojify(emojis, valueTextView, animateEmojis)
-            setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener)
-
-            if (field.verifiedAt != null) {
-                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)
-            } else {
-                valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-            }
+            valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         }
     }
 }
