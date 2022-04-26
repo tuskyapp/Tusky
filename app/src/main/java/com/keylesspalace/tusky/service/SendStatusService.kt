@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
@@ -125,18 +126,36 @@ class SendStatusService : Service(), Injectable {
 
         statusToSend.retries++
 
-        val newStatus = NewStatus(
-            statusToSend.text,
-            statusToSend.warningText,
-            statusToSend.inReplyToId,
-            statusToSend.visibility,
-            statusToSend.sensitive,
-            statusToSend.mediaIds,
-            statusToSend.scheduledAt,
-            statusToSend.poll
-        )
-
         sendJobs[statusId] = serviceScope.launch {
+            try {
+                while (statusToSend.mediaProcessed.any { !it }) {
+                    statusToSend.mediaProcessed.forEachIndexed { index, processed ->
+                        if (!processed) {
+                            // Mastodon returns 206 if the media was not yet processed
+                            statusToSend.mediaProcessed[index] = mastodonApi.getMedia(statusToSend.mediaIds[index]).code() == 200
+                        }
+                    }
+                    if (statusToSend.mediaProcessed.any { !it }) {
+                        delay(1000)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "failed getting media status", e)
+                retrySending(statusId)
+                return@launch
+            }
+
+            val newStatus = NewStatus(
+                statusToSend.text,
+                statusToSend.warningText,
+                statusToSend.inReplyToId,
+                statusToSend.visibility,
+                statusToSend.sensitive,
+                statusToSend.mediaIds,
+                statusToSend.scheduledAt,
+                statusToSend.poll
+            )
+
             mastodonApi.createStatus(
                 "Bearer " + account.accessToken,
                 account.domain,
@@ -159,6 +178,7 @@ class SendStatusService : Service(), Injectable {
 
                 notificationManager.cancel(statusId)
             }, { throwable ->
+                Log.w(TAG, "failed sending status", throwable)
                 if (throwable is HttpException) {
                     // the server refused to accept the status, save status & show error message
                     statusesToSend.remove(statusId)
@@ -179,17 +199,21 @@ class SendStatusService : Service(), Injectable {
                     notificationManager.notify(errorNotificationId--, builder.build())
                 } else {
                     // a network problem occurred, let's retry sending the status
-                    var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
-                    if (backoff > MAX_RETRY_INTERVAL) {
-                        backoff = MAX_RETRY_INTERVAL
-                    }
-
-                    delay(backoff)
-                    sendStatus(statusId)
+                    retrySending(statusId)
                 }
             })
             stopSelfWhenDone()
         }
+    }
+
+    private suspend fun retrySending(statusId: Int) {
+        // when statusToSend == null, sending has been canceled
+        val statusToSend = statusesToSend[statusId] ?: return
+
+        val backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong()).coerceAtMost(MAX_RETRY_INTERVAL)
+
+        delay(backoff)
+        sendStatus(statusId)
     }
 
     private fun stopSelfWhenDone() {
@@ -248,6 +272,7 @@ class SendStatusService : Service(), Injectable {
     }
 
     companion object {
+        private const val TAG = "SendStatusService"
 
         private const val KEY_STATUS = "status"
         private const val KEY_CANCEL = "cancel_id"
@@ -304,5 +329,6 @@ data class StatusToSend(
     val accountId: Long,
     val draftId: Int,
     val idempotencyKey: String,
-    var retries: Int
+    var retries: Int,
+    val mediaProcessed: MutableList<Boolean>
 ) : Parcelable
