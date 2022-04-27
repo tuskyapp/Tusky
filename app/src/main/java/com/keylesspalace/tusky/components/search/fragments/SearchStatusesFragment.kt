@@ -219,7 +219,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 replyingStatusContent = status.content.toString()
             )
         )
-        startActivity(intent)
+        bottomSheetActivity?.startActivityWithSlideInAnimation(intent)
     }
 
     private fun more(status: Status, view: View, position: Int) {
