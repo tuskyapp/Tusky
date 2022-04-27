@@ -37,6 +37,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.emoji2.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat.InitCallback
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -154,7 +155,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
 
-    private val emojiInitCallback = object : EmojiCompat.InitCallback() {
+    private val emojiInitCallback = object : InitCallback() {
         override fun onInitialized() {
             if (!isDestroyed) {
                 updateProfiles()
@@ -554,7 +555,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             )
         }
-
         EmojiCompat.get().registerInitCallback(emojiInitCallback)
     }
 
