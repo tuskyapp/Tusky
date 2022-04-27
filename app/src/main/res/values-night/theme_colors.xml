@@ -24,4 +24,7 @@
 
     <bool name="lightNavigationBar">false</bool>
 
+    <color name="botBadgeForeground">@color/white</color>
+    <color name="botBadgeBackground">@color/tusky_grey_10</color>
+
 </resources>
