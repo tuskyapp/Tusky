@@ -19,8 +19,10 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.net.toUri
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.LoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.parcelize.Parcelize
 
@@ -87,7 +89,9 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
 
         setSupportActionBar(binding.loginToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+
+        setTitle(R.string.title_login)
 
         val webView = binding.loginWebView
         webView.settings.allowContentAccess = false
@@ -103,13 +107,17 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         val oauthUrl = data.oauthRedirectUrl
 
         webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                binding.loginProgress.hide()
+            }
+
             override fun onReceivedError(
                 view: WebView,
                 request: WebResourceRequest,
                 error: WebResourceError
             ) {
                 Log.d("LoginWeb", "Failed to load ${data.url}: $error")
-                finish()
+                finishWithoutSlideOutAnimation()
             }
 
             override fun shouldOverrideUrlLoading(
@@ -165,10 +173,14 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         super.onDestroy()
     }
 
+    override fun finish() {
+        super.finishWithoutSlideOutAnimation()
+    }
+
     override fun requiresLogin() = false
 
     private fun sendResult(result: LoginResult) {
         setResult(Activity.RESULT_OK, OauthLogin.makeResultIntent(result))
-        finish()
+        finishWithoutSlideOutAnimation()
     }
 }

@@ -16,6 +16,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <ProgressBar
+        android:id="@+id/loginProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"  />
+
     <WebView
         android:id="@+id/loginWebView"
         android:layout_width="match_parent"
