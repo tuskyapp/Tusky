@@ -21,6 +21,5 @@ data class InstanceInfo(
     val pollMaxLength: Int,
     val pollMinDuration: Int,
     val pollMaxDuration: Int,
-    val charactersReservedPerUrl: Int,
-    val supportsScheduled: Boolean
+    val charactersReservedPerUrl: Int
 )

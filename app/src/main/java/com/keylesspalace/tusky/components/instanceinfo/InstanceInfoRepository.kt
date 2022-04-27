@@ -22,7 +22,6 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.VersionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -83,8 +82,7 @@ class InstanceInfoRepository @Inject constructor(
                     pollMaxLength = instanceInfo?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
                     pollMinDuration = instanceInfo?.minPollDuration ?: DEFAULT_MIN_POLL_DURATION,
                     pollMaxDuration = instanceInfo?.maxPollDuration ?: DEFAULT_MAX_POLL_DURATION,
-                    charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
-                    supportsScheduled = instanceInfo?.version?.let { VersionUtils(it).supportsScheduledToots() } ?: false
+                    charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL
                 )
             }
     }
