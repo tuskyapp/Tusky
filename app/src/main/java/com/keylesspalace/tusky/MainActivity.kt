@@ -154,6 +154,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
 
+    private val emojiInitCallback = object : EmojiCompat.InitCallback() {
+        override fun onInitialized() {
+            if (!isDestroyed) {
+                updateProfiles()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -349,6 +357,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EmojiCompat.get().unregisterInitCallback(emojiInitCallback)
+    }
+
     private fun forwardShare(intent: Intent) {
         val composeIntent = Intent(this, ComposeActivity::class.java)
         composeIntent.action = intent.action
@@ -541,6 +554,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             )
         }
+
+        EmojiCompat.get().registerInitCallback(emojiInitCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
