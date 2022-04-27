@@ -372,12 +372,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     .show()
             }
         }
-        viewModel.accountFieldData.observe(
-            this
-        ) {
-            accountFieldAdapter.fields = it
-            accountFieldAdapter.notifyDataSetChanged()
-        }
         viewModel.noteSaved.observe(this) {
             binding.saveNoteInfo.visible(it, View.INVISIBLE)
         }
@@ -409,7 +403,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
-        // accountFieldAdapter.fields = account.fields ?: emptyList()
+        accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
         accountFieldAdapter.notifyDataSetChanged()
 
