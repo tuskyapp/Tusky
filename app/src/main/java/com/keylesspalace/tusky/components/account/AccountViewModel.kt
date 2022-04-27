@@ -38,8 +38,6 @@ class AccountViewModel @Inject constructor(
 
     val noteSaved = MutableLiveData<Boolean>()
 
-    val accountFieldData = MediatorLiveData<List<Field>>()
-
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
     private var isDataLoading = false
 
@@ -49,9 +47,6 @@ class AccountViewModel @Inject constructor(
     private var noteDisposable: Disposable? = null
 
     init {
-        accountFieldData.addSource(accountData) {
-            accountFieldData.value = accountData.value?.data?.fields.orEmpty()
-        }
         eventHub.events
             .subscribe { event ->
                 if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
