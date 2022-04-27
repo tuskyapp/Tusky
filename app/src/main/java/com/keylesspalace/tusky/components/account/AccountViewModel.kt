@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.components.account
 
 import android.util.Log
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
@@ -11,7 +10,6 @@ import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
