@@ -36,9 +36,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
-import androidx.emoji2.text.EmojiCompat
-import androidx.emoji2.text.EmojiCompat.InitCallback
-import androidx.emoji2.text.EmojiCompat.LOAD_STATE_SUCCEEDED
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -155,14 +152,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
-
-    private val emojiInitCallback = object : InitCallback() {
-        override fun onInitialized() {
-            if (!isDestroyed) {
-                updateProfiles()
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -359,11 +348,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        EmojiCompat.get().unregisterInitCallback(emojiInitCallback)
-    }
-
     private fun forwardShare(intent: Intent) {
         val composeIntent = Intent(this, ComposeActivity::class.java)
         composeIntent.action = intent.action
@@ -556,7 +540,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             )
         }
-        EmojiCompat.get().registerInitCallback(emojiInitCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -826,17 +809,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun updateProfiles() {
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-            var emojifiedName = acc.displayName.emojify(acc.emojis, header, animateEmojis)
-            // TODO: Once we can use com.mikepenz:materialdrawer:9.x, we can remove the
-            //  emojiInitCallback and the manual EmojiCompat processing here
-            if (EmojiCompat.get().loadState == LOAD_STATE_SUCCEEDED) {
-                emojifiedName = EmojiCompat.get()
-                    .process(emojifiedName)!!
-            }
-
             ProfileDrawerItem().apply {
                 isSelected = acc.isActive
-                nameText = emojifiedName
+                nameText = acc.displayName.emojify(acc.emojis, header, animateEmojis)
                 iconUrl = acc.profilePictureUrl
                 isNameShown = true
                 identifier = acc.id
