@@ -544,4 +544,8 @@
     <string name="notification_sign_up_name">Nouveaux comptes</string>
     <string name="notification_sign_up_description">Notifications quand quelqu\'un crée un nouveau compte</string>
     <string name="pref_title_notification_filter_sign_ups">un nouveau compte a été créé</string>
+    <string name="notification_update_format">%s a modifié son message</string>
+    <string name="pref_title_notification_filter_updates">un message avec lequel j\'ai interagi est modifié</string>
+    <string name="notification_update_name">Messages modifiés</string>
+    <string name="notification_update_description">Notifications quand un post avec lequel vous avez interagi est modifié</string>
 </resources>
