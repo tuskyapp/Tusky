@@ -10,17 +10,13 @@ import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Field
-import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.combineOptionalLiveData
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import retrofit2.Call
@@ -39,13 +35,6 @@ class AccountViewModel @Inject constructor(
     val relationshipData = MutableLiveData<Resource<Relationship>>()
 
     val noteSaved = MutableLiveData<Boolean>()
-
-    private val identityProofData = MutableLiveData<List<IdentityProof>>()
-
-    val accountFieldData = combineOptionalLiveData(accountData, identityProofData) { accountRes, identityProofs ->
-        identityProofs.orEmpty().map { Either.Left<IdentityProof, Field>(it) }
-            .plus(accountRes?.data?.fields.orEmpty().map { Either.Right(it) })
-    }
 
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
     private var isDataLoading = false
@@ -100,22 +89,6 @@ class AccountViewModel @Inject constructor(
                     { t ->
                         Log.w(TAG, "failed obtaining relationships", t)
                         relationshipData.postValue(Error())
-                    }
-                )
-                .autoDispose()
-        }
-    }
-
-    private fun obtainIdentityProof(reload: Boolean = false) {
-        if (identityProofData.value == null || reload) {
-
-            mastodonApi.identityProofs(accountId)
-                .subscribe(
-                    { proofs ->
-                        identityProofData.postValue(proofs)
-                    },
-                    { t ->
-                        Log.w(TAG, "failed obtaining identity proofs", t)
                     }
                 )
                 .autoDispose()
@@ -314,7 +287,6 @@ class AccountViewModel @Inject constructor(
             return
         accountId.let {
             obtainAccount(isReload)
-            obtainIdentityProof()
             if (!isSelf)
                 obtainRelationship(isReload)
         }

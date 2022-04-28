@@ -9,7 +9,7 @@
     android:paddingRight="14dp"
     android:paddingBottom="10dp">
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/notification_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="@id/notification_display_name"
         tools:src="@drawable/avatar_default" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/notification_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

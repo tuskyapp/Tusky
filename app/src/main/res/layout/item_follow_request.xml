@@ -8,7 +8,7 @@
     android:paddingRight="16dp"
     android:paddingBottom="10dp">
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/notificationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notificationTextView" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/displayNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

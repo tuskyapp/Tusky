@@ -24,7 +24,6 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.IdentityProof
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
@@ -371,11 +370,6 @@ interface MastodonApi {
     fun relationships(
         @Query("id[]") accountIds: List<String>
     ): Single<List<Relationship>>
-
-    @GET("api/v1/accounts/{id}/identity_proofs")
-    fun identityProofs(
-        @Path("id") accountId: String
-    ): Single<List<IdentityProof>>
 
     @POST("api/v1/pleroma/accounts/{id}/subscribe")
     fun subscribeAccount(
