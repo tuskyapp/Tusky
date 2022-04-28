@@ -130,7 +130,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 return true;
             };
 
-            content.setOnLongClickListener(longClickListener);
+            //Don't set this long click listener on the actual content or it will interfere with Android regular text selection.
             contentWarningDescription.setOnLongClickListener(longClickListener);
             setStatusVisibility(status.getActionable().getVisibility());
         }

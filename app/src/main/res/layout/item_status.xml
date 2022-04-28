@@ -150,6 +150,7 @@
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
+        android:textIsSelectable="true"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
