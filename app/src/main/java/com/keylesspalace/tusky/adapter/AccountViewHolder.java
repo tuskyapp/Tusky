@@ -45,8 +45,7 @@ public class AccountViewHolder extends RecyclerView.ViewHolder {
         ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
         if (showBotOverlay && account.getBot()) {
             avatarInset.setVisibility(View.VISIBLE);
-            avatarInset.setImageResource(R.drawable.ic_bot_24dp);
-            avatarInset.setBackgroundColor(0x50ffffff);
+            avatarInset.setImageResource(R.drawable.bot_badge);
         } else {
             avatarInset.setVisibility(View.GONE);
         }

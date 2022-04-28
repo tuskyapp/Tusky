@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.google.android.material.button.MaterialButton;
@@ -287,11 +289,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             if (statusDisplayOptions.showBotOverlay() && isBot) {
                 avatarInset.setVisibility(View.VISIBLE);
-                avatarInset.setBackgroundColor(0x50ffffff);
                 Glide.with(avatarInset)
-                        .load(R.drawable.ic_bot_24dp)
+                        // passing the drawable id directly into .load() ignores night mode https://github.com/bumptech/glide/issues/4692
+                        .load(ContextCompat.getDrawable(avatarInset.getContext(), R.drawable.bot_badge))
                         .into(avatarInset);
-
             } else {
                 avatarInset.setVisibility(View.GONE);
             }

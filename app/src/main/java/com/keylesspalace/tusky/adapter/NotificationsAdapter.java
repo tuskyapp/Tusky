@@ -575,9 +575,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
 
             if (statusDisplayOptions.showBotOverlay() && isBot) {
                 notificationAvatar.setVisibility(View.VISIBLE);
-                notificationAvatar.setBackgroundColor(0x50ffffff);
                 Glide.with(notificationAvatar)
-                        .load(R.drawable.ic_bot_24dp)
+                        .load(ContextCompat.getDrawable(notificationAvatar.getContext(), R.drawable.bot_badge))
                         .into(notificationAvatar);
 
             } else {
