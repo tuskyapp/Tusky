@@ -519,4 +519,12 @@
     <string name="duration_365_days">365 dagar</string>
     <string name="duration_14_days">14 dagar</string>
     <string name="tusky_compose_post_quicksetting_label">Semja færslu</string>
+    <string name="notification_sign_up_format">%s skráði sig</string>
+    <string name="pref_title_notification_filter_sign_ups">einhver skráði sig</string>
+    <string name="notification_update_format">%s breytti færslunni sinni</string>
+    <string name="pref_title_notification_filter_updates">færsla sem ég hef átt við er breytt</string>
+    <string name="notification_sign_up_name">Nýskráningar</string>
+    <string name="notification_sign_up_description">Tilkynningar um nýja notendur</string>
+    <string name="notification_update_name">Breytingar á færslum</string>
+    <string name="notification_update_description">Tilkynningar þegar færslum sem þú hefur átt við er breytt</string>
 </resources>
