@@ -156,13 +156,18 @@ interface MastodonApi {
         @Field("description") description: String
     ): Result<Attachment>
 
+    @GET("api/v1/media/{mediaId}")
+    suspend fun getMedia(
+        @Path("mediaId") mediaId: String
+    ): Response<MediaUploadResult>
+
     @POST("api/v1/statuses")
-    fun createStatus(
+    suspend fun createStatus(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
         @Header("Idempotency-Key") idempotencyKey: String,
         @Body status: NewStatus
-    ): Call<Status>
+    ): Result<Status>
 
     @GET("api/v1/statuses/{id}")
     fun status(
