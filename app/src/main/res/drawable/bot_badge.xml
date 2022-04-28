@@ -4,7 +4,7 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:pathData="M6,0L18,0A6,6 0,0 1,24 6L24,18A6,6 0,0 1,18 24L6,24A6,6 0,0 1,0 18L0,6A6,6 0,0 1,6 0z"
+        android:pathData="M5.7407,0L18.2593,0A5.7407,5.7407 0,0 1,24 5.7407L24,18.2593A5.7407,5.7407 0,0 1,18.2593 24L5.7407,24A5.7407,5.7407 0,0 1,0 18.2593L0,5.7407A5.7407,5.7407 0,0 1,5.7407 0z"
         android:fillAlpha="0.75"
         android:fillColor="@color/botBadgeBackground" />
     <path
