@@ -827,6 +827,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
             var emojifiedName = acc.displayName.emojify(acc.emojis, header, animateEmojis)
+            // TODO: Once we can use com.mikepenz:materialdrawer:9.x, we can remove the
+            //  emojiInitCallback and the manual EmojiCompat processing here
             if (EmojiCompat.get().loadState == LOAD_STATE_SUCCEEDED) {
                 emojifiedName = EmojiCompat.get()
                     .process(emojifiedName)!!
