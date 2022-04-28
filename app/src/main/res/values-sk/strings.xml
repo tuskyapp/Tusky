@@ -77,7 +77,7 @@
     <string name="error_failed_app_registration">Autentizácia servru zlyhala.</string>
     <string name="error_no_web_browser_found">Nepodarilo sa nájsť použiteľný webový prehliadač.</string>
     <string name="error_authorization_unknown">Vyskytla sa neidentifikovaná chyba autorizácie.</string>
-    <string name="error_compose_character_limit">Toot je príliš dlhý!</string>
+    <string name="error_compose_character_limit">Príspevok je príliš dlhý!</string>
     <string name="error_media_upload_type">Tento typ súboru nemôže byť nahraný.</string>
     <string name="error_sender_account_gone">Chyba pri odosielaní tootu.</string>
     <string name="title_view_thread">Toot</string>
