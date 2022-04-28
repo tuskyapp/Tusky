@@ -111,9 +111,13 @@ abstract class SearchFragment<T : Any> :
         }
     }
 
-    override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
+    override fun onViewAccount(id: String) {
+        bottomSheetActivity?.startActivityWithSlideInAnimation(AccountActivity.getIntent(requireContext(), id))
+    }
 
-    override fun onViewTag(tag: String) = startActivity(StatusListActivity.newHashtagIntent(requireContext(), tag))
+    override fun onViewTag(tag: String) {
+        bottomSheetActivity?.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+    }
 
     override fun onViewUrl(url: String) {
         bottomSheetActivity?.viewUrl(url)

@@ -38,7 +38,7 @@ public interface StatusActionListener extends LinkListener {
     void onOpenReblog(int position);
     void onExpandedChange(boolean expanded, int position);
     void onContentHiddenChange(boolean isShowing, int position);
-    void  onLoadMore(int position);
+    void onLoadMore(int position);
 
     /**
      * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
