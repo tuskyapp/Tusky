@@ -128,16 +128,16 @@ class SendStatusService : Service(), Injectable {
 
         sendJobs[statusId] = serviceScope.launch {
             try {
+                var mediaCheckRetries = 0
                 while (statusToSend.mediaProcessed.any { !it }) {
+                    delay(1000L * mediaCheckRetries)
                     statusToSend.mediaProcessed.forEachIndexed { index, processed ->
                         if (!processed) {
                             // Mastodon returns 206 if the media was not yet processed
                             statusToSend.mediaProcessed[index] = mastodonApi.getMedia(statusToSend.mediaIds[index]).code() == 200
                         }
                     }
-                    if (statusToSend.mediaProcessed.any { !it }) {
-                        delay(1000)
-                    }
+                    mediaCheckRetries ++
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "failed getting media status", e)
