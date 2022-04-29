@@ -166,7 +166,6 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
-        android:textIsSelectable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_content_warning_button"
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_button"

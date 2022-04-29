@@ -57,7 +57,6 @@
         android:layout_weight="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
-        android:textIsSelectable="true"
         app:layout_constraintEnd_toStartOf="@id/barrierEnd"
         app:layout_constraintStart_toStartOf="@id/guideBegin"
         app:layout_constraintTop_toBottomOf="@id/statusContentWarningButton" />
