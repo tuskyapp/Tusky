@@ -335,7 +335,6 @@ class ComposeActivity :
                 maximumTootCharacters = instanceData.maxChars
                 charactersReservedPerUrl = instanceData.charactersReservedPerUrl
                 updateVisibleCharactersLeft()
-                binding.composeScheduleButton.visible(instanceData.supportsScheduled)
             }
             viewModel.emoji.observe { emoji -> setEmojiList(emoji) }
             combineLiveData(viewModel.markMediaAsSensitive, viewModel.showContentWarning) { markSensitive, showContentWarning ->
