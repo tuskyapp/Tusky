@@ -278,7 +278,6 @@
     <string name="send_post_notification_saved_content">En kopi av tootet er lagret i kladdene dine</string>
     <string name="action_compose_shortcut">Skriv</string>
     <string name="error_no_custom_emojis">Instansen %s har ingen egendefinerte emojis</string>
-    <string name="copy_to_clipboard_success">Kopiert til utklippstavlen</string>
     <string name="emoji_style">Emoji-stil</string>
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du må laste ned emoji-samlingene før de kan brukes</string>

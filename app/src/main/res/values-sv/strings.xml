@@ -297,7 +297,6 @@
     <string name="send_post_notification_saved_content">En kopia av tooten har sparats i dina utkast</string>
     <string name="action_compose_shortcut">Skriv</string>
     <string name="error_no_custom_emojis">Din instans %s har inga anpassade emojis</string>
-    <string name="copy_to_clipboard_success">Kopierat till urklipp</string>
     <string name="emoji_style">Emojis</string>
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du behöver ladda ned dessa emojis först</string>

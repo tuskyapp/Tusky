@@ -248,7 +248,6 @@
     <string name="send_post_notification_saved_content">A tülk másolatát elmentettük a piszkozataid közé</string>
     <string name="action_compose_shortcut">Szerkesztés</string>
     <string name="error_no_custom_emojis">A %s szervernek nincsenek egyedi emoji-jai</string>
-    <string name="copy_to_clipboard_success">Vágólapra másolva</string>
     <string name="emoji_style">Emoji stílus</string>
     <string name="system_default">Rendszer alapértelmezés</string>
     <string name="download_fonts">Először le kell töltened ezeket az emoji készleteket</string>

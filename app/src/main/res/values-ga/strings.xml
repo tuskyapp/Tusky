@@ -339,7 +339,6 @@
     <string name="send_post_notification_saved_content">Sábháladh cóip den tút ar do dhréachtaí</string>
     <string name="action_compose_shortcut">Cum</string>
     <string name="error_no_custom_emojis">Níl aon emojis saincheaptha ag do shampla %s</string>
-    <string name="copy_to_clipboard_success">Cóipeáladh chuig an gearrthaisce</string>
     <string name="emoji_style">Stíl Emoji</string>
     <string name="system_default">Réamhshocrú an chórais</string>
     <string name="download_fonts">Beidh ort na tacair emoji seo a íoslódáil ar dtús</string>

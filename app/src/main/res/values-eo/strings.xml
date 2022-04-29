@@ -299,7 +299,6 @@
     <string name="send_post_notification_saved_content">Kopio de la mesaĝo estis konservita en viaj malnetoj</string>
     <string name="action_compose_shortcut">Verki</string>
     <string name="error_no_custom_emojis">Via nodo %s ne havas proprajn emoĝiojn</string>
-    <string name="copy_to_clipboard_success">Kopiita en tondujo</string>
     <string name="emoji_style">Stilo de emoĝioj</string>
     <string name="system_default">Sistema valoro</string>
     <string name="download_fonts">Vi unue devos elŝuti ĉi tiujn emoĝiarojn</string>

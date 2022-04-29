@@ -304,7 +304,6 @@
     <string name="send_post_notification_saved_content">Una copia del toot s\'ha guardat a esborranys</string>
     <string name="action_compose_shortcut">Escriure</string>
     <string name="error_no_custom_emojis">La teva instància %s no te emojis personalitzats</string>
-    <string name="copy_to_clipboard_success">Copia al porta papers</string>
     <string name="emoji_style">Estil dels emojis</string>
     <string name="system_default">Sistema per defecte</string>
     <string name="download_fonts">Hauràs de descarregar el joc d\'emojis</string>

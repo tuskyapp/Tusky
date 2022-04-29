@@ -304,7 +304,6 @@
     <string name="send_post_notification_saved_content">Une copie du pouet a été sauvegardée dans vos brouillons</string>
     <string name="action_compose_shortcut">Écrire</string>
     <string name="error_no_custom_emojis">Votre instance %s n’a pas d’émojis personnalisés</string>
-    <string name="copy_to_clipboard_success">Copié dans le presse-papier</string>
     <string name="emoji_style">Style d’émojis</string>
     <string name="system_default">Par défaut du système</string>
     <string name="download_fonts">Vous devez commencer par télécharger ces jeux d’émojis</string>

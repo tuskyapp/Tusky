@@ -171,7 +171,6 @@
 \n https://tusky.app</string>
     <string name="action_accept">පිළිගන්න</string>
     <string name="abbreviated_in_hours">පැ. %d කින්</string>
-    <string name="copy_to_clipboard_success">පසුරුපුවරුවට පිටපත් විය</string>
     <string name="create_poll_title">මතවිමසුම</string>
     <string name="action_remove">ඉවත් කරන්න</string>
     <string name="action_add_media">මාධ්‍ය එකතු කරන්න</string>

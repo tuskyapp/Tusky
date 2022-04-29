@@ -430,7 +430,6 @@
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>
-    <string name="copy_to_clipboard_success">Đã chép vào clipboard</string>
     <string name="action_compose_shortcut">Viết</string>
     <string name="compose_save_draft">Lưu nháp\?</string>
     <string name="lock_account_label_description">Tự bạn sẽ phê duyệt người theo dõi</string>

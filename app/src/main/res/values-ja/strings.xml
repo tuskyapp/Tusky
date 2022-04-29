@@ -275,7 +275,6 @@
     <string name="send_post_notification_saved_content">トゥートのコピーが下書きに保存されました</string>
     <string name="action_compose_shortcut">新規投稿</string>
     <string name="error_no_custom_emojis">インスタンス %s にはカスタム絵文字がありません</string>
-    <string name="copy_to_clipboard_success">クリップボードにコピーされました</string>
     <string name="emoji_style">絵文字スタイル</string>
     <string name="system_default">システムのデフォルト</string>
     <string name="download_fonts">最初にこれらの絵文字セットをダウンロードする必要があります</string>

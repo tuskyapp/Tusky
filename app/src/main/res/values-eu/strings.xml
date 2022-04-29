@@ -253,7 +253,6 @@
     <string name="send_post_notification_saved_content">Tutaren kopia zirriborroetan sartu da</string>
     <string name="action_compose_shortcut">Idatzi</string>
     <string name="error_no_custom_emojis">%s instantziak ez ditu emoji pertsonalizatuak eskaintzen</string>
-    <string name="copy_to_clipboard_success">Arbelean kopiatua</string>
     <string name="emoji_style">Emojien estiloa</string>
     <string name="system_default">Sistema</string>
     <string name="download_fonts">Lehenago jaitsi beharko dituzu</string>

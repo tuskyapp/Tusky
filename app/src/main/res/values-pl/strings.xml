@@ -244,7 +244,6 @@
     <string name="send_post_notification_saved_content">Kopia wpisu została zapisana jako szkic</string>
     <string name="action_compose_shortcut">Nowy wpis</string>
     <string name="error_no_custom_emojis">Twoja instancja %s nie używa żadnych niestandardowych emoji</string>
-    <string name="copy_to_clipboard_success">Skopiowano do schowka</string>
     <string name="emoji_style">Styl emoji</string>
     <string name="system_default">Domyślny systemu</string>
     <string name="download_fonts">Musisz najpierw pobrać te zestawy emoji</string>

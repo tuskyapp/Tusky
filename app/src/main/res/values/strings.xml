@@ -411,7 +411,6 @@
     <string name="action_compose_shortcut">Compose</string>
 
     <string name="error_no_custom_emojis">Your instance %s does not have any custom emojis</string>
-    <string name="copy_to_clipboard_success">Copied to clipboard</string>
     <string name="emoji_style">Emoji style</string>
     <string name="system_default">System default</string>
     <string name="download_fonts">You\'ll need to download these emoji sets first</string>

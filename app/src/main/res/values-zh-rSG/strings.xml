@@ -302,7 +302,6 @@
     <string name="send_post_notification_saved_content">嘟文已保存为草稿</string>
     <string name="action_compose_shortcut">新嘟文</string>
     <string name="error_no_custom_emojis">当前实例 %s 没有自定义表情符号</string>
-    <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
     <string name="system_default">系统默认</string>
     <string name="download_fonts">需要下载表情符号数据</string>

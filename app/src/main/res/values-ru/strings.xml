@@ -324,7 +324,6 @@
     <string name="send_post_notification_saved_content">Копия поста сохранена в ваши черновики</string>
     <string name="action_compose_shortcut">Сочинить</string>
     <string name="error_no_custom_emojis">У вашего узла %s нет собственных эмодзи</string>
-    <string name="copy_to_clipboard_success">Скопировано в буфер обмена</string>
     <string name="emoji_style">Стиль эмодзи</string>
     <string name="system_default">Системный</string>
     <string name="download_fonts">Сперва эти наборы эмодзи нужно скачать</string>

@@ -298,7 +298,6 @@
     <string name="send_post_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
     <string name="action_compose_shortcut">حرر</string>
     <string name="error_no_custom_emojis">لا يحتوي مثيل خادومكم %s على أية حزمة إيموجي مخصصة</string>
-    <string name="copy_to_clipboard_success">تم نسخه إلى الحافظة</string>
     <string name="emoji_style">نوع الإيموجي</string>
     <string name="system_default">الإفتراضي في النظام</string>
     <string name="download_fonts">يجب عليك أولا تنزيل حزمة الإيموجي هذه</string>
