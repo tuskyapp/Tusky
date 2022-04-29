@@ -85,6 +85,9 @@ import com.keylesspalace.tusky.view.showMuteAccountDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.text.NumberFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -134,6 +137,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private lateinit var adapter: AccountPagerAdapter
+
+    private val rawDateParser by lazy { SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()) }
+    private val dateJoinedFormatter by lazy { SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -414,6 +420,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         updateToolbar()
         updateMovedAccount()
         updateRemoteAccount()
+        updateAccountJoinedDate()
         updateAccountStats()
         invalidateOptionsMenu()
 
@@ -421,6 +428,30 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             viewModel.unmuteAccount()
             updateMuteButton()
         }
+    }
+
+    private fun updateAccountJoinedDate() {
+        loadedAccount?.let { account ->
+            val rawParsedDate = try {
+                rawDateParser.parse(account.createdAt)
+            } catch (e: ParseException) {
+                hideDateJoinedField()
+                return
+            }
+
+            // Unfortunately, SimpleDateFormat can parse to null in rare instances w/out throwing a ParseException...
+            if (rawParsedDate == null) {
+                hideDateJoinedField()
+                return
+            }
+
+            binding.accountDateJoined.text = resources.getString(R.string.account_date_joined, dateJoinedFormatter.format(rawParsedDate))
+            binding.accountDateJoined.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideDateJoinedField() {
+        binding.accountDateJoined.visibility = View.GONE
     }
 
     /**
