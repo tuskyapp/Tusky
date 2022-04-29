@@ -413,7 +413,7 @@
     <string name="license_description">Tusky có sử dụng mã nguồn từ những dự án mã nguồn mở sau:</string>
     <string name="unreblog_private">Hủy đăng lại</string>
     <string name="reblog_private">Đăng lại công khai</string>
-    <string name="account_moved_description">%1$s đã dời sang:</string>
+    <string name="account_moved_description">%1$s đã chuyển sang:</string>
     <string name="profile_badge_bot_text">Tài khoản Bot</string>
     <string name="download_failed">Tải về thất bại</string>
     <string name="caption_notoemoji">Emoji của Google</string>

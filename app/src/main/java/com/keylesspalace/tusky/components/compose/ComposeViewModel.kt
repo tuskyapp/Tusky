@@ -251,13 +251,15 @@ class ComposeViewModel @Inject constructor(
         val sendObservable = media
             .filter { items -> items.all { it.uploadPercent == -1 } }
             .map {
-                val mediaIds = ArrayList<String>()
-                val mediaUris = ArrayList<Uri>()
-                val mediaDescriptions = ArrayList<String>()
+                val mediaIds: MutableList<String> = mutableListOf()
+                val mediaUris: MutableList<Uri> = mutableListOf()
+                val mediaDescriptions: MutableList<String> = mutableListOf()
+                val mediaProcessed: MutableList<Boolean> = mutableListOf()
                 for (item in media.value!!) {
                     mediaIds.add(item.id!!)
                     mediaUris.add(item.uri)
                     mediaDescriptions.add(item.description ?: "")
+                    mediaProcessed.add(false)
                 }
 
                 val tootToSend = StatusToSend(
@@ -276,7 +278,8 @@ class ComposeViewModel @Inject constructor(
                     accountId = accountManager.activeAccount!!.id,
                     draftId = draftId,
                     idempotencyKey = randomAlphanumericString(16),
-                    retries = 0
+                    retries = 0,
+                    mediaProcessed = mediaProcessed
                 )
 
                 serviceClient.sendToot(tootToSend)

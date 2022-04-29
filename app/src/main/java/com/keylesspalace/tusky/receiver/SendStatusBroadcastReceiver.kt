@@ -100,7 +100,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         accountId = account.id,
                         draftId = -1,
                         idempotencyKey = randomAlphanumericString(16),
-                        retries = 0
+                        retries = 0,
+                        mediaProcessed = mutableListOf()
                     )
                 )
 

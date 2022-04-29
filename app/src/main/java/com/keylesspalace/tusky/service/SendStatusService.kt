@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
@@ -29,13 +30,12 @@ import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.HttpException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -55,7 +55,7 @@ class SendStatusService : Service(), Injectable {
     private val serviceScope = CoroutineScope(Dispatchers.Main + supervisorJob)
 
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
-    private val sendCalls = ConcurrentHashMap<Int, Call<Status>>()
+    private val sendJobs = ConcurrentHashMap<Int, Job>()
 
     private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
@@ -64,12 +64,9 @@ class SendStatusService : Service(), Injectable {
         super.onCreate()
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-
         if (intent.hasExtra(KEY_STATUS)) {
             val statusToSend = intent.getParcelableExtra<StatusToSend>(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
@@ -129,82 +126,94 @@ class SendStatusService : Service(), Injectable {
 
         statusToSend.retries++
 
-        val newStatus = NewStatus(
-            statusToSend.text,
-            statusToSend.warningText,
-            statusToSend.inReplyToId,
-            statusToSend.visibility,
-            statusToSend.sensitive,
-            statusToSend.mediaIds,
-            statusToSend.scheduledAt,
-            statusToSend.poll
-        )
+        sendJobs[statusId] = serviceScope.launch {
+            try {
+                var mediaCheckRetries = 0
+                while (statusToSend.mediaProcessed.any { !it }) {
+                    delay(1000L * mediaCheckRetries)
+                    statusToSend.mediaProcessed.forEachIndexed { index, processed ->
+                        if (!processed) {
+                            // Mastodon returns 206 if the media was not yet processed
+                            statusToSend.mediaProcessed[index] = mastodonApi.getMedia(statusToSend.mediaIds[index]).code() == 200
+                        }
+                    }
+                    mediaCheckRetries ++
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "failed getting media status", e)
+                retrySending(statusId)
+                return@launch
+            }
 
-        val sendCall = mastodonApi.createStatus(
-            "Bearer " + account.accessToken,
-            account.domain,
-            statusToSend.idempotencyKey,
-            newStatus
-        )
+            val newStatus = NewStatus(
+                statusToSend.text,
+                statusToSend.warningText,
+                statusToSend.inReplyToId,
+                statusToSend.visibility,
+                statusToSend.sensitive,
+                statusToSend.mediaIds,
+                statusToSend.scheduledAt,
+                statusToSend.poll
+            )
 
-        sendCalls[statusId] = sendCall
+            mastodonApi.createStatus(
+                "Bearer " + account.accessToken,
+                account.domain,
+                statusToSend.idempotencyKey,
+                newStatus
+            ).fold({ sentStatus ->
+                statusesToSend.remove(statusId)
+                // If the status was loaded from a draft, delete the draft and associated media files.
+                if (statusToSend.draftId != 0) {
+                    draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
+                }
 
-        val callback = object : Callback<Status> {
-            override fun onResponse(call: Call<Status>, response: Response<Status>) {
-                serviceScope.launch {
+                val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
 
-                    val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
+                if (scheduled) {
+                    eventHub.dispatch(StatusScheduledEvent(sentStatus))
+                } else {
+                    eventHub.dispatch(StatusComposedEvent(sentStatus))
+                }
+
+                notificationManager.cancel(statusId)
+            }, { throwable ->
+                Log.w(TAG, "failed sending status", throwable)
+                if (throwable is HttpException) {
+                    // the server refused to accept the status, save status & show error message
                     statusesToSend.remove(statusId)
+                    saveStatusToDrafts(statusToSend)
 
-                    if (response.isSuccessful) {
-                        // If the status was loaded from a draft, delete the draft and associated media files.
-                        if (statusToSend.draftId != 0) {
-                            draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
-                        }
-
-                        if (scheduled) {
-                            response.body()?.let(::StatusScheduledEvent)?.let(eventHub::dispatch)
-                        } else {
-                            response.body()?.let(::StatusComposedEvent)?.let(eventHub::dispatch)
-                        }
-
-                        notificationManager.cancel(statusId)
-                    } else {
-                        // the server refused to accept the status, save status & show error message
-                        saveStatusToDrafts(statusToSend)
-
-                        val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_notify)
-                            .setContentTitle(getString(R.string.send_post_notification_error_title))
-                            .setContentText(getString(R.string.send_post_notification_saved_content))
-                            .setColor(
-                                ContextCompat.getColor(
-                                    this@SendStatusService,
-                                    R.color.notification_color
-                                )
+                    val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_notify)
+                        .setContentTitle(getString(R.string.send_post_notification_error_title))
+                        .setContentText(getString(R.string.send_post_notification_saved_content))
+                        .setColor(
+                            ContextCompat.getColor(
+                                this@SendStatusService,
+                                R.color.notification_color
                             )
+                        )
 
-                        notificationManager.cancel(statusId)
-                        notificationManager.notify(errorNotificationId--, builder.build())
-                    }
-                    stopSelfWhenDone()
+                    notificationManager.cancel(statusId)
+                    notificationManager.notify(errorNotificationId--, builder.build())
+                } else {
+                    // a network problem occurred, let's retry sending the status
+                    retrySending(statusId)
                 }
-            }
-
-            override fun onFailure(call: Call<Status>, t: Throwable) {
-                serviceScope.launch {
-                    var backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong())
-                    if (backoff > MAX_RETRY_INTERVAL) {
-                        backoff = MAX_RETRY_INTERVAL
-                    }
-
-                    delay(backoff)
-                    sendStatus(statusId)
-                }
-            }
+            })
+            stopSelfWhenDone()
         }
+    }
 
-        sendCall.enqueue(callback)
+    private suspend fun retrySending(statusId: Int) {
+        // when statusToSend == null, sending has been canceled
+        val statusToSend = statusesToSend[statusId] ?: return
+
+        val backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong()).coerceAtMost(MAX_RETRY_INTERVAL)
+
+        delay(backoff)
+        sendStatus(statusId)
     }
 
     private fun stopSelfWhenDone() {
@@ -218,8 +227,8 @@ class SendStatusService : Service(), Injectable {
     private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
-            val sendCall = sendCalls.remove(statusId)
-            sendCall?.cancel()
+            val sendJob = sendJobs.remove(statusId)
+            sendJob?.cancel()
 
             saveStatusToDrafts(statusToCancel)
 
@@ -263,6 +272,7 @@ class SendStatusService : Service(), Injectable {
     }
 
     companion object {
+        private const val TAG = "SendStatusService"
 
         private const val KEY_STATUS = "status"
         private const val KEY_CANCEL = "cancel_id"
@@ -319,5 +329,6 @@ data class StatusToSend(
     val accountId: Long,
     val draftId: Int,
     val idempotencyKey: String,
-    var retries: Int
+    var retries: Int,
+    val mediaProcessed: MutableList<Boolean>
 ) : Parcelable
