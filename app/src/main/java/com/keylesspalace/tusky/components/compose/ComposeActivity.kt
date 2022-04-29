@@ -51,6 +51,7 @@ import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -345,14 +346,17 @@ class ComposeActivity :
             viewModel.statusVisibility.observe { visibility ->
                 setStatusVisibility(visibility)
             }
-            viewModel.media.observe { media ->
-                mediaAdapter.submitList(media)
-                if (media.size != mediaCount) {
-                    mediaCount = media.size
-                    binding.composeMediaPreviewBar.visible(media.isNotEmpty())
-                    updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
+            lifecycleScope.launch {
+                viewModel.media.collect { media ->
+                    mediaAdapter.submitList(media)
+                    if (media.size != mediaCount) {
+                        mediaCount = media.size
+                        binding.composeMediaPreviewBar.visible(media.isNotEmpty())
+                        updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
+                    }
                 }
             }
+
             viewModel.poll.observe { poll ->
                 binding.pollPreview.visible(poll != null)
                 poll?.let(binding.pollPreview::setPoll)
@@ -365,7 +369,7 @@ class ComposeActivity :
                 }
                 updateScheduleButton()
             }
-            combineOptionalLiveData(viewModel.media, viewModel.poll) { media, poll ->
+            combineOptionalLiveData(viewModel.media.asLiveData(), viewModel.poll) { media, poll ->
                 val active = poll == null &&
                     media!!.size != 4 &&
                     (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
@@ -782,11 +786,11 @@ class ComposeActivity :
             spoilerText = binding.composeContentWarningField.text.toString()
         }
         val characterCount = calculateTextLength()
-        if ((characterCount <= 0 || contentText.isBlank()) && viewModel.media.value!!.isEmpty()) {
+        if ((characterCount <= 0 || contentText.isBlank()) && viewModel.media.value.isEmpty()) {
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true)
         } else if (characterCount <= maximumTootCharacters) {
-            if (viewModel.media.value!!.isNotEmpty()) {
+            if (viewModel.media.value.isNotEmpty()) {
                 finishingUploadDialog = ProgressDialog.show(
                     this, getString(R.string.dialog_title_finishing_media_upload),
                     getString(R.string.dialog_message_uploading_media), true, true
@@ -984,7 +988,7 @@ class ComposeActivity :
     }
 
     data class QueuedMedia(
-        val localId: Long,
+        val localId: Int,
         val uri: Uri,
         val type: Type,
         val mediaSize: Long,
