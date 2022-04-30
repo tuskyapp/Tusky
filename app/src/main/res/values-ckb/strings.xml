@@ -23,7 +23,7 @@
     <string name="title_hashtags_dialog">هاشتاگی</string>
     <string name="action_open_faved_by">پیشاندانی دڵخوازەکان</string>
     <string name="action_open_reblogged_by">پیشاندانی بەهێزکردنەکان</string>
-    <string name="action_open_reblogger">کردنەوەی بەهێزکردنی نووسەر</string>
+    <string name="action_open_reblogger">پۆستکەرەوەکە ببینە</string>
     <string name="action_hashtags">هاشتاگ</string>
     <string name="action_mentions">ئاماژەکان</string>
     <string name="action_links">بەستەرەکان</string>
@@ -57,14 +57,14 @@
     <string name="action_photo_take">وێنە بگرە</string>
     <string name="action_add_poll">زیادکردنی ڕاپرسی</string>
     <string name="action_add_media">زیادکردنی میدیا</string>
-    <string name="action_open_in_web">کردنەوە لە وێبگەڕ</string>
+    <string name="action_open_in_web">لە وێبگەڕ بیکەوە</string>
     <string name="action_view_media">میدیا</string>
     <string name="action_view_follow_requests">بەدواداچونی داواکاریەکان بکە</string>
     <string name="action_view_domain_mutes">دۆمەینە شاراوەکان</string>
     <string name="action_view_blocks">بەکارهێنەرە بلۆککراوەکان</string>
     <string name="action_view_mutes">بەکارهێنەرە گۆڕاوەکان</string>
     <string name="action_view_bookmarks">نیشانەکان</string>
-    <string name="action_view_favourites">دڵخوازەکان</string>
+    <string name="action_view_favourites">بەدڵبوونەکان</string>
     <string name="action_view_account_preferences">پەسەندکراوەکانی ئەژمێر</string>
     <string name="action_view_preferences">پەسەندەکان</string>
     <string name="action_view_profile">پرۆفایل</string>
@@ -76,12 +76,12 @@
     <string name="action_delete">سڕینەوە</string>
     <string name="action_edit">دەستکاری</string>
     <string name="action_report">گوزارشەکان</string>
-    <string name="action_show_reblogs">پیشاندانی بەهێزکردنەکان</string>
+    <string name="action_show_reblogs">پۆستکردنەوەکان نیشان بدە</string>
     <string name="action_hide_reblogs">شاردنەوەی بەهێزکردنەکان</string>
     <string name="action_unblock">بەربەست کردن لاببە</string>
     <string name="action_block">بلۆک</string>
     <string name="action_unfollow">بەدوادانەچو</string>
-    <string name="action_follow">بەدواداکەوتن</string>
+    <string name="action_follow">شوێنی بکەوە</string>
     <string name="action_logout_confirm">ئایا دڵنیایت لەوەی دەتەوێت بچیتەدەرەوە لە هەژماری %1$s؟</string>
     <string name="action_logout">چوونەدەرەوە</string>
     <string name="action_login">چوونەژوورەوە لەگەڵ ماستۆدۆن</string>
@@ -90,7 +90,7 @@
     <string name="action_unfavourite">لابردنی دڵخوازەکان</string>
     <string name="action_bookmark">نیشانه</string>
     <string name="action_favourite">دڵخواز</string>
-    <string name="action_unreblog">لابردنی بەهێزکردن</string>
+    <string name="action_unreblog">پۆستکردنەوەکە بگەڕێنەوە</string>
     <string name="action_reblog">بەهێزکردن</string>
     <string name="action_reply">وەڵام</string>
     <string name="action_quick_reply">وەڵامدانەوەی خێرا</string>
@@ -110,7 +110,7 @@
     <string name="post_sensitive_media_directions">کرتە بکە بۆ بینین</string>
     <string name="post_media_hidden_title">میدیا شاراوە</string>
     <string name="post_sensitive_media_title">ناوەڕۆکی هەستیار</string>
-    <string name="post_boosted_format">%s بەرزکرا</string>
+    <string name="post_boosted_format">%s پۆستی کردەوە</string>
     <string name="post_username_format">\@%s</string>
     <string name="title_licenses">مۆڵەتەکان</string>
     <string name="title_announcements">ڕاگه یه نراوەکان</string>
@@ -122,11 +122,11 @@
     <string name="title_mutes">بەکارهێنەرە بێدەنگ</string>
     <string name="title_bookmarks">نیشانەکان</string>
     <string name="title_favourites">دڵخوازەکان</string>
-    <string name="title_followers">شوێنکەوتوان</string>
+    <string name="title_followers">شوێنکەوتوو</string>
     <string name="title_follows">شوێنکەوتنەکان</string>
     <string name="title_posts_pinned">چەسپا</string>
     <string name="title_posts_with_replies">لەگەڵ وەڵامەکان</string>
-    <string name="title_posts">بابەتەکان</string>
+    <string name="title_posts">پۆست</string>
     <string name="title_view_thread">زنجیرە</string>
     <string name="title_tab_preferences">سەرخشتەکان</string>
     <string name="title_direct_messages">نامە ڕاستەوخۆکان</string>
@@ -249,7 +249,7 @@
 \n
 \nکارتێکردنی ئاگانامەکانی پاڵپێوەنان، بەڵام دەتوانیت بە پەسەندکردنە ئاگانامەکانت دا بخشێنیەوە بە دەستی.</string>
     <string name="account_note_saved">ڕزگارکرا</string>
-    <string name="account_note_hint">تێبینی تایبەتی تۆ دەربارەی ئەم ئەژمێرە</string>
+    <string name="account_note_hint">تێبینیی تایبەتیت بۆ ئەم هەژمارە</string>
     <string name="pref_title_wellbeing_mode">Wellbeing</string>
     <string name="pref_title_hide_top_toolbar">شاردنەوەی ناونیشانی شریتی ئامڕازی سەرەوە</string>
     <string name="pref_title_confirm_reblogs">پیشاندانی دیالۆگی دووپاتکردنەوە پێش بەهێزکردن</string>
@@ -294,7 +294,7 @@
     <string name="poll_ended_created">ڕاپرسییەک کە دروستت کردووە کۆتایی هات</string>
     <string name="poll_ended_voted">ڕاپرسییەک کە دەنگی پێداویت کۆتایی هات</string>
     <string name="poll_vote">دەنگ</string>
-    <string name="poll_info_closed">داخراوە</string>
+    <string name="poll_info_closed">کۆتایی هاتووە</string>
     <string name="poll_info_time_absolute">کۆتایی دێت لە %s</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s کەس</item>
@@ -336,10 +336,10 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="title_favourited_by">پەسەندکراوە لەلایەن</string>
-    <string name="title_reblogged_by">بەرزکراوە لەلایەن</string>
+    <string name="title_reblogged_by">پۆست کراوەتەوە لەلایەن</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> بەهێزکردن</item>
-        <item quantity="other"><b>%s</b> بەهێزکردن</item>
+        <item quantity="one"><b>%s</b> پۆستکردنەوە</item>
+        <item quantity="other"><b>%s</b> پۆستکردنەوە</item>
     </plurals>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> دڵخواز</item>
