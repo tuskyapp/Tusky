@@ -172,7 +172,7 @@ class TimelineFragment :
         setupRecyclerView()
 
         adapter.addLoadStateListener { loadState ->
-            if (loadState.refresh != LoadState.Loading) {
+            if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
             }
 
