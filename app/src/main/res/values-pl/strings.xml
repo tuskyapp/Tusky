@@ -519,7 +519,7 @@
     <string name="pref_title_notification_filter_subscriptions">ktoś kogo zasubskrybowałem/zasubskrybowałam opublikował nowy wpis</string>
     <string name="pref_title_notification_filter_follow_requests">Wysłano prośbę o obserwowanie</string>
     <string name="title_announcements">Ogłoszenia</string>
-    <string name="pref_title_wellbeing_mode">Samopoczucie</string>
+    <string name="pref_title_wellbeing_mode">Zdrowie</string>
     <string name="action_unsubscribe_account">Anuluj subskrypcję</string>
     <string name="action_subscribe_account">Zasubskrybuj</string>
     <string name="follow_requests_info">Mimo tego, że twoje konto nie jest zablokowane, administracja %1$s uznała, że możesz chcieć ręcznie przejrzeć te prośby o możliwość śledzenia od tych kont.</string>
@@ -530,7 +530,7 @@
     <string name="review_notifications">Przejrzyj powiadomienia</string>
     <string name="account_note_saved">Zapisano!</string>
     <string name="account_note_hint">Twoja prywatna notatka o tym koncie</string>
-    <string name="duration_indefinite">Czas nieokreślony</string>
+    <string name="duration_indefinite">Nieskończona</string>
     <string name="post_media_audio">Dźwięk</string>
     <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
@@ -549,4 +549,13 @@
     <string name="duration_180_days">180 dni</string>
     <string name="duration_365_days">365 dni</string>
     <string name="tusky_compose_post_quicksetting_label">Utwórz wpis</string>
+    <string name="title_login">Login</string>
+    <string name="notification_sign_up_format">%s zarejestrował(a) się</string>
+    <string name="notification_sign_up_name">Rejestracje</string>
+    <string name="notification_sign_up_description">Powiadomienia o nowych użytkownikach</string>
+    <string name="notification_update_description">Powiadomienia o edycji wpisów z którymi interaktowałeś/aś</string>
+    <string name="pref_title_notification_filter_sign_ups">ktoś zarejestrował się</string>
+    <string name="pref_title_notification_filter_updates">wpis, z którym interaktowałem/am został edytowany</string>
+    <string name="notification_update_format">%s edytował(a) swój wpis</string>
+    <string name="notification_update_name">Edycje wpisów</string>
 </resources>
