@@ -26,7 +26,7 @@ import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
-import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
 import com.keylesspalace.tusky.util.getImageSquarePixels
@@ -75,7 +75,7 @@ class CouldNotOpenFileException : Exception()
 
 class MediaUploader @Inject constructor(
     private val context: Context,
-    private val mastodonApi: MastodonApi
+    private val mediaUploadApi: MediaUploadApi
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -222,7 +222,7 @@ class MediaUploader @Inject constructor(
                 null
             }
 
-            val result = mastodonApi.uploadMedia(body, description).getOrThrow()
+            val result = mediaUploadApi.uploadMedia(body, description).getOrThrow()
             send(UploadEvent.FinishedEvent(result.id))
             awaitClose()
         }
