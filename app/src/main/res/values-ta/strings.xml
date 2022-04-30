@@ -231,7 +231,6 @@
     <string name="send_post_notification_saved_content">நகலெடுக்கபட்ட toot வரைவில் சேமிக்கபட்டது</string>
     <string name="action_compose_shortcut">எழுது</string>
     <string name="error_no_custom_emojis">தங்கள் %s instance(களம்)-ல் எந்தவொரு custom emojis-ம் இல்லை </string>
-    <string name="copy_to_clipboard_success">பிடிப்புப்பலகையில் நகலெடுக்க</string>
     <string name="emoji_style">Emoji பாணி</string>
     <string name="system_default">அமைப்பின் இயல்புநிலை</string>
     <string name="download_fonts">தாங்கள் முதலில் இந்த Emoji sets-னை பதிவிறக்கவேண்டும்</string>

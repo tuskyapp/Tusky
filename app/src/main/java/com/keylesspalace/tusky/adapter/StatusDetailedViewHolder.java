@@ -1,13 +1,10 @@
 package com.keylesspalace.tusky.adapter;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -119,19 +116,6 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             setApplication(status.getActionable().getApplication());
 
-            View.OnLongClickListener longClickListener = view -> {
-                TextView textView = (TextView) view;
-                ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("toot", textView.getText());
-                clipboard.setPrimaryClip(clip);
-
-                Toast.makeText(view.getContext(), R.string.copy_to_clipboard_success, Toast.LENGTH_SHORT).show();
-
-                return true;
-            };
-
-            content.setOnLongClickListener(longClickListener);
-            contentWarningDescription.setOnLongClickListener(longClickListener);
             setStatusVisibility(status.getActionable().getVisibility());
         }
     }

@@ -261,7 +261,6 @@
     <string name="send_post_notification_saved_content">Tootun bir kopyası taslaklara kaydedildi</string>
     <string name="action_compose_shortcut">Oluştur</string>
     <string name="error_no_custom_emojis">%s örneğinizin herhangi bir özel ifadesi yok</string>
-    <string name="copy_to_clipboard_success">Panoya kopyalandı</string>
     <string name="emoji_style">İfade stili</string>
     <string name="system_default">Sistem varsayılanı</string>
     <string name="download_fonts">Önce bu ifade paketini indirmeniz gerekecek</string>

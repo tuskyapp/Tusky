@@ -239,7 +239,6 @@
     <string name="download_fonts">Feumaidh tu na seataichean seo de dh’Emojis a luchdadh a-nuas an toiseach</string>
     <string name="system_default">Bun-roghainn an t-siostaim</string>
     <string name="emoji_style">Stoidhle nan Emojis</string>
-    <string name="copy_to_clipboard_success">Chaidh lethbhreac dheth a chur air an stòr-bhòrd</string>
     <string name="error_no_custom_emojis">Chan eil Emojis gnàthaichte aig an ionstans %s agad</string>
     <string name="send_post_notification_saved_content">Chaidh lethbhreac dhen phost agad a shàbhaladh ’na dhreachd</string>
     <string name="send_post_notification_cancel_title">Chaidh sgur dhen chur</string>

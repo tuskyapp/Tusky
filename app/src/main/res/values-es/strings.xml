@@ -269,7 +269,6 @@
     <string name="send_post_notification_saved_content">Una copia del estado se ha guardado en borradores</string>
     <string name="action_compose_shortcut">Redactar</string>
     <string name="error_no_custom_emojis">Su instancia %s no ofrece emojis personalizados</string>
-    <string name="copy_to_clipboard_success">Copiado al portapapeles</string>
     <string name="emoji_style">Estilo de los emojis</string>
     <string name="system_default">Sistema</string>
     <string name="download_fonts">Tendrás que descargarlos primero</string>

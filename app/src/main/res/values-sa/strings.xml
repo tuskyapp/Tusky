@@ -317,7 +317,6 @@
     <string name="download_fonts">प्राक्तु भावचिह्नसमूहोऽयमवारोप्यः</string>
     <string name="system_default">प्रणाल्यां पूर्वनिविष्टम्</string>
     <string name="emoji_style">भावचिह्नशैली</string>
-    <string name="copy_to_clipboard_success">अंशफलकेऽनुसृतम्</string>
     <string name="error_no_custom_emojis">भवदीयं विशिष्टस्थलं %s स्वीयानुकूलभावचिह्नरहितं वर्तते</string>
     <string name="action_compose_shortcut">लिख्यताम्</string>
     <string name="send_post_notification_saved_content">दौत्यप्रतिलिपिस्तत्र विकर्षेसु रक्षिता</string>

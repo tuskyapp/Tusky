@@ -277,7 +277,6 @@
     <string name="send_post_notification_saved_content">Een kopie van de toot werd opgeslagen als concept</string>
     <string name="action_compose_shortcut">Toot schrijven</string>
     <string name="error_no_custom_emojis">Jouw server %s heeft geen lokale emojis</string>
-    <string name="copy_to_clipboard_success">Naar het klembord gekopieerd</string>
     <string name="emoji_style">Emojistijl</string>
     <string name="system_default">Systeemstandaard</string>
     <string name="download_fonts">Je moet eerst deze emoji-sets downloaden</string>

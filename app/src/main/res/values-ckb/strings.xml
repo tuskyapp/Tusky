@@ -375,7 +375,6 @@
     <string name="download_fonts">تۆ پێویستە سەرەتا ئەم سێتە ئیمۆجییانە دابگریت</string>
     <string name="system_default">سیستەمی بنەڕەت</string>
     <string name="emoji_style">شێوازی ئیمۆجی</string>
-    <string name="copy_to_clipboard_success">ڕوونووسکراوە بۆ کلیپ بۆرد</string>
     <string name="error_no_custom_emojis">نموونەکەت %s هیچ ئیمۆجییەکی ئاسایی نییە</string>
     <string name="action_compose_shortcut">دروستکردن</string>
     <string name="send_post_notification_saved_content">کۆپیەکی دەستنووسەکە خەزن کراوە بۆ ڕەشنووسەکانت</string>

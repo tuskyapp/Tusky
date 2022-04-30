@@ -123,7 +123,6 @@
     <string name="performing_lookup_title">Извършва се търсене…</string>
     <string name="system_default">По подразбиране от системата</string>
     <string name="emoji_style">Стил на емоджи</string>
-    <string name="copy_to_clipboard_success">Копирано в клипборда</string>
     <string name="error_no_custom_emojis">Инстанцията ви %s няма персонализирани емоджита</string>
     <string name="action_compose_shortcut">Композиране</string>
     <string name="send_post_notification_saved_content">Копие от публикацията е запазено във вашите чернови</string>

@@ -181,7 +181,6 @@
     <string name="download_fonts">Спочатку потрібно буде завантажити ці набори емодзі</string>
     <string name="system_default">Типовий системний</string>
     <string name="emoji_style">Стиль емодзі</string>
-    <string name="copy_to_clipboard_success">Скопійовано до буфера обміну</string>
     <string name="error_no_custom_emojis">Ваш сервер %s не має власних емодзі</string>
     <string name="compose_save_draft">Зберегти чернетку\?</string>
     <string name="lock_account_label_description">Вимагає затвердження підписників власноруч</string>

@@ -248,7 +248,6 @@
     <string name="send_post_notification_saved_content">رونوشتی از بوق در پیش‌نویس‌هایتان ذخیره شد</string>
     <string name="action_compose_shortcut">ایجاد</string>
     <string name="error_no_custom_emojis">نمونه‌تان %s هیچ اموجی سفارشی‌ای ندارد</string>
-    <string name="copy_to_clipboard_success">در تخته‌گیره رونوشت شد</string>
     <string name="emoji_style">سبک اموجی</string>
     <string name="system_default">پیش‌گزیدهٔ سامانه</string>
     <string name="download_fonts">نخست باید این مجموعه‌های اموجی را بارگیری کنید</string>

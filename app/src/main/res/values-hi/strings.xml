@@ -306,7 +306,6 @@
     <string name="later">बाद में</string>
     <string name="restart_required">एप्लिकेशन को पुनः आरंभ की आवश्यकता है</string>
     <string name="download_fonts">आपको पहले इस इमोजी सेट को डाउनलोड करना होगा</string>
-    <string name="copy_to_clipboard_success">क्लिपबोर्ड पर कॉपी किया गया</string>
     <string name="action_compose_shortcut">लिखें</string>
     <string name="send_post_notification_saved_content">टूट की एक प्रति आपके ड्राफ्ट में सहेज ली गई है</string>
     <string name="send_post_notification_error_title">टूट भेजने में त्रुटि</string>

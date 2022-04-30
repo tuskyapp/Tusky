@@ -304,7 +304,6 @@
     <string name="send_post_notification_saved_content">嘟文已儲存為草稿</string>
     <string name="action_compose_shortcut">發表新嘟文</string>
     <string name="error_no_custom_emojis">當前站點 %s 沒有自訂表情符號</string>
-    <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
     <string name="emoji_style">表情符號風格</string>
     <string name="system_default">系統預設</string>
     <string name="download_fonts">你需要先下載這些表情符號包</string>

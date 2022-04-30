@@ -251,7 +251,6 @@
     <string name="send_post_notification_saved_content">Cadwyd copi o\'r tŵt i\'ch drafftiau </string>
     <string name="action_compose_shortcut">Creu</string>
     <string name="error_no_custom_emojis">Nid oes gan eich achos %s emoji bersonol</string>
-    <string name="copy_to_clipboard_success">Copïwyd i\'r clipfwrdd</string>
     <string name="emoji_style">Arddull emoji</string>
     <string name="system_default">Rhagosodiad system</string>
     <string name="download_fonts">Bydd angen i chi lawrlwytho\'r setiau emoji hyn yn gyntaf </string>
