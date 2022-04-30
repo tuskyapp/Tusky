@@ -329,7 +329,7 @@
     <string name="abbreviated_in_hours">an ceann %du</string>
     <string name="abbreviated_in_days">an ceann %dl</string>
     <string name="abbreviated_in_years">an ceann %db</string>
-    <string name="state_follow_requested">Iarrar leantainn orm</string>
+    <string name="state_follow_requested">Iarrtas leantainn air</string>
     <string name="post_media_video">Videothan</string>
     <string name="post_media_images">Dealbhan</string>
     <string name="about_tusky_account">Pròifil Tusky</string>
@@ -555,4 +555,5 @@
     <string name="notification_update_name">Deasachadh puist</string>
     <string name="notification_update_description">Brathan nuair a thèid postaichean a rinn thu conaltradh leotha a dheasachadh</string>
     <string name="pref_title_notification_filter_updates">chaidh post a rinn mi conaltradh leis a deasachadh</string>
+    <string name="title_login">Clàraich a-steach</string>
 </resources>
