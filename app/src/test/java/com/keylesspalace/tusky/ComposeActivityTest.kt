@@ -47,6 +47,8 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Created by charlag on 3/7/18.
@@ -470,7 +472,7 @@ class ComposeActivityTest {
                 localUsername = "admin",
                 username = "admin",
                 displayName = "admin",
-                createdAt = "",
+                createdAt = Date(),
                 note = "",
                 url = "https://example.token",
                 avatar = "",

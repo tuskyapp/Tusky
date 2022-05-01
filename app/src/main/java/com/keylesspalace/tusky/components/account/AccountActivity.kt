@@ -138,7 +138,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private lateinit var adapter: AccountPagerAdapter
 
-    private val rawDateParser by lazy { SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()) }
     private val dateJoinedFormatter by lazy { SimpleDateFormat("MMM, yyyy", Locale.getDefault()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -432,26 +431,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun updateAccountJoinedDate() {
         loadedAccount?.let { account ->
-            val rawParsedDate = try {
-                rawDateParser.parse(account.createdAt)
+            try {
+                binding.accountDateJoined.text = resources.getString(
+                    R.string.account_date_joined,
+                    dateJoinedFormatter.format(account.createdAt)
+                )
+                binding.accountDateJoined.visibility = View.VISIBLE
             } catch (e: ParseException) {
-                hideDateJoinedField()
-                return
+                binding.accountDateJoined.visibility = View.GONE
             }
-
-            // Unfortunately, SimpleDateFormat can parse to null in rare instances w/out throwing a ParseException...
-            if (rawParsedDate == null) {
-                hideDateJoinedField()
-                return
-            }
-
-            binding.accountDateJoined.text = resources.getString(R.string.account_date_joined, dateJoinedFormatter.format(rawParsedDate))
-            binding.accountDateJoined.visibility = View.VISIBLE
         }
-    }
-
-    private fun hideDateJoinedField() {
-        binding.accountDateJoined.visibility = View.GONE
     }
 
     /**
