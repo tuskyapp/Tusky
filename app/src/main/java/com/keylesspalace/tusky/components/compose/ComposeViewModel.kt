@@ -127,15 +127,16 @@ class ComposeViewModel @Inject constructor(
         mediaSize: Long,
         description: String? = null
     ): QueuedMedia {
-        // running on main dispatcher to avoid race condition when adding multiple media at once, e.g. when restoring from drafts
-        val mediaItem = QueuedMedia(
-            localId = (media.value.maxOfOrNull { it.localId } ?: 0) + 1,
-            uri = uri,
-            type = type,
-            mediaSize = mediaSize,
-            description = description
-        )
-        media.update { mediaValue -> mediaValue + mediaItem }
+        val mediaItem = media.updateAndGet { mediaValue ->
+            val mediaItem = QueuedMedia(
+                localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
+                uri = uri,
+                type = type,
+                mediaSize = mediaSize,
+                description = description
+            )
+            mediaValue + mediaItem
+        }.last()
         mediaToJob[mediaItem.localId] = viewModelScope.launch {
             mediaUploader
                 .uploadMedia(mediaItem)
@@ -167,16 +168,18 @@ class ComposeViewModel @Inject constructor(
     }
 
     private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
-        val mediaItem = QueuedMedia(
-            localId = (media.value.maxOfOrNull { it.localId } ?: 0) + 1,
-            uri = uri,
-            type = type,
-            mediaSize = 0,
-            uploadPercent = -1,
-            id = id,
-            description = description
-        )
-        media.update { mediaValue -> mediaValue + mediaItem }
+        media.update { mediaValue ->
+            val mediaItem = QueuedMedia(
+                localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
+                uri = uri,
+                type = type,
+                mediaSize = 0,
+                uploadPercent = -1,
+                id = id,
+                description = description
+            )
+            mediaValue + mediaItem
+        }
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
