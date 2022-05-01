@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Receba notificações quando um utilizador que segue publicar um toot - basta clicar no ícone do sino (novidade do Mastodon 3.3.0)
+- O suporte para rascunhos do Tusky foi reescrito para ser mais rápido, simples e menos propenso a erros.
+- Foi adicionado uma funcionalidade de bem-estar, que permite limitar algumas funcionalidades no Tusky.
+- O Tusky já consegue animar os emojis personalizados 
+Registo completo de alterações: https://github.com/tuskyapp/Tusky/releases

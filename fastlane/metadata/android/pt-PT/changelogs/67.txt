@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Agora pode criar votações no Tusky
+- Pesquisa melhorada
+- Nova opção em "Preferências da Conta": "Expandir sempre os toots com Aviso de Conteúdo"
+- Avatars em formato quadrado com cantos arredondados
+- Agora é possível denunciar utilizadores, mesmo que não tenham toots
+- O Tusky vai recusar a ligação através de ligações simples (não encriptadas) em Android 6+
+- Muitas outras pequenas melhorias e correções de bugs

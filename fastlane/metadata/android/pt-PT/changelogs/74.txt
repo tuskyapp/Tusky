@@ -1,0 +1,8 @@
+Tusky v.12.0
+
+- Interface principal melhorada - passa a ser possível mover os separadores para baixo!
+- Ao silenciar um utilizador, pode também escolher se também pretende silenciar as notificações
+- Agora dá para seguir quantas hashtags quiser num único separador!
+- A exibição da descrição dos conteúdos multimédia foi melhorada para suportar descrições super longas
+
+Registo completo de alterações: https://github.com/tuskyapp/Tusky/releases
