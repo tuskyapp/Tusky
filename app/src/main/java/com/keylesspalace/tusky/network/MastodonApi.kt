@@ -142,13 +142,6 @@ interface MastodonApi {
     @POST("api/v1/notifications/clear")
     fun clearNotifications(): Single<ResponseBody>
 
-    @Multipart
-    @POST("api/v2/media")
-    suspend fun uploadMedia(
-        @Part file: MultipartBody.Part,
-        @Part description: MultipartBody.Part? = null
-    ): Result<MediaUploadResult>
-
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
     suspend fun updateMedia(

@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
@@ -112,4 +113,18 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun providesMediaUploadApi(retrofit: Retrofit, okHttpClient: OkHttpClient): MediaUploadApi {
+        val longTimeOutOkHttpClient = okHttpClient.newBuilder()
+            .readTimeout(100, TimeUnit.SECONDS)
+            .writeTimeout(100, TimeUnit.SECONDS)
+            .build()
+
+        return retrofit.newBuilder()
+            .client(longTimeOutOkHttpClient)
+            .build()
+            .create()
+    }
 }
