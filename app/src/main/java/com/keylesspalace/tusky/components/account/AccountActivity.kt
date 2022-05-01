@@ -139,7 +139,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private lateinit var adapter: AccountPagerAdapter
 
     private val rawDateParser by lazy { SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()) }
-    private val dateJoinedFormatter by lazy { SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()) }
+    private val dateJoinedFormatter by lazy { SimpleDateFormat("MMM, yyyy", Locale.getDefault()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

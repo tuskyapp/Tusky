@@ -236,6 +236,19 @@
                         tools:listitem="@layout/item_account_field" />
 
                     <TextView
+                        android:id="@+id/accountDateJoined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        tools:text="April, 1971"
+                        android:textColor="@color/textColorSecondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/accountFieldList"
+                        app:layout_constraintBottom_toTopOf="@id/accountRemoveView"/>
+
+                    <TextView
                         android:id="@+id/accountRemoveView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -245,7 +258,7 @@
                         android:lineSpacingMultiplier="1.1"
                         android:text="@string/label_remote_account"
                         android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/accountFieldList"
+                        app:layout_constraintTop_toBottomOf="@id/accountDateJoined"
                         tools:visibility="visible" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -314,19 +327,6 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/accountDateJoined"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:textStyle="normal|bold"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/accountMovedView"
-                        app:layout_constraintBottom_toTopOf="@id/accountStatuses"/>
-
                     <LinearLayout
                         android:id="@+id/accountStatuses"
                         android:layout_width="wrap_content"
@@ -336,7 +336,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowing"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/accountDateJoined">
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedView">
 
                         <TextView
                             android:id="@+id/accountStatusesTextView"
@@ -367,7 +367,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowers"
                         app:layout_constraintStart_toEndOf="@id/accountStatuses"
-                        app:layout_constraintTop_toBottomOf="@id/accountDateJoined">
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedView">
 
                         <TextView
                             android:id="@+id/accountFollowingTextView"
@@ -397,7 +397,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/accountFollowing"
-                        app:layout_constraintTop_toBottomOf="@id/accountDateJoined">
+                        app:layout_constraintTop_toBottomOf="@id/accountMovedView">
 
                         <TextView
                             android:id="@+id/accountFollowersTextView"
