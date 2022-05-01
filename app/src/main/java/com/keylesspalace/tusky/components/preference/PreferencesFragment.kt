@@ -15,7 +15,11 @@
 
 package com.keylesspalace.tusky.components.preference
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
@@ -241,6 +245,15 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue(false)
                     key = PrefKeys.WELLBEING_HIDE_STATS_PROFILE
                 }
+                preference {
+                    setTitle(R.string.wellbeing_go_to_native_notifications_settings)
+                    setOnPreferenceClickListener {
+                        activity?.let { activity ->
+                            openNativeNotificationSettings(activity)
+                        }
+                        true
+                    }
+                }
             }
 
             preferenceCategory(R.string.pref_title_proxy_settings) {
@@ -257,6 +270,29 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
         }
+    }
+
+    private fun openNativeNotificationSettings(context: Context, channelId: String? = null) {
+        val intent = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> Intent().apply {
+                action = when (channelId) {
+                    null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                    else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+                }
+                channelId?.let { putExtra(Settings.EXTRA_CHANNEL_ID, it) }
+                putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P /*28*/) {
+                    flags += Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            }
+            else -> Intent().apply {
+                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                putExtra("app_package", context.packageName)
+                putExtra("app_uid", context.applicationInfo.uid)
+            }
+        }
+
+        intent.let(context::startActivity)
     }
 
     private fun makeIcon(icon: GoogleMaterial.Icon): IconicsDrawable {
