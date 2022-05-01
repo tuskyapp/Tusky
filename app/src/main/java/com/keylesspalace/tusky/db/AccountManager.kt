@@ -114,7 +114,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.accountId = account.id
             it.username = account.username
             it.displayName = account.name
-            it.createdAt = account.createdAt
             it.profilePictureUrl = account.avatar
             it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
             it.defaultMediaSensitivity = account.source?.sensitive ?: false

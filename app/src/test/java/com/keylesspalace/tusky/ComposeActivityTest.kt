@@ -69,7 +69,6 @@ class ComposeActivityTest {
         accountId = "1",
         username = "username",
         displayName = "Display Name",
-        createdAt = "2071-04-20T00:00:00.000Z",
         profilePictureUrl = "",
         notificationsEnabled = true,
         notificationsMentioned = true,
