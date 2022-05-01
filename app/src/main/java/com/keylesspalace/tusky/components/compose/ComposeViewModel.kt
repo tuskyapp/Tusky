@@ -39,7 +39,6 @@ import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import com.keylesspalace.tusky.util.toLiveData
-import com.keylesspalace.tusky.util.withoutFirstWhich
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,6 +46,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.rxSingle
 import kotlinx.coroutines.withContext
@@ -125,7 +126,7 @@ class ComposeViewModel @Inject constructor(
         uri: Uri,
         mediaSize: Long,
         description: String? = null
-    ): QueuedMedia = withContext(Dispatchers.Main) {
+    ): QueuedMedia {
         // running on main dispatcher to avoid race condition when adding multiple media at once, e.g. when restoring from drafts
         val mediaItem = QueuedMedia(
             localId = (media.value.maxOfOrNull { it.localId } ?: 0) + 1,
@@ -134,12 +135,12 @@ class ComposeViewModel @Inject constructor(
             mediaSize = mediaSize,
             description = description
         )
-        media.value = media.value + mediaItem
+        media.update { mediaValue -> mediaValue + mediaItem }
         mediaToJob[mediaItem.localId] = viewModelScope.launch {
             mediaUploader
                 .uploadMedia(mediaItem)
                 .catch { error ->
-                    media.value = media.value.filter { it.localId != mediaItem.localId }
+                    media.update { mediaValue -> mediaValue.filter { it.localId != mediaItem.localId } }
                     uploadError.postValue(error)
                 }
                 .collect { event ->
@@ -151,17 +152,18 @@ class ComposeViewModel @Inject constructor(
                         is UploadEvent.FinishedEvent ->
                             item.copy(id = event.mediaId, uploadPercent = -1)
                     }
-                    synchronized(media) {
-                        val index = media.value.indexOfFirst { it.localId == newMediaItem.localId }
-                        media.value = if (index == -1) {
-                            media.value + newMediaItem
-                        } else {
-                            media.value.toMutableList().also { it[index] = newMediaItem }
+                    media.update { mediaValue ->
+                        mediaValue.map { mediaItem ->
+                            if (mediaItem.localId == newMediaItem.localId) {
+                                newMediaItem
+                            } else {
+                                mediaItem
+                            }
                         }
                     }
                 }
         }
-        mediaItem
+        return mediaItem
     }
 
     private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
@@ -174,12 +176,12 @@ class ComposeViewModel @Inject constructor(
             id = id,
             description = description
         )
-        media.value = media.value + mediaItem
+        media.update { mediaValue -> mediaValue + mediaItem }
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaToJob[item.localId]?.cancel()
-        media.value = media.value.withoutFirstWhich { it.localId == item.localId }
+        media.update { mediaValue -> mediaValue.filter { it.localId == item.localId } }
     }
 
     fun toggleMarkSensitive() {
@@ -297,13 +299,17 @@ class ComposeViewModel @Inject constructor(
     }
 
     suspend fun updateDescription(localId: Int, description: String): Boolean {
-        val newList = media.value.toMutableList()
-        val index = newList.indexOfFirst { it.localId == localId }
-        if (index != -1) {
-            newList[index] = newList[index].copy(description = description)
+        val newMediaList = media.updateAndGet { mediaValue ->
+            mediaValue.map { mediaItem ->
+                if (mediaItem.localId == localId) {
+                    mediaItem.copy(description = description)
+                } else {
+                    mediaItem
+                }
+            }
         }
-        media.value = newList
-        val updatedItem = newList.find { it.localId == localId }
+
+        val updatedItem = newMediaList.find { it.localId == localId }
         if (updatedItem?.id != null) {
             return api.updateMedia(updatedItem.id, description)
                 .fold({
