@@ -68,7 +68,9 @@ class LoginActivity : BaseActivity(), Injectable {
                 // Authorization failed. Put the error response where the user can read it and they
                 // can try again.
                 setLoading(false)
-                binding.domainTextInputLayout.error = getString(R.string.error_authorization_denied)
+                // Use error returned by the server or fall back to the generic message
+                binding.domainTextInputLayout.error =
+                    result.errorMessage.ifBlank { getString(R.string.error_authorization_denied) }
                 Log.e(
                     TAG,
                     "%s %s".format(
