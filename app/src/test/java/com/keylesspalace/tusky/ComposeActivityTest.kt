@@ -47,7 +47,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
-import java.util.*
+import java.util.Date
 import kotlin.collections.HashMap
 
 /**
