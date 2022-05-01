@@ -41,6 +41,7 @@ data class AccountEntity(
     var accountId: String = "",
     var username: String = "",
     var displayName: String = "",
+    var createdAt: String = "",
     var profilePictureUrl: String = "",
     var notificationsEnabled: Boolean = true,
     var notificationsMentioned: Boolean = true,
