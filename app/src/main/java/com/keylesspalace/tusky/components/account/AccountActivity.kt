@@ -138,8 +138,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private lateinit var adapter: AccountPagerAdapter
 
-    private val dateJoinedFormatter by lazy { SimpleDateFormat("MMMM, yyyy", Locale.getDefault()) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadResources()
@@ -434,7 +432,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             try {
                 binding.accountDateJoined.text = resources.getString(
                     R.string.account_date_joined,
-                    dateJoinedFormatter.format(account.createdAt)
+                    SimpleDateFormat("MMMM, yyyy", Locale.getDefault()).format(account.createdAt)
                 )
                 binding.accountDateJoined.visibility = View.VISIBLE
             } catch (e: ParseException) {
