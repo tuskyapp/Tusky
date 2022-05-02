@@ -19,7 +19,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.emoji2.text.EmojiCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemPollBinding
@@ -87,9 +86,8 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         when (mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, votersCount, voteCount)
-                val emojifiedPollOptionText = buildDescription(option.title, percent, option.voted, resultTextView.context)
+                resultTextView.text = buildDescription(option.title, percent, option.voted, resultTextView.context)
                     .emojify(emojis, resultTextView, animateEmojis)
-                resultTextView.text = EmojiCompat.get().process(emojifiedPollOptionText)
 
                 val level = percent * 100
                 val optionColor = if (option.voted) {
@@ -103,8 +101,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 resultTextView.setOnClickListener(resultClickListener)
             }
             SINGLE -> {
-                val emojifiedPollOptionText = option.title.emojify(emojis, radioButton, animateEmojis)
-                radioButton.text = EmojiCompat.get().process(emojifiedPollOptionText)
+                radioButton.text = option.title.emojify(emojis, radioButton, animateEmojis)
                 radioButton.isChecked = option.selected
                 radioButton.setOnClickListener {
                     pollOptions.forEachIndexed { index, pollOption ->
@@ -114,8 +111,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 }
             }
             MULTIPLE -> {
-                val emojifiedPollOptionText = option.title.emojify(emojis, checkBox, animateEmojis)
-                checkBox.text = EmojiCompat.get().process(emojifiedPollOptionText)
+                checkBox.text = option.title.emojify(emojis, checkBox, animateEmojis)
                 checkBox.isChecked = option.selected
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
                     pollOptions[holder.bindingAdapterPosition].selected = isChecked
