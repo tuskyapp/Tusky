@@ -21,6 +21,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.drafts.DraftHelper
@@ -36,15 +37,17 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.combineLiveData
-import com.keylesspalace.tusky.util.filter
-import com.keylesspalace.tusky.util.map
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import com.keylesspalace.tusky.util.toLiveData
-import com.keylesspalace.tusky.util.withoutFirstWhich
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.rxSingle
 import kotlinx.coroutines.withContext
@@ -84,10 +87,10 @@ class ComposeViewModel @Inject constructor(
     val poll: MutableLiveData<NewPoll?> = mutableLiveData(null)
     val scheduledAt: MutableLiveData<String?> = mutableLiveData(null)
 
-    val media = mutableLiveData<List<QueuedMedia>>(listOf())
+    val media: MutableStateFlow<List<QueuedMedia>> = MutableStateFlow(emptyList())
     val uploadError = MutableLiveData<Throwable>()
 
-    private val mediaToJob = mutableMapOf<Long, Job>()
+    private val mediaToJob = mutableMapOf<Int, Job>()
 
     private val isEditingScheduledToot get() = !scheduledTootId.isNullOrEmpty()
 
@@ -103,7 +106,7 @@ class ComposeViewModel @Inject constructor(
     suspend fun pickMedia(mediaUri: Uri, description: String? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
         try {
             val (type, uri, size) = mediaUploader.prepareMedia(mediaUri)
-            val mediaItems = media.value!!
+            val mediaItems = media.value
             if (type != QueuedMedia.Type.IMAGE &&
                 mediaItems.isNotEmpty() &&
                 mediaItems[0].type == QueuedMedia.Type.IMAGE
@@ -118,29 +121,31 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    private fun addMediaToQueue(
+    private suspend fun addMediaToQueue(
         type: QueuedMedia.Type,
         uri: Uri,
         mediaSize: Long,
         description: String? = null
     ): QueuedMedia {
-        val mediaItem = QueuedMedia(
-            localId = System.currentTimeMillis(),
-            uri = uri,
-            type = type,
-            mediaSize = mediaSize,
-            description = description
-        )
-        media.postValue(media.value!! + mediaItem)
+        val mediaItem = media.updateAndGet { mediaValue ->
+            val mediaItem = QueuedMedia(
+                localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
+                uri = uri,
+                type = type,
+                mediaSize = mediaSize,
+                description = description
+            )
+            mediaValue + mediaItem
+        }.last()
         mediaToJob[mediaItem.localId] = viewModelScope.launch {
             mediaUploader
                 .uploadMedia(mediaItem)
                 .catch { error ->
-                    media.postValue(media.value?.filter { it.localId != mediaItem.localId } ?: emptyList())
+                    media.update { mediaValue -> mediaValue.filter { it.localId != mediaItem.localId } }
                     uploadError.postValue(error)
                 }
                 .collect { event ->
-                    val item = media.value?.find { it.localId == mediaItem.localId }
+                    val item = media.value.find { it.localId == mediaItem.localId }
                         ?: return@collect
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
@@ -148,16 +153,14 @@ class ComposeViewModel @Inject constructor(
                         is UploadEvent.FinishedEvent ->
                             item.copy(id = event.mediaId, uploadPercent = -1)
                     }
-                    synchronized(media) {
-                        val mediaValue = media.value!!
-                        val index = mediaValue.indexOfFirst { it.localId == newMediaItem.localId }
-                        media.postValue(
-                            if (index == -1) {
-                                mediaValue + newMediaItem
+                    media.update { mediaValue ->
+                        mediaValue.map { mediaItem ->
+                            if (mediaItem.localId == newMediaItem.localId) {
+                                newMediaItem
                             } else {
-                                mediaValue.toMutableList().also { it[index] = newMediaItem }
+                                mediaItem
                             }
-                        )
+                        }
                     }
                 }
         }
@@ -165,13 +168,23 @@ class ComposeViewModel @Inject constructor(
     }
 
     private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
-        val mediaItem = QueuedMedia(System.currentTimeMillis(), uri, type, 0, -1, id, description)
-        media.value = media.value!! + mediaItem
+        media.update { mediaValue ->
+            val mediaItem = QueuedMedia(
+                localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
+                uri = uri,
+                type = type,
+                mediaSize = 0,
+                uploadPercent = -1,
+                id = id,
+                description = description
+            )
+            mediaValue + mediaItem
+        }
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaToJob[item.localId]?.cancel()
-        media.value = media.value!!.withoutFirstWhich { it.localId == item.localId }
+        media.update { mediaValue -> mediaValue.filter { it.localId == item.localId } }
     }
 
     fun toggleMarkSensitive() {
@@ -211,7 +224,7 @@ class ComposeViewModel @Inject constructor(
         viewModelScope.launch {
             val mediaUris: MutableList<String> = mutableListOf()
             val mediaDescriptions: MutableList<String?> = mutableListOf()
-            media.value?.forEach { item ->
+            media.value.forEach { item ->
                 mediaUris.add(item.uri.toString())
                 mediaDescriptions.add(item.description)
             }
@@ -248,14 +261,14 @@ class ComposeViewModel @Inject constructor(
             Observable.just(Unit)
         }.toLiveData()
 
-        val sendObservable = media
+        val sendFlow = media
             .filter { items -> items.all { it.uploadPercent == -1 } }
             .map {
                 val mediaIds: MutableList<String> = mutableListOf()
                 val mediaUris: MutableList<Uri> = mutableListOf()
                 val mediaDescriptions: MutableList<String> = mutableListOf()
                 val mediaProcessed: MutableList<Boolean> = mutableListOf()
-                for (item in media.value!!) {
+                for (item in media.value) {
                     mediaIds.add(item.id!!)
                     mediaUris.add(item.uri)
                     mediaDescriptions.add(item.description ?: "")
@@ -285,17 +298,21 @@ class ComposeViewModel @Inject constructor(
                 serviceClient.sendToot(tootToSend)
             }
 
-        return combineLiveData(deletionObservable, sendObservable) { _, _ -> }
+        return combineLiveData(deletionObservable, sendFlow.asLiveData()) { _, _ -> }
     }
 
-    suspend fun updateDescription(localId: Long, description: String): Boolean {
-        val newList = media.value!!.toMutableList()
-        val index = newList.indexOfFirst { it.localId == localId }
-        if (index != -1) {
-            newList[index] = newList[index].copy(description = description)
+    suspend fun updateDescription(localId: Int, description: String): Boolean {
+        val newMediaList = media.updateAndGet { mediaValue ->
+            mediaValue.map { mediaItem ->
+                if (mediaItem.localId == localId) {
+                    mediaItem.copy(description = description)
+                } else {
+                    mediaItem
+                }
+            }
         }
-        media.value = newList
-        val updatedItem = newList.find { it.localId == localId }
+
+        val updatedItem = newMediaList.find { it.localId == localId }
         if (updatedItem?.id != null) {
             return api.updateMedia(updatedItem.id, description)
                 .fold({
@@ -387,8 +404,8 @@ class ComposeViewModel @Inject constructor(
         val draftAttachments = composeOptions?.draftAttachments
         if (draftAttachments != null) {
             // when coming from DraftActivity
-            draftAttachments.forEach { attachment ->
-                viewModelScope.launch {
+            viewModelScope.launch {
+                draftAttachments.forEach { attachment ->
                     pickMedia(attachment.uri, attachment.description)
                 }
             }
