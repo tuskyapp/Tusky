@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Notificações de seguidores pendentes quando a conta está trancada!
+- Novas funcionalidades nas "Preferências":
+   * desativação do gesto que alterna entre separadores
+   * diálogo de confirmação antes de dar boost
+   * mostragem da pré-visualização de links nas timelines
+- As conversas agora podem ser silenciadas
+- As votações passam a ser calculadas pelo número de votantes e não pelo número de votos
+- Várias correções relacionadas com a escrita de toots
+ - Traduções melhoradas

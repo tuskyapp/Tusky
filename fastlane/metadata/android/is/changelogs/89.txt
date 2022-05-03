@@ -1,0 +1,7 @@
+Tusky útg.17.0
+
+- "Opna sem..." er núna líka á valmyndinni í notendasniðum þegar verið er að nota marga aðganga
+- Innskráning er núna meðhöndluð í WebView innan forritsins
+- Stuðningur við Android 12
+- Stuðningur við API-kerfisviðmót fyrir nýja uppsetningu Mastodon-tilvika
+- og mökkur af smærri endurbótum og lagfæringum

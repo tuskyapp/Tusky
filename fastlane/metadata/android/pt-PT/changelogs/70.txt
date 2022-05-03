@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Agora é possível adicionar toots aos favoritos e ver a lista de favoritos no Tusky.
+- Já pode agendar toots, no entanto é necessário agendá-los para pelo menos 5 minutos depois do momento da escrita.
+- Já pode adicionar listas na barra lateral do Tusky!
+- Já pode partilhar ficheiros de som nos teus toots!
+
+E muitas outras pequenas melhorias e correções de bugs!

@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- Suporte para anotações em perfis (novidade do Mastodon 3.2.0)
+- Suporte para anúncios do(s) administrador(es) de instâncias (novidade do Mastodon 3.1.0)
+
+- O avatar da sua conta selecionada passa a ficar visível na barra de ferramentas principal (canto superior esquerdo)
+- Tocar no nome de utilizador na timeline abrirá o perfil em questão
+
+- Várias pequenas melhorias e correções
+- Traduções melhoradas
