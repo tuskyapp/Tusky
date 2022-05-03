@@ -220,8 +220,7 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    fun saveDraft(content: String, contentWarning: String) {
-        viewModelScope.launch {
+    suspend fun saveDraft(content: String, contentWarning: String) {
             val mediaUris: MutableList<String> = mutableListOf()
             val mediaDescriptions: MutableList<String?> = mutableListOf()
             media.value.forEach { item ->
@@ -242,7 +241,6 @@ class ComposeViewModel @Inject constructor(
                 poll = poll.value,
                 failedToSend = false
             )
-        }
     }
 
     /**
