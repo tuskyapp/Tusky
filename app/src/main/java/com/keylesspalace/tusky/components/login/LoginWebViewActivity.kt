@@ -117,7 +117,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
                 error: WebResourceError
             ) {
                 Log.d("LoginWeb", "Failed to load ${data.url}: $error")
-                finishWithoutSlideOutAnimation()
+                sendResult(LoginResult.Err(getString(R.string.error_could_not_load_login_page)))
             }
 
             override fun shouldOverrideUrlLoading(
