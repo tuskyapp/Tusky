@@ -515,4 +515,5 @@
     <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
     <string name="notification_update_name">Sửa tút</string>
     <string name="notification_update_description">Thông báo khi tút mà tôi tương tác bị sửa</string>
+    <string name="title_login">Đăng nhập</string>
 </resources>
