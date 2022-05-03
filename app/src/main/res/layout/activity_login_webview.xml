@@ -11,8 +11,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/loginToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:titleTextColor="#fff" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
