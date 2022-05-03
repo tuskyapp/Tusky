@@ -551,4 +551,10 @@
     <string name="duration_180_days">180 يومًا</string>
     <string name="duration_365_days">365 يومًا</string>
     <string name="tusky_compose_post_quicksetting_label">تحرير منشور</string>
+    <string name="notification_sign_up_name">حسابات جديدة</string>
+    <string name="title_login">لِج</string>
+    <string name="notification_sign_up_format">قام %s بإنشاء حساب</string>
+    <string name="pref_title_notification_filter_sign_ups">أحدهم أنشأ حسابا جديدا</string>
+    <string name="notification_update_name">منشورات تم تعديلها</string>
+    <string name="notification_update_format">قام %s بتعديل منشوره</string>
 </resources>
