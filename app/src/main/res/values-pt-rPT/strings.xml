@@ -339,7 +339,7 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descrição para deficientes visuais
 \n(até %d caracteres)</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="action_set_caption">Descrever</string>
     <string name="action_remove">Remover</string>

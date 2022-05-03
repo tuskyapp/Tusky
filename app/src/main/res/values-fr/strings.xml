@@ -547,4 +547,5 @@
     <string name="pref_title_notification_filter_updates">un message avec lequel j\'ai interagi est modifié</string>
     <string name="notification_update_name">Messages modifiés</string>
     <string name="notification_update_description">Notifications quand un post avec lequel vous avez interagi est modifié</string>
+    <string name="title_login">Se connecter</string>
 </resources>
