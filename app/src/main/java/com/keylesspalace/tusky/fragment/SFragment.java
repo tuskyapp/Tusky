@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.network.TimelineCases;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.StatusParsingHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
@@ -228,7 +229,7 @@ public abstract class SFragment extends Fragment implements Injectable {
 
                     String stringToShare = statusToShare.getAccount().getUsername() +
                             " - " +
-                            statusToShare.getContent().toString();
+                            StatusParsingHelper.parseAsMastodonHtml(statusToShare.getContent()).toString();
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare);
                     sendIntent.putExtra(Intent.EXTRA_SUBJECT, statusUrl);
                     sendIntent.setType("text/plain");
