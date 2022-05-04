@@ -229,7 +229,6 @@
     <string name="add_account_description">افزودن حساب ماستودون جدید</string>
     <string name="action_lists">فهرست‌ها</string>
     <string name="title_lists">فهرست‌ها</string>
-    <string name="title_list_timeline">خط زمانی فهرست</string>
     <string name="compose_active_account_description">در حال فرستادن با حساب %1$s</string>
     <string name="error_failed_set_caption">شکست در تنظیم عنوان</string>
     <plurals name="hint_describe_for_visually_impaired">

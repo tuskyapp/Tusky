@@ -151,7 +151,6 @@
     <string name="error_delete_list">Списъкът не можа да се изтрие</string>
     <string name="error_create_list">Списъкът не можа да се създаде</string>
     <string name="error_rename_list">Списъкът не можа да се преименува</string>
-    <string name="title_list_timeline">Списъчна емисия</string>
     <string name="title_lists">Списъци</string>
     <string name="action_lists">Списъци</string>
     <string name="add_account_description">Добавяне на нов Mastodon акаунт</string>

@@ -256,7 +256,6 @@
     <string name="add_account_description">Neues Mastodon-Konto hinzufügen</string>
     <string name="action_lists">Listen</string>
     <string name="title_lists">Listen</string>
-    <string name="title_list_timeline">Liste</string>
     <string name="action_create_list">Liste erstellen</string>
     <string name="action_rename_list">Liste umbenennen</string>
     <string name="action_delete_list">Liste löschen</string>

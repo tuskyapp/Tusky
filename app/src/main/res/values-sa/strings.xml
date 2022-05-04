@@ -202,7 +202,6 @@
     <string name="error_rename_list">पुनः सूचिनामकरणं कर्तुमशक्यम्</string>
     <string name="error_create_list">सूचिनिर्माणं कर्तुमशक्यम्</string>
     <string name="dialog_message_cancel_follow_request">अनुसरणानुरोधो नश्यताम् \?</string>
-    <string name="title_list_timeline">सूचेः समयतालिका</string>
     <string name="title_lists">सूचयः</string>
     <string name="action_lists">सूचयः</string>
     <string name="add_account_description">नवमास्टोडोनलेखा युज्यताम्</string>

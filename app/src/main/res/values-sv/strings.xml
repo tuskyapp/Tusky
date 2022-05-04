@@ -269,7 +269,6 @@
     <string name="add_account_description">Lägg till ett nytt Mastodon-konto</string>
     <string name="action_lists">Listor</string>
     <string name="title_lists">Listor</string>
-    <string name="title_list_timeline">Lista tidslinje</string>
     <string name="error_create_list">Kunde inte skapa lista</string>
     <string name="error_rename_list">Kunde inte byta namn på lista</string>
     <string name="error_delete_list">Kunde inte radera lista</string>

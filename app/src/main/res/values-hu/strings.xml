@@ -336,7 +336,6 @@
     <string name="abbreviated_in_seconds">%dmp múlva</string>
     <string name="filter_dialog_whole_word">Teljes szó</string>
     <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni</string>
-    <string name="title_list_timeline">Lista idővonal</string>
     <string name="hint_search_people_list">Általad követettek keresése</string>
     <string name="action_add_to_list">Fiók hozzáadása a listához</string>
     <string name="action_remove_from_list">Fiók eltávolítása a listából</string>

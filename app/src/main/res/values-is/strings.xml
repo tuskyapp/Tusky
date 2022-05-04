@@ -288,7 +288,6 @@
     <string name="filter_add_description">Frasi sem á að sía</string>
     <string name="add_account_name">Bæta við aðgang</string>
     <string name="add_account_description">Bæta við nýjum Mastodon-aðgangi</string>
-    <string name="title_list_timeline">Lista upp tímalínu</string>
     <string name="error_create_list">Ekki tókst að búa til lista</string>
     <string name="error_rename_list">Ekki tókst að endurnefna lista</string>
     <string name="error_delete_list">Ekki tókst að eyða lista</string>

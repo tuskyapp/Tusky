@@ -228,7 +228,6 @@
     <string name="add_account_description">Apondre un nòu compte Mastodon</string>
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
-    <string name="title_list_timeline">Flux de la lista</string>
     <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
     <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
     <string name="action_set_caption">Apondre una legenda</string>

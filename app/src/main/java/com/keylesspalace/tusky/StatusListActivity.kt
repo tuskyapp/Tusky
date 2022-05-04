@@ -46,7 +46,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             Kind.FAVOURITES -> getString(R.string.title_favourites)
             Kind.BOOKMARKS -> getString(R.string.title_bookmarks)
             Kind.TAG -> getString(R.string.title_tag).format(hashtag)
-            else -> getString(R.string.title_list_timeline)
+            else -> intent.getStringExtra(EXTRA_LIST_TITLE)
         }
 
         supportActionBar?.run {
@@ -73,6 +73,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         private const val EXTRA_KIND = "kind"
         private const val EXTRA_LIST_ID = "id"
+        private const val EXTRA_LIST_TITLE = "title"
         private const val EXTRA_HASHTAG = "tag"
 
         fun newFavouritesIntent(context: Context) =
@@ -85,10 +86,11 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
             }
 
-        fun newListIntent(context: Context, listId: String) =
+        fun newListIntent(context: Context, listId: String, listTitle: String) =
             Intent(context, StatusListActivity::class.java).apply {
                 putExtra(EXTRA_KIND, Kind.LIST.name)
                 putExtra(EXTRA_LIST_ID, listId)
+                putExtra(EXTRA_LIST_TITLE, listTitle)
             }
 
         @JvmStatic

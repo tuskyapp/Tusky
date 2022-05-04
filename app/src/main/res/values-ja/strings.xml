@@ -255,7 +255,6 @@
     <string name="add_account_description">新しいMastodonアカウントを追加</string>
     <string name="action_lists">リスト</string>
     <string name="title_lists">リスト</string>
-    <string name="title_list_timeline">リストタイムライン</string>
     <string name="error_rename_list">リスト名を変更できませんでした</string>
     <string name="action_rename_list">リスト名の変更</string>
     <string name="compose_active_account_description">%1$sで投稿</string>

@@ -275,7 +275,6 @@
     <string name="add_account_description">Ajouter un nouveau compte Mastodon</string>
     <string name="action_lists">Listes</string>
     <string name="title_lists">Listes</string>
-    <string name="title_list_timeline">Fil de la liste</string>
     <string name="error_create_list">Impossible de créer la liste</string>
     <string name="error_rename_list">Impossible de renommer la liste</string>
     <string name="error_delete_list">Impossible de supprimer la liste</string>

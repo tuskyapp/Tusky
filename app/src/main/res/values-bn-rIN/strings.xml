@@ -275,7 +275,6 @@
     <string name="add_account_description">নতুন ম্যাস্টোডোন অ্যাকাউন্ট যোগ করুন</string>
     <string name="action_lists">তালিকাসমূহ</string>
     <string name="title_lists">তালিকাসমূহ</string>
-    <string name="title_list_timeline">তালিকা টাইমলাইনে রাখুন</string>
     <string name="error_create_list">তালিকা তৈরি করা যায়নি</string>
     <string name="error_rename_list">তালিকা নামকরণ করা যায়নি</string>
     <string name="error_delete_list">তালিকা মুছে ফেলা যায়নি</string>

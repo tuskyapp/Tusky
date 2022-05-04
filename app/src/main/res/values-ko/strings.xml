@@ -282,7 +282,6 @@
     <string name="add_account_description">마스토돈 계정을 추가합니다</string>
     <string name="action_lists">리스트</string>
     <string name="title_lists">리스트</string>
-    <string name="title_list_timeline">리스트 타임라인</string>
     <string name="error_create_list">리스트를 만들 수 없습니다.</string>
     <string name="error_rename_list">리스트의 이름을 변경할 수 없습니다.</string>
     <string name="error_delete_list">리스트를 삭제할 수 없습니다.</string>

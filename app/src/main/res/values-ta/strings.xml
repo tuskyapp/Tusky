@@ -216,7 +216,6 @@
     <string name="add_account_description">புதிய Mastodon கணக்கைச் சேர்க்க</string>
     <string name="action_lists">பட்டியல்கள்</string>
     <string name="title_lists">பட்டியல்கள்</string>
-    <string name="title_list_timeline">காலவரிசை பட்டியல்</string>
     <string name="compose_active_account_description">%1$s கணக்குடன் பதிவிட</string>
     <string name="error_failed_set_caption">தலைப்பை அமைக்க முடியவில்லை</string>
     <string name="action_set_caption">தலைப்பை அமை</string>

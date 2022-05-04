@@ -296,7 +296,6 @@
     <string name="add_account_description">Добавить новый акканут Mastodon</string>
     <string name="action_lists">Списки</string>
     <string name="title_lists">Списки</string>
-    <string name="title_list_timeline">Список лент</string>
     <string name="error_create_list">Не удалось создать список</string>
     <string name="error_rename_list">Не удалось переименовать список</string>
     <string name="error_delete_list">Не удалось удалить список</string>
