@@ -16,8 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:contentInsetStartWithNavigation="0dp"
             android:elevation="@dimen/actionbar_elevation"
+            app:contentInsetStartWithNavigation="0dp"
             app:layout_scrollFlags="scroll|snap|enterAlways"
             app:navigationIcon="?attr/homeAsUpIndicator" />
 
@@ -27,8 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabTextAppearance="@style/TuskyTabAppearance"/>
+            app:tabTextAppearance="@style/TuskyTabAppearance" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,6 +39,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout="@layout/item_status_bottom_sheet"/>
+    <include layout="@layout/item_status_bottom_sheet" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
