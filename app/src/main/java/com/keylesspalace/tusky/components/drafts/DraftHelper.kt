@@ -35,6 +35,7 @@ import okhttp3.Request
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -76,7 +77,7 @@ class DraftHelper @Inject constructor(
 
         val uris = mediaUris.map { uriString ->
             uriString.toUri()
-        }.map { uri ->
+        }.mapNotNull { uri ->
             if (uri.isInFolder(draftDirectory)) {
                 uri
             } else {
@@ -152,7 +153,7 @@ class DraftHelper @Inject constructor(
         return File(filePath).parentFile == folder
     }
 
-    private fun Uri.copyToFolder(folder: File): Uri {
+    private fun Uri.copyToFolder(folder: File): Uri? {
         val contentResolver = context.contentResolver
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
 
@@ -168,17 +169,22 @@ class DraftHelper @Inject constructor(
         val file = File(folder, filename)
 
         if (scheme == "https") {
-            val client = OkHttpClient()
-            val request = Request.Builder().url(toString()).build()
+            // saving redrafted media
+            try {
+                val request = Request.Builder().url(toString()).build()
 
-            val response = client.newCall(request).execute()
+                val response = okHttpClient.newCall(request).execute()
 
-            val sink = file.sink().buffer()
+                val sink = file.sink().buffer()
 
-            response.body?.source()?.use { input ->
-                sink.use { output ->
-                    output.writeAll(input)
+                response.body?.source()?.use { input ->
+                    sink.use { output ->
+                        output.writeAll(input)
+                    }
                 }
+            } catch (ex: IOException) {
+                Log.w("DraftHelper", "failed to save media", ex)
+                return null
             }
         } else {
             IOUtils.copyToFile(contentResolver, this, file)

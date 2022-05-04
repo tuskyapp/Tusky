@@ -53,7 +53,6 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -969,7 +968,16 @@ class ComposeActivity :
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
         lifecycleScope.launch {
+            val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
+                ProgressDialog.show(
+                    this@ComposeActivity, null,
+                    getString(R.string.saving_draft), true, false
+                )
+            } else {
+                null
+            }
             viewModel.saveDraft(contentText, contentWarning)
+            dialog?.cancel()
             finishWithoutSlideOutAnimation()
         }
     }

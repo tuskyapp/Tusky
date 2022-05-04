@@ -640,5 +640,6 @@
     <string name="action_unsubscribe_account">Unsubscribe</string>
 
     <string name="tusky_compose_post_quicksetting_label">Compose Post</string>
+    <string name="saving_draft">Saving draft...</string>
 
 </resources>
