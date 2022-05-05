@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.db.TimelineAccountEntity
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
@@ -96,7 +97,8 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         expanded = loading,
         contentCollapsed = false,
         contentShowing = false,
-        pinned = false
+        pinned = false,
+        card = null,
     )
 }
 
@@ -136,7 +138,8 @@ fun Status.toEntity(
         expanded = expanded,
         contentShowing = contentShowing,
         contentCollapsed = contentCollapsed,
-        pinned = actionableStatus.pinned == true
+        pinned = actionableStatus.pinned == true,
+        card = actionableStatus.card?.let(gson::toJson),
     )
 }
 
@@ -151,6 +154,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
     val application = gson.fromJson(status.application, Status.Application::class.java)
     val emojis: List<Emoji> = gson.fromJson(status.emojis, emojisListType) ?: emptyList()
     val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
+    val card: Card? = gson.fromJson(status.card, Card::class.java)
 
     val reblog = status.reblogServerId?.let { id ->
         Status(
@@ -178,7 +182,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             pinned = false,
             muted = status.muted,
             poll = poll,
-            card = null
+            card = card,
         )
     }
     val status = if (reblog != null) {
@@ -235,7 +239,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             pinned = status.pinned,
             muted = status.muted,
             poll = poll,
-            card = null
+            card = card,
         )
     }
     return StatusViewData.Concrete(
