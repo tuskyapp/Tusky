@@ -223,7 +223,7 @@
     <string name="label_quick_reply">Resposta …</string>
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment?</string>
     <string name="dialog_delete_post_warning">Vols eliminar aquest toot?</string>
-    <string name="dialog_redraft_post_warning">Vols eliminar i reescriure aquesta publicació\?</string>
+    <string name="dialog_redraft_post_warning">Vols eliminar i reescriure aquesta publicació?</string>
     <string name="pref_title_app_theme">Tema</string>
     <string name="pref_title_timelines">Cronologia</string>
     <string name="pref_title_timeline_filters">Filtres</string>
