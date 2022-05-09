@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky
 
-import com.keylesspalace.tusky.util.ComposeTokenizer
+import com.keylesspalace.tusky.components.compose.ComposeTokenizer
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

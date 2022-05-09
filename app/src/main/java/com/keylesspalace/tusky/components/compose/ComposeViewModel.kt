@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
+import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter.AutocompleteResult
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
@@ -38,6 +39,7 @@ import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import com.keylesspalace.tusky.util.result
 import com.keylesspalace.tusky.util.toLiveData
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +53,6 @@ import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.rxSingle
 import kotlinx.coroutines.withContext
-import java.util.Locale
 import javax.inject.Inject
 
 class ComposeViewModel @Inject constructor(
@@ -325,48 +326,39 @@ class ComposeViewModel @Inject constructor(
         return true
     }
 
-    fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
+    fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
         when (token[0]) {
             '@' -> {
-                return try {
-                    api.searchAccounts(query = token.substring(1), limit = 10)
-                        .blockingGet()
-                        .map { ComposeAutoCompleteAdapter.AccountResult(it) }
-                } catch (e: Throwable) {
-                    Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
-                    emptyList()
-                }
+                return api.searchAccountsCall(query = token.substring(1), limit = 10)
+                    .result()
+                    .fold({ accounts ->
+                        accounts.map { AutocompleteResult.AccountResult(it) }
+                    }, { e ->
+                        Log.e(TAG, "Autocomplete search for $token failed.", e)
+                        emptyList()
+                    })
             }
             '#' -> {
-                return try {
-                    api.searchObservable(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
-                        .blockingGet()
-                        .hashtags
-                        .map { ComposeAutoCompleteAdapter.HashtagResult(it) }
-                } catch (e: Throwable) {
-                    Log.e(TAG, String.format("Autocomplete search for %s failed.", token), e)
-                    emptyList()
-                }
+                return api.searchCall(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
+                    .result()
+                    .fold({ searchResult ->
+                        searchResult.hashtags.map { AutocompleteResult.HashtagResult(it.name) }
+                    }, { e ->
+                        Log.e(TAG, "Autocomplete search for $token failed.", e)
+                        emptyList()
+                    })
             }
             ':' -> {
                 val emojiList = emoji.value ?: return emptyList()
+                val incomplete = token.substring(1)
 
-                val incomplete = token.substring(1).lowercase(Locale.ROOT)
-                val results = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
-                val resultsInside = ArrayList<ComposeAutoCompleteAdapter.AutocompleteResult>()
-                for (emoji in emojiList) {
-                    val shortcode = emoji.shortcode.lowercase(Locale.ROOT)
-                    if (shortcode.startsWith(incomplete)) {
-                        results.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
-                    } else if (shortcode.indexOf(incomplete, 1) != -1) {
-                        resultsInside.add(ComposeAutoCompleteAdapter.EmojiResult(emoji))
-                    }
+                return emojiList.filter { emoji ->
+                    emoji.shortcode.contains(incomplete, ignoreCase = true)
+                }.sortedBy { emoji ->
+                    emoji.shortcode.indexOf(incomplete, ignoreCase = true)
+                }.map { emoji ->
+                    AutocompleteResult.EmojiResult(emoji)
                 }
-                if (results.isNotEmpty() && resultsInside.isNotEmpty()) {
-                    results.add(ComposeAutoCompleteAdapter.ResultSeparator())
-                }
-                results.addAll(resultsInside)
-                return results
             }
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")

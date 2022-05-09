@@ -286,6 +286,14 @@ interface MastodonApi {
         @Query("following") following: Boolean? = null
     ): Single<List<TimelineAccount>>
 
+    @GET("api/v1/accounts/search")
+    fun searchAccountsCall(
+        @Query("q") query: String,
+        @Query("resolve") resolve: Boolean? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("following") following: Boolean? = null
+    ): Call<List<TimelineAccount>>
+
     @GET("api/v1/accounts/{id}")
     fun account(
         @Path("id") accountId: String
@@ -590,6 +598,16 @@ interface MastodonApi {
         @Query("offset") offset: Int? = null,
         @Query("following") following: Boolean? = null
     ): Single<SearchResult>
+
+    @GET("api/v2/search")
+    fun searchCall(
+        @Query("q") query: String?,
+        @Query("type") type: String? = null,
+        @Query("resolve") resolve: Boolean? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("offset") offset: Int? = null,
+        @Query("following") following: Boolean? = null
+    ): Call<SearchResult>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/note")
