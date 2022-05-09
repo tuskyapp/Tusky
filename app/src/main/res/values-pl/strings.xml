@@ -288,8 +288,8 @@
     <string name="downloading_media">Pobieranie mediów</string>
     <string name="send_media_to">Wyślij media do…</string>
     <string name="confirmation_domain_unmuted">Domena %1$s nie jest już schowana</string>
-    <string name="dialog_delete_post_warning">Usunąć ten wpis\?</string>
-    <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis\?</string>
+    <string name="dialog_delete_post_warning">Usunąć ten wpis?</string>
+    <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis?</string>
     <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %1$s? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
     <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
     <string name="pref_title_timelines">Osi czasu</string>
