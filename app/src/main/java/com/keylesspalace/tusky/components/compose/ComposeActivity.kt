@@ -967,8 +967,19 @@ class ComposeActivity :
     }
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
-        viewModel.saveDraft(contentText, contentWarning)
-        finishWithoutSlideOutAnimation()
+        lifecycleScope.launch {
+            val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
+                ProgressDialog.show(
+                    this@ComposeActivity, null,
+                    getString(R.string.saving_draft), true, false
+                )
+            } else {
+                null
+            }
+            viewModel.saveDraft(contentText, contentWarning)
+            dialog?.cancel()
+            finishWithoutSlideOutAnimation()
+        }
     }
 
     override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
