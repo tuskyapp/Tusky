@@ -7,9 +7,13 @@ apply from: "../instance-build.gradle"
 
 def getGitSha = {
     def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = stdout
+    try {
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+    } catch (Exception e) {
+        return "unknown"
     }
     return stdout.toString().trim()
 }
