@@ -100,7 +100,7 @@
     <string name="notification_follow_request_format">%s надсилає запит на підписку</string>
     <string name="notification_follow_format">%s підписується на вас</string>
     <string name="footer_empty">Тут нічого немає. Потягніть вниз, щоб оновити!</string>
-    <string name="message_empty">Тут нічого немає.</string>
+    <string name="message_empty">Тут порожньо.</string>
     <string name="post_content_warning_show_less">Згорнути</string>
     <string name="post_content_warning_show_more">Розгорнути</string>
     <string name="post_sensitive_media_directions">Натисніть для перегляду</string>
@@ -549,4 +549,5 @@
     <string name="notification_update_description">Сповіщення, коли редагується повідомлення, з яким ви взаємодіяли</string>
     <string name="notification_update_name">Редакції допису</string>
     <string name="title_login">Вхід</string>
+    <string name="error_could_not_load_login_page">Не вдалося завантажити сторінку входу.</string>
 </resources>

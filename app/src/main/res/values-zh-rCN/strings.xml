@@ -535,4 +535,5 @@
     <string name="pref_title_notification_filter_updates">我进行过互动的嘟文被编辑了</string>
     <string name="notification_update_name">嘟文编辑</string>
     <string name="notification_update_description">当你进行过互动的嘟文被编辑时发出通知</string>
+    <string name="error_could_not_load_login_page">无法加载登录页。</string>
 </resources>

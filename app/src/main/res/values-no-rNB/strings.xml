@@ -527,4 +527,5 @@
     <string name="notification_update_name">Redigerte innlegg</string>
     <string name="notification_update_description">Varslinger når et innlegg du har hatt en interaksjon med er redigert</string>
     <string name="title_login">Innlogging</string>
+    <string name="error_could_not_load_login_page">Klarte ikke å laste innloggingssiden.</string>
 </resources>
