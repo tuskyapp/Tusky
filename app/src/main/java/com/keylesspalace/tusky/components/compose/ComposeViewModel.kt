@@ -184,7 +184,7 @@ class ComposeViewModel @Inject constructor(
 
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaToJob[item.localId]?.cancel()
-        media.update { mediaValue -> mediaValue.filter { it.localId == item.localId } }
+        media.update { mediaValue -> mediaValue.filter { it.localId != item.localId } }
     }
 
     fun toggleMarkSensitive() {
