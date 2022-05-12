@@ -621,6 +621,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         binding.mainToolbar.setOnClickListener {
             (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
+
+        updateProfiles()
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
