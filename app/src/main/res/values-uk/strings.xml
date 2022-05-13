@@ -550,4 +550,5 @@
     <string name="notification_update_name">Редакції допису</string>
     <string name="title_login">Вхід</string>
     <string name="error_could_not_load_login_page">Не вдалося завантажити сторінку входу.</string>
+    <string name="saving_draft">Збереження чернетки…</string>
 </resources>
