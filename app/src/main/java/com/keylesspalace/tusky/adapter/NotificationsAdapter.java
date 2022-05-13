@@ -531,7 +531,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
-            int displayNameIndex = wholeMessage.indexOf(displayName);
+            int displayNameIndex = format.indexOf("%s");
             str.setSpan(
                     new StyleSpan(Typeface.BOLD),
                     displayNameIndex,
