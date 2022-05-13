@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Hỗ trợ những kiểu thông báo mới của Mastodon 3.5
+- Nhãn của tài khoản nhìn đẹp hơn và thay đổi theo chủ đề
+- Cho phép chọn và sao chép nội dung tút
+- Sửa lỗi chặn đăng nhập trên Android 6 trở xuống
