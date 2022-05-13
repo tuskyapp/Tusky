@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
@@ -63,7 +64,7 @@ class ComposeAutoCompleteAdapter(
                 }
             }
 
-            // This method is invoked in a worker thread.
+            @WorkerThread
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = FilterResults()
                 if (constraint != null) {
