@@ -295,7 +295,7 @@
     <string name="action_schedule_post">Cuir post air an sgeideal</string>
     <string name="action_toggle_visibility">Faicsinneachd a’ phuist</string>
     <string name="action_access_scheduled_posts">Postaichean air an sgeideal</string>
-    <string name="notification_favourite_format">Chuir %s am post agad ris na h-annsachdan</string>
+    <string name="notification_favourite_format">Is annsa le %s am post agad</string>
     <string name="notification_reblog_format">Bhrosnaich %s am post agad</string>
     <string name="title_scheduled_posts">Postaichean air an sgeideal</string>
     <string name="title_view_thread">Snàithlean</string>
@@ -556,4 +556,5 @@
     <string name="pref_title_notification_filter_updates">chaidh post a rinn mi conaltradh leis a deasachadh</string>
     <string name="title_login">Clàraich a-steach</string>
     <string name="error_could_not_load_login_page">Cha b’ urrainn dhuinn duilleag a’ chlàraidh a-steach fhosgladh.</string>
+    <string name="saving_draft">A’ sàbhaladh na dreuchd…</string>
 </resources>
