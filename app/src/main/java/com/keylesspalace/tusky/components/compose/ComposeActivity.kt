@@ -29,6 +29,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -56,6 +57,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -186,6 +189,7 @@ class ComposeActivity :
                     viewModel.updateDescription(item.localId, newDescription)
                 }
             },
+            onEditImage = this::editImageInQueue,
             onRemove = this::removeMediaFromQueue
         )
         binding.composeMediaPreviewBar.layoutManager =
@@ -865,6 +869,26 @@ class ComposeActivity :
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+    }
+
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            Log.w("CROPTEST","SUCCESS")
+        } else {
+            Log.w("CROPTEST","FAIL")
+        }
+    }
+
+    private fun editImageInQueue(item: QueuedMedia) {
+        cropImage.launch(
+            options(uri=item.uri) {
+                //setRequestedSize(AVATAR_SIZE, AVATAR_SIZE)
+                //setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
+                //setImageSource(includeGallery = true, includeCamera = false)
+                setOutputUri(item.uri)
+                //setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+            }
+        )
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {

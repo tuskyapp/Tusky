@@ -401,6 +401,7 @@
         <item quantity="other">Describe for visually impaired\n(%d character limit)</item>
     </plurals>
     <string name="action_set_caption">Set caption</string>
+    <string name="action_edit_image">Edit image</string>
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
