@@ -539,4 +539,5 @@
     <string name="notification_sign_up_description">Notifiche di quando qualcuno si è registrato</string>
     <string name="notification_update_name">Modifiche ai post</string>
     <string name="notification_update_description">Notifiche di quando i post con cui hai interagito vengono modificati</string>
+    <string name="error_could_not_load_login_page">Non è stato possibile caricare la pagina di login.</string>
 </resources>

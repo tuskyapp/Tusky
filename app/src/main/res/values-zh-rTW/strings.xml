@@ -524,4 +524,6 @@
     <string name="pref_title_alway_open_spoiler">總是顯示被標注為內容警告的嘟文</string>
     <string name="failed_search">搜尋失敗</string>
     <string name="title_accounts">帳號</string>
+    <string name="title_login">登入</string>
+    <string name="error_could_not_load_login_page">無法載入登入頁面。</string>
 </resources>

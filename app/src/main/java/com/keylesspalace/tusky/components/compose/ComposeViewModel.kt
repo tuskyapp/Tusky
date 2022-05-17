@@ -184,7 +184,7 @@ class ComposeViewModel @Inject constructor(
 
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaToJob[item.localId]?.cancel()
-        media.update { mediaValue -> mediaValue.filter { it.localId == item.localId } }
+        media.update { mediaValue -> mediaValue.filter { it.localId != item.localId } }
     }
 
     fun toggleMarkSensitive() {
@@ -220,29 +220,34 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    fun saveDraft(content: String, contentWarning: String) {
-        viewModelScope.launch {
-            val mediaUris: MutableList<String> = mutableListOf()
-            val mediaDescriptions: MutableList<String?> = mutableListOf()
-            media.value.forEach { item ->
-                mediaUris.add(item.uri.toString())
-                mediaDescriptions.add(item.description)
-            }
-
-            draftHelper.saveDraft(
-                draftId = draftId,
-                accountId = accountManager.activeAccount?.id!!,
-                inReplyToId = inReplyToId,
-                content = content,
-                contentWarning = contentWarning,
-                sensitive = markMediaAsSensitive.value!!,
-                visibility = statusVisibility.value!!,
-                mediaUris = mediaUris,
-                mediaDescriptions = mediaDescriptions,
-                poll = poll.value,
-                failedToSend = false
-            )
+    fun shouldShowSaveDraftDialog(): Boolean {
+        // if any of the media files need to be downloaded first it could take a while, so show a loading dialog
+        return media.value.any { mediaValue ->
+            mediaValue.uri.scheme == "https"
         }
+    }
+
+    suspend fun saveDraft(content: String, contentWarning: String) {
+        val mediaUris: MutableList<String> = mutableListOf()
+        val mediaDescriptions: MutableList<String?> = mutableListOf()
+        media.value.forEach { item ->
+            mediaUris.add(item.uri.toString())
+            mediaDescriptions.add(item.description)
+        }
+
+        draftHelper.saveDraft(
+            draftId = draftId,
+            accountId = accountManager.activeAccount?.id!!,
+            inReplyToId = inReplyToId,
+            content = content,
+            contentWarning = contentWarning,
+            sensitive = markMediaAsSensitive.value!!,
+            visibility = statusVisibility.value!!,
+            mediaUris = mediaUris,
+            mediaDescriptions = mediaDescriptions,
+            poll = poll.value,
+            failedToSend = false
+        )
     }
 
     /**

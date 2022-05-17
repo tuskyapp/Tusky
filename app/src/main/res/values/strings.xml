@@ -40,6 +40,7 @@
     <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
     <string name="title_domain_mutes">Hidden domains</string>
+    <string name="title_migration_relogin">Re-login for push notifications</string>
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_edit_profile">Edit your profile</string>
     <string name="title_drafts">Drafts</string>
@@ -147,6 +148,8 @@
     <string name="action_open_reblogger">Open boost author</string>
     <string name="action_open_reblogged_by">Show boosts</string>
     <string name="action_open_faved_by">Show favorites</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_details">Details</string>
 
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
@@ -639,5 +642,10 @@
     <string name="action_unsubscribe_account">Unsubscribe</string>
 
     <string name="tusky_compose_post_quicksetting_label">Compose Post</string>
+    <string name="saving_draft">Saving draft…</string>
+
+    <string name="tips_push_notification_migration">Re-login all accounts to enable push notification support.</string>
+    <string name="dialog_push_notification_migration">In order to use push notifications via UnifiedPush, Tusky needs permission to subscribe to notifications on your Mastodon server. This requires a re-login to change the OAuth scopes granted to Tusky. Using the re-login option here or in Account Preferences will preserve all of your local drafts and cache.</string>
+    <string name="dialog_push_notification_migration_other_accounts">You have re-logged into your current account to grant push subscription permission to Tusky. However, you still have other accounts that have not been migrated this way. Switch to them and re-login one by one in order to enable UnifiedPush notifications support.</string>
 
 </resources>

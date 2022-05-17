@@ -531,8 +531,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
-            str.setSpan(new StyleSpan(Typeface.BOLD), 0, displayName.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            int displayNameIndex = format.indexOf("%s");
+            str.setSpan(
+                    new StyleSpan(Typeface.BOLD),
+                    displayNameIndex,
+                    displayNameIndex + displayName.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
             CharSequence emojifiedText = CustomEmojiHelper.emojify(
                     str, notificationViewData.getAccount().getEmojis(), message, statusDisplayOptions.animateEmojis()
             );

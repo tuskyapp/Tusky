@@ -30,7 +30,12 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.IOUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okio.buffer
+import okio.sink
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -38,6 +43,7 @@ import javax.inject.Inject
 
 class DraftHelper @Inject constructor(
     val context: Context,
+    val okHttpClient: OkHttpClient,
     db: AppDatabase
 ) {
 
@@ -71,11 +77,11 @@ class DraftHelper @Inject constructor(
 
         val uris = mediaUris.map { uriString ->
             uriString.toUri()
-        }.map { uri ->
-            if (uri.isNotInFolder(draftDirectory)) {
-                uri.copyToFolder(draftDirectory)
-            } else {
+        }.mapNotNull { uri ->
+            if (uri.isInFolder(draftDirectory)) {
                 uri
+            } else {
+                uri.copyToFolder(draftDirectory)
             }
         }
 
@@ -114,6 +120,7 @@ class DraftHelper @Inject constructor(
         )
 
         draftDao.insertOrReplace(draft)
+        Log.d("DraftHelper", "saved draft to db")
     }
 
     suspend fun deleteDraftAndAttachments(draftId: Int) {
@@ -133,33 +140,55 @@ class DraftHelper @Inject constructor(
         }
     }
 
-    suspend fun deleteAttachments(draft: DraftEntity) {
-        withContext(Dispatchers.IO) {
-            draft.attachments.forEach { attachment ->
-                if (context.contentResolver.delete(attachment.uri, null, null) == 0) {
-                    Log.e("DraftHelper", "Did not delete file ${attachment.uriString}")
-                }
+    suspend fun deleteAttachments(draft: DraftEntity) = withContext(Dispatchers.IO) {
+        draft.attachments.forEach { attachment ->
+            if (context.contentResolver.delete(attachment.uri, null, null) == 0) {
+                Log.e("DraftHelper", "Did not delete file ${attachment.uriString}")
             }
         }
     }
 
-    private fun Uri.isNotInFolder(folder: File): Boolean {
+    private fun Uri.isInFolder(folder: File): Boolean {
         val filePath = path ?: return true
         return File(filePath).parentFile == folder
     }
 
-    private fun Uri.copyToFolder(folder: File): Uri {
+    private fun Uri.copyToFolder(folder: File): Uri? {
         val contentResolver = context.contentResolver
-
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
 
-        val mimeType = contentResolver.getType(this)
-        val map = MimeTypeMap.getSingleton()
-        val fileExtension = map.getExtensionFromMimeType(mimeType)
+        val fileExtension = if (scheme == "https") {
+            lastPathSegment?.substringAfterLast('.', "tmp")
+        } else {
+            val mimeType = contentResolver.getType(this)
+            val map = MimeTypeMap.getSingleton()
+            map.getExtensionFromMimeType(mimeType)
+        }
 
         val filename = String.format("Tusky_Draft_Media_%s.%s", timeStamp, fileExtension)
         val file = File(folder, filename)
-        IOUtils.copyToFile(contentResolver, this, file)
+
+        if (scheme == "https") {
+            // saving redrafted media
+            try {
+                val request = Request.Builder().url(toString()).build()
+
+                val response = okHttpClient.newCall(request).execute()
+
+                val sink = file.sink().buffer()
+
+                response.body?.source()?.use { input ->
+                    sink.use { output ->
+                        output.writeAll(input)
+                    }
+                }
+            } catch (ex: IOException) {
+                Log.w("DraftHelper", "failed to save media", ex)
+                return null
+            }
+        } else {
+            IOUtils.copyToFile(contentResolver, this, file)
+        }
         return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
     }
 }

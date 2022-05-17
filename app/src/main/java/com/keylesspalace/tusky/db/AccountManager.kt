@@ -54,7 +54,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      * @param accessToken the access token for the new account
      * @param domain the domain of the accounts Mastodon instance
      */
-    fun addAccount(accessToken: String, domain: String) {
+    fun addAccount(accessToken: String, domain: String, oauthScopes: String) {
 
         activeAccount?.let {
             it.isActive = false
@@ -65,7 +65,10 @@ class AccountManager @Inject constructor(db: AppDatabase) {
 
         val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
-        activeAccount = AccountEntity(id = newAccountId, domain = domain.lowercase(Locale.ROOT), accessToken = accessToken, isActive = true)
+        activeAccount = AccountEntity(
+            id = newAccountId, domain = domain.lowercase(Locale.ROOT),
+            accessToken = accessToken, oauthScopes = oauthScopes, isActive = true
+        )
     }
 
     /**
@@ -187,6 +190,17 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     fun getAccountById(accountId: Long): AccountEntity? {
         return accounts.find { (id) ->
             id == accountId
+        }
+    }
+
+    /**
+     * Finds an account by its string identifier
+     * @param identifier the string identifier of the account
+     * @return the requested account or null if it was not found
+     */
+    fun getAccountByIdentifier(identifier: String): AccountEntity? {
+        return accounts.find {
+            identifier == it.identifier
         }
     }
 }

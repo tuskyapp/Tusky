@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -539,13 +540,18 @@ public class NotificationHelper {
         }
     }
 
-    private static boolean filterNotification(AccountEntity account, Notification notification,
+    public static boolean filterNotification(AccountEntity account, Notification notification,
+                                              Context context) {
+        return filterNotification(account, notification.getType(), context);
+    }
+
+    public static boolean filterNotification(AccountEntity account, Notification.Type type,
                                               Context context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            String channelId = getChannelId(account, notification);
+            String channelId = getChannelId(account, type);
             if(channelId == null) {
                 // unknown notificationtype
                 return false;
@@ -554,7 +560,7 @@ public class NotificationHelper {
             return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
-        switch (notification.getType()) {
+        switch (type) {
             case MENTION:
                 return account.getNotificationsMentioned();
             case STATUS:
@@ -580,7 +586,12 @@ public class NotificationHelper {
 
     @Nullable
     private static String getChannelId(AccountEntity account, Notification notification) {
-        switch (notification.getType()) {
+        return getChannelId(account, notification.getType());
+    }
+
+    @Nullable
+    private static String getChannelId(AccountEntity account, Notification.Type type) {
+        switch (type) {
             case MENTION:
                 return CHANNEL_MENTION + account.getIdentifier();
             case STATUS:

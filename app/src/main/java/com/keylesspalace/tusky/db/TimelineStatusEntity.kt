@@ -78,7 +78,8 @@ data class TimelineStatusEntity(
     val expanded: Boolean, // used as the "loading" attribute when this TimelineStatusEntity is a placeholder
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
-    val pinned: Boolean
+    val pinned: Boolean,
+    val card: String?,
 )
 
 @Entity(
