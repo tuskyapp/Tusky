@@ -92,7 +92,7 @@
     <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
     <string name="notification_subscription_name">Postaichean ùra</string>
     <string name="pref_title_notification_filter_subscriptions">dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
-    <string name="notification_subscription_format">Tha %s air rud a phostadh</string>
+    <string name="notification_subscription_format">Phostaich %s rud</string>
     <string name="no_announcements">Chan eil brath-fios ann.</string>
     <string name="title_announcements">Brathan-fios</string>
     <string name="account_note_saved">Chaidh a shàbhaladh!</string>
@@ -270,7 +270,6 @@
     <string name="error_delete_list">Cha b’ urrainn dhuinn an liosta a sguabadh às</string>
     <string name="error_rename_list">Cha b’ urrainn dhut ainm ùr a thoirt air an liosta</string>
     <string name="error_create_list">Cha b’ urrainn dhuinn an liosta a chruthachadh</string>
-    <string name="title_list_timeline">Loidhne-ama na liosta</string>
     <string name="add_account_description">Cuir cunntas Mastodon ùr ris</string>
     <string name="add_account_name">Cuir cunntas ris</string>
     <string name="filter_add_description">An abairt ri chriathradh</string>
@@ -295,7 +294,7 @@
     <string name="action_schedule_post">Cuir post air an sgeideal</string>
     <string name="action_toggle_visibility">Faicsinneachd a’ phuist</string>
     <string name="action_access_scheduled_posts">Postaichean air an sgeideal</string>
-    <string name="notification_favourite_format">Chuir %s am post agad ris na h-annsachdan</string>
+    <string name="notification_favourite_format">Is annsa le %s am post agad</string>
     <string name="notification_reblog_format">Bhrosnaich %s am post agad</string>
     <string name="title_scheduled_posts">Postaichean air an sgeideal</string>
     <string name="title_view_thread">Snàithlean</string>
@@ -556,4 +555,5 @@
     <string name="pref_title_notification_filter_updates">chaidh post a rinn mi conaltradh leis a deasachadh</string>
     <string name="title_login">Clàraich a-steach</string>
     <string name="error_could_not_load_login_page">Cha b’ urrainn dhuinn duilleag a’ chlàraidh a-steach fhosgladh.</string>
+    <string name="saving_draft">A’ sàbhaladh na dreuchd…</string>
 </resources>

@@ -269,7 +269,6 @@
     <string name="add_account_description">إضافة حساب ماستدون جديد</string>
     <string name="action_lists">القوائم</string>
     <string name="title_lists">القوائم</string>
-    <string name="title_list_timeline">الخط الزمني للقائمة</string>
     <string name="error_create_list">لا يمكن إنشاء قائمة</string>
     <string name="error_rename_list">لا يمكن إعادة تسمية القائمة</string>
     <string name="error_delete_list">لا يمكن حذف القائمة</string>

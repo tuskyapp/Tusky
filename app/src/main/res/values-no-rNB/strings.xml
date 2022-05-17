@@ -242,7 +242,6 @@
     <string name="add_account_description">Legg til ny Mastodon-konto</string>
     <string name="action_lists">Lister</string>
     <string name="title_lists">Lister</string>
-    <string name="title_list_timeline">Listetidslinje</string>
     <string name="error_create_list">Kunne ikke opprette liste</string>
     <string name="error_rename_list">Kunne ikke gi liste nytt navn</string>
     <string name="error_delete_list">Kunne ikke slette liste</string>

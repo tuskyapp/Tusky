@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.ScheduledStatus
@@ -47,6 +48,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
+import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.HTTP
@@ -285,6 +287,14 @@ interface MastodonApi {
         @Query("limit") limit: Int? = null,
         @Query("following") following: Boolean? = null
     ): Single<List<TimelineAccount>>
+
+    @GET("api/v1/accounts/search")
+    fun searchAccountsCall(
+        @Query("q") query: String,
+        @Query("resolve") resolve: Boolean? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("following") following: Boolean? = null
+    ): Call<List<TimelineAccount>>
 
     @GET("api/v1/accounts/{id}")
     fun account(
@@ -591,10 +601,48 @@ interface MastodonApi {
         @Query("following") following: Boolean? = null
     ): Single<SearchResult>
 
+    @GET("api/v2/search")
+    fun searchCall(
+        @Query("q") query: String?,
+        @Query("type") type: String? = null,
+        @Query("resolve") resolve: Boolean? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("offset") offset: Int? = null,
+        @Query("following") following: Boolean? = null
+    ): Call<SearchResult>
+
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/note")
     fun updateAccountNote(
         @Path("id") accountId: String,
         @Field("comment") note: String
     ): Single<Relationship>
+
+    @FormUrlEncoded
+    @POST("api/v1/push/subscription")
+    suspend fun subscribePushNotifications(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Field("subscription[endpoint]") endPoint: String,
+        @Field("subscription[keys][p256dh]") keysP256DH: String,
+        @Field("subscription[keys][auth]") keysAuth: String,
+        // The "data[alerts][]" fields to enable / disable notifications
+        // Should be generated dynamically from all the available notification
+        // types defined in [com.keylesspalace.tusky.entities.Notification.Types]
+        @FieldMap data: Map<String, Boolean>
+    ): Result<NotificationSubscribeResult>
+
+    @FormUrlEncoded
+    @PUT("api/v1/push/subscription")
+    suspend fun updatePushNotificationSubscription(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @FieldMap data: Map<String, Boolean>
+    ): Result<NotificationSubscribeResult>
+
+    @DELETE("api/v1/push/subscription")
+    suspend fun unsubscribePushNotifications(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+    ): Result<ResponseBody>
 }

@@ -275,7 +275,6 @@
     <string name="add_account_description">Ajouter un nouveau compte Mastodon</string>
     <string name="action_lists">Listes</string>
     <string name="title_lists">Listes</string>
-    <string name="title_list_timeline">Fil de la liste</string>
     <string name="error_create_list">Impossible de créer la liste</string>
     <string name="error_rename_list">Impossible de renommer la liste</string>
     <string name="error_delete_list">Impossible de supprimer la liste</string>
@@ -295,7 +294,7 @@
     <string name="action_set_caption">Mettre une légende</string>
     <string name="action_remove">Supprimer le média</string>
     <string name="lock_account_label">Verrouiller le compte</string>
-    <string name="lock_account_label_description">Vous devez approuvez manuellement les abonnements</string>
+    <string name="lock_account_label_description">Vous devez approuver manuellement les abonnements</string>
     <string name="compose_save_draft">Enregistrer comme brouillon ?</string>
     <string name="send_post_notification_title">Envoi du pouet…</string>
     <string name="send_post_notification_error_title">Erreur lors de l’envoi du pouet</string>

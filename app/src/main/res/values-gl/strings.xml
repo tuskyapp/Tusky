@@ -275,7 +275,6 @@
     <string name="error_delete_list">Non se puido eliminar a listaxe</string>
     <string name="error_rename_list">Non se puido renomear a listaxe</string>
     <string name="error_create_list">Non se puido crear a listaxe</string>
-    <string name="title_list_timeline">Cronoloxía da listaxe</string>
     <string name="title_lists">Listaxes</string>
     <string name="action_lists">Listaxes</string>
     <string name="add_account_description">Engadir unha nova conta Mastodon</string>

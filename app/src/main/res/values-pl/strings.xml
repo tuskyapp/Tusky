@@ -20,7 +20,7 @@
     <string name="title_home">Strona główna</string>
     <string name="title_notifications">Powiadomienia</string>
     <string name="title_public_local">Lokalne</string>
-    <string name="title_public_federated">Globalne</string>
+    <string name="title_public_federated">Sfederowane</string>
     <string name="title_view_thread">Wątek</string>
     <string name="title_posts">Wpisy</string>
     <string name="title_posts_with_replies">Z odpowiedziami</string>
@@ -33,12 +33,12 @@
     <string name="title_edit_profile">Edytuj profil</string>
     <string name="title_drafts">Szkice</string>
     <string name="title_licenses">Licencje</string>
-    <string name="post_boosted_format">%s podbił</string>
-    <string name="post_sensitive_media_title">Wrażliwe treści</string>
-    <string name="post_media_hidden_title">Ukryto zawartość multimedialną</string>
+    <string name="post_boosted_format">%s podbite</string>
+    <string name="post_sensitive_media_title">Treści wrażliwe</string>
+    <string name="post_media_hidden_title">Ukryto multimedia</string>
     <string name="post_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="post_content_warning_show_more">Pokaż więcej</string>
-    <string name="post_content_warning_show_less">Ukryj</string>
+    <string name="post_content_warning_show_less">Pokaż mniej</string>
     <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
     <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
     <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
@@ -95,13 +95,13 @@
     <string name="action_emoji_keyboard">Klawiatura emoji</string>
     <string name="download_image">Pobieranie %1$s</string>
     <string name="action_copy_link">Skopiuj odnośnik</string>
-    <string name="send_post_link_to">Udostępnij odnośnik do wpisu…</string>
+    <string name="send_post_link_to">Udostępnij URL do…</string>
     <string name="send_post_content_to">Udostępnij wpis do…</string>
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
     <string name="post_sent">Wyślij!</string>
-    <string name="post_sent_long">Pomyślnie wysłano odpowiedź.</string>
+    <string name="post_sent_long">Odpowiedź wysłano pomyślnie.</string>
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
     <string name="hint_content_warning">Ostrzeżenie o zawartości</string>
@@ -151,7 +151,7 @@
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
     <string name="pref_title_hide_follow_button">Ukryj przycisk śledzenia podczas przewijania</string>
     <string name="pref_title_post_filter">Filtrowanie osi czasu</string>
-    <string name="pref_title_post_tabs">Zakładki</string>
+    <string name="pref_title_post_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokaż podbicia</string>
     <string name="pref_title_show_replies">Pokazuj odpowiedzi</string>
     <string name="pref_title_show_media_preview">Pokazuj podgląd zawartości multimedialnej</string>
@@ -183,10 +183,10 @@
     <string name="notification_summary_medium">%1$s, %2$s, i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d nowe powiadomienie</item>
-        <item quantity="few">%d nowe powiadomienia</item>
-        <item quantity="many">%d nowych powiadomień</item>
-        <item quantity="other">%d nowych powiadomień</item>
+        <item quantity="one">%d nowa interakcja</item>
+        <item quantity="few">%d nowe interakcje</item>
+        <item quantity="many">%d nowych interakcji</item>
+        <item quantity="other">%d nowych interakcji</item>
     </plurals>
     <string name="description_account_locked">Konto zablokowane</string>
     <string name="about_title_activity">O programie</string>
@@ -229,7 +229,6 @@
     <string name="add_account_description">Dodaj nowe Konto Mastodon</string>
     <string name="action_lists">Listy</string>
     <string name="title_lists">Listy</string>
-    <string name="title_list_timeline">Oś czasu listy</string>
     <string name="compose_active_account_description">Publikowanie z konta %1$s</string>
     <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
     <string name="action_set_caption">Ustaw podpis</string>
@@ -404,25 +403,25 @@
     <string name="poll_ended_voted">Głosowanie w którym brałeś(-aś) udział zakończyła się</string>
     <string name="poll_ended_created">Ankieta, którą stworzyłeś(aś), zakończyła się</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">Zostało %d dzień</item>
+        <item quantity="one">Został %d dzień</item>
         <item quantity="few">Zostało %d dni</item>
         <item quantity="many">Zostało %d dni</item>
         <item quantity="other">Zostało %d dni</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">Zostało %d godzina</item>
+        <item quantity="one">Została %d godzina</item>
         <item quantity="few">Zostało %d godziny</item>
         <item quantity="many">Zostało %d godzin</item>
         <item quantity="other">Zostało %d godzin</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">Zostało %d minuta</item>
+        <item quantity="one">Została %d minuta</item>
         <item quantity="few">Zostało %d minuty</item>
         <item quantity="many">Zostało %d minut</item>
         <item quantity="other">Zostało %d minut</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">Zostało %d sekunda</item>
+        <item quantity="one">Została %d sekunda</item>
         <item quantity="few">Zostało %d sekund</item>
         <item quantity="many">Zostało %d sekund</item>
         <item quantity="other">Zostało %d sekund</item>
@@ -462,7 +461,7 @@
     <string name="title_bookmarks">Zakładki</string>
     <string name="action_bookmark">Dodaj do zakładek</string>
     <string name="action_view_bookmarks">Zakładki</string>
-    <string name="description_post_bookmarked">Dodane do zakładek</string>
+    <string name="description_post_bookmarked">Dodany do zakładek</string>
     <string name="select_list_title">Wybierz listę</string>
     <string name="list">Lista</string>
     <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
@@ -493,8 +492,8 @@
     <string name="pref_main_nav_position_option_bottom">Dół</string>
     <string name="pref_main_nav_position_option_top">Góra</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="one">Nie możesz przesłać więcej niż %1$d załącznika.</item>
-        <item quantity="few">Nie możesz przesłać więcej niż %1$d załączników.</item>
+        <item quantity="one">Nie możesz przesłać więcej niż %1$d załącznik.</item>
+        <item quantity="few">Nie możesz przesłać więcej niż %1$d załączniki.</item>
         <item quantity="many">Nie możesz przesłać więcej niż %1$d załączników.</item>
         <item quantity="other">Nie możesz przesłać więcej niż %1$d załączników.</item>
     </plurals>
@@ -515,21 +514,21 @@
     <string name="pref_title_enable_swipe_for_tabs">Włącz gest przesuwania by przełączać między zakładkami</string>
     <string name="post_media_attachments">Załączniki</string>
     <string name="notification_follow_request_description">Powiadomienia o prośbach o obserwowanie</string>
-    <string name="pref_title_notification_filter_subscriptions">ktoś kogo zasubskrybowałem/zasubskrybowałam opublikował nowy wpis</string>
+    <string name="pref_title_notification_filter_subscriptions">ktoś zasubskrybowany opublikował nowy wpis</string>
     <string name="pref_title_notification_filter_follow_requests">Wysłano prośbę o obserwowanie</string>
     <string name="title_announcements">Ogłoszenia</string>
     <string name="pref_title_wellbeing_mode">Zdrowie</string>
     <string name="action_unsubscribe_account">Anuluj subskrypcję</string>
     <string name="action_subscribe_account">Zasubskrybuj</string>
     <string name="follow_requests_info">Mimo tego, że twoje konto nie jest zablokowane, administracja %1$s uznała, że możesz chcieć ręcznie przejrzeć te prośby o możliwość śledzenia od tych kont.</string>
-    <string name="drafts_post_reply_removed">Wpis dla którego naszkicowałeś/naszkicowałaś odpowiedź został usunięty</string>
+    <string name="drafts_post_reply_removed">Wpis dla którego naszkicowałeś/aś odpowiedź został usunięty</string>
     <string name="draft_deleted">Usunięto szkic</string>
     <string name="wellbeing_hide_stats_profile">Ukryj ilościowe statystyki na profilach</string>
     <string name="wellbeing_hide_stats_posts">Ukryj ilościowe statystyki na postach</string>
     <string name="review_notifications">Przejrzyj powiadomienia</string>
     <string name="account_note_saved">Zapisano!</string>
     <string name="account_note_hint">Twoja prywatna notatka o tym koncie</string>
-    <string name="duration_indefinite">Nieskończona</string>
+    <string name="duration_indefinite">Nieograniczony</string>
     <string name="post_media_audio">Dźwięk</string>
     <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
@@ -552,9 +551,11 @@
     <string name="notification_sign_up_format">%s zarejestrował(a) się</string>
     <string name="notification_sign_up_name">Rejestracje</string>
     <string name="notification_sign_up_description">Powiadomienia o nowych użytkownikach</string>
-    <string name="notification_update_description">Powiadomienia o edycji wpisów z którymi interaktowałeś/aś</string>
+    <string name="notification_update_description">Powiadomienia o edycji wpisów z którymi dokonałeś/aś interakcji</string>
     <string name="pref_title_notification_filter_sign_ups">ktoś zarejestrował się</string>
-    <string name="pref_title_notification_filter_updates">wpis, z którym interaktowałem/am został edytowany</string>
+    <string name="pref_title_notification_filter_updates">wpis, z którym dokonałem/am interakcji został edytowany</string>
     <string name="notification_update_format">%s edytował(a) swój wpis</string>
     <string name="notification_update_name">Edycje wpisów</string>
+    <string name="saving_draft">Zapisywanie szkicu…</string>
+    <string name="error_could_not_load_login_page">Nie można załadować strony logowania.</string>
 </resources>

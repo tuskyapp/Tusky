@@ -47,6 +47,8 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
+import java.util.Date
+import kotlin.collections.HashMap
 
 /**
  * Created by charlag on 3/7/18.
@@ -466,22 +468,23 @@ class ComposeActivityTest {
             null,
             listOf("en"),
             Account(
-                "1",
-                "admin",
-                "admin",
-                "admin",
-                "",
-                "https://example.token",
-                "",
-                "",
-                false,
-                0,
-                0,
-                0,
-                null,
-                false,
-                emptyList(),
-                emptyList()
+                id = "1",
+                localUsername = "admin",
+                username = "admin",
+                displayName = "admin",
+                createdAt = Date(),
+                note = "",
+                url = "https://example.token",
+                avatar = "",
+                header = "",
+                locked = false,
+                statusesCount = 0,
+                followersCount = 0,
+                followingCount = 0,
+                source = null,
+                bot = false,
+                emojis = emptyList(),
+                fields = emptyList(),
             ),
             maximumLegacyTootCharacters,
             null,

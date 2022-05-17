@@ -274,7 +274,6 @@
     <string name="add_account_description">Přidat nový účet Mastodon</string>
     <string name="action_lists">Seznamy</string>
     <string name="title_lists">Seznamy</string>
-    <string name="title_list_timeline">Časová osa seznamu</string>
     <string name="error_create_list">Nelze vytvořit seznam</string>
     <string name="error_rename_list">Nelze přejmenovat seznam</string>
     <string name="error_delete_list">Nelze smazat seznam</string>

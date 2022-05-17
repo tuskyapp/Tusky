@@ -448,7 +448,6 @@
     <string name="action_delete_list">Xóa danh sách</string>
     <string name="action_rename_list">Đổi tên danh sách</string>
     <string name="action_create_list">Tạo danh sách</string>
-    <string name="title_list_timeline">Danh sách bảng tin</string>
     <string name="add_account_description">Thêm tài khoản Mastodon</string>
     <string name="add_account_name">Thêm tài khoản</string>
     <string name="filter_add_description">Thêm mô tả</string>
@@ -517,4 +516,5 @@
     <string name="notification_update_description">Thông báo khi tút mà tôi tương tác bị sửa</string>
     <string name="title_login">Đăng nhập</string>
     <string name="error_could_not_load_login_page">Không thể tải trang đăng nhập.</string>
+    <string name="saving_draft">Đang lưu nháp…</string>
 </resources>

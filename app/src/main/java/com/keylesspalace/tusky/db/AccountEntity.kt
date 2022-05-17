@@ -64,7 +64,15 @@ data class AccountEntity(
     var activeNotifications: String = "[]",
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
-    var notificationsFilter: String = "[\"follow_request\"]"
+    var notificationsFilter: String = "[\"follow_request\"]",
+    // Scope cannot be changed without re-login, so store it in case
+    // the scope needs to be changed in the future
+    var oauthScopes: String = "",
+    var unifiedPushUrl: String = "",
+    var pushPubKey: String = "",
+    var pushPrivKey: String = "",
+    var pushAuth: String = "",
+    var pushServerKey: String = "",
 ) {
 
     val identifier: String

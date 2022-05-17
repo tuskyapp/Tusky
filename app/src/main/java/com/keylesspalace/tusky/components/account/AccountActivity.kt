@@ -84,6 +84,9 @@ import com.keylesspalace.tusky.view.showMuteAccountDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.text.NumberFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -413,12 +416,27 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         updateToolbar()
         updateMovedAccount()
         updateRemoteAccount()
+        updateAccountJoinedDate()
         updateAccountStats()
         invalidateOptionsMenu()
 
         binding.accountMuteButton.setOnClickListener {
             viewModel.unmuteAccount()
             updateMuteButton()
+        }
+    }
+
+    private fun updateAccountJoinedDate() {
+        loadedAccount?.let { account ->
+            try {
+                binding.accountDateJoined.text = resources.getString(
+                    R.string.account_date_joined,
+                    SimpleDateFormat("MMMM, yyyy", Locale.getDefault()).format(account.createdAt)
+                )
+                binding.accountDateJoined.visibility = View.VISIBLE
+            } catch (e: ParseException) {
+                binding.accountDateJoined.visibility = View.GONE
+            }
         }
     }
 
