@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -12,7 +13,9 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.util.ThemeUtils
 
 class PreferenceParent(
     val context: Context,
@@ -80,15 +83,15 @@ private fun itemLayout(context: Context): LinearLayout {
 }
 
 fun PreferenceParent.checkBoxPreference(
-   text: String,
-   selected: Boolean,
-   onSelection: (Boolean) -> Unit
+    text: String,
+    selected: Boolean,
+    onSelection: (Boolean) -> Unit
 ) {
     val layout = itemLayout(context)
 
     val textView = TextView(context)
-    layout.addView(textView)
     textView.text = text
+    layout.addView(textView)
 
     val checkbox = CheckBox(context)
     layout.addView(checkbox)
@@ -97,6 +100,50 @@ fun PreferenceParent.checkBoxPreference(
     // TODO listener
 //    builder(pref)
 //    addPref(pref)
+    addPref(layout)
+}
+
+fun PreferenceParent.switchPreference(
+    title: String,
+    isChecked: () -> Boolean,
+    onSelection: (Boolean) -> Unit
+) {
+    val layout = itemLayout(context)
+    val textView = TextView(context).apply {
+        text = title
+        val refs = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.textAppearanceListItem, refs, true)
+        setTextAppearance(context, refs.resourceId)
+        setTextColor(ThemeUtils.getColor(context, android.R.attr.textColorPrimary))
+        // this is in resource but not at runtime?
+//        setSingleLine()
+        ellipsize = TextUtils.TruncateAt.MARQUEE
+    }
+    textView.layoutParams = LinearLayout.LayoutParams(
+        0,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+    ).apply {
+        weight = 1f
+        topMargin = dpToPx(16)
+        bottomMargin = dpToPx(16)
+    }
+    layout.addView(textView)
+
+    val switchLayout = LinearLayout(context).apply {
+        orientation = LinearLayout.VERTICAL
+        gravity = Gravity.CENTER_VERTICAL or Gravity.END
+    }
+    switchLayout.layoutParams = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+    )
+    layout.addView(switchLayout)
+
+    val switch = SwitchMaterial(context)
+    switch.isChecked = isChecked()
+    switch.setOnCheckedChangeListener { _, isChecked -> onSelection(isChecked) }
+    switchLayout.addView(switch)
+
     addPref(layout)
 }
 
@@ -110,23 +157,19 @@ fun PreferenceParent.preferenceCategory(
 
     addPref(categoryLayout)
 
-    val titleLayout = itemLayout(context)
+    val titleLayout = itemLayout(context).apply {
+        setPadding(dpToPx(16), dpToPx(8 + 16), dpToPx(16), dpToPx(8))
+    }
     categoryLayout.addView(titleLayout)
 
     val titleView = TextView(context).apply {
         layoutParams = ViewGroup.MarginLayoutParams(
             ViewGroup.MarginLayoutParams.WRAP_CONTENT,
             ViewGroup.MarginLayoutParams.WRAP_CONTENT
-        ).apply {
-            leftMargin = dpToPx(20)
-            topMargin = 10
-            rightMargin = 10
-            bottomMargin = 10
-        }
+        )
 
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-        setTextColor(typedValue.data)
+        setTextAppearance(context, R.style.TextAppearance_AppCompat_Body2)
+        setTextColor(ThemeUtils.getColor(context, R.attr.colorPrimary))
 
         setText(title)
     }
@@ -148,3 +191,4 @@ inline fun Fragment.makePreferenceScreen(
 }
 
 fun View.dpToPx(dp: Int) = Utils.dpToPx(this.context, dp)
+fun PreferenceParent.dpToPx(dp: Int) = Utils.dpToPx(this.context, dp)

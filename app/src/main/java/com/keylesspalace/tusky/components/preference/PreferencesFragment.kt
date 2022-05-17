@@ -20,20 +20,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.settings.checkBoxPreference
+import com.keylesspalace.tusky.settings.PrefData
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizePx
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 
@@ -45,18 +48,57 @@ class PreferencesFragment : Fragment(), Injectable {
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var prefStore: PrefStore
+
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
-//    private var httpProxyPref: Preference? = null
+
+    private fun updatePrefs(updater: (PrefData) -> PrefData) {
+        lifecycleScope.launch {
+            prefStore.updateData(updater)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = FrameLayout(inflater.context)
+        var prefs = prefStore.getBlocking()
+        lifecycleScope.launch {
+            prefStore.data.collect {
+                prefs = it
+                // trigger update?
+            }
+        }
+
         makePreferenceScreen(view) {
             preferenceCategory(R.string.pref_title_appearance_settings) {
-                checkBoxPreference("TEST", true) {}
+                switchPreference(getString(R.string.pref_title_hide_top_toolbar), prefs::hideTopToolbar) {
+                    updatePrefs { data -> data.copy(hideTopToolbar = it) }
+                }
+                switchPreference(getString(R.string.pref_title_hide_follow_button), prefs::hideFab) {
+                    updatePrefs { data -> data.copy(hideFab = it) }
+                }
+                switchPreference(getString(R.string.pref_title_absolute_time), prefs::useAbsoluteTime) {
+                    updatePrefs { data -> data.copy(useAbsoluteTime = it) }
+                }
+                switchPreference(getString(R.string.pref_title_bot_overlay), prefs::showBotOverlay) {
+                    updatePrefs { data -> data.copy(showBotOverlay = it) }
+                }
+                switchPreference(getString(R.string.pref_title_animate_gif_avatars), prefs::animateAvatars) {
+                    updatePrefs { data -> data.copy(animateAvatars = it) }
+                }
+                switchPreference(getString(R.string.pref_title_animate_custom_emojis), prefs::animateEmojis) {
+                    updatePrefs { data -> data.copy(animateEmojis = it) }
+                }
+                switchPreference(getString(R.string.pref_title_gradient_for_media), prefs::useBlurhash) {
+                    updatePrefs { data -> data.copy(useBlurhash = it) }
+                }
+                switchPreference(getString(R.string.pref_title_show_cards_in_timelines), prefs::showCardsInTimelines) {
+                    updatePrefs { data -> data.copy(showCardsInTimelines = it) }
+                }
             }
         }
         return view
