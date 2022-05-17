@@ -24,12 +24,11 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.keylesspalace.tusky.databinding.FragmentAccountsInListBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -45,7 +44,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
@@ -98,10 +97,8 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.accountsSearchRecycler.layoutManager = LinearLayoutManager(view.context)
         binding.accountsSearchRecycler.adapter = searchAdapter
 
-        viewModel.state
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this))
-            .subscribe { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
                 adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 
                 when (state.accounts) {
@@ -111,6 +108,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
                 setupSearchView(state)
             }
+        }
 
         binding.searchView.isSubmitButtonEnabled = true
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

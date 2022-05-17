@@ -25,6 +25,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,9 +47,9 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -253,10 +254,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
-        mastodonApi.getLists()
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
+        lifecycleScope.launch {
+            mastodonApi.getLists().fold(
                 { lists ->
                     adapter.addAll(lists)
                 },
@@ -264,6 +263,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                     Log.e("TabPreferenceActivity", "failed to load lists", throwable)
                 }
             )
+        }
 
         AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)

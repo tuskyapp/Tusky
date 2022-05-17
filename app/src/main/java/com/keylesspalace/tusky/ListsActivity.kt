@@ -31,14 +31,13 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -63,7 +62,7 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -102,19 +101,18 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
 
-        viewModel.state
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this))
-            .subscribe(this::update)
+        lifecycleScope.launch {
+            viewModel.state.collect(this@ListsActivity::update)
+        }
+
         viewModel.retryLoading()
 
         binding.addListButton.setOnClickListener {
             showlistNameDialog(null)
         }
 
-        viewModel.events.observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this))
-            .subscribe { event ->
+        lifecycleScope.launch {
+            viewModel.events.collect { event ->
                 @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                 when (event) {
                     Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
@@ -122,6 +120,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                     Event.DELETE_ERROR -> showMessage(R.string.error_delete_list)
                 }
             }
+        }
     }
 
     private fun showlistNameDialog(list: MastoList?) {

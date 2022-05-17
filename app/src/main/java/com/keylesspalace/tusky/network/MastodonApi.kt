@@ -38,7 +38,6 @@ import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.entity.TimelineAccount
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -73,9 +72,6 @@ interface MastodonApi {
         const val DOMAIN_HEADER = "domain"
         const val PLACEHOLDER_DOMAIN = "dummy.placeholder"
     }
-
-    @GET("/api/v1/lists")
-    fun getLists(): Single<List<MastoList>>
 
     @GET("/api/v1/custom_emojis")
     suspend fun getCustomEmojis(): Result<List<Emoji>>
@@ -281,12 +277,12 @@ interface MastodonApi {
     ): Result<Account>
 
     @GET("api/v1/accounts/search")
-    fun searchAccounts(
+    suspend fun searchAccounts(
         @Query("q") query: String,
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
         @Query("following") following: Boolean? = null
-    ): Single<List<TimelineAccount>>
+    ): Result<List<TimelineAccount>>
 
     @GET("api/v1/accounts/search")
     fun searchAccountsCall(
@@ -462,44 +458,47 @@ interface MastodonApi {
         @Field("grant_type") grantType: String
     ): Result<AccessToken>
 
+    @GET("/api/v1/lists")
+    suspend fun getLists(): Result<List<MastoList>>
+
     @FormUrlEncoded
     @POST("api/v1/lists")
-    fun createList(
+    suspend fun createList(
         @Field("title") title: String
-    ): Single<MastoList>
+    ): Result<MastoList>
 
     @FormUrlEncoded
     @PUT("api/v1/lists/{listId}")
-    fun updateList(
+    suspend fun updateList(
         @Path("listId") listId: String,
         @Field("title") title: String
-    ): Single<MastoList>
+    ): Result<MastoList>
 
     @DELETE("api/v1/lists/{listId}")
-    fun deleteList(
+    suspend fun deleteList(
         @Path("listId") listId: String
-    ): Completable
+    ): Result<Unit>
 
     @GET("api/v1/lists/{listId}/accounts")
-    fun getAccountsInList(
+    suspend fun getAccountsInList(
         @Path("listId") listId: String,
         @Query("limit") limit: Int
-    ): Single<List<TimelineAccount>>
+    ): Result<List<TimelineAccount>>
 
     @FormUrlEncoded
     // @DELETE doesn't support fields
     @HTTP(method = "DELETE", path = "api/v1/lists/{listId}/accounts", hasBody = true)
-    fun deleteAccountFromList(
+    suspend fun deleteAccountFromList(
         @Path("listId") listId: String,
         @Field("account_ids[]") accountIds: List<String>
-    ): Completable
+    ): Result<Unit>
 
     @FormUrlEncoded
     @POST("api/v1/lists/{listId}/accounts")
-    fun addCountToList(
+    suspend fun addAccountToList(
         @Path("listId") listId: String,
         @Field("account_ids[]") accountIds: List<String>
-    ): Completable
+    ): Result<Unit>
 
     @GET("/api/v1/conversations")
     suspend fun getConversations(

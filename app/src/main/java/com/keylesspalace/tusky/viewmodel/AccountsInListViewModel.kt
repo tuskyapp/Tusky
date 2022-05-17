@@ -17,92 +17,103 @@
 package com.keylesspalace.tusky.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
-import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.withoutFirstWhich
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class State(val accounts: Either<Throwable, List<TimelineAccount>>, val searchResult: List<TimelineAccount>?)
 
-class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) : RxAwareViewModel() {
+class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 
-    val state: Observable<State> get() = _state
-    private val _state = BehaviorSubject.createDefault(State(Right(listOf()), null))
+    val state: Flow<State> get() = _state
+    private val _state = MutableStateFlow(State(Right(listOf()), null))
 
     fun load(listId: String) {
-        val state = _state.value!!
+        val state = _state.value
         if (state.accounts.isLeft() || state.accounts.asRight().isEmpty()) {
-            api.getAccountsInList(listId, 0).subscribe(
-                { accounts ->
-                    updateState { copy(accounts = Right(accounts)) }
-                },
-                { e ->
-                    updateState { copy(accounts = Left(e)) }
-                }
-            ).autoDispose()
+            viewModelScope.launch {
+                api.getAccountsInList(listId, 0).fold(
+                    { accounts ->
+                        updateState { copy(accounts = Right(accounts)) }
+                    },
+                    { e ->
+                        updateState { copy(accounts = Left(e)) }
+                    }
+                )
+            }
         }
     }
 
     fun addAccountToList(listId: String, account: TimelineAccount) {
-        api.addCountToList(listId, listOf(account.id))
-            .subscribe(
-                {
-                    updateState {
-                        copy(accounts = accounts.map { it + account })
+        viewModelScope.launch {
+            api.addAccountToList(listId, listOf(account.id))
+                .fold(
+                    {
+                        updateState {
+                            copy(accounts = accounts.map { it + account })
+                        }
+                    },
+                    {
+                        Log.i(
+                            javaClass.simpleName,
+                            "Failed to add account to list: ${account.username}"
+                        )
                     }
-                },
-                {
-                    Log.i(
-                        javaClass.simpleName,
-                        "Failed to add account to the list: ${account.username}"
-                    )
-                }
-            )
-            .autoDispose()
+                )
+        }
     }
 
     fun deleteAccountFromList(listId: String, accountId: String) {
-        api.deleteAccountFromList(listId, listOf(accountId))
-            .subscribe(
-                {
-                    updateState {
-                        copy(
-                            accounts = accounts.map { accounts ->
-                                accounts.withoutFirstWhich { it.id == accountId }
-                            }
+        viewModelScope.launch {
+            api.deleteAccountFromList(listId, listOf(accountId))
+                .fold(
+                    {
+                        updateState {
+                            copy(
+                                accounts = accounts.map { accounts ->
+                                    accounts.withoutFirstWhich { it.id == accountId }
+                                }
+                            )
+                        }
+                    },
+                    {
+                        Log.i(
+                            javaClass.simpleName,
+                            "Failed to remove account from list: $accountId"
                         )
                     }
-                },
-                {
-                    Log.i(javaClass.simpleName, "Failed to remove account from thelist: $accountId")
-                }
-            )
-            .autoDispose()
+                )
+        }
     }
 
     fun search(query: String) {
         when {
             query.isEmpty() -> updateState { copy(searchResult = null) }
             query.isBlank() -> updateState { copy(searchResult = listOf()) }
-            else -> api.searchAccounts(query, null, 10, true)
-                .subscribe(
-                    { result ->
-                        updateState { copy(searchResult = result) }
-                    },
-                    {
-                        updateState { copy(searchResult = listOf()) }
-                    }
-                ).autoDispose()
+            else -> viewModelScope.launch {
+                api.searchAccounts(query, null, 10, true)
+                    .fold(
+                        { result ->
+                            updateState { copy(searchResult = result) }
+                        },
+                        {
+                            updateState { copy(searchResult = listOf()) }
+                        }
+                    )
+            }
         }
     }
 
     private inline fun updateState(crossinline fn: State.() -> State) {
-        _state.onNext(fn(_state.value!!))
+        _state.value = fn(_state.value)
     }
 }
