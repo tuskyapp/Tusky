@@ -45,7 +45,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
     val state: Flow<State> get() = _state
     val events: Flow<Event> get() = _events
     private val _state = MutableStateFlow(State(listOf(), LoadingState.INITIAL))
-    private val _events = MutableSharedFlow<Event>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    private val _events = MutableSharedFlow<Event>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
     fun retryLoading() {
         loadIfNeeded()
