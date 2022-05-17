@@ -243,7 +243,6 @@
     <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
     <string name="action_lists">Listeler</string>
     <string name="title_lists">Listeler</string>
-    <string name="title_list_timeline">Zaman çizelgesini listele</string>
     <string name="compose_active_account_description">%1$s hesabıyla gönderiliyor</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Görsel engelli için tanımla

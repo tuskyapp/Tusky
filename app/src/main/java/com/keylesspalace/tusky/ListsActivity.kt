@@ -198,9 +198,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         ).show()
     }
 
-    private fun onListSelected(listId: String) {
+    private fun onListSelected(listId: String, listTitle: String) {
         startActivityWithSlideInAnimation(
-            StatusListActivity.newListIntent(this, listId)
+            StatusListActivity.newListIntent(this, listId, listTitle)
         )
     }
 
@@ -270,7 +270,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
             override fun onClick(v: View) {
                 if (v == itemView) {
-                    onListSelected(getItem(bindingAdapterPosition).id)
+                    val list = getItem(bindingAdapterPosition)
+                    onListSelected(list.id, list.title)
                 } else {
                     onMore(getItem(bindingAdapterPosition), v)
                 }

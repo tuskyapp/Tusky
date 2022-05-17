@@ -285,7 +285,6 @@
     <string name="error_delete_list">Не вдалося видалити список</string>
     <string name="error_rename_list">Не вдалося перейменувати список</string>
     <string name="error_create_list">Не вдалося створити список</string>
-    <string name="title_list_timeline">Стрічка списку</string>
     <string name="add_account_description">Додати новий обліковий запис Mastodon</string>
     <string name="add_account_name">Додати обліковий запис</string>
     <string name="filter_add_description">Фільтрувати фразу</string>

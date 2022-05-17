@@ -275,7 +275,6 @@
     <string name="add_account_description">Afegir un compte de Mastodont</string>
     <string name="action_lists">Llistes</string>
     <string name="title_lists">Llistes</string>
-    <string name="title_list_timeline">Cronologia de la llista</string>
     <string name="error_create_list">És impossible crear la llista</string>
     <string name="error_rename_list">Impossible reanomenar la llista</string>
     <string name="error_delete_list">És impossible suprimir la llista</string>

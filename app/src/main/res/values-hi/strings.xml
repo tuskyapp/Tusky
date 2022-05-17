@@ -248,7 +248,6 @@
     <string name="compose_save_draft">लिखने को सुरक्षित करें\?</string>
     <string name="lock_account_label">खाता लॉक करें</string>
     <string name="action_set_caption">कैप्शन सेट करें</string>
-    <string name="title_list_timeline">सूची टाइमलाइन</string>
     <string name="add_account_name">खाता जोड़ो</string>
     <string name="filter_dialog_whole_word">पूरा शब्द</string>
     <string name="filter_edit_dialog_title">फ़िल्टर संपादित करें</string>

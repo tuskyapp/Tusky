@@ -403,7 +403,6 @@
     <string name="error_delete_list">نەیتوانی لیستەکە بسڕێتەوە</string>
     <string name="error_rename_list">نەیتوانی ناوی لیست بنووسرێ</string>
     <string name="error_create_list">نەیتوانی لیست دروست بکات</string>
-    <string name="title_list_timeline">لیستی تایم لاین</string>
     <string name="title_lists">لیستەکان</string>
     <string name="action_lists">لیستەکان</string>
     <string name="add_account_description">زیادکردنی ئەژمێری ماتۆدۆنی نوێ</string>

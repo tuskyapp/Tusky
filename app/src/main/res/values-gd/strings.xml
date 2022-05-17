@@ -270,7 +270,6 @@
     <string name="error_delete_list">Cha b’ urrainn dhuinn an liosta a sguabadh às</string>
     <string name="error_rename_list">Cha b’ urrainn dhut ainm ùr a thoirt air an liosta</string>
     <string name="error_create_list">Cha b’ urrainn dhuinn an liosta a chruthachadh</string>
-    <string name="title_list_timeline">Loidhne-ama na liosta</string>
     <string name="add_account_description">Cuir cunntas Mastodon ùr ris</string>
     <string name="add_account_name">Cuir cunntas ris</string>
     <string name="filter_add_description">An abairt ri chriathradh</string>

@@ -144,7 +144,6 @@
     <string name="error_delete_list">ไม่สามารถลบรายการได้</string>
     <string name="error_rename_list">ไม่สามารถเปลี่ยนชื่อรายการได้</string>
     <string name="error_create_list">ไม่สามารถสร้างรายการได้</string>
-    <string name="title_list_timeline">ไทม์ไลน์ในรายการ</string>
     <string name="add_account_description">เพิ่มบัญชี Mastodon ใหม่</string>
     <string name="add_account_name">เพิ่มบัญชี</string>
     <string name="filter_add_description">วลีที่ต้องการกรอง</string>

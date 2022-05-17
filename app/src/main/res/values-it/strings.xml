@@ -269,7 +269,6 @@
     <string name="add_account_description">Aggiungi un nuovo Account Mastodon</string>
     <string name="action_lists">Liste</string>
     <string name="title_lists">Liste</string>
-    <string name="title_list_timeline">Timeline della lista</string>
     <string name="error_create_list">Non è stato possibile creare la lista</string>
     <string name="error_rename_list">Non è stato possibile rinominare la lista</string>
     <string name="error_delete_list">Non è stato possibile eliminare la lista</string>

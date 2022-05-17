@@ -246,7 +246,6 @@
     <string name="add_account_description">Adicionar nova conta Mastodon</string>
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
-    <string name="title_list_timeline">Linha da lista</string>
     <string name="compose_active_account_description">Usando a conta %1$s</string>
     <string name="error_failed_set_caption">Erro ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>

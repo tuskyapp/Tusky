@@ -274,7 +274,6 @@
     <string name="add_account_description">添加新的 Mastodon 帐号</string>
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
-    <string name="title_list_timeline">列表时间轴</string>
     <string name="error_create_list">无法新建列表</string>
     <string name="error_rename_list">无法重命名列表</string>
     <string name="error_delete_list">无法删除列表</string>

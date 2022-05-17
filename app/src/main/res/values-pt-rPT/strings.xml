@@ -325,7 +325,7 @@
     <string name="action_lists">Listas</string>
     <string name="error_rename_list">Não foi possível renomear a lista</string>
     <string name="title_lists">Listas</string>
-    <string name="title_list_timeline">Cronologia da timeline</string>
+
     <string name="error_create_list">Não foi possível criar a lista</string>
     <string name="error_delete_list">Não foi possível apagar a lista</string>
     <string name="action_create_list">Criar uma lista</string>

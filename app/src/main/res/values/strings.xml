@@ -385,7 +385,6 @@
 
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
-    <string name="title_list_timeline">List timeline</string>
     <string name="error_create_list">Could not create list</string>
     <string name="error_rename_list">Could not rename list</string>
     <string name="error_delete_list">Could not delete list</string>

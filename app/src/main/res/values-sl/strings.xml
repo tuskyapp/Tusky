@@ -247,7 +247,6 @@
     <string name="add_account_description">Dodaj nov Mastodon račun</string>
     <string name="action_lists">Seznami</string>
     <string name="title_lists">Seznami</string>
-    <string name="title_list_timeline">Seznam časovnice</string>
     <string name="error_create_list">Seznama ni bilo mogoče ustvariti</string>
     <string name="error_rename_list">Seznama ni bilo mogoče preimenovati</string>
     <string name="error_delete_list">Seznama ni bilo mogoče izbrisati</string>

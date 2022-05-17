@@ -271,7 +271,6 @@
     <string name="add_account_description">Aldoni novan Mastodon konton</string>
     <string name="action_lists">Listoj</string>
     <string name="title_lists">Listoj</string>
-    <string name="title_list_timeline">Tempolinio de la listo</string>
     <string name="error_create_list">Ne povis krei la liston</string>
     <string name="error_rename_list">Ne povis ŝanĝi la nomon de la listo</string>
     <string name="error_delete_list">Ne povis forigi la liston</string>
