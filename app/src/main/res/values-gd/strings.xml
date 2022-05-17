@@ -92,7 +92,7 @@
     <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
     <string name="notification_subscription_name">Postaichean ùra</string>
     <string name="pref_title_notification_filter_subscriptions">dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
-    <string name="notification_subscription_format">Tha %s air rud a phostadh</string>
+    <string name="notification_subscription_format">Phostaich %s rud</string>
     <string name="no_announcements">Chan eil brath-fios ann.</string>
     <string name="title_announcements">Brathan-fios</string>
     <string name="account_note_saved">Chaidh a shàbhaladh!</string>
@@ -239,7 +239,6 @@
     <string name="download_fonts">Feumaidh tu na seataichean seo de dh’Emojis a luchdadh a-nuas an toiseach</string>
     <string name="system_default">Bun-roghainn an t-siostaim</string>
     <string name="emoji_style">Stoidhle nan Emojis</string>
-    <string name="copy_to_clipboard_success">Chaidh lethbhreac dheth a chur air an stòr-bhòrd</string>
     <string name="error_no_custom_emojis">Chan eil Emojis gnàthaichte aig an ionstans %s agad</string>
     <string name="send_post_notification_saved_content">Chaidh lethbhreac dhen phost agad a shàbhaladh ’na dhreachd</string>
     <string name="send_post_notification_cancel_title">Chaidh sgur dhen chur</string>
@@ -296,7 +295,7 @@
     <string name="action_schedule_post">Cuir post air an sgeideal</string>
     <string name="action_toggle_visibility">Faicsinneachd a’ phuist</string>
     <string name="action_access_scheduled_posts">Postaichean air an sgeideal</string>
-    <string name="notification_favourite_format">Chuir %s am post agad ris na h-annsachdan</string>
+    <string name="notification_favourite_format">Is annsa le %s am post agad</string>
     <string name="notification_reblog_format">Bhrosnaich %s am post agad</string>
     <string name="title_scheduled_posts">Postaichean air an sgeideal</string>
     <string name="title_view_thread">Snàithlean</string>
@@ -329,7 +328,7 @@
     <string name="abbreviated_in_hours">an ceann %du</string>
     <string name="abbreviated_in_days">an ceann %dl</string>
     <string name="abbreviated_in_years">an ceann %db</string>
-    <string name="state_follow_requested">Iarrar leantainn orm</string>
+    <string name="state_follow_requested">Iarrtas leantainn air</string>
     <string name="post_media_video">Videothan</string>
     <string name="post_media_images">Dealbhan</string>
     <string name="about_tusky_account">Pròifil Tusky</string>
@@ -555,4 +554,7 @@
     <string name="notification_update_name">Deasachadh puist</string>
     <string name="notification_update_description">Brathan nuair a thèid postaichean a rinn thu conaltradh leotha a dheasachadh</string>
     <string name="pref_title_notification_filter_updates">chaidh post a rinn mi conaltradh leis a deasachadh</string>
+    <string name="title_login">Clàraich a-steach</string>
+    <string name="error_could_not_load_login_page">Cha b’ urrainn dhuinn duilleag a’ chlàraidh a-steach fhosgladh.</string>
+    <string name="saving_draft">A’ sàbhaladh na dreuchd…</string>
 </resources>

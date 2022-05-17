@@ -20,7 +20,7 @@ import androidx.core.net.toUri
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.databinding.LoginWebviewBinding
+import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
@@ -78,7 +78,7 @@ sealed class LoginResult : Parcelable {
 
 /** Activity to do Oauth process using WebView. */
 class LoginWebViewActivity : BaseActivity(), Injectable {
-    private val binding by viewBinding(LoginWebviewBinding::inflate)
+    private val binding by viewBinding(ActivityLoginWebviewBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +117,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
                 error: WebResourceError
             ) {
                 Log.d("LoginWeb", "Failed to load ${data.url}: $error")
-                finishWithoutSlideOutAnimation()
+                sendResult(LoginResult.Err(getString(R.string.error_could_not_load_login_page)))
             }
 
             override fun shouldOverrideUrlLoading(

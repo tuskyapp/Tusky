@@ -430,7 +430,6 @@
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>
-    <string name="copy_to_clipboard_success">Đã chép vào clipboard</string>
     <string name="action_compose_shortcut">Viết</string>
     <string name="compose_save_draft">Lưu nháp\?</string>
     <string name="lock_account_label_description">Tự bạn sẽ phê duyệt người theo dõi</string>
@@ -516,4 +515,7 @@
     <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
     <string name="notification_update_name">Sửa tút</string>
     <string name="notification_update_description">Thông báo khi tút mà tôi tương tác bị sửa</string>
+    <string name="title_login">Đăng nhập</string>
+    <string name="error_could_not_load_login_page">Không thể tải trang đăng nhập.</string>
+    <string name="saving_draft">Đang lưu nháp…</string>
 </resources>

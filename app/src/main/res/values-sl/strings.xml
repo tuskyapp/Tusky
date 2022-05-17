@@ -276,7 +276,6 @@
     <string name="send_post_notification_saved_content">Kopija tuta je bila shranjena v osnutke</string>
     <string name="action_compose_shortcut">Sestavi</string>
     <string name="error_no_custom_emojis">Vaše vozlišče %s nima emotikonov po meri</string>
-    <string name="copy_to_clipboard_success">Kopirano v odložišče</string>
     <string name="emoji_style">Slog emotikonov</string>
     <string name="system_default">Privzete nastavitve sistema</string>
     <string name="download_fonts">Najprej boste morali prenesti te emotikone</string>

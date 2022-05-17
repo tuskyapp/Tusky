@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- O menu principal passa a mostrar uma opção para ver os utilizadores que pediram para o seguir!
+- O relógio para agendar toots ganhou um aspeto mais consistente com o resto do Tusky
+Registo completo de alterações: https://github.com/tuskyapp/Tusky/releases

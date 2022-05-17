@@ -304,7 +304,6 @@
     <string name="send_post_notification_saved_content">嘟文已儲存為草稿</string>
     <string name="action_compose_shortcut">發表新嘟文</string>
     <string name="error_no_custom_emojis">當前站點 %s 沒有自訂表情符號</string>
-    <string name="copy_to_clipboard_success">已複製到剪貼簿</string>
     <string name="emoji_style">表情符號風格</string>
     <string name="system_default">系統預設</string>
     <string name="download_fonts">你需要先下載這些表情符號包</string>
@@ -526,4 +525,6 @@
     <string name="pref_title_alway_open_spoiler">總是顯示被標注為內容警告的嘟文</string>
     <string name="failed_search">搜尋失敗</string>
     <string name="title_accounts">帳號</string>
+    <string name="title_login">登入</string>
+    <string name="error_could_not_load_login_page">無法載入登入頁面。</string>
 </resources>

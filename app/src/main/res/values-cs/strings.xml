@@ -302,7 +302,6 @@
     <string name="send_post_notification_saved_content">Kopie vašeho tootu byla uložena do vašich konceptů</string>
     <string name="action_compose_shortcut">Napsat</string>
     <string name="error_no_custom_emojis">Vaše instance %s nemá žádná vlastní emoji</string>
-    <string name="copy_to_clipboard_success">Zkopírováno do schránky</string>
     <string name="emoji_style">Styl emoji</string>
     <string name="system_default">Výchozí nastavení systému</string>
     <string name="download_fonts">Musíte si nejprve stáhnout tyto sady emoji</string>

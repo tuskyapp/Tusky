@@ -116,7 +116,6 @@
     <string name="download_fonts">ต้องดาวน์โหลดชุดเอโมจิเหล่านี้ก่อน</string>
     <string name="system_default">ค่าปริยายของระบบ</string>
     <string name="emoji_style">รูปแบบเอโมจิ</string>
-    <string name="copy_to_clipboard_success">คัดลอกไปยังคลิบบอร์ดแล้ว</string>
     <string name="error_no_custom_emojis">Instance %s ไม่มีเอโมจิแบบกำหนดเอง</string>
     <string name="action_compose_shortcut">เขียน</string>
     <string name="send_post_notification_saved_content">สำเนา Toot บันทึกเป็นฉบับร่างแล้ว</string>

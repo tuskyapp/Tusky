@@ -27,7 +27,7 @@
     <string name="title_tab_preferences">标签页</string>
     <string name="title_view_thread">嘟文</string>
     <string name="title_posts">嘟文</string>
-    <string name="title_posts_with_replies">嘟文和回复</string>
+    <string name="title_posts_with_replies">有回复</string>
     <string name="title_posts_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
@@ -42,7 +42,7 @@
     <string name="post_boosted_format">%s 转嘟了</string>
     <string name="post_sensitive_media_title">敏感内容</string>
     <string name="post_media_hidden_title">已隐藏的照片或视频</string>
-    <string name="post_sensitive_media_directions">点击显示</string>
+    <string name="post_sensitive_media_directions">点击查看</string>
     <string name="post_content_warning_show_more">显示更多</string>
     <string name="post_content_warning_show_less">折叠内容</string>
     <string name="post_content_show_more">展开</string>
@@ -156,7 +156,7 @@
     <string name="dialog_message_cancel_follow_request">移除关注请求？</string>
     <string name="dialog_unfollow_warning">不再关注此用户？</string>
     <string name="dialog_delete_post_warning">删除这条嘟文？</string>
-    <string name="dialog_redraft_post_warning">删除并重新编辑这条嘟文？</string>
+    <string name="dialog_redraft_post_warning">删除并重新起草这条嘟文？</string>
     <string name="visibility_public">公开：所有人可见，并会出现在公共时间轴上</string>
     <string name="visibility_unlisted">不公开：所有人可见，但不会出现在公共时间轴上</string>
     <string name="visibility_private">仅关注者：只有经过你确认后关注你的用户可见</string>
@@ -203,7 +203,7 @@
     <string name="post_privacy_public">公开</string>
     <string name="post_privacy_unlisted">不公开</string>
     <string name="post_privacy_followers_only">仅关注者</string>
-    <string name="pref_post_text_size">字体大小</string>
+    <string name="pref_post_text_size">嘟文字体大小</string>
     <string name="post_text_size_smallest">最小</string>
     <string name="post_text_size_small">小</string>
     <string name="post_text_size_medium">标准</string>
@@ -299,14 +299,13 @@
     <string name="lock_account_label">保护你的帐户（锁嘟）</string>
     <string name="lock_account_label_description">你需要手动审核所有关注请求</string>
     <string name="compose_save_draft">保存为草稿？</string>
-    <string name="send_post_notification_title">正在发送…</string>
-    <string name="send_post_notification_error_title">发送失败</string>
+    <string name="send_post_notification_title">正在发送嘟文…</string>
+    <string name="send_post_notification_error_title">嘟文发送出错</string>
     <string name="send_post_notification_channel_name">嘟文发送中</string>
     <string name="send_post_notification_cancel_title">已取消发送</string>
-    <string name="send_post_notification_saved_content">嘟文已保存为草稿</string>
+    <string name="send_post_notification_saved_content">嘟文副本已保存为草稿</string>
     <string name="action_compose_shortcut">发表嘟文</string>
     <string name="error_no_custom_emojis">当前实例 %s 没有自定义表情符号</string>
-    <string name="copy_to_clipboard_success">已复制到剪贴板</string>
     <string name="emoji_style">表情符号风格</string>
     <string name="system_default">系统默认</string>
     <string name="download_fonts">需要下载表情符号数据</string>
@@ -353,16 +352,10 @@
         <item quantity="other">标签页不能超过 %1$d 个</item>
     </plurals>
     <string name="description_post_media">媒体：%s</string>
-    <string name="description_post_cw">内容提醒：%s</string>
-    <string name="description_post_media_no_description_placeholder">
-        没有媒体描述信息
-    </string>
-    <string name="description_post_reblogged">
-        被转嘟
-    </string>
-    <string name="description_post_favourited">
-        被收藏
-    </string>
+    <string name="description_post_cw">内容警告：%s</string>
+    <string name="description_post_media_no_description_placeholder">没有描述信息</string>
+    <string name="description_post_reblogged">被转嘟</string>
+    <string name="description_post_favourited">被收藏</string>
     <string name="description_visiblity_public">
         公开
     </string>
@@ -435,7 +428,7 @@
     <string name="hint_additional_info">附加留言</string>
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">举报失败</string>
-    <string name="failed_fetch_posts">无法获取状态</string>
+    <string name="failed_fetch_posts">无法获取嘟文</string>
     <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此帐户的原因的说明：</string>
     <string name="report_description_remote_instance">该帐户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
@@ -533,4 +526,15 @@
     <string name="duration_14_days">14 天</string>
     <string name="duration_365_days">365 天</string>
     <string name="tusky_compose_post_quicksetting_label">撰写嘟文</string>
+    <string name="notification_sign_up_format">%s 已注册</string>
+    <string name="pref_title_notification_filter_sign_ups">某人进行了注册</string>
+    <string name="notification_sign_up_description">新用户通知</string>
+    <string name="notification_sign_up_name">注册</string>
+    <string name="title_login">登录</string>
+    <string name="notification_update_format">%s 编辑了他们的嘟文</string>
+    <string name="pref_title_notification_filter_updates">我进行过互动的嘟文被编辑了</string>
+    <string name="notification_update_name">嘟文编辑</string>
+    <string name="notification_update_description">当你进行过互动的嘟文被编辑时发出通知</string>
+    <string name="error_could_not_load_login_page">无法加载登录页。</string>
+    <string name="saving_draft">正在保存草稿…</string>
 </resources>

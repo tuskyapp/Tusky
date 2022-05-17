@@ -65,6 +65,10 @@ import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.notifications.disableAllNotifications
+import com.keylesspalace.tusky.components.notifications.disableUnifiedPushNotificationsForAccount
+import com.keylesspalace.tusky.components.notifications.enablePushNotificationsWithFallback
+import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNecessary
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
@@ -242,12 +246,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupTabs(showNotificationTab)
 
-        // Setup push notifications
-        if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            NotificationHelper.enablePullNotifications(this)
-        } else {
-            NotificationHelper.disablePullNotifications(this)
-        }
         eventHub.events
             .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(this, Lifecycle.Event.ON_DESTROY)
@@ -621,6 +619,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         binding.mainToolbar.setOnClickListener {
             (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
+
+        updateProfiles()
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
@@ -634,7 +634,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         // open LoginActivity to add new account
         if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
-            startActivityWithSlideInAnimation(LoginActivity.getIntent(this, true))
+            startActivityWithSlideInAnimation(LoginActivity.getIntent(this, LoginActivity.MODE_ADDITIONAL_LOGIN))
             return false
         }
         // change Account
@@ -664,6 +664,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                 .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                     lifecycleScope.launch {
+                        // Only disable UnifiedPush for this account -- do not call disableNotifications(),
+                        // which unnecessarily disables it for all accounts and then re-enables it again at
+                        // the next launch
+                        disableUnifiedPushNotificationsForAccount(this@MainActivity, activeAccount)
                         NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this@MainActivity)
                         cacheUpdater.clearForUser(activeAccount.id)
                         conversationRepository.deleteCacheForAccount(activeAccount.id)
@@ -678,7 +682,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                             NotificationHelper.disablePullNotifications(this@MainActivity)
                         }
                         val intent = if (newAccount == null) {
-                            LoginActivity.getIntent(this@MainActivity, false)
+                            LoginActivity.getIntent(this@MainActivity, LoginActivity.MODE_DEFAULT)
                         } else {
                             Intent(this@MainActivity, MainActivity::class.java)
                         }
@@ -711,6 +715,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
+
+        // Setup push notifications
+        showMigrationNoticeIfNecessary(this, binding.root, accountManager)
+        if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
+            lifecycleScope.launch {
+                enablePushNotificationsWithFallback(this@MainActivity, mastodonApi, accountManager)
+            }
+        } else {
+            disableAllNotifications(this, accountManager)
+        }
 
         accountLocked = me.locked
 

@@ -311,7 +311,6 @@
     <string name="send_post_notification_saved_content">복사본이 임시 저장에 저장되었습니다</string>
     <string name="action_compose_shortcut">글쓰기</string>
     <string name="error_no_custom_emojis">이 인스턴스 %s 은(는) 커스텀 이모지가 없습니다.</string>
-    <string name="copy_to_clipboard_success">클립보드에 복사되었습니다</string>
     <string name="emoji_style">이모지 스타일</string>
     <string name="system_default">시스템 기본</string>
     <string name="download_fonts">시스템 기본 외의 이모지를 설정하시려면 우선 다운로드해야 합니다</string>

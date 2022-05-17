@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Suporte para mostragem de votações, para votação e notificação de votações
+- Botões novos para filtrar notificações e excluí-las
+- Exclua e rascunhe os seus toots
+- Novo indicador que mostra, na foto de perfil, se uma conta é um bot (pode ser desativado nas preferências)
+- Novas traduções: Norueguês, Bokmål e Esloveno.

@@ -317,7 +317,6 @@
     <string name="send_post_notification_saved_content">Afrit af tístinu þínu hefur verið vistað drögunum þínum</string>
     <string name="action_compose_shortcut">Semja skilaboð</string>
     <string name="error_no_custom_emojis">Tilvikið þitt %s er ekki með nein sérsniðin tjáningartákn</string>
-    <string name="copy_to_clipboard_success">Afritað á klippispjald</string>
     <string name="emoji_style">Stíll tjáningartákna</string>
     <string name="system_default">Sjálfgefið í kerfinu</string>
     <string name="download_fonts">Þú þarft fyrst að ná í þessi táknmyndasett</string>

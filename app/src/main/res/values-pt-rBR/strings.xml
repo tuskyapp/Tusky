@@ -261,7 +261,6 @@
     <string name="send_post_notification_saved_content">Uma cópia do toot foi salva nos seus rascunhos</string>
     <string name="action_compose_shortcut">Compor</string>
     <string name="error_no_custom_emojis">A sua instância %s não possui emojis personalizados</string>
-    <string name="copy_to_clipboard_success">Copiado para a área de transferência</string>
     <string name="emoji_style">Estilo de emoji</string>
     <string name="system_default">Padrão do sistema</string>
     <string name="download_fonts">É necessário baixar estes pacotes de emojis primeiro</string>

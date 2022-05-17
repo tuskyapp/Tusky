@@ -48,7 +48,6 @@
     <string name="download_fonts">আপনাকে প্রথমে এই ইমোজি সেটগুলি ডাউনলোড করতে হবে</string>
     <string name="system_default">সিস্টেমের ডিফল্ট</string>
     <string name="emoji_style">ইমোজি স্টাইল</string>
-    <string name="copy_to_clipboard_success">ক্লিপবোর্ডে অনুলিপি করা হয়েছে</string>
     <string name="error_no_custom_emojis">আপনার ইনস্ট্যান্স %s এর কোনো কাস্টম ইমোজিস নেই</string>
     <string name="action_compose_shortcut">রচনা</string>
     <string name="send_post_notification_saved_content">টুট এর একটি কপি আপনার ড্রাফটে সংরক্ষণ করা হয়েছে</string>

@@ -369,13 +369,36 @@ class TimelineDaoTest {
         assertEquals("99", timelineDao.getTopPlaceholderId(1))
     }
 
+    @Test
+    fun `preview card survives roundtrip`() = runBlocking {
+        val setOne = makeStatus(statusId = 3, cardUrl = "https://foo.bar")
+
+        for ((status, author, reblogger) in listOf(setOne)) {
+            timelineDao.insertAccount(author)
+            reblogger?.let {
+                timelineDao.insertAccount(it)
+            }
+            timelineDao.insertStatus(status)
+        }
+
+        val pagingSource = timelineDao.getStatuses(setOne.first.timelineUserId)
+
+        val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 2, false))
+
+        val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
+
+        assertEquals(1, loadedStatuses.size)
+        assertStatuses(listOf(setOne), loadedStatuses)
+    }
+
     private fun makeStatus(
         accountId: Long = 1,
         statusId: Long = 10,
         reblog: Boolean = false,
         createdAt: Long = statusId,
         authorServerId: String = "20",
-        domain: String = "mastodon.example"
+        domain: String = "mastodon.example",
+        cardUrl: String? = null,
     ): Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?> {
         val author = TimelineAccountEntity(
             serverId = authorServerId,
@@ -403,6 +426,10 @@ class TimelineDaoTest {
             )
         } else null
 
+        val card = when (cardUrl) {
+            null -> null
+            else -> "{ url: \"$cardUrl\" }"
+        }
         val even = accountId % 2 == 0L
         val status = TimelineStatusEntity(
             serverId = statusId.toString(),
@@ -433,7 +460,8 @@ class TimelineDaoTest {
             expanded = false,
             contentCollapsed = false,
             contentShowing = true,
-            pinned = false
+            pinned = false,
+            card = card,
         )
         return Triple(status, author, reblogAuthor)
     }

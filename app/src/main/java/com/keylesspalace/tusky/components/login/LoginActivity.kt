@@ -68,7 +68,9 @@ class LoginActivity : BaseActivity(), Injectable {
                 // Authorization failed. Put the error response where the user can read it and they
                 // can try again.
                 setLoading(false)
-                binding.domainTextInputLayout.error = getString(R.string.error_authorization_denied)
+                // Use error returned by the server or fall back to the generic message
+                binding.domainTextInputLayout.error =
+                    result.errorMessage.ifBlank { getString(R.string.error_authorization_denied) }
                 Log.e(
                     TAG,
                     "%s %s".format(
@@ -90,10 +92,15 @@ class LoginActivity : BaseActivity(), Injectable {
 
         if (savedInstanceState == null &&
             BuildConfig.CUSTOM_INSTANCE.isNotBlank() &&
-            !isAdditionalLogin()
+            !isAdditionalLogin() && !isAccountMigration()
         ) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
+        }
+
+        if (isAccountMigration()) {
+            binding.domainEditText.setText(accountManager.activeAccount!!.domain)
+            binding.domainEditText.isEnabled = false
         }
 
         if (BuildConfig.CUSTOM_LOGO_URL.isNotBlank()) {
@@ -118,7 +125,7 @@ class LoginActivity : BaseActivity(), Injectable {
             textView?.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        if (isAdditionalLogin()) {
+        if (isAdditionalLogin() || isAccountMigration()) {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -133,7 +140,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
     override fun finish() {
         super.finish()
-        if (isAdditionalLogin()) {
+        if (isAdditionalLogin() || isAccountMigration()) {
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
         }
     }
@@ -228,7 +235,7 @@ class LoginActivity : BaseActivity(), Injectable {
             domain, clientId, clientSecret, oauthRedirectUri, code, "authorization_code"
         ).fold(
             { accessToken ->
-                accountManager.addAccount(accessToken.accessToken, domain)
+                accountManager.addAccount(accessToken.accessToken, domain, OAUTH_SCOPES)
 
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -260,19 +267,28 @@ class LoginActivity : BaseActivity(), Injectable {
     }
 
     private fun isAdditionalLogin(): Boolean {
-        return intent.getBooleanExtra(LOGIN_MODE, false)
+        return intent.getIntExtra(LOGIN_MODE, MODE_DEFAULT) == MODE_ADDITIONAL_LOGIN
+    }
+
+    private fun isAccountMigration(): Boolean {
+        return intent.getIntExtra(LOGIN_MODE, MODE_DEFAULT) == MODE_MIGRATION
     }
 
     companion object {
         private const val TAG = "LoginActivity" // logging tag
-        private const val OAUTH_SCOPES = "read write follow"
+        private const val OAUTH_SCOPES = "read write follow push"
         private const val LOGIN_MODE = "LOGIN_MODE"
         private const val DOMAIN = "domain"
         private const val CLIENT_ID = "clientId"
         private const val CLIENT_SECRET = "clientSecret"
 
+        const val MODE_DEFAULT = 0
+        const val MODE_ADDITIONAL_LOGIN = 1
+        // "Migration" is used to update the OAuth scope granted to the client
+        const val MODE_MIGRATION = 2
+
         @JvmStatic
-        fun getIntent(context: Context, mode: Boolean): Intent {
+        fun getIntent(context: Context, mode: Int): Intent {
             val loginIntent = Intent(context, LoginActivity::class.java)
             loginIntent.putExtra(LOGIN_MODE, mode)
             return loginIntent
