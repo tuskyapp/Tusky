@@ -5,24 +5,24 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="8dp">
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/preview"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:contentDescription="@null"
-        android:padding="4dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:importantForAccessibility="no" />
 
     <TextView
         android:id="@+id/shortcode"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
