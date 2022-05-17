@@ -50,11 +50,15 @@ abstract class GsonSerializer<T>(
     private val gson = Gson()
 
     override suspend fun readFrom(input: InputStream): T {
-        return gson.fromJson(input.reader(), classOfData)
+        val result = gson.fromJson(input.reader(), classOfData)
+        return requireNotNull(result) { "Deserialized DataStore data as null" }
     }
 
     override suspend fun writeTo(t: T, output: OutputStream) {
-        gson.toJson(t, output.writer())
+        // Writing directly to output without buffering seems to write empty string, not sure why.
+        val text = gson.toJson(t, classOfData)
+        @Suppress("BlockingMethodInNonBlockingContext")
+        output.write(text.toByteArray())
     }
 }
 
@@ -63,7 +67,9 @@ object PrefDataSerializer : GsonSerializer<PrefData>(PrefData::class.java) {
         get() = PrefData()
 }
 
-fun <T> DataStore<T>.getBlocking() = runBlocking { this@getBlocking.data.first() }
+fun <T> DataStore<T>.getBlocking() = runBlocking {
+    this@getBlocking.data.first()
+}
 suspend fun <T> DataStore<T>.get() = this.data.first()
 
 typealias PrefStore = DataStore<PrefData>
