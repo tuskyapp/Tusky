@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.R
@@ -30,6 +31,8 @@ import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
+import com.keylesspalace.tusky.components.login.LoginActivity
+import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -136,6 +139,18 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                         R.anim.slide_to_left
                     )
                     true
+                }
+            }
+
+            if (currentAccountNeedsMigration(accountManager)) {
+                preference {
+                    setTitle(R.string.title_migration_relogin)
+                    setIcon(R.drawable.ic_logout)
+                    setOnPreferenceClickListener {
+                        val intent = LoginActivity.getIntent(context, LoginActivity.MODE_MIGRATION)
+                        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
+                        true
+                    }
                 }
             }
 

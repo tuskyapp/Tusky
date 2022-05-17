@@ -181,6 +181,9 @@ dependencies {
     implementation "de.c1710:filemojicompat:$filemojicompat_version"
     implementation "de.c1710:filemojicompat-defaults:$filemojicompat_version"
 
+    implementation "org.bouncycastle:bcprov-jdk15on:1.70"
+    implementation "com.github.UnifiedPush:android-connector:2.0.0"
+
     testImplementation "androidx.test.ext:junit:1.1.3"
     testImplementation "org.robolectric:robolectric:4.4"
     testImplementation "org.mockito:mockito-inline:4.4.0"
