@@ -92,7 +92,7 @@
     <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
     <string name="notification_subscription_name">Postaichean ùra</string>
     <string name="pref_title_notification_filter_subscriptions">dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
-    <string name="notification_subscription_format">Tha %s air rud a phostadh</string>
+    <string name="notification_subscription_format">Phostaich %s rud</string>
     <string name="no_announcements">Chan eil brath-fios ann.</string>
     <string name="title_announcements">Brathan-fios</string>
     <string name="account_note_saved">Chaidh a shàbhaladh!</string>
