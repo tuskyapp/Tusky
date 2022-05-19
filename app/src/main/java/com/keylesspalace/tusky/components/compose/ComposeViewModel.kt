@@ -121,13 +121,16 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun addMediaToQueue(
+    suspend fun addMediaToQueue(
         type: QueuedMedia.Type,
         uri: Uri,
         mediaSize: Long,
-        description: String? = null
+        description: String? = null,
+        replaceItem: QueuedMedia? = null
     ): QueuedMedia {
-        val mediaItem = media.updateAndGet { mediaValue ->
+        var stashMediaItem: QueuedMedia? = null
+
+        media.updateAndGet { mediaValue ->
             val mediaItem = QueuedMedia(
                 localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
                 uri = uri,
@@ -135,8 +138,19 @@ class ComposeViewModel @Inject constructor(
                 mediaSize = mediaSize,
                 description = description
             )
-            mediaValue + mediaItem
-        }.last()
+            stashMediaItem = mediaItem
+
+            if (replaceItem != null) {
+                mediaToJob[replaceItem.localId]?.cancel()
+                mediaValue.map {
+                   if (it.localId == replaceItem.localId) mediaItem else it
+                }
+            } else { // Append
+                mediaValue + mediaItem
+            }
+        }
+        val mediaItem = stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
+
         mediaToJob[mediaItem.localId] = viewModelScope.launch {
             mediaUploader
                 .uploadMedia(mediaItem)

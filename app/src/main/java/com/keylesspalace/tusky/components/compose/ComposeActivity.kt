@@ -29,7 +29,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -871,21 +870,49 @@ class ComposeActivity :
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
+    // Use to pass state from cropImage caller to result function
+    private var cropImageItemOld: QueuedMedia? = null
+    private var cropImageUriNew: Uri? = null
+    private var cropImageFileNew: File? = null
+
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            Log.w("CROPTEST","SUCCESS")
+            cropImageItemOld?.let { itemOld ->
+                cropImageFileNew?.let { fileNew ->
+                    cropImageUriNew?.let { uriNew ->
+                        val size = fileNew.length()
+
+                        lifecycleScope.launch {
+                            viewModel.addMediaToQueue(
+                                itemOld.type,
+                                uriNew,
+                                size,
+                                itemOld.description,
+                                itemOld
+                            )
+                        }
+                    }
+                }
+            }
         } else {
-            Log.w("CROPTEST","FAIL")
+            // TODO: In else case check result.getError() to see if this was a voluntary cancel, display error if involuntary
+            Log.w("ComposeActivity", "Edit image aborted: " + result.error)
         }
+        cropImageItemOld = null
+        cropImageUriNew = null
+        cropImageFileNew = null
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
+        cropImageItemOld = item
+        val tempFile = createNewImageFile(getApplicationContext(), "")
+        val uriNew = Uri.fromFile(tempFile)
+        cropImageFileNew = tempFile
+        cropImageUriNew = uriNew
         cropImage.launch(
             options(uri=item.uri) {
-                //setRequestedSize(AVATAR_SIZE, AVATAR_SIZE)
-                //setAspectRatio(AVATAR_SIZE, AVATAR_SIZE)
-                //setImageSource(includeGallery = true, includeCamera = false)
-                setOutputUri(item.uri)
+                setOutputUri(uriNew)
+                // TODO: Should compress format be set or will there be a sensible default?
                 //setOutputCompressFormat(Bitmap.CompressFormat.PNG)
             }
         )

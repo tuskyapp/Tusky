@@ -54,14 +54,14 @@ sealed class UploadEvent {
     data class FinishedEvent(val mediaId: String) : UploadEvent()
 }
 
-fun createNewImageFile(context: Context): File {
+fun createNewImageFile(context: Context, suffix: String = ".jpg"): File {
     // Create an image file name
     val randomId = randomAlphanumericString(12)
     val imageFileName = "Tusky_${randomId}_"
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(
         imageFileName, /* prefix */
-        ".jpg", /* suffix */
+        suffix, /* suffix */
         storageDir /* directory */
     )
 }
