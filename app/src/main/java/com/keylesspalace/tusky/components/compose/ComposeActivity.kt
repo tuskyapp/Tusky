@@ -910,10 +910,10 @@ class ComposeActivity :
         cropImageFileNew = tempFile
         cropImageUriNew = uriNew
         cropImage.launch(
-            options(uri=item.uri) {
+            options(uri = item.uri) {
                 setOutputUri(uriNew)
                 // TODO: Should compress format be set or will there be a sensible default?
-                //setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                // setOutputCompressFormat(Bitmap.CompressFormat.PNG)
             }
         )
     }

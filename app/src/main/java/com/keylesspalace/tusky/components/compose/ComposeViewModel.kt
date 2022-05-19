@@ -143,7 +143,7 @@ class ComposeViewModel @Inject constructor(
             if (replaceItem != null) {
                 mediaToJob[replaceItem.localId]?.cancel()
                 mediaValue.map {
-                   if (it.localId == replaceItem.localId) mediaItem else it
+                    if (it.localId == replaceItem.localId) mediaItem else it
                 }
             } else { // Append
                 mediaValue + mediaItem
