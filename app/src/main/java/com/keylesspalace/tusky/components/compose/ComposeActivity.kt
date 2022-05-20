@@ -87,6 +87,7 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.combineOptionalLiveData
+import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
@@ -873,26 +874,21 @@ class ComposeActivity :
 
     // Use to pass state from cropImage caller to result function
     private var cropImageItemOld: QueuedMedia? = null
-    private var cropImageUriNew: Uri? = null
-    private var cropImageFileNew: File? = null
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        if (result.isSuccessful) {
+        val uriNew = result.uriContent
+        if (result.isSuccessful && uriNew != null) {
             cropImageItemOld?.let { itemOld ->
-                cropImageFileNew?.let { fileNew ->
-                    cropImageUriNew?.let { uriNew ->
-                        val size = fileNew.length()
+                val size = getMediaSize(getApplicationContext().getContentResolver(), uriNew)
 
-                        lifecycleScope.launch {
-                            viewModel.addMediaToQueue(
-                                itemOld.type,
-                                uriNew,
-                                size,
-                                itemOld.description,
-                                itemOld
-                            )
-                        }
-                    }
+                lifecycleScope.launch {
+                    viewModel.addMediaToQueue(
+                        itemOld.type,
+                        uriNew,
+                        size,
+                        itemOld.description,
+                        itemOld
+                    )
                 }
             }
         } else if (result == CropImage.CancelledResult) {
@@ -902,16 +898,13 @@ class ComposeActivity :
             displayTransientError(R.string.error_media_edit_failed)
         }
         cropImageItemOld = null
-        cropImageUriNew = null
-        cropImageFileNew = null
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
-        cropImageItemOld = item
         val tempFile = createNewImageFile(getApplicationContext(), "")
         val uriNew = Uri.fromFile(tempFile)
-        cropImageFileNew = tempFile
-        cropImageUriNew = uriNew
+        cropImageItemOld = item
+
         cropImage.launch(
             options(uri = item.uri) {
                 setOutputUri(uriNew)
