@@ -64,7 +64,7 @@ class AppModule {
                 AppDatabase.MIGRATION_26_27, AppDatabase.MIGRATION_27_28, AppDatabase.MIGRATION_28_29,
                 AppDatabase.MIGRATION_29_30, AppDatabase.MIGRATION_30_31, AppDatabase.MIGRATION_31_32,
                 AppDatabase.MIGRATION_32_33, AppDatabase.MIGRATION_33_34, AppDatabase.MIGRATION_34_35,
-                AppDatabase.MIGRATION_35_36,
+                AppDatabase.MIGRATION_35_36, AppDatabase.MIGRATION_36_37,
             )
             .build()
     }

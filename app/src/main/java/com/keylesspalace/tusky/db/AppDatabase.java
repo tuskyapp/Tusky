@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 36)
+        }, version = 37)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -551,6 +551,14 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `pushPrivKey`  TEXT NOT NULL DEFAULT ''");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `pushAuth`  TEXT NOT NULL DEFAULT ''");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `pushServerKey`  TEXT NOT NULL DEFAULT ''");
+        }
+    };
+
+    public static final Migration MIGRATION_36_37 = new Migration(36, 37) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `repliesCount` INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_repliesCount` INTEGER NOT NULL DEFAULT 0");
         }
     };
 }

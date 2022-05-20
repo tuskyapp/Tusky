@@ -34,6 +34,7 @@ data class Status(
     val emojis: List<Emoji>,
     @SerializedName("reblogs_count") val reblogsCount: Int,
     @SerializedName("favourites_count") val favouritesCount: Int,
+    @SerializedName("replies_count") val repliesCount: Int,
     var reblogged: Boolean,
     var favourited: Boolean,
     var bookmarked: Boolean,

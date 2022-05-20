@@ -99,6 +99,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         contentShowing = false,
         pinned = false,
         card = null,
+        repliesCount = 0
     )
 }
 
@@ -140,6 +141,7 @@ fun Status.toEntity(
         contentCollapsed = contentCollapsed,
         pinned = actionableStatus.pinned == true,
         card = actionableStatus.card?.let(gson::toJson),
+        repliesCount = actionableStatus.repliesCount
     )
 }
 
@@ -183,6 +185,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             muted = status.muted,
             poll = poll,
             card = card,
+            repliesCount = status.repliesCount
         )
     }
     val status = if (reblog != null) {
@@ -211,7 +214,8 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             pinned = status.pinned,
             muted = status.muted,
             poll = null,
-            card = null
+            card = null,
+            repliesCount = status.repliesCount,
         )
     } else {
         Status(
@@ -240,6 +244,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             muted = status.muted,
             poll = poll,
             card = card,
+            repliesCount = status.repliesCount,
         )
     }
     return StatusViewData.Concrete(

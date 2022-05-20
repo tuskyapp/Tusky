@@ -71,10 +71,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {
         public static final String KEY_CREATED = "created";
     }
-
     private TextView displayName;
     private TextView username;
     private ImageButton replyButton;
+    private TextView replyCountLabel;
     private SparkButton reblogButton;
     private SparkButton favouriteButton;
     private SparkButton bookmarkButton;
@@ -123,6 +123,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         content = itemView.findViewById(R.id.status_content);
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
+        replyCountLabel = itemView.findViewById(R.id.status_replies);
         reblogButton = itemView.findViewById(R.id.status_inset);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
         bookmarkButton = itemView.findViewById(R.id.status_bookmark);
@@ -358,6 +359,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             replyButton.setImageResource(R.drawable.ic_reply_24dp);
         }
 
+    }
+
+    private void setReplyCount(int repliesCount) {
+        // This label only exists in the non-detailed view (to match the web ui)
+        if (replyCountLabel != null) {
+            replyCountLabel.setText((repliesCount > 1 ? replyCountLabel.getContext().getString(R.string.status_count_one_plus) : Integer.toString(repliesCount)));
+        }
     }
 
     private void setReblogged(boolean reblogged) {
@@ -733,6 +741,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setUsername(status.getUsername());
             setCreatedAt(actionable.getCreatedAt(), statusDisplayOptions);
             setIsReply(actionable.getInReplyToId() != null);
+            setReplyCount(actionable.getRepliesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
                     actionable.getAccount().getBot(), statusDisplayOptions);
             setReblogged(actionable.getReblogged());

@@ -443,6 +443,7 @@ class TimelineDaoTest {
             emojis = "emojis$statusId",
             reblogsCount = 1 * statusId.toInt(),
             favouritesCount = 2 * statusId.toInt(),
+            repliesCount = 3 * statusId.toInt(),
             reblogged = even,
             favourited = !even,
             bookmarked = false,
