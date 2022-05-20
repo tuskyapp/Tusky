@@ -56,6 +56,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -894,9 +895,11 @@ class ComposeActivity :
                     }
                 }
             }
+        } else if (result == CropImage.CancelledResult) {
+            Log.w("ComposeActivity", "Edit image cancelled by user")
         } else {
-            // TODO: In else case check result.getError() to see if this was a voluntary cancel, display error if involuntary
-            Log.w("ComposeActivity", "Edit image aborted: " + result.error)
+            Log.w("ComposeActivity", "Edit image failed: " + result.error)
+            displayTransientError(R.string.error_media_edit_failed)
         }
         cropImageItemOld = null
         cropImageUriNew = null
