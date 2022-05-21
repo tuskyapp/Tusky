@@ -157,6 +157,32 @@ class ComposeActivity :
         }
     }
 
+    // Contract kicked off by editImageInQueue; expects viewModel.cropImageItemOld set
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        val uriNew = result.uriContent
+        if (result.isSuccessful && uriNew != null) {
+            viewModel.cropImageItemOld?.let { itemOld ->
+                val size = getMediaSize(getApplicationContext().getContentResolver(), uriNew)
+
+                lifecycleScope.launch {
+                    viewModel.addMediaToQueue(
+                        itemOld.type,
+                        uriNew,
+                        size,
+                        itemOld.description,
+                        itemOld
+                    )
+                }
+            }
+        } else if (result == CropImage.CancelledResult) {
+            Log.w("ComposeActivity", "Edit image cancelled by user")
+        } else {
+            Log.w("ComposeActivity", "Edit image failed: " + result.error)
+            displayTransientError(R.string.error_media_edit_failed)
+        }
+        viewModel.cropImageItemOld = null
+    }
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -871,32 +897,6 @@ class ComposeActivity :
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
-    }
-
-    // Contract kicked off by editImageInQueue; expects viewModel.cropImageItemOld set
-    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        val uriNew = result.uriContent
-        if (result.isSuccessful && uriNew != null) {
-            viewModel.cropImageItemOld?.let { itemOld ->
-                val size = getMediaSize(getApplicationContext().getContentResolver(), uriNew)
-
-                lifecycleScope.launch {
-                    viewModel.addMediaToQueue(
-                        itemOld.type,
-                        uriNew,
-                        size,
-                        itemOld.description,
-                        itemOld
-                    )
-                }
-            }
-        } else if (result == CropImage.CancelledResult) {
-            Log.w("ComposeActivity", "Edit image cancelled by user")
-        } else {
-            Log.w("ComposeActivity", "Edit image failed: " + result.error)
-            displayTransientError(R.string.error_media_edit_failed)
-        }
-        viewModel.cropImageItemOld = null
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
