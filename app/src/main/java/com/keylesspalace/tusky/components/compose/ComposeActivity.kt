@@ -902,8 +902,8 @@ class ComposeActivity :
     private fun editImageInQueue(item: QueuedMedia) {
         // If input image is lossless, output image should be lossless.
         // Currently the only supported lossless format is png.
-        val mimeType:String? = contentResolver.getType(item.uri)
-        val isPng:Boolean = mimeType != null && mimeType.endsWith("/png")
+        val mimeType: String? = contentResolver.getType(item.uri)
+        val isPng: Boolean = mimeType != null && mimeType.endsWith("/png")
         val context = getApplicationContext()
         val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
 
