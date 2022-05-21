@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
@@ -901,15 +902,22 @@ class ComposeActivity :
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
-        val tempFile = createNewImageFile(getApplicationContext(), "")
-        val uriNew = Uri.fromFile(tempFile)
+        // If input image is lossless, output image should be lossless.
+        // Currently the only supported lossless format is png.
+        val mimeType:String? = contentResolver.getType(item.uri)
+        val isPng:Boolean = mimeType != null && mimeType.endsWith("/png")
+        val context = getApplicationContext()
+        val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
+
+        // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
+        val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
+
         cropImageItemOld = item
 
         cropImage.launch(
             options(uri = item.uri) {
                 setOutputUri(uriNew)
-                // TODO: Should compress format be set or will there be a sensible default?
-                // setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
             }
         )
     }
