@@ -160,8 +160,13 @@ fun PreferenceParent.switchPreference(
     addPref(layout)
 }
 
-data class PreferenceOption<T>(@StringRes val name: Int, val value: T)
-infix fun <T> T.named(@StringRes name: Int) = PreferenceOption(name, this)
+
+data class PreferenceOption<T>(val name: String, val value: T)
+@Suppress("FunctionName")
+fun <T> PreferenceParent.PreferenceOption(pair: Pair<T, Int>): PreferenceOption<T> {
+    return PreferenceOption(context.getString(pair.second), pair.first)
+}
+infix fun <T> T.named(name: String) = PreferenceOption(name, this)
 
 fun <T> PreferenceParent.listPreference(
     title: String,
@@ -203,7 +208,7 @@ fun <T> PreferenceParent.listPreference(
         layout.setOnClickListener {
             AlertDialog.Builder(context)
                 .setSingleChoiceItems(
-                    options.map { context.getString(it.name) }.toTypedArray(),
+                    options.map { it.name }.toTypedArray(),
                     selectedOptionIndex,
                 ) { dialog, wh ->
                     onSelection(options[wh].value)

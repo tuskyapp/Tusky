@@ -28,10 +28,10 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefData
 import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.PreferenceOption
 import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
-import com.keylesspalace.tusky.settings.named
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -85,17 +85,44 @@ class PreferencesFragment : Fragment(), Injectable {
         this.updateTrigger = makePreferenceScreen(view) {
             preferenceCategory(R.string.pref_title_appearance_settings) {
                 val themeOptions = listOf(
-                    AppTheme.NIGHT.value named R.string.app_them_dark,
-                    AppTheme.DAY.value named R.string.app_theme_light,
-                    AppTheme.BLACK.value named R.string.app_theme_black,
-                    AppTheme.AUTO.value named R.string.app_theme_auto,
-                    AppTheme.AUTO_SYSTEM.value named R.string.app_theme_system,
-                )
+                    AppTheme.NIGHT.value to R.string.app_them_dark,
+                    AppTheme.DAY.value to R.string.app_theme_light,
+                    AppTheme.BLACK.value to R.string.app_theme_black,
+                    AppTheme.AUTO.value to R.string.app_theme_auto,
+                    AppTheme.AUTO_SYSTEM.value to R.string.app_theme_system,
+                ).map(::PreferenceOption)
                 listPreference(
                     getString(R.string.pref_title_app_theme),
                     themeOptions,
-                    { prefs.appTheme }) {
+                    { prefs.appTheme }
+                ) {
                     updatePrefs { data -> data.copy(appTheme = it) }
+                }
+                val languageNames = resources.getStringArray(R.array.language_entries)
+                val languageValues = resources.getStringArray(R.array.language_values)
+                val languageOptions = languageNames
+                    .zip(languageValues)
+                    .map { PreferenceOption(it.first, it.second) }
+                listPreference(
+                    getString(R.string.pref_title_language),
+                    languageOptions,
+                    { prefs.language },
+                ) {
+                    updatePrefs { data -> data.copy(language = it) }
+                }
+                val textSizeOptions = listOf(
+                    "smallest" to R.string.status_text_size_smallest,
+                    "small" to R.string.status_text_size_small,
+                    "medium" to R.string.status_text_size_medium,
+                    "large" to R.string.status_text_size_large,
+                    "largest" to R.string.status_text_size_largest,
+                ).map(::PreferenceOption)
+                listPreference(
+                    getString(R.string.pref_status_text_size),
+                    textSizeOptions,
+                    { prefs.statusTextSize },
+                ) {
+                    updatePrefs { data -> data.copy(statusTextSize = it) }
                 }
                 switchPreference(
                     getString(R.string.pref_title_hide_top_toolbar),

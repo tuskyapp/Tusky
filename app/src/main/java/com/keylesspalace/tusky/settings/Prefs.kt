@@ -16,10 +16,13 @@ import java.io.InputStream
 import java.io.OutputStream
 
 data class PrefData(
+    // TODO: enum
     var appTheme: String = ThemeUtils.APP_THEME_DEFAULT,
     var emojiFont: Int = 0,
     val hideFab: Boolean = false,
+    // TODO: enum?
     var language: String = "default",
+    // TODO: enum
     val statusTextSize: String = "medium",
     val mainNavPosition: String? = null,
     val hideTopToolbar: Boolean = false,
