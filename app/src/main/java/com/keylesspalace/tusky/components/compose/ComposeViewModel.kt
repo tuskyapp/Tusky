@@ -94,6 +94,9 @@ class ComposeViewModel @Inject constructor(
 
     private val isEditingScheduledToot get() = !scheduledTootId.isNullOrEmpty()
 
+    // Used in ComposeActivity to pass state to result function when cropImage contract inflight
+    var cropImageItemOld: QueuedMedia? = null
+
     init {
         viewModelScope.launch {
             emoji.postValue(instanceInfoRepo.getEmojis())

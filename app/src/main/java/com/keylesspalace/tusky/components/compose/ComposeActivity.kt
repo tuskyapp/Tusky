@@ -873,13 +873,11 @@ class ComposeActivity :
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
-    // Use to pass state from cropImage caller to result function
-    private var cropImageItemOld: QueuedMedia? = null
-
+    // Contract kicked off by editImageInQueue; expects viewModel.cropImageItemOld set
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         val uriNew = result.uriContent
         if (result.isSuccessful && uriNew != null) {
-            cropImageItemOld?.let { itemOld ->
+            viewModel.cropImageItemOld?.let { itemOld ->
                 val size = getMediaSize(getApplicationContext().getContentResolver(), uriNew)
 
                 lifecycleScope.launch {
@@ -898,7 +896,7 @@ class ComposeActivity :
             Log.w("ComposeActivity", "Edit image failed: " + result.error)
             displayTransientError(R.string.error_media_edit_failed)
         }
-        cropImageItemOld = null
+        viewModel.cropImageItemOld = null
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
@@ -912,7 +910,7 @@ class ComposeActivity :
         // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
         val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
 
-        cropImageItemOld = item
+        viewModel.cropImageItemOld = item
 
         cropImage.launch(
             options(uri = item.uri) {
