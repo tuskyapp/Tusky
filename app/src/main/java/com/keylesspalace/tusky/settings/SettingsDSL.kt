@@ -11,16 +11,21 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.ThemeUtils
 
+typealias Update = () -> Unit
+
 class PreferenceParent(
     val context: Context,
-    val addPref: (pref: View) -> Unit
-)
+    val registerUpdate: (update: Update) -> Unit,
+    val addPref: (pref: View) -> Unit,
+) {
+}
 
 //inline fun PreferenceParent.preference(builder: Preference.() -> Unit): Preference {
 //    val pref = Preference(context)
@@ -103,6 +108,16 @@ fun PreferenceParent.checkBoxPreference(
     addPref(layout)
 }
 
+private fun TextView.setTextAppearanceRef(ref: Int) {
+    val refs = TypedValue()
+    context.theme.resolveAttribute(ref, refs, true)
+    setTextAppearance(context, refs.resourceId)
+}
+
+private fun TextView.setTextColorRef(ref: Int) {
+    setTextColor(ThemeUtils.getColor(context, ref))
+}
+
 fun PreferenceParent.switchPreference(
     title: String,
     isChecked: () -> Boolean,
@@ -111,12 +126,8 @@ fun PreferenceParent.switchPreference(
     val layout = itemLayout(context)
     val textView = TextView(context).apply {
         text = title
-        val refs = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.textAppearanceListItem, refs, true)
-        setTextAppearance(context, refs.resourceId)
-        setTextColor(ThemeUtils.getColor(context, android.R.attr.textColorPrimary))
-        // this is in resource but not at runtime?
-//        setSingleLine()
+        setTextAppearanceRef(android.R.attr.textAppearanceListItem)
+        setTextColorRef(android.R.attr.textColorPrimary)
         ellipsize = TextUtils.TruncateAt.MARQUEE
     }
     textView.layoutParams = LinearLayout.LayoutParams(
@@ -140,11 +151,68 @@ fun PreferenceParent.switchPreference(
     layout.addView(switchLayout)
 
     val switch = SwitchMaterial(context)
-    switch.isChecked = isChecked()
+    registerUpdate {
+        switch.isChecked = isChecked()
+    }
     switch.setOnCheckedChangeListener { _, isChecked -> onSelection(isChecked) }
     switchLayout.addView(switch)
 
     addPref(layout)
+}
+
+data class PreferenceOption<T>(@StringRes val name: Int, val value: T)
+infix fun <T> T.named(@StringRes name: Int) = PreferenceOption(name, this)
+
+fun <T> PreferenceParent.listPreference(
+    title: String,
+    options: List<PreferenceOption<T>>,
+    selected: () -> T,
+    onSelection: (T) -> Unit,
+) {
+    val layout = itemLayout(context).apply {
+        isClickable = true
+        val outValue = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+        setBackgroundResource(outValue.resourceId)
+        setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
+    }
+    val linearLayout = LinearLayout(context).apply {
+        orientation = LinearLayout.VERTICAL
+    }
+
+
+    val titleView = TextView(context).apply {
+        text = title
+        setTextAppearanceRef(android.R.attr.textAppearanceListItem)
+        setTextColorRef(android.R.attr.textColorPrimary)
+    }
+    linearLayout.addView(titleView)
+
+    val optionView = TextView(context)
+    linearLayout.addView(optionView)
+
+    layout.addView(linearLayout)
+
+    addPref(layout)
+
+    registerUpdate {
+        val selectedOptionIndex = options.indexOfFirst { it.value == selected() }
+
+        optionView.setText(options[selectedOptionIndex].name)
+
+        layout.setOnClickListener {
+            AlertDialog.Builder(context)
+                .setSingleChoiceItems(
+                    options.map { context.getString(it.name) }.toTypedArray(),
+                    selectedOptionIndex,
+                ) { dialog, wh ->
+                    onSelection(options[wh].value)
+                    dialog.dismiss()
+                }
+                .setCancelable(true)
+                .show()
+        }
+    }
 }
 
 
@@ -175,19 +243,28 @@ fun PreferenceParent.preferenceCategory(
     }
 
     titleLayout.addView(titleView)
-    val newParent = PreferenceParent(context) { categoryLayout.addView(it) }
+    val newParent = PreferenceParent(context, registerUpdate) { categoryLayout.addView(it) }
     builder(newParent)
 }
 
 inline fun Fragment.makePreferenceScreen(
     viewGroup: ViewGroup,
     builder: PreferenceParent.() -> Unit
-) {
+): (() -> Unit) {
     val context = requireContext()
-    val parent = PreferenceParent(context) { viewGroup.addView(it) }
+    val updates = mutableListOf<Update>()
+    val updateTrigger = {
+        for (update in updates) {
+            update()
+        }
+    }
+    val parent = PreferenceParent(context, updates::add) { viewGroup.addView(it) }
     // For some functions (like dependencies) it's much easier for us if we attach screen first
     // and change it later
     builder(parent)
+    // Run once to update all views
+    updateTrigger()
+    return updateTrigger
 }
 
 fun View.dpToPx(dp: Int) = Utils.dpToPx(this.context, dp)

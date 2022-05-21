@@ -25,10 +25,13 @@ import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefData
 import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.settings.getBlocking
+import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
+import com.keylesspalace.tusky.settings.named
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
@@ -36,7 +39,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizePx
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 
@@ -53,6 +58,7 @@ class PreferencesFragment : Fragment(), Injectable {
 
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
+    private var updateTrigger: (() -> Unit)? = null
     private fun updatePrefs(updater: (PrefData) -> PrefData) {
         lifecycleScope.launch {
             prefStore.updateData(updater)
@@ -70,33 +76,73 @@ class PreferencesFragment : Fragment(), Injectable {
             prefStore.data.collect {
                 prefs = it
                 // trigger update?
+                withContext(Dispatchers.Main) {
+                    updateTrigger?.invoke()
+                }
             }
         }
 
-        makePreferenceScreen(view) {
+        this.updateTrigger = makePreferenceScreen(view) {
             preferenceCategory(R.string.pref_title_appearance_settings) {
-                switchPreference(getString(R.string.pref_title_hide_top_toolbar), prefs::hideTopToolbar) {
+                val themeOptions = listOf(
+                    AppTheme.NIGHT.value named R.string.app_them_dark,
+                    AppTheme.DAY.value named R.string.app_theme_light,
+                    AppTheme.BLACK.value named R.string.app_theme_black,
+                    AppTheme.AUTO.value named R.string.app_theme_auto,
+                    AppTheme.AUTO_SYSTEM.value named R.string.app_theme_system,
+                )
+                listPreference(
+                    getString(R.string.pref_title_app_theme),
+                    themeOptions,
+                    { prefs.appTheme }) {
+                    updatePrefs { data -> data.copy(appTheme = it) }
+                }
+                switchPreference(
+                    getString(R.string.pref_title_hide_top_toolbar),
+                    { prefs.hideTopToolbar }
+                ) {
                     updatePrefs { data -> data.copy(hideTopToolbar = it) }
                 }
-                switchPreference(getString(R.string.pref_title_hide_follow_button), prefs::hideFab) {
+                switchPreference(
+                    getString(R.string.pref_title_hide_follow_button),
+                    { prefs.hideFab }
+                ) {
                     updatePrefs { data -> data.copy(hideFab = it) }
                 }
-                switchPreference(getString(R.string.pref_title_absolute_time), prefs::useAbsoluteTime) {
+                switchPreference(
+                    getString(R.string.pref_title_absolute_time),
+                    { prefs.useAbsoluteTime }
+                ) {
                     updatePrefs { data -> data.copy(useAbsoluteTime = it) }
                 }
-                switchPreference(getString(R.string.pref_title_bot_overlay), prefs::showBotOverlay) {
+                switchPreference(
+                    getString(R.string.pref_title_bot_overlay),
+                    { prefs.showBotOverlay }
+                ) {
                     updatePrefs { data -> data.copy(showBotOverlay = it) }
                 }
-                switchPreference(getString(R.string.pref_title_animate_gif_avatars), prefs::animateAvatars) {
+                switchPreference(
+                    getString(R.string.pref_title_animate_gif_avatars),
+                    { prefs.animateAvatars }
+                ) {
                     updatePrefs { data -> data.copy(animateAvatars = it) }
                 }
-                switchPreference(getString(R.string.pref_title_animate_custom_emojis), prefs::animateEmojis) {
+                switchPreference(
+                    getString(R.string.pref_title_animate_custom_emojis),
+                    { prefs.animateEmojis }
+                ) {
                     updatePrefs { data -> data.copy(animateEmojis = it) }
                 }
-                switchPreference(getString(R.string.pref_title_gradient_for_media), prefs::useBlurhash) {
+                switchPreference(
+                    getString(R.string.pref_title_gradient_for_media),
+                    { prefs.useBlurhash }
+                ) {
                     updatePrefs { data -> data.copy(useBlurhash = it) }
                 }
-                switchPreference(getString(R.string.pref_title_show_cards_in_timelines), prefs::showCardsInTimelines) {
+                switchPreference(
+                    getString(R.string.pref_title_show_cards_in_timelines),
+                    { prefs.showCardsInTimelines }
+                ) {
                     updatePrefs { data -> data.copy(showCardsInTimelines = it) }
                 }
             }

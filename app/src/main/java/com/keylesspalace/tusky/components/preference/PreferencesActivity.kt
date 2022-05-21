@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
@@ -30,10 +31,13 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityPreferencesBinding
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefStore
+import com.keylesspalace.tusky.settings.get
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PreferencesActivity :
@@ -46,6 +50,10 @@ class PreferencesActivity :
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    @Inject
+    lateinit var prefStore: PrefStore
+
 
     private var restartActivitiesOnExit: Boolean = false
 
@@ -93,16 +101,49 @@ class PreferencesActivity :
         }
 
         restartActivitiesOnExit = intent.getBooleanExtra("restart", false)
+
+        lifecycleScope.launch {
+            // When certain preferences are changed we want to apply the changes
+            // TODO: Maybe this is not the best place to do it and we should trigger
+            //      it from fragment?
+            var lastValue = prefStore.get()
+            prefStore.data.collect { newValue ->
+                if (lastValue.appTheme != newValue.appTheme) {
+                    Log.d("activeTheme", newValue.appTheme)
+                    ThemeUtils.setAppNightMode(newValue.appTheme)
+                    restartActivitiesOnExit = true
+                    restartCurrentActivity()
+                } else if (lastValue.statusTextSize != newValue.statusTextSize ||
+                    lastValue.useAbsoluteTime != newValue.useAbsoluteTime ||
+                    lastValue.showBotOverlay != newValue.showBotOverlay ||
+                    lastValue.animateAvatars != newValue.animateAvatars ||
+                    lastValue.useBlurhash != newValue.useBlurhash ||
+                    lastValue.showCardsInTimelines != newValue.showCardsInTimelines ||
+                    lastValue.confirmReblogs != newValue.confirmReblogs ||
+                    lastValue.enableSwipeForTabs != newValue.enableSwipeForTabs ||
+                    lastValue.mainNavPosition != newValue.mainNavPosition ||
+                    lastValue.hideTopToolbar != newValue.hideTopToolbar
+                ) {
+                    restartActivitiesOnExit = true
+                } else if (lastValue.language != newValue.language) {
+                    restartActivitiesOnExit = true
+                    restartCurrentActivity()
+                }
+                lastValue = newValue
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this)
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this)
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .unregisterOnSharedPreferenceChangeListener(this)
     }
 
     private fun saveInstanceState(outState: Bundle) {
@@ -115,26 +156,7 @@ class PreferencesActivity :
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        when (key) {
-            "appTheme" -> {
-                val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
-                Log.d("activeTheme", theme)
-                ThemeUtils.setAppNightMode(theme)
-
-                restartActivitiesOnExit = true
-                this.restartCurrentActivity()
-            }
-            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
-            "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
-            "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
-                restartActivitiesOnExit = true
-            }
-            "language" -> {
-                restartActivitiesOnExit = true
-                this.restartCurrentActivity()
-            }
-        }
-
+        // FIXME
         eventHub.dispatch(PreferenceChangedEvent(key))
     }
 
