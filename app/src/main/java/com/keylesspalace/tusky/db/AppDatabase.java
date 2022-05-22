@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 37)
+        }, version = 38)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -559,6 +559,16 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `repliesCount` INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_repliesCount` INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    public static final Migration MIGRATION_37_38 = new Migration(37, 38) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            // no actual scheme change, but timestamps are now serialized differently so all cache tables that contain them need to be cleaned
+            database.execSQL("DELETE FROM `TimelineStatusEntity`");
+            database.execSQL("DELETE FROM `ConversationEntity`");
         }
     };
 }
