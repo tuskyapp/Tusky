@@ -32,7 +32,7 @@ import com.keylesspalace.tusky.components.compose.view.ProgressImageView
 class MediaPreviewAdapter(
     context: Context,
     private val onAddCaption: (ComposeActivity.QueuedMedia) -> Unit,
-    private val onEditImage: (ComposeActivity.QueuedMedia) -> Unit,
+    private val onEditMedia: (ComposeActivity.QueuedMedia) -> Unit,
     private val onRemove: (ComposeActivity.QueuedMedia) -> Unit
 ) : RecyclerView.Adapter<MediaPreviewAdapter.PreviewViewHolder>() {
 
@@ -44,16 +44,16 @@ class MediaPreviewAdapter(
         val item = differ.currentList[position]
         val popup = PopupMenu(view.context, view)
         val addCaptionId = 1
-        val editImageId = 2
+        val editMediaId = 2
         val removeId = 3
+        val editMediaText = if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) R.string.action_edit_image else R.string.action_edit_media
         popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
-        if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE)
-            popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
+        popup.menu.add(0, editMediaId, 0, editMediaText)
         popup.menu.add(0, removeId, 0, R.string.action_remove)
         popup.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 addCaptionId -> onAddCaption(item)
-                editImageId -> onEditImage(item)
+                editMediaId -> onEditMedia(item)
                 removeId -> onRemove(item)
             }
             true

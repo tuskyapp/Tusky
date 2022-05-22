@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.ClipData
@@ -30,6 +31,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -182,6 +184,21 @@ class ComposeActivity :
         viewModel.cropImageItemOld = null
     }
 
+    // Function to catch the response
+    // Warning: Comment out this function or it will swallow the image picker result!!
+    val MEDIA_EDIT_REQUESTCODE = 0x1001
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode){
+            MEDIA_EDIT_REQUESTCODE -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    Log.d(TAG, "User Response received: $data")
+                }else{
+                    Log.d(TAG,"User Response is empty")
+                }
+            }
+        }
+    }
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -216,7 +233,7 @@ class ComposeActivity :
                     viewModel.updateDescription(item.localId, newDescription)
                 }
             },
-            onEditImage = this::editImageInQueue,
+            onEditMedia = this::editMediaInQueue,
             onRemove = this::removeMediaFromQueue
         )
         binding.composeMediaPreviewBar.layoutManager =
@@ -899,25 +916,41 @@ class ComposeActivity :
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun editImageInQueue(item: QueuedMedia) {
-        // If input image is lossless, output image should be lossless.
-        // Currently the only supported lossless format is png.
-        val mimeType: String? = contentResolver.getType(item.uri)
-        val isPng: Boolean = mimeType != null && mimeType.endsWith("/png")
-        val context = getApplicationContext()
-        val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
+    private fun editMediaInQueue(item: QueuedMedia) {
+        val editInternally = item.type == ComposeActivity.QueuedMedia.Type.IMAGE
+        if (editInternally) {
+            // If input image is lossless, output image should be lossless.
+            // Currently the only supported lossless format is png.
+            val mimeType: String? = contentResolver.getType(item.uri)
+            val isPng: Boolean = mimeType != null && mimeType.endsWith("/png")
+            val context = getApplicationContext()
+            val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
 
-        // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
-        val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
+            // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
+            val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
 
-        viewModel.cropImageItemOld = item
+            viewModel.cropImageItemOld = item
 
-        cropImage.launch(
-            options(uri = item.uri) {
-                setOutputUri(uriNew)
-                setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
+            cropImage.launch(
+                options(uri = item.uri) {
+                    setOutputUri(uriNew)
+                    setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
+                }
+            )
+        } else { // Pawn off to a external editor
+            val intent = Intent(Intent.ACTION_EDIT)
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.setDataAndType(item.uri, "image/*")         // Where will media be loaded from?
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, item.uri) // Where will media be saved to?
+
+            val context = getApplicationContext()
+            val resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (resolveInfo in resInfoList) {
+                val packageName = resolveInfo.activityInfo.packageName;
+                context.grantUriPermission(packageName, item.uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
-        )
+            startActivityForResult(intent, MEDIA_EDIT_REQUESTCODE) //Intent.createChooser(intent)
+        }
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
