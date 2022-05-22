@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
@@ -56,6 +57,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -83,6 +87,7 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.combineOptionalLiveData
+import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
@@ -151,6 +156,32 @@ class ComposeActivity :
         }
     }
 
+    // Contract kicked off by editImageInQueue; expects viewModel.cropImageItemOld set
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        val uriNew = result.uriContent
+        if (result.isSuccessful && uriNew != null) {
+            viewModel.cropImageItemOld?.let { itemOld ->
+                val size = getMediaSize(getApplicationContext().getContentResolver(), uriNew)
+
+                lifecycleScope.launch {
+                    viewModel.addMediaToQueue(
+                        itemOld.type,
+                        uriNew,
+                        size,
+                        itemOld.description,
+                        itemOld
+                    )
+                }
+            }
+        } else if (result == CropImage.CancelledResult) {
+            Log.w("ComposeActivity", "Edit image cancelled by user")
+        } else {
+            Log.w("ComposeActivity", "Edit image failed: " + result.error)
+            displayTransientError(R.string.error_media_edit_failed)
+        }
+        viewModel.cropImageItemOld = null
+    }
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -185,6 +216,7 @@ class ComposeActivity :
                     viewModel.updateDescription(item.localId, newDescription)
                 }
             },
+            onEditImage = this::editImageInQueue,
             onRemove = this::removeMediaFromQueue
         )
         binding.composeMediaPreviewBar.layoutManager =
@@ -865,6 +897,27 @@ class ComposeActivity :
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+    }
+
+    private fun editImageInQueue(item: QueuedMedia) {
+        // If input image is lossless, output image should be lossless.
+        // Currently the only supported lossless format is png.
+        val mimeType: String? = contentResolver.getType(item.uri)
+        val isPng: Boolean = mimeType != null && mimeType.endsWith("/png")
+        val context = getApplicationContext()
+        val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
+
+        // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
+        val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
+
+        viewModel.cropImageItemOld = item
+
+        cropImage.launch(
+            options(uri = item.uri) {
+                setOutputUri(uriNew)
+                setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
+            }
+        )
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
