@@ -319,7 +319,7 @@
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次喜欢</item>
+        <item quantity="other"><b>%1$s</b> 次喜欢</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="other"><b>%1$s</b> 次转嘟</item>
