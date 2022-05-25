@@ -26,20 +26,17 @@ class ConversationsRemoteMediator(
         state: PagingState<Int, ConversationEntity>
     ): MediatorResult {
 
+        if (loadType == LoadType.PREPEND) {
+            return MediatorResult.Success(endOfPaginationReached = true)
+        }
+
+        if (loadType == LoadType.REFRESH) {
+            nextKey = null
+            order = 0
+        }
+
         try {
-            val conversationsResponse = when (loadType) {
-                LoadType.REFRESH -> {
-                    nextKey = null
-                    order = 0
-                    api.getConversations(limit = state.config.pageSize)
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
-                }
-                LoadType.APPEND -> {
-                    api.getConversations(maxId = nextKey, limit = state.config.pageSize)
-                }
-            }
+            val conversationsResponse = api.getConversations(maxId = nextKey, limit = state.config.pageSize)
 
             val conversations = conversationsResponse.body()
             if (!conversationsResponse.isSuccessful || conversations == null) {
@@ -69,6 +66,4 @@ class ConversationsRemoteMediator(
             return MediatorResult.Error(e)
         }
     }
-
-    override suspend fun initialize() = InitializeAction.LAUNCH_INITIAL_REFRESH
 }
