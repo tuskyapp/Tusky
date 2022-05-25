@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 
@@ -34,8 +35,16 @@ class ConversationAdapter(
     }
 
     override fun onBindViewHolder(holder: ConversationViewHolder, position: Int) {
+        onBindViewHolder(holder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(
+        holder: ConversationViewHolder,
+        position: Int,
+        payloads: List<Any>
+    ) {
         getItem(position)?.let { conversationViewData ->
-            holder.setupWithConversation(conversationViewData)
+            holder.setupWithConversation(conversationViewData, payloads.firstOrNull())
         }
     }
 
@@ -46,7 +55,17 @@ class ConversationAdapter(
             }
 
             override fun areContentsTheSame(oldItem: ConversationViewData, newItem: ConversationViewData): Boolean {
-                return oldItem == newItem
+                return false // Items are different always. It allows to refresh timestamp on every view holder update
+            }
+
+            override fun getChangePayload(oldItem: ConversationViewData, newItem: ConversationViewData): Any? {
+                return if (oldItem == newItem) {
+                    // If items are equal - update timestamp only
+                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                } else {
+                    // If items are different - update the whole view holder
+                    null
+                }
             }
         }
     }

@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -47,10 +48,13 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 
@@ -151,6 +155,14 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 }
             }
         })
+
+        lifecycleScope.launchWhenResumed {
+            val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
+            while (!useAbsoluteTime) {
+                adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
+                delay(1.toDuration(DurationUnit.MINUTES))
+            }
+        }
     }
 
     private fun initSwipeToRefresh() {
