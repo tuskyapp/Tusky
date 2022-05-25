@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -69,8 +68,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     private lateinit var loadStateAdapter: ConversationLoadStateAdapter
 
     private var layoutManager: LinearLayoutManager? = null
-
-    private var initialRefreshDone: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -112,34 +109,34 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             }
         }
 
-        adapter.addLoadStateListener { loadStates ->
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
 
-            loadStates.refresh.let { refreshState ->
-                if (refreshState is LoadState.Error) {
-                    binding.statusView.show()
-                    if (refreshState.error is IOException) {
-                        binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                            adapter.refresh()
-                        }
-                    } else {
-                        binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                            adapter.refresh()
+            binding.statusView.hide()
+            binding.progressBar.hide()
+
+            if (adapter.itemCount == 0) {
+                when (loadState.refresh) {
+                    is LoadState.NotLoading -> {
+                        if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
+                            binding.statusView.show()
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
                         }
                     }
-                } else {
-                    binding.statusView.hide()
-                }
+                    is LoadState.Error -> {
+                        binding.statusView.show()
 
-                binding.progressBar.visible(refreshState == LoadState.Loading && adapter.itemCount == 0)
-
-                if (refreshState is LoadState.NotLoading && !initialRefreshDone) {
-                    // jump to top after the initial refresh finished
-                    binding.recyclerView.scrollToPosition(0)
-                    initialRefreshDone = true
-                }
-
-                if (refreshState != LoadState.Loading) {
-                    binding.swipeRefreshLayout.isRefreshing = false
+                        if ((loadState.refresh as LoadState.Error).error is IOException) {
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                        } else {
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                        }
+                    }
+                    is LoadState.Loading -> {
+                        binding.progressBar.show()
+                    }
                 }
             }
         }
