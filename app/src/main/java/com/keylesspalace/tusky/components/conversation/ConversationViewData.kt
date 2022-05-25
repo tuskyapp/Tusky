@@ -20,6 +20,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 
 data class ConversationViewData(
     val id: String,
+    val order: Int,
     val accounts: List<ConversationAccountEntity>,
     val unread: Boolean,
     val lastStatus: StatusViewData.Concrete
@@ -37,6 +38,7 @@ data class ConversationViewData(
         return ConversationEntity(
             accountId = accountId,
             id = id,
+            order = order,
             accounts = accounts,
             unread = unread,
             lastStatus = lastStatus.toConversationStatusEntity(

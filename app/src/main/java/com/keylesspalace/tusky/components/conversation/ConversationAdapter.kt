@@ -34,7 +34,9 @@ class ConversationAdapter(
     }
 
     override fun onBindViewHolder(holder: ConversationViewHolder, position: Int) {
-        holder.setupWithConversation(getItem(position))
+        getItem(position)?.let { conversationViewData ->
+            holder.setupWithConversation(conversationViewData)
+        }
     }
 
     companion object {

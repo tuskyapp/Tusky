@@ -23,12 +23,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
@@ -51,7 +52,6 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-@OptIn(ExperimentalPagingApi::class)
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 
     @Inject
@@ -139,6 +139,18 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 }
             }
         }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                    binding.recyclerView.post {
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun initSwipeToRefresh() {
@@ -201,7 +213,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onOpenReblog(position: Int) {
-        // there are no reblogs in search results
+        // there are no reblogs in conversations
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
@@ -246,6 +258,19 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         }
     }
 
+    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
+        adapter.peek(position)?.let { conversation ->
+            viewModel.voteInPoll(choices, conversation)
+        }
+    }
+
+    override fun onReselect() {
+        if (isAdded) {
+            layoutManager?.scrollToPosition(0)
+            binding.recyclerView.stopScroll()
+        }
+    }
+
     private fun deleteConversation(conversation: ConversationViewData) {
         AlertDialog.Builder(requireContext())
             .setMessage(R.string.dialog_delete_conversation_warning)
@@ -254,23 +279,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 viewModel.remove(conversation)
             }
             .show()
-    }
-
-    private fun jumpToTop() {
-        if (isAdded) {
-            layoutManager?.scrollToPosition(0)
-            binding.recyclerView.stopScroll()
-        }
-    }
-
-    override fun onReselect() {
-        jumpToTop()
-    }
-
-    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        adapter.peek(position)?.let { conversation ->
-            viewModel.voteInPoll(choices, conversation)
-        }
     }
 
     companion object {

@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -43,12 +44,12 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private TextView conversationNameTextView;
-    private Button contentCollapseButton;
-    private ImageView[] avatars;
+    private final TextView conversationNameTextView;
+    private final Button contentCollapseButton;
+    private final ImageView[] avatars;
 
-    private StatusDisplayOptions statusDisplayOptions;
-    private StatusActionListener listener;
+    private final StatusDisplayOptions statusDisplayOptions;
+    private final StatusActionListener listener;
 
     ConversationViewHolder(View itemView,
                            StatusDisplayOptions statusDisplayOptions,
@@ -64,7 +65,6 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         this.statusDisplayOptions = statusDisplayOptions;
 
         this.listener = listener;
-
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
     }
 
-    void setupWithConversation(ConversationViewData conversation) {
+    void setupWithConversation(@NonNull ConversationViewData conversation) {
         StatusViewData.Concrete statusViewData = conversation.getLastStatus();
         Status status = statusViewData.getStatus();
         TimelineAccount account = status.getAccount();
