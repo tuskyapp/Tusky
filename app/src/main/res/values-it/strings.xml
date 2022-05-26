@@ -153,8 +153,8 @@
     <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
     <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
     <string name="dialog_delete_post_warning">Eliminare questo post\?</string>
-    <string name="visibility_public">Pubblico: visibile sulla timeline pubblica</string>
-    <string name="visibility_unlisted">Non in elenco: non visibile sulla timeline pubblica e locale</string>
+    <string name="visibility_public">Pubblico: visibile sulle timeline pubbliche</string>
+    <string name="visibility_unlisted">Non in elenco: non visibile sulle timeline pubbliche</string>
     <string name="visibility_private">Solo follower: visibile solo dai tuoi follower</string>
     <string name="visibility_direct">Diretto: visibile solo agli utenti menzionati</string>
     <string name="pref_title_edit_notification_settings">Notifiche</string>
@@ -402,7 +402,7 @@
     <string name="select_list_title">Scegli lista</string>
     <string name="list">Lista</string>
     <string name="compose_preview_image_description">Azioni per l\'immagine %s</string>
-    <string name="poll_ended_voted">Un sondaggio che hai votato si è concluso</string>
+    <string name="poll_ended_voted">Un sondaggio in cui hai votato si è concluso</string>
     <string name="poll_ended_created">Un sondaggio che hai creato si è concluso</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d giorno rimasto</item>
