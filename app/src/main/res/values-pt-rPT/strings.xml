@@ -65,10 +65,10 @@
     <string name="title_announcements">Anúncios</string>
     <string name="title_licenses">Licenças</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s fez boost</string>
+    <string name="post_boosted_format">%s deu boost</string>
     <string name="message_empty">Nada aqui.</string>
     <string name="footer_empty">Nada para ver aqui. Arraste para baixo para atualizar!</string>
-    <string name="notification_reblog_format">%s fez boost ao seu toot</string>
+    <string name="notification_reblog_format">%s deu boost ao seu toot</string>
     <string name="notification_favourite_format">%s adicionou o seu toot aos favoritos</string>
     <string name="notification_follow_format">%s está a seguir-te</string>
     <string name="notification_follow_request_format">%s pediu para te seguir</string>
@@ -134,7 +134,7 @@
     <string name="action_open_drawer">Abrir menu</string>
     <string name="action_search">Pesquisar</string>
     <string name="action_access_drafts">Rascunhos</string>
-    <string name="action_access_scheduled_posts">Toots agendados</string>
+    <string name="action_access_scheduled_posts">Toots Agendados</string>
     <string name="action_toggle_visibility">Privacidade do toot</string>
     <string name="action_content_warning">Aviso de conteúdo</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
@@ -325,7 +325,6 @@
     <string name="action_lists">Listas</string>
     <string name="error_rename_list">Não foi possível renomear a lista</string>
     <string name="title_lists">Listas</string>
-
     <string name="error_create_list">Não foi possível criar a lista</string>
     <string name="error_delete_list">Não foi possível apagar a lista</string>
     <string name="action_create_list">Criar uma lista</string>

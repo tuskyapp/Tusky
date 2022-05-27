@@ -471,7 +471,7 @@ class TimelineFragment :
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
         if (!useAbsoluteTime) {
-            Observable.interval(1, TimeUnit.MINUTES)
+            Observable.interval(0, 1, TimeUnit.MINUTES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
                 .subscribe {

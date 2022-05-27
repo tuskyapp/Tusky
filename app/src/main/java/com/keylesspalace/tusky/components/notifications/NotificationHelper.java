@@ -458,24 +458,6 @@ public class NotificationHelper {
         }
     }
 
-    public static void deleteLegacyNotificationChannels(@NonNull Context context, @NonNull AccountManager accountManager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            // used until Tusky 1.4
-            notificationManager.deleteNotificationChannel(CHANNEL_MENTION);
-            notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE);
-            notificationManager.deleteNotificationChannel(CHANNEL_BOOST);
-            notificationManager.deleteNotificationChannel(CHANNEL_FOLLOW);
-
-            // used until Tusky 1.7
-            for(AccountEntity account: accountManager.getAllAccountsOrderedByActive()) {
-                notificationManager.deleteNotificationChannel(CHANNEL_FAVOURITE+" "+account.getIdentifier());
-            }
-        }
-    }
-
     public static boolean areNotificationsEnabled(@NonNull Context context, @NonNull AccountManager accountManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
