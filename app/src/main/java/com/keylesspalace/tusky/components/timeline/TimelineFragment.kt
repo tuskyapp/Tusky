@@ -103,9 +103,6 @@ class TimelineFragment :
     private lateinit var adapter: TimelinePagingAdapter
 
     private var isSwipeToRefreshEnabled = true
-
-    private var layoutManager: LinearLayoutManager? = null
-    private var scrollListener: RecyclerView.OnScrollListener? = null
     private var hideFab = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -226,7 +223,7 @@ class TimelineFragment :
         if (actionButtonPresent()) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             hideFab = preferences.getBoolean("fabHide", false)
-            scrollListener = object : RecyclerView.OnScrollListener() {
+            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                     val composeButton = (activity as ActionButtonActivity).actionButton
                     if (composeButton != null) {
@@ -241,9 +238,7 @@ class TimelineFragment :
                         }
                     }
                 }
-            }.also {
-                binding.recyclerView.addOnScrollListener(it)
-            }
+            })
         }
 
         eventHub.events
@@ -279,8 +274,7 @@ class TimelineFragment :
             }
         )
         binding.recyclerView.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
 
@@ -482,7 +476,7 @@ class TimelineFragment :
 
     override fun onReselect() {
         if (isAdded) {
-            layoutManager!!.scrollToPosition(0)
+            binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
         }
     }
