@@ -83,6 +83,10 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true)
+        }
+
         val data = OauthLogin.parseData(intent)
 
         setContentView(binding.root)
