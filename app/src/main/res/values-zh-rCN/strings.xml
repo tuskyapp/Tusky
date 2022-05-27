@@ -31,7 +31,7 @@
     <string name="title_posts_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
-    <string name="title_favourites">收藏</string>
+    <string name="title_favourites">喜欢</string>
     <string name="title_mutes">被隐藏的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
@@ -50,7 +50,7 @@
     <string name="message_empty">还没有内容。</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新！</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
-    <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
+    <string name="notification_favourite_format">%s 喜欢了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
     <string name="report_username_format">举报 @%s</string>
     <string name="report_comment_hint">是否有更多信息需报告？</string>
@@ -58,8 +58,8 @@
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
     <string name="action_unreblog">取消转嘟</string>
-    <string name="action_favourite">收藏</string>
-    <string name="action_unfavourite">取消收藏</string>
+    <string name="action_favourite">喜欢</string>
+    <string name="action_unfavourite">取消喜欢</string>
     <string name="action_more">更多</string>
     <string name="action_compose">发表嘟文</string>
     <string name="action_login">登录 Mastodon 帐号</string>
@@ -81,7 +81,7 @@
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
     <string name="action_view_account_preferences">帐户设置</string>
-    <string name="action_view_favourites">收藏</string>
+    <string name="action_view_favourites">喜欢</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
     <string name="action_view_follow_requests">关注请求</string>
@@ -171,7 +171,7 @@
     <string name="pref_title_notification_filter_mentions">被提及</string>
     <string name="pref_title_notification_filter_follows">有新的关注者</string>
     <string name="pref_title_notification_filter_reblogs">嘟文被转嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
+    <string name="pref_title_notification_filter_favourites">嘟文被喜欢</string>
     <string name="pref_title_notification_filter_poll">投票已结束</string>
     <string name="pref_title_appearance_settings">外观</string>
     <string name="pref_title_app_theme">应用主题</string>
@@ -215,8 +215,8 @@
     <string name="notification_follow_description">当有用户关注我时</string>
     <string name="notification_boost_name">转嘟</string>
     <string name="notification_boost_description">当我的嘟文被转发时通知</string>
-    <string name="notification_favourite_name">收藏</string>
-    <string name="notification_favourite_description">当有用户收藏了我的嘟文时通知</string>
+    <string name="notification_favourite_name">喜欢</string>
+    <string name="notification_favourite_description">当有用户喜欢了我的嘟文时</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">当我参与的投票结束时</string>
     <string name="notification_mention_format">%s 提及了你</string>
@@ -343,7 +343,7 @@
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次转嘟</item>
     </plurals>
     <string name="title_reblogged_by">转嘟</string>
-    <string name="title_favourited_by">收藏</string>
+    <string name="title_favourited_by">喜欢</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s，%2$s 和 %3$d 等人</string>
@@ -354,7 +354,7 @@
     <string name="description_post_cw">内容警告：%s</string>
     <string name="description_post_media_no_description_placeholder">没有描述信息</string>
     <string name="description_post_reblogged">被转嘟</string>
-    <string name="description_post_favourited">被收藏</string>
+    <string name="description_post_favourited">被喜欢</string>
     <string name="description_visiblity_public">
         公开
     </string>
@@ -516,7 +516,7 @@
     <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
     <string name="action_delete_conversation">删除对话</string>
-    <string name="pref_title_confirm_favourites">收藏前显示确认对话框</string>
+    <string name="pref_title_confirm_favourites">喜欢前显示确认对话框</string>
     <string name="action_unbookmark">删除书签</string>
     <string name="duration_30_days">30 天</string>
     <string name="duration_60_days">60 天</string>
@@ -536,4 +536,14 @@
     <string name="notification_update_description">当你进行过互动的嘟文被编辑时发出通知</string>
     <string name="error_could_not_load_login_page">无法加载登录页。</string>
     <string name="saving_draft">正在保存草稿…</string>
+    <string name="title_migration_relogin">重新登陆以启用通知推送</string>
+    <string name="action_dismiss">不理会</string>
+    <string name="action_details">详情</string>
+    <string name="dialog_push_notification_migration_other_accounts">你已重新登录当前账户，向 Tusky 授予推送订阅权限。但是，你仍然有其他没有以这种方式迁移的账户。切换到它们，逐个重新登录，以启用 UnifiedPush 通知支持。</string>
+    <string name="account_date_joined">加入于%1$s</string>
+    <string name="tips_push_notification_migration">重新登录所有账户来启用推送通知支持。</string>
+    <string name="dialog_push_notification_migration">为了通过 UnifiedPush 使用推送通知，Tusky 需要订阅你 Mastodon 服务器通知的权限。这需要重新登录来更改授予 Tusky 的 OAuth 作用域。使用此处或账户首选项中“重新登录”选项将保留你所有的本地草稿和缓存。</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="error_media_edit_failed">无法编辑附件。</string>
+    <string name="action_edit_image">编辑图片</string>
 </resources>

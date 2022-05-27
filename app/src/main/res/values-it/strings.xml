@@ -30,7 +30,7 @@
     <string name="title_posts_with_replies">Con risposte</string>
     <string name="title_posts_pinned">Fissati</string>
     <string name="title_follows">Seguiti</string>
-    <string name="title_followers">Seguono</string>
+    <string name="title_followers">Seguaci</string>
     <string name="title_favourites">Preferiti</string>
     <string name="title_mutes">Utenti silenziati</string>
     <string name="title_blocks">Utenti bloccati</string>
@@ -39,7 +39,7 @@
     <string name="title_drafts">Bozze</string>
     <string name="title_licenses">Licenze</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s ha boostato</string>
+    <string name="post_boosted_format">%s ha condiviso</string>
     <string name="post_sensitive_media_title">Contenuto sensibile</string>
     <string name="post_media_hidden_title">Media nascosto</string>
     <string name="post_sensitive_media_directions">Clicca per visualizzare</string>
@@ -49,15 +49,15 @@
     <string name="post_content_show_less">Riduci</string>
     <string name="message_empty">Qui non c\'è nulla.</string>
     <string name="footer_empty">Qui non c\'è nulla. Trascina verso il basso per aggiornare!</string>
-    <string name="notification_reblog_format">%s ha boostato il tuo post</string>
+    <string name="notification_reblog_format">%s ha condiviso il tuo post</string>
     <string name="notification_favourite_format">%s ha messo il tuo post nei preferiti</string>
     <string name="notification_follow_format">%s ti ha seguito</string>
     <string name="report_username_format">Segnala @%s</string>
     <string name="report_comment_hint">Commenti aggiuntivi?</string>
     <string name="action_quick_reply">Risposta veloce</string>
     <string name="action_reply">Rispondi</string>
-    <string name="action_reblog">Boosta</string>
-    <string name="action_unreblog">Rimuovi boost</string>
+    <string name="action_reblog">Condividi</string>
+    <string name="action_unreblog">Rimuovi condivisione</string>
     <string name="action_favourite">Aggiungi ai preferiti</string>
     <string name="action_unfavourite">Rimuovi preferito</string>
     <string name="action_more">Di più</string>
@@ -69,8 +69,8 @@
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
     <string name="action_unblock">Sblocca</string>
-    <string name="action_hide_reblogs">Nascondi boost</string>
-    <string name="action_show_reblogs">Mostra boost</string>
+    <string name="action_hide_reblogs">Nascondi condivisioni</string>
+    <string name="action_show_reblogs">Mostra condivisioni</string>
     <string name="action_report">Segnala</string>
     <string name="action_delete">Elimina</string>
     <string name="action_send">TOOT</string>
@@ -109,8 +109,8 @@
     <string name="action_links">Collegamenti</string>
     <string name="action_mentions">Menzioni</string>
     <string name="action_hashtags">Hashtag</string>
-    <string name="action_open_reblogger">Vai all\'autore del boost</string>
-    <string name="action_open_reblogged_by">Mostra boost</string>
+    <string name="action_open_reblogger">Vai all\'autore della condivisione</string>
+    <string name="action_open_reblogged_by">Mostra condivisioni</string>
     <string name="action_open_faved_by">Mostra preferiti</string>
     <string name="title_hashtags_dialog">Hashtag</string>
     <string name="title_mentions_dialog">Menzioni</string>
@@ -153,8 +153,8 @@
     <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
     <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
     <string name="dialog_delete_post_warning">Eliminare questo post\?</string>
-    <string name="visibility_public">Pubblico: visibile sulla timeline pubblica</string>
-    <string name="visibility_unlisted">Non in elenco: non visibile sulla timeline pubblica e locale</string>
+    <string name="visibility_public">Pubblico: visibile sulle timeline pubbliche</string>
+    <string name="visibility_unlisted">Non in elenco: non visibile sulle timeline pubbliche</string>
     <string name="visibility_private">Solo follower: visibile solo dai tuoi follower</string>
     <string name="visibility_direct">Diretto: visibile solo agli utenti menzionati</string>
     <string name="pref_title_edit_notification_settings">Notifiche</string>
@@ -166,7 +166,7 @@
     <string name="pref_title_notification_filters">Notificami quando</string>
     <string name="pref_title_notification_filter_mentions">vengo menzionato</string>
     <string name="pref_title_notification_filter_follows">vengo seguito</string>
-    <string name="pref_title_notification_filter_reblogs">i miei post vengono boostati</string>
+    <string name="pref_title_notification_filter_reblogs">i miei post vengono condivisi</string>
     <string name="pref_title_notification_filter_favourites">i miei post vengono messi nei preferiti</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
@@ -183,7 +183,7 @@
     <string name="pref_title_language">Lingua</string>
     <string name="pref_title_post_filter">Filtraggio della timeline</string>
     <string name="pref_title_post_tabs">Schede</string>
-    <string name="pref_title_show_boosts">Mostra boost</string>
+    <string name="pref_title_show_boosts">Mostra condivisioni</string>
     <string name="pref_title_show_replies">Mostra risposte</string>
     <string name="pref_title_show_media_preview">Mostra anteprime media</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -208,8 +208,8 @@
     <string name="notification_mention_descriptions">Notifiche di quando vieni menzionato da qualcuno</string>
     <string name="notification_follow_name">Nuovi follower</string>
     <string name="notification_follow_description">Notifiche su nuovi follower</string>
-    <string name="notification_boost_name">Boost</string>
-    <string name="notification_boost_description">Notifiche sui tuoi post che vengono boostati</string>
+    <string name="notification_boost_name">Condivisioni</string>
+    <string name="notification_boost_description">Notifiche sui tuoi post che vengono condivisi</string>
     <string name="notification_favourite_name">Preferiti</string>
     <string name="notification_favourite_description">Notifiche sui tuoi post che vengono segnati come preferiti</string>
     <string name="notification_mention_format">%s ti ha menzionato</string>
@@ -312,8 +312,8 @@
     <string name="download_failed">Download fallito</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s si è spostato su:</string>
-    <string name="reblog_private">Boost con la visibilità del post di origine</string>
-    <string name="unreblog_private">Annulla boost</string>
+    <string name="reblog_private">Condividi con la visibilità del post originale</string>
+    <string name="unreblog_private">Annulla condivisione</string>
     <string name="license_description">Tusky contiene codice e risorse dai seguenti progetti open source:</string>
     <string name="license_apache_2">Licenziata sotto la Licenza Apache (copia sotto)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -334,7 +334,7 @@
         <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boost</item>
     </plurals>
-    <string name="title_reblogged_by">Boostato da</string>
+    <string name="title_reblogged_by">Condiviso da</string>
     <string name="title_favourited_by">Aggiunto ai preferiti da</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
@@ -402,7 +402,7 @@
     <string name="select_list_title">Scegli lista</string>
     <string name="list">Lista</string>
     <string name="compose_preview_image_description">Azioni per l\'immagine %s</string>
-    <string name="poll_ended_voted">Un sondaggio che hai votato si è concluso</string>
+    <string name="poll_ended_voted">Un sondaggio in cui hai votato si è concluso</string>
     <string name="poll_ended_created">Un sondaggio che hai creato si è concluso</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d giorno rimasto</item>
@@ -470,7 +470,7 @@
     <string name="account_note_saved">Salvato!</string>
     <string name="account_note_hint">La tua nota privata su questo account</string>
     <string name="pref_title_hide_top_toolbar">Nascondi il titolo della barra degli strumenti in alto</string>
-    <string name="pref_title_confirm_reblogs">Mostra la finestra di conferma prima di boostare</string>
+    <string name="pref_title_confirm_reblogs">Mostra la finestra di conferma prima di condividere</string>
     <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle timelines</string>
     <string name="warning_scheduling_interval">Mastodon ha un intervallo di programmazione minimo di 5 minuti.</string>
     <string name="no_announcements">Non ci sono annunci.</string>
@@ -515,13 +515,13 @@
     <string name="action_delete_conversation">Elimina conversazione</string>
     <string name="wellbeing_mode_notice">Alcune informazioni che potrebbero influenzare il tuo benessere mentale saranno nascoste. Questo include:
 \n
-\n - Notifiche riguardo a Preferiti/Boost/Following
-\n - Conteggio dei Preferiti/Boost nei post
+\n - Notifiche riguardo a Preferiti/Condivisioni/Following
+\n - Conteggio dei Preferiti/Condivisioni nei post
 \n - Statistiche riguardo a Preferiti/Post nei profili
 \n
 \n Le notifiche push non saranno influenzate, ma puoi modificare le tue impostazioni delle notifiche manualmente.</string>
     <string name="action_unbookmark">Rimuovi segnalibro</string>
-    <string name="pref_title_confirm_favourites">Chiedi conferma prima di boostare</string>
+    <string name="pref_title_confirm_favourites">Chiedi conferma prima di condividere</string>
     <string name="duration_14_days">14 giorni</string>
     <string name="duration_30_days">30 giorni</string>
     <string name="duration_60_days">60 giorni</string>
@@ -540,4 +540,9 @@
     <string name="notification_update_name">Modifiche ai post</string>
     <string name="notification_update_description">Notifiche di quando i post con cui hai interagito vengono modificati</string>
     <string name="error_could_not_load_login_page">Non è stato possibile caricare la pagina di login.</string>
+    <string name="error_media_edit_failed">L\'allegato non può essere modificato.</string>
+    <string name="action_edit_image">Modifica immagine</string>
+    <string name="saving_draft">Salvataggio bozza…</string>
+    <string name="action_dismiss">Scartare</string>
+    <string name="action_details">Dettagli</string>
 </resources>

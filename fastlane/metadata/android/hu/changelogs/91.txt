@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Támogatás az új Mastodon 3.5 értesítési típusokhoz
+- A bot jelvény jobban néz ki és alkalmazkodik a választott témához
+- A szöveget már kiválaszthatod a bejegyzési részletek megtekintésénél is
+- Sok hibajavítás, beleértve egy olyat, mely megakadályozta a bejelentkezést Android 6-on vagy alatta
