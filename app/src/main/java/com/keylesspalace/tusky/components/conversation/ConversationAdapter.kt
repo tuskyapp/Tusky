@@ -25,9 +25,17 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 
 class ConversationAdapter(
-    private val statusDisplayOptions: StatusDisplayOptions,
+    private var statusDisplayOptions: StatusDisplayOptions,
     private val listener: StatusActionListener
 ) : PagingDataAdapter<ConversationViewData, ConversationViewHolder>(CONVERSATION_COMPARATOR) {
+
+    var mediaPreviewEnabled: Boolean
+        get() = statusDisplayOptions.mediaPreviewEnabled
+        set(mediaPreviewEnabled) {
+            statusDisplayOptions = statusDisplayOptions.copy(
+                mediaPreviewEnabled = mediaPreviewEnabled
+            )
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_conversation, parent, false)

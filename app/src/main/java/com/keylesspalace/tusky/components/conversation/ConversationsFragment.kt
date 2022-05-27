@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
@@ -30,14 +31,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.sparkbutton.helpers.Utils
+import autodispose2.androidx.lifecycle.autoDispose
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -47,6 +52,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,11 +66,16 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var eventHub: EventHub
+
     private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private lateinit var adapter: ConversationAdapter
+
+    private var hideFab = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -136,6 +147,24 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             }
         })
 
+        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+                val composeButton = (activity as ActionButtonActivity).actionButton
+                if (composeButton != null) {
+                    if (hideFab) {
+                        if (dy > 0 && composeButton.isShown) {
+                            composeButton.hide() // hides the button if we're scrolling down
+                        } else if (dy < 0 && !composeButton.isShown) {
+                            composeButton.show() // shows it if we are scrolling up
+                        }
+                    } else if (!composeButton.isShown) {
+                        composeButton.show()
+                    }
+                }
+            }
+        })
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.conversationFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
@@ -149,6 +178,15 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 delay(1.toDuration(DurationUnit.MINUTES))
             }
         }
+
+        eventHub.events
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe { event ->
+                if (event is PreferenceChangedEvent) {
+                    onPreferenceChanged(event.preferenceKey)
+                }
+            }
     }
 
     private fun setupRecyclerView() {
@@ -288,6 +326,23 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 viewModel.remove(conversation)
             }
             .show()
+    }
+
+    private fun onPreferenceChanged(key: String) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        when (key) {
+            PrefKeys.FAB_HIDE -> {
+                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+            }
+            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
+                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
+                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
+                if (enabled != oldMediaPreviewEnabled) {
+                    adapter.mediaPreviewEnabled = enabled
+                    adapter.notifyItemRangeChanged(0, adapter.itemCount)
+                }
+            }
+        }
     }
 
     companion object {
