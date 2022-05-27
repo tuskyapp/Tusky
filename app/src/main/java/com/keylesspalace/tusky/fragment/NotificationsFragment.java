@@ -1231,7 +1231,7 @@ public class NotificationsFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         if (!useAbsoluteTime) {
-            Observable.interval(1, TimeUnit.MINUTES)
+            Observable.interval(0, 1, TimeUnit.MINUTES)
                     .observeOn(AndroidSchedulers.mainThread())
                     .to(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
                     .subscribe(
