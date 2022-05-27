@@ -41,11 +41,7 @@ import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.CardViewMode
-import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -65,9 +61,6 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private lateinit var adapter: ConversationAdapter
-    private lateinit var loadStateAdapter: ConversationLoadStateAdapter
-
-    private var layoutManager: LinearLayoutManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -90,24 +83,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         )
 
         adapter = ConversationAdapter(statusDisplayOptions, this)
-        loadStateAdapter = ConversationLoadStateAdapter(adapter::retry)
 
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
-        layoutManager = LinearLayoutManager(view.context)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = adapter.withLoadStateFooter(loadStateAdapter)
-        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
-        binding.progressBar.hide()
-        binding.statusView.hide()
+        setupRecyclerView()
 
         initSwipeToRefresh()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.conversationFlow.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
-        }
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
@@ -153,6 +132,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             }
         })
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.conversationFlow.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
+        }
+
         lifecycleScope.launchWhenResumed {
             val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
             while (!useAbsoluteTime) {
@@ -160,6 +145,17 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 delay(1.toDuration(DurationUnit.MINUTES))
             }
         }
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(ConversationLoadStateAdapter(adapter::retry))
     }
 
     private fun initSwipeToRefresh() {
@@ -275,7 +271,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
 
     override fun onReselect() {
         if (isAdded) {
-            layoutManager?.scrollToPosition(0)
+            binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
         }
     }
