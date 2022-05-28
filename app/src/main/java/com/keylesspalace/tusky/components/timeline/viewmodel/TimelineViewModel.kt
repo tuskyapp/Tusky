@@ -172,6 +172,9 @@ abstract class TimelineViewModel(
 
     abstract fun fullReload()
 
+    /** Triggered when currently displayed data must be reloaded. */
+    protected abstract fun invalidate()
+
     protected fun shouldFilterStatus(statusViewData: StatusViewData): Boolean {
         val status = statusViewData.asStatusOrNull()?.status ?: return false
         return status.inReplyToId != null && filterRemoveReplies ||
@@ -287,6 +290,9 @@ abstract class TimelineViewModel(
                     filterContextMatchesKind(kind, it.context)
                 }
             )
+            // After the filters are loaded we need to reload displayed content to apply them.
+            // It can happen during the usage or at startup, when we get statuses before filters.
+            invalidate()
         }
     }
 
