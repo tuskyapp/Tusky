@@ -19,7 +19,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
@@ -29,6 +30,7 @@ import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefData
 import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.settings.PreferenceOption
+import com.keylesspalace.tusky.settings.PreferenceParent
 import com.keylesspalace.tusky.settings.customListPreference
 import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.settings.listPreference
@@ -56,6 +58,7 @@ class PreferencesFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var prefStore: PrefStore
+    lateinit var prefs: PrefData
 
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
@@ -71,8 +74,14 @@ class PreferencesFragment : Fragment(), Injectable {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = FrameLayout(inflater.context)
-        var prefs = prefStore.getBlocking()
+        // TODO: border between categories?
+        val viewRoot = ScrollView(inflater.context)
+        val rootLayout = LinearLayout(inflater.context).apply {
+            orientation = LinearLayout.VERTICAL
+            viewRoot.addView(this)
+        }
+
+        prefs = prefStore.getBlocking()
         lifecycleScope.launch {
             prefStore.data.collect {
                 prefs = it
@@ -83,113 +92,128 @@ class PreferencesFragment : Fragment(), Injectable {
             }
         }
 
-        this.updateTrigger = makePreferenceScreen(view) {
-            preferenceCategory(R.string.pref_title_appearance_settings) {
-                val themeOptions = listOf(
-                    AppTheme.NIGHT.value to R.string.app_them_dark,
-                    AppTheme.DAY.value to R.string.app_theme_light,
-                    AppTheme.BLACK.value to R.string.app_theme_black,
-                    AppTheme.AUTO.value to R.string.app_theme_auto,
-                    AppTheme.AUTO_SYSTEM.value to R.string.app_theme_system,
-                ).map(::PreferenceOption)
-                listPreference(
-                    getString(R.string.pref_title_app_theme),
-                    themeOptions,
-                    { prefs.appTheme }
-                ) {
-                    updatePrefs { data -> data.copy(appTheme = it) }
-                }
+        this.updateTrigger = makePreferenceScreen(rootLayout) {
+            appearanceCategory()
+            browserCategory()
+        }
+        return viewRoot
+    }
 
-                val emojiSelector = EmojiSelector(context, okhttpclient, prefs.emojiFont) {
-                    updatePrefs { data -> data.copy(emojiFont = it) }
-                }
-                customListPreference(
-                    getString(R.string.emoji_style),
-                    {
-                        emojiSelector.summary
-                    },
-                    {
-                        emojiSelector.showSelectionDialog()
-                    }
-                )
+    private fun PreferenceParent.browserCategory() {
+        preferenceCategory(R.string.pref_title_browser_settings) {
+            switchPreference(
+                getString(R.string.pref_title_custom_tabs),
+                { prefs.customTabs },
+                { updatePrefs { data -> data.copy(customTabs = it) } }
+            )
+        }
+    }
 
-                val languageNames = resources.getStringArray(R.array.language_entries)
-                val languageValues = resources.getStringArray(R.array.language_values)
-                val languageOptions = languageNames
-                    .zip(languageValues)
-                    .map { PreferenceOption(it.first, it.second) }
-                listPreference(
-                    getString(R.string.pref_title_language),
-                    languageOptions,
-                    { prefs.language },
-                ) {
-                    updatePrefs { data -> data.copy(language = it) }
+    private fun PreferenceParent.appearanceCategory() {
+        preferenceCategory(R.string.pref_title_appearance_settings) {
+            val themeOptions = listOf(
+                AppTheme.NIGHT.value to R.string.app_them_dark,
+                AppTheme.DAY.value to R.string.app_theme_light,
+                AppTheme.BLACK.value to R.string.app_theme_black,
+                AppTheme.AUTO.value to R.string.app_theme_auto,
+                AppTheme.AUTO_SYSTEM.value to R.string.app_theme_system,
+            ).map(::PreferenceOption)
+            listPreference(
+                getString(R.string.pref_title_app_theme),
+                themeOptions,
+                { prefs.appTheme }
+            ) {
+                updatePrefs { data -> data.copy(appTheme = it) }
+            }
+
+            val emojiSelector = EmojiSelector(context, okhttpclient, prefs.emojiFont) {
+                updatePrefs { data -> data.copy(emojiFont = it) }
+            }
+            customListPreference(
+                getString(R.string.emoji_style),
+                {
+                    emojiSelector.summary
+                },
+                {
+                    emojiSelector.showSelectionDialog()
                 }
-                val textSizeOptions = listOf(
-                    "smallest" to R.string.status_text_size_smallest,
-                    "small" to R.string.status_text_size_small,
-                    "medium" to R.string.status_text_size_medium,
-                    "large" to R.string.status_text_size_large,
-                    "largest" to R.string.status_text_size_largest,
-                ).map(::PreferenceOption)
-                listPreference(
-                    getString(R.string.pref_status_text_size),
-                    textSizeOptions,
-                    { prefs.statusTextSize },
-                ) {
-                    updatePrefs { data -> data.copy(statusTextSize = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_hide_top_toolbar),
-                    { prefs.hideTopToolbar }
-                ) {
-                    updatePrefs { data -> data.copy(hideTopToolbar = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_hide_follow_button),
-                    { prefs.hideFab }
-                ) {
-                    updatePrefs { data -> data.copy(hideFab = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_absolute_time),
-                    { prefs.useAbsoluteTime }
-                ) {
-                    updatePrefs { data -> data.copy(useAbsoluteTime = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_bot_overlay),
-                    { prefs.showBotOverlay }
-                ) {
-                    updatePrefs { data -> data.copy(showBotOverlay = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_animate_gif_avatars),
-                    { prefs.animateAvatars }
-                ) {
-                    updatePrefs { data -> data.copy(animateAvatars = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_animate_custom_emojis),
-                    { prefs.animateEmojis }
-                ) {
-                    updatePrefs { data -> data.copy(animateEmojis = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_gradient_for_media),
-                    { prefs.useBlurhash }
-                ) {
-                    updatePrefs { data -> data.copy(useBlurhash = it) }
-                }
-                switchPreference(
-                    getString(R.string.pref_title_show_cards_in_timelines),
-                    { prefs.showCardsInTimelines }
-                ) {
-                    updatePrefs { data -> data.copy(showCardsInTimelines = it) }
-                }
+            )
+
+            val languageNames = resources.getStringArray(R.array.language_entries)
+            val languageValues = resources.getStringArray(R.array.language_values)
+            val languageOptions = languageNames
+                .zip(languageValues)
+                .map { PreferenceOption(it.first, it.second) }
+            listPreference(
+                getString(R.string.pref_title_language),
+                languageOptions,
+                { prefs.language },
+            ) {
+                updatePrefs { data -> data.copy(language = it) }
+            }
+            val textSizeOptions = listOf(
+                "smallest" to R.string.status_text_size_smallest,
+                "small" to R.string.status_text_size_small,
+                "medium" to R.string.status_text_size_medium,
+                "large" to R.string.status_text_size_large,
+                "largest" to R.string.status_text_size_largest,
+            ).map(::PreferenceOption)
+            listPreference(
+                getString(R.string.pref_status_text_size),
+                textSizeOptions,
+                { prefs.statusTextSize },
+            ) {
+                updatePrefs { data -> data.copy(statusTextSize = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_hide_top_toolbar),
+                { prefs.hideTopToolbar }
+            ) {
+                updatePrefs { data -> data.copy(hideTopToolbar = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_hide_follow_button),
+                { prefs.hideFab }
+            ) {
+                updatePrefs { data -> data.copy(hideFab = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_absolute_time),
+                { prefs.useAbsoluteTime }
+            ) {
+                updatePrefs { data -> data.copy(useAbsoluteTime = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_bot_overlay),
+                { prefs.showBotOverlay }
+            ) {
+                updatePrefs { data -> data.copy(showBotOverlay = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_animate_gif_avatars),
+                { prefs.animateAvatars }
+            ) {
+                updatePrefs { data -> data.copy(animateAvatars = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_animate_custom_emojis),
+                { prefs.animateEmojis }
+            ) {
+                updatePrefs { data -> data.copy(animateEmojis = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_gradient_for_media),
+                { prefs.useBlurhash }
+            ) {
+                updatePrefs { data -> data.copy(useBlurhash = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_show_cards_in_timelines),
+                { prefs.showCardsInTimelines }
+            ) {
+                updatePrefs { data -> data.copy(showCardsInTimelines = it) }
             }
         }
-        return view
     }
 
 //    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
