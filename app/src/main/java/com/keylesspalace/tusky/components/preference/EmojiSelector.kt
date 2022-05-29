@@ -11,8 +11,6 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.preference.Preference
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogEmojicompatBinding
@@ -31,34 +29,35 @@ import okhttp3.OkHttpClient
 import kotlin.system.exitProcess
 
 /**
- * This Preference lets the user select their preferred emoji font
+ * This selector lets the user select their preferred emoji font.
+ * It will also handle the downloading.
  */
-class EmojiPreference(
-    context: Context,
-    private val okHttpClient: OkHttpClient
-) : Preference(context) {
+class EmojiSelector(
+    private val context: Context,
+    private val okHttpClient: OkHttpClient,
+    initialSelectedFontId: Int,
+    private val saveSelectedId: (Int) -> Unit
+) {
 
-    private lateinit var selected: EmojiCompatFont
-    private lateinit var original: EmojiCompatFont
+    private var selected: EmojiCompatFont
+    private var original: EmojiCompatFont
     private val radioButtons = mutableListOf<RadioButton>()
     private var updated = false
     private var currentNeedsUpdate = false
 
     private val downloadDisposables = MutableList<Disposable?>(FONTS.size) { null }
 
-    override fun onAttachedToHierarchy(preferenceManager: PreferenceManager) {
-        super.onAttachedToHierarchy(preferenceManager)
-
+    init {
         // Find out which font is currently active
-        selected = EmojiCompatFont.byId(
-            PreferenceManager.getDefaultSharedPreferences(context).getInt(key, 0)
-        )
+        selected = EmojiCompatFont.byId(initialSelectedFontId)
         // We'll use this later to determine if anything has changed
         original = selected
-        summary = selected.getDisplay(context)
     }
 
-    override fun onClick() {
+    val summary: String
+        get() = selected.getDisplay(context)
+
+    fun showSelectionDialog() {
         val binding = DialogEmojicompatBinding.inflate(LayoutInflater.from(context))
 
         setupItem(BLOBMOJI, binding.itemBlobmoji)
@@ -194,12 +193,7 @@ class EmojiPreference(
     private fun saveSelectedFont() {
         val index = selected.id
         Log.i(TAG, "saveSelectedFont: Font ID: $index")
-        PreferenceManager
-            .getDefaultSharedPreferences(context)
-            .edit()
-            .putInt(key, index)
-            .apply()
-        summary = selected.getDisplay(context)
+        saveSelectedId(selected.id)
     }
 
     /**

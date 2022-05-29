@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefData
 import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.settings.PreferenceOption
+import com.keylesspalace.tusky.settings.customListPreference
 import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -98,6 +99,20 @@ class PreferencesFragment : Fragment(), Injectable {
                 ) {
                     updatePrefs { data -> data.copy(appTheme = it) }
                 }
+
+                val emojiSelector = EmojiSelector(context, okhttpclient, prefs.emojiFont) {
+                    updatePrefs { data -> data.copy(emojiFont = it) }
+                }
+                customListPreference(
+                    getString(R.string.emoji_style),
+                    {
+                        emojiSelector.summary
+                    },
+                    {
+                        emojiSelector.showSelectionDialog()
+                    }
+                )
+
                 val languageNames = resources.getStringArray(R.array.language_entries)
                 val languageValues = resources.getStringArray(R.array.language_values)
                 val languageOptions = languageNames

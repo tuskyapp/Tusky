@@ -160,7 +160,6 @@ fun PreferenceParent.switchPreference(
     addPref(layout)
 }
 
-
 data class PreferenceOption<T>(val name: String, val value: T)
 @Suppress("FunctionName")
 fun <T> PreferenceParent.PreferenceOption(pair: Pair<T, Int>): PreferenceOption<T> {
@@ -174,31 +173,8 @@ fun <T> PreferenceParent.listPreference(
     selected: () -> T,
     onSelection: (T) -> Unit,
 ) {
-    val layout = itemLayout(context).apply {
-        isClickable = true
-        val outValue = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
-        setBackgroundResource(outValue.resourceId)
-        setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
-    }
-    val linearLayout = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
-    }
-
-
-    val titleView = TextView(context).apply {
-        text = title
-        setTextAppearanceRef(android.R.attr.textAppearanceListItem)
-        setTextColorRef(android.R.attr.textColorPrimary)
-    }
-    linearLayout.addView(titleView)
-
-    val optionView = TextView(context)
-    linearLayout.addView(optionView)
-
-    layout.addView(linearLayout)
-
-    addPref(layout)
+    val (layout, summaryView, optionView) = makeListPreferenceLayout()
+    summaryView.text = title
 
     registerUpdate {
         val selectedOptionIndex = options.indexOfFirst { it.value == selected() }
@@ -218,6 +194,57 @@ fun <T> PreferenceParent.listPreference(
                 .show()
         }
     }
+}
+
+fun PreferenceParent.customListPreference(
+    title: String,
+    selected: () -> String,
+    onClick: () -> Unit
+) {
+    val (layout, summaryView, optionView) = makeListPreferenceLayout()
+    summaryView.text = title
+
+    layout.setOnClickListener {
+        onClick()
+    }
+
+    registerUpdate {
+        optionView.text = selected()
+    }
+}
+
+private data class ListPreferenceLayout(
+    val layout: LinearLayout,
+    val summaryView: TextView,
+    val optionView: TextView,
+)
+
+private fun PreferenceParent.makeListPreferenceLayout(): ListPreferenceLayout {
+    val layout = itemLayout(context).apply {
+        isClickable = true
+        val outValue = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+        setBackgroundResource(outValue.resourceId)
+        setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
+    }
+    val linearLayout = LinearLayout(context).apply {
+        orientation = LinearLayout.VERTICAL
+    }
+
+
+    val summaryView = TextView(context).apply {
+        setTextAppearanceRef(android.R.attr.textAppearanceListItem)
+        setTextColorRef(android.R.attr.textColorPrimary)
+    }
+    linearLayout.addView(summaryView)
+
+    val optionView = TextView(context)
+    linearLayout.addView(optionView)
+
+    layout.addView(linearLayout)
+
+    addPref(layout)
+    return ListPreferenceLayout(layout, summaryView, optionView)
 }
 
 
