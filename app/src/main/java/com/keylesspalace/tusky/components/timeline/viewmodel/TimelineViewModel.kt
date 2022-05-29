@@ -81,6 +81,7 @@ abstract class TimelineViewModel(
         this.tags = tags
 
         if (kind == Kind.HOME) {
+            // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
             filterRemoveReblogs =
