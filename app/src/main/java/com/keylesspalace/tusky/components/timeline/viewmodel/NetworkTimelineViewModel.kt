@@ -249,6 +249,10 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
+    override fun invalidate() {
+        currentSource?.invalidate()
+    }
+
     @Throws(IOException::class, HttpException::class)
     suspend fun fetchStatusesForKind(
         fromId: String?,
