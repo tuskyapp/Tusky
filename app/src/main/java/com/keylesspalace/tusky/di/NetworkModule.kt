@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.di
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import at.connyduck.calladapter.kotlinresult.KotlinResultCallAdapterFactory
+import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
 import com.google.gson.Gson
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
@@ -106,7 +106,7 @@ class NetworkModule {
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addCallAdapterFactory(KotlinResultCallAdapterFactory.create())
+            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()
     }
 

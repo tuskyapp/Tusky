@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.network
 
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Announcement
@@ -74,10 +75,10 @@ interface MastodonApi {
     }
 
     @GET("/api/v1/custom_emojis")
-    suspend fun getCustomEmojis(): Result<List<Emoji>>
+    suspend fun getCustomEmojis(): NetworkResult<List<Emoji>>
 
     @GET("api/v1/instance")
-    suspend fun getInstance(): Result<Instance>
+    suspend fun getInstance(): NetworkResult<Instance>
 
     @GET("api/v1/filters")
     fun getFilters(): Single<List<Filter>>
@@ -145,7 +146,7 @@ interface MastodonApi {
     suspend fun updateMedia(
         @Path("mediaId") mediaId: String,
         @Field("description") description: String
-    ): Result<Attachment>
+    ): NetworkResult<Attachment>
 
     @GET("api/v1/media/{mediaId}")
     suspend fun getMedia(
@@ -158,7 +159,7 @@ interface MastodonApi {
         @Header(DOMAIN_HEADER) domain: String,
         @Header("Idempotency-Key") idempotencyKey: String,
         @Body status: NewStatus
-    ): Result<Status>
+    ): NetworkResult<Status>
 
     @GET("api/v1/statuses/{id}")
     fun status(
@@ -246,10 +247,10 @@ interface MastodonApi {
     @DELETE("api/v1/scheduled_statuses/{id}")
     suspend fun deleteScheduledStatus(
         @Path("id") scheduledStatusId: String
-    ): Result<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @GET("api/v1/accounts/verify_credentials")
-    suspend fun accountVerifyCredentials(): Result<Account>
+    suspend fun accountVerifyCredentials(): NetworkResult<Account>
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
@@ -274,7 +275,7 @@ interface MastodonApi {
         @Part(value = "fields_attributes[2][value]") fieldValue2: RequestBody?,
         @Part(value = "fields_attributes[3][name]") fieldName3: RequestBody?,
         @Part(value = "fields_attributes[3][value]") fieldValue3: RequestBody?
-    ): Result<Account>
+    ): NetworkResult<Account>
 
     @GET("api/v1/accounts/search")
     suspend fun searchAccounts(
@@ -282,15 +283,15 @@ interface MastodonApi {
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
         @Query("following") following: Boolean? = null
-    ): Result<List<TimelineAccount>>
+    ): NetworkResult<List<TimelineAccount>>
 
     @GET("api/v1/accounts/search")
-    fun searchAccountsCall(
+    fun searchAccountsSync(
         @Query("q") query: String,
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
         @Query("following") following: Boolean? = null
-    ): Call<List<TimelineAccount>>
+    ): NetworkResult<List<TimelineAccount>>
 
     @GET("api/v1/accounts/{id}")
     fun account(
@@ -445,7 +446,7 @@ interface MastodonApi {
         @Field("redirect_uris") redirectUris: String,
         @Field("scopes") scopes: String,
         @Field("website") website: String
-    ): Result<AppCredentials>
+    ): NetworkResult<AppCredentials>
 
     @FormUrlEncoded
     @POST("oauth/token")
@@ -456,34 +457,34 @@ interface MastodonApi {
         @Field("redirect_uri") redirectUri: String,
         @Field("code") code: String,
         @Field("grant_type") grantType: String
-    ): Result<AccessToken>
+    ): NetworkResult<AccessToken>
 
     @GET("/api/v1/lists")
-    suspend fun getLists(): Result<List<MastoList>>
+    suspend fun getLists(): NetworkResult<List<MastoList>>
 
     @FormUrlEncoded
     @POST("api/v1/lists")
     suspend fun createList(
         @Field("title") title: String
-    ): Result<MastoList>
+    ): NetworkResult<MastoList>
 
     @FormUrlEncoded
     @PUT("api/v1/lists/{listId}")
     suspend fun updateList(
         @Path("listId") listId: String,
         @Field("title") title: String
-    ): Result<MastoList>
+    ): NetworkResult<MastoList>
 
     @DELETE("api/v1/lists/{listId}")
     suspend fun deleteList(
         @Path("listId") listId: String
-    ): Result<Unit>
+    ): NetworkResult<Unit>
 
     @GET("api/v1/lists/{listId}/accounts")
     suspend fun getAccountsInList(
         @Path("listId") listId: String,
         @Query("limit") limit: Int
-    ): Result<List<TimelineAccount>>
+    ): NetworkResult<List<TimelineAccount>>
 
     @FormUrlEncoded
     // @DELETE doesn't support fields
@@ -491,14 +492,14 @@ interface MastodonApi {
     suspend fun deleteAccountFromList(
         @Path("listId") listId: String,
         @Field("account_ids[]") accountIds: List<String>
-    ): Result<Unit>
+    ): NetworkResult<Unit>
 
     @FormUrlEncoded
     @POST("api/v1/lists/{listId}/accounts")
     suspend fun addAccountToList(
         @Path("listId") listId: String,
         @Field("account_ids[]") accountIds: List<String>
-    ): Result<Unit>
+    ): NetworkResult<Unit>
 
     @GET("/api/v1/conversations")
     suspend fun getConversations(
@@ -547,24 +548,24 @@ interface MastodonApi {
     @GET("api/v1/announcements")
     suspend fun listAnnouncements(
         @Query("with_dismissed") withDismissed: Boolean = true
-    ): Result<List<Announcement>>
+    ): NetworkResult<List<Announcement>>
 
     @POST("api/v1/announcements/{id}/dismiss")
     suspend fun dismissAnnouncement(
         @Path("id") announcementId: String
-    ): Result<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @PUT("api/v1/announcements/{id}/reactions/{name}")
     suspend fun addAnnouncementReaction(
         @Path("id") announcementId: String,
         @Path("name") name: String
-    ): Result<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @DELETE("api/v1/announcements/{id}/reactions/{name}")
     suspend fun removeAnnouncementReaction(
         @Path("id") announcementId: String,
         @Path("name") name: String
-    ): Result<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
     @POST("api/v1/reports")
@@ -601,14 +602,14 @@ interface MastodonApi {
     ): Single<SearchResult>
 
     @GET("api/v2/search")
-    fun searchCall(
+    fun searchSync(
         @Query("q") query: String?,
         @Query("type") type: String? = null,
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: Int? = null,
         @Query("following") following: Boolean? = null
-    ): Call<SearchResult>
+    ): NetworkResult<SearchResult>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/note")
@@ -629,7 +630,7 @@ interface MastodonApi {
         // Should be generated dynamically from all the available notification
         // types defined in [com.keylesspalace.tusky.entities.Notification.Types]
         @FieldMap data: Map<String, Boolean>
-    ): Result<NotificationSubscribeResult>
+    ): NetworkResult<NotificationSubscribeResult>
 
     @FormUrlEncoded
     @PUT("api/v1/push/subscription")
@@ -637,11 +638,11 @@ interface MastodonApi {
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
         @FieldMap data: Map<String, Boolean>
-    ): Result<NotificationSubscribeResult>
+    ): NetworkResult<NotificationSubscribeResult>
 
     @DELETE("api/v1/push/subscription")
     suspend fun unsubscribePushNotifications(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
-    ): Result<ResponseBody>
+    ): NetworkResult<ResponseBody>
 }

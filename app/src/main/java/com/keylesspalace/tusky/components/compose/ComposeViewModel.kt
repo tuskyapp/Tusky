@@ -23,6 +23,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter.AutocompleteResult
 import com.keylesspalace.tusky.components.drafts.DraftHelper
@@ -39,7 +40,6 @@ import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.combineLiveData
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import com.keylesspalace.tusky.util.result
 import com.keylesspalace.tusky.util.toLiveData
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
@@ -351,8 +351,7 @@ class ComposeViewModel @Inject constructor(
     fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
         when (token[0]) {
             '@' -> {
-                return api.searchAccountsCall(query = token.substring(1), limit = 10)
-                    .result()
+                return api.searchAccountsSync(query = token.substring(1), limit = 10)
                     .fold({ accounts ->
                         accounts.map { AutocompleteResult.AccountResult(it) }
                     }, { e ->
@@ -361,8 +360,7 @@ class ComposeViewModel @Inject constructor(
                     })
             }
             '#' -> {
-                return api.searchCall(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
-                    .result()
+                return api.searchSync(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
                     .fold({ searchResult ->
                         searchResult.hashtags.map { AutocompleteResult.HashtagResult(it.name) }
                     }, { e ->
