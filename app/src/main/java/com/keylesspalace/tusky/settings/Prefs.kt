@@ -36,15 +36,19 @@ data class PrefData(
     val confirmFavourites: Boolean = false,
     val enableSwipeForTabs: Boolean = true,
     val customTabs: Boolean = false,
+
+    val limitedNotifications: Boolean = false,
     val hideStatsPosts: Boolean = false,
     val hideStatsProfile: Boolean = false,
+
     val animateEmojis: Boolean = false,
+
     val tabFilterHomeReplies: Boolean = true,
     val tabFilterHomeBoosts: Boolean = true,
 
     val httpProxyEnabled: Boolean = false,
     val httpProxyServer: String = "",
-    val httpProxyPort: String = ""
+    val httpProxyPort: String = "",
 )
 
 abstract class GsonSerializer<T>(

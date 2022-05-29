@@ -26,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefData
 import com.keylesspalace.tusky.settings.PrefStore
@@ -38,6 +39,8 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.deserialize
+import com.keylesspalace.tusky.util.serialize
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -95,8 +98,48 @@ class PreferencesFragment : Fragment(), Injectable {
         this.updateTrigger = makePreferenceScreen(rootLayout) {
             appearanceCategory()
             browserCategory()
+            wellbeingCategory()
         }
         return viewRoot
+    }
+
+    private fun PreferenceParent.wellbeingCategory() {
+        preferenceCategory(R.string.pref_title_wellbeing_mode) {
+            switchPreference(
+                getString(R.string.limit_notifications),
+                { prefs.limitedNotifications },
+                {
+                    updatePrefs { data -> data.copy(limitedNotifications = it) }
+                    for (account in accountManager.accounts) {
+                        val notificationFilter =
+                            deserialize(account.notificationsFilter).toMutableSet()
+
+                        if (it) {
+                            notificationFilter.add(Notification.Type.FAVOURITE)
+                            notificationFilter.add(Notification.Type.FOLLOW)
+                            notificationFilter.add(Notification.Type.REBLOG)
+                        } else {
+                            notificationFilter.remove(Notification.Type.FAVOURITE)
+                            notificationFilter.remove(Notification.Type.FOLLOW)
+                            notificationFilter.remove(Notification.Type.REBLOG)
+                        }
+
+                        account.notificationsFilter = serialize(notificationFilter)
+                        accountManager.saveAccount(account)
+                    }
+                }
+            )
+            switchPreference(
+                getString(R.string.wellbeing_hide_stats_posts),
+                { prefs.hideStatsPosts },
+                { updatePrefs { data -> data.copy(hideStatsPosts = it) } }
+            )
+            switchPreference(
+                getString(R.string.wellbeing_hide_stats_profile),
+                { prefs.hideStatsProfile },
+                { updatePrefs { data -> data.copy(hideStatsProfile = it) } }
+            )
+        }
     }
 
     private fun PreferenceParent.browserCategory() {
