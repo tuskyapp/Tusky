@@ -33,10 +33,17 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.runBlocking
 import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
+import kotlin.coroutines.EmptyCoroutineContext
 
 class TuskyApplication : Application(), HasAndroidInjector {
 
@@ -46,7 +53,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
     lateinit var notificationWorkerFactory: NotificationWorkerFactory
 
-    @Inject
+    /**
+     * Not injected, created here in [attachBaseContext].
+     * We need it earlier than we can create AppModule to override the language.
+     * There can only be one active instance at a time. We could either kill the early one once we
+     * are done with locale magic or we could reuse and save the disk IO. We do the latter.
+     */
     lateinit var prefStore: PrefStore
 
     override fun onCreate() {
@@ -68,16 +80,17 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
+        val prefs = prefStore.getBlocking()
 
         // init the custom emoji fonts
-        val emojiSelection = prefStore.getBlocking().emojiFont
+        val emojiSelection = prefs.emojiFont
         val emojiConfig = EmojiCompatFont.byId(emojiSelection)
             .getConfig(this)
             .setReplaceAll(true)
         EmojiCompat.init(emojiConfig)
 
         // init night mode
-        val theme = prefStore.getBlocking().appTheme
+        val theme = prefs.appTheme
         ThemeUtils.setAppNightMode(theme)
 
         RxJavaPlugins.setErrorHandler {
@@ -93,13 +106,11 @@ class TuskyApplication : Application(), HasAndroidInjector {
     }
 
     override fun attachBaseContext(base: Context) {
-        // Special case: injected field cannot be injected here yet so we create Prefs by hand
-        // Give it a blocking scope so that it will be closed and pref store will be released
-        runBlocking {
-            val prefs = makePrefStore(base, this)
-            localeManager = LocaleManager(prefs)
-            super.attachBaseContext(localeManager.setLocale(base))
-        }
+        // For explanation see:
+        // https://proandroiddev.com/change-language-programmatically-at-runtime-on-android-5e6bc15c758
+        this.prefStore = makePrefStore(base, CoroutineScope(Dispatchers.IO + SupervisorJob()))
+        localeManager = LocaleManager(prefStore)
+        super.attachBaseContext(localeManager.setLocale(base))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -110,6 +121,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
     override fun androidInjector() = androidInjector
 
     companion object {
+        /**
+         * Created in [attachBaseContext]. Must be exposed for [BaseActivity.attachBaseContext].
+         */
         @JvmStatic
         lateinit var localeManager: LocaleManager
     }

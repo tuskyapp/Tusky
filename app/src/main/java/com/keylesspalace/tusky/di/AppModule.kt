@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.settings.PrefData
+import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.settings.makePrefStore
 import dagger.Module
 import dagger.Provides
@@ -53,9 +54,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesDataStore(app: Application): DataStore<PrefData> {
-        // Scope is the copy of default one
-        return makePrefStore(app, CoroutineScope(Dispatchers.IO + SupervisorJob()))
+    fun providesDataStore(app: TuskyApplication): PrefStore {
+        // See [TuskyApplication.prefStore] for the reasoning
+        return app.prefStore
     }
 
     @Provides

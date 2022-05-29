@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.util
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.settings.getBlocking
 import java.util.*
