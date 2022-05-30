@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -43,12 +45,12 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private TextView conversationNameTextView;
-    private Button contentCollapseButton;
-    private ImageView[] avatars;
+    private final TextView conversationNameTextView;
+    private final Button contentCollapseButton;
+    private final ImageView[] avatars;
 
-    private StatusDisplayOptions statusDisplayOptions;
-    private StatusActionListener listener;
+    private final StatusDisplayOptions statusDisplayOptions;
+    private final StatusActionListener listener;
 
     ConversationViewHolder(View itemView,
                            StatusDisplayOptions statusDisplayOptions,
@@ -64,7 +66,6 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         this.statusDisplayOptions = statusDisplayOptions;
 
         this.listener = listener;
-
     }
 
     @Override
@@ -72,52 +73,67 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
     }
 
-    void setupWithConversation(ConversationViewData conversation) {
+    void setupWithConversation(
+            @NonNull ConversationViewData conversation,
+            @Nullable Object payloads
+    ) {
+
         StatusViewData.Concrete statusViewData = conversation.getLastStatus();
         Status status = statusViewData.getStatus();
-        TimelineAccount account = status.getAccount();
 
-        setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), statusViewData.getSpoilerText(), listener);
+        if (payloads == null) {
+            TimelineAccount account = status.getAccount();
 
-        setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
-        setUsername(account.getUsername());
-        setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
-        setIsReply(status.getInReplyToId() != null);
-        setFavourited(status.getFavourited());
-        setBookmarked(status.getBookmarked());
-        List<Attachment> attachments = status.getAttachments();
-        boolean sensitive = status.getSensitive();
-        if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
-            setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
-                    statusDisplayOptions.useBlurhash());
+            setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), statusViewData.getSpoilerText(), listener);
 
-            if (attachments.size() == 0) {
+            setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
+            setUsername(account.getUsername());
+            setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
+            setIsReply(status.getInReplyToId() != null);
+            setFavourited(status.getFavourited());
+            setBookmarked(status.getBookmarked());
+            List<Attachment> attachments = status.getAttachments();
+            boolean sensitive = status.getSensitive();
+            if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
+                setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
+                        statusDisplayOptions.useBlurhash());
+
+                if (attachments.size() == 0) {
+                    hideSensitiveMediaWarning();
+                }
+                // Hide the unused label.
+                for (TextView mediaLabel : mediaLabels) {
+                    mediaLabel.setVisibility(View.GONE);
+                }
+            } else {
+                setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent());
+                // Hide all unused views.
+                mediaPreviews[0].setVisibility(View.GONE);
+                mediaPreviews[1].setVisibility(View.GONE);
+                mediaPreviews[2].setVisibility(View.GONE);
+                mediaPreviews[3].setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
-            // Hide the unused label.
-            for (TextView mediaLabel : mediaLabels) {
-                mediaLabel.setVisibility(View.GONE);
-            }
+
+            setupButtons(listener, account.getId(), statusViewData.getContent().toString(),
+                    statusDisplayOptions);
+
+            setSpoilerAndContent(statusViewData.isExpanded(), statusViewData.getContent(), status.getSpoilerText(),
+                    status.getMentions(), status.getTags(), status.getEmojis(),
+                    PollViewDataKt.toViewData(status.getPoll()), statusDisplayOptions, listener);
+
+            setConversationName(conversation.getAccounts());
+
+            setAvatars(conversation.getAccounts());
         } else {
-            setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent());
-            // Hide all unused views.
-            mediaPreviews[0].setVisibility(View.GONE);
-            mediaPreviews[1].setVisibility(View.GONE);
-            mediaPreviews[2].setVisibility(View.GONE);
-            mediaPreviews[3].setVisibility(View.GONE);
-            hideSensitiveMediaWarning();
+            if (payloads instanceof List) {
+                for (Object item : (List<?>) payloads) {
+                    if (Key.KEY_CREATED.equals(item)) {
+                        setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
+                    }
+                }
+            }
         }
-
-        setupButtons(listener, account.getId(), statusViewData.getContent().toString(),
-                statusDisplayOptions);
-
-        setSpoilerAndContent(statusViewData.isExpanded(), statusViewData.getContent(), status.getSpoilerText(),
-                status.getMentions(), status.getTags(), status.getEmojis(),
-                PollViewDataKt.toViewData(status.getPoll()), statusDisplayOptions, listener);
-
-        setConversationName(conversation.getAccounts());
-
-        setAvatars(conversation.getAccounts());
     }
 
     private void setConversationName(List<ConversationAccountEntity> accounts) {

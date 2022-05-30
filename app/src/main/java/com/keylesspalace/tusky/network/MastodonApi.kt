@@ -503,8 +503,8 @@ interface MastodonApi {
     @GET("/api/v1/conversations")
     suspend fun getConversations(
         @Query("max_id") maxId: String? = null,
-        @Query("limit") limit: Int
-    ): List<Conversation>
+        @Query("limit") limit: Int? = null
+    ): Response<List<Conversation>>
 
     @DELETE("/api/v1/conversations/{id}")
     suspend fun deleteConversation(

@@ -565,10 +565,12 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_37_38 = new Migration(37, 38) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-
-            // no actual scheme change, but timestamps are now serialized differently so all cache tables that contain them need to be cleaned
-            database.execSQL("DELETE FROM `TimelineStatusEntity`");
+            // database needs to be cleaned because the ConversationAccountEntity got a new attribute
             database.execSQL("DELETE FROM `ConversationEntity`");
+            database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `order` INTEGER NOT NULL DEFAULT 0");
+
+            // timestamps are now serialized differently so all cache tables that contain them need to be cleaned
+            database.execSQL("DELETE FROM `TimelineStatusEntity`");
         }
     };
 }

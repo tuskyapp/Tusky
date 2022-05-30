@@ -28,14 +28,14 @@ interface ConversationsDao {
     suspend fun insert(conversations: List<ConversationEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(conversation: ConversationEntity): Long
+    suspend fun insert(conversation: ConversationEntity)
 
     @Query("DELETE FROM ConversationEntity WHERE id = :id AND accountId = :accountId")
-    suspend fun delete(id: String, accountId: Long): Int
+    suspend fun delete(id: String, accountId: Long)
 
-    @Query("SELECT * FROM ConversationEntity WHERE accountId = :accountId ORDER BY s_createdAt DESC")
+    @Query("SELECT * FROM ConversationEntity WHERE accountId = :accountId ORDER BY `order` ASC")
     fun conversationsForAccount(accountId: Long): PagingSource<Int, ConversationEntity>
 
     @Query("DELETE FROM ConversationEntity WHERE accountId = :accountId")
-    fun deleteForAccount(accountId: Long)
+    suspend fun deleteForAccount(accountId: Long)
 }

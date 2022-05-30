@@ -22,20 +22,27 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.sparkbutton.helpers.Utils
+import autodispose2.androidx.lifecycle.autoDispose
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -44,29 +51,31 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
-@OptIn(ExperimentalPagingApi::class)
 class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var eventHub: EventHub
 
     private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private lateinit var adapter: ConversationAdapter
-    private lateinit var loadStateAdapter: ConversationLoadStateAdapter
 
-    private var layoutManager: LinearLayoutManager? = null
-
-    private var initialRefreshDone: Boolean = false
+    private var hideFab = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
@@ -89,18 +98,72 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         )
 
         adapter = ConversationAdapter(statusDisplayOptions, this)
-        loadStateAdapter = ConversationLoadStateAdapter(adapter::retry)
 
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
-        layoutManager = LinearLayoutManager(view.context)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = adapter.withLoadStateFooter(loadStateAdapter)
-        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
-        binding.progressBar.hide()
-        binding.statusView.hide()
+        setupRecyclerView()
 
         initSwipeToRefresh()
+
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+
+            binding.statusView.hide()
+            binding.progressBar.hide()
+
+            if (adapter.itemCount == 0) {
+                when (loadState.refresh) {
+                    is LoadState.NotLoading -> {
+                        if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
+                            binding.statusView.show()
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                        }
+                    }
+                    is LoadState.Error -> {
+                        binding.statusView.show()
+
+                        if ((loadState.refresh as LoadState.Error).error is IOException) {
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                        } else {
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                        }
+                    }
+                    is LoadState.Loading -> {
+                        binding.progressBar.show()
+                    }
+                }
+            }
+        }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                    binding.recyclerView.post {
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        }
+                    }
+                }
+            }
+        })
+
+        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+                val composeButton = (activity as ActionButtonActivity).actionButton
+                if (composeButton != null) {
+                    if (hideFab) {
+                        if (dy > 0 && composeButton.isShown) {
+                            composeButton.hide() // hides the button if we're scrolling down
+                        } else if (dy < 0 && !composeButton.isShown) {
+                            composeButton.show() // shows it if we are scrolling up
+                        }
+                    } else if (!composeButton.isShown) {
+                        composeButton.show()
+                    }
+                }
+            }
+        })
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.conversationFlow.collectLatest { pagingData ->
@@ -108,37 +171,33 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             }
         }
 
-        adapter.addLoadStateListener { loadStates ->
-
-            loadStates.refresh.let { refreshState ->
-                if (refreshState is LoadState.Error) {
-                    binding.statusView.show()
-                    if (refreshState.error is IOException) {
-                        binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                            adapter.refresh()
-                        }
-                    } else {
-                        binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                            adapter.refresh()
-                        }
-                    }
-                } else {
-                    binding.statusView.hide()
-                }
-
-                binding.progressBar.visible(refreshState == LoadState.Loading && adapter.itemCount == 0)
-
-                if (refreshState is LoadState.NotLoading && !initialRefreshDone) {
-                    // jump to top after the initial refresh finished
-                    binding.recyclerView.scrollToPosition(0)
-                    initialRefreshDone = true
-                }
-
-                if (refreshState != LoadState.Loading) {
-                    binding.swipeRefreshLayout.isRefreshing = false
-                }
+        lifecycleScope.launchWhenResumed {
+            val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
+            while (!useAbsoluteTime) {
+                adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
+                delay(1.toDuration(DurationUnit.MINUTES))
             }
         }
+
+        eventHub.events
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe { event ->
+                if (event is PreferenceChangedEvent) {
+                    onPreferenceChanged(event.preferenceKey)
+                }
+            }
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(ConversationLoadStateAdapter(adapter::retry))
     }
 
     private fun initSwipeToRefresh() {
@@ -201,7 +260,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onOpenReblog(position: Int) {
-        // there are no reblogs in search results
+        // there are no reblogs in conversations
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
@@ -246,6 +305,19 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         }
     }
 
+    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
+        adapter.peek(position)?.let { conversation ->
+            viewModel.voteInPoll(choices, conversation)
+        }
+    }
+
+    override fun onReselect() {
+        if (isAdded) {
+            binding.recyclerView.layoutManager?.scrollToPosition(0)
+            binding.recyclerView.stopScroll()
+        }
+    }
+
     private fun deleteConversation(conversation: ConversationViewData) {
         AlertDialog.Builder(requireContext())
             .setMessage(R.string.dialog_delete_conversation_warning)
@@ -256,20 +328,20 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             .show()
     }
 
-    private fun jumpToTop() {
-        if (isAdded) {
-            layoutManager?.scrollToPosition(0)
-            binding.recyclerView.stopScroll()
-        }
-    }
-
-    override fun onReselect() {
-        jumpToTop()
-    }
-
-    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        adapter.peek(position)?.let { conversation ->
-            viewModel.voteInPoll(choices, conversation)
+    private fun onPreferenceChanged(key: String) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        when (key) {
+            PrefKeys.FAB_HIDE -> {
+                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+            }
+            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
+                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
+                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
+                if (enabled != oldMediaPreviewEnabled) {
+                    adapter.mediaPreviewEnabled = enabled
+                    adapter.notifyItemRangeChanged(0, adapter.itemCount)
+                }
+            }
         }
     }
 

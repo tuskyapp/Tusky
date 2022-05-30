@@ -20,13 +20,22 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 
 class ConversationAdapter(
-    private val statusDisplayOptions: StatusDisplayOptions,
+    private var statusDisplayOptions: StatusDisplayOptions,
     private val listener: StatusActionListener
 ) : PagingDataAdapter<ConversationViewData, ConversationViewHolder>(CONVERSATION_COMPARATOR) {
+
+    var mediaPreviewEnabled: Boolean
+        get() = statusDisplayOptions.mediaPreviewEnabled
+        set(mediaPreviewEnabled) {
+            statusDisplayOptions = statusDisplayOptions.copy(
+                mediaPreviewEnabled = mediaPreviewEnabled
+            )
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_conversation, parent, false)
@@ -34,7 +43,17 @@ class ConversationAdapter(
     }
 
     override fun onBindViewHolder(holder: ConversationViewHolder, position: Int) {
-        holder.setupWithConversation(getItem(position))
+        onBindViewHolder(holder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(
+        holder: ConversationViewHolder,
+        position: Int,
+        payloads: List<Any>
+    ) {
+        getItem(position)?.let { conversationViewData ->
+            holder.setupWithConversation(conversationViewData, payloads.firstOrNull())
+        }
     }
 
     companion object {
@@ -44,7 +63,17 @@ class ConversationAdapter(
             }
 
             override fun areContentsTheSame(oldItem: ConversationViewData, newItem: ConversationViewData): Boolean {
-                return oldItem == newItem
+                return false // Items are different always. It allows to refresh timestamp on every view holder update
+            }
+
+            override fun getChangePayload(oldItem: ConversationViewData, newItem: ConversationViewData): Any? {
+                return if (oldItem == newItem) {
+                    // If items are equal - update timestamp only
+                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                } else {
+                    // If items are different - update the whole view holder
+                    null
+                }
             }
         }
     }
