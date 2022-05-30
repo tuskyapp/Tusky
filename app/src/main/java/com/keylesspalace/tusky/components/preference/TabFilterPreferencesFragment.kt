@@ -39,7 +39,7 @@ class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
                 checkBoxPreference {
                     setTitle(R.string.pref_title_show_replies)
                     key = PrefKeys.TAB_FILTER_HOME_REPLIES
-                    setDefaultValue(false)
+                    setDefaultValue(true)
                     isIconSpaceReserved = false
                 }
             }
