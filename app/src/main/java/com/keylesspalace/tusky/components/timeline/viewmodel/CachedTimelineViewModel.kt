@@ -45,8 +45,11 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -79,27 +82,30 @@ class CachedTimelineViewModel @Inject constructor(
 
     private var currentPagingSource: PagingSource<Int, TimelineStatusWithAccount>? = null
 
-    @OptIn(ExperimentalPagingApi::class)
-    override val statuses = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
-        pagingSourceFactory = {
-            val activeAccount = accountManager.activeAccount
-            if (activeAccount == null) {
-                EmptyTimelinePagingSource()
-            } else {
-                db.timelineDao().getStatuses(activeAccount.id)
-            }.also { newPagingSource ->
-                this.currentPagingSource = newPagingSource
-            }
-        }
-    ).flow
-        .map { pagingData ->
-            pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
-                timelineStatus.toViewData(gson)
-            }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
-            }
+    @OptIn(ExperimentalPagingApi::class, FlowPreview::class)
+    override val statuses = this::reloadFilters.asFlow()
+        .flatMapConcat {
+            Pager(
+                config = PagingConfig(pageSize = LOAD_AT_ONCE),
+                remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
+                pagingSourceFactory = {
+                    val activeAccount = accountManager.activeAccount
+                    if (activeAccount == null) {
+                        EmptyTimelinePagingSource()
+                    } else {
+                        db.timelineDao().getStatuses(activeAccount.id)
+                    }.also { newPagingSource ->
+                        this.currentPagingSource = newPagingSource
+                    }
+                }
+            ).flow
+                .map { pagingData ->
+                    pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
+                        timelineStatus.toViewData(gson)
+                    }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
+                        !shouldFilterStatus(statusViewData)
+                    }
+                }
         }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
@@ -268,6 +274,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun invalidate() {
+        Log.w("TimelineViewModel", "invalidating current source!")
         currentPagingSource?.invalidate()
     }
 

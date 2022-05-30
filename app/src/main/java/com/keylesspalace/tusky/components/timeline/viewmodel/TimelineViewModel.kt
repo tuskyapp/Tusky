@@ -95,8 +95,6 @@ abstract class TimelineViewModel(
                 .asFlow()
                 .collect { event -> handleEvent(event) }
         }
-
-        reloadFilters()
     }
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
@@ -190,7 +188,7 @@ abstract class TimelineViewModel(
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
-                    fullReload()
+                    invalidate()
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
@@ -198,12 +196,15 @@ abstract class TimelineViewModel(
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
-                    fullReload()
+                    invalidate()
                 }
             }
             Filter.HOME, Filter.NOTIFICATIONS, Filter.THREAD, Filter.PUBLIC, Filter.ACCOUNT -> {
                 if (filterContextMatchesKind(kind, listOf(key))) {
-                    reloadFilters()
+                    viewModelScope.launch {
+                        reloadFilters()
+                        invalidate()
+                    }
                 }
             }
             PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
@@ -278,23 +279,18 @@ abstract class TimelineViewModel(
         }
     }
 
-    private fun reloadFilters() {
-        viewModelScope.launch {
-            val filters = try {
-                api.getFilters().await()
-            } catch (t: Exception) {
-                Log.e(TAG, "Failed to fetch filters", t)
-                return@launch
-            }
-            filterModel.initWithFilters(
-                filters.filter {
-                    filterContextMatchesKind(kind, it.context)
-                }
-            )
-            // After the filters are loaded we need to reload displayed content to apply them.
-            // It can happen during the usage or at startup, when we get statuses before filters.
-            invalidate()
+    protected suspend fun reloadFilters() {
+        val filters = try {
+            api.getFilters().await()
+        } catch (t: Exception) {
+            Log.e(TAG, "Failed to fetch filters", t)
+            return
         }
+        filterModel.initWithFilters(
+            filters.filter {
+                filterContextMatchesKind(kind, it.context)
+            }
+        )
     }
 
     companion object {

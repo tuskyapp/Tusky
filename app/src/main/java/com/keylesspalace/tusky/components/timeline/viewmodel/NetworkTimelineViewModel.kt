@@ -41,7 +41,10 @@ import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -69,22 +72,25 @@ class NetworkTimelineViewModel @Inject constructor(
 
     var nextKey: String? = null
 
-    @OptIn(ExperimentalPagingApi::class)
-    override val statuses = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        pagingSourceFactory = {
-            NetworkTimelinePagingSource(
-                viewModel = this
-            ).also { source ->
-                currentSource = source
-            }
-        },
-        remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
-    ).flow
-        .map { pagingData ->
-            pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
-            }
+    @OptIn(ExperimentalPagingApi::class, FlowPreview::class)
+    override val statuses = this::reloadFilters.asFlow()
+        .flatMapConcat {
+            Pager(
+                config = PagingConfig(pageSize = LOAD_AT_ONCE),
+                pagingSourceFactory = {
+                    NetworkTimelinePagingSource(
+                        viewModel = this
+                    ).also { source ->
+                        currentSource = source
+                    }
+                },
+                remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
+            ).flow
+                .map { pagingData ->
+                    pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
+                        !shouldFilterStatus(statusViewData)
+                    }
+                }
         }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
