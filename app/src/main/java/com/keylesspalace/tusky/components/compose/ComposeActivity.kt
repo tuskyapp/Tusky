@@ -16,8 +16,10 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationManager
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
@@ -30,11 +32,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
@@ -182,6 +186,22 @@ class ComposeActivity :
         viewModel.cropImageItemOld = null
     }
 
+    // Function to catch the response from editMediaInQueue, intent case
+    // Warning: Comment out this function or it will swallow the image picker result!!
+    val MEDIA_EDIT_REQUESTCODE = 0x1001
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode){
+            MEDIA_EDIT_REQUESTCODE -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    Log.d(TAG, "User Response received: $data")
+                } else {
+                    Log.d(TAG,"User Response is empty")
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -216,7 +236,7 @@ class ComposeActivity :
                     viewModel.updateDescription(item.localId, newDescription)
                 }
             },
-            onEditImage = this::editImageInQueue,
+            onEditMedia = this::editMediaInQueue,
             onRemove = this::removeMediaFromQueue
         )
         binding.composeMediaPreviewBar.layoutManager =
@@ -899,25 +919,57 @@ class ComposeActivity :
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun editImageInQueue(item: QueuedMedia) {
-        // If input image is lossless, output image should be lossless.
-        // Currently the only supported lossless format is png.
+    private fun editMediaInQueue(item: QueuedMedia) {
+        // First create a temp-file content url to store the edited media in, then decide what to put in it
+        val isImage = item.type == ComposeActivity.QueuedMedia.Type.IMAGE
         val mimeType: String? = contentResolver.getType(item.uri)
-        val isPng: Boolean = mimeType != null && mimeType.endsWith("/png")
+
+        // If input is a lossless image, output image should be lossless.
+        // Currently the only supported lossless format is png.
+        val isPng: Boolean = isImage && mimeType != null && mimeType.endsWith("/png")
         val context = getApplicationContext()
-        val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
-
-        // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
-        val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
-
-        viewModel.cropImageItemOld = item
-
-        cropImage.launch(
-            options(uri = item.uri) {
-                setOutputUri(uriNew)
-                setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
+        val tempFile = createNewImageFile(context,
+            if (isPng) { ".png" }
+            else if (isImage) { ".jpg" }
+            else {
+                val extension = if (mimeType != null) MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) else null
+                if (extension != null) "." + extension
+                else "" // FIXME: Would be better to error? Without a mime type the intent won't form right
             }
         )
+
+        // "Authority" here must be the same as the android:authorities string in AndroidManifest.xml
+        val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
+
+        val editInternally = isImage
+        if (editInternally) { // We can use Android-Image-Cropper
+            viewModel.cropImageItemOld = item
+
+            cropImage.launch(
+                options(uri = item.uri) {
+                    setOutputUri(uriNew)
+                    setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
+                }
+            )
+        } else { // Pawn off to a external editor
+            val intent = Intent(Intent.ACTION_EDIT)
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.setDataAndType(item.uri, mimeType)         // Where will media be loaded from?
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriNew) // Where will media be saved to?
+
+            // FIXME: This grants more permissions to more apps than are necessary
+            val resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (resolveInfo in resInfoList) {
+                val packageName = resolveInfo.activityInfo.packageName;
+                context.grantUriPermission(packageName, uriNew, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            try {
+                startActivityForResult(intent, MEDIA_EDIT_REQUESTCODE) // FIXME: Would using Intent.createChooser(intent) be better?
+            } catch (e: ActivityNotFoundException) {
+                // FIXME: Would be nice if error message could be specialized on (or flat out include) the mime type
+                displayTransientError(R.string.error_media_edit_intent_failed)
+            } 
+        }
     }
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
