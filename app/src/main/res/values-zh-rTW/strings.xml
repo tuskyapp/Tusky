@@ -50,7 +50,7 @@
     <string name="message_empty">沒有內容。</string>
     <string name="footer_empty">還沒有內容，向下拉動即可重新整理！</string>
     <string name="notification_reblog_format">%s 轉嘟了你的嘟文</string>
-    <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
+    <string name="notification_favourite_format">%s 最愛了你的嘟文</string>
     <string name="notification_follow_format">%s 關注了你</string>
     <string name="report_username_format">檢舉使用者 @%s 的濫用行為</string>
     <string name="report_comment_hint">更多評論？</string>
@@ -58,8 +58,8 @@
     <string name="action_reply">回覆</string>
     <string name="action_reblog">轉嘟</string>
     <string name="action_unreblog">取消轉嘟</string>
-    <string name="action_favourite">收藏</string>
-    <string name="action_unfavourite">取消收藏</string>
+    <string name="action_favourite">最愛</string>
+    <string name="action_unfavourite">取消最愛</string>
     <string name="action_more">更多</string>
     <string name="action_compose">撰寫嘟文</string>
     <string name="action_login">登入 Mastodon 帳號</string>
@@ -81,7 +81,7 @@
     <string name="action_view_profile">個人資料</string>
     <string name="action_view_preferences">設定</string>
     <string name="action_view_account_preferences">帳戶設定</string>
-    <string name="action_view_favourites">我的收藏</string>
+    <string name="action_view_favourites">我的最愛</string>
     <string name="action_view_mutes">被靜音的使用者</string>
     <string name="action_view_blocks">被封鎖的使用者</string>
     <string name="action_view_follow_requests">關注請求</string>
@@ -171,7 +171,7 @@
     <string name="pref_title_notification_filter_mentions">被提及</string>
     <string name="pref_title_notification_filter_follows">有新的關注者</string>
     <string name="pref_title_notification_filter_reblogs">嘟文被轉嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被加入收藏</string>
+    <string name="pref_title_notification_filter_favourites">嘟文被加入最愛</string>
     <string name="pref_title_notification_filter_poll">投票已結束</string>
     <string name="pref_title_appearance_settings">外觀</string>
     <string name="pref_title_app_theme">佈景主題</string>
@@ -215,8 +215,8 @@
     <string name="notification_follow_description">當有使用者關注我時</string>
     <string name="notification_boost_name">轉嘟</string>
     <string name="notification_boost_description">當有使用者轉嘟了我的嘟文時</string>
-    <string name="notification_favourite_name">收藏</string>
-    <string name="notification_favourite_description">當有使用者把我的嘟文加入收藏時</string>
+    <string name="notification_favourite_name">最愛</string>
+    <string name="notification_favourite_description">當有使用者把我的嘟文加入最愛時</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">當我參與的投票結束時</string>
     <string name="notification_mention_format">%s 提及了你</string>
@@ -335,13 +335,13 @@
     <string name="unpin_action">取消置頂</string>
     <string name="pin_action">置頂</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次收藏</item>
+        <item quantity="other"><b>%1$s</b> 次最愛</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次轉嘟</item>
     </plurals>
     <string name="title_reblogged_by">轉嘟</string>
-    <string name="title_favourited_by">收藏由</string>
+    <string name="title_favourited_by">最愛由</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
@@ -360,9 +360,7 @@
     <string name="description_post_reblogged">
         被轉嘟
     </string>
-    <string name="description_post_favourited">
-        被收藏
-    </string>
+    <string name="description_post_favourited">被最愛</string>
     <string name="description_visiblity_public">
         公開
     </string>
@@ -444,8 +442,8 @@
     <string name="review_notifications">檢查通知設定</string>
     <string name="wellbeing_mode_notice">有些資訊可能會影響你的心理健康將會被隱藏。包括：
 \n
-\n- 收藏/轉嘟/關注 通知
-\n- 收藏/轉嘟 數量
+\n- 最愛/轉嘟/關注 通知
+\n- 最愛/轉嘟 數量
 \n- 關注/貼文 在個人頁面的狀態
 \n
 \n推播通知不會受到影響，但你可以手動檢查你的通知設定。</string>
