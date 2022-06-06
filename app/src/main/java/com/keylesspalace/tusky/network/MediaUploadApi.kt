@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.network
 
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.entity.MediaUploadResult
 import okhttp3.MultipartBody
 import retrofit2.http.Multipart
@@ -15,5 +16,5 @@ interface MediaUploadApi {
     suspend fun uploadMedia(
         @Part file: MultipartBody.Part,
         @Part description: MultipartBody.Part? = null
-    ): Result<MediaUploadResult>
+    ): NetworkResult<MediaUploadResult>
 }
