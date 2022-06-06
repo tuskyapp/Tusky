@@ -535,4 +535,7 @@
     <string name="action_details">Detalles</string>
     <string name="error_could_not_load_login_page">Non se puido cargar a páxina de inicio.</string>
     <string name="saving_draft">Gardando borrador…</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="error_media_edit_failed">Non se puido editar o anexo.</string>
+    <string name="action_edit_image">Editar imaxe</string>
 </resources>

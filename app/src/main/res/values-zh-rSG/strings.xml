@@ -31,7 +31,7 @@
     <string name="title_posts_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
-    <string name="title_favourites">收藏</string>
+    <string name="title_favourites">喜欢</string>
     <string name="title_mutes">被隐藏的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
@@ -50,7 +50,7 @@
     <string name="message_empty">还没有内容</string>
     <string name="footer_empty">还没有内容，向下拉动即可刷新</string>
     <string name="notification_reblog_format">%s 转嘟了你的嘟文</string>
-    <string name="notification_favourite_format">%s 收藏了你的嘟文</string>
+    <string name="notification_favourite_format">%s 喜欢了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
     <string name="report_username_format">报告用户 @%s 的滥用行为</string>
     <string name="report_comment_hint">报告更多信息</string>
@@ -58,8 +58,8 @@
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
     <string name="action_unreblog">取消转嘟</string>
-    <string name="action_favourite">收藏</string>
-    <string name="action_unfavourite">取消收藏</string>
+    <string name="action_favourite">喜欢</string>
+    <string name="action_unfavourite">取消喜欢</string>
     <string name="action_more">更多</string>
     <string name="action_compose">新嘟文</string>
     <string name="action_login">登录 Mastodon 帐号</string>
@@ -81,7 +81,7 @@
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
     <string name="action_view_account_preferences">帐户设置</string>
-    <string name="action_view_favourites">收藏</string>
+    <string name="action_view_favourites">喜欢</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
     <string name="action_view_follow_requests">关注请求</string>
@@ -112,7 +112,7 @@
     <string name="action_hashtags">话题</string>
     <string name="action_open_reblogger">打开转嘟用户主页</string>
     <string name="action_open_reblogged_by">显示转嘟</string>
-    <string name="action_open_faved_by">显示收藏</string>
+    <string name="action_open_faved_by">显示喜欢</string>
     <string name="title_hashtags_dialog">话题</string>
     <string name="title_mentions_dialog">提及</string>
     <string name="title_links_dialog">链接</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_filter_mentions">被提及</string>
     <string name="pref_title_notification_filter_follows">有新的关注者</string>
     <string name="pref_title_notification_filter_reblogs">嘟文被转嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
+    <string name="pref_title_notification_filter_favourites">嘟文被喜欢</string>
     <string name="pref_title_notification_filter_poll">投票已结束</string>
     <string name="pref_title_appearance_settings">外观</string>
     <string name="pref_title_app_theme">应用主题</string>
@@ -212,8 +212,8 @@
     <string name="notification_follow_description">当有用户关注我时</string>
     <string name="notification_boost_name">转嘟</string>
     <string name="notification_boost_description">当有用户转嘟了我的嘟文时</string>
-    <string name="notification_favourite_name">收藏</string>
-    <string name="notification_favourite_description">当有用户收藏了我的嘟文时</string>
+    <string name="notification_favourite_name">喜欢</string>
+    <string name="notification_favourite_description">当有用户喜欢了我的嘟文时</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">当我参与的投票结束时</string>
     <string name="notification_mention_format">%s 提及了你</string>
@@ -333,13 +333,13 @@
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次收藏</item>
+        <item quantity="other"><b>%1$s</b> 次喜欢</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次转嘟</item>
     </plurals>
     <string name="title_reblogged_by">转嘟</string>
-    <string name="title_favourited_by">收藏</string>
+    <string name="title_favourited_by">喜欢</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
@@ -358,9 +358,7 @@
     <string name="description_post_reblogged">
         被转嘟
     </string>
-    <string name="description_post_favourited">
-        被收藏
-    </string>
+    <string name="description_post_favourited">被喜欢</string>
     <string name="description_visiblity_public">
         公开
     </string>
