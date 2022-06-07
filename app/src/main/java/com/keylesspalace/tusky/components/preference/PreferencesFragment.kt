@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.settings.PreferenceOption
 import com.keylesspalace.tusky.settings.PreferenceParent
 import com.keylesspalace.tusky.settings.clickPreference
 import com.keylesspalace.tusky.settings.customListPreference
+import com.keylesspalace.tusky.settings.editTextPreference
 import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -102,6 +103,33 @@ class PreferencesFragment : Fragment(), Injectable {
             browserCategory()
             filtersCategory()
             wellbeingCategory()
+            preferenceCategory(R.string.pref_title_proxy_settings) {
+                switchPreference(
+                    getString(R.string.pref_title_http_proxy_enable),
+                    { prefs.httpProxyEnabled }
+                ) {
+                    updatePrefs { data -> data.copy(httpProxyEnabled = it) }
+                }
+                editTextPreference(
+                    getString(R.string.pref_title_http_proxy_server),
+                    { prefs.httpProxyServer },
+                ) {
+                    updatePrefs { data -> data.copy(httpProxyServer = it) }
+                }
+                editTextPreference(
+                    getString(R.string.pref_title_http_proxy_port),
+                    { prefs.httpProxyPort },
+                ) {
+                    updatePrefs { data -> data.copy(httpProxyPort = it) }
+                }
+//
+//            editTextPreference {
+//                setTitle(R.string.pref_title_http_proxy_port)
+//                key = PrefKeys.HTTP_PROXY_PORT
+//                isIconSpaceReserved = false
+//                setSummaryProvider { text }
+//            }
+            }
         }
         return viewRoot
     }

@@ -7,11 +7,16 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.marginLeft
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -177,11 +182,46 @@ fun PreferenceParent.switchPreference(
     addPref(layout)
 }
 
+fun PreferenceParent.editTextPreference(
+    title: String,
+    value: () -> String,
+    onNewValue: (String) -> Unit
+) {
+    val layout = baseOneLineItemLayout(title)
+    // TODO: current value
+    layout.setOnClickListener {
+        val editLayout = FrameLayout(context)
+        val editText = EditText(context).apply {
+            setText(value())
+        }
+        editLayout.addView(editText)
+        editText.updateLayoutParams<FrameLayout.LayoutParams> {
+            setMargins(dpToPx(8), 0, dpToPx(8), 0)
+        }
+
+        AlertDialog.Builder(context)
+            .setView(editLayout)
+            .setTitle(title)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                onNewValue(editText.text.toString())
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)
+            .show()
+    }
+    addPref(layout)
+}
+
 data class PreferenceOption<T>(val name: String, val value: T)
+
 @Suppress("FunctionName")
 fun <T> PreferenceParent.PreferenceOption(pair: Pair<T, Int>): PreferenceOption<T> {
     return PreferenceOption(context.getString(pair.second), pair.first)
 }
+
 infix fun <T> T.named(name: String) = PreferenceOption(name, this)
 
 fun <T> PreferenceParent.listPreference(
