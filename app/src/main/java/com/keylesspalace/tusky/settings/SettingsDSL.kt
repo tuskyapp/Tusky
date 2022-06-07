@@ -118,11 +118,9 @@ private fun TextView.setTextColorRef(ref: Int) {
     setTextColor(ThemeUtils.getColor(context, ref))
 }
 
-fun PreferenceParent.switchPreference(
+private fun PreferenceParent.baseOneLineItemLayout(
     title: String,
-    isChecked: () -> Boolean,
-    onSelection: (Boolean) -> Unit
-) {
+): LinearLayout {
     val layout = itemLayout(context)
     val textView = TextView(context).apply {
         text = title
@@ -139,6 +137,25 @@ fun PreferenceParent.switchPreference(
         bottomMargin = dpToPx(16)
     }
     layout.addView(textView)
+
+    return layout
+}
+
+fun PreferenceParent.clickPreference(
+    title: String,
+    onClick: () -> Unit,
+) {
+    val layout = baseOneLineItemLayout(title)
+    layout.setOnClickListener { onClick() }
+    addPref(layout)
+}
+
+fun PreferenceParent.switchPreference(
+    title: String,
+    isChecked: () -> Boolean,
+    onSelection: (Boolean) -> Unit
+) {
+    val layout = baseOneLineItemLayout(title)
 
     val switchLayout = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL

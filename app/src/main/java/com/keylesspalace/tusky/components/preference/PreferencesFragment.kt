@@ -23,6 +23,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -32,6 +33,7 @@ import com.keylesspalace.tusky.settings.PrefData
 import com.keylesspalace.tusky.settings.PrefStore
 import com.keylesspalace.tusky.settings.PreferenceOption
 import com.keylesspalace.tusky.settings.PreferenceParent
+import com.keylesspalace.tusky.settings.clickPreference
 import com.keylesspalace.tusky.settings.customListPreference
 import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.settings.listPreference
@@ -98,6 +100,7 @@ class PreferencesFragment : Fragment(), Injectable {
         this.updateTrigger = makePreferenceScreen(rootLayout) {
             appearanceCategory()
             browserCategory()
+            filtersCategory()
             wellbeingCategory()
         }
         return viewRoot
@@ -149,6 +152,19 @@ class PreferencesFragment : Fragment(), Injectable {
                 { prefs.customTabs },
                 { updatePrefs { data -> data.copy(customTabs = it) } }
             )
+        }
+    }
+
+    private fun PreferenceParent.filtersCategory() {
+        preferenceCategory(R.string.pref_title_timeline_filters) {
+            clickPreference(getString(R.string.pref_title_status_tabs)) {
+                val activity = activity as BaseActivity
+                val intent = PreferencesActivity.newIntent(
+                    activity,
+                    PreferencesActivity.TAB_FILTER_PREFERENCES
+                )
+                activity.startActivityWithSlideInAnimation(intent)
+            }
         }
     }
 
