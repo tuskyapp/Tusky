@@ -24,7 +24,8 @@ data class PrefData(
     var language: String = "default",
     // TODO: enum
     val statusTextSize: String = "medium",
-    val mainNavPosition: String? = null,
+    // TODO: enum
+    val mainNavPosition: String = "top",
     val hideTopToolbar: Boolean = false,
     val animateAvatars: Boolean = true,
     val useAbsoluteTime: Boolean = false,

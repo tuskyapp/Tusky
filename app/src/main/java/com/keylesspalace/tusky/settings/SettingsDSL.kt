@@ -81,11 +81,13 @@ fun PreferenceParent.clickPreference(
 fun PreferenceParent.switchPreference(
     title: String,
     isChecked: () -> Boolean,
+    icon: Drawable? = null,
     onSelection: (Boolean) -> Unit
 ) {
     val layout = inflateItemLayout().apply {
         setTitle(title)
         setShowSummary(false)
+        icon?.let { setIcon(it) }
     }
 
     val switch = SwitchMaterial(context)

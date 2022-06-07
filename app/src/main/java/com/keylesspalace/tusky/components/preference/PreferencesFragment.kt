@@ -15,12 +15,16 @@
 
 package com.keylesspalace.tusky.components.preference
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
@@ -138,38 +142,36 @@ class PreferencesFragment : Fragment(), Injectable {
         preferenceCategory(R.string.pref_title_wellbeing_mode) {
             switchPreference(
                 getString(R.string.limit_notifications),
-                { prefs.limitedNotifications },
-                {
-                    updatePrefs { data -> data.copy(limitedNotifications = it) }
-                    for (account in accountManager.accounts) {
-                        val notificationFilter =
-                            deserialize(account.notificationsFilter).toMutableSet()
+                { prefs.limitedNotifications }
+            ) {
+                updatePrefs { data -> data.copy(limitedNotifications = it) }
+                for (account in accountManager.accounts) {
+                    val notificationFilter =
+                        deserialize(account.notificationsFilter).toMutableSet()
 
-                        if (it) {
-                            notificationFilter.add(Notification.Type.FAVOURITE)
-                            notificationFilter.add(Notification.Type.FOLLOW)
-                            notificationFilter.add(Notification.Type.REBLOG)
-                        } else {
-                            notificationFilter.remove(Notification.Type.FAVOURITE)
-                            notificationFilter.remove(Notification.Type.FOLLOW)
-                            notificationFilter.remove(Notification.Type.REBLOG)
-                        }
-
-                        account.notificationsFilter = serialize(notificationFilter)
-                        accountManager.saveAccount(account)
+                    if (it) {
+                        notificationFilter.add(Notification.Type.FAVOURITE)
+                        notificationFilter.add(Notification.Type.FOLLOW)
+                        notificationFilter.add(Notification.Type.REBLOG)
+                    } else {
+                        notificationFilter.remove(Notification.Type.FAVOURITE)
+                        notificationFilter.remove(Notification.Type.FOLLOW)
+                        notificationFilter.remove(Notification.Type.REBLOG)
                     }
+
+                    account.notificationsFilter = serialize(notificationFilter)
+                    accountManager.saveAccount(account)
                 }
-            )
+            }
+
             switchPreference(
                 getString(R.string.wellbeing_hide_stats_posts),
                 { prefs.hideStatsPosts },
-                { updatePrefs { data -> data.copy(hideStatsPosts = it) } }
-            )
+            ) { updatePrefs { data -> data.copy(hideStatsPosts = it) } }
             switchPreference(
                 getString(R.string.wellbeing_hide_stats_profile),
                 { prefs.hideStatsProfile },
-                { updatePrefs { data -> data.copy(hideStatsProfile = it) } }
-            )
+            ) { updatePrefs { data -> data.copy(hideStatsProfile = it) } }
         }
     }
 
@@ -178,8 +180,7 @@ class PreferencesFragment : Fragment(), Injectable {
             switchPreference(
                 getString(R.string.pref_title_custom_tabs),
                 { prefs.customTabs },
-                { updatePrefs { data -> data.copy(customTabs = it) } }
-            )
+            ) { updatePrefs { data -> data.copy(customTabs = it) } }
         }
     }
 
@@ -241,6 +242,7 @@ class PreferencesFragment : Fragment(), Injectable {
             ) {
                 updatePrefs { data -> data.copy(language = it) }
             }
+
             val textSizeOptions = listOf(
                 "smallest" to R.string.status_text_size_smallest,
                 "small" to R.string.status_text_size_small,
@@ -256,6 +258,19 @@ class PreferencesFragment : Fragment(), Injectable {
             ) {
                 updatePrefs { data -> data.copy(statusTextSize = it) }
             }
+
+            val mainNavOptions = listOf(
+                "top" to R.string.pref_main_nav_position_option_top,
+                "bottom" to R.string.pref_main_nav_position_option_bottom,
+            ).map(::PreferenceOption)
+            listPreference(
+                getString(R.string.pref_main_nav_position),
+                mainNavOptions,
+                { prefs.mainNavPosition }
+            ) {
+                updatePrefs { data -> data.copy(mainNavPosition = it) }
+            }
+
             switchPreference(
                 getString(R.string.pref_title_hide_top_toolbar),
                 { prefs.hideTopToolbar }
@@ -276,7 +291,8 @@ class PreferencesFragment : Fragment(), Injectable {
             }
             switchPreference(
                 getString(R.string.pref_title_bot_overlay),
-                { prefs.showBotOverlay }
+                { prefs.showBotOverlay },
+                makeIcon(R.drawable.ic_bot_24dp),
             ) {
                 updatePrefs { data -> data.copy(showBotOverlay = it) }
             }
@@ -303,6 +319,30 @@ class PreferencesFragment : Fragment(), Injectable {
                 { prefs.showCardsInTimelines }
             ) {
                 updatePrefs { data -> data.copy(showCardsInTimelines = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_show_notifications_filter),
+                { prefs.showNotificationsFilter }
+            ) {
+                updatePrefs { data -> data.copy(showNotificationsFilter = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_confirm_reblogs),
+                { prefs.confirmReblogs }
+            ) {
+                updatePrefs { data -> data.copy(confirmReblogs = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_confirm_favourites),
+                { prefs.confirmFavourites }
+            ) {
+                updatePrefs { data -> data.copy(confirmFavourites = it) }
+            }
+            switchPreference(
+                getString(R.string.pref_title_enable_swipe_for_tabs),
+                { prefs.enableSwipeForTabs }
+            ) {
+                updatePrefs { data -> data.copy(enableSwipeForTabs = it) }
             }
         }
     }
@@ -529,31 +569,12 @@ class PreferencesFragment : Fragment(), Injectable {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        updateHttpProxySummary()
+    private fun makeIcon(@DrawableRes res: Int): Drawable {
+        val context = requireContext()
+        return AppCompatResources.getDrawable(context, res)!!.apply {
+            setTint(ThemeUtils.getColor(context, R.attr.iconColor))
+        }
     }
-
-//    private fun updateHttpProxySummary() {
-//        preferenceManager.sharedPreferences?.let { sharedPreferences ->
-//            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
-//            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
-//
-//            try {
-//                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
-//                    .toInt()
-//
-//                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-//                    httpProxyPref?.summary = "$httpServer:$httpPort"
-//                    return
-//                }
-//            } catch (e: NumberFormatException) {
-//                // user has entered wrong port, fall back to empty summary
-//            }
-//
-//            httpProxyPref?.summary = ""
-//        }
-//    }
 
     companion object {
         fun newInstance(): PreferencesFragment {
