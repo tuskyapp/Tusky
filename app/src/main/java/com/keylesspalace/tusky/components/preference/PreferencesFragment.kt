@@ -208,7 +208,8 @@ class PreferencesFragment : Fragment(), Injectable {
             listPreference(
                 getString(R.string.pref_title_app_theme),
                 themeOptions,
-                { prefs.appTheme }
+                { prefs.appTheme },
+                makeIcon(GoogleMaterial.Icon.gmd_palette),
             ) {
                 updatePrefs { data -> data.copy(appTheme = it) }
             }
@@ -221,10 +222,11 @@ class PreferencesFragment : Fragment(), Injectable {
                 {
                     emojiSelector.summary
                 },
-                {
-                    emojiSelector.showSelectionDialog()
-                }
-            )
+                makeIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied),
+            ) {
+                emojiSelector.showSelectionDialog()
+
+            }
 
             val languageNames = resources.getStringArray(R.array.language_entries)
             val languageValues = resources.getStringArray(R.array.language_values)
@@ -235,6 +237,7 @@ class PreferencesFragment : Fragment(), Injectable {
                 getString(R.string.pref_title_language),
                 languageOptions,
                 { prefs.language },
+                makeIcon(GoogleMaterial.Icon.gmd_translate)
             ) {
                 updatePrefs { data -> data.copy(language = it) }
             }
@@ -249,6 +252,7 @@ class PreferencesFragment : Fragment(), Injectable {
                 getString(R.string.pref_status_text_size),
                 textSizeOptions,
                 { prefs.statusTextSize },
+                makeIcon(GoogleMaterial.Icon.gmd_format_size)
             ) {
                 updatePrefs { data -> data.copy(statusTextSize = it) }
             }

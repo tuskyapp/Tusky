@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
-import android.text.TextUtils
-import android.util.TypedValue
+import android.graphics.drawable.Drawable
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -14,14 +14,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.marginLeft
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
+import androidx.core.view.updateMargins
 import androidx.fragment.app.Fragment
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemPrefBinding
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.visible
 
 typealias Update = () -> Unit
 
@@ -32,49 +34,6 @@ class PreferenceParent(
 ) {
 }
 
-//inline fun PreferenceParent.preference(builder: Preference.() -> Unit): Preference {
-//    val pref = Preference(context)
-//    builder(pref)
-//    addPref(pref)
-//    return pref
-//}
-//
-//inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): ListPreference {
-//    val pref = ListPreference(context)
-//    builder(pref)
-//    addPref(pref)
-//    return pref
-//}
-//
-//inline fun PreferenceParent.emojiPreference(
-//    okHttpClient: OkHttpClient,
-//    builder: EmojiPreference.() -> Unit
-//): EmojiPreference {
-//    val pref = EmojiPreference(context, okHttpClient)
-//    builder(pref)
-//    addPref(pref)
-//    return pref
-//}
-//
-//inline fun PreferenceParent.switchPreference(
-//    builder: SwitchPreference.() -> Unit
-//): SwitchPreference {
-//    val pref = SwitchPreference(context)
-//    builder(pref)
-//    addPref(pref)
-//    return pref
-//}
-//
-//inline fun PreferenceParent.editTextPreference(
-//    builder: EditTextPreference.() -> Unit
-//): EditTextPreference {
-//    val pref = EditTextPreference(context)
-//    builder(pref)
-//    addPref(pref)
-//    return pref
-//}
-//
-
 private fun itemLayout(context: Context): LinearLayout {
     return LinearLayout(context).apply {
         layoutParams = ViewGroup.MarginLayoutParams(
@@ -83,12 +42,6 @@ private fun itemLayout(context: Context): LinearLayout {
         )
         setPadding(dpToPx(16), 0, dpToPx(16), 0)
         gravity = Gravity.CENTER_VERTICAL or Gravity.START
-
-        val spacer = ImageView(context).apply {
-            minimumWidth = dpToPx(56)
-            setPadding(0, dpToPx(4), dpToPx(8), dpToPx(4))
-        }
-        addView(spacer)
     }
 }
 
@@ -113,46 +66,16 @@ fun PreferenceParent.checkBoxPreference(
     addPref(layout)
 }
 
-private fun TextView.setTextAppearanceRef(ref: Int) {
-    val refs = TypedValue()
-    context.theme.resolveAttribute(ref, refs, true)
-    setTextAppearance(context, refs.resourceId)
-}
-
-private fun TextView.setTextColorRef(ref: Int) {
-    setTextColor(ThemeUtils.getColor(context, ref))
-}
-
-private fun PreferenceParent.baseOneLineItemLayout(
-    title: String,
-): LinearLayout {
-    val layout = itemLayout(context)
-    val textView = TextView(context).apply {
-        text = title
-        setTextAppearanceRef(android.R.attr.textAppearanceListItem)
-        setTextColorRef(android.R.attr.textColorPrimary)
-        ellipsize = TextUtils.TruncateAt.MARQUEE
-    }
-    textView.layoutParams = LinearLayout.LayoutParams(
-        0,
-        LinearLayout.LayoutParams.WRAP_CONTENT
-    ).apply {
-        weight = 1f
-        topMargin = dpToPx(16)
-        bottomMargin = dpToPx(16)
-    }
-    layout.addView(textView)
-
-    return layout
-}
-
 fun PreferenceParent.clickPreference(
     title: String,
     onClick: () -> Unit,
 ) {
-    val layout = baseOneLineItemLayout(title)
-    layout.setOnClickListener { onClick() }
-    addPref(layout)
+    val layout = inflateItemLayout().apply {
+        setTitle(title)
+        setShowSummary(false)
+    }
+    layout.root.setOnClickListener { onClick() }
+    addPref(layout.root)
 }
 
 fun PreferenceParent.switchPreference(
@@ -160,26 +83,23 @@ fun PreferenceParent.switchPreference(
     isChecked: () -> Boolean,
     onSelection: (Boolean) -> Unit
 ) {
-    val layout = baseOneLineItemLayout(title)
-
-    val switchLayout = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
-        gravity = Gravity.CENTER_VERTICAL or Gravity.END
+    val layout = inflateItemLayout().apply {
+        setTitle(title)
+        setShowSummary(false)
     }
-    switchLayout.layoutParams = LinearLayout.LayoutParams(
-        LinearLayout.LayoutParams.WRAP_CONTENT,
-        LinearLayout.LayoutParams.MATCH_PARENT,
-    )
-    layout.addView(switchLayout)
 
     val switch = SwitchMaterial(context)
+    layout.prefCutomContainer.addView(switch)
     registerUpdate {
         switch.isChecked = isChecked()
     }
+    layout.root.setOnClickListener { onSelection(!isChecked()) }
     switch.setOnCheckedChangeListener { _, isChecked -> onSelection(isChecked) }
-    switchLayout.addView(switch)
+    switch.updateLayoutParams<FrameLayout.LayoutParams> {
+        updateMargins(left = dpToPx(8))
+    }
 
-    addPref(layout)
+    addPref(layout.root)
 }
 
 fun PreferenceParent.editTextPreference(
@@ -187,9 +107,8 @@ fun PreferenceParent.editTextPreference(
     value: () -> String,
     onNewValue: (String) -> Unit
 ) {
-    val layout = baseOneLineItemLayout(title)
-    // TODO: current value
-    layout.setOnClickListener {
+    val layout = inflateItemLayout()
+    layout.root.setOnClickListener {
         val editLayout = FrameLayout(context)
         val editText = EditText(context).apply {
             setText(value())
@@ -212,7 +131,12 @@ fun PreferenceParent.editTextPreference(
             .setCancelable(true)
             .show()
     }
-    addPref(layout)
+    layout.prefTitle.text = title
+    registerUpdate {
+        layout.prefSummary.text = value()
+        layout.prefSummary.visible(value().isNotBlank())
+    }
+    addPref(layout.root)
 }
 
 data class PreferenceOption<T>(val name: String, val value: T)
@@ -228,17 +152,21 @@ fun <T> PreferenceParent.listPreference(
     title: String,
     options: List<PreferenceOption<T>>,
     selected: () -> T,
+    icon: Drawable? = null,
     onSelection: (T) -> Unit,
 ) {
-    val (layout, summaryView, optionView) = makeListPreferenceLayout()
-    summaryView.text = title
+    val layout = inflateItemLayout().apply {
+        setTitle(title)
+        setShowSummary(true)
+        icon?.let { setIcon(it) }
+    }
 
     registerUpdate {
         val selectedOptionIndex = options.indexOfFirst { it.value == selected() }
 
-        optionView.setText(options[selectedOptionIndex].name)
+        layout.setSummary(options[selectedOptionIndex].name)
 
-        layout.setOnClickListener {
+        layout.root.setOnClickListener {
             AlertDialog.Builder(context)
                 .setSingleChoiceItems(
                     options.map { it.name }.toTypedArray(),
@@ -251,57 +179,29 @@ fun <T> PreferenceParent.listPreference(
                 .show()
         }
     }
+    addPref(layout.root)
 }
 
 fun PreferenceParent.customListPreference(
     title: String,
     selected: () -> String,
+    icon: Drawable? = null,
     onClick: () -> Unit
 ) {
-    val (layout, summaryView, optionView) = makeListPreferenceLayout()
-    summaryView.text = title
+    val layout = inflateItemLayout().apply {
+        setTitle(title)
+        setShowSummary(true)
+        icon?.let { setIcon(it) }
+    }
 
-    layout.setOnClickListener {
+    layout.root.setOnClickListener {
         onClick()
     }
 
     registerUpdate {
-        optionView.text = selected()
+        layout.setSummary(selected())
     }
-}
-
-private data class ListPreferenceLayout(
-    val layout: LinearLayout,
-    val summaryView: TextView,
-    val optionView: TextView,
-)
-
-private fun PreferenceParent.makeListPreferenceLayout(): ListPreferenceLayout {
-    val layout = itemLayout(context).apply {
-        isClickable = true
-        val outValue = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
-        setBackgroundResource(outValue.resourceId)
-        setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16))
-    }
-    val linearLayout = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
-    }
-
-
-    val summaryView = TextView(context).apply {
-        setTextAppearanceRef(android.R.attr.textAppearanceListItem)
-        setTextColorRef(android.R.attr.textColorPrimary)
-    }
-    linearLayout.addView(summaryView)
-
-    val optionView = TextView(context)
-    linearLayout.addView(optionView)
-
-    layout.addView(linearLayout)
-
-    addPref(layout)
-    return ListPreferenceLayout(layout, summaryView, optionView)
+    addPref(layout.root)
 }
 
 
@@ -323,13 +223,16 @@ fun PreferenceParent.preferenceCategory(
         layoutParams = ViewGroup.MarginLayoutParams(
             ViewGroup.MarginLayoutParams.WRAP_CONTENT,
             ViewGroup.MarginLayoutParams.WRAP_CONTENT
-        )
+        ).apply {
+            marginStart = dpToPx(52)
+        }
 
         setTextAppearance(context, R.style.TextAppearance_AppCompat_Body2)
         setTextColor(ThemeUtils.getColor(context, R.attr.colorPrimary))
 
         setText(title)
     }
+
 
     titleLayout.addView(titleView)
     val newParent = PreferenceParent(context, registerUpdate) { categoryLayout.addView(it) }
@@ -357,4 +260,25 @@ inline fun Fragment.makePreferenceScreen(
 }
 
 fun View.dpToPx(dp: Int) = Utils.dpToPx(this.context, dp)
-fun PreferenceParent.dpToPx(dp: Int) = Utils.dpToPx(this.context, dp)
+
+private fun PreferenceParent.dpToPx(dp: Int) = Utils.dpToPx(this.context, dp)
+
+private fun PreferenceParent.inflateItemLayout(): ItemPrefBinding {
+    return ItemPrefBinding.inflate(LayoutInflater.from(context))
+}
+
+private fun ItemPrefBinding.setTitle(text: String) {
+    prefTitle.text = text
+}
+
+private fun ItemPrefBinding.setSummary(summary: String) {
+    prefSummary.text = summary
+}
+
+private fun ItemPrefBinding.setShowSummary(show: Boolean) {
+    prefSummary.isVisible = show
+}
+
+private fun ItemPrefBinding.setIcon(icon: Drawable) {
+    prefIcon.setImageDrawable(icon)
+}

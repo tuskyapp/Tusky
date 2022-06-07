@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/pref_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/pref_title"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_bot_24dp" />
+    <TextView
+        android:id="@+id/pref_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/pref_summary"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/pref_icon"
+        app:layout_constraintRight_toLeftOf="@id/pref_cutom_container"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="?android:textAppearanceListItem"
+        android:textColor="?android:textColorPrimary"
+        android:ellipsize="marquee"
+        tools:text="Some title which is actually super longg and doesn't fit"
+        android:singleLine="false"/>
+
+    <TextView
+        android:id="@+id/pref_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/pref_title"
+        app:layout_constraintTop_toBottomOf="@id/pref_title"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+        tools:text="Some summary" />
+
+    <FrameLayout
+        android:id="@+id/pref_cutom_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/tusky_red"
+        tools:layout_height="32dp"
+        tools:layout_width="32dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
