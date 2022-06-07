@@ -61,13 +61,10 @@ import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
-import com.keylesspalace.tusky.components.conversation.ConversationsRepository
-import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.notifications.disableAllNotifications
-import com.keylesspalace.tusky.components.notifications.disableUnifiedPushNotificationsForAccount
 import com.keylesspalace.tusky.components.notifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNecessary
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
@@ -81,11 +78,12 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.removeShortcut
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -135,10 +133,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     lateinit var cacheUpdater: CacheUpdater
 
     @Inject
-    lateinit var conversationRepository: ConversationsRepository
-
-    @Inject
-    lateinit var draftHelper: DraftHelper
+    lateinit var logoutUsecase: LogoutUsecase
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -664,28 +659,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .setTitle(R.string.action_logout)
                 .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                 .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
+                    binding.appBar.hide()
+                    binding.viewPager.hide()
+                    binding.progressBar.show()
+                    binding.bottomNav.hide()
+                    binding.composeButton.hide()
+
                     lifecycleScope.launch {
-                        // Only disable UnifiedPush for this account -- do not call disableNotifications(),
-                        // which unnecessarily disables it for all accounts and then re-enables it again at
-                        // the next launch
-                        disableUnifiedPushNotificationsForAccount(this@MainActivity, activeAccount)
-                        NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, this@MainActivity)
-                        cacheUpdater.clearForUser(activeAccount.id)
-                        conversationRepository.deleteCacheForAccount(activeAccount.id)
-                        draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
-                        removeShortcut(this@MainActivity, activeAccount)
-                        val newAccount = accountManager.logActiveAccountOut()
-                        if (!NotificationHelper.areNotificationsEnabled(
-                                this@MainActivity,
-                                accountManager
-                            )
-                        ) {
-                            NotificationHelper.disablePullNotifications(this@MainActivity)
-                        }
-                        val intent = if (newAccount == null) {
-                            LoginActivity.getIntent(this@MainActivity, LoginActivity.MODE_DEFAULT)
-                        } else {
+                        val otherAccountAvailable = logoutUsecase.logout()
+                        val intent = if (otherAccountAvailable) {
                             Intent(this@MainActivity, MainActivity::class.java)
+                        } else {
+                            LoginActivity.getIntent(this@MainActivity, LoginActivity.MODE_DEFAULT)
                         }
                         startActivity(intent)
                         finishWithoutSlideOutAnimation()

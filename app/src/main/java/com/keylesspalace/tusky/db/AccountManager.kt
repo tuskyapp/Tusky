@@ -54,7 +54,13 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      * @param accessToken the access token for the new account
      * @param domain the domain of the accounts Mastodon instance
      */
-    fun addAccount(accessToken: String, domain: String, oauthScopes: String) {
+    fun addAccount(
+        accessToken: String,
+        domain: String,
+        clientId: String,
+        clientSecret: String,
+        oauthScopes: String
+    ) {
 
         activeAccount?.let {
             it.isActive = false
@@ -66,8 +72,13 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
         val newAccountId = maxAccountId + 1
         activeAccount = AccountEntity(
-            id = newAccountId, domain = domain.lowercase(Locale.ROOT),
-            accessToken = accessToken, oauthScopes = oauthScopes, isActive = true
+            id = newAccountId,
+            domain = domain.lowercase(Locale.ROOT),
+            accessToken = accessToken,
+            clientId = clientId,
+            clientSecret = clientSecret,
+            oauthScopes = oauthScopes,
+            isActive = true
         )
     }
 
@@ -89,11 +100,12 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      */
     fun logActiveAccountOut(): AccountEntity? {
 
-        if (activeAccount == null) {
-            return null
-        } else {
-            accounts.remove(activeAccount!!)
-            accountDao.delete(activeAccount!!)
+        return activeAccount?.let { account ->
+
+            account.logout()
+
+            accounts.remove(account)
+            accountDao.delete(account)
 
             if (accounts.size > 0) {
                 accounts[0].isActive = true
@@ -103,7 +115,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             } else {
                 activeAccount = null
             }
-            return activeAccount
+            activeAccount
         }
     }
 

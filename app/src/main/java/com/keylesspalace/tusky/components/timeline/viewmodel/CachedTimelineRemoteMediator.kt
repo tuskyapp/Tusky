@@ -51,6 +51,10 @@ class CachedTimelineRemoteMediator(
         state: PagingState<Int, TimelineStatusWithAccount>
     ): MediatorResult {
 
+        if (!activeAccount.isLoggedIn()) {
+            return MediatorResult.Success(endOfPaginationReached = true)
+        }
+
         try {
             var dbEmpty = false
 

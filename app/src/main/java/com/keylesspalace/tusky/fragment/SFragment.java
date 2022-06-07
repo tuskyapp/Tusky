@@ -56,7 +56,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
-import com.keylesspalace.tusky.network.TimelineCases;
+import com.keylesspalace.tusky.usecase.TimelineCases;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusParsingHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
