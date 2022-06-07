@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFrag
 import com.keylesspalace.tusky.components.preference.AccountPreferencesFragment
 import com.keylesspalace.tusky.components.preference.NotificationPreferencesFragment
 import com.keylesspalace.tusky.components.preference.PreferencesFragment
+import com.keylesspalace.tusky.components.preference.TabFilterPreferencesFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportDoneFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
@@ -91,4 +92,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun preferencesFragment(): PreferencesFragment
+
+    @ContributesAndroidInjector
+    abstract fun tabFilterPreferencesFragment(): TabFilterPreferencesFragment
 }

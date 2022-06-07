@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.preference
 
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -126,13 +125,6 @@ class PreferencesFragment : Fragment(), Injectable {
                 ) {
                     updatePrefs { data -> data.copy(httpProxyPort = it) }
                 }
-//
-//            editTextPreference {
-//                setTitle(R.string.pref_title_http_proxy_port)
-//                key = PrefKeys.HTTP_PROXY_PORT
-//                isIconSpaceReserved = false
-//                setSummaryProvider { text }
-//            }
             }
         }
         return viewRoot

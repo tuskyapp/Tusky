@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
@@ -46,24 +45,28 @@ private fun itemLayout(context: Context): LinearLayout {
 }
 
 fun PreferenceParent.checkBoxPreference(
-    text: String,
-    selected: Boolean,
+    title: String,
+    selected: () -> Boolean,
     onSelection: (Boolean) -> Unit
 ) {
-    val layout = itemLayout(context)
+    val layout = inflateItemLayout().apply {
+        setTitle(title)
+        setShowSummary(false)
+    }
 
-    val textView = TextView(context)
-    textView.text = text
-    layout.addView(textView)
+    layout.root.setOnClickListener {
+        onSelection(!selected())
+    }
+    val checkbox = CheckBox(context).apply {
+        setOnCheckedChangeListener { _, isChecked -> onSelection(isChecked) }
+    }
+    layout.prefCutomContainer.addView(checkbox)
 
-    val checkbox = CheckBox(context)
-    layout.addView(checkbox)
-    checkbox.isSelected = selected
+    registerUpdate {
+        checkbox.isChecked = selected()
+    }
 
-    // TODO listener
-//    builder(pref)
-//    addPref(pref)
-    addPref(layout)
+    addPref(layout.root)
 }
 
 fun PreferenceParent.clickPreference(

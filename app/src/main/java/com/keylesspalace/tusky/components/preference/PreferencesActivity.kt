@@ -89,10 +89,6 @@ class PreferencesActivity :
                     setTitle(R.string.pref_title_status_tabs)
                     TabFilterPreferencesFragment.newInstance()
                 }
-                PROXY_PREFERENCES -> {
-                    setTitle(R.string.pref_title_http_proxy_settings)
-                    ProxyPreferencesFragment.newInstance()
-                }
                 else -> throw IllegalArgumentException("preferenceType not known")
             }
 
