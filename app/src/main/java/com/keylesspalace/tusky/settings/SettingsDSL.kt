@@ -47,6 +47,7 @@ private fun itemLayout(context: Context): LinearLayout {
 fun PreferenceParent.checkBoxPreference(
     title: String,
     selected: () -> Boolean,
+    icon: IconProvider = NoIconProvider,
     onSelection: (Boolean) -> Unit
 ) {
     val layout = inflateItemLayout().apply {
@@ -63,6 +64,7 @@ fun PreferenceParent.checkBoxPreference(
     layout.prefCutomContainer.addView(checkbox)
 
     registerUpdate {
+        layout.setIcon(icon())
         checkbox.isChecked = selected()
     }
 
@@ -71,6 +73,7 @@ fun PreferenceParent.checkBoxPreference(
 
 fun PreferenceParent.clickPreference(
     title: String,
+    icon: IconProvider = NoIconProvider,
     onClick: () -> Unit,
 ) {
     val layout = inflateItemLayout().apply {
@@ -78,25 +81,29 @@ fun PreferenceParent.clickPreference(
         setShowSummary(false)
     }
     layout.root.setOnClickListener { onClick() }
+
+    registerUpdate {
+        layout.setIcon(icon())
+    }
     addPref(layout.root)
 }
 
 fun PreferenceParent.switchPreference(
     title: String,
     isChecked: () -> Boolean,
-    icon: Drawable? = null,
+    icon: IconProvider = NoIconProvider,
     onSelection: (Boolean) -> Unit
 ) {
     val layout = inflateItemLayout().apply {
         setTitle(title)
         setShowSummary(false)
-        icon?.let { setIcon(it) }
     }
 
     val switch = SwitchMaterial(context)
     layout.prefCutomContainer.addView(switch)
     registerUpdate {
         switch.isChecked = isChecked()
+        layout.setIcon(icon())
     }
     layout.root.setOnClickListener { onSelection(!isChecked()) }
     switch.setOnCheckedChangeListener { _, isChecked -> onSelection(isChecked) }
@@ -110,6 +117,7 @@ fun PreferenceParent.switchPreference(
 fun PreferenceParent.editTextPreference(
     title: String,
     value: () -> String,
+    icon: IconProvider = NoIconProvider,
     onNewValue: (String) -> Unit
 ) {
     val layout = inflateItemLayout()
@@ -138,8 +146,9 @@ fun PreferenceParent.editTextPreference(
     }
     layout.prefTitle.text = title
     registerUpdate {
-        layout.prefSummary.text = value()
-        layout.prefSummary.visible(value().isNotBlank())
+        layout.setSummary(value())
+        layout.setShowSummary(value().isNotBlank())
+        layout.setIcon(icon())
     }
     addPref(layout.root)
 }
@@ -153,20 +162,23 @@ fun <T> PreferenceParent.PreferenceOption(pair: Pair<T, Int>): PreferenceOption<
 
 infix fun <T> T.named(name: String) = PreferenceOption(name, this)
 
+typealias IconProvider = () -> Drawable?
+val NoIconProvider: IconProvider = { null }
+
 fun <T> PreferenceParent.listPreference(
     title: String,
     options: List<PreferenceOption<T>>,
     selected: () -> T,
-    icon: Drawable? = null,
+    icon: IconProvider = NoIconProvider,
     onSelection: (T) -> Unit,
 ) {
     val layout = inflateItemLayout().apply {
         setTitle(title)
         setShowSummary(true)
-        icon?.let { setIcon(it) }
     }
 
     registerUpdate {
+        layout.setIcon(icon())
         val selectedOptionIndex = options.indexOfFirst { it.value == selected() }
 
         layout.setSummary(options[selectedOptionIndex].name)
@@ -190,13 +202,12 @@ fun <T> PreferenceParent.listPreference(
 fun PreferenceParent.customListPreference(
     title: String,
     selected: () -> String,
-    icon: Drawable? = null,
+    icon: IconProvider = NoIconProvider,
     onClick: () -> Unit
 ) {
     val layout = inflateItemLayout().apply {
         setTitle(title)
         setShowSummary(true)
-        icon?.let { setIcon(it) }
     }
 
     layout.root.setOnClickListener {
@@ -204,6 +215,7 @@ fun PreferenceParent.customListPreference(
     }
 
     registerUpdate {
+        layout.setIcon(icon())
         layout.setSummary(selected())
     }
     addPref(layout.root)
@@ -284,6 +296,6 @@ private fun ItemPrefBinding.setShowSummary(show: Boolean) {
     prefSummary.isVisible = show
 }
 
-private fun ItemPrefBinding.setIcon(icon: Drawable) {
+private fun ItemPrefBinding.setIcon(icon: Drawable?) {
     prefIcon.setImageDrawable(icon)
 }
