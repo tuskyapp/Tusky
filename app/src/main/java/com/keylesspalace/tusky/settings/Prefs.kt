@@ -11,6 +11,7 @@ import com.keylesspalace.tusky.util.ThemeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.rx3.asObservable
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -93,3 +94,5 @@ fun makePrefStore(context: Context, scope: CoroutineScope): PrefStore {
         File(context.filesDir, "datastore/prefs.json")
     }
 }
+
+fun PrefStore.asObservable() = data.asObservable()

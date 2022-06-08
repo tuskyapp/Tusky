@@ -41,7 +41,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.TimelineCases
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.PrefStore
-import com.keylesspalace.tusky.settings.get
 import com.keylesspalace.tusky.settings.getBlocking
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
@@ -60,7 +59,6 @@ abstract class TimelineViewModel(
 ) : ViewModel() {
 
     abstract val statuses: Flow<PagingData<StatusViewData>>
-
     var kind: Kind = Kind.HOME
         private set
     var id: String? = null
@@ -94,6 +92,24 @@ abstract class TimelineViewModel(
             eventHub.events
                 .asFlow()
                 .collect { event -> handleEvent(event) }
+        }
+
+        viewModelScope.launch {
+            prefStore.data.collect { data ->
+                val repliesFilter = data.tabFilterHomeReplies
+                val oldRemoveReplies = filterRemoveReplies
+                filterRemoveReplies = kind == Kind.HOME && !repliesFilter
+                if (oldRemoveReplies != filterRemoveReplies) {
+                    fullReload()
+                }
+
+                val boostsFilter = data.tabFilterHomeBoosts
+                val oldRemoveReblogs = filterRemoveReblogs
+                filterRemoveReblogs = kind == Kind.HOME && !boostsFilter
+                if (oldRemoveReblogs != filterRemoveReblogs) {
+                    fullReload()
+                }
+            }
         }
 
         reloadFilters()
@@ -182,22 +198,6 @@ abstract class TimelineViewModel(
 
     private suspend fun onPreferenceChanged(key: String) {
         when (key) {
-            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = prefStore.get().tabFilterHomeReplies
-                val oldRemoveReplies = filterRemoveReplies
-                filterRemoveReplies = kind == Kind.HOME && !filter
-                if (oldRemoveReplies != filterRemoveReplies) {
-                    fullReload()
-                }
-            }
-            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = prefStore.get().tabFilterHomeBoosts
-                val oldRemoveReblogs = filterRemoveReblogs
-                filterRemoveReblogs = kind == Kind.HOME && !filter
-                if (oldRemoveReblogs != filterRemoveReblogs) {
-                    fullReload()
-                }
-            }
             Filter.HOME, Filter.NOTIFICATIONS, Filter.THREAD, Filter.PUBLIC, Filter.ACCOUNT -> {
                 if (filterContextMatchesKind(kind, listOf(key))) {
                     reloadFilters()

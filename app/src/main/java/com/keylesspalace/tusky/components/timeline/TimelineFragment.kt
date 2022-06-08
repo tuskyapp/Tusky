@@ -68,13 +68,11 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.concurrent.timer
 
 class TimelineFragment :
     SFragment(),
@@ -161,6 +159,12 @@ class TimelineFragment :
             statusDisplayOptions,
             this
         )
+
+        lifecycleScope.launch {
+            prefStore.data.collect { data ->
+                hideFab = data.hideFab
+            }
+        }
     }
 
     override fun onCreateView(
@@ -421,9 +425,6 @@ class TimelineFragment :
 
     private suspend fun onPreferenceChanged(key: String) {
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = prefStore.get().hideFab
-            }
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled

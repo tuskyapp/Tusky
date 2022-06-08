@@ -380,6 +380,17 @@ public class NotificationsFragment extends SFragment implements
                         onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                     }
                 });
+
+        Prefs.asObservable(prefStore)
+                .to(autoDisposable(from(this)))
+                .subscribe((prefData) -> {
+                    hideFab = prefData.getHideFab();
+                    if (isAdded()) {
+                        showNotificationsFilter = Prefs.getBlocking(prefStore).getShowNotificationsFilter();
+                        updateFilterVisibility();
+                        fullyRefreshWithProgressBar(true);
+                    }
+                });
     }
 
     @Override
@@ -801,23 +812,11 @@ public class NotificationsFragment extends SFragment implements
 
     private void onPreferenceChanged(String key) {
         switch (key) {
-            case PrefKeys.FAB_HIDE: {
-                hideFab = Prefs.getBlocking(prefStore).getHideFab();
-                break;
-            }
             case PrefKeys.MEDIA_PREVIEW_ENABLED: {
                 boolean enabled = accountManager.getActiveAccount().getMediaPreviewEnabled();
                 if (enabled != adapter.isMediaPreviewEnabled()) {
                     adapter.setMediaPreviewEnabled(enabled);
                     fullyRefresh();
-                }
-                break;
-            }
-            case PrefKeys.SHOW_NOTIFICATIONS_FILTER: {
-                if (isAdded()) {
-                    showNotificationsFilter = Prefs.getBlocking(prefStore).getShowNotificationsFilter();
-                    updateFilterVisibility();
-                    fullyRefreshWithProgressBar(true);
                 }
                 break;
             }
