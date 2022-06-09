@@ -89,7 +89,7 @@ private suspend fun enableUnifiedPushNotificationsForAccount(context: Context, a
         // Already registered, update the subscription to match notification settings
         updateUnifiedPushSubscription(context, api, accountManager, account)
     } else {
-        UnifiedPush.registerAppWithDialog(context, account.id.toString())
+        UnifiedPush.registerAppWithDialog(context, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
     }
 }
 
