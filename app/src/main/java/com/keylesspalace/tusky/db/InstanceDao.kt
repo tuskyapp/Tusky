@@ -19,6 +19,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
 
 @Dao
 interface InstanceDao {
@@ -29,9 +30,11 @@ interface InstanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
     suspend fun insertOrReplace(emojis: EmojisEntity)
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
     suspend fun getInstanceInfo(instance: String): InstanceInfoEntity?
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
     suspend fun getEmojiInfo(instance: String): EmojisEntity?
 }
