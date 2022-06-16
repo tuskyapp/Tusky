@@ -963,10 +963,10 @@ public class NotificationsFragment extends SFragment implements
         if (notifications.size() == 0 && adapter.getItemCount() == 0) {
             this.statusView.setVisibility(View.VISIBLE);
             this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
-        } else {
-            swipeRefreshLayout.setEnabled(true);
         }
+
         updateFilterVisibility();
+        swipeRefreshLayout.setEnabled(true);
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }

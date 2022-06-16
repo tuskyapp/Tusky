@@ -8,22 +8,22 @@
     <string name="error_authorization_unknown">خطای احراز هویت ناشناخته‌ای رخ داد.</string>
     <string name="error_authorization_denied">احراز هویت رد شد.</string>
     <string name="error_retrieving_oauth_token">دریافت ژتون ورود شکست خورد.</string>
-    <string name="error_compose_character_limit">وضعیت خیلی طولانی است!</string>
+    <string name="error_compose_character_limit">فرسته خیلی طولانی است!</string>
     <string name="error_image_upload_size">پرونده باید کمتر از ۸ مگابایت باشد.</string>
     <string name="error_video_upload_size">پرونده ویدئویی باید کمتر از ۴۰ مگابایت باشد.</string>
     <string name="error_media_upload_type">این گونهٔ پرونده نمی‌تواند بارگذاری شود.</string>
     <string name="error_media_upload_opening">این پرونده نتوانست گشوده شود.</string>
     <string name="error_media_upload_permission">نیاز به اجازهٔ خواندن رسانه است.</string>
     <string name="error_media_download_permission">نیاز به اجازهٔ ذخیرهٔ رسانه است.</string>
-    <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها هر دو نمی‌توانند به یک وضعیت ضمیمه شوند.</string>
+    <string name="error_media_upload_image_or_video">تصاویر و فیلم‌ها نمی‌توانند به یک فرسته پیوست شوند.</string>
     <string name="error_media_upload_sending">بارگذاری شکست خورد.</string>
-    <string name="error_sender_account_gone">خطای فرستادن بوق.</string>
+    <string name="error_sender_account_gone">خطای فرستادن فرسته.</string>
     <string name="title_home">خانه</string>
     <string name="title_notifications">آگاهی‌ها</string>
     <string name="title_public_local">محلّی</string>
     <string name="title_public_federated">همگانی</string>
-    <string name="title_view_thread">بوق</string>
-    <string name="title_posts">فرسته</string>
+    <string name="title_view_thread">رشته</string>
+    <string name="title_posts">فرسته‌ها</string>
     <string name="title_posts_with_replies">با پاسخ‌</string>
     <string name="title_follows">دنبال شونده</string>
     <string name="title_followers">پی‌گیر</string>
@@ -41,10 +41,10 @@
     <string name="post_content_warning_show_more">نمایش بیش‌تر</string>
     <string name="post_content_warning_show_less">نمایش کم‌تر</string>
     <string name="post_content_show_more">گسترش</string>
-    <string name="post_content_show_less">بستن</string>
+    <string name="post_content_show_less">جمع کردن</string>
     <string name="footer_empty">این‌جا هیچ‌چیز نیست. برای تازه‌سازی، به پایین بکشید!</string>
-    <string name="notification_reblog_format">%s بوقتان را تقویت کرد</string>
-    <string name="notification_favourite_format">%s بوقتان را برگزید</string>
+    <string name="notification_reblog_format">%s فرسته‌تان را تقویت کرد</string>
+    <string name="notification_favourite_format">%s فرسته‌تان را برگزید</string>
     <string name="notification_follow_format">%s پی‌گیرتان شد</string>
     <string name="report_username_format">گزارش @%s</string>
     <string name="report_comment_hint">نظرهای اضافی؟</string>
@@ -93,13 +93,13 @@
     <string name="action_reject">رد</string>
     <string name="action_search">جست‌وجو</string>
     <string name="action_access_drafts">پیش‌نویس‌ها</string>
-    <string name="action_toggle_visibility">نمایانی بوق</string>
+    <string name="action_toggle_visibility">نمایانی فرسته</string>
     <string name="action_content_warning">هشدار محتوا</string>
     <string name="action_emoji_keyboard">صفحه‌کلید اموجی</string>
     <string name="download_image">درحال بارگیری %1$s</string>
     <string name="action_copy_link">رونوشت از پیوند</string>
-    <string name="send_post_link_to">هم‌رسانی نشانی بوق با…</string>
-    <string name="send_post_content_to">هم‌رسانی بوق با…</string>
+    <string name="send_post_link_to">هم‌رسانی نشانی فرسته با…</string>
+    <string name="send_post_content_to">هم‌رسانی فرسته با…</string>
     <string name="send_media_to">هم‌رسانی رسانه با…</string>
     <string name="confirmation_reported">فرستاده شد!</string>
     <string name="confirmation_unblocked">کاربرنامسدود شد</string>
@@ -130,7 +130,7 @@
     <string name="dialog_download_image">بارگیری</string>
     <string name="dialog_message_cancel_follow_request">درخواست دنبال کردن را لغو می‌کنید؟</string>
     <string name="dialog_unfollow_warning">ناپیگیری این حساب؟</string>
-    <string name="dialog_delete_post_warning">حذف این بوق؟</string>
+    <string name="dialog_delete_post_warning">حذف این فرسته؟</string>
     <string name="visibility_public">عمومی: فرستادن به خط زمانی‌های عمومی</string>
     <string name="visibility_unlisted">فهرست‌نشده: نشان ندادن در خط زمانی‌های عمومی</string>
     <string name="visibility_private">تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
@@ -156,7 +156,7 @@
     <string name="pref_title_browser_settings">مرورگر</string>
     <string name="pref_title_custom_tabs">استفاده از زبانه‌های سفارشی کروم</string>
     <string name="pref_title_hide_follow_button">نهفتن دکمهٔ ایجاد، هنگام پیمایش</string>
-    <string name="pref_title_post_filter">فیلتر کردن خط زمانی</string>
+    <string name="pref_title_post_filter">پالایش خط زمانی</string>
     <string name="pref_title_post_tabs">زبانه‌ها</string>
     <string name="pref_title_show_boosts">نمایش تقویت‌ها</string>
     <string name="pref_title_show_replies">نمایش پاسخ‌ها</string>
@@ -173,10 +173,10 @@
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
     <string name="post_privacy_followers_only">فقط پی‌گیران</string>
-    <string name="pref_post_text_size">اندازهٔ متن وضعیت</string>
+    <string name="pref_post_text_size">اندازهٔ متن فرسته</string>
     <string name="post_text_size_smallest">کوچک‌ترین</string>
     <string name="post_text_size_small">کوچک</string>
-    <string name="post_text_size_medium">متوسط</string>
+    <string name="post_text_size_medium">میانه</string>
     <string name="post_text_size_large">بزرگ</string>
     <string name="post_text_size_largest">بزرگ‌ترین</string>
     <string name="notification_mention_name">اشاره‌های جدید</string>
@@ -184,9 +184,9 @@
     <string name="notification_follow_name">پی‌گیران جدید</string>
     <string name="notification_follow_description">آگاهی‌ها دربارهٔ پی‌گیران جدید</string>
     <string name="notification_boost_name">تقویت‌ها</string>
-    <string name="notification_boost_description">آگاهی‌ها هنگام تقویت شدن بوق‌هایتان</string>
+    <string name="notification_boost_description">آگاهی‌ها هنگام تقویت فرسته‌هایتان</string>
     <string name="notification_favourite_name">برگزیدن‌ها</string>
-    <string name="notification_favourite_description">آگاهی‌ها هنگام برگزیده شدن بوق‌هایتان</string>
+    <string name="notification_favourite_description">آگاهی‌ها هنگام برگزیده شدن فرسته‌هایتان</string>
     <string name="notification_mention_format">%s به شما اشاره کرد</string>
     <string name="notification_summary_large">%1$s، %2$s، %3$s و %4$d دیگر</string>
     <string name="notification_summary_medium">%1$s، %2$s و %3$s</string>
@@ -209,8 +209,8 @@
     <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها: 
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">نمایهٔ تاسکی</string>
-    <string name="post_share_content">هم‌رسانی محتوای بوق</string>
-    <string name="post_share_link">هم‌رسانی پیوند بوق</string>
+    <string name="post_share_content">هم‌رسانی محتوای فرسته</string>
+    <string name="post_share_link">هم‌رسانی پیوند فرسته</string>
     <string name="post_media_images">تصویرها</string>
     <string name="post_media_video">ویدیو</string>
     <string name="state_follow_requested">تقاضای پیگیری شد</string>
@@ -240,19 +240,19 @@
     <string name="lock_account_label">قفل حساب</string>
     <string name="lock_account_label_description">لازم است پی‌گیران را دستی تأیید کنید</string>
     <string name="compose_save_draft">ذخیرهٔ پیش‌نویس؟</string>
-    <string name="send_post_notification_title">در حال فرستادن بوق…</string>
-    <string name="send_post_notification_error_title">خطای فرستادن بوق</string>
-    <string name="send_post_notification_channel_name">در حال فرستادن بوق‌ها</string>
+    <string name="send_post_notification_title">فرستادن فرسته…</string>
+    <string name="send_post_notification_error_title">خطا در فرستادن فرسته</string>
+    <string name="send_post_notification_channel_name">فرستادن فرسته‌ها</string>
     <string name="send_post_notification_cancel_title">فرستادن لغو شد</string>
-    <string name="send_post_notification_saved_content">رونوشتی از بوق در پیش‌نویس‌هایتان ذخیره شد</string>
+    <string name="send_post_notification_saved_content">رونوشتی از فرسته در پیش‌نویس‌هایتان ذخیره شد</string>
     <string name="action_compose_shortcut">ایجاد</string>
     <string name="error_no_custom_emojis">نمونه‌تان %s هیچ اموجی سفارشی‌ای ندارد</string>
     <string name="emoji_style">سبک اموجی</string>
     <string name="system_default">پیش‌گزیدهٔ سامانه</string>
     <string name="download_fonts">نخست باید این مجموعه‌های اموجی را بارگیری کنید</string>
     <string name="performing_lookup_title">در حال جست‌وجو…</string>
-    <string name="expand_collapse_all_posts">گسترده/جمع کردن تمام وضعیت‌ها</string>
-    <string name="action_open_post">گشودن بوق</string>
+    <string name="expand_collapse_all_posts">گسترش/جمع کردن تمام فرسته‌ها</string>
+    <string name="action_open_post">گشودن فرسته</string>
     <string name="restart_required">نیاز به آغاز دوبارهٔ کاره</string>
     <string name="restart_emoji">برای اعمال این تغییرات، نیاز به شروع دوبارهٔ تاسکی دارید</string>
     <string name="later">بعداً</string>
@@ -278,7 +278,7 @@
     <string name="error_network">یک خطای شبکه رخ داد! لطفا اتصال خود را بررسی و دوباره تلاش کنید!</string>
     <string name="title_direct_messages">پیام‌های مستقیم</string>
     <string name="title_tab_preferences">زبانه‌ها</string>
-    <string name="title_posts_pinned">سنجاق‌شده</string>
+    <string name="title_posts_pinned">سنجاق شده</string>
     <string name="title_domain_mutes">دامنه‌های نهفته</string>
     <string name="post_username_format">\@%s</string>
     <string name="message_empty">این‌جا هیچ‌چیزی نیست.</string>
@@ -304,7 +304,7 @@
     <string name="download_media">بارگیری رسانه</string>
     <string name="downloading_media">در حال بارگیری رسانه</string>
     <string name="confirmation_domain_unmuted">%s نانهفته</string>
-    <string name="dialog_redraft_post_warning">می‌خواهید این بوق را پاک و بازنویسی کنید؟</string>
+    <string name="dialog_redraft_post_warning">حذف و بازنویسی این فرسته؟</string>
     <string name="mute_domain_warning_dialog_ok">نهفتن تمام دامنه</string>
     <string name="pref_title_notification_filter_poll">پایان نظرسنجی‌ها</string>
     <string name="pref_title_timeline_filters">پالایه‌ها</string>
@@ -320,7 +320,7 @@
     <string name="abbreviated_hours_ago">%d ساعت</string>
     <string name="abbreviated_minutes_ago">%d دقیقه</string>
     <string name="abbreviated_seconds_ago">%d ثانیه</string>
-    <string name="pref_title_alway_open_spoiler">گسترش همیشگی بوق‌های علامت‌خورده با هشدار محتوا</string>
+    <string name="pref_title_alway_open_spoiler">گسترش همیشگی فرسته‌های علامت‌خورده با هشدار محتوا</string>
     <string name="pref_title_public_filter_keywords">خط زمانی‌های عمومی</string>
     <string name="pref_title_thread_filter_keywords">گفت‌وگوها</string>
     <string name="filter_addition_dialog_title">افزودن پالایه</string>
@@ -360,8 +360,8 @@
     </plurals>
     <string name="description_post_media">رسانه: %s</string>
     <string name="description_post_cw">هشدار محتوا: %s</string>
-    <string name="description_post_media_no_description_placeholder">بدون هیچ توضیحی</string>
-    <string name="description_post_reblogged">بازبوقیده</string>
+    <string name="description_post_media_no_description_placeholder">بدون شرح</string>
+    <string name="description_post_reblogged">تقویت شده</string>
     <string name="description_post_favourited">برگزیده</string>
     <string name="description_visiblity_public">عمومی</string>
     <string name="description_visiblity_unlisted">فهرست‌نشده</string>
@@ -373,7 +373,7 @@
     <string name="notifications_clear">پاک‌سازی</string>
     <string name="notifications_apply_filter">پالایش</string>
     <string name="filter_apply">اعمال</string>
-    <string name="compose_shortcut_long_label">ایجاد بوق</string>
+    <string name="compose_shortcut_long_label">ایجاد فرسته</string>
     <string name="compose_shortcut_short_label">ایجاد</string>
     <string name="notification_clear_text">مطمئنید می‌خواهید تمام آگاهی‌هایتان را برای همیشه پاک کنید؟</string>
     <string name="poll_info_time_absolute">پایان در %s</string>
@@ -400,7 +400,7 @@
     <string name="hint_additional_info">نظرهای اضافی</string>
     <string name="report_remote_instance">هدایت به %s</string>
     <string name="failed_report">شکست در گزارش</string>
-    <string name="failed_fetch_posts">شکست در واکشی وضعیت‌ها</string>
+    <string name="failed_fetch_posts">شکست در واکشی فرسته‌ها</string>
     <string name="title_accounts">حساب‌ها</string>
     <string name="failed_search">شکست در جست‌وجو</string>
     <string name="pref_title_show_notifications_filter">نمایش پالایهٔ آگاهی‌ها</string>
@@ -416,10 +416,10 @@
     <string name="poll_allow_multiple_choices">گزینه‌های چندگانه</string>
     <string name="poll_new_choice_hint">گزینهٔ %d</string>
     <string name="edit_poll">ویرایش</string>
-    <string name="title_scheduled_posts">بوق‌های زمان‌بسته</string>
+    <string name="title_scheduled_posts">فرسته‌های زمان‌بسته</string>
     <string name="action_edit">ویرایش</string>
-    <string name="action_access_scheduled_posts">بوق‌های زمان‌بسته</string>
-    <string name="action_schedule_post">بوق زمان‌بسته</string>
+    <string name="action_access_scheduled_posts">فرسته‌های زمان‌بسته</string>
+    <string name="action_schedule_post">فرستهٔ زمان‌بسته</string>
     <string name="action_reset_schedule">بازنشانی</string>
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پی‌گیرانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
@@ -437,7 +437,7 @@
     <string name="select_list_title">گزینش فهرست</string>
     <string name="list">فهرست</string>
     <string name="no_drafts">هیچ پیش‌نویسی ندارید.</string>
-    <string name="no_scheduled_posts">هیچ وضعیت زمان‌بسته‌ای ندارید.</string>
+    <string name="no_scheduled_posts">هیچ فرستهٔ زمان‌بسته‌ای ندارید.</string>
     <string name="warning_scheduling_interval">ماستودون، بازهٔ زمان‌بندی‌ای با کمینهٔ ۵ دقیقه دارد.</string>
     <string name="pref_title_confirm_reblogs">نمایش گفت‌وگوی تأیید، پیش از تقویت</string>
     <string name="pref_title_show_cards_in_timelines">پیش‌نمایش پیوندها در خط‌زمانی‌ها</string>
@@ -482,7 +482,7 @@
     <string name="action_unsubscribe_account">عدم اشتراک</string>
     <string name="action_subscribe_account">اشتراک</string>
     <string name="draft_deleted">پیش‌نویس حذف شد</string>
-    <string name="drafts_post_failed_to_send">فرستادن این بوق شکست خورد!</string>
+    <string name="drafts_post_failed_to_send">فرستادن این فرسته شکست خورد!</string>
     <string name="wellbeing_hide_stats_profile">نهفتن آمار کمی روی نمایه‌ها</string>
     <string name="wellbeing_hide_stats_posts">نهفتن آمار کمی روی فرسته‌ها</string>
     <string name="limit_notifications">محدود کردن آگاهی‌های خط‌زمانی</string>
@@ -491,17 +491,17 @@
     <string name="label_duration">طول</string>
     <string name="post_media_attachments">پیوست‌ها</string>
     <string name="post_media_audio">صدا</string>
-    <string name="notification_subscription_description">آگاهی‌ها هنگام انتشار بوقی جدید از کسی که مشترکش هستید</string>
-    <string name="notification_subscription_name">بوق‌های جدید</string>
+    <string name="notification_subscription_description">آگاهی‌ها هنگام انتشار فرسته‌ای جدید از کسی که پی‌می‌گیرید</string>
+    <string name="notification_subscription_name">فرسته‌های جدید</string>
     <string name="pref_title_animate_custom_emojis">اموجی‌های شخصی متحرّک</string>
-    <string name="pref_title_notification_filter_subscriptions">کسی که مشترکش شده‌ام، بوقی جدید منتشر کرد</string>
+    <string name="pref_title_notification_filter_subscriptions">کسی که پی‌می‌گیرم، فرسته‌ای جدید منتشر کرد</string>
     <string name="notification_subscription_format">%s چیزی فرستاد</string>
-    <string name="drafts_post_reply_removed">بوقی که پاسخی به آن را پیش‌نویس کردید، برداشته شده</string>
+    <string name="drafts_post_reply_removed">فرسته‌ای که پاسخی به آن را پیش‌نویس کردید، برداشته شده</string>
     <string name="drafts_failed_loading_reply">شکست در بار کردن اطّلاعات پاسخ</string>
     <string name="wellbeing_mode_notice">برخی اطّلاعات که ممکن است روی سلامتی ذهنیتان تأثیر بگذارد، پنهان خواهند شد. همچون:
 \n
 \n - آگاهی‌های برگزیدن، تقویت و پی‌گیری
-\n - شمار برگزیدن و تقویت بوق‌ها
+\n - شمار برگزیدن و تقویت فرسته‌ها
 \n - آمار پی‌گیر و فرسته روی نمایه‌ها
 \n
 \n فرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
@@ -514,4 +514,35 @@
     <string name="follow_requests_info">با این که حسابتان قفل نیست، کارکنان %1$s فکر کردند ممکن است بخواهید درخواست‌های پی‌گیری از این حساب‌ها را دستی بازبینی کنید.</string>
     <string name="dialog_delete_conversation_warning">حذف این گفت‌وگو؟</string>
     <string name="action_delete_conversation">حذف گفت‌وگو</string>
+    <string name="account_date_joined">در %1$s پیوست</string>
+    <string name="title_login">ورود</string>
+    <string name="notification_sign_up_format">%s ثبت‌نام کرد</string>
+    <string name="pref_title_confirm_favourites">نمایش گفت‌وگوی تأیید پیش از برگزیدن</string>
+    <string name="tusky_compose_post_quicksetting_label">ایجاد فرسته</string>
+    <string name="tips_push_notification_migration">ورود دوباره به تمامی حساب‌ها برای به کار انداختن پشتیبانی آگاهی‌های ارسالی.</string>
+    <string name="notification_update_description">آگاهی‌ها هنگام ویرایش فرسته‌هایی که با آن‌ها تعامل داشته‌اید</string>
+    <string name="action_unbookmark">برداشن نشانک</string>
+    <string name="dialog_push_notification_migration_other_accounts">برای اعطای اجازهٔ اشتراک آگاهی‌های ارسالی ، دوباره به حسابتان وارد شدید. با این حال هنوز حساب‌هایی دیگر دارید که این‌گونه مهاجرت داده نشده‌اند. به آن‌ها رفته و برای به کار انداختن پشتیبانی آگاهی‌های UnifiedPush یکی‌یکی دوباره وارد شوید.</string>
+    <string name="action_logout_confirm">مطمئنید که می‌خواهید از حساب %1$s خارج شوید؟</string>
+    <string name="duration_14_days">۱۴ روز</string>
+    <string name="duration_30_days">۳۰ روز</string>
+    <string name="duration_60_days">۶۰ روز</string>
+    <string name="duration_90_days">۹۰ روز</string>
+    <string name="duration_365_days">۳۶۵ روز</string>
+    <string name="duration_180_days">۱۸۰ روز</string>
+    <string name="status_count_one_plus">۱+</string>
+    <string name="dialog_push_notification_migration">تاسکی برای استفاده از آگاهی‌های ارسالی با UnifiedPush نیاز به اجازهٔ اشتراک آگاهی‌ها روی کارساز ماستودنتان دارد. این کار نیازمند ورود دوباره برای تغییر حوزه‌های OAuth اعطایی به تاسکی است. استفاده از گزینهٔ ورود دوباره در این‌جا یا در ترجیحات حساب، تمامی انباره‌ها و پیش‌نویس‌های محلیتان را نگه خواهد داشت.</string>
+    <string name="error_could_not_load_login_page">نتوانست صفحهٔ ورود را بار کند.</string>
+    <string name="pref_title_notification_filter_sign_ups">کسی ثبت‌نام کرد</string>
+    <string name="error_media_edit_failed">پیوست نتوانست ویرایش شود.</string>
+    <string name="notification_update_name">ویرایش‌های فرسته</string>
+    <string name="action_edit_image">ویرایش تصویر</string>
+    <string name="notification_update_format">%s فرسته‌اش را ویراست</string>
+    <string name="pref_title_notification_filter_updates">فرسته‌ای که با آن تعامل داشته‌ام ویرایش شده</string>
+    <string name="notification_sign_up_name">ثبت‌نام‌ها</string>
+    <string name="notification_sign_up_description">آگاهی‌ها دربارهٔ کاربران جدید</string>
+    <string name="title_migration_relogin">ورود دوباره برای آگاهی‌های ارسالی</string>
+    <string name="action_dismiss">رد کردن</string>
+    <string name="action_details">جزییات</string>
+    <string name="saving_draft">ذخیرهٔ پیش‌نویس…</string>
 </resources>

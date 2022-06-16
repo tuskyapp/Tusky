@@ -112,7 +112,7 @@
     <string name="action_hashtags">话题</string>
     <string name="action_open_reblogger">打开转嘟用户主页</string>
     <string name="action_open_reblogged_by">显示转嘟</string>
-    <string name="action_open_faved_by">显示收藏</string>
+    <string name="action_open_faved_by">显示喜欢</string>
     <string name="title_hashtags_dialog">话题</string>
     <string name="title_mentions_dialog">提及</string>
     <string name="title_links_dialog">链接</string>
@@ -337,7 +337,7 @@
     <string name="unpin_action">取消置顶</string>
     <string name="pin_action">置顶</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 次收藏</item>
+        <item quantity="other"><b>%1$s</b> 次喜欢</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 次转嘟</item>
@@ -493,12 +493,12 @@
     <string name="review_notifications">反馈通知</string>
     <string name="wellbeing_hide_stats_posts">隐藏嘟文的统计信息</string>
     <string name="limit_notifications">限制时间线通知</string>
-    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括：
-\n
-\n - 收藏、转发、关注通知
-\n - 收藏、转发数
-\n - 账号的已关注数量、嘟文数量
-\n
+    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括： 
+\n 
+\n - 喜欢、转发、关注通知 
+\n - 喜欢、转发数 
+\n - 账号的已关注数量、嘟文数量 
+\n 
 \n 推送通知不会被影响，但可以在通知设置中手动禁用。</string>
     <string name="pref_title_wellbeing_mode">健康模式</string>
     <string name="duration_indefinite">永久</string>
