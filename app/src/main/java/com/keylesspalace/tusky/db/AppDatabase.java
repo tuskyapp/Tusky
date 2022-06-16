@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 38)
+        }, version = 39)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -571,6 +571,14 @@ public abstract class AppDatabase extends RoomDatabase {
 
             // timestamps are now serialized differently so all cache tables that contain them need to be cleaned
             database.execSQL("DELETE FROM `TimelineStatusEntity`");
+        }
+    };
+
+    public static final Migration MIGRATION_38_39 = new Migration(38, 39) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `clientId` TEXT");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `clientSecret` TEXT");
         }
     };
 }
