@@ -23,7 +23,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.json.UtcDateTypeAdapter
+import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
@@ -54,7 +54,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesGson(): Gson = GsonBuilder()
-        .registerTypeAdapter(Date::class.java, UtcDateTypeAdapter())
+        .registerTypeAdapter(Date::class.java, Rfc3339DateJsonAdapter())
         .create()
 
     @Provides
