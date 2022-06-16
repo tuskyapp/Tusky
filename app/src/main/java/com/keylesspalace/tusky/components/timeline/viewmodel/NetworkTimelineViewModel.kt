@@ -249,7 +249,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun invalidate() {
+    override suspend fun invalidate() {
         currentSource?.invalidate()
     }
 
