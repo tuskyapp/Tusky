@@ -46,6 +46,8 @@ class CachedTimelineRemoteMediatorTest {
             id = 1,
             domain = "mastodon.example",
             accessToken = "token",
+            clientId = "id",
+            clientSecret = "secret",
             isActive = true
         )
     }

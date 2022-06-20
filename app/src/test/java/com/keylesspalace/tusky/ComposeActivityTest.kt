@@ -68,6 +68,8 @@ class ComposeActivityTest {
         id = 1,
         domain = instanceDomain,
         accessToken = "token",
+        clientId = "id",
+        clientSecret = "secret",
         isActive = true,
         accountId = "1",
         username = "username",

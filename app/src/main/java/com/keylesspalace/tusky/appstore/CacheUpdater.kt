@@ -9,7 +9,7 @@ import javax.inject.Inject
 class CacheUpdater @Inject constructor(
     eventHub: EventHub,
     private val accountManager: AccountManager,
-    private val appDatabase: AppDatabase,
+    appDatabase: AppDatabase,
     gson: Gson
 ) {
 
@@ -43,9 +43,5 @@ class CacheUpdater @Inject constructor(
 
     fun stop() {
         this.disposable.dispose()
-    }
-
-    suspend fun clearForUser(accountId: Long) {
-        appDatabase.timelineDao().removeAll(accountId)
     }
 }

@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.network;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.keylesspalace.tusky.db.AccountEntity;
@@ -22,22 +23,20 @@ import com.keylesspalace.tusky.db.AccountManager;
 
 import java.io.IOException;
 
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 /**
  * Created by charlag on 31/10/17.
  */
 
 public final class InstanceSwitchAuthInterceptor implements Interceptor {
-    private AccountManager accountManager;
+    private final AccountManager accountManager;
 
     public InstanceSwitchAuthInterceptor(AccountManager accountManager) {
         this.accountManager = accountManager;
     }
 
+    @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
 
@@ -55,13 +54,26 @@ public final class InstanceSwitchAuthInterceptor implements Interceptor {
                 builder.url(swapHost(originalRequest.url(), instanceHeader));
                 builder.removeHeader(MastodonApi.DOMAIN_HEADER);
             } else if (currentAccount != null) {
-                //use domain of current account
-                builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
-                        .header("Authorization",
-                                String.format("Bearer %s", currentAccount.getAccessToken()));
+                String accessToken = currentAccount.getAccessToken();
+                if (!accessToken.isEmpty()) {
+                    //use domain of current account
+                    builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
+                            .header("Authorization",
+                                    String.format("Bearer %s", currentAccount.getAccessToken()));
+                }
             }
             Request newRequest = builder.build();
 
+            if (MastodonApi.PLACEHOLDER_DOMAIN.equals(newRequest.url().host())) {
+                Log.w("ISAInterceptor", "no user logged in or no domain header specified - can't make request to " + newRequest.url());
+                return new Response.Builder()
+                        .code(400)
+                        .message("Bad Request")
+                        .protocol(Protocol.HTTP_2)
+                        .body(ResponseBody.create("", MediaType.parse("text/plain")))
+                        .request(chain.request())
+                        .build();
+            }
             return chain.proceed(newRequest);
 
         } else {

@@ -236,7 +236,13 @@ class LoginActivity : BaseActivity(), Injectable {
             domain, clientId, clientSecret, oauthRedirectUri, code, "authorization_code"
         ).fold(
             { accessToken ->
-                accountManager.addAccount(accessToken.accessToken, domain, OAUTH_SCOPES)
+                accountManager.addAccount(
+                    accessToken = accessToken.accessToken,
+                    domain = domain,
+                    clientId = clientId,
+                    clientSecret = clientSecret,
+                    oauthScopes = OAUTH_SCOPES
+                )
 
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

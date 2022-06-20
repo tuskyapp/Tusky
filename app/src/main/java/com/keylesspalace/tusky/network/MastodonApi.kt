@@ -459,6 +459,14 @@ interface MastodonApi {
         @Field("grant_type") grantType: String
     ): NetworkResult<AccessToken>
 
+    @FormUrlEncoded
+    @POST("oauth/revoke")
+    suspend fun revokeOAuthToken(
+        @Field("client_id") clientId: String,
+        @Field("client_secret") clientSecret: String,
+        @Field("token") token: String
+    ): NetworkResult<Unit>
+
     @GET("/api/v1/lists")
     suspend fun getLists(): NetworkResult<List<MastoList>>
 
