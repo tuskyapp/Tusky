@@ -48,7 +48,7 @@ class LogoutUsecase @Inject constructor(
             // clear notification channels
             NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, context)
 
-            // locally delete the access token
+            // remove account from local AccountManager
             val otherAccountAvailable = accountManager.logActiveAccountOut() != null
 
             // clear the database - this could trigger network calls so do it last when all tokens are gone
@@ -56,11 +56,8 @@ class LogoutUsecase @Inject constructor(
             db.conversationDao().deleteForAccount(activeAccount.id)
             draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
 
+            // remove shortcut associated with the account
             removeShortcut(context, activeAccount)
-
-            if (!NotificationHelper.areNotificationsEnabled(context, accountManager)) {
-                NotificationHelper.disablePullNotifications(context)
-            }
 
             return otherAccountAvailable
         }
