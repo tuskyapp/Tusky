@@ -174,7 +174,7 @@ abstract class TimelineViewModel(
     abstract fun fullReload()
 
     /** Triggered when currently displayed data must be reloaded. */
-    protected abstract fun invalidate()
+    protected abstract suspend fun invalidate()
 
     protected fun shouldFilterStatus(statusViewData: StatusViewData): Boolean {
         val status = statusViewData.asStatusOrNull()?.status ?: return false
