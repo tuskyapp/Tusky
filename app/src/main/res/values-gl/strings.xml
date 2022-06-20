@@ -52,8 +52,8 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_follow">Seguir</string>
-    <string name="action_logout_confirm">Tes a certeza de que queres desconectar a conta %1$s\?</string>
-    <string name="action_logout">Desconectar</string>
+    <string name="action_logout_confirm">Tes a certeza de que queres pechar sesión da conta %1$s\?</string>
+    <string name="action_logout">Pechar sesión</string>
     <string name="action_login">Accede con Mastodon</string>
     <string name="action_compose">Redactar</string>
     <string name="action_more">Máis</string>
@@ -524,7 +524,7 @@
     <string name="pref_title_notification_filter_updates">Foi editada unha publicación coa que interactuei</string>
     <string name="notification_update_name">Edicións da publicación</string>
     <string name="account_date_joined">Creada %1$s</string>
-    <string name="tips_push_notification_migration">Volver a conectar tódalas contas para activar as notificacións push.</string>
+    <string name="tips_push_notification_migration">Volve a acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
     <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí ou nas Preferencias da Conta a opción de volver a acceder conservarás os borradores locais e caché.</string>
