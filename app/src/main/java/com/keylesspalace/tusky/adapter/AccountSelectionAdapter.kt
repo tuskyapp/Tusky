@@ -44,6 +44,7 @@ class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(co
 
             binding.username.text = account.fullName
             binding.displayName.text = account.displayName.emojify(account.emojis, binding.displayName, animateEmojis)
+            binding.avatarBadge.visibility = View.GONE // We never want to display the bot badge here
 
             val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
             val animateAvatar = pm.getBoolean("animateGifAvatars", false)
