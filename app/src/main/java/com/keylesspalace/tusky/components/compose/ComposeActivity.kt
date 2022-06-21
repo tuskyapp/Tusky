@@ -177,7 +177,7 @@ class ComposeActivity :
             Log.w("ComposeActivity", "Edit image cancelled by user")
         } else {
             Log.w("ComposeActivity", "Edit image failed: " + result.error)
-            displayTransientError(R.string.error_media_edit_failed)
+            displayTransientError(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
     }

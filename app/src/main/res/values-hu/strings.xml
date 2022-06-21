@@ -542,7 +542,6 @@
     <string name="status_count_one_plus">1+</string>
     <string name="error_could_not_load_login_page">Nem tudtuk betölteni a bejelentkező oldalt.</string>
     <string name="saving_draft">Vázlat mentése…</string>
-    <string name="error_media_edit_failed">A csatolmány nem szerkeszthető.</string>
     <string name="dialog_push_notification_migration">Ahhoz, hogy használhass leküldési értesítéseket a UnifiedPush szolgáltatással, a Tusky-nak fel kell iratkoznia az értesítésekre a Mastodon szervereden. Ehhez új bejelentkezésre van szükség, hogy a Tusky számára kiosztott OAuth jogosultságok megváltozzanak. Az újbóli bejelentkezés funkció használata itt vagy a Fiókbeállításoknál meg fogja őrizni a helyi piszkozataidat és a cache tartalmát.</string>
     <string name="dialog_push_notification_migration_other_accounts">Újra bejelentkeztél a fiókodba, hogy feliratkoztasd a Tusky-t a leküldési értesítések használatára. Ugyanakkor vannak még fiókjaid, melyek még nem lettek így migrálva. Válts át rájuk és jelentkezz be újra mindegyikben, hogy ezekben is engedélyezd a UnifiedPush értesítések támogatását.</string>
     <string name="action_edit_image">Kép szerkesztése</string>

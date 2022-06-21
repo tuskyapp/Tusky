@@ -540,7 +540,6 @@
     <string name="notification_update_name">Modifiche ai post</string>
     <string name="notification_update_description">Notifiche di quando i post con cui hai interagito vengono modificati</string>
     <string name="error_could_not_load_login_page">Non è stato possibile caricare la pagina di login.</string>
-    <string name="error_media_edit_failed">L\'allegato non può essere modificato.</string>
     <string name="action_edit_image">Modifica immagine</string>
     <string name="saving_draft">Salvataggio bozza…</string>
     <string name="action_dismiss">Scartare</string>

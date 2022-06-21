@@ -532,7 +532,6 @@
     <string name="title_login">Skrá inn</string>
     <string name="status_count_one_plus">1+</string>
     <string name="error_could_not_load_login_page">Gat ekki lesið innskráningarsíðuna.</string>
-    <string name="error_media_edit_failed">Ekki var hægt að breyta viðhenginu.</string>
     <string name="action_edit_image">Breyta mynd</string>
     <string name="saving_draft">Vista drög…</string>
     <string name="title_migration_relogin">Skráðu aftur inn fyrir ýti-tilkynningar</string>

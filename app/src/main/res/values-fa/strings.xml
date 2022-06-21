@@ -534,7 +534,6 @@
     <string name="dialog_push_notification_migration">تاسکی برای استفاده از آگاهی‌های ارسالی با UnifiedPush نیاز به اجازهٔ اشتراک آگاهی‌ها روی کارساز ماستودنتان دارد. این کار نیازمند ورود دوباره برای تغییر حوزه‌های OAuth اعطایی به تاسکی است. استفاده از گزینهٔ ورود دوباره در این‌جا یا در ترجیحات حساب، تمامی انباره‌ها و پیش‌نویس‌های محلیتان را نگه خواهد داشت.</string>
     <string name="error_could_not_load_login_page">نتوانست صفحهٔ ورود را بار کند.</string>
     <string name="pref_title_notification_filter_sign_ups">کسی ثبت‌نام کرد</string>
-    <string name="error_media_edit_failed">پیوست نتوانست ویرایش شود.</string>
     <string name="notification_update_name">ویرایش‌های فرسته</string>
     <string name="action_edit_image">ویرایش تصویر</string>
     <string name="notification_update_format">%s فرسته‌اش را ویراست</string>
