@@ -1,4 +1,4 @@
-/* Copyright 2018 charlag
+/* Copyright 2022 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -13,76 +13,70 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.network;
+package com.keylesspalace.tusky.network
 
-import android.util.Log;
-import androidx.annotation.NonNull;
+import android.util.Log
+import com.keylesspalace.tusky.db.AccountManager
+import okhttp3.HttpUrl
+import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
+import java.io.IOException
 
-import com.keylesspalace.tusky.db.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
+class InstanceSwitchAuthInterceptor(private val accountManager: AccountManager) : Interceptor {
 
-import java.io.IOException;
-
-import okhttp3.*;
-
-/**
- * Created by charlag on 31/10/17.
- */
-
-public final class InstanceSwitchAuthInterceptor implements Interceptor {
-    private final AccountManager accountManager;
-
-    public InstanceSwitchAuthInterceptor(AccountManager accountManager) {
-        this.accountManager = accountManager;
-    }
-
-    @NonNull
-    @Override
-    public Response intercept(@NonNull Chain chain) throws IOException {
-
-        Request originalRequest = chain.request();
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val originalRequest: Request = chain.request()
 
         // only switch domains if the request comes from retrofit
-        if (originalRequest.url().host().equals(MastodonApi.PLACEHOLDER_DOMAIN)) {
-            AccountEntity currentAccount = accountManager.getActiveAccount();
+        return if (originalRequest.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
 
-            Request.Builder builder = originalRequest.newBuilder();
+            val builder: Request.Builder = originalRequest.newBuilder()
+            val instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
 
-            String instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER);
             if (instanceHeader != null) {
                 // use domain explicitly specified in custom header
-                builder.url(swapHost(originalRequest.url(), instanceHeader));
-                builder.removeHeader(MastodonApi.DOMAIN_HEADER);
-            } else if (currentAccount != null) {
-                String accessToken = currentAccount.getAccessToken();
-                if (!accessToken.isEmpty()) {
-                    //use domain of current account
-                    builder.url(swapHost(originalRequest.url(), currentAccount.getDomain()))
-                            .header("Authorization",
-                                    String.format("Bearer %s", currentAccount.getAccessToken()));
+                builder.url(swapHost(originalRequest.url, instanceHeader))
+                builder.removeHeader(MastodonApi.DOMAIN_HEADER)
+            } else {
+                val currentAccount = accountManager.activeAccount
+
+                if (currentAccount != null) {
+                    val accessToken = currentAccount.accessToken
+                    if (accessToken.isNotEmpty()) {
+                        //use domain of current account
+                        builder.url(swapHost(originalRequest.url, currentAccount.domain))
+                            .header("Authorization", "Bearer %s".format(accessToken))
+                    }
                 }
             }
-            Request newRequest = builder.build();
 
-            if (MastodonApi.PLACEHOLDER_DOMAIN.equals(newRequest.url().host())) {
-                Log.w("ISAInterceptor", "no user logged in or no domain header specified - can't make request to " + newRequest.url());
-                return new Response.Builder()
-                        .code(400)
-                        .message("Bad Request")
-                        .protocol(Protocol.HTTP_2)
-                        .body(ResponseBody.create("", MediaType.parse("text/plain")))
-                        .request(chain.request())
-                        .build();
+            val newRequest: Request = builder.build()
+
+            if (MastodonApi.PLACEHOLDER_DOMAIN == newRequest.url.host) {
+                Log.w("ISAInterceptor", "no user logged in or no domain header specified - can't make request to " + newRequest.url)
+                return Response.Builder()
+                    .code(400)
+                    .message("Bad Request")
+                    .protocol(Protocol.HTTP_2)
+                    .body("".toResponseBody("text/plain".toMediaType()))
+                    .request(chain.request())
+                    .build()
             }
-            return chain.proceed(newRequest);
 
+            chain.proceed(newRequest)
         } else {
-            return chain.proceed(originalRequest);
+            chain.proceed(originalRequest)
         }
     }
 
-    @NonNull
-    private static HttpUrl swapHost(@NonNull HttpUrl url, @NonNull String host) {
-        return url.newBuilder().host(host).build();
+    companion object {
+        private fun swapHost(url: HttpUrl, host: String): HttpUrl {
+            return url.newBuilder().host(host).build()
+        }
     }
 }
