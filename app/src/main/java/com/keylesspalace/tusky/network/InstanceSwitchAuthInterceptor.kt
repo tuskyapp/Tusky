@@ -48,7 +48,7 @@ class InstanceSwitchAuthInterceptor(private val accountManager: AccountManager) 
                 if (currentAccount != null) {
                     val accessToken = currentAccount.accessToken
                     if (accessToken.isNotEmpty()) {
-                        //use domain of current account
+                        // use domain of current account
                         builder.url(swapHost(originalRequest.url, currentAccount.domain))
                             .header("Authorization", "Bearer %s".format(accessToken))
                     }
