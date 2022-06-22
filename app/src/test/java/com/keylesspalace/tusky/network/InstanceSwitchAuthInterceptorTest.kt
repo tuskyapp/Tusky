@@ -111,6 +111,8 @@ class InstanceSwitchAuthInterceptorTest {
         val response = okHttpClient.newCall(request).execute()
 
         assertEquals(200, response.code)
+
+        assertEquals("Bearer fakeToken", mockWebServer.takeRequest().getHeader("Authorization"))
     }
 
     @Test
