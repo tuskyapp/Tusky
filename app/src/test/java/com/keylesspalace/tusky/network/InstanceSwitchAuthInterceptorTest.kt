@@ -8,6 +8,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.doAnswer
@@ -80,6 +81,8 @@ class InstanceSwitchAuthInterceptorTest {
         val response = okHttpClient.newCall(request).execute()
 
         assertEquals(200, response.code)
+
+        assertNull(mockWebServer.takeRequest().getHeader("Authorization"))
     }
 
     @Test
