@@ -703,7 +703,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
 
         // Setup push notifications
-        showMigrationNoticeIfNecessary(this, binding.root, accountManager)
+        showMigrationNoticeIfNecessary(this, binding.mainCoordinatorLayout, binding.composeButton, accountManager)
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
             lifecycleScope.launch {
                 enablePushNotificationsWithFallback(this@MainActivity, mastodonApi, accountManager)

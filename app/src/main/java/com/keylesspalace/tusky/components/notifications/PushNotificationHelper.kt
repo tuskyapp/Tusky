@@ -51,7 +51,12 @@ private fun accountNeedsMigration(account: AccountEntity): Boolean =
 fun currentAccountNeedsMigration(accountManager: AccountManager): Boolean =
     accountManager.activeAccount?.let(::accountNeedsMigration) ?: false
 
-fun showMigrationNoticeIfNecessary(context: Context, parent: View, accountManager: AccountManager) {
+fun showMigrationNoticeIfNecessary(
+    context: Context,
+    parent: View,
+    anchorView: View?,
+    accountManager: AccountManager
+) {
     // No point showing anything if we cannot enable it
     if (!isUnifiedPushAvailable(context)) return
     if (!anyAccountNeedsMigration(accountManager)) return
@@ -59,10 +64,10 @@ fun showMigrationNoticeIfNecessary(context: Context, parent: View, accountManage
     val pm = PreferenceManager.getDefaultSharedPreferences(context)
     if (pm.getBoolean(KEY_MIGRATION_NOTICE_DISMISSED, false)) return
 
-    Snackbar.make(parent, R.string.tips_push_notification_migration, Snackbar.LENGTH_INDEFINITE).apply {
-        setAction(R.string.action_details) { showMigrationExplanationDialog(context, accountManager) }
-        show()
-    }
+    Snackbar.make(parent, R.string.tips_push_notification_migration, Snackbar.LENGTH_INDEFINITE)
+        .setAnchorView(anchorView)
+        .setAction(R.string.action_details) { showMigrationExplanationDialog(context, accountManager) }
+        .show()
 }
 
 private fun showMigrationExplanationDialog(context: Context, accountManager: AccountManager) {
