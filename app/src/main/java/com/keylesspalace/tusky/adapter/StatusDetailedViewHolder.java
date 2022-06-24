@@ -103,20 +103,26 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
-        super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
-        setupCard(status, CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
+        // We never collapse statuses in the detail view
+        StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
+            status.copyWIthCollapsed(false) :
+            status;
+
+        super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads);
+        setupCard(uncollapsedStatus, CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
         if (payloads == null) {
+            Status actionable = uncollapsedStatus.getActionable();
 
             if (!statusDisplayOptions.hideStats()) {
-                setReblogAndFavCount(status.getActionable().getReblogsCount(),
-                        status.getActionable().getFavouritesCount(), listener);
+                setReblogAndFavCount(actionable.getReblogsCount(),
+                        actionable.getFavouritesCount(), listener);
             } else {
                 hideQuantitativeStats();
             }
 
-            setApplication(status.getActionable().getApplication());
+            setApplication(actionable.getApplication());
 
-            setStatusVisibility(status.getActionable().getVisibility());
+            setStatusVisibility(actionable.getVisibility());
         }
     }
 
