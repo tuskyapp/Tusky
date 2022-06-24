@@ -105,7 +105,7 @@ class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                 @Nullable Object payloads) {
         // We never collapse statuses in the detail view
         StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
-            status.copyWIthCollapsed(false) :
+            status.copyWithCollapsed(false) :
             status;
 
         super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads);

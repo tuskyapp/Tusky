@@ -106,7 +106,7 @@ sealed class StatusViewData {
         }
 
         /** Helper for Java */
-        fun copyWIthCollapsed(isCollapsed: Boolean): Concrete {
+        fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
         }
     }
