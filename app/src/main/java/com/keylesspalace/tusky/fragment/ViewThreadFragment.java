@@ -387,7 +387,7 @@ public final class ViewThreadFragment extends SFragment implements
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
         adapter.setItem(
                 position,
-                statuses.getPairedItem(position).copyWIthCollapsed(isCollapsed),
+                statuses.getPairedItem(position).copyWithCollapsed(isCollapsed),
                 true
         );
     }

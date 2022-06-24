@@ -1046,6 +1046,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 actionable.getPoll() == null &&
                 card != null &&
                 !TextUtils.isEmpty(card.getUrl()) &&
+                (!actionable.getSensitive() || status.isExpanded()) &&
                 (!status.isCollapsible() || !status.isCollapsed())) {
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());

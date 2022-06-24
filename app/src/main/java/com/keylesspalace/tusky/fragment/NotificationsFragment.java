@@ -538,7 +538,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
-        updateViewDataAt(position, (vd) -> vd.copyWIthCollapsed(isCollapsed));
+        updateViewDataAt(position, (vd) -> vd.copyWithCollapsed(isCollapsed));
         ;
     }
 

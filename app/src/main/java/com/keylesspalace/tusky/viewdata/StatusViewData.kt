@@ -47,8 +47,8 @@ sealed class StatusViewData {
             get() = status.id
 
         /**
-         * Specifies whether the content of this post is allowed to be collapsed or if it should show
-         * all content regardless.
+         * Specifies whether the content of this post is long enough to be automatically
+         * collapsed or if it should show all content regardless.
          *
          * @return Whether the post is collapsible or never collapsed.
          */
@@ -106,7 +106,7 @@ sealed class StatusViewData {
         }
 
         /** Helper for Java */
-        fun copyWIthCollapsed(isCollapsed: Boolean): Concrete {
+        fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
         }
     }
