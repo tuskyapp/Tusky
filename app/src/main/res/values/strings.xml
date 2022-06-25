@@ -9,6 +9,7 @@
     <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
     <string name="error_authorization_denied">Authorization was denied.</string>
     <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
+    <string name="error_loading_account_details">Failed loading account details</string>
     <string name="error_could_not_load_login_page">Could not load the login page.</string>
     <string name="error_compose_character_limit">The post is too long!</string>
     <string name="error_image_upload_size">The file must be less than 8MB.</string>
