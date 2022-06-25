@@ -161,7 +161,7 @@ class ComposeActivity :
         val uriNew = result.uriContent
         if (result.isSuccessful && uriNew != null) {
             viewModel.cropImageItemOld?.let { itemOld ->
-                val size = getMediaSize(getApplicationContext().getContentResolver(), uriNew)
+                val size = getMediaSize(contentResolver, uriNew)
 
                 lifecycleScope.launch {
                     viewModel.addMediaToQueue(
@@ -407,8 +407,13 @@ class ComposeActivity :
                 enableButton(binding.composeAddMediaButton, active, active)
                 enablePollButton(media.isNullOrEmpty())
             }.subscribe()
-            viewModel.uploadError.observe {
-                displayTransientError(R.string.error_media_upload_sending)
+            viewModel.uploadError.observe { throwable ->
+                Log.w(TAG, "media upload failed", throwable)
+                if (throwable is UploadServerError) {
+                    displayTransientError(throwable.errorMessage)
+                } else {
+                    displayTransientError(R.string.error_media_upload_sending)
+                }
             }
             viewModel.setupComplete.observe {
                 // Focus may have changed during view model setup, ensure initial focus is on the edit field
@@ -553,11 +558,15 @@ class ComposeActivity :
         super.onSaveInstanceState(outState)
     }
 
-    private fun displayTransientError(@StringRes stringId: Int) {
-        val bar = Snackbar.make(binding.activityCompose, stringId, Snackbar.LENGTH_LONG)
+    private fun displayTransientError(errorMessage: String) {
+        val bar = Snackbar.make(binding.activityCompose, errorMessage, Snackbar.LENGTH_LONG)
         // necessary so snackbar is shown over everything
         bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
+        bar.setAnchorView(R.id.composeBottomBar)
         bar.show()
+    }
+    private fun displayTransientError(@StringRes stringId: Int) {
+        displayTransientError(getString(stringId))
     }
 
     private fun toggleHideMedia() {
@@ -565,7 +574,7 @@ class ComposeActivity :
     }
 
     private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
-        if (viewModel.media.value.isNullOrEmpty()) {
+        if (viewModel.media.value.isEmpty()) {
             binding.composeHideMediaButton.hide()
         } else {
             binding.composeHideMediaButton.show()
@@ -904,11 +913,10 @@ class ComposeActivity :
         // Currently the only supported lossless format is png.
         val mimeType: String? = contentResolver.getType(item.uri)
         val isPng: Boolean = mimeType != null && mimeType.endsWith("/png")
-        val context = getApplicationContext()
-        val tempFile = createNewImageFile(context, if (isPng) ".png" else ".jpg")
+        val tempFile = createNewImageFile(this, if (isPng) ".png" else ".jpg")
 
         // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
-        val uriNew = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
+        val uriNew = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
 
         viewModel.cropImageItemOld = item
 
