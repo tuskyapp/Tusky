@@ -264,7 +264,7 @@
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%s</string>
     <string name="load_more_placeholder_text">en charger plus</string>
-    <string name="pref_title_public_filter_keywords">Timelines publiques</string>
+    <string name="pref_title_public_filter_keywords">Fils publics</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
     <string name="filter_addition_dialog_title">Ajouter un filtre</string>
     <string name="filter_edit_dialog_title">Modifier un filtre</string>
@@ -550,4 +550,14 @@
     <string name="account_date_joined">Ici depuis %1$s</string>
     <string name="action_details">Détails</string>
     <string name="saving_draft">Sauvegarde du brouillon …</string>
+    <string name="status_count_one_plus">&gt;1</string>
+    <string name="dialog_push_notification_migration_other_accounts">Tusky peut maintenant recevoir les notifications instantanées de ce compte. Cependant, d\'autres de vos comptes n\'ont pas encore accès aux notifications instantanées. Basculez sur chacun de vos comptes et reconnectez les afin de recevoir les notifications avec UnifiedPush.</string>
+    <string name="error_could_not_load_login_page">La page de connexion n\'a pas pu être chargée.</string>
+    <string name="action_edit_image">Retoucher l\'image</string>
+    <string name="error_media_edit_failed">Le fichier n\'a pas pu être retouché.</string>
+    <string name="action_dismiss">Fermer</string>
+    <string name="title_migration_relogin">Se reconnecter pour recevoir les notifications instantanées</string>
+    <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s\'inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l\'option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
+    <string name="tips_push_notification_migration">Reconnectez tous vos comptes pour activer les notifications instantanées.</string>
+    <string name="error_image_edit_failed">L\'image n\'a pas pu être retouchée.</string>
 </resources>
