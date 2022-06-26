@@ -554,7 +554,6 @@
     <string name="dialog_push_notification_migration_other_accounts">Tusky peut maintenant recevoir les notifications instantanées de ce compte. Cependant, d\'autres de vos comptes n\'ont pas encore accès aux notifications instantanées. Basculez sur chacun de vos comptes et reconnectez les afin de recevoir les notifications avec UnifiedPush.</string>
     <string name="error_could_not_load_login_page">La page de connexion n\'a pas pu être chargée.</string>
     <string name="action_edit_image">Retoucher l\'image</string>
-    <string name="error_media_edit_failed">Le fichier n\'a pas pu être retouché.</string>
     <string name="action_dismiss">Fermer</string>
     <string name="title_migration_relogin">Se reconnecter pour recevoir les notifications instantanées</string>
     <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s\'inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l\'option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
