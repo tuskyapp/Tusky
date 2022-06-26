@@ -27,7 +27,7 @@
     <string name="title_tab_preferences">Onglets</string>
     <string name="title_view_thread">Fil</string>
     <string name="title_posts">Messages</string>
-    <string name="title_posts_with_replies">Pouets &amp; réponses</string>
+    <string name="title_posts_with_replies">Avec réponses</string>
     <string name="title_posts_pinned">Épinglés</string>
     <string name="title_follows">Abonnements</string>
     <string name="title_followers">Abonné·e·s</string>
@@ -42,7 +42,7 @@
     <string name="post_boosted_format">%s a partagé</string>
     <string name="post_sensitive_media_title">Contenu sensible</string>
     <string name="post_media_hidden_title">Média caché</string>
-    <string name="post_sensitive_media_directions">Cliquer pour voir</string>
+    <string name="post_sensitive_media_directions">Appuyer pour voir</string>
     <string name="post_content_warning_show_more">Voir plus</string>
     <string name="post_content_warning_show_less">Voir moins</string>
     <string name="post_content_show_more">Déplier</string>
@@ -156,7 +156,7 @@
     <string name="dialog_download_image">Télécharger</string>
     <string name="dialog_message_cancel_follow_request">Révoquer la demande d’abonnement ?</string>
     <string name="dialog_unfollow_warning">Ne plus suivre ce compte ?</string>
-    <string name="dialog_delete_post_warning">Supprimer ce pouet ?</string>
+    <string name="dialog_delete_post_warning">Supprimer ce message \?</string>
     <string name="visibility_public">Public : afficher dans les fils publics</string>
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
     <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
@@ -202,7 +202,7 @@
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Non listé</string>
     <string name="post_privacy_followers_only">Abonné·e·s uniquement</string>
-    <string name="pref_post_text_size">Taille du texte pour les statuts</string>
+    <string name="pref_post_text_size">Taille du texte des messages</string>
     <string name="post_text_size_smallest">Plus petit</string>
     <string name="post_text_size_small">Petit</string>
     <string name="post_text_size_medium">Moyen</string>
@@ -243,8 +243,8 @@
       https://github.com/tuskyapp/Tusky/issues
     </string>
     <string name="about_tusky_account">Profil de Tusky</string>
-    <string name="post_share_content">Partager le contenu du pouet</string>
-    <string name="post_share_link">Partager le lien du pouet</string>
+    <string name="post_share_content">Partager le contenu du message</string>
+    <string name="post_share_link">Partager le lien du message</string>
     <string name="post_media_images">Images</string>
     <string name="post_media_video">Vidéo</string>
     <string name="state_follow_requested">Demande d’abonnement effectuée</string>
@@ -296,19 +296,19 @@
     <string name="lock_account_label">Verrouiller le compte</string>
     <string name="lock_account_label_description">Vous devez approuver manuellement les abonnements</string>
     <string name="compose_save_draft">Enregistrer comme brouillon ?</string>
-    <string name="send_post_notification_title">Envoi du pouet…</string>
-    <string name="send_post_notification_error_title">Erreur lors de l’envoi du pouet</string>
-    <string name="send_post_notification_channel_name">Envoi des pouets</string>
+    <string name="send_post_notification_title">Envoi du message…</string>
+    <string name="send_post_notification_error_title">Erreur lors de l’envoi du message</string>
+    <string name="send_post_notification_channel_name">Envoi des messages</string>
     <string name="send_post_notification_cancel_title">Envoi annulé</string>
-    <string name="send_post_notification_saved_content">Une copie du pouet a été sauvegardée dans vos brouillons</string>
+    <string name="send_post_notification_saved_content">Une copie du message a été sauvegardée dans vos brouillons</string>
     <string name="action_compose_shortcut">Écrire</string>
     <string name="error_no_custom_emojis">Votre instance %s n’a pas d’émojis personnalisés</string>
     <string name="emoji_style">Style d’émojis</string>
     <string name="system_default">Par défaut du système</string>
     <string name="download_fonts">Vous devez commencer par télécharger ces jeux d’émojis</string>
     <string name="performing_lookup_title">Recherche en cours…</string>
-    <string name="expand_collapse_all_posts">Déplier/replier tout les statuts</string>
-    <string name="action_open_post">Ouvrir le pouet</string>
+    <string name="expand_collapse_all_posts">Déplier/replier tout les messages</string>
+    <string name="action_open_post">Ouvrir le message</string>
     <string name="restart_required">Un redémarrage de l’application est nécessaire</string>
     <string name="restart_emoji">Vous devrez redémarrer Tusky pour appliquer ces modifications</string>
     <string name="later">Plus tard</string>
@@ -350,16 +350,12 @@
         <item quantity="one">maximum de %1$d onglet atteint</item>
         <item quantity="other">maximum de %1$d onglets atteint</item>
     </plurals>
-    <string name="description_post_media">        Média : %s
-    </string>
+    <string name="description_post_media">Média : %s</string>
     <string name="description_post_cw">        Avertissement : %s
     </string>
-    <string name="description_post_media_no_description_placeholder">        Pas de description
-    </string>
-    <string name="description_post_reblogged">        Reblogué
-    </string>
-    <string name="description_post_favourited">        Mis en favoris
-    </string>
+    <string name="description_post_media_no_description_placeholder">Aucune description</string>
+    <string name="description_post_reblogged">Partagé</string>
+    <string name="description_post_favourited">Mis en favoris</string>
     <string name="description_visiblity_public">        Public
     </string>
     <string name="description_visiblity_unlisted">Non listé</string>
@@ -377,7 +373,7 @@
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_post_warning">Effacer et ré-écrire ce pouet \?</string>
+    <string name="dialog_redraft_post_warning">Effacer et ré-écrire ce message \?</string>
     <string name="poll_info_time_absolute">Termina à %s</string>
     <string name="poll_info_closed">Terminé</string>
     <string name="poll_vote">Voter</string>
@@ -390,15 +386,15 @@
         <item quantity="other">%d jours restants</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d heure restant</item>
+        <item quantity="one">%d heure restante</item>
         <item quantity="other">%d heures restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minute restant</item>
+        <item quantity="one">%d minute restante</item>
         <item quantity="other">%d minutes restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d seconde restant</item>
+        <item quantity="one">%d seconde restante</item>
         <item quantity="other">%d secondes restantes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
@@ -418,7 +414,7 @@
     <string name="hint_additional_info">Commentaires additionnels</string>
     <string name="report_remote_instance">Transférer à %s</string>
     <string name="failed_report">Échec du signalement</string>
-    <string name="failed_fetch_posts">Échec de récupération des statuts</string>
+    <string name="failed_fetch_posts">Échec de récupération des messages</string>
     <string name="report_description_1">Le rapport sera envoyé aux modérateur·rice·s de votre instance. Vous pouvez expliquer pourquoi vous signalez le compte ci-dessous :</string>
     <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
     <string name="button_done">Terminé</string>
@@ -444,8 +440,8 @@
     <string name="edit_poll">Éditer</string>
     <string name="title_scheduled_posts">Pouets planifiés</string>
     <string name="action_edit">Éditer</string>
-    <string name="action_access_scheduled_posts">Pouets programmés</string>
-    <string name="action_schedule_post">Planifier le pouet</string>
+    <string name="action_access_scheduled_posts">Messages programmés</string>
+    <string name="action_schedule_post">Planifier le message</string>
     <string name="action_reset_schedule">Réinitialiser</string>
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
@@ -457,7 +453,7 @@
     <string name="list">Liste</string>
     <string name="error_audio_upload_size">Les fichiers audio doivent avoir moins de 40 Mo.</string>
     <string name="no_drafts">Vous n’avez aucun brouillon.</string>
-    <string name="no_scheduled_posts">Vous n’avez aucun pouet planifié.</string>
+    <string name="no_scheduled_posts">Vous n’avez aucun message planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
     <string name="notification_follow_request_name">Demandes d\'abonnement</string>
     <string name="dialog_block_warning">Bloquer @%s \?</string>
@@ -528,7 +524,7 @@
     <string name="post_media_audio">Audio</string>
     <string name="pref_title_confirm_favourites">Demander confirmation avant de mettre en favoris</string>
     <string name="drafts_post_reply_removed">Le message auquel répondait ce brouillon a été supprimé</string>
-    <string name="drafts_post_failed_to_send">Échec d’envoi du pouet !</string>
+    <string name="drafts_post_failed_to_send">Échec d’envoi du message !</string>
     <string name="follow_requests_info">Bien que votre compte ne soit pas verrouillé, l’équipe de %1$s a pensé que vous voudriez valider manuellement les demandes de d’abonnement provenant de ces comptes.</string>
     <string name="drafts_failed_loading_reply">Échec du chargement des informations de réponse</string>
     <string name="duration_30_days">30 jours</string>
@@ -540,23 +536,23 @@
     <string name="tusky_compose_post_quicksetting_label">Rédiger un message</string>
     <string name="notification_sign_up_format">%s a créé un compte</string>
     <string name="notification_sign_up_name">Nouveaux comptes</string>
-    <string name="notification_sign_up_description">Notifications quand quelqu\'un crée un nouveau compte</string>
+    <string name="notification_sign_up_description">Notifications quand quelqu’un crée un nouveau compte</string>
     <string name="pref_title_notification_filter_sign_ups">un nouveau compte a été créé</string>
     <string name="notification_update_format">%s a modifié son message</string>
-    <string name="pref_title_notification_filter_updates">un message avec lequel j\'ai interagi est modifié</string>
+    <string name="pref_title_notification_filter_updates">un message avec lequel j’ai interagi est modifié</string>
     <string name="notification_update_name">Messages modifiés</string>
-    <string name="notification_update_description">Notifications quand un post avec lequel vous avez interagi est modifié</string>
+    <string name="notification_update_description">Notifications quand un message avec lequel vous avez interagi est modifié</string>
     <string name="title_login">Se connecter</string>
     <string name="account_date_joined">Ici depuis %1$s</string>
     <string name="action_details">Détails</string>
     <string name="saving_draft">Sauvegarde du brouillon …</string>
     <string name="status_count_one_plus">&gt;1</string>
     <string name="dialog_push_notification_migration_other_accounts">Tusky peut maintenant recevoir les notifications instantanées de ce compte. Cependant, d\'autres de vos comptes n\'ont pas encore accès aux notifications instantanées. Basculez sur chacun de vos comptes et reconnectez les afin de recevoir les notifications avec UnifiedPush.</string>
-    <string name="error_could_not_load_login_page">La page de connexion n\'a pas pu être chargée.</string>
-    <string name="action_edit_image">Retoucher l\'image</string>
+    <string name="error_could_not_load_login_page">La page de connexion ne peut être chargée.</string>
+    <string name="action_edit_image">Retoucher l’image</string>
     <string name="action_dismiss">Fermer</string>
     <string name="title_migration_relogin">Se reconnecter pour recevoir les notifications instantanées</string>
-    <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s\'inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l\'option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
+    <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s’inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l’option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
     <string name="tips_push_notification_migration">Reconnectez tous vos comptes pour activer les notifications instantanées.</string>
-    <string name="error_image_edit_failed">L\'image n\'a pas pu être retouchée.</string>
+    <string name="error_image_edit_failed">L\'image n’a pas pu être retouchée.</string>
 </resources>
