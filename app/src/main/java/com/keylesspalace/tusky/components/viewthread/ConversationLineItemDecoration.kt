@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.view
+package com.keylesspalace.tusky.components.viewthread
 
 import android.content.Context
 import android.graphics.Canvas
@@ -22,7 +22,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.ThreadAdapter
 
 class ConversationLineItemDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
 
@@ -39,22 +38,19 @@ class ConversationLineItemDecoration(private val context: Context) : RecyclerVie
             val child = parent.getChildAt(i)
 
             val position = parent.getChildAdapterPosition(child)
-            val adapter = parent.adapter as ThreadAdapter
+            val items = (parent.adapter as ThreadAdapter).currentList
 
-            val current = adapter.getItem(position)
-            val dividerTop: Int
-            val dividerBottom: Int
+            val current = items.getOrNull(position)
+
             if (current != null) {
-                val above = adapter.getItem(position - 1)
-                dividerTop = if (above != null && above.id == current.status.inReplyToId) {
+                val above = items.getOrNull(position - 1)
+                val dividerTop = if (above != null && above.id == current.status.inReplyToId) {
                     child.top
                 } else {
                     child.top + avatarMargin
                 }
-                val below = adapter.getItem(position + 1)
-                dividerBottom = if (below != null && current.id == below.status.inReplyToId &&
-                    adapter.detailedStatusPosition != position
-                ) {
+                val below = items.getOrNull(position + 1)
+                val dividerBottom = if (below != null && current.id == below.status.inReplyToId && below.isDetailed) {
                     child.bottom
                 } else {
                     child.top + avatarMargin

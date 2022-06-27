@@ -166,10 +166,15 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): Single<Status>
 
-    @GET("api/v1/statuses/{id}/context")
-    fun statusContext(
+    @GET("api/v1/statuses/{id}")
+    suspend fun statusAsync(
         @Path("id") statusId: String
-    ): Single<StatusContext>
+    ): NetworkResult<Status>
+
+    @GET("api/v1/statuses/{id}/context")
+    suspend fun statusContext(
+        @Path("id") statusId: String
+    ): NetworkResult<StatusContext>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
     fun statusRebloggedBy(

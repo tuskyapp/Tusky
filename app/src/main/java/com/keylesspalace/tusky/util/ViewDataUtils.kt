@@ -25,13 +25,15 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 fun Status.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
-    isCollapsed: Boolean
+    isCollapsed: Boolean,
+    isDetailed: Boolean = false
 ): StatusViewData.Concrete {
     return StatusViewData.Concrete(
         status = this,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
+        isDetailed = isDetailed
     )
 }
 

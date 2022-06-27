@@ -21,12 +21,12 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.text.DateFormat;
 import java.util.Date;
 
-class StatusDetailedViewHolder extends StatusBaseViewHolder {
-    private TextView reblogs;
-    private TextView favourites;
-    private View infoDivider;
+public class StatusDetailedViewHolder extends StatusBaseViewHolder {
+    private final TextView reblogs;
+    private final TextView favourites;
+    private final View infoDivider;
 
-    StatusDetailedViewHolder(View view) {
+    public StatusDetailedViewHolder(View view) {
         super(view);
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
