@@ -537,4 +537,5 @@
     <string name="saving_draft">Lagrer kladd…</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Rediger bilde</string>
+    <string name="error_image_edit_failed">Bildet kunne ikke redigeres.</string>
 </resources>

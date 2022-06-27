@@ -545,4 +545,5 @@
     <string name="dialog_push_notification_migration">Ahhoz, hogy használhass leküldési értesítéseket a UnifiedPush szolgáltatással, a Tusky-nak fel kell iratkoznia az értesítésekre a Mastodon szervereden. Ehhez új bejelentkezésre van szükség, hogy a Tusky számára kiosztott OAuth jogosultságok megváltozzanak. Az újbóli bejelentkezés funkció használata itt vagy a Fiókbeállításoknál meg fogja őrizni a helyi piszkozataidat és a cache tartalmát.</string>
     <string name="dialog_push_notification_migration_other_accounts">Újra bejelentkeztél a fiókodba, hogy feliratkoztasd a Tusky-t a leküldési értesítések használatára. Ugyanakkor vannak még fiókjaid, melyek még nem lettek így migrálva. Válts át rájuk és jelentkezz be újra mindegyikben, hogy ezekben is engedélyezd a UnifiedPush értesítések támogatását.</string>
     <string name="action_edit_image">Kép szerkesztése</string>
+    <string name="error_image_edit_failed">A kép nem szerkeszthető.</string>
 </resources>
