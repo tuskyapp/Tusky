@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Les notifications via UnifiedPush sont à présent supportées. Pour les activer vous devrez reconnecter vos comptes.
+- Le nombre de réponses est maintenant affiché sur chaque post dans les fils.
+- Les images peuvent maintenant être rognées lors de l'écriture d'un message.
+- Les profils affichent à présent leur date de création.
+- Lorsqu'une liste est affichée, son nom apparaît maintenant dans la barre d'outils.
+- Beaucoup de bogues résolus.
+- Des améliorations sur les traductions.

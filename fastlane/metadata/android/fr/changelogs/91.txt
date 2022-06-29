@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Les nouveaux types de notifications de Mastodon 3.5 sont maintenant supportés
+- Le badge robot est maintenant plus joli et s'adapte au thème choisi
+- Il est maintenant possible de sélectionner le texte dans l'écran de détails d'un post
+- Beaucoup de bogues résolus, dont un qui empêchait de se connecter sous Android 6 ou inférieur
