@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Hỗ trợ Unified Push. Bạn cần đăng nhập lại để sử dụng được.
+- Hiện số lượng trả lời trên nút
+- Cắt ảnh khi viết tút
+- Hiện ngày tham gia Mastodon
+- Khi xem danh sách, tựa đề sẽ hiện trên toolbar
+- Sửa lỗi vặt
+- Cải thiện bản dịch
