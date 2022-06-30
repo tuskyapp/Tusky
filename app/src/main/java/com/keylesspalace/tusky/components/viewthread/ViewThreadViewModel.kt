@@ -5,32 +5,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
-import autodispose2.AutoDispose
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
-import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import com.keylesspalace.tusky.viewmodel.ListsViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
@@ -39,8 +36,9 @@ import javax.inject.Inject
 
 class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
-    private val eventHub: EventHub,
     private val filterModel: FilterModel,
+    private val timelineCases: TimelineCases,
+    eventHub: EventHub,
     accountManager: AccountManager
 ): ViewModel() {
 
@@ -64,20 +62,14 @@ class ViewThreadViewModel @Inject constructor(
             eventHub.events
                 .asFlow()
                 .collect { event ->
-                    if (event is FavoriteEvent) {
-                        handleFavEvent(event)
-                    } else if (event is ReblogEvent) {
-                        handleReblogEvent(event)
-                    } else if (event is BookmarkEvent) {
-                        handleBookmarkEvent(event)
-                    } else if (event is PinEvent) {
-                        handlePinEvent(event)
-                    } else if (event is BlockEvent) {
-                        removeAllByAccountId(event.accountId)
-                    } else if (event is StatusComposedEvent) {
-                        handleStatusComposedEvent(event)
-                    } else if (event is StatusDeletedEvent) {
-                        handleStatusDeletedEvent(event)
+                    when (event) {
+                        is FavoriteEvent -> handleFavEvent(event)
+                        is ReblogEvent -> handleReblogEvent(event)
+                        is BookmarkEvent -> handleBookmarkEvent(event)
+                        is PinEvent -> handlePinEvent(event)
+                        is BlockEvent -> removeAllByAccountId(event.accountId)
+                        is StatusComposedEvent -> handleStatusComposedEvent(event)
+                        is StatusDeletedEvent -> handleStatusDeletedEvent(event)
                     }
                 }
         }
@@ -85,26 +77,6 @@ class ViewThreadViewModel @Inject constructor(
         loadFilters()
     }
 
-    private fun handleFavEvent(event: FavoriteEvent) {
-    }
-
-    private fun handleReblogEvent(event: ReblogEvent) {
-    }
-
-    private fun handleBookmarkEvent(event: BookmarkEvent) {
-    }
-
-    private fun handlePinEvent(event: PinEvent) {
-    }
-
-    private fun removeAllByAccountId(accountId: String) {
-    }
-
-    private fun handleStatusComposedEvent(event: StatusComposedEvent) {
-    }
-
-    private fun handleStatusDeletedEvent(event: StatusDeletedEvent) {
-    }
     fun loadThread(id: String) {
         viewModelScope.launch {
             val contextCall = async { api.statusContext(id) }
@@ -120,9 +92,9 @@ class ViewThreadViewModel @Inject constructor(
 
             contextResult.fold({ statusContext ->
 
-                val ancestors = statusContext.ancestors.map { status -> status.toViewData()}
+                val ancestors = statusContext.ancestors.map { status -> status.toViewData()}.filter()
                 val detailedStatus = status.toViewData(true)
-                val descendants = statusContext.descendants.map { status -> status.toViewData()}
+                val descendants = statusContext.descendants.map { status -> status.toViewData()}.filter()
 
                 _uiState.value = ThreadUiState.Success(ancestors + detailedStatus + descendants, RevealButtonState.REVEAL)
 
@@ -137,9 +109,129 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    fun detailedStatus(): StatusViewData.Concrete? {
+        return (_uiState.value as ThreadUiState.Success?)?.statuses?.find { status ->
+            status.isDetailed
+        }
+    }
+
+    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        try {
+            timelineCases.reblog(status.actionableId, reblog).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        try {
+            timelineCases.favourite(status.actionableId, favorite).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        try {
+            timelineCases.bookmark(status.actionableId, bookmark).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        val poll = status.status.actionableStatus.poll ?: run {
+            Log.w(TAG, "No poll on status ${status.id}")
+            return@launch
+        }
+
+        val votedPoll = poll.votedCopy(choices)
+        updateStatus(status.id) { status ->
+            status.copy(poll = votedPoll)
+        }
+
+        try {
+            timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun removeStatus(statusToRemove: StatusViewData.Concrete) {
+        _uiState.updateSuccess { uiState ->
+            uiState.copy(
+                statuses = uiState.statuses.filterNot { status -> status == statusToRemove }
+            )
+        }
+    }
+
+    private fun handleFavEvent(event: FavoriteEvent) {
+        updateStatus(event.statusId) { status ->
+            status.copy(favourited = event.favourite)
+        }
+    }
+
+    private fun handleReblogEvent(event: ReblogEvent) {
+        updateStatus(event.statusId) { status ->
+            status.copy(reblogged = event.reblog)
+        }
+    }
+
+    private fun handleBookmarkEvent(event: BookmarkEvent) {
+        updateStatus(event.statusId) { status ->
+            status.copy(bookmarked = event.bookmark)
+        }
+    }
+
+    private fun handlePinEvent(event: PinEvent) {
+        updateStatus(event.statusId) { status ->
+            status.copy(pinned = event.pinned)
+        }
+    }
+
+    private fun removeAllByAccountId(accountId: String) {
+        // TODO
+    }
+
+    private fun handleStatusComposedEvent(event: StatusComposedEvent) {
+        val eventStatus = event.status
+        _uiState.updateSuccess { uiState ->
+            val statuses = uiState.statuses
+            val detailedIndex = statuses.indexOfFirst { status -> status.isDetailed }
+            val repliedIndex = statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
+            if (detailedIndex != -1 && repliedIndex >= detailedIndex) {
+                // there is a new reply to the detailed status or below -> display it
+                val newStatuses = statuses.subList(0, repliedIndex + 1) +
+                    eventStatus.toViewData() +
+                    statuses.subList(repliedIndex + 1, statuses.size)
+                uiState.copy(statuses = newStatuses)
+            } else {
+                uiState
+            }
+        }
+    }
+
+    private fun handleStatusDeletedEvent(event: StatusDeletedEvent) {
+        _uiState.updateSuccess { uiState ->
+            uiState.copy(
+                statuses = uiState.statuses.filter { status ->
+                    status.id != event.statusId
+                }
+            )
+        }
+    }
+
     fun toggleRevealButton() {
-        _uiState.update { uiState ->
-            if (uiState is ThreadUiState.Success && uiState.revealButton != RevealButtonState.HIDDEN) {
+        _uiState.updateSuccess { uiState ->
+            if (uiState.revealButton != RevealButtonState.HIDDEN) {
                 uiState.copy(
                     revealButton = if (uiState.revealButton == RevealButtonState.HIDE) {
                         RevealButtonState.REVEAL
@@ -151,10 +243,6 @@ class ViewThreadViewModel @Inject constructor(
                 uiState
             }
         }
-    }
-
-    private fun handleEvent(event: Event) {
-       
     }
 
     private fun loadFilters() {
@@ -171,7 +259,17 @@ class ViewThreadViewModel @Inject constructor(
                 }
             )
 
+            _uiState.updateSuccess { uiState ->
+                uiState.copy(
+                    statuses = uiState.statuses.filter()
+                )
+            }
+        }
+    }
 
+    private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
+        return filter { status ->
+            !status.isDetailed && filterModel.shouldFilterStatus(status.status)
         }
     }
 
@@ -182,6 +280,32 @@ class ViewThreadViewModel @Inject constructor(
             isCollapsed = !detailed,
             isDetailed = detailed
         )
+    }
+
+    private inline fun MutableStateFlow<ThreadUiState>.updateSuccess(updater: (ThreadUiState.Success) -> ThreadUiState.Success) {
+        update { uiState ->
+            if (uiState is ThreadUiState.Success) {
+                updater(uiState)
+            } else {
+                uiState
+            }
+        }
+    }
+
+    private fun updateStatus(statusId: String, updater: (Status) -> Status) {
+        _uiState.updateSuccess { uiState ->
+            uiState.copy(
+                statuses = uiState.statuses.map { viewData ->
+                    if (viewData.id == statusId) {
+                        viewData.copy(
+                            status = updater(viewData.status)
+                        )
+                    } else {
+                        viewData
+                    }
+                }
+            )
+        }
     }
 
     companion object {
