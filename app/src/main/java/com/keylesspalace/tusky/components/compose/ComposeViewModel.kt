@@ -219,7 +219,7 @@ class ComposeViewModel @Inject constructor(
         val contentWarningChanged = showContentWarning.value!! &&
             !contentWarning.isNullOrEmpty() &&
             !startingContentWarning.startsWith(contentWarning.toString())
-        val mediaChanged = !media.value.isNullOrEmpty()
+        val mediaChanged = media.value.isNotEmpty()
         val pollChanged = poll.value != null
 
         return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged
