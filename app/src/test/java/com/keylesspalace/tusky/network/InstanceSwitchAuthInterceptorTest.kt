@@ -20,7 +20,7 @@ class InstanceSwitchAuthInterceptorTest {
 
     @Before
     fun setup() {
-        mockWebServer.start(80)
+        mockWebServer.start()
     }
 
     @After
@@ -74,7 +74,7 @@ class InstanceSwitchAuthInterceptorTest {
 
         val request = Request.Builder()
             .get()
-            .url("http://" + MastodonApi.PLACEHOLDER_DOMAIN + "/test")
+            .url("http://" + MastodonApi.PLACEHOLDER_DOMAIN + ":" + mockWebServer.port + "/test")
             .header(MastodonApi.DOMAIN_HEADER, mockWebServer.hostName)
             .build()
 
@@ -108,7 +108,7 @@ class InstanceSwitchAuthInterceptorTest {
 
         val request = Request.Builder()
             .get()
-            .url("http://" + MastodonApi.PLACEHOLDER_DOMAIN + "/test")
+            .url("http://" + MastodonApi.PLACEHOLDER_DOMAIN + ":" + mockWebServer.port + "/test")
             .build()
 
         val response = okHttpClient.newCall(request).execute()
@@ -138,5 +138,6 @@ class InstanceSwitchAuthInterceptorTest {
         val response = okHttpClient.newCall(request).execute()
 
         assertEquals(400, response.code)
+        assertEquals(0, mockWebServer.requestCount)
     }
 }
