@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.rickRoll
@@ -236,30 +237,48 @@ class LoginActivity : BaseActivity(), Injectable {
             domain, clientId, clientSecret, oauthRedirectUri, code, "authorization_code"
         ).fold(
             { accessToken ->
-                accountManager.addAccount(
-                    accessToken = accessToken.accessToken,
-                    domain = domain,
-                    clientId = clientId,
-                    clientSecret = clientSecret,
-                    oauthScopes = OAUTH_SCOPES
-                )
-
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
-                overridePendingTransition(R.anim.explode, R.anim.explode)
+                fetchAccountDetails(accessToken, domain, clientId, clientSecret)
             },
             { e ->
                 setLoading(false)
                 binding.domainTextInputLayout.error =
                     getString(R.string.error_retrieving_oauth_token)
-                Log.e(
-                    TAG,
-                    "%s %s".format(getString(R.string.error_retrieving_oauth_token), e.message),
-                )
+                Log.e(TAG, getString(R.string.error_retrieving_oauth_token), e)
             }
         )
+    }
+
+    private suspend fun fetchAccountDetails(
+        accessToken: AccessToken,
+        domain: String,
+        clientId: String,
+        clientSecret: String
+    ) {
+
+        mastodonApi.accountVerifyCredentials(
+            domain = domain,
+            auth = "Bearer ${accessToken.accessToken}"
+        ).fold({ newAccount ->
+            accountManager.addAccount(
+                accessToken = accessToken.accessToken,
+                domain = domain,
+                clientId = clientId,
+                clientSecret = clientSecret,
+                oauthScopes = OAUTH_SCOPES,
+                newAccount = newAccount
+            )
+
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            overridePendingTransition(R.anim.explode, R.anim.explode)
+        }, { e ->
+            setLoading(false)
+            binding.domainTextInputLayout.error =
+                getString(R.string.error_loading_account_details)
+            Log.e(TAG, getString(R.string.error_loading_account_details), e)
+        })
     }
 
     private fun setLoading(loadingState: Boolean) {

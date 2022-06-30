@@ -48,18 +48,21 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     }
 
     /**
-     * Adds a new empty account and makes it the active account.
-     * More account information has to be added later with [updateActiveAccount]
-     * or the account wont be saved to the database.
+     * Adds a new account and makes it the active account.
      * @param accessToken the access token for the new account
      * @param domain the domain of the accounts Mastodon instance
+     * @param clientId the oauth client id used to sign in the account
+     * @param clientSecret the oauth client secret used to sign in the account
+     * @param oauthScopes the oauth scopes granted to the account
+     * @param newAccount the [Account] as returned by the Mastodon Api
      */
     fun addAccount(
         accessToken: String,
         domain: String,
         clientId: String,
         clientSecret: String,
-        oauthScopes: String
+        oauthScopes: String,
+        newAccount: Account
     ) {
 
         activeAccount?.let {
@@ -68,18 +71,31 @@ class AccountManager @Inject constructor(db: AppDatabase) {
 
             accountDao.insertOrReplace(it)
         }
-
-        val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
-        val newAccountId = maxAccountId + 1
-        activeAccount = AccountEntity(
-            id = newAccountId,
-            domain = domain.lowercase(Locale.ROOT),
+        // check if this is a relogin with an existing account, if yes update it, otherwise create a new one
+        val newAccountEntity = accounts.find { account ->
+            domain == account.domain && newAccount.id == account.accountId
+        }?.copy(
             accessToken = accessToken,
             clientId = clientId,
             clientSecret = clientSecret,
-            oauthScopes = oauthScopes,
-            isActive = true
-        )
+            oauthScopes = oauthScopes
+        ) ?: run {
+            val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
+            val newAccountId = maxAccountId + 1
+            AccountEntity(
+                id = newAccountId,
+                domain = domain.lowercase(Locale.ROOT),
+                accessToken = accessToken,
+                clientId = clientId,
+                clientSecret = clientSecret,
+                oauthScopes = oauthScopes,
+                isActive = true,
+                accountId = newAccount.id
+            ).also { accounts.add(it) }
+        }
+
+        activeAccount = newAccountEntity
+        updateActiveAccount(newAccount)
     }
 
     /**
@@ -135,17 +151,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.emojis = account.emojis ?: emptyList()
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
-            it.id = accountDao.insertOrReplace(it)
-
-            val accountIndex = accounts.indexOf(it)
-
-            if (accountIndex != -1) {
-                // in case the user was already logged in with this account, remove the old information
-                accounts.removeAt(accountIndex)
-                accounts.add(accountIndex, it)
-            } else {
-                accounts.add(it)
-            }
+            accountDao.insertOrReplace(it)
         }
     }
 
