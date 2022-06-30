@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Soporte para Unified Push. Para activar a función tes que volver a acceder ás túas contas.
+- Agora aparece nas cronoloxías o número de respostas a unha publicación.
+- Podes recortar as imaxes cando escribes unha publicación.
+- Os perfís mostran a data na que foron creados.
+- Móstrase o título da lista na barra de ferramentas ao visualizala.
+- Arranxamos moitos fallos.
+- Melloras nas traducións.
