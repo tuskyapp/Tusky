@@ -77,11 +77,11 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         }
         val newAccountEntity = if (existingAccountIndex != -1) {
             accounts[existingAccountIndex].copy(
-                    accessToken = accessToken,
-                    clientId = clientId,
-                    clientSecret = clientSecret,
-                    oauthScopes = oauthScopes,
-                    isActive = true
+                accessToken = accessToken,
+                clientId = clientId,
+                clientSecret = clientSecret,
+                oauthScopes = oauthScopes,
+                isActive = true
             ).also { accounts[existingAccountIndex] = it }
         } else {
             val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
