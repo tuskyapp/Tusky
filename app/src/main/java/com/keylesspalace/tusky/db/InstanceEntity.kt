@@ -31,7 +31,10 @@ data class InstanceEntity(
     val minPollDuration: Int?,
     val maxPollDuration: Int?,
     val charactersReservedPerUrl: Int?,
-    val version: String?
+    val version: String?,
+    val videoSizeLimit: Int?,
+    val imageSizeLimit: Int?,
+    val imageMatrixLimit: Int?
 )
 
 @TypeConverters(Converters::class)
@@ -48,5 +51,8 @@ data class InstanceInfoEntity(
     val minPollDuration: Int?,
     val maxPollDuration: Int?,
     val charactersReservedPerUrl: Int?,
-    val version: String?
+    val version: String?,
+    val videoSizeLimit: Int?,
+    val imageSizeLimit: Int?,
+    val imageMatrixLimit: Int?
 )

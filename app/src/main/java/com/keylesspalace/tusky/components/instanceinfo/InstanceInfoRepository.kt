@@ -69,7 +69,10 @@ class InstanceInfoRepository @Inject constructor(
                         minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
                         maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
                         charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
-                        version = instance.version
+                        version = instance.version,
+                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit,
+                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit,
+                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit
                     )
                     dao.insertOrReplace(instanceEntity)
                     instanceEntity
@@ -85,7 +88,10 @@ class InstanceInfoRepository @Inject constructor(
                     pollMaxLength = instanceInfo?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
                     pollMinDuration = instanceInfo?.minPollDuration ?: DEFAULT_MIN_POLL_DURATION,
                     pollMaxDuration = instanceInfo?.maxPollDuration ?: DEFAULT_MAX_POLL_DURATION,
-                    charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL
+                    charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
+                    videoSizeLimit = instanceInfo?.videoSizeLimit ?: DEFAULT_VIDEO_SIZE_LIMIT,
+                    imageSizeLimit = instanceInfo?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
+                    imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT
                 )
             }
     }
@@ -98,6 +104,10 @@ class InstanceInfoRepository @Inject constructor(
         private const val DEFAULT_MAX_OPTION_LENGTH = 50
         private const val DEFAULT_MIN_POLL_DURATION = 300
         private const val DEFAULT_MAX_POLL_DURATION = 604800
+
+        private const val DEFAULT_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
+        private const val DEFAULT_IMAGE_SIZE_LIMIT = 10485760 // 10MiB
+        private const val DEFAULT_IMAGE_MATRIX_LIMIT = 16777216 // 4096^2 Pixels
 
         // Mastodon only counts URLs as this long in terms of status character limits
         const val DEFAULT_CHARACTERS_RESERVED_PER_URL = 23

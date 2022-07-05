@@ -21,5 +21,8 @@ data class InstanceInfo(
     val pollMaxLength: Int,
     val pollMinDuration: Int,
     val pollMaxDuration: Int,
-    val charactersReservedPerUrl: Int
+    val charactersReservedPerUrl: Int,
+    val videoSizeLimit: Int,
+    val imageSizeLimit: Int,
+    val imageMatrixLimit: Int
 )
