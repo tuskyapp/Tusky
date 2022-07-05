@@ -72,14 +72,18 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             accountDao.insertOrReplace(it)
         }
         // check if this is a relogin with an existing account, if yes update it, otherwise create a new one
-        val newAccountEntity = accounts.find { account ->
+        val existingAccountIndex = accounts.indexOfFirst { account ->
             domain == account.domain && newAccount.id == account.accountId
-        }?.copy(
-            accessToken = accessToken,
-            clientId = clientId,
-            clientSecret = clientSecret,
-            oauthScopes = oauthScopes
-        ) ?: run {
+        }
+        val newAccountEntity = if (existingAccountIndex != -1) {
+            accounts[existingAccountIndex].copy(
+                accessToken = accessToken,
+                clientId = clientId,
+                clientSecret = clientSecret,
+                oauthScopes = oauthScopes,
+                isActive = true
+            ).also { accounts[existingAccountIndex] = it }
+        } else {
             val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
             val newAccountId = maxAccountId + 1
             AccountEntity(
