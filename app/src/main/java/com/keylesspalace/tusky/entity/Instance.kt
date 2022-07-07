@@ -32,6 +32,7 @@ data class Instance(
     @SerializedName("max_bio_chars") val maxBioChars: Int?,
     @SerializedName("poll_limits") val pollConfiguration: PollConfiguration?,
     val configuration: InstanceConfiguration?,
+    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?
 ) {
     override fun hashCode(): Int {
         return uri.hashCode()

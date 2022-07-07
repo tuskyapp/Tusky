@@ -24,5 +24,6 @@ data class InstanceInfo(
     val charactersReservedPerUrl: Int,
     val videoSizeLimit: Int,
     val imageSizeLimit: Int,
-    val imageMatrixLimit: Int
+    val imageMatrixLimit: Int,
+    val maxMediaAttachments: Int
 )

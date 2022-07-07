@@ -137,7 +137,7 @@ class ComposeActivity :
 
     private val binding by viewBinding(ActivityComposeBinding::inflate)
 
-    private val maxUploadMediaNumber = 4
+    private var maxUploadMediaNumber = 4
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
@@ -365,6 +365,7 @@ class ComposeActivity :
             viewModel.instanceInfo.collect { instanceData ->
                 maximumTootCharacters = instanceData.maxChars
                 charactersReservedPerUrl = instanceData.charactersReservedPerUrl
+                maxUploadMediaNumber = instanceData.maxMediaAttachments
                 updateVisibleCharactersLeft()
             }
         }
@@ -386,7 +387,6 @@ class ComposeActivity :
 
         lifecycleScope.launch {
             viewModel.media.collect { media ->
-                Log.w(TAG, "media: $media")
                 mediaAdapter.submitList(media)
 
                 binding.composeMediaPreviewBar.visible(media.isNotEmpty())
@@ -415,7 +415,7 @@ class ComposeActivity :
         lifecycleScope.launch {
             viewModel.media.combine(viewModel.poll) { media, poll ->
                 val active = poll == null &&
-                    media.size != 4 &&
+                    media.size < maxUploadMediaNumber &&
                     (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
                 enableButton(binding.composeAddMediaButton, active, active)
                 enablePollButton(media.isEmpty())

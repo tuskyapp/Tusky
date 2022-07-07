@@ -72,7 +72,8 @@ class InstanceInfoRepository @Inject constructor(
                         version = instance.version,
                         videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit,
                         imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit,
-                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit
+                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
+                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments
                     )
                     dao.insertOrReplace(instanceEntity)
                     instanceEntity
@@ -91,7 +92,8 @@ class InstanceInfoRepository @Inject constructor(
                     charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
                     videoSizeLimit = instanceInfo?.videoSizeLimit ?: DEFAULT_VIDEO_SIZE_LIMIT,
                     imageSizeLimit = instanceInfo?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
-                    imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT
+                    imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT,
+                    maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS
                 )
             }
     }
@@ -111,5 +113,7 @@ class InstanceInfoRepository @Inject constructor(
 
         // Mastodon only counts URLs as this long in terms of status character limits
         const val DEFAULT_CHARACTERS_RESERVED_PER_URL = 23
+
+        const val DEFAULT_MAX_MEDIA_ATTACHMENTS = 4
     }
 }

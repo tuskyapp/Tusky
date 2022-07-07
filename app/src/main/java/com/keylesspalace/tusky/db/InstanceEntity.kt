@@ -34,7 +34,8 @@ data class InstanceEntity(
     val version: String?,
     val videoSizeLimit: Int?,
     val imageSizeLimit: Int?,
-    val imageMatrixLimit: Int?
+    val imageMatrixLimit: Int?,
+    val maxMediaAttachments: Int?
 )
 
 @TypeConverters(Converters::class)
@@ -54,5 +55,6 @@ data class InstanceInfoEntity(
     val version: String?,
     val videoSizeLimit: Int?,
     val imageSizeLimit: Int?,
-    val imageMatrixLimit: Int?
+    val imageMatrixLimit: Int?,
+    val maxMediaAttachments: Int?
 )
