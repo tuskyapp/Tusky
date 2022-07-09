@@ -39,6 +39,7 @@
             android:id="@+id/accountFieldValueTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:hint="@string/profile_metadata_content_label"
             app:counterTextColor="?android:textColorTertiary">
 
