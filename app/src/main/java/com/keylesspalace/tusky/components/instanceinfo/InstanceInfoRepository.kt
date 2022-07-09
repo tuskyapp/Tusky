@@ -73,7 +73,10 @@ class InstanceInfoRepository @Inject constructor(
                         videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit,
                         imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit,
                         imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
-                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments
+                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
+                        maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
+                        maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
                     )
                     dao.insertOrReplace(instanceEntity)
                     instanceEntity
@@ -93,7 +96,10 @@ class InstanceInfoRepository @Inject constructor(
                     videoSizeLimit = instanceInfo?.videoSizeLimit ?: DEFAULT_VIDEO_SIZE_LIMIT,
                     imageSizeLimit = instanceInfo?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
                     imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT,
-                    maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS
+                    maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
+                    maxFields = instanceInfo?.maxFields ?: MAX_ACCOUNT_FIELDS,
+                    maxFieldNameLength = instanceInfo?.maxFieldNameLength,
+                    maxFieldValueLength = instanceInfo?.maxFieldValueLength
                 )
             }
     }
@@ -115,5 +121,6 @@ class InstanceInfoRepository @Inject constructor(
         const val DEFAULT_CHARACTERS_RESERVED_PER_URL = 23
 
         const val DEFAULT_MAX_MEDIA_ATTACHMENTS = 4
+        const val MAX_ACCOUNT_FIELDS = 4
     }
 }

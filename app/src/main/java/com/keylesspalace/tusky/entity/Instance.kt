@@ -29,10 +29,10 @@ data class Instance(
     // val languages: List<String>,
     // @SerializedName("contact_account") val contactAccount: Account,
     @SerializedName("max_toot_chars") val maxTootChars: Int?,
-    @SerializedName("max_bio_chars") val maxBioChars: Int?,
     @SerializedName("poll_limits") val pollConfiguration: PollConfiguration?,
     val configuration: InstanceConfiguration?,
-    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?
+    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
+    val pleroma: PleromaConfiguration?
 ) {
     override fun hashCode(): Int {
         return uri.hashCode()
@@ -74,4 +74,18 @@ data class MediaAttachmentConfiguration(
     @SerializedName("video_size_limit") val videoSizeLimit: Int?,
     @SerializedName("video_frame_rate_limit") val videoFrameRateLimit: Int?,
     @SerializedName("video_matrix_limit") val videoMatrixLimit: Int?,
+)
+
+data class PleromaConfiguration(
+    val metadata: PleromaMetadata?
+)
+
+data class PleromaMetadata(
+    @SerializedName("fields_limits") val fieldLimits: PleromaFieldLimits
+)
+
+data class PleromaFieldLimits(
+    @SerializedName("max_fields") val maxFields: Int?,
+    @SerializedName("name_length") val nameLength: Int?,
+    @SerializedName("value_length") val valueLength: Int?
 )
