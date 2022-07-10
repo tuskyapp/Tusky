@@ -97,7 +97,7 @@ class InstanceInfoRepository @Inject constructor(
                     imageSizeLimit = instanceInfo?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
                     imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT,
                     maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
-                    maxFields = instanceInfo?.maxFields ?: MAX_ACCOUNT_FIELDS,
+                    maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
                     maxFieldNameLength = instanceInfo?.maxFieldNameLength,
                     maxFieldValueLength = instanceInfo?.maxFieldValueLength
                 )
@@ -121,6 +121,6 @@ class InstanceInfoRepository @Inject constructor(
         const val DEFAULT_CHARACTERS_RESERVED_PER_URL = 23
 
         const val DEFAULT_MAX_MEDIA_ATTACHMENTS = 4
-        const val MAX_ACCOUNT_FIELDS = 4
+        const val DEFAULT_MAX_ACCOUNT_FIELDS = 4
     }
 }

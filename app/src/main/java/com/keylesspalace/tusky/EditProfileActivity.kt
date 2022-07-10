@@ -72,7 +72,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private val accountFieldEditAdapter = AccountFieldEditAdapter()
 
-    private var maxAccountFields = InstanceInfoRepository.MAX_ACCOUNT_FIELDS
+    private var maxAccountFields = InstanceInfoRepository.DEFAULT_MAX_ACCOUNT_FIELDS
 
     private enum class PickType {
         AVATAR,

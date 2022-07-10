@@ -137,7 +137,7 @@ class ComposeActivity :
 
     private val binding by viewBinding(ActivityComposeBinding::inflate)
 
-    private var maxUploadMediaNumber = 4
+    private var maxUploadMediaNumber = InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
