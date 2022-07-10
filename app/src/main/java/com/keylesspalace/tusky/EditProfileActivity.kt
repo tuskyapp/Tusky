@@ -137,7 +137,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         binding.lockedCheckBox.isChecked = me.locked
 
                         accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
-                        binding.addFieldButton.isEnabled =
+                        binding.addFieldButton.isVisible =
                             (me.source?.fields?.size ?: 0) < maxAccountFields
 
                         if (viewModel.avatarData.value == null) {
@@ -173,6 +173,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
             viewModel.instanceData.collect { instanceInfo ->
                 maxAccountFields = instanceInfo.maxFields
                 accountFieldEditAdapter.setFieldLimits(instanceInfo.maxFieldNameLength, instanceInfo.maxFieldValueLength)
+                binding.addFieldButton.isVisible =
+                    accountFieldEditAdapter.itemCount < maxAccountFields
             }
         }
 
