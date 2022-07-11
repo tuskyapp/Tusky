@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Støtte for Unified Push. For å aktivisere dette må du logg inne på kontoene dine på nytt.
+- Antall tilbakemeldinger på et innlegg vises nå i tidslinjene.
+- Bilder kan nå beskjæres når innlegget opprettes.
+- Dato nå en profil ble opprettes vises.
+- Visning av liste viser nå navnet på listen i verktøylinjen.
+- En mengde feilfikser.
+- Oppdaterte oversettelser.
