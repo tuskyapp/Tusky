@@ -157,7 +157,14 @@ private fun buildSubscriptionData(context: Context, account: AccountEntity): Map
     }
 
 // Called by UnifiedPush callback
-suspend fun registerUnifiedPushEndpoint(context: Context, api: MastodonApi, accountManager: AccountManager, account: AccountEntity, endpoint: String) {
+suspend fun registerUnifiedPushEndpoint(
+    context: Context,
+    api: MastodonApi,
+    accountManager: AccountManager,
+    account: AccountEntity,
+    endpoint: String
+) = withContext(Dispatchers.IO) {
+
     // Generate a prime256v1 key pair for WebPush
     // Decryption is unimplemented for now, since Mastodon uses an old WebPush
     // standard which does not send needed information for decryption in the payload
@@ -166,27 +173,22 @@ suspend fun registerUnifiedPushEndpoint(context: Context, api: MastodonApi, acco
     val keyPair = CryptoUtil.generateECKeyPair(CryptoUtil.CURVE_PRIME256_V1)
     val auth = CryptoUtil.secureRandomBytesEncoded(16)
 
-    withContext(Dispatchers.IO) {
-        api.subscribePushNotifications(
-            "Bearer ${account.accessToken}", account.domain,
-            endpoint, keyPair.pubkey, auth,
-            buildSubscriptionData(context, account)
-        ).onFailure {
-            Log.d(TAG, "Error setting push endpoint for account ${account.id}")
-            Log.d(TAG, Log.getStackTraceString(it))
-            Log.d(TAG, (it as HttpException).response().toString())
+    api.subscribePushNotifications(
+        "Bearer ${account.accessToken}", account.domain,
+        endpoint, keyPair.pubkey, auth,
+        buildSubscriptionData(context, account)
+    ).onFailure { throwable ->
+        Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
+        disableUnifiedPushNotificationsForAccount(context, account)
+    }.onSuccess {
+        Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
 
-            disableUnifiedPushNotificationsForAccount(context, account)
-        }.onSuccess {
-            Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
-
-            account.pushPubKey = keyPair.pubkey
-            account.pushPrivKey = keyPair.privKey
-            account.pushAuth = auth
-            account.pushServerKey = it.serverKey
-            account.unifiedPushUrl = endpoint
-            accountManager.saveAccount(account)
-        }
+        account.pushPubKey = keyPair.pubkey
+        account.pushPrivKey = keyPair.privKey
+        account.pushAuth = auth
+        account.pushServerKey = it.serverKey
+        account.unifiedPushUrl = endpoint
+        accountManager.saveAccount(account)
     }
 }
 
