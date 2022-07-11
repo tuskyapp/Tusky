@@ -546,4 +546,5 @@
     <string name="dialog_push_notification_migration_other_accounts">Újra bejelentkeztél a fiókodba, hogy feliratkoztasd a Tusky-t a leküldési értesítések használatára. Ugyanakkor vannak még fiókjaid, melyek még nem lettek így migrálva. Válts át rájuk és jelentkezz be újra mindegyikben, hogy ezekben is engedélyezd a UnifiedPush értesítések támogatását.</string>
     <string name="action_edit_image">Kép szerkesztése</string>
     <string name="error_image_edit_failed">A kép nem szerkeszthető.</string>
+    <string name="error_loading_account_details">Nem sikerült betölteni a fiókadatokat</string>
 </resources>
