@@ -173,6 +173,24 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(isExpanded = expanded)
+        }
+    }
+
+    fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(isShowingContent = isShowing)
+        }
+    }
+
+    fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(isCollapsed = isCollapsed)
+        }
+    }
+
     private fun handleFavEvent(event: FavoriteEvent) {
         updateStatus(event.statusId) { status ->
             status.copy(favourited = event.favourite)
@@ -292,18 +310,24 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun updateStatus(statusId: String, updater: (Status) -> Status) {
+    private fun updateStatusViewData(statusId: String, updater: (StatusViewData.Concrete) -> StatusViewData.Concrete) {
         _uiState.updateSuccess { uiState ->
             uiState.copy(
                 statuses = uiState.statuses.map { viewData ->
                     if (viewData.id == statusId) {
-                        viewData.copy(
-                            status = updater(viewData.status)
-                        )
+                        updater(viewData)
                     } else {
                         viewData
                     }
                 }
+            )
+        }
+    }
+
+    private fun updateStatus(statusId: String, updater: (Status) -> Status) {
+        updateStatusViewData(statusId) { viewData ->
+            viewData.copy(
+                status = updater(viewData.status)
             )
         }
     }

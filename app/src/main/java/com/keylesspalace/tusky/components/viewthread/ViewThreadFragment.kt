@@ -197,13 +197,11 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-
-
+        viewModel.changeExpanded(expanded, adapter.currentList[position])
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-
-
+        viewModel.changeContentShowing(isShowing, adapter.currentList[position])
     }
 
 
@@ -214,18 +212,18 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.currentList[position].id
-        val intent = newIntent(context!!, AccountListActivity.Type.REBLOGGED, statusId)
-        (activity as BaseActivity?)!!.startActivityWithSlideInAnimation(intent)
+        val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
+        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
         val statusId = adapter.currentList[position].id
-        val intent = newIntent(context!!, AccountListActivity.Type.FAVOURITED, statusId)
-        (activity as BaseActivity?)!!.startActivityWithSlideInAnimation(intent)
+        val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
+        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        // TODO
+        viewModel.changeContentCollapsed(isCollapsed, adapter.currentList[position])
     }
 
     override fun onViewTag(tag: String) {
