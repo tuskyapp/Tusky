@@ -40,7 +40,7 @@ class ViewThreadViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     eventHub: EventHub,
     accountManager: AccountManager
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ThreadUiState> = MutableStateFlow(ThreadUiState.Loading)
     val uiState: Flow<ThreadUiState>
@@ -92,13 +92,12 @@ class ViewThreadViewModel @Inject constructor(
 
             contextResult.fold({ statusContext ->
 
-                val ancestors = statusContext.ancestors.map { status -> status.toViewData()}.filter()
+                val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
                 val detailedStatus = status.toViewData(true)
-                val descendants = statusContext.descendants.map { status -> status.toViewData()}.filter()
+                val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
 
                 _uiState.value = ThreadUiState.Success(ancestors + detailedStatus + descendants, RevealButtonState.REVEAL)
-
-            },{ throwable ->
+            }, { throwable ->
                 Log.w("ViewThreadViewModel", "failed to load status context", throwable)
 
                 _uiState.value = ThreadUiState.Success(
@@ -338,12 +337,12 @@ class ViewThreadViewModel @Inject constructor(
 }
 
 sealed interface ThreadUiState {
-    object Loading: ThreadUiState
-    class Error(val throwable: Throwable): ThreadUiState
+    object Loading : ThreadUiState
+    class Error(val throwable: Throwable) : ThreadUiState
     data class Success(
         val statuses: List<StatusViewData.Concrete>,
         val revealButton: RevealButtonState
-    ): ThreadUiState
+    ) : ThreadUiState
 }
 
 enum class RevealButtonState {

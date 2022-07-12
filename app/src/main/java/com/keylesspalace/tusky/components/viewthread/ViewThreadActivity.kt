@@ -16,17 +16,16 @@
 package com.keylesspalace.tusky.components.viewthread
 
 import android.content.Context
-import com.keylesspalace.tusky.BottomSheetActivity
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
-import dagger.android.DispatchingAndroidInjector
-import android.os.Bundle
-import com.keylesspalace.tusky.R
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import java.lang.IllegalArgumentException
+import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.R
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import javax.inject.Inject
 
 class ViewThreadActivity : BottomSheetActivity(), HasAndroidInjector {
 

@@ -87,10 +87,11 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       return inflater.inflate(R.layout.fragment_view_thread, container, false)
+        return inflater.inflate(R.layout.fragment_view_thread, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -204,11 +205,9 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         viewModel.changeContentShowing(isShowing, adapter.currentList[position])
     }
 
-
     override fun onLoadMore(position: Int) {
         // on used in timelines
     }
-
 
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.currentList[position].id
@@ -241,7 +240,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             activity?.finish()
             return
         }
-       viewModel.removeStatus(status)
+        viewModel.removeStatus(status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
