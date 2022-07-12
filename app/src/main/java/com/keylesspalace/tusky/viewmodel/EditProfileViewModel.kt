@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -39,9 +40,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.HttpException
 import java.io.File
 import javax.inject.Inject
 
@@ -156,21 +154,7 @@ class EditProfileViewModel @Inject constructor(
                     eventHub.dispatch(ProfileEditedEvent(newProfileData))
                 },
                 { throwable ->
-                    if (throwable is HttpException) {
-                        val errorResponse = throwable.response()?.errorBody()?.string()
-                        val errorMsg = if (!errorResponse.isNullOrBlank()) {
-                            try {
-                                JSONObject(errorResponse).optString("error", "")
-                            } catch (e: JSONException) {
-                                null
-                            }
-                        } else {
-                            null
-                        }
-                        saveData.postValue(Error(errorMessage = errorMsg))
-                    } else {
-                        saveData.postValue(Error())
-                    }
+                    saveData.postValue(Error(errorMessage = throwable.getServerErrorMessage()))
                 }
             )
         }

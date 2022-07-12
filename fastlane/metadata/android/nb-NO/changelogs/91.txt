@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Støtte for Mastodon 3.5-varslingstyper
+- Bot-symbolet ser nå bedre ut og endrer seg basert på valgt tema
+- Det er nå mulig å markere tekst i skjermbildet som viser innleggsdetaljer
+- Fikset flere feil, inkludert en som hindret innlogging på Android 6 og eldre versjoner

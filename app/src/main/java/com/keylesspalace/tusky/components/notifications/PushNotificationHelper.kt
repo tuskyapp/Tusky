@@ -51,7 +51,12 @@ private fun accountNeedsMigration(account: AccountEntity): Boolean =
 fun currentAccountNeedsMigration(accountManager: AccountManager): Boolean =
     accountManager.activeAccount?.let(::accountNeedsMigration) ?: false
 
-fun showMigrationNoticeIfNecessary(context: Context, parent: View, accountManager: AccountManager) {
+fun showMigrationNoticeIfNecessary(
+    context: Context,
+    parent: View,
+    anchorView: View?,
+    accountManager: AccountManager
+) {
     // No point showing anything if we cannot enable it
     if (!isUnifiedPushAvailable(context)) return
     if (!anyAccountNeedsMigration(accountManager)) return
@@ -59,10 +64,10 @@ fun showMigrationNoticeIfNecessary(context: Context, parent: View, accountManage
     val pm = PreferenceManager.getDefaultSharedPreferences(context)
     if (pm.getBoolean(KEY_MIGRATION_NOTICE_DISMISSED, false)) return
 
-    Snackbar.make(parent, R.string.tips_push_notification_migration, Snackbar.LENGTH_INDEFINITE).apply {
-        setAction(R.string.action_details) { showMigrationExplanationDialog(context, accountManager) }
-        show()
-    }
+    Snackbar.make(parent, R.string.tips_push_notification_migration, Snackbar.LENGTH_INDEFINITE)
+        .setAnchorView(anchorView)
+        .setAction(R.string.action_details) { showMigrationExplanationDialog(context, accountManager) }
+        .show()
 }
 
 private fun showMigrationExplanationDialog(context: Context, accountManager: AccountManager) {
@@ -152,7 +157,14 @@ private fun buildSubscriptionData(context: Context, account: AccountEntity): Map
     }
 
 // Called by UnifiedPush callback
-suspend fun registerUnifiedPushEndpoint(context: Context, api: MastodonApi, accountManager: AccountManager, account: AccountEntity, endpoint: String) {
+suspend fun registerUnifiedPushEndpoint(
+    context: Context,
+    api: MastodonApi,
+    accountManager: AccountManager,
+    account: AccountEntity,
+    endpoint: String
+) = withContext(Dispatchers.IO) {
+
     // Generate a prime256v1 key pair for WebPush
     // Decryption is unimplemented for now, since Mastodon uses an old WebPush
     // standard which does not send needed information for decryption in the payload
@@ -161,27 +173,22 @@ suspend fun registerUnifiedPushEndpoint(context: Context, api: MastodonApi, acco
     val keyPair = CryptoUtil.generateECKeyPair(CryptoUtil.CURVE_PRIME256_V1)
     val auth = CryptoUtil.secureRandomBytesEncoded(16)
 
-    withContext(Dispatchers.IO) {
-        api.subscribePushNotifications(
-            "Bearer ${account.accessToken}", account.domain,
-            endpoint, keyPair.pubkey, auth,
-            buildSubscriptionData(context, account)
-        ).onFailure {
-            Log.d(TAG, "Error setting push endpoint for account ${account.id}")
-            Log.d(TAG, Log.getStackTraceString(it))
-            Log.d(TAG, (it as HttpException).response().toString())
+    api.subscribePushNotifications(
+        "Bearer ${account.accessToken}", account.domain,
+        endpoint, keyPair.pubkey, auth,
+        buildSubscriptionData(context, account)
+    ).onFailure { throwable ->
+        Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
+        disableUnifiedPushNotificationsForAccount(context, account)
+    }.onSuccess {
+        Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
 
-            disableUnifiedPushNotificationsForAccount(context, account)
-        }.onSuccess {
-            Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
-
-            account.pushPubKey = keyPair.pubkey
-            account.pushPrivKey = keyPair.privKey
-            account.pushAuth = auth
-            account.pushServerKey = it.serverKey
-            account.unifiedPushUrl = endpoint
-            accountManager.saveAccount(account)
-        }
+        account.pushPubKey = keyPair.pubkey
+        account.pushPrivKey = keyPair.privKey
+        account.pushAuth = auth
+        account.pushServerKey = it.serverKey
+        account.unifiedPushUrl = endpoint
+        accountManager.saveAccount(account)
     }
 }
 

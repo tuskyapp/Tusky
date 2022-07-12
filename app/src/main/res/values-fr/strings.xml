@@ -249,11 +249,11 @@
     <string name="post_media_video">Vidéo</string>
     <string name="state_follow_requested">Demande d’abonnement effectuée</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">en %da</string>
-    <string name="abbreviated_in_days">en %dj</string>
-    <string name="abbreviated_in_hours">en %d h</string>
-    <string name="abbreviated_in_minutes">en %dm</string>
-    <string name="abbreviated_in_seconds">en %ds</string>
+    <string name="abbreviated_in_years">dans %da</string>
+    <string name="abbreviated_in_days">dans %dj</string>
+    <string name="abbreviated_in_hours">dans %dh</string>
+    <string name="abbreviated_in_minutes">dans %dm</string>
+    <string name="abbreviated_in_seconds">dans %ds</string>
     <string name="abbreviated_years_ago">%d a</string>
     <string name="abbreviated_days_ago">%dj</string>
     <string name="abbreviated_hours_ago">%d h</string>

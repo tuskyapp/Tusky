@@ -198,7 +198,7 @@
     <string name="pref_default_post_privacy">Výchozí soukromí příspěvků</string>
     <string name="pref_default_media_sensitivity">Vždy označovat média jako citlivá</string>
     <string name="pref_publishing">Publikování (synchronizováno se serverem)</string>
-    <string name="pref_failed_to_sync">Nepodařilo se synchronizovsat nastavení</string>
+    <string name="pref_failed_to_sync">Nepodařilo se synchronizovat nastavení</string>
     <string name="post_privacy_public">Veřejné</string>
     <string name="post_privacy_unlisted">Neuvedené</string>
     <string name="post_privacy_followers_only">Pouze pro sledující</string>
@@ -483,4 +483,12 @@
     <string name="pref_title_confirm_reblogs">Zobrazit dialogové okno s potvrzením při boostování</string>
     <string name="notification_subscription_format">%s právě vydal</string>
     <string name="title_announcements">Oznámení</string>
+    <string name="title_login">Přihlášení</string>
+    <string name="notification_sign_up_format">%s se zaregistroval</string>
+    <string name="title_migration_relogin">Přihlaste se znovu pro oznámení</string>
+    <string name="error_could_not_load_login_page">Nepodařilo se načíst stránku přihlášení.</string>
+    <string name="drafts_post_failed_to_send">Tento příspěvek se nepodařilo poslat!</string>
+    <string name="error_loading_account_details">Nepodařilo se načíst detaily účtu</string>
+    <string name="drafts_failed_loading_reply">Nepodařilo se načíst informace o odpovědi</string>
+    <string name="error_image_edit_failed">Obrázek se nepodařilo upravit.</string>
 </resources>

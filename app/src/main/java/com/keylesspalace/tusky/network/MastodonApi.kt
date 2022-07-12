@@ -255,7 +255,10 @@ interface MastodonApi {
     ): NetworkResult<ResponseBody>
 
     @GET("api/v1/accounts/verify_credentials")
-    suspend fun accountVerifyCredentials(): NetworkResult<Account>
+    suspend fun accountVerifyCredentials(
+        @Header(DOMAIN_HEADER) domain: String? = null,
+        @Header("Authorization") auth: String? = null,
+    ): NetworkResult<Account>
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")

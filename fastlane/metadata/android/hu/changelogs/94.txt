@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Egységes leküldés (Unified Push) támogatása. A támogatás aktiválásához újra jelentkezz be a fiókjaidba.
+- A bejegyzésekre érkezett válaszok száma már látható az idővonalon.
+- Bejegyzés szerkesztése közben meg lehet vágni a képeket.
+- A profilokon látható ezek létrehozásának időpontja.
+- Lista megtekintésekor ennek címe látható az eszköztáron.
+- Rengeteg hibajavítás
+- Fordítási javítások
