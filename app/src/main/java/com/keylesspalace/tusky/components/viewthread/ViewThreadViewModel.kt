@@ -286,7 +286,7 @@ class ViewThreadViewModel @Inject constructor(
 
     private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
         return filter { status ->
-            !status.isDetailed && filterModel.shouldFilterStatus(status.status)
+            status.isDetailed || !filterModel.shouldFilterStatus(status.status)
         }
     }
 
