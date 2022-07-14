@@ -73,11 +73,11 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
             showBotOverlay = preferences.getBoolean("showBotOverlay", true),
             useBlurhash = preferences.getBoolean("useBlurhash", true),
-            cardViewMode = if (preferences.getBoolean(
-                    "showCardsInTimelines",
-                    false
-                )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
+            cardViewMode = if (preferences.getBoolean("showCardsInTimelines", false)) {
+                CardViewMode.INDENTED
+            } else {
+                CardViewMode.NONE
+            },
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
@@ -248,27 +248,9 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         viewModel.voteInPoll(choices, status)
     }
 
-    private fun updateRevealIcon() {
-        /* val activity = activity as ViewThreadActivity? ?: return
-        var hasAnyWarnings = false
-        // Statuses are updated from the main thread so nothing should change while iterating
-        for (i in statuses.indices) {
-            if (!TextUtils.isEmpty(statuses[i]!!.spoilerText)) {
-                hasAnyWarnings = true
-                break
-            }
-        }
-        if (!hasAnyWarnings) {
-            activity.setRevealButtonState(ViewThreadActivity.REVEAL_BUTTON_HIDDEN)
-            return
-        }
-        activity.setRevealButtonState(if (allExpanded()) ViewThreadActivity.REVEAL_BUTTON_HIDE else ViewThreadActivity.REVEAL_BUTTON_REVEAL)
-
-         */
-    }
-
     companion object {
         private const val TAG = "ViewThreadFragment"
+
         fun newInstance(id: String): ViewThreadFragment {
             val arguments = Bundle(1)
             val fragment = ViewThreadFragment()
