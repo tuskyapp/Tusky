@@ -230,7 +230,13 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     private fun removeAllByAccountId(accountId: String) {
-        // TODO
+        _uiState.updateSuccess { uiState ->
+            uiState.copy(
+                statuses = uiState.statuses.filter { viewData ->
+                    viewData.status.account.id == accountId
+                }
+            )
+        }
     }
 
     private fun handleStatusComposedEvent(event: StatusComposedEvent) {
