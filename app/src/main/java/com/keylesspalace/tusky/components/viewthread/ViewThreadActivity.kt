@@ -18,9 +18,7 @@ package com.keylesspalace.tusky.components.viewthread
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.commit
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import dagger.android.DispatchingAndroidInjector
@@ -29,73 +27,26 @@ import javax.inject.Inject
 
 class ViewThreadActivity : BottomSheetActivity(), HasAndroidInjector {
 
-    private var revealButtonState = REVEAL_BUTTON_HIDDEN
-
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    private var fragment: ViewThreadFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_thread)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.title_view_thread)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setDisplayShowHomeEnabled(true)
-        }
-        val id = intent.getStringExtra(ID_EXTRA)
-        fragment =
+        val id = intent.getStringExtra(ID_EXTRA)!!
+        val url = intent.getStringExtra(URL_EXTRA)!!
+        val fragment =
             supportFragmentManager.findFragmentByTag(FRAGMENT_TAG + id) as ViewThreadFragment?
-        if (fragment == null) {
-            fragment = ViewThreadFragment.newInstance(id!!)
-        }
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment!!, FRAGMENT_TAG + id)
-        fragmentTransaction.commit()
-    }
+                ?: ViewThreadFragment.newInstance(id, url)
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.view_thread_toolbar, menu)
-        val menuItem = menu.findItem(R.id.action_reveal)
-        menuItem.isVisible = revealButtonState != REVEAL_BUTTON_HIDDEN
-        menuItem.setIcon(if (revealButtonState == REVEAL_BUTTON_REVEAL) R.drawable.ic_eye_24dp else R.drawable.ic_hide_media_24dp)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    fun setRevealButtonState(state: Int) {
-        when (state) {
-            REVEAL_BUTTON_HIDDEN, REVEAL_BUTTON_REVEAL, REVEAL_BUTTON_HIDE -> {
-                revealButtonState = state
-                invalidateOptionsMenu()
-            }
-            else -> throw IllegalArgumentException("Invalid reveal button state: $state")
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container, fragment, FRAGMENT_TAG + id)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_open_in_web -> {
-                openLink(intent.getStringExtra(URL_EXTRA)!!)
-                return true
-            }
-            R.id.action_reveal -> {
-                fragment!!.onRevealPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
-        const val REVEAL_BUTTON_HIDDEN = 1
-        const val REVEAL_BUTTON_REVEAL = 2
-        const val REVEAL_BUTTON_HIDE = 3
 
         fun startIntent(context: Context, id: String, url: String): Intent {
             val intent = Intent(context, ViewThreadActivity::class.java)

@@ -64,7 +64,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        thisThreadsStatusId = requireArguments().getString("id")!!
+        thisThreadsStatusId = requireArguments().getString(ID_EXTRA)!!
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val statusDisplayOptions = StatusDisplayOptions(
@@ -96,6 +96,23 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.toolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_reveal -> {
+                    viewModel.toggleRevealButton()
+                    true
+                }
+                R.id.action_open_in_web -> {
+                    context?.openLink(requireArguments().getString(URL_EXTRA)!!)
+                    true
+                }
+                else -> false
+            }
+        }
+
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
@@ -105,7 +122,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             ListStatusAccessibilityDelegate(
                 binding.recyclerView,
                 this
-            ) { index: Int -> adapter.currentList.getOrNull(index) }
+            ) { index -> adapter.currentList.getOrNull(index) }
         )
         val divider = DividerItemDecoration(context, LinearLayout.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
@@ -120,9 +137,16 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is ThreadUiState.Loading -> {}
-                    is ThreadUiState.Error -> {}
-                    is ThreadUiState.Success -> adapter.submitList(uiState.statuses)
+                    is ThreadUiState.Loading -> {
+                        updateRevealButton(RevealButtonState.HIDDEN)
+                    }
+                    is ThreadUiState.Error -> {
+                        updateRevealButton(RevealButtonState.HIDDEN)
+                    }
+                    is ThreadUiState.Success -> {
+                        adapter.submitList(uiState.statuses)
+                        updateRevealButton(uiState.revealButton)
+                    }
                 }
             }
         }
@@ -130,13 +154,11 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         viewModel.loadThread(thisThreadsStatusId)
     }
 
-    fun onRevealPressed() {
-        // TODO
-    }
+    private fun updateRevealButton(state: RevealButtonState) {
+        val menuItem = binding.toolbar.menu.findItem(R.id.action_reveal)
 
-    private fun allExpanded(): Boolean {
-        // TODO
-        return true
+        menuItem.isVisible = state != RevealButtonState.HIDDEN
+        menuItem.setIcon(if (state == RevealButtonState.REVEAL) R.drawable.ic_eye_24dp else R.drawable.ic_hide_media_24dp)
     }
 
     override fun onRefresh() {
@@ -251,10 +273,14 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     companion object {
         private const val TAG = "ViewThreadFragment"
 
-        fun newInstance(id: String): ViewThreadFragment {
-            val arguments = Bundle(1)
+        private const val ID_EXTRA = "id"
+        private const val URL_EXTRA = "url"
+
+        fun newInstance(id: String, url: String): ViewThreadFragment {
+            val arguments = Bundle(2)
             val fragment = ViewThreadFragment()
-            arguments.putString("id", id)
+            arguments.putString(ID_EXTRA, id)
+            arguments.putString(URL_EXTRA, url)
             fragment.arguments = arguments
             return fragment
         }

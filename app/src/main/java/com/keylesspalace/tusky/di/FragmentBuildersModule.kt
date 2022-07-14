@@ -29,9 +29,9 @@ import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragmen
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
+import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import com.keylesspalace.tusky.fragment.AccountListFragment
 import com.keylesspalace.tusky.fragment.NotificationsFragment
-import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
