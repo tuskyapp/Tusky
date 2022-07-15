@@ -37,11 +37,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -175,7 +171,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
             binding.swipeRefreshLayout.setOnRefreshListener {
                 refresh()
             }
-            binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+            binding.swipeRefreshLayout.setColorSchemeColors(view.context.getColorByAttribute(R.attr.colorPrimary))
         }
         binding.statusView.visibility = View.GONE
 

@@ -356,8 +356,8 @@
         sparkbutton:activeImage="@drawable/ic_reblog_active_24dp"
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="@drawable/ic_reblog_24dp"
-        sparkbutton:primaryColor="@color/tusky_blue"
-        sparkbutton:secondaryColor="@color/tusky_blue_light" />
+        sparkbutton:primaryColor="?colorPrimary"
+        sparkbutton:secondaryColor="?colorPrimaryVariant" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"

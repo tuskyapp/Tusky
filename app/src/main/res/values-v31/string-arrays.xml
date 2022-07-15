@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="app_theme_names" tools:ignore="InconsistentArrays">
+        <item>@string/app_them_dark</item>
+        <item>@string/app_theme_light</item>
+        <item>@string/app_theme_black</item>
+        <item>@string/app_theme_material_you_light</item>
+        <item>@string/app_theme_material_you_dark</item>
+        <item>@string/app_theme_auto</item>
+        <item>@string/app_theme_system</item>
+    </string-array>
+
+</resources>

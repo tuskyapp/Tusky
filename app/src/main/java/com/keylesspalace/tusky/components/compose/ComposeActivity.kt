@@ -48,6 +48,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -82,20 +83,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.PickMediaFiles
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.afterTextChanged
-import com.keylesspalace.tusky.util.combineLiveData
-import com.keylesspalace.tusky.util.combineOptionalLiveData
-import com.keylesspalace.tusky.util.getMediaSize
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.highlightSpans
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.onTextChanged
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
-import com.keylesspalace.tusky.util.withLifecycleContext
+import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -104,7 +92,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -199,8 +187,12 @@ class ComposeActivity :
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
-        if (theme == "black") {
+        if (theme == ThemeUtils.THEME_BLACK) {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
+        } else if (Build.VERSION.SDK_INT >= 31 && theme == ThemeUtils.THEME_MATERIAL_YOU_DARK) {
+            setTheme(R.style.TuskyDialogActivityMaterialYouDarkTheme)
+        } else if (Build.VERSION.SDK_INT >= 31 && theme == ThemeUtils.THEME_MATERIAL_YOU_LIGHT) {
+            setTheme(R.style.TuskyDialogActivityMaterialYouLightTheme)
         }
         setContentView(binding.root)
 
@@ -581,12 +573,12 @@ class ComposeActivity :
             @ColorInt val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
-                ContextCompat.getColor(this, R.color.transparent_tusky_blue)
+                ColorUtils.setAlphaComponent(getColorByAttribute(R.attr.colorPrimary), 140)
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                    ContextCompat.getColor(this, R.color.tusky_blue)
+                    getColorByAttribute(R.attr.colorPrimary)
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
                     ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
@@ -600,7 +592,7 @@ class ComposeActivity :
         @ColorInt val color = if (binding.composeScheduleView.time == null) {
             ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         } else {
-            ContextCompat.getColor(this, R.color.tusky_blue)
+            getColorByAttribute(R.attr.colorPrimary)
         }
         binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -952,7 +944,7 @@ class ComposeActivity :
             binding.composeContentWarningBar.show()
             binding.composeContentWarningField.setSelection(binding.composeContentWarningField.text.length)
             binding.composeContentWarningField.requestFocus()
-            ContextCompat.getColor(this, R.color.tusky_blue)
+            getColorByAttribute(R.attr.colorPrimary)
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()

@@ -35,11 +35,13 @@ public class ThemeUtils {
 
     public static final String APP_THEME_DEFAULT = ThemeUtils.THEME_NIGHT;
 
-    private static final String THEME_NIGHT = "night";
-    private static final String THEME_DAY = "day";
-    private static final String THEME_BLACK = "black";
-    private static final String THEME_AUTO = "auto";
-    private static final String THEME_SYSTEM = "auto_system";
+    public static final String THEME_NIGHT = "night";
+    public static final String THEME_DAY = "day";
+    public static final String THEME_BLACK = "black";
+    public static final String THEME_MATERIAL_YOU_LIGHT = "material_you_light";
+    public static final String THEME_MATERIAL_YOU_DARK = "material_you_dark";
+    public static final String THEME_AUTO = "auto";
+    public static final String THEME_SYSTEM = "auto_system";
 
     @ColorInt
     public static int getColor(@NonNull Context context, @AttrRes int attribute) {
@@ -67,9 +69,11 @@ public class ThemeUtils {
             default:
             case THEME_NIGHT:
             case THEME_BLACK:
+            case THEME_MATERIAL_YOU_DARK:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case THEME_DAY:
+            case THEME_MATERIAL_YOU_LIGHT:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case THEME_AUTO:

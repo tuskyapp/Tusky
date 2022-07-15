@@ -2,7 +2,7 @@
 
     <style name="TuskyTheme" parent="TuskyBaseTheme">
         <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
-        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
         <item name="android:navigationBarDividerColor">?attr/dividerColor</item>
     </style>
 

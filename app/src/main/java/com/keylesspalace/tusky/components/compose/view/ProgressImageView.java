@@ -30,6 +30,8 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.util.ThemeKt;
+
 import at.connyduck.sparkbutton.helpers.Utils;
 
 public final class ProgressImageView extends AppCompatImageView {
@@ -58,7 +60,7 @@ public final class ProgressImageView extends AppCompatImageView {
     }
 
     private void init() {
-        circlePaint.setColor(ContextCompat.getColor(getContext(), R.color.tusky_blue));
+        circlePaint.setColor(ThemeKt.getColorByAttribute(getContext(), R.attr.colorPrimary));
         circlePaint.setStrokeWidth(Utils.dpToPx(getContext(), 4));
         circlePaint.setStyle(Paint.Style.STROKE);
 
@@ -81,8 +83,11 @@ public final class ProgressImageView extends AppCompatImageView {
     }
 
     public void setChecked(boolean checked) {
-        this.markBgPaint.setColor(ContextCompat.getColor(getContext(),
-                checked ? R.color.tusky_blue : R.color.tusky_grey_10));
+        if (checked) {
+            this.markBgPaint.setColor(ThemeKt.getColorByAttribute(getContext(), R.attr.colorPrimary));
+        } else {
+            this.markBgPaint.setColor(ContextCompat.getColor(getContext(),R.color.tusky_grey_10));
+        }
         invalidate();
     }
 

@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -57,6 +58,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
+import com.keylesspalace.tusky.util.ThemeKt;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -496,6 +498,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             return icon;
         }
 
+        Drawable getIconWithAttrColor(Context context, @DrawableRes int drawable, @AttrRes int attr) {
+            Drawable icon = ContextCompat.getDrawable(context, drawable);
+            if (icon != null) {
+                icon.setColorFilter(ThemeKt.getColorByAttribute(context, attr), PorterDuff.Mode.SRC_ATOP);
+            }
+            return icon;
+        }
+
         void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
@@ -513,17 +523,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     break;
                 }
                 case REBLOG: {
-                    icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.tusky_blue);
+                    icon = getIconWithAttrColor(context, R.drawable.ic_repeat_24dp, R.attr.colorPrimary);
                     format = context.getString(R.string.notification_reblog_format);
                     break;
                 }
                 case STATUS: {
-                    icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue);
+                    icon = getIconWithAttrColor(context, R.drawable.ic_home_24dp, R.attr.colorPrimary);
                     format = context.getString(R.string.notification_subscription_format);
                     break;
                 }
                 case UPDATE: {
-                    icon = getIconWithColor(context, R.drawable.ic_edit_24dp, R.color.tusky_blue);
+                    icon = getIconWithAttrColor(context, R.drawable.ic_edit_24dp, R.attr.colorPrimary);
                     format = context.getString(R.string.notification_update_format);
                     break;
                 }

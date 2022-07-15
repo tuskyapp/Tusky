@@ -66,20 +66,7 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.DefaultTextWatcher
-import com.keylesspalace.tusky.util.Error
-import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.getDomain
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -392,7 +379,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         ) { isRefreshing ->
             binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
         }
-        binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeToRefreshLayout.setColorSchemeColors(getColorByAttribute(R.attr.colorPrimary))
     }
 
     private fun onAccountChanged(account: Account?) {

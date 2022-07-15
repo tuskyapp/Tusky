@@ -69,7 +69,7 @@
             android:checkable="false"
             android:text="@string/add_hashtag_title"
             app:chipIcon="@drawable/ic_plus_24dp"
-            app:chipSurfaceColor="@color/tusky_blue" />
+            app:chipSurfaceColor="?colorPrimary" />
 
     </com.google.android.material.chip.ChipGroup>
 

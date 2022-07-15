@@ -1,14 +1,19 @@
 package com.keylesspalace.tusky.settings
 
+import android.os.Build
+import com.keylesspalace.tusky.util.ThemeUtils
+
 enum class AppTheme(val value: String) {
-    NIGHT("night"),
-    DAY("day"),
-    BLACK("black"),
-    AUTO("auto"),
-    AUTO_SYSTEM("auto_system");
+    NIGHT(ThemeUtils.THEME_NIGHT),
+    DAY(ThemeUtils.THEME_DAY),
+    BLACK(ThemeUtils.THEME_BLACK),
+    MATERIAL_YOU_LIGHT(ThemeUtils.THEME_MATERIAL_YOU_LIGHT),
+    MATERIAL_YOU_DARK(ThemeUtils.THEME_MATERIAL_YOU_DARK),
+    AUTO(ThemeUtils.THEME_AUTO),
+    AUTO_SYSTEM(ThemeUtils.THEME_SYSTEM);
 
     companion object {
-        fun stringValues() = values().map { it.value }.toTypedArray()
+        fun stringValues() = values().filter { Build.VERSION.SDK_INT >= 31 || (it != MATERIAL_YOU_DARK && it != MATERIAL_YOU_LIGHT) }.map { it.value }.toTypedArray()
     }
 }
 
