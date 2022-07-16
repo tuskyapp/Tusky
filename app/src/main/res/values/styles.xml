@@ -153,6 +153,11 @@
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
 
+    <style name="SplashBlackTheme" parent="SplashTheme">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="postSplashScreenTheme">@style/TuskyBlackTheme</item>
+    </style>
+
     <style name="TuskyDrawerStyle" parent ="Widget.MaterialDrawerStyle">
         <item name="materialDrawerBackground">?android:colorBackground</item>
         <item name="materialDrawerPrimaryIcon">?iconColor</item>

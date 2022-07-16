@@ -90,4 +90,15 @@
     </style>
 
     <style name="TuskyMaterialYouLightTheme" parent="TuskyMaterialYouLightThemeBase" />
+
+
+    <style name="SplashMaterialYouLightTheme" parent="SplashTheme">
+        <item name="windowSplashScreenBackground">@android:color/system_accent1_50</item>
+        <item name="postSplashScreenTheme">@style/TuskyMaterialYouLightTheme</item>
+    </style>
+
+    <style name="SplashMaterialYouDarkTheme" parent="SplashTheme">
+        <item name="windowSplashScreenBackground">@android:color/system_neutral1_900</item>
+        <item name="postSplashScreenTheme">@style/TuskyMaterialYouDarkTheme</item>
+    </style>
 </resources>
