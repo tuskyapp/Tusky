@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.compose
 
+import android.graphics.PointF
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
@@ -337,11 +338,37 @@ class ComposeViewModel @Inject constructor(
 
         val updatedItem = newMediaList.find { it.localId == localId }
         if (updatedItem?.id != null) {
-            return api.updateMedia(updatedItem.id, description)
+            return api.updateMediaDescription(updatedItem.id, description)
                 .fold({
                     true
                 }, { throwable ->
                     Log.w(TAG, "failed to update media", throwable)
+                    false
+                })
+        }
+        return true
+    }
+
+    // TODO: Factor this and updateDescription into a single function?
+    suspend fun updateFocus(localId: Int, focus: PointF): Boolean {
+        val newMediaList = media.updateAndGet { mediaValue ->
+            mediaValue.map { mediaItem ->
+                if (mediaItem.localId == localId) {
+                    mediaItem.copy(focus = focus)
+                } else {
+                    mediaItem
+                }
+            }
+        }
+
+        val updatedItem = newMediaList.find { it.localId == localId }
+        if (updatedItem?.id != null) {
+            val focusString = "${focus.x},${focus.y}"
+            return api.updateMediaFocus(updatedItem.id, focusString)
+                .fold({
+                    true
+                }, { throwable ->
+                    Log.w(TAG, "failed to update media focus point", throwable)
                     false
                 })
         }

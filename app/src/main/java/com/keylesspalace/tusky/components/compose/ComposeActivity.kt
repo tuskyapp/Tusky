@@ -26,6 +26,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.PointF
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -68,6 +69,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
@@ -214,6 +216,11 @@ class ComposeActivity :
             onAddCaption = { item ->
                 makeCaptionDialog(item.description, item.uri) { newDescription ->
                     viewModel.updateDescription(item.localId, newDescription)
+                }
+            },
+            onAddFocus = { item ->
+                makeFocusDialog(item.focus, item.uri) { newFocus ->
+                    viewModel.updateFocus(item.localId, newFocus)
                 }
             },
             onEditImage = this::editImageInQueue,
@@ -1065,7 +1072,8 @@ class ComposeActivity :
         val mediaSize: Long,
         val uploadPercent: Int = 0,
         val id: String? = null,
-        val description: String? = null
+        val description: String? = null,
+        val focus: PointF? = null // Range -1..1 y-up
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;
