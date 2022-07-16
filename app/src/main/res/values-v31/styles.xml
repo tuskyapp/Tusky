@@ -101,4 +101,12 @@
         <item name="windowSplashScreenBackground">@android:color/system_neutral1_900</item>
         <item name="postSplashScreenTheme">@style/TuskyMaterialYouDarkTheme</item>
     </style>
+
+    <style name="TuskyDialogFragmentMaterialYouLightStyle" parent="TuskyDialogFragmentStyle">
+        <item name="android:backgroundTint">@android:color/system_accent1_50</item>
+    </style>
+
+    <style name="TuskyDialogFragmentMaterialYouDarkStyle" parent="TuskyDialogFragmentStyle">
+        <item name="android:backgroundTint">@android:color/system_neutral1_900</item>
+    </style>
 </resources>

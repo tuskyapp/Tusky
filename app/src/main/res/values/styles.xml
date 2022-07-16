@@ -153,6 +153,10 @@
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
 
+    <style name="TuskyDialogFragmentBlackStyle" parent="TuskyDialogFragmentStyle">
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+
     <style name="SplashBlackTheme" parent="SplashTheme">
         <item name="windowSplashScreenBackground">@color/black</item>
         <item name="postSplashScreenTheme">@style/TuskyBlackTheme</item>

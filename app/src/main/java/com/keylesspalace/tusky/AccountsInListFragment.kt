@@ -16,11 +16,13 @@
 
 package com.keylesspalace.tusky
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -35,13 +37,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import kotlinx.coroutines.launch
@@ -70,7 +66,19 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
+
+        // apply theme
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val style = if (theme == ThemeUtils.THEME_BLACK) {
+            R.style.TuskyDialogFragmentBlackStyle
+        } else if (Build.VERSION.SDK_INT >= 31 && theme == ThemeUtils.THEME_MATERIAL_YOU_DARK) {
+            R.style.TuskyDialogFragmentMaterialYouDarkStyle
+        } else if (Build.VERSION.SDK_INT >= 31 && theme == ThemeUtils.THEME_MATERIAL_YOU_LIGHT) {
+            R.style.TuskyDialogFragmentMaterialYouLightStyle
+        } else R.style.TuskyDialogFragmentStyle
+
+        setStyle(STYLE_NORMAL, style)
         val args = requireArguments()
         listId = args.getString(LIST_ID_ARG)!!
         listName = args.getString(LIST_NAME_ARG)!!
