@@ -42,6 +42,8 @@
         <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
         <item name="android:navigationBarDividerColor">?attr/dividerColor</item>
+
+        <item name="alertDialogTheme">@style/TuskyDialogMaterialYouDark</item>
     </style>
 
     <style name="TuskyMaterialYouDarkTheme" parent="TuskyMaterialYouDarkThemeBase" />
@@ -87,6 +89,8 @@
         <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
         <item name="android:navigationBarDividerColor">?attr/dividerColor</item>
+
+        <item name="alertDialogTheme">@style/TuskyDialogMaterialYouLight</item>
     </style>
 
     <style name="TuskyMaterialYouLightTheme" parent="TuskyMaterialYouLightThemeBase" />
@@ -109,4 +113,13 @@
     <style name="TuskyDialogFragmentMaterialYouDarkStyle" parent="TuskyDialogFragmentStyle">
         <item name="android:backgroundTint">@android:color/system_neutral1_900</item>
     </style>
+
+    <style name="TuskyDialogMaterialYouLight" parent="@style/TuskyDialog">
+        <item name="android:background">@android:color/system_accent1_50</item>
+    </style>
+
+    <style name="TuskyDialogMaterialYouDark" parent="@style/TuskyDialog">
+        <item name="android:background">@android:color/system_neutral1_900</item>
+    </style>
+
 </resources>

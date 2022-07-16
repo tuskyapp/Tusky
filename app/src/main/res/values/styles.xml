@@ -149,12 +149,18 @@
         <item name="colorBackgroundAccent">@color/tusky_grey_20</item>
 
         <item name="dividerColor">@color/tusky_grey_10</item>
+
+        <item name="alertDialogTheme">@style/TuskyDialogBlack</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
 
     <style name="TuskyDialogFragmentBlackStyle" parent="TuskyDialogFragmentStyle">
         <item name="android:backgroundTint">@color/black</item>
+    </style>
+
+    <style name="TuskyDialogBlack" parent="@style/TuskyDialog">
+        <item name="android:background">@color/black</item>
     </style>
 
     <style name="SplashBlackTheme" parent="SplashTheme">
