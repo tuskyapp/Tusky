@@ -14,7 +14,6 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.ContextCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -29,7 +28,6 @@ import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getColorByAttribute
-import com.keylesspalace.tusky.util.wrapInTheme
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
