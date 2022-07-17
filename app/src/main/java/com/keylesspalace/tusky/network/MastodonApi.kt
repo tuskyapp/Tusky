@@ -143,16 +143,10 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
-    suspend fun updateMediaDescription(
+    suspend fun updateMedia(
         @Path("mediaId") mediaId: String,
-        @Field("description") description: String
-    ): NetworkResult<Attachment>
-
-    @FormUrlEncoded
-    @PUT("api/v1/media/{mediaId}")
-    suspend fun updateMediaFocus(
-        @Path("mediaId") mediaId: String,
-        @Field("focus") focus: String
+        @Field("description") description: String?,
+        @Field("focus") focus: String?
     ): NetworkResult<Attachment>
 
     @GET("api/v1/media/{mediaId}")

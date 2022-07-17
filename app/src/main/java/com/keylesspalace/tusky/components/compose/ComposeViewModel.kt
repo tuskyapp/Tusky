@@ -325,11 +325,12 @@ class ComposeViewModel @Inject constructor(
         return combineLiveData(deletionObservable, sendFlow.asLiveData()) { _, _ -> }
     }
 
-    suspend fun updateDescription(localId: Int, description: String): Boolean {
+    // Updates a QueuedMedia item arbitrarily, then sends description and focus to server
+    suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
         val newMediaList = media.updateAndGet { mediaValue ->
             mediaValue.map { mediaItem ->
                 if (mediaItem.localId == localId) {
-                    mediaItem.copy(description = description)
+                    mutator(mediaItem)
                 } else {
                     mediaItem
                 }
@@ -338,7 +339,9 @@ class ComposeViewModel @Inject constructor(
 
         val updatedItem = newMediaList.find { it.localId == localId }
         if (updatedItem?.id != null) {
-            return api.updateMediaDescription(updatedItem.id, description)
+            val focus = updatedItem.focus
+            val focusString = if (focus != null) "${focus.x},${focus.y}" else null
+            return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
                 .fold({
                     true
                 }, { throwable ->
@@ -349,30 +352,16 @@ class ComposeViewModel @Inject constructor(
         return true
     }
 
-    // TODO: Factor this and updateDescription into a single function?
-    suspend fun updateFocus(localId: Int, focus: PointF): Boolean {
-        val newMediaList = media.updateAndGet { mediaValue ->
-            mediaValue.map { mediaItem ->
-                if (mediaItem.localId == localId) {
-                    mediaItem.copy(focus = focus)
-                } else {
-                    mediaItem
-                }
-            }
-        }
+    suspend fun updateDescription(localId: Int, description: String): Boolean {
+        return updateMediaItem(localId, { mediaItem ->
+            mediaItem.copy(description = description)
+        })
+    }
 
-        val updatedItem = newMediaList.find { it.localId == localId }
-        if (updatedItem?.id != null) {
-            val focusString = "${focus.x},${focus.y}"
-            return api.updateMediaFocus(updatedItem.id, focusString)
-                .fold({
-                    true
-                }, { throwable ->
-                    Log.w(TAG, "failed to update media focus point", throwable)
-                    false
-                })
-        }
-        return true
+    suspend fun updateFocus(localId: Int, focus: PointF): Boolean {
+        return updateMediaItem(localId, { mediaItem ->
+            mediaItem.copy(focus = focus)
+        })
     }
 
     fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
