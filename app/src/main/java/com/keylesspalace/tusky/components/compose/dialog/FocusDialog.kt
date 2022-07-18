@@ -20,12 +20,8 @@ import android.content.DialogInterface
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.text.InputFilter
-import android.text.InputType
-import android.util.Log // ANDI SHOULD NOT CHECK THIS LINE IN TO GIT
 import android.view.WindowManager
-import android.widget.EditText
-import android.widget.ImageView;
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -56,8 +52,8 @@ fun <T> T.makeFocusDialog(
     val imageView = PhotoView(this).apply {
         maximumScale = 6f
         setOnPhotoTapListener(object : OnPhotoTapListener {
-            override fun onPhotoTap(view: ImageView, x:Float, y:Float) {
-                focus = PointF(x*2-1, 1-y*2) // PhotoView range is 0..1 Y-down but Mastodon API range is -1..1 Y-up
+            override fun onPhotoTap(view: ImageView, x: Float, y: Float) {
+                focus = PointF(x * 2 - 1, 1 - y * 2) // PhotoView range is 0..1 Y-down but Mastodon API range is -1..1 Y-up
             }
         })
     }
