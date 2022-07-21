@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.viewthread
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
@@ -40,11 +42,14 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener, Injectable {
@@ -139,15 +144,52 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                 when (uiState) {
                     is ThreadUiState.Loading -> {
                         updateRevealButton(RevealButtonState.HIDDEN)
+                        binding.recyclerView.hide()
+                        binding.statusView.hide()
+                        binding.progressBar.show()
                     }
                     is ThreadUiState.Error -> {
+                        Log.w(TAG, "failed to load status", uiState.throwable)
+
                         updateRevealButton(RevealButtonState.HIDDEN)
+                        binding.swipeRefreshLayout.isRefreshing = false
+
+                        binding.recyclerView.hide()
+                        binding.statusView.show()
+                        binding.progressBar.hide()
+
+                        if (uiState.throwable is IOException) {
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                viewModel.retryThreadLoading(thisThreadsStatusId)
+                            }
+                        } else {
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                viewModel.retryThreadLoading(thisThreadsStatusId)
+                            }
+                        }
                     }
                     is ThreadUiState.Success -> {
                         adapter.submitList(uiState.statuses)
+
                         updateRevealButton(uiState.revealButton)
+                        binding.swipeRefreshLayout.isRefreshing = false
+
+                        binding.recyclerView.show()
+                        binding.statusView.hide()
+                        binding.progressBar.hide()
                     }
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.errors.collect { throwable ->
+                Log.w(TAG, "failed to load status context", throwable)
+                Snackbar.make(binding.root, R.string.error_generic, Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.action_retry) {
+                        viewModel.retryThreadLoading(thisThreadsStatusId)
+                    }
+                    .show()
             }
         }
 
@@ -215,8 +257,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onOpenReblog(position: Int) {
-        // there should be no reblogs in the thread but let's implement it to be sure
-        super.openReblog(adapter.currentList[position].status)
+        // there are no reblogs in threads
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {

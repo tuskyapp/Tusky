@@ -113,14 +113,18 @@ class ViewThreadViewModel @Inject constructor(
 
                 _uiState.value = ThreadUiState.Success(ancestors + detailedStatus + descendants, RevealButtonState.REVEAL)
             }, { throwable ->
-                Log.w("ViewThreadViewModel", "failed to load status context", throwable)
-
+                _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
                     listOf(status.toViewData(true)),
                     RevealButtonState.HIDDEN
                 )
             })
         }
+    }
+
+    fun retryThreadLoading(id: String) {
+        _uiState.value = ThreadUiState.Loading
+        loadThread(id)
     }
 
     fun detailedStatus(): StatusViewData.Concrete? {
