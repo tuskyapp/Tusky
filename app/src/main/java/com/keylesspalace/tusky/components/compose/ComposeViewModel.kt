@@ -326,7 +326,7 @@ class ComposeViewModel @Inject constructor(
     }
 
     // Updates a QueuedMedia item arbitrarily, then sends description and focus to server
-    suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
+    private suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
         val newMediaList = media.updateAndGet { mediaValue ->
             mediaValue.map { mediaItem ->
                 if (mediaItem.localId == localId) {
