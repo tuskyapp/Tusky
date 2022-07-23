@@ -28,7 +28,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.view.ProgressImageView
-import com.keylesspalace.tusky.entity.Attachment.Focus
 
 class MediaPreviewAdapter(
     context: Context,
@@ -84,11 +83,11 @@ class MediaPreviewAdapter(
             // TODO: Fancy waveform display?
             holder.progressImageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
         } else {
-            val imageView = holder.progressImageView;
+            val imageView = holder.progressImageView
             val focus = item.focus
 
             if (focus != null)
-                imageView.setFocalPoint(Focus(item.focus.x, item.focus.y))
+                imageView.setFocalPoint(focus)
             else
                 imageView.removeFocalPoint(); // Probably unnecessary since we have no UI for removal once added.
 

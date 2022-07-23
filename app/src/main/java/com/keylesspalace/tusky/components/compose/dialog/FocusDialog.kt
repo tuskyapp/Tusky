@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.compose.dialog
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.WindowManager
@@ -35,14 +34,15 @@ import com.bumptech.glide.request.transition.Transition
 import com.github.chrisbanes.photoview.OnPhotoTapListener
 import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.Attachment.Focus
 import kotlinx.coroutines.launch
 
 fun <T> T.makeFocusDialog(
-    existingFocus: PointF?,
+    existingFocus: Focus?,
     previewUri: Uri,
-    onUpdateFocus: suspend (PointF) -> Boolean
+    onUpdateFocus: suspend (Focus) -> Boolean
 ) where T : Activity, T : LifecycleOwner {
-    var focus = existingFocus ?: PointF(0.0f, 0.0f) // Default to center
+    var focus = existingFocus ?: Focus(0.0f, 0.0f) // Default to center
 
     val dialogLayout = LinearLayout(this)
     val padding = Utils.dpToPx(this, 8)
@@ -53,7 +53,7 @@ fun <T> T.makeFocusDialog(
         maximumScale = 6f
         setOnPhotoTapListener(object : OnPhotoTapListener {
             override fun onPhotoTap(view: ImageView, x: Float, y: Float) {
-                focus = PointF(x * 2 - 1, 1 - y * 2) // PhotoView range is 0..1 Y-down but Mastodon API range is -1..1 Y-up
+                focus = Focus(x * 2 - 1, 1 - y * 2) // PhotoView range is 0..1 Y-down but Mastodon API range is -1..1 Y-up
             }
         })
     }

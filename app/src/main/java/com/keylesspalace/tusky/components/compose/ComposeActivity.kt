@@ -24,7 +24,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
@@ -1073,7 +1072,7 @@ class ComposeActivity :
         val uploadPercent: Int = 0,
         val id: String? = null,
         val description: String? = null,
-        val focus: PointF? = null // Range -1..1 y-up
+        val focus: Attachment.Focus? = null
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;

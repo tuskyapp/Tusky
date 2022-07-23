@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.compose
 
-import android.graphics.PointF
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
@@ -358,7 +357,7 @@ class ComposeViewModel @Inject constructor(
         })
     }
 
-    suspend fun updateFocus(localId: Int, focus: PointF): Boolean {
+    suspend fun updateFocus(localId: Int, focus: Attachment.Focus): Boolean {
         return updateMediaItem(localId, { mediaItem ->
             mediaItem.copy(focus = focus)
         })
