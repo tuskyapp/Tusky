@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.view.ProgressImageView
+import com.keylesspalace.tusky.entity.Attachment.Focus
 
 class MediaPreviewAdapter(
     context: Context,
@@ -83,11 +84,24 @@ class MediaPreviewAdapter(
             // TODO: Fancy waveform display?
             holder.progressImageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
         } else {
-            Glide.with(holder.itemView.context)
+            val imageView = holder.progressImageView;
+            val focus = item.focus
+
+            if (focus != null)
+                imageView.setFocalPoint(Focus(item.focus.x, item.focus.y))
+            else
+                imageView.removeFocalPoint(); // Probably unnecessary since we have no UI for removal once added.
+
+            var glide = Glide.with(holder.itemView.context)
                 .load(item.uri)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .dontAnimate()
-                .into(holder.progressImageView)
+                .centerInside()
+
+            if (focus != null)
+                glide = glide.addListener(imageView)
+
+            glide.into(imageView)
         }
     }
 
