@@ -106,7 +106,8 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                             draftAttachments = draft.attachments,
                             poll = draft.poll,
                             sensitive = draft.sensitive,
-                            visibility = draft.visibility
+                            visibility = draft.visibility,
+                            scheduledAt = draft.scheduledAt
                         )
 
                         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
@@ -143,7 +144,8 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
             draftAttachments = draft.attachments,
             poll = draft.poll,
             sensitive = draft.sensitive,
-            visibility = draft.visibility
+            visibility = draft.visibility,
+            scheduledAt = draft.scheduledAt
         )
 
         startActivity(ComposeActivity.startIntent(this, composeOptions))

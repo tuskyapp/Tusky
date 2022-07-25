@@ -60,7 +60,8 @@ class DraftHelper @Inject constructor(
         mediaUris: List<String>,
         mediaDescriptions: List<String?>,
         poll: NewPoll?,
-        failedToSend: Boolean
+        failedToSend: Boolean,
+        scheduledAt: String?
     ) = withContext(Dispatchers.IO) {
         val externalFilesDir = context.getExternalFilesDir("Tusky")
 
@@ -116,7 +117,8 @@ class DraftHelper @Inject constructor(
             visibility = visibility,
             attachments = attachments,
             poll = poll,
-            failedToSend = failedToSend
+            failedToSend = failedToSend,
+            scheduledAt = scheduledAt
         )
 
         draftDao.insertOrReplace(draft)

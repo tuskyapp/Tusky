@@ -257,7 +257,8 @@ class SendStatusService : Service(), Injectable {
             mediaUris = status.mediaUris,
             mediaDescriptions = status.mediaDescriptions,
             poll = status.poll,
-            failedToSend = true
+            failedToSend = true,
+            scheduledAt = status.scheduledAt
         )
     }
 
