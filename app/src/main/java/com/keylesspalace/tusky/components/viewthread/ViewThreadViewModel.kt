@@ -111,19 +111,31 @@ class ViewThreadViewModel @Inject constructor(
                 val detailedStatus = status.toViewData(true)
                 val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
 
-                _uiState.value = ThreadUiState.Success(ancestors + detailedStatus + descendants, RevealButtonState.REVEAL)
+                _uiState.value = ThreadUiState.Success(
+                    statuses = ancestors + detailedStatus + descendants,
+                    revealButton = RevealButtonState.REVEAL,
+                    refreshing = false
+                )
             }, { throwable ->
                 _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
-                    listOf(status.toViewData(true)),
-                    RevealButtonState.HIDDEN
+                    statuses = listOf(status.toViewData(true)),
+                    revealButton = RevealButtonState.HIDDEN,
+                    refreshing = false
                 )
             })
         }
     }
 
-    fun retryThreadLoading(id: String) {
+    fun retry(id: String) {
         _uiState.value = ThreadUiState.Loading
+        loadThread(id)
+    }
+
+    fun refresh(id: String) {
+        _uiState.updateSuccess { uiState ->
+            uiState.copy(refreshing = true)
+        }
         loadThread(id)
     }
 
@@ -366,7 +378,8 @@ sealed interface ThreadUiState {
     class Error(val throwable: Throwable) : ThreadUiState
     data class Success(
         val statuses: List<StatusViewData.Concrete>,
-        val revealButton: RevealButtonState
+        val revealButton: RevealButtonState,
+        val refreshing: Boolean
     ) : ThreadUiState
 }
 

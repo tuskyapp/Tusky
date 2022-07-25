@@ -160,11 +160,11 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
                         if (uiState.throwable is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                viewModel.retryThreadLoading(thisThreadsStatusId)
+                                viewModel.retry(thisThreadsStatusId)
                             }
                         } else {
                             binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                viewModel.retryThreadLoading(thisThreadsStatusId)
+                                viewModel.retry(thisThreadsStatusId)
                             }
                         }
                     }
@@ -172,7 +172,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         adapter.submitList(uiState.statuses)
 
                         updateRevealButton(uiState.revealButton)
-                        binding.swipeRefreshLayout.isRefreshing = false
+                        binding.swipeRefreshLayout.isRefreshing = uiState.refreshing
 
                         binding.recyclerView.show()
                         binding.statusView.hide()
@@ -187,7 +187,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                 Log.w(TAG, "failed to load status context", throwable)
                 Snackbar.make(binding.root, R.string.error_generic, Snackbar.LENGTH_SHORT)
                     .setAction(R.string.action_retry) {
-                        viewModel.retryThreadLoading(thisThreadsStatusId)
+                        viewModel.retry(thisThreadsStatusId)
                     }
                     .show()
             }
@@ -204,7 +204,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onRefresh() {
-        viewModel.loadThread(thisThreadsStatusId)
+        viewModel.refresh(thisThreadsStatusId)
     }
 
     override fun onReply(position: Int) {
