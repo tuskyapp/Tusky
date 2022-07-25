@@ -210,7 +210,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/account_note_saved"
-                        android:textColor="@color/tusky_blue"
+                        android:textColor="?colorPrimary"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountNoteTextInputLayout" />

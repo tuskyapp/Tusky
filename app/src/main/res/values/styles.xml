@@ -32,7 +32,7 @@
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-        <item name="windowSplashScreenBackground">@color/tusky_grey_20</item>
+        <item name="windowSplashScreenBackground">?android:colorBackground</item>
         <item name="postSplashScreenTheme">@style/TuskyTheme</item>
     </style>
 
@@ -42,10 +42,13 @@
 
     <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/tusky_blue</item>
+        <item name="colorPrimaryVariant">@color/tusky_blue_light</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/tusky_blue</item>
         <item name="colorOnSecondary">@color/white</item>
+
+        <item name="colorError">@color/tusky_red</item>
 
         <item name="colorSurface">@color/colorSurface</item>
 
@@ -91,12 +94,12 @@
     <style name="TuskyDialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">?android:colorBackground</item>
     </style>
 
     <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
         <item name="dialogCornerRadius">8dp</item>
-        <item name="android:backgroundTint">@color/colorBackground</item>
+        <item name="android:backgroundTint">?android:colorBackground</item>
     </style>
 
     <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
@@ -146,9 +149,24 @@
         <item name="colorBackgroundAccent">@color/tusky_grey_20</item>
 
         <item name="dividerColor">@color/tusky_grey_10</item>
+
+        <item name="alertDialogTheme">@style/TuskyDialogBlack</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
+
+    <style name="TuskyDialogFragmentBlackStyle" parent="TuskyDialogFragmentStyle">
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+
+    <style name="TuskyDialogBlack" parent="@style/TuskyDialog">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="SplashBlackTheme" parent="SplashTheme">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="postSplashScreenTheme">@style/TuskyBlackTheme</item>
+    </style>
 
     <style name="TuskyDrawerStyle" parent ="Widget.MaterialDrawerStyle">
         <item name="materialDrawerBackground">?android:colorBackground</item>

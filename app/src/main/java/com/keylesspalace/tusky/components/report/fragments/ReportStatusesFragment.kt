@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.getColorByAttribute
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -96,7 +97,7 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
     }
 
     private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setColorSchemeColors(requireContext().getColorByAttribute(R.attr.colorPrimary))
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             snackbarErrorRetry?.dismiss()

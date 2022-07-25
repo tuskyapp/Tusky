@@ -85,6 +85,7 @@ import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.ThemeKt;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -229,7 +230,7 @@ public class NotificationsFragment extends SFragment implements
         appBarOptions = rootView.findViewById(R.id.appBarOptions);
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
+        swipeRefreshLayout.setColorSchemeColors(ThemeKt.getColorByAttribute(requireContext(), R.attr.colorPrimary));
 
         loadNotificationsFilter();
 

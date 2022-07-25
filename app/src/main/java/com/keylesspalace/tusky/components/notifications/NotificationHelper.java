@@ -61,6 +61,7 @@ import com.keylesspalace.tusky.network.MastodonApi;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
 import com.keylesspalace.tusky.util.StringUtils;
+import com.keylesspalace.tusky.util.ThemeKt;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import org.json.JSONArray;
@@ -296,7 +297,7 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setColor(ContextCompat.getColor(context, R.color.notification_color))
+                .setColor(ThemeKt.getColorByAttribute(context, R.attr.colorPrimary))
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
                 .setShortcutId(Long.toString(account.getId()))

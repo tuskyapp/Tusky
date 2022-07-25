@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.getColorByAttribute
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
@@ -175,7 +176,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
             binding.swipeRefreshLayout.setOnRefreshListener {
                 refresh()
             }
-            binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+            binding.swipeRefreshLayout.setColorSchemeColors(view.context.getColorByAttribute(R.attr.colorPrimary))
         }
         binding.statusView.visibility = View.GONE
 

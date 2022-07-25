@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.getColorByAttribute
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -79,7 +80,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(this::refreshAnnouncements)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setColorSchemeColors(getColorByAttribute(R.attr.colorPrimary))
 
         binding.announcementsList.setHasFixedSize(true)
         binding.announcementsList.layoutManager = LinearLayoutManager(this)

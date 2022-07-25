@@ -20,10 +20,10 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center_vertical"
         android:text="@string/drafts_post_failed_to_send"
-        android:textColor="@color/tusky_red"
+        android:textColor="?colorError"
         android:textSize="?attr/status_text_medium"
         app:drawableStartCompat="@drawable/ic_alert_circle"
-        app:drawableTint="@color/tusky_red"
+        app:drawableTint="?colorError"
         app:layout_constraintEnd_toStartOf="@id/deleteButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -71,8 +72,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
          * views are created. */
         String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
         Log.d("activeTheme", theme);
-        if (theme.equals("black")) {
+        if (theme.equals(ThemeUtils.THEME_BLACK)) {
             setTheme(R.style.TuskyBlackTheme);
+        } else if (Build.VERSION.SDK_INT >= 31 && theme.equals(ThemeUtils.THEME_MATERIAL_YOU_DARK)) {
+            setTheme(R.style.TuskyMaterialYouDarkTheme);
+        } else if (Build.VERSION.SDK_INT >= 31 && theme.equals(ThemeUtils.THEME_MATERIAL_YOU_LIGHT)) {
+            setTheme(R.style.TuskyMaterialYouLightTheme);
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */

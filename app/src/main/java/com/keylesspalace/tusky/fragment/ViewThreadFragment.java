@@ -64,6 +64,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.ThemeKt;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.ConversationLineItemDecoration;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
@@ -157,7 +158,7 @@ public final class ViewThreadFragment extends SFragment implements
         Context context = getContext();
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
+        swipeRefreshLayout.setColorSchemeColors(ThemeKt.getColorByAttribute(requireContext(), R.attr.colorPrimary));
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

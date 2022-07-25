@@ -72,6 +72,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.getColorByAttribute
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
@@ -392,7 +393,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         ) { isRefreshing ->
             binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
         }
-        binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeToRefreshLayout.setColorSchemeColors(getColorByAttribute(R.attr.colorPrimary))
     }
 
     private fun onAccountChanged(account: Account?) {

@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
@@ -70,7 +72,19 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
+
+        // apply theme
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val style = if (theme == ThemeUtils.THEME_BLACK) {
+            R.style.TuskyDialogFragmentBlackStyle
+        } else if (Build.VERSION.SDK_INT >= 31 && theme == ThemeUtils.THEME_MATERIAL_YOU_DARK) {
+            R.style.TuskyDialogFragmentMaterialYouDarkStyle
+        } else if (Build.VERSION.SDK_INT >= 31 && theme == ThemeUtils.THEME_MATERIAL_YOU_LIGHT) {
+            R.style.TuskyDialogFragmentMaterialYouLightStyle
+        } else R.style.TuskyDialogFragmentStyle
+
+        setStyle(STYLE_NORMAL, style)
         val args = requireArguments()
         listId = args.getString(LIST_ID_ARG)!!
         listName = args.getString(LIST_NAME_ARG)!!

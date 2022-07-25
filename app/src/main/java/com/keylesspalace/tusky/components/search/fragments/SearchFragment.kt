@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.getColorByAttribute
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.Flow
@@ -59,7 +60,7 @@ abstract class SearchFragment<T : Any> :
 
     private fun setupSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setColorSchemeColors(requireContext().getColorByAttribute(R.attr.colorPrimary))
     }
 
     private fun subscribeObservables() {

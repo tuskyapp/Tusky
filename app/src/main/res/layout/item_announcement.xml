@@ -32,7 +32,7 @@
             android:checkable="false"
             app:chipEndPadding="4dp"
             app:chipIcon="@drawable/ic_plus_24dp"
-            app:chipSurfaceColor="@color/tusky_blue"
+            app:chipSurfaceColor="?colorPrimary"
             app:textEndPadding="0dp"
             app:textStartPadding="0dp" />
 

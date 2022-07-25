@@ -247,6 +247,8 @@
     <string name="app_them_dark">Dark</string>
     <string name="app_theme_light">Light</string>
     <string name="app_theme_black">Black</string>
+    <string name="app_theme_material_you_light">Material You (light)</string>
+    <string name="app_theme_material_you_dark">Material You (dark)</string>
     <string name="app_theme_auto">Automatic at sunset</string>
     <string name="app_theme_system">Use System Design</string>
 

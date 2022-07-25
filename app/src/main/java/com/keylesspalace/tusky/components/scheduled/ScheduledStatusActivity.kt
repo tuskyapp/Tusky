@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.util.getColorByAttribute
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -66,7 +67,7 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setColorSchemeColors(getColorByAttribute(R.attr.colorPrimary))
 
         binding.scheduledTootList.setHasFixedSize(true)
         binding.scheduledTootList.layoutManager = LinearLayoutManager(this)
