@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceDao
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.StatusConfiguration
@@ -48,8 +47,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
-import java.util.Date
-import kotlin.collections.HashMap
 
 /**
  * Created by charlag on 3/7/18.
@@ -110,7 +107,7 @@ class ComposeActivityTest {
 
         val instanceDaoMock: InstanceDao = mock {
             onBlocking { getInstanceInfo(any()) } doReturn
-                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null)
+                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
             onBlocking { getEmojiInfo(any()) } doReturn
                 EmojisEntity(instanceDomain, emptyList())
         }
@@ -461,38 +458,13 @@ class ComposeActivityTest {
 
     private fun getInstanceWithCustomConfiguration(maximumLegacyTootCharacters: Int? = null, configuration: InstanceConfiguration? = null): Instance {
         return Instance(
-            "https://example.token",
-            "Example dot Token",
-            "Example instance for testing",
-            "admin@example.token",
-            "2.6.3",
-            HashMap(),
-            null,
-            null,
-            listOf("en"),
-            Account(
-                id = "1",
-                localUsername = "admin",
-                username = "admin",
-                displayName = "admin",
-                createdAt = Date(),
-                note = "",
-                url = "https://example.token",
-                avatar = "",
-                header = "",
-                locked = false,
-                statusesCount = 0,
-                followersCount = 0,
-                followingCount = 0,
-                source = null,
-                bot = false,
-                emojis = emptyList(),
-                fields = emptyList(),
-            ),
-            maximumLegacyTootCharacters,
-            null,
-            null,
-            configuration,
+            uri = "https://example.token",
+            version = "2.6.3",
+            maxTootChars = maximumLegacyTootCharacters,
+            pollConfiguration = null,
+            configuration = configuration,
+            maxMediaAttachments = null,
+            pleroma = null
         )
     }
 
