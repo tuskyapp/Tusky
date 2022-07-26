@@ -71,7 +71,7 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
         holder.binding.accountFieldNameText.setText(fieldData[position].first)
         holder.binding.accountFieldValueText.setText(fieldData[position].second)
 
-        holder.binding.accountFieldNameTextLayout.isCounterEnabled = maxValueLength != null
+        holder.binding.accountFieldNameTextLayout.isCounterEnabled = maxNameLength != null
         maxNameLength?.let {
             holder.binding.accountFieldNameTextLayout.counterMaxLength = it
         }
