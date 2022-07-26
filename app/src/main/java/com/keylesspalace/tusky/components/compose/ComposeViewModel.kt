@@ -40,7 +40,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -49,13 +48,9 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -269,36 +264,29 @@ class ComposeViewModel @Inject constructor(
     /**
      * Send status to the server.
      * Uses current state plus provided arguments.
-     * @return LiveData which will signal once the screen can be closed or null if there are errors
      */
-    fun sendStatus(
+    suspend fun sendStatus(
         content: String,
         spoilerText: String
-    ): Flow<Unit> {
+    ) {
 
-        val deletionFlow = if (!scheduledTootId.isNullOrEmpty()) {
-            flow {
-                api.deleteScheduledStatus(scheduledTootId!!)
-                emit(Unit)
-            }
-        } else {
-            flowOf(Unit)
+        if (!scheduledTootId.isNullOrEmpty()) {
+            api.deleteScheduledStatus(scheduledTootId!!)
         }
 
-        val sendFlow = media
+        media
             .filter { items -> items.all { it.uploadPercent == -1 } }
-            .map {
+            .first {
                 val mediaIds: MutableList<String> = mutableListOf()
                 val mediaUris: MutableList<Uri> = mutableListOf()
                 val mediaDescriptions: MutableList<String> = mutableListOf()
                 val mediaProcessed: MutableList<Boolean> = mutableListOf()
-                for (item in media.value) {
+                media.value.forEach { item ->
                     mediaIds.add(item.id!!)
                     mediaUris.add(item.uri)
                     mediaDescriptions.add(item.description ?: "")
                     mediaProcessed.add(false)
                 }
-
                 val tootToSend = StatusToSend(
                     text = content,
                     warningText = spoilerText,
@@ -320,9 +308,8 @@ class ComposeViewModel @Inject constructor(
                 )
 
                 serviceClient.sendToot(tootToSend)
+                true
             }
-
-        return deletionFlow.zip(sendFlow) { _, _ -> }
     }
 
     suspend fun updateDescription(localId: Int, description: String): Boolean {

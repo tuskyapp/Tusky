@@ -860,10 +860,9 @@ class ComposeActivity :
             }
 
             lifecycleScope.launch {
-                viewModel.sendStatus(contentText, spoilerText).collect {
-                    finishingUploadDialog?.dismiss()
-                    deleteDraftAndFinish()
-                }
+                viewModel.sendStatus(contentText, spoilerText)
+                finishingUploadDialog?.dismiss()
+                deleteDraftAndFinish()
             }
         } else {
             binding.composeEditField.error = getString(R.string.error_compose_character_limit)
