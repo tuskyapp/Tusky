@@ -76,6 +76,7 @@ class ComposeViewModel @Inject constructor(
 
     private var contentWarningStateChanged: Boolean = false
     private var modifiedInitialState: Boolean = false
+    private var hasScheduledTimeChanged: Boolean = false
 
     val instanceInfo: SharedFlow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
@@ -214,8 +215,9 @@ class ComposeViewModel @Inject constructor(
             !startingContentWarning.startsWith(contentWarning.toString())
         val mediaChanged = media.value.isNotEmpty()
         val pollChanged = poll.value != null
+        val didScheduledTimeChange = hasScheduledTimeChanged
 
-        return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged
+        return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged || didScheduledTimeChange
     }
 
     fun contentWarningChanged(value: Boolean) {
@@ -257,7 +259,8 @@ class ComposeViewModel @Inject constructor(
             mediaUris = mediaUris,
             mediaDescriptions = mediaDescriptions,
             poll = poll.value,
-            failedToSend = false
+            failedToSend = false,
+            scheduledAt = scheduledAt.value
         )
     }
 
@@ -456,6 +459,10 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun updateScheduledAt(newScheduledAt: String?) {
+        if (newScheduledAt != scheduledAt.value) {
+            hasScheduledTimeChanged = true
+        }
+
         scheduledAt.value = newScheduledAt
     }
 
