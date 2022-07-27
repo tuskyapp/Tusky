@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 40)
+        }, version = 41)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -583,6 +583,19 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     public static final Migration MIGRATION_39_40 = new Migration(39, 40) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `videoSizeLimit` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `imageSizeLimit` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `imageMatrixLimit` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxMediaAttachments` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxFields` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxFieldNameLength` INTEGER");
+            database.execSQL("ALTER TABLE `InstanceEntity` ADD COLUMN `maxFieldValueLength` INTEGER");
+        }
+    };
+
+    public static final Migration MIGRATION_40_41 = new Migration(40, 41) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `DraftEntity` ADD COLUMN `scheduledAt` TEXT");

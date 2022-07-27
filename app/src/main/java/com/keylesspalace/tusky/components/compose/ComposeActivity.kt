@@ -52,7 +52,6 @@ import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -85,8 +84,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.afterTextChanged
-import com.keylesspalace.tusky.util.combineLiveData
-import com.keylesspalace.tusky.util.combineOptionalLiveData
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
@@ -95,11 +92,13 @@ import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import com.keylesspalace.tusky.util.withLifecycleContext
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
@@ -138,8 +137,7 @@ class ComposeActivity :
 
     private val binding by viewBinding(ActivityComposeBinding::inflate)
 
-    private val maxUploadMediaNumber = 4
-    private var mediaCount = 0
+    private var maxUploadMediaNumber = InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
@@ -147,7 +145,7 @@ class ComposeActivity :
         }
     }
     private val pickMediaFile = registerForActivityResult(PickMediaFiles()) { uris ->
-        if (mediaCount + uris.size > maxUploadMediaNumber) {
+        if (viewModel.media.value.size + uris.size > maxUploadMediaNumber) {
             Toast.makeText(this, resources.getQuantityString(R.plurals.error_upload_max_media_reached, maxUploadMediaNumber, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
         } else {
             uris.forEach { uri ->
@@ -224,8 +222,8 @@ class ComposeActivity :
         binding.composeMediaPreviewBar.adapter = mediaAdapter
         binding.composeMediaPreviewBar.itemAnimator = null
 
-        subscribeToUpdates(mediaAdapter)
         setupButtons()
+        subscribeToUpdates(mediaAdapter)
 
         photoUploadUri = savedInstanceState?.getParcelable(PHOTO_UPLOAD_URI_KEY)
 
@@ -363,36 +361,48 @@ class ComposeActivity :
     }
 
     private fun subscribeToUpdates(mediaAdapter: MediaPreviewAdapter) {
-        withLifecycleContext {
-            viewModel.instanceInfo.observe { instanceData ->
+        lifecycleScope.launch {
+            viewModel.instanceInfo.collect { instanceData ->
                 maximumTootCharacters = instanceData.maxChars
                 charactersReservedPerUrl = instanceData.charactersReservedPerUrl
+                maxUploadMediaNumber = instanceData.maxMediaAttachments
                 updateVisibleCharactersLeft()
             }
-            viewModel.emoji.observe { emoji -> setEmojiList(emoji) }
-            combineLiveData(viewModel.markMediaAsSensitive, viewModel.showContentWarning) { markSensitive, showContentWarning ->
+        }
+
+        lifecycleScope.launch {
+            viewModel.emoji.collect(::setEmojiList)
+        }
+
+        lifecycleScope.launch {
+            viewModel.showContentWarning.combine(viewModel.markMediaAsSensitive) { showContentWarning, markSensitive ->
                 updateSensitiveMediaToggle(markSensitive, showContentWarning)
                 showContentWarning(showContentWarning)
-            }.subscribe()
-            viewModel.statusVisibility.observe { visibility ->
-                setStatusVisibility(visibility)
-            }
-            lifecycleScope.launch {
-                viewModel.media.collect { media ->
-                    mediaAdapter.submitList(media)
-                    if (media.size != mediaCount) {
-                        mediaCount = media.size
-                        binding.composeMediaPreviewBar.visible(media.isNotEmpty())
-                        updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value != false, viewModel.showContentWarning.value != false)
-                    }
-                }
-            }
+            }.collect()
+        }
 
-            viewModel.poll.observe { poll ->
+        lifecycleScope.launch {
+            viewModel.statusVisibility.collect(::setStatusVisibility)
+        }
+
+        lifecycleScope.launch {
+            viewModel.media.collect { media ->
+                mediaAdapter.submitList(media)
+
+                binding.composeMediaPreviewBar.visible(media.isNotEmpty())
+                updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value, viewModel.showContentWarning.value)
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.poll.collect { poll ->
                 binding.pollPreview.visible(poll != null)
                 poll?.let(binding.pollPreview::setPoll)
             }
-            viewModel.scheduledAt.observe { scheduledAt ->
+        }
+
+        lifecycleScope.launch {
+            viewModel.scheduledAt.collect { scheduledAt ->
                 if (scheduledAt == null) {
                     binding.composeScheduleView.resetSchedule()
                 } else {
@@ -400,22 +410,30 @@ class ComposeActivity :
                 }
                 updateScheduleButton()
             }
-            combineOptionalLiveData(viewModel.media.asLiveData(), viewModel.poll) { media, poll ->
+        }
+
+        lifecycleScope.launch {
+            viewModel.media.combine(viewModel.poll) { media, poll ->
                 val active = poll == null &&
-                    media!!.size != 4 &&
+                    media.size < maxUploadMediaNumber &&
                     (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
                 enableButton(binding.composeAddMediaButton, active, active)
-                enablePollButton(media.isNullOrEmpty())
-            }.subscribe()
-            viewModel.uploadError.observe { throwable ->
-                Log.w(TAG, "media upload failed", throwable)
+                enablePollButton(media.isEmpty())
+            }.collect()
+        }
+
+        lifecycleScope.launch {
+            viewModel.uploadError.collect { throwable ->
                 if (throwable is UploadServerError) {
                     displayTransientError(throwable.errorMessage)
                 } else {
                     displayTransientError(R.string.error_media_upload_sending)
                 }
             }
-            viewModel.setupComplete.observe {
+        }
+
+        lifecycleScope.launch {
+            viewModel.setupComplete.collect {
                 // Focus may have changed during view model setup, ensure initial focus is on the edit field
                 binding.composeEditField.requestFocus()
             }
@@ -711,13 +729,17 @@ class ComposeActivity :
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    private fun openPollDialog() {
+    private fun openPollDialog() = lifecycleScope.launch {
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        val instanceParams = viewModel.instanceInfo.value!!
+        val instanceParams = viewModel.instanceInfo.first()
         showAddPollDialog(
-            this, viewModel.poll.value, instanceParams.pollMaxOptions,
-            instanceParams.pollMaxLength, instanceParams.pollMinDuration, instanceParams.pollMaxDuration,
-            viewModel::updatePoll
+            context = this@ComposeActivity,
+            poll = viewModel.poll.value,
+            maxOptionCount = instanceParams.pollMaxOptions,
+            maxOptionLength = instanceParams.pollMaxLength,
+            minDuration = instanceParams.pollMinDuration,
+            maxDuration = instanceParams.pollMaxDuration,
+            onUpdatePoll = viewModel::updatePoll
         )
     }
 
@@ -768,7 +790,7 @@ class ComposeActivity :
             }
         }
         var length = binding.composeEditField.length() - offset
-        if (viewModel.showContentWarning.value!!) {
+        if (viewModel.showContentWarning.value) {
             length += binding.composeContentWarningField.length()
         }
         return length
@@ -822,7 +844,7 @@ class ComposeActivity :
         enableButtons(false)
         val contentText = binding.composeEditField.text.toString()
         var spoilerText = ""
-        if (viewModel.showContentWarning.value!!) {
+        if (viewModel.showContentWarning.value) {
             spoilerText = binding.composeContentWarningField.text.toString()
         }
         val characterCount = calculateTextLength()
@@ -837,9 +859,8 @@ class ComposeActivity :
                 )
             }
 
-            viewModel.sendStatus(contentText, spoilerText).observe(
-                this
-            ) {
+            lifecycleScope.launch {
+                viewModel.sendStatus(contentText, spoilerText)
                 finishingUploadDialog?.dismiss()
                 deleteDraftAndFinish()
             }

@@ -24,8 +24,9 @@ import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
@@ -34,6 +35,11 @@ import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -49,14 +55,18 @@ private const val AVATAR_FILE_NAME = "avatar.png"
 class EditProfileViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
-    private val application: Application
+    private val application: Application,
+    private val instanceInfoRepo: InstanceInfoRepository
 ) : ViewModel() {
 
     val profileData = MutableLiveData<Resource<Account>>()
     val avatarData = MutableLiveData<Uri>()
     val headerData = MutableLiveData<Uri>()
     val saveData = MutableLiveData<Resource<Nothing>>()
-    val instanceData = MutableLiveData<Resource<Instance>>()
+
+    @OptIn(FlowPreview::class)
+    val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
+        .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
     private var oldProfileData: Account? = null
 
@@ -185,20 +195,5 @@ class EditProfileViewModel @Inject constructor(
 
     private fun getCacheFileForName(filename: String): File {
         return File(application.cacheDir, filename)
-    }
-
-    fun obtainInstance() = viewModelScope.launch {
-        if (instanceData.value == null || instanceData.value is Error) {
-            instanceData.postValue(Loading())
-
-            mastodonApi.getInstance().fold(
-                { instance ->
-                    instanceData.postValue(Success(instance))
-                },
-                {
-                    instanceData.postValue(Error())
-                }
-            )
-        }
     }
 }
