@@ -33,7 +33,8 @@ fun showAddPollDialog(
     maxOptionLength: Int,
     minDuration: Int,
     maxDuration: Int,
-    onUpdatePoll: (NewPoll) -> Unit
+    onUpdatePoll: (NewPoll) -> Unit,
+    onCancelPoll: () -> Unit
 ) {
 
     val binding = DialogAddPollBinding.inflate(LayoutInflater.from(context))
@@ -45,6 +46,9 @@ fun showAddPollDialog(
         .setNegativeButton(android.R.string.cancel, null)
         .setPositiveButton(android.R.string.ok, null)
         .create()
+
+    dialog.setOnCancelListener { onCancelPoll() }
+    dialog.setOnDismissListener { onCancelPoll() }
 
     val adapter = AddPollOptionsAdapter(
         options = poll?.options?.toMutableList() ?: mutableListOf("", ""),
