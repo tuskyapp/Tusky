@@ -747,7 +747,7 @@ class ComposeActivity :
         )
     }
 
-    //TODO: move this to ViewUtils and use it for all BottomSheetBehavior operations in this activity perhaps?
+    // TODO move this to ViewUtils and use it for all BottomSheetBehavior operations in this activity perhaps?
     private fun <T: View> BottomSheetBehavior<T>.collapse() {
         state = BottomSheetBehavior.STATE_COLLAPSED
     }
