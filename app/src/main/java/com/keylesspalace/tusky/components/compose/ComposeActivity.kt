@@ -50,8 +50,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -203,6 +207,9 @@ class ComposeActivity :
         setContentView(binding.root)
 
         setupActionBar()
+
+        setupWindowInsets()
+
         // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
         val activeAccount = accountManager.activeAccount ?: return
 
@@ -248,6 +255,27 @@ class ComposeActivity :
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
         viewModel.setupComplete.value = true
+    }
+
+    private fun setupWindowInsets() {
+        // Needed for WindowInsets API to function. This works in conjunction with `fitsSystemWindows=true` in the Layout.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val systemInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val isImeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
+
+            val keyboardHeight = if (isImeVisible) windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom else 0
+
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = systemInsets.left
+                bottomMargin = if (isImeVisible) keyboardHeight else systemInsets.bottom
+                rightMargin = systemInsets.right
+                topMargin = systemInsets.top
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun applyShareIntent(intent: Intent, savedInstanceState: Bundle?) {
