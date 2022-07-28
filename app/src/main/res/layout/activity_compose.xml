@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activityCompose"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -271,7 +272,7 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_toggle_visibility"
             android:padding="4dp"
-            android:tint="?android:attr/textColorTertiary"
+            app:tint="?android:attr/textColorTertiary"
             app:tooltipText="@string/action_toggle_visibility"
             tools:src="@drawable/ic_public_24dp" />
 
