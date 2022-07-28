@@ -425,7 +425,11 @@ class ComposeActivity :
         lifecycleScope.launch {
             viewModel.poll.collect { poll ->
                 binding.pollPreview.visible(poll != null)
-                poll?.let(binding.pollPreview::setPoll)
+                addMediaBehavior.collapse()
+
+                poll?.let {
+                    binding.pollPreview.setPoll(it)
+                }
             }
         }
 
@@ -758,7 +762,6 @@ class ComposeActivity :
     }
 
     private fun openPollDialog() = lifecycleScope.launch {
-        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         val instanceParams = viewModel.instanceInfo.first()
         showAddPollDialog(
             context = this@ComposeActivity,
@@ -767,8 +770,14 @@ class ComposeActivity :
             maxOptionLength = instanceParams.pollMaxLength,
             minDuration = instanceParams.pollMinDuration,
             maxDuration = instanceParams.pollMaxDuration,
-            onUpdatePoll = viewModel::updatePoll
+            onUpdatePoll = viewModel::updatePoll,
+            onCancelPoll = { addMediaBehavior.collapse() }
         )
+    }
+
+    // TODO move this to ViewUtils and use it for all BottomSheetBehavior operations in this activity perhaps?
+    private fun <T: View> BottomSheetBehavior<T>.collapse() {
+        state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun setupPollView() {
