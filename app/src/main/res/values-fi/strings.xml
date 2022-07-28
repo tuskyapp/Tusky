@@ -184,7 +184,7 @@
     <string name="title_public_federated">Verkostoitu</string>
     <string name="error_media_upload_sending">Lähettäminen epäonnistui.</string>
     <string name="report_username_format">Ilmianna @%1$s</string>
-    <string name="report_comment_hint">Lisähuomautuksia\?</string>
+    <string name="report_comment_hint">Lisähuomautuksia?</string>
     <string name="error_loading_account_details">Tilitietojen lataaminen epäonnistui</string>
     <string name="error_media_upload_permission">Tiedostojen lähettäminen vaatii lukuoikeuden.</string>
     <string name="action_set_caption">Aseta kuvaus</string>
