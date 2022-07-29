@@ -27,6 +27,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
@@ -82,10 +83,10 @@ class MediaUploader @Inject constructor(
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun uploadMedia(media: QueuedMedia): Flow<UploadEvent> {
+    fun uploadMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Flow<UploadEvent> {
         return flow {
-            if (shouldResizeMedia(media)) {
-                emit(downsize(media))
+            if (shouldResizeMedia(media, instanceInfo)) {
+                emit(downsize(media, instanceInfo))
             } else {
                 emit(media)
             }
@@ -94,7 +95,7 @@ class MediaUploader @Inject constructor(
             .flowOn(Dispatchers.IO)
     }
 
-    fun prepareMedia(inUri: Uri): PreparedMedia {
+    fun prepareMedia(inUri: Uri, instanceInfo: InstanceInfo): PreparedMedia {
         var mediaSize = MEDIA_SIZE_UNKNOWN
         var uri = inUri
         val mimeType: String?
@@ -164,7 +165,7 @@ class MediaUploader @Inject constructor(
         if (mimeType != null) {
             return when (mimeType.substring(0, mimeType.indexOf('/'))) {
                 "video" -> {
-                    if (mediaSize > STATUS_VIDEO_SIZE_LIMIT) {
+                    if (mediaSize > instanceInfo.videoSizeLimit) {
                         throw VideoSizeException()
                     }
                     PreparedMedia(QueuedMedia.Type.VIDEO, uri, mediaSize)
@@ -173,7 +174,7 @@ class MediaUploader @Inject constructor(
                     PreparedMedia(QueuedMedia.Type.IMAGE, uri, mediaSize)
                 }
                 "audio" -> {
-                    if (mediaSize > STATUS_AUDIO_SIZE_LIMIT) {
+                    if (mediaSize > instanceInfo.videoSizeLimit) {
                         throw AudioSizeException()
                     }
                     PreparedMedia(QueuedMedia.Type.AUDIO, uri, mediaSize)
@@ -239,22 +240,18 @@ class MediaUploader @Inject constructor(
         }
     }
 
-    private fun downsize(media: QueuedMedia): QueuedMedia {
+    private fun downsize(media: QueuedMedia, instanceInfo: InstanceInfo): QueuedMedia {
         val file = createNewImageFile(context)
-        downsizeImage(media.uri, STATUS_IMAGE_SIZE_LIMIT, contentResolver, file)
+        downsizeImage(media.uri, instanceInfo.imageSizeLimit, contentResolver, file)
         return media.copy(uri = file.toUri(), mediaSize = file.length())
     }
 
-    private fun shouldResizeMedia(media: QueuedMedia): Boolean {
+    private fun shouldResizeMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Boolean {
         return media.type == QueuedMedia.Type.IMAGE &&
-            (media.mediaSize > STATUS_IMAGE_SIZE_LIMIT || getImageSquarePixels(context.contentResolver, media.uri) > STATUS_IMAGE_PIXEL_SIZE_LIMIT)
+            (media.mediaSize > instanceInfo.imageSizeLimit || getImageSquarePixels(context.contentResolver, media.uri) > instanceInfo.imageMatrixLimit)
     }
 
     private companion object {
         private const val TAG = "MediaUploader"
-        private const val STATUS_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
-        private const val STATUS_AUDIO_SIZE_LIMIT = 41943040 // 40MiB
-        private const val STATUS_IMAGE_SIZE_LIMIT = 8388608 // 8MiB
-        private const val STATUS_IMAGE_PIXEL_SIZE_LIMIT = 16777216 // 4096^2 Pixels
     }
 }
