@@ -110,17 +110,18 @@ class ViewThreadViewModel @Inject constructor(
                 val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
                 val detailedStatus = status.toViewData(true)
                 val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
+                val statuses = ancestors + detailedStatus + descendants
 
                 _uiState.value = ThreadUiState.Success(
-                    statuses = ancestors + detailedStatus + descendants,
-                    revealButton = RevealButtonState.REVEAL,
+                    statuses = statuses,
+                    revealButton = statuses.getRevealButtonState(),
                     refreshing = false
                 )
             }, { throwable ->
                 _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
                     statuses = listOf(status.toViewData(true)),
-                    revealButton = RevealButtonState.HIDDEN,
+                    revealButton = RevealButtonState.NO_BUTTON,
                     refreshing = false
                 )
             })
@@ -204,8 +205,18 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
-        updateStatusViewData(status.id) { viewData ->
-            viewData.copy(isExpanded = expanded)
+        _uiState.updateSuccess { uiState ->
+            val statuses = uiState.statuses.map { viewData ->
+                if (viewData.id == status.id) {
+                    viewData.copy(isExpanded = expanded)
+                } else {
+                    viewData
+                }
+            }
+            uiState.copy(
+                statuses = statuses,
+                revealButton = statuses.getRevealButtonState()
+            )
         }
     }
 
@@ -285,17 +296,40 @@ class ViewThreadViewModel @Inject constructor(
 
     fun toggleRevealButton() {
         _uiState.updateSuccess { uiState ->
-            if (uiState.revealButton != RevealButtonState.HIDDEN) {
-                uiState.copy(
-                    revealButton = if (uiState.revealButton == RevealButtonState.HIDE) {
-                        RevealButtonState.REVEAL
-                    } else {
-                        RevealButtonState.HIDE
-                    }
+            when (uiState.revealButton) {
+                RevealButtonState.HIDE -> uiState.copy(
+                    statuses = uiState.statuses.map { viewData ->
+                        viewData.copy(isExpanded = false)
+                    },
+                    revealButton = RevealButtonState.REVEAL
                 )
-            } else {
-                uiState
+                RevealButtonState.REVEAL -> uiState.copy(
+                    statuses = uiState.statuses.map { viewData ->
+                        viewData.copy(isExpanded = true)
+                    },
+                    revealButton = RevealButtonState.HIDE
+                )
+                else -> uiState
             }
+        }
+    }
+
+    private fun List<StatusViewData.Concrete>.getRevealButtonState(): RevealButtonState {
+        val hasWarnings = any { viewData ->
+            viewData.status.spoilerText.isNotEmpty()
+        }
+
+        return if (hasWarnings) {
+            val allExpanded = none { viewData ->
+                !viewData.isExpanded
+            }
+            if (allExpanded) {
+                RevealButtonState.HIDE
+            } else {
+                RevealButtonState.REVEAL
+            }
+        } else {
+            RevealButtonState.NO_BUTTON
         }
     }
 
@@ -314,8 +348,10 @@ class ViewThreadViewModel @Inject constructor(
             )
 
             _uiState.updateSuccess { uiState ->
+                val statuses = uiState.statuses.filter()
                 uiState.copy(
-                    statuses = uiState.statuses.filter()
+                    statuses = statuses,
+                    revealButton = statuses.getRevealButtonState()
                 )
             }
         }
@@ -384,5 +420,5 @@ sealed interface ThreadUiState {
 }
 
 enum class RevealButtonState {
-    HIDDEN, REVEAL, HIDE
+    NO_BUTTON, REVEAL, HIDE
 }

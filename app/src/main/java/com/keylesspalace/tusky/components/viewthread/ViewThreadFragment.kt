@@ -143,7 +143,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is ThreadUiState.Loading -> {
-                        updateRevealButton(RevealButtonState.HIDDEN)
+                        updateRevealButton(RevealButtonState.NO_BUTTON)
                         binding.recyclerView.hide()
                         binding.statusView.hide()
                         binding.progressBar.show()
@@ -151,7 +151,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                     is ThreadUiState.Error -> {
                         Log.w(TAG, "failed to load status", uiState.throwable)
 
-                        updateRevealButton(RevealButtonState.HIDDEN)
+                        updateRevealButton(RevealButtonState.NO_BUTTON)
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.hide()
@@ -199,7 +199,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     private fun updateRevealButton(state: RevealButtonState) {
         val menuItem = binding.toolbar.menu.findItem(R.id.action_reveal)
 
-        menuItem.isVisible = state != RevealButtonState.HIDDEN
+        menuItem.isVisible = state != RevealButtonState.NO_BUTTON
         menuItem.setIcon(if (state == RevealButtonState.REVEAL) R.drawable.ic_eye_24dp else R.drawable.ic_hide_media_24dp)
     }
 
