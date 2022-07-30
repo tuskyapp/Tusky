@@ -961,6 +961,7 @@ class ComposeActivity :
                     is AudioSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.first().videoSizeLimit)
                     is VideoOrImageException -> getString(R.string.error_media_upload_image_or_video)
                     else -> getString(R.string.error_media_upload_opening)
+
                 }
                 displayTransientError(errorString)
             }
