@@ -957,8 +957,8 @@ class ComposeActivity :
         lifecycleScope.launch {
             viewModel.pickMedia(uri).onFailure { throwable ->
                 val errorId = when (throwable) {
-                    is VideoSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.videoSizeLimit)
-                    is AudioSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.videoSizeLimit)
+                    is VideoSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.first().videoSizeLimit)
+                    is AudioSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.first().videoSizeLimit)
                     is VideoOrImageException -> R.string.error_media_upload_image_or_video
                     else -> R.string.error_media_upload_opening
                 }
