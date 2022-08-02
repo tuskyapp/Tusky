@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Wsparcie dla nowych rodzajów powiadomień w Mastodon 3.5
+- Plakietka botów wygląda teraz lepiej i dostosowuje się do wybranego motywu
+- Można teraz zaznaczyć tekst w widoku detali postów
+- Naprawiono wiele błędów, w tym jeden który uniemożliwiał logowanie na Android 6 i niższych
