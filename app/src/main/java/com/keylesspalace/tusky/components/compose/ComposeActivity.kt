@@ -247,7 +247,10 @@ class ComposeActivity :
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
-        viewModel.setupComplete.value = true
+
+        binding.composeEditField.post {
+            binding.composeEditField.requestFocus()
+        }
     }
 
     private fun applyShareIntent(intent: Intent, savedInstanceState: Bundle?) {
@@ -429,13 +432,6 @@ class ComposeActivity :
                 } else {
                     displayTransientError(R.string.error_media_upload_sending)
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.setupComplete.collect {
-                // Focus may have changed during view model setup, ensure initial focus is on the edit field
-                binding.composeEditField.requestFocus()
             }
         }
     }

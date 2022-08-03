@@ -89,7 +89,6 @@ class ComposeViewModel @Inject constructor(
 
     val statusVisibility: MutableStateFlow<Status.Visibility> = MutableStateFlow(Status.Visibility.UNKNOWN)
     val showContentWarning: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val setupComplete: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val poll: MutableStateFlow<NewPoll?> = MutableStateFlow(null)
     val scheduledAt: MutableStateFlow<String?> = MutableStateFlow(null)
 
@@ -100,6 +99,8 @@ class ComposeViewModel @Inject constructor(
 
     // Used in ComposeActivity to pass state to result function when cropImage contract inflight
     var cropImageItemOld: QueuedMedia? = null
+
+    private var setupComplete = false
 
     suspend fun pickMedia(mediaUri: Uri, description: String? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
         try {
@@ -380,7 +381,7 @@ class ComposeViewModel @Inject constructor(
 
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
 
-        if (setupComplete.value) {
+        if (setupComplete) {
             return
         }
 
@@ -452,6 +453,8 @@ class ComposeViewModel @Inject constructor(
         }
         replyingStatusContent = composeOptions?.replyingStatusContent
         replyingStatusAuthor = composeOptions?.replyingStatusAuthor
+
+        setupComplete = true
     }
 
     fun updatePoll(newPoll: NewPoll) {
