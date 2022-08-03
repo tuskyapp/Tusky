@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemPollBinding
@@ -97,7 +96,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 }
 
                 resultTextView.background.level = level
-                resultTextView.background.setTint(ContextCompat.getColor(resultTextView.context, optionColor))
+                resultTextView.background.setTint(resultTextView.context.getColor(optionColor))
                 resultTextView.setOnClickListener(resultClickListener)
             }
             SINGLE -> {
