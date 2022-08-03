@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
@@ -656,4 +657,13 @@ interface MastodonApi {
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
     ): NetworkResult<ResponseBody>
+
+    @GET("api/v1/tags/{name}")
+    fun tag(@Path("name") name: String): Single<HashTag>
+
+    @POST("api/v1/tags/{name}/follow")
+    fun followTag(@Path("name") name: String): Single<HashTag>
+
+    @POST("api/v1/tags/{name}/unfollow")
+    fun unfollowTag(@Path("name") name: String): Single<HashTag>
 }

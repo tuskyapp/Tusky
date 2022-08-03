@@ -18,18 +18,30 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import autodispose2.androidx.lifecycle.autoDispose
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
+    lateinit var kind: Kind
+    var hashtag: String? = null
+    var followTagItem: MenuItem? = null
+    var unfollowTagItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +50,9 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
+        kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
         val listId = intent.getStringExtra(EXTRA_LIST_ID)
-        val hashtag = intent.getStringExtra(EXTRA_HASHTAG)
+        hashtag = intent.getStringExtra(EXTRA_HASHTAG)
 
         val title = when (kind) {
             Kind.FAVOURITES -> getString(R.string.title_favourites)
@@ -65,6 +77,71 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 replace(R.id.fragmentContainer, fragment)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val tag = hashtag
+        if (kind == Kind.TAG && tag != null) {
+            mastodonApi.tag(tag)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                    { tagEntity ->
+                        menuInflater.inflate(R.menu.view_hashtag_toolbar, menu)
+                        followTagItem = menu.findItem(R.id.action_follow_hashtag)
+                        unfollowTagItem = menu.findItem(R.id.action_unfollow_hashtag)
+                        followTagItem?.isVisible = tagEntity.following == false
+                        unfollowTagItem?.isVisible = tagEntity.following == true
+                        followTagItem?.setOnMenuItemClickListener { followTag() }
+                        unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
+                    },
+                    { t ->
+                        Log.w("Failed to query tag #$tag", t)
+                    }
+                )
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun followTag(): Boolean {
+        val tag = hashtag
+        if (tag != null) {
+            mastodonApi.followTag(tag)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                    {
+                        followTagItem?.isVisible = false
+                        unfollowTagItem?.isVisible = true
+                    },
+                    {
+                        Toast.makeText(this, "Error following #$tag", Toast.LENGTH_SHORT).show()
+                    }
+                )
+        }
+
+        return true
+    }
+
+    private fun unfollowTag(): Boolean {
+        val tag = hashtag
+        if (tag != null) {
+            mastodonApi.unfollowTag(tag)
+                .observeOn(AndroidSchedulers.mainThread())
+                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+                .subscribe(
+                    {
+                        followTagItem?.isVisible = true
+                        unfollowTagItem?.isVisible = false
+                    },
+                    {
+                        Toast.makeText(this, "Error unfollowing #$tag", Toast.LENGTH_SHORT).show()
+                    }
+                )
+        }
+
+        return true
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
