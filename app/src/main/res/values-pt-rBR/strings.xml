@@ -117,8 +117,8 @@
     <string name="confirmation_unmuted">Usuário dessilenciado</string>
     <string name="post_sent">Enviado!</string>
     <string name="post_sent_long">Resposta enviada com sucesso.</string>
-    <string name="hint_domain">Qual instância?</string>
-    <string name="hint_compose">No que você está pensando?</string>
+    <string name="hint_domain">Qual instância\?</string>
+    <string name="hint_compose">No que você está pensando\?</string>
     <string name="hint_content_warning">Aviso de Conteúdo aqui</string>
     <string name="hint_display_name">Nome de exibição</string>
     <string name="hint_note">Biografia</string>
@@ -127,20 +127,20 @@
     <string name="label_quick_reply">Responder…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Capa</string>
-    <string name="link_whats_an_instance">O que é uma instância?</string>
+    <string name="link_whats_an_instance">O que é uma instância\?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> 
-\n 
-\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá. 
-\n 
-\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site. 
-\n 
+    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a>
+\n
+\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá.
+\n
+\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site.
+\n
 \n Mais informações podem ser encontradas em <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_download_image">Baixar</string>
     <string name="dialog_message_cancel_follow_request">Cancelar solicitação para seguir\?</string>
-    <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
+    <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
     <string name="dialog_delete_post_warning">Excluir este toot?</string>
     <string name="visibility_public">Público: Postar em linhas públicas</string>
     <string name="visibility_unlisted">Não-listado: Não postar em linhas públicas</string>
@@ -216,8 +216,8 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Site do projeto:\n
-            https://tusky.app</string>
+    <string name="about_project_site">Site do projeto:
+\n https://tusky.app</string>
     <string name="about_bug_feature_request_site">Reporte bugs e solicite funcionalidades:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Perfil do Tusky</string>
@@ -252,7 +252,7 @@
     <string name="action_remove">Remover</string>
     <string name="lock_account_label">Trancar perfil</string>
     <string name="lock_account_label_description">Requer aprovação manual de seguidores</string>
-    <string name="compose_save_draft">Salvar rascunho?</string>
+    <string name="compose_save_draft">Salvar rascunho\?</string>
     <string name="send_post_notification_title">Enviando toot…</string>
     <string name="send_post_notification_error_title">Erro ao enviar toot</string>
     <string name="send_post_notification_channel_name">Enviando toots</string>
@@ -287,7 +287,7 @@
     <string name="pref_title_absolute_time">Usar tempo absoluto</string>
     <string name="title_reblogged_by">Levou boost de</string>
     <string name="title_favourited_by">Favoritado por</string>
-    <string name="description_visiblity_public">Público    </string>
+    <string name="description_visiblity_public">Público</string>
     <string name="description_visiblity_private">Privado</string>
     <string name="error_network">Ocorreu um erro de conexão! Por favor, verifique sua internet e tente novamente!</string>
     <string name="title_posts_pinned">Fixado</string>
@@ -328,8 +328,9 @@
     <string name="action_add_to_list">Adicionar conta à lista</string>
     <string name="action_remove_from_list">Remover conta da lista</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Descrever para deficientes visuais
+        <item quantity="one">Descrever para deficientes visuais
 \n(até %d caracteres)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -337,12 +338,12 @@
     <string name="unpin_action">Desafixar</string>
     <string name="pin_action">Fixar</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorito</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritos</item>
+        <item quantity="one"><b>%1$s</b> Favorito</item>
+        <item quantity="other"><b>%1$s</b> Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Boosts</item>
     </plurals>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
