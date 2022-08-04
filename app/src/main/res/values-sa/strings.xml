@@ -186,11 +186,11 @@
     <string name="dialog_download_image">अवारोप्यताम्</string>
     <string name="dialog_message_uploading_media">उपारोप्यमाणम्…</string>
     <string name="dialog_title_finishing_media_upload">सामग्रीणामुपारोपणसिद्धिः वर्तमाना</string>
-    <string name="dialog_whats_an_instance">कस्याऽपि विशिष्टस्थलस्य सङ्केतसूत्रमत्र टङ्कयितुं शक्यते mastodon.social, icosahedron.website, social.tchncs.de, तथेैव<a href="https://instances.social">अधिकम्</a> 
+    <string name="dialog_whats_an_instance">कस्याऽपि विशिष्टस्थलस्य सङ्केतसूत्रमत्र टङ्कयितुं शक्यते mastodon.social, icosahedron.website, social.tchncs.de, तथेैव<a href="https://instances.social">अधिकम्</a>
 \n
 \nयदि युष्माकं व्यक्तिगतलेखाऽत्र न वर्तते तर्हि तस्य विशिष्टस्थलस्य नाम टङ्कयित्वा तत्र निर्मातुं शक्नुथ ।
 \n
-\nविशिष्टस्थलमित्युक्ते स्थलमेकं यत्र युष्माकं लेखाः आश्रिताः, किन्तु साफल्येनैवाऽन्यविशिष्टस्थलीयैः सह सम्पर्कयितुं शक्यते । 
+\nविशिष्टस्थलमित्युक्ते स्थलमेकं यत्र युष्माकं लेखाः आश्रिताः, किन्तु साफल्येनैवाऽन्यविशिष्टस्थलीयैः सह सम्पर्कयितुं शक्यते ।
 \n
 \nअधिकमत्र प्राप्यते <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="hint_search_people_list">येषामुसरणं करोषि तेष्वन्विष्यताम्</string>
@@ -247,7 +247,8 @@
     <string name="about_title_activity">विज्ञप्तिः</string>
     <string name="description_account_locked">कपाटितव्यक्तिविवरणलेखः</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d नवपरस्परक्रियाः</item>
+        <item quantity="one">%d नवपरस्परक्रियाः</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_summary_small">%1$s च %2$s च</string>
     <string name="notification_summary_medium">%1$s, %2$s, तथैव %3$s</string>
@@ -329,8 +330,9 @@
     <string name="action_remove">नश्यताम्</string>
     <string name="action_set_caption">शीर्षकवाक्यं लिख्यताम्</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
+        <item quantity="one">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
 \n(%d परिमिता न्यूनाक्षरसङ्ख्या)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="error_failed_set_caption">शीर्षकवाक्यं लेखितुमशक्यम्</string>
     <string name="compose_active_account_description">%1$s लेखया प्रकटनं क्रियते</string>
@@ -452,7 +454,8 @@
     <string name="description_post_cw">विषयपूर्वसतर्कता: %s</string>
     <string name="description_post_media">सामग्र्यः %s</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">अधिकतमपीठिकासङ्ख्या %1$d भूता</item>
+        <item quantity="one">अधिकतमपीठिकासङ्ख्या %1$d भूता</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s तथा %3$d अन्येऽपि</string>
     <string name="conversation_2_recipients">%1$s तथैव %2$s</string>
@@ -466,4 +469,5 @@
         <item quantity="one"><b>%1$s</b> प्रियम्</item>
         <item quantity="other"><b>%1$s</b> प्रिये</item>
     </plurals>
+    <string name="post_lookup_error_format"></string>
 </resources>
