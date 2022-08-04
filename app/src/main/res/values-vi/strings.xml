@@ -68,12 +68,12 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a> 
-\n 
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước. 
-\n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
-\n 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a>
+\n
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước.
+\n
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác.
+\n
 \nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
