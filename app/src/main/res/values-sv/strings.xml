@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ett fel har uppstått.</string>
-    <string name="error_network">Ett nätverksfel inträffade! Kontrollera att du är ansluten till internet och försök igen! </string>
+    <string name="error_network">Ett nätverksfel inträffade! Kontrollera att du är ansluten till internet och försök igen!</string>
     <string name="error_empty">Det här kan inte vara tomt.</string>
     <string name="error_invalid_domain">Ogiltig domän angiven</string>
     <string name="error_failed_app_registration">Kunde inte med att autentisera med den instansen.</string>
@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s favoriserade din toot</string>
     <string name="notification_follow_format">%s följer dig</string>
     <string name="report_username_format">Rapportera @%s</string>
-    <string name="report_comment_hint">Ytterligare kommentarer?</string>
+    <string name="report_comment_hint">Ytterligare kommentarer\?</string>
     <string name="action_quick_reply">Snabbsvar</string>
     <string name="action_reply">Svara</string>
     <string name="action_reblog">Knuffa</string>
@@ -64,7 +64,7 @@
     <string name="action_compose">Skriv</string>
     <string name="action_login">Logga in med Mastodon</string>
     <string name="action_logout">Logga ut</string>
-    <string name="action_logout_confirm">Är du säker på att du vill logga ut från kontot %1$s?</string>
+    <string name="action_logout_confirm">Är du säker på att du vill logga ut från kontot %1$s\?</string>
     <string name="action_follow">Följ</string>
     <string name="action_unfollow">Avfölj</string>
     <string name="action_block">Blockera</string>
@@ -128,8 +128,8 @@
     <string name="confirmation_unmuted">Användaren är inte tystad längre</string>
     <string name="post_sent">Skickat!</string>
     <string name="post_sent_long">Svar skickades framgångsrikt.</string>
-    <string name="hint_domain">Vilken instans?</string>
-    <string name="hint_compose">Vad händer?</string>
+    <string name="hint_domain">Vilken instans\?</string>
+    <string name="hint_compose">Vad händer\?</string>
     <string name="hint_content_warning">Innehållsvarning</string>
     <string name="hint_display_name">Visningsnamn</string>
     <string name="hint_note">Biografi</string>
@@ -138,20 +138,19 @@
     <string name="label_quick_reply">Svara…</string>
     <string name="label_avatar">Profilbild</string>
     <string name="label_header">Bakgrundsbild</string>
-    <string name="link_whats_an_instance">Vad är en instans?</string>
+    <string name="link_whats_an_instance">Vad är en instans\?</string>
     <string name="login_connection">Ansluter…</string>
-    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges 
-		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
-        <a href="https://instances.social"> mer! </a>
-        \n\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
-        \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, 
-        som om du var på samma sajt.
-        \n\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och <a href="https://instances.social"> mer! </a>
+\n
+\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
+\n
+\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt.
+\n
+\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
-    <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
+    <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan\?</string>
     <string name="dialog_unfollow_warning">Sluta följ detta konto\?</string>
     <string name="dialog_delete_post_warning">Radera denna toot\?</string>
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
@@ -218,7 +217,8 @@
     <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
     <string name="notification_summary_small">%1$s och %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d nya interaktioner</item>
+        <item quantity="one">%d nya interaktioner</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_account_locked">Låst konto</string>
     <string name="about_title_activity">Om</string>
@@ -230,12 +230,10 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Tuskys webbsida:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        Buggrapporter &amp; funktionsförslag:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Tuskys webbsida:
+\n https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Buggrapporter &amp; funktionsförslag:
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tuskys Profil</string>
     <string name="post_share_content">Dela innehåll av toot</string>
     <string name="post_share_link">Dela länk till toot</string>
@@ -282,13 +280,15 @@
     <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Beskriv för synskadade\n(%d teckengräns)</item>
+        <item quantity="one">Beskriv för synskadade
+\n(%d teckengräns)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Ange bildtext</string>
     <string name="action_remove">Ta bort</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Kräver att du manuellt godkänner följare</string>
-    <string name="compose_save_draft">Spara utkast?</string>
+    <string name="compose_save_draft">Spara utkast\?</string>
     <string name="send_post_notification_title">Skickar toot…</string>
     <string name="send_post_notification_error_title">Kunde inte skicka toot</string>
     <string name="send_post_notification_channel_name">Skickar toot</string>
@@ -327,8 +327,8 @@
     <string name="unpin_action">Ta bort nål</string>
     <string name="pin_action">Nåla fast</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriter</item>
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>%1$s</b> Favoriter</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> Knuff</item>
@@ -340,21 +340,18 @@
     <string name="conversation_2_recipients">%1$s och %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">max antal flikar %1$d uppnådd</item>
+        <item quantity="one">max antal flikar %1$d uppnådd</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innehållsvarning: %s</string>
     <string name="description_post_media_no_description_placeholder">Ingen beskrivning</string>
     <string name="description_post_reblogged">Knuffad</string>
     <string name="description_post_favourited">Favoriserad</string>
-    <string name="description_visiblity_public">        Publik
-    </string>
-    <string name="description_visiblity_unlisted">        Olistad
-    </string>
-    <string name="description_visiblity_private">        Följare
-    </string>
-    <string name="description_visiblity_direct">        Direkt
-    </string>
+    <string name="description_visiblity_public">Publik</string>
+    <string name="description_visiblity_unlisted">Olistad</string>
+    <string name="description_visiblity_private">Följare</string>
+    <string name="description_visiblity_direct">Direkt</string>
     <string name="hint_list_name">Listnamn</string>
     <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
