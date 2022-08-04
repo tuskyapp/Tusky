@@ -65,6 +65,7 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
+import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
@@ -474,6 +475,23 @@ class ComposeActivity :
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
+        setupLanguageSpinner()
+    }
+
+    private fun setupLanguageSpinner() {
+        val locales = Locale.getAvailableLocales()
+            .filter { it.toLanguageTag().length == 2 }
+        val currentLocaleIndex = if (Locale.getDefault().language.length == 2) {
+            locales.indexOfFirst{ it.language == Locale.getDefault().language }
+        } else {
+            locales.indexOfFirst{ it.language == "en" }
+        }
+
+        val context = this
+        binding.composePostLanguageButton.apply {
+            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, locales)
+            setSelection(currentLocaleIndex)
+        }
     }
 
     private fun setupActionBar() {
