@@ -218,7 +218,7 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Kuvaa näkövammaisille
 \n(enintään %d merkkiä)</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <string name="edit_hashtag_hint">Aihetunniste ilman #-merkkiä</string>
     <string name="title_domain_mutes">Piilotetus verkkonimet</string>
