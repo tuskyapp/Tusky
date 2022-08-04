@@ -379,13 +379,9 @@
         <item quantity="many">достигнут лимит в %1$d вкладок</item>
         <item quantity="other">достигнут лимит в %1$d вкладок</item>
     </plurals>
-    <string name="description_post_media">
-        Медиафайл: %s
-    </string>
+    <string name="description_post_media">Медиафайл: %s</string>
     <string name="description_post_cw">Предупреждение о содержании: %s</string>
-    <string name="description_post_media_no_description_placeholder">
-        Без описания
-    </string>
+    <string name="description_post_media_no_description_placeholder">Без описания</string>
     <string name="description_post_reblogged">Реблогнуто</string>
     <string name="description_post_favourited">Понравилось</string>
     <string name="description_visiblity_public">Публичный</string>
@@ -542,4 +538,33 @@
     <string name="action_delete_conversation">Удалить разговор</string>
     <string name="pref_title_confirm_favourites">Запрашивать подтверждение перед добавлением в избранное</string>
     <string name="action_unbookmark">Убрать из закладок</string>
+    <string name="pref_title_notification_filter_updates"></string>
+    <string name="notification_update_format"></string>
+    <string name="dialog_push_notification_migration"></string>
+    <string name="dialog_push_notification_migration_other_accounts"></string>
+    <string name="account_date_joined"></string>
+    <string name="tips_push_notification_migration"></string>
+    <string name="duration_180_days"></string>
+    <string name="duration_365_days"></string>
+    <string name="title_login"></string>
+    <string name="notification_sign_up_format"></string>
+    <string name="notification_sign_up_name"></string>
+    <string name="notification_sign_up_description"></string>
+    <string name="status_count_one_plus"></string>
+    <string name="duration_14_days"></string>
+    <string name="duration_30_days"></string>
+    <string name="duration_60_days"></string>
+    <string name="duration_90_days"></string>
+    <string name="error_could_not_load_login_page"></string>
+    <string name="notification_update_name"></string>
+    <string name="notification_update_description"></string>
+    <string name="tusky_compose_post_quicksetting_label"></string>
+    <string name="error_image_edit_failed"></string>
+    <string name="pref_title_notification_filter_sign_ups"></string>
+    <string name="saving_draft"></string>
+    <string name="title_migration_relogin"></string>
+    <string name="action_dismiss"></string>
+    <string name="action_details"></string>
+    <string name="error_loading_account_details"></string>
+    <string name="action_edit_image"></string>
 </resources>

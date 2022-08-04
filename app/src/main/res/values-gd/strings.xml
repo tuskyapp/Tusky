@@ -563,4 +563,8 @@
     <string name="title_migration_relogin">Clàraich a-steach às ùr airson brathan putaidh</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Deasaich an dealbh</string>
+    <string name="error_loading_account_details"></string>
+    <string name="dialog_push_notification_migration_other_accounts"></string>
+    <string name="dialog_push_notification_migration"></string>
+    <string name="error_image_edit_failed"></string>
 </resources>

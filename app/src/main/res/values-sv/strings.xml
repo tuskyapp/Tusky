@@ -153,7 +153,7 @@
     <string name="dialog_download_image">Ladda ned</string>
     <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
     <string name="dialog_unfollow_warning">Sluta följ detta konto\?</string>
-    <string name="dialog_delete_post_warning">Radera denna toot?</string>
+    <string name="dialog_delete_post_warning">Radera denna toot\?</string>
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
     <string name="visibility_private">Enbart-följare: Ses enbart av följare</string>
@@ -342,15 +342,11 @@
     <plurals name="max_tab_number_reached">
         <item quantity="other">max antal flikar %1$d uppnådd</item>
     </plurals>
-    <string name="description_post_media">        Media: %s
-    </string>
+    <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innehållsvarning: %s</string>
-    <string name="description_post_media_no_description_placeholder">        Ingen beskrivning
-    </string>
-    <string name="description_post_reblogged">        Knuffad
-    </string>
-    <string name="description_post_favourited">        Favoriserad
-    </string>
+    <string name="description_post_media_no_description_placeholder">Ingen beskrivning</string>
+    <string name="description_post_reblogged">Knuffad</string>
+    <string name="description_post_favourited">Favoriserad</string>
     <string name="description_visiblity_public">        Publik
     </string>
     <string name="description_visiblity_unlisted">        Olistad
@@ -504,4 +500,54 @@
 \n
 \nPush-aviseringar påverkas inte, men du ändra dina aviseringinställningar manuellt.</string>
     <string name="pref_title_wellbeing_mode">Välmående</string>
+    <string name="title_migration_relogin"></string>
+    <string name="action_dismiss"></string>
+    <string name="action_details"></string>
+    <string name="pref_title_notification_filter_sign_ups"></string>
+    <string name="dialog_delete_conversation_warning"></string>
+    <string name="notification_sign_up_name"></string>
+    <string name="notification_sign_up_description"></string>
+    <string name="tips_push_notification_migration"></string>
+    <string name="dialog_push_notification_migration"></string>
+    <string name="dialog_push_notification_migration_other_accounts"></string>
+    <string name="follow_requests_info"></string>
+    <string name="dialog_delete_list_warning"></string>
+    <string name="action_subscribe_account"></string>
+    <string name="drafts_post_failed_to_send"></string>
+    <string name="drafts_post_reply_removed"></string>
+    <string name="pref_title_animate_custom_emojis"></string>
+    <string name="drafts_failed_loading_reply"></string>
+    <string name="draft_deleted"></string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="label_duration"></string>
+    <string name="duration_indefinite"></string>
+    <string name="action_unsubscribe_account"></string>
+    <string name="action_delete_conversation"></string>
+    <string name="account_date_joined"></string>
+    <string name="action_unbookmark"></string>
+    <string name="pref_title_confirm_favourites"></string>
+    <string name="title_login"></string>
+    <string name="duration_14_days"></string>
+    <string name="duration_30_days"></string>
+    <string name="duration_60_days"></string>
+    <string name="duration_90_days"></string>
+    <string name="duration_180_days"></string>
+    <string name="duration_365_days"></string>
+    <string name="error_loading_account_details"></string>
+    <string name="pref_title_notification_filter_updates"></string>
+    <string name="status_count_one_plus"></string>
+    <string name="notification_sign_up_format"></string>
+    <string name="tusky_compose_post_quicksetting_label"></string>
+    <string name="error_could_not_load_login_page"></string>
+    <string name="notification_update_name"></string>
+    <string name="notification_update_description"></string>
+    <string name="post_media_audio"></string>
+    <string name="post_media_attachments"></string>
+    <string name="action_edit_image"></string>
+    <string name="error_image_edit_failed"></string>
+    <string name="saving_draft"></string>
+    <string name="notification_update_format"></string>
 </resources>

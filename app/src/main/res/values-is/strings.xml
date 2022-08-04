@@ -537,4 +537,6 @@
     <string name="title_migration_relogin">Skráðu aftur inn fyrir ýti-tilkynningar</string>
     <string name="action_dismiss">Hunsa</string>
     <string name="action_details">Nánar</string>
+    <string name="error_image_edit_failed"></string>
+    <string name="error_loading_account_details"></string>
 </resources>
