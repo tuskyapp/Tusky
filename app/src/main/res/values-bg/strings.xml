@@ -51,8 +51,7 @@
         <item quantity="one">%s глас</item>
         <item quantity="other">%s гласа</item>
     </plurals>
-    <string name="poll_info_format">" &lt;!-- 15 votes • 1 hour left --&gt; %1$s • %2$s"<!-- 15 votes • 1 hour left -->
-        %1$s • %2$s</string>
+    <string name="poll_info_format"> &lt;!-- 15 votes • 1 hour left --&gt; %1$s • %2$s<!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Действия за изображение %s</string>
     <string name="notification_clear_text">Сигурни ли сте, че искате да изчистите окончателно всичките си известия\?</string>
     <string name="compose_shortcut_short_label">Композиране</string>
@@ -77,7 +76,8 @@
     <string name="description_post_cw">Предупреждение за съдържание: %s</string>
     <string name="description_post_media">Мултимедия: %s</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">достигнати са максималните %1$d раздела</item>
+        <item quantity="one">достигнати са максималните %1$d раздела</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s и %3$d други</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -85,12 +85,12 @@
     <string name="title_favourited_by">Поставено в любими от</string>
     <string name="title_reblogged_by">Споделено от</string>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Споделяне</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Споделяния</item>
+        <item quantity="one"><b>%s</b> Споделяне</item>
+        <item quantity="other"><b>%s</b> Споделяния</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Любимо</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Любими</item>
+        <item quantity="one"><b>%1$s</b> Любимо</item>
+        <item quantity="other"><b>%1$s</b> Любими</item>
     </plurals>
     <string name="pin_action">Закачане</string>
     <string name="unpin_action">Разкачане</string>
@@ -136,8 +136,9 @@
     <string name="action_remove">Премахване</string>
     <string name="action_set_caption">Задаване на надпис</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Опишете за хора със зрителни увреждания
+        <item quantity="one">Опишете за хора със зрителни увреждания
 \n(%d ограничение на знаците)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="error_failed_set_caption">Неуспешно задаване на надпис</string>
     <string name="compose_active_account_description">Публикуване с акаунт %1$s</string>
@@ -198,7 +199,8 @@
     <string name="about_title_activity">Относно</string>
     <string name="description_account_locked">Заключен акаунт</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d нови взаимодействия</item>
+        <item quantity="one">%d нови взаимодействия</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_summary_small">%1$s и %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, и %3$s</string>
@@ -443,7 +445,8 @@
     <string name="drafts_post_failed_to_send">Тази публикация не успя да се изпрати!</string>
     <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %s\?</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="other">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</item>
+        <item quantity="one">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Скриване на количествена статистика на профили</string>
     <string name="wellbeing_hide_stats_posts">Скриване на количествена статистика на публикации</string>
