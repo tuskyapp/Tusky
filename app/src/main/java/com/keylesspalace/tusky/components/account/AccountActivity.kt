@@ -31,7 +31,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -171,7 +170,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      */
     private fun loadResources() {
         toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
-        statusBarColorTransparent = ContextCompat.getColor(this, R.color.transparent_statusbar_background)
+        statusBarColorTransparent = getColor(R.color.transparent_statusbar_background)
         statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
