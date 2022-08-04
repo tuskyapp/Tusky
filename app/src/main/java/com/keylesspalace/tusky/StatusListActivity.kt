@@ -23,14 +23,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
-import autodispose2.androidx.lifecycle.autoDispose
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
@@ -82,23 +82,20 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val tag = hashtag
         if (kind == Kind.TAG && tag != null) {
-            mastodonApi.tag(tag)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe(
-                    { tagEntity ->
-                        menuInflater.inflate(R.menu.view_hashtag_toolbar, menu)
-                        followTagItem = menu.findItem(R.id.action_follow_hashtag)
-                        unfollowTagItem = menu.findItem(R.id.action_unfollow_hashtag)
-                        followTagItem?.isVisible = tagEntity.following == false
-                        unfollowTagItem?.isVisible = tagEntity.following == true
-                        followTagItem?.setOnMenuItemClickListener { followTag() }
-                        unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
-                    },
-                    { t ->
-                        Log.w("Failed to query tag #$tag", t)
-                    }
-                )
+            lifecycleScope.launch {
+                try {
+                    val tagEntity = mastodonApi.tag(tag).await()
+                    menuInflater.inflate(R.menu.view_hashtag_toolbar, menu)
+                    followTagItem = menu.findItem(R.id.action_follow_hashtag)
+                    unfollowTagItem = menu.findItem(R.id.action_unfollow_hashtag)
+                    followTagItem?.isVisible = tagEntity.following == false
+                    unfollowTagItem?.isVisible = tagEntity.following == true
+                    followTagItem?.setOnMenuItemClickListener { followTag() }
+                    unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
+                } catch (exception: Exception) {
+                    Log.w("Failed to query tag #$tag", exception)
+                }
+            }
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -107,18 +104,16 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private fun followTag(): Boolean {
         val tag = hashtag
         if (tag != null) {
-            mastodonApi.followTag(tag)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe(
-                    {
-                        followTagItem?.isVisible = false
-                        unfollowTagItem?.isVisible = true
-                    },
-                    {
-                        Toast.makeText(this, "Error following #$tag", Toast.LENGTH_SHORT).show()
-                    }
-                )
+            val context = this
+            lifecycleScope.launch {
+                try {
+                    mastodonApi.followTag(tag).await()
+                    followTagItem?.isVisible = false
+                    unfollowTagItem?.isVisible = true
+                } catch (_: Exception) {
+                    Toast.makeText(context, "Error following #$tag", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         return true
@@ -127,18 +122,16 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private fun unfollowTag(): Boolean {
         val tag = hashtag
         if (tag != null) {
-            mastodonApi.unfollowTag(tag)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-                .subscribe(
-                    {
-                        followTagItem?.isVisible = true
-                        unfollowTagItem?.isVisible = false
-                    },
-                    {
-                        Toast.makeText(this, "Error unfollowing #$tag", Toast.LENGTH_SHORT).show()
-                    }
-                )
+            val context = this
+            lifecycleScope.launch {
+                try {
+                    mastodonApi.unfollowTag(tag).await()
+                    followTagItem?.isVisible = true
+                    unfollowTagItem?.isVisible = false
+                } catch (_: Exception) {
+                    Toast.makeText(context, "Error unfollowing #$tag", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         return true
