@@ -134,12 +134,12 @@
     <string name="label_header">Fejléc</string>
     <string name="link_whats_an_instance">Mi az a példány\?</string>
     <string name="login_connection">Csatlakozás…</string>
-    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a> 
-\n 
-\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot. 
-\n 
-\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek. 
-\n 
+    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a>
+\n
+\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot.
+\n
+\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek.
+\n
 \nTöbb információt találhatsz itt: <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
