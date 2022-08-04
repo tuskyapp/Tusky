@@ -62,7 +62,7 @@
     <string name="action_compose">Redactar</string>
     <string name="action_login">Iniciar sesión</string>
     <string name="action_logout">Cerrar sesión</string>
-    <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
+    <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s\?</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Dejar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -126,7 +126,7 @@
     <string name="label_quick_reply">Respuesta…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Cabecera</string>
-    <string name="link_whats_an_instance">¿Qué es una instancia?</string>
+    <string name="link_whats_an_instance">¿Qué es una instancia\?</string>
     <string name="login_connection">Conectando…</string>
     <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia, como mastodon.social, icosahedron.website, social.tchncs.de y <a href="https://instances.social">más!</a>
 \n
