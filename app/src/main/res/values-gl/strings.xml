@@ -260,8 +260,9 @@
     <string name="action_remove">Eliminar</string>
     <string name="action_set_caption">Escribir descrición</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Describe para persoas con problemas de visión
+        <item quantity="one">Describe para persoas con problemas de visión
 \n(%d caracteres como máximo)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="error_failed_set_caption">Fallou establecemento do texto</string>
     <string name="compose_active_account_description">Publicar coa conta %1$s</string>
