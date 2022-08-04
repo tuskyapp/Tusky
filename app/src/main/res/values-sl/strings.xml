@@ -205,7 +205,10 @@
     <string name="notification_summary_medium">%1$s, %2$s in %3$s</string>
     <string name="notification_summary_small">%1$s in %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d novih interakcij</item>
+        <item quantity="one">%d novih interakcij</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_account_locked">Zaklenjen račun</string>
     <string name="about_title_activity">O aplikaciji</string>
@@ -260,8 +263,11 @@
     <string name="compose_active_account_description">Objavljanje z računom %1$s</string>
     <string name="error_failed_set_caption">Opisa ni bilo mogoče nastaviti</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Opišite za slabovidne
+        <item quantity="one">Opišite za slabovidne
 \n(omejitev znakov - %d)</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Nastavi opis</string>
     <string name="action_remove">Odstrani</string>
@@ -306,10 +312,10 @@
     <string name="unpin_action">Odpni</string>
     <string name="pin_action">Pripni</string>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Spodbuda</item>
-        <item quantity="two">&lt;b&gt;%s&lt;/b&gt; Spodbudi</item>
-        <item quantity="few">&lt;b&gt;%s&lt;/b&gt; Spodbude</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Spodbud</item>
+        <item quantity="one"><b>%s</b> Spodbuda</item>
+        <item quantity="two"><b>%s</b> Spodbudi</item>
+        <item quantity="few"><b>%s</b> Spodbude</item>
+        <item quantity="other"><b>%s</b> Spodbud</item>
     </plurals>
     <string name="title_reblogged_by">Spodbudil/a</string>
     <string name="title_favourited_by">Vzljubil/a</string>
@@ -317,7 +323,10 @@
     <string name="conversation_2_recipients">%1$s in %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s in %3$d več</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">doseženih maksimalnih %1$d zavihkov</item>
+        <item quantity="one">doseženih maksimalnih %1$d zavihkov</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_post_media">Mediji: %s</string>
     <string name="description_post_cw">Opozorila o vsebini: %s</string>

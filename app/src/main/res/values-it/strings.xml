@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s ha messo il tuo post nei preferiti</string>
     <string name="notification_follow_format">%s ti ha seguito</string>
     <string name="report_username_format">Segnala @%s</string>
-    <string name="report_comment_hint">Commenti aggiuntivi?</string>
+    <string name="report_comment_hint">Commenti aggiuntivi\?</string>
     <string name="action_quick_reply">Risposta veloce</string>
     <string name="action_reply">Rispondi</string>
     <string name="action_reblog">Condividi</string>
@@ -64,7 +64,7 @@
     <string name="action_compose">Componi</string>
     <string name="action_login">Accedi con Mastodon</string>
     <string name="action_logout">Disconnettiti</string>
-    <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s?</string>
+    <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s\?</string>
     <string name="action_follow">Segui</string>
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
@@ -128,8 +128,8 @@
     <string name="confirmation_unmuted">Utente non più silenziato</string>
     <string name="post_sent">Inviato!</string>
     <string name="post_sent_long">Risposta inviata con successo.</string>
-    <string name="hint_domain">Quale istanza?</string>
-    <string name="hint_compose">Cosa succede?</string>
+    <string name="hint_domain">Quale istanza\?</string>
+    <string name="hint_compose">Cosa succede\?</string>
     <string name="hint_content_warning">Avviso di contenuto sensibile</string>
     <string name="hint_display_name">Mostra nome</string>
     <string name="hint_note">Biografia</string>
@@ -138,20 +138,20 @@
     <string name="label_quick_reply">Rispondi…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Intestazione</string>
-    <string name="link_whats_an_instance">Cos\'è un\'istanza?</string>
+    <string name="link_whats_an_instance">Cos\'è un\'istanza\?</string>
     <string name="login_connection">Connessione…</string>
-    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a> 
-\n 
-\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account. 
-\n 
-\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito. 
-\n 
+    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a>
+\n
+\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account.
+\n
+\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito.
+\n
 \nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
     <string name="dialog_download_image">Scarica</string>
-    <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
-    <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
+    <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire\?</string>
+    <string name="dialog_unfollow_warning">Smettere di seguire questo account\?</string>
     <string name="dialog_delete_post_warning">Eliminare questo post\?</string>
     <string name="visibility_public">Pubblico: visibile sulle timeline pubbliche</string>
     <string name="visibility_unlisted">Non in elenco: non visibile sulle timeline pubbliche</string>
@@ -223,17 +223,15 @@
     <string name="description_account_locked">Account bloccato</string>
     <string name="about_title_activity">A proposito</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky è un programma libero ed open source.
-		È distribuito con licenza GNU General Public License Version 3.
-		Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky è un programma libero ed open source. È distribuito con licenza GNU General Public License Version 3. Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Sito web del progetto:\n
-		https://tusky.app</string>
+    <string name="about_project_site">Sito web del progetto:
+\n https://tusky.app</string>
     <string name="about_bug_feature_request_site">Segnala problemi e richiedi funzionalità:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profilo di Tusky</string>
@@ -282,13 +280,15 @@
     <string name="compose_active_account_description">Pubblicando con l\'account %1$s</string>
     <string name="error_failed_set_caption">Impostazione del sottotitolo non riuscita</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Descrivi per ipovedenti\n(limite di %d caratteri)</item>
+        <item quantity="one">Descrivi per ipovedenti
+\n(limite di %d caratteri)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Inserisci descrizione</string>
     <string name="action_remove">Rimuovi</string>
     <string name="lock_account_label">Blocca account</string>
     <string name="lock_account_label_description">Richiedi una tua approvazione manuale per seguirti</string>
-    <string name="compose_save_draft">Salvare bozza?</string>
+    <string name="compose_save_draft">Salvare bozza\?</string>
     <string name="send_post_notification_title">Inviando il post…</string>
     <string name="send_post_notification_error_title">Errore durante l\'invio</string>
     <string name="send_post_notification_channel_name">Invio post</string>
@@ -331,8 +331,8 @@
         <item quantity="other"><b>%1$s</b> Preferiti</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boost</item>
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Boost</item>
     </plurals>
     <string name="title_reblogged_by">Condiviso da</string>
     <string name="title_favourited_by">Aggiunto ai preferiti da</string>
@@ -351,12 +351,10 @@
     <string name="description_post_reblogged">        Ribloggato
     </string>
     <string name="description_post_favourited">Messo nei preferiti</string>
-    <string name="description_visiblity_public">        Pubblico
-    </string>
+    <string name="description_visiblity_public">Pubblico</string>
     <string name="description_visiblity_unlisted">Non in elenco</string>
     <string name="description_visiblity_private">Solo follower</string>
-    <string name="description_visiblity_direct">        Diretti
-    </string>
+    <string name="description_visiblity_direct">Diretti</string>
     <string name="hint_list_name">Nome della lista</string>
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>

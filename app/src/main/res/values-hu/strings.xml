@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s kedvencnek jelölte a bejegyzésedet</string>
     <string name="notification_follow_format">%s bekövetett</string>
     <string name="report_username_format">\@%s jelentése</string>
-    <string name="report_comment_hint">Egyéb megjegyzés?</string>
+    <string name="report_comment_hint">Egyéb megjegyzés\?</string>
     <string name="action_quick_reply">Gyors válasz</string>
     <string name="action_reply">Válasz</string>
     <string name="action_reblog">Megtolás</string>
@@ -62,7 +62,7 @@
     <string name="action_compose">Szerkesztés</string>
     <string name="action_login">Bejelentkezés Mastodonnal</string>
     <string name="action_logout">Kijelentkezés</string>
-    <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
+    <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s\?</string>
     <string name="action_follow">Követés</string>
     <string name="action_unfollow">Követés vége</string>
     <string name="action_block">Letiltás</string>
@@ -144,8 +144,8 @@
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
     <string name="dialog_download_image">Letöltés</string>
-    <string name="dialog_message_cancel_follow_request">Visszavonod a követési kérelmet?</string>
-    <string name="dialog_unfollow_warning">Követés megszüntetése?</string>
+    <string name="dialog_message_cancel_follow_request">Visszavonod a követési kérelmet\?</string>
+    <string name="dialog_unfollow_warning">Követés megszüntetése\?</string>
     <string name="dialog_delete_post_warning">Törlöd ezt a bejegyzést\?</string>
     <string name="visibility_public">Nyilvános: Bejegyzés nyilvános idővonalra</string>
     <string name="visibility_unlisted">Listázatlan: Nem jelenik meg a nyilvános idővonalon</string>
@@ -218,9 +218,8 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Projekt honlapja:\n
-        https://tusky.app
-    </string>
+    <string name="about_project_site">Projekt honlapja:
+\n https://tusky.app</string>
     <string name="about_bug_feature_request_site">Hibajelentés &amp; új funkciók igénylése:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky profilja</string>
@@ -280,7 +279,7 @@
         <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
     </plurals>
     <string name="description_post_media_no_description_placeholder">Nincs leírás</string>
-    <string name="description_visiblity_public">Nyilvános    </string>
+    <string name="description_visiblity_public">Nyilvános</string>
     <string name="description_visiblity_private">Követők</string>
     <string name="action_unfavourite">Kedvenc eltávolítása</string>
     <string name="action_delete_and_redraft">Törlés és újrafogalmazás</string>
@@ -342,8 +341,9 @@
     <string name="compose_active_account_description">Bejegyzés %1$s fiókkal</string>
     <string name="error_failed_set_caption">Cím beállítása nem sikerült</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Leírás látássérülteknek
+        <item quantity="one">Leírás látássérülteknek
 \n(%d karakter korlát)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
@@ -359,8 +359,8 @@
         <item quantity="other"><b>%1$s</b> Kedvenc</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Megtolás</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Megtolás</item>
+        <item quantity="one"><b>%s</b> Megtolás</item>
+        <item quantity="other"><b>%s</b> Megtolás</item>
     </plurals>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s és még %3$d</string>

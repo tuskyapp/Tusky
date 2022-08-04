@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s stelumis vian mesaĝon</string>
     <string name="notification_follow_format">%s eksekvis vin</string>
     <string name="report_username_format">Signali @%s</string>
-    <string name="report_comment_hint">Pliaj komentoj?</string>
+    <string name="report_comment_hint">Pliaj komentoj\?</string>
     <string name="action_quick_reply">Rapida respondo</string>
     <string name="action_reply">Respondi</string>
     <string name="action_reblog">Diskonigi</string>
@@ -64,7 +64,7 @@
     <string name="action_compose">Verki</string>
     <string name="action_login">Ensaluti al Mastodon</string>
     <string name="action_logout">Elsaluti</string>
-    <string name="action_logout_confirm">Ĉu vi certas ke vi volas elsaluti el konto %1$s?</string>
+    <string name="action_logout_confirm">Ĉu vi certas ke vi volas elsaluti el konto %1$s\?</string>
     <string name="action_follow">Sekvi</string>
     <string name="action_unfollow">Ne plus sekvi</string>
     <string name="action_block">Bloki</string>
@@ -130,8 +130,8 @@
     <string name="confirmation_unmuted">Malsilentigita uzanto</string>
     <string name="post_sent">Sendita!</string>
     <string name="post_sent_long">Respondi sukcese sendita.</string>
-    <string name="hint_domain">Kiu nodo?</string>
-    <string name="hint_compose">Kio okazas?</string>
+    <string name="hint_domain">Kiu nodo\?</string>
+    <string name="hint_compose">Kio okazas\?</string>
     <string name="hint_content_warning">Enhava averto</string>
     <string name="hint_display_name">Publika nomo</string>
     <string name="hint_note">Sinprezento</string>
@@ -140,18 +140,20 @@
     <string name="label_quick_reply">Respondi…</string>
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
-    <string name="link_whats_an_instance">Kio estas nodo?</string>
+    <string name="link_whats_an_instance">Kio estas nodo\?</string>
     <string name="login_connection">Konektante…</string>
-    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetitaĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj
-        <a href="https://instances.social">pli!</a>
-        \n\nSe vi ne ankoraŭ havas konton, vi povas enmeti la nomon de la nodo ke vi volas aliĝi kaj krei konton tie.\n\nNodo estas unika loko kie via konto estas gastigita, sed vi povas facile komuniki kun kaj sekvi homojn ĉe aliaj nodoj kiel vi estus ĉe la sama retejo.
-        \n\nPliaj informoj troviĝas ĉe <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetitaĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj <a href="https://instances.social">pli!</a>
+\n
+\nSe vi ne ankoraŭ havas konton, vi povas enmeti la nomon de la nodo ke vi volas aliĝi kaj krei konton tie.
+\n
+\nNodo estas unika loko kie via konto estas gastigita, sed vi povas facile komuniki kun kaj sekvi homojn ĉe aliaj nodoj kiel vi estus ĉe la sama retejo.
+\n
+\nPliaj informoj troviĝas ĉe <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutante…</string>
     <string name="dialog_download_image">Elŝuti</string>
-    <string name="dialog_message_cancel_follow_request">Nuligi peton de sekvado?</string>
-    <string name="dialog_unfollow_warning">Ne plu sekvi?</string>
+    <string name="dialog_message_cancel_follow_request">Nuligi peton de sekvado\?</string>
+    <string name="dialog_unfollow_warning">Ne plu sekvi\?</string>
     <string name="dialog_delete_post_warning">Forigi ĉi tiun mesaĝon?</string>
     <string name="visibility_public">Publika: afiŝi en publikaj tempolinioj</string>
     <string name="visibility_unlisted">Nelistigita: Ne afiŝi en publikaj tempolinioj</string>
@@ -223,21 +225,17 @@
     <string name="description_account_locked">Ŝlosita konto</string>
     <string name="about_title_activity">Pri</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky estas libera kaj malfermitkoda programo.
-        Ĝi estas publikigita laŭ la permesilo «GNU General Public License Version 3».
-        Vi povas vidi la permesilon ĉi tie: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky estas libera kaj malfermitkoda programo. Ĝi estas publikigita laŭ la permesilo «GNU General Public License Version 3». Vi povas vidi la permesilon ĉi tie: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Paĝaro de projekto:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        Raportoj de cimo kaj petoj de funkcio:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Paĝaro de projekto:
+\n https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Raportoj de cimo kaj petoj de funkcio:
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profilo de Tusky</string>
     <string name="post_share_content">Konigi enhavon de la mesaĝo</string>
     <string name="post_share_link">Konigi ligilon al mesaĝo</string>
@@ -284,13 +282,15 @@
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <string name="error_failed_set_caption">Redakto de apudskribo malsukcesis</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Priskribi por misvidantaj homoj\n(%d signoj maksimume)</item>
+        <item quantity="one">Priskribi por misvidantaj homoj
+\n(%d signoj maksimume)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Redakti apudskribon</string>
     <string name="action_remove">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="lock_account_label_description">Vi devas permane rajtigi sekvantojn</string>
-    <string name="compose_save_draft">Konservi malneton?</string>
+    <string name="compose_save_draft">Konservi malneton\?</string>
     <string name="send_post_notification_title">Sendante la mesaĝo…</string>
     <string name="send_post_notification_error_title">Eraro dum sendo de la mesaĝo</string>
     <string name="send_post_notification_channel_name">Sendante la mesaĝoj</string>
@@ -329,12 +329,12 @@
     <string name="unpin_action">Depingli</string>
     <string name="pin_action">Alpingli</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Stelumo</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Stelumoj</item>
+        <item quantity="one"><b>%1$s</b> Stelumo</item>
+        <item quantity="other"><b>%1$s</b> Stelumoj</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Diskonigo</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Diskonigoj</item>
+        <item quantity="one"><b>%s</b> Diskonigo</item>
+        <item quantity="other"><b>%s</b> Diskonigoj</item>
     </plurals>
     <string name="title_reblogged_by">Diskonigita de</string>
     <string name="title_favourited_by">Stelumita per</string>
@@ -355,12 +355,10 @@
     </string>
     <string name="description_post_favourited">        Stelumita
     </string>
-    <string name="description_visiblity_public">        Publika
-    </string>
-    <string name="description_visiblity_unlisted">        Nelistigita    </string>
-    <string name="description_visiblity_private">        Sekvantoj
-    </string>
-    <string name="description_visiblity_direct">        Rekta    </string>
+    <string name="description_visiblity_public">Publika</string>
+    <string name="description_visiblity_unlisted">Nelistigita</string>
+    <string name="description_visiblity_private">Sekvantoj</string>
+    <string name="description_visiblity_direct">Rekta</string>
     <string name="hint_list_name">Nomo de la listo</string>
     <string name="action_delete_and_redraft">Forigi kaj reskribi</string>
     <string name="dialog_redraft_post_warning">Ĉu forigi kaj reskribi ĉi-tiun mesaĝon\?</string>
