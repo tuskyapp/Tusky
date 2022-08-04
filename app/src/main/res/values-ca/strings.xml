@@ -41,7 +41,7 @@
     <string name="notification_favourite_format">%s ha marcat com a preferida la teva publicació</string>
     <string name="notification_follow_format">%s et segueix</string>
     <string name="report_username_format">Denuncia @%s</string>
-    <string name="report_comment_hint">Cap comentari addicional?</string>
+    <string name="report_comment_hint">Cap comentari addicional\?</string>
     <string name="action_reply">Respon</string>
     <string name="action_reblog">Impulsa</string>
     <string name="action_favourite">Preferit</string>
@@ -88,8 +88,8 @@
     <string name="confirmation_reported">Enviat!</string>
     <string name="confirmation_unblocked">Usuari desblocat</string>
     <string name="confirmation_unmuted">Usuari sense silenciar</string>
-    <string name="hint_domain">Quina instància?</string>
-    <string name="hint_compose">Què està passant?</string>
+    <string name="hint_domain">Quina instància\?</string>
+    <string name="hint_compose">Què està passant\?</string>
     <string name="hint_content_warning">Avís de contingut</string>
     <string name="hint_display_name">Nom visible</string>
     <string name="hint_note">Biografia</string>
@@ -97,20 +97,19 @@
     <string name="search_no_results">No hi ha cap resultat</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Capçalera</string>
-    <string name="link_whats_an_instance">Què és una instància?</string>
+    <string name="link_whats_an_instance">Què és una instància\?</string>
     <string name="login_connection">S\'està connectant…</string>
-    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància,
-        com ara mastodont.cat, mastodon.social, icosahedron.website o
-        <a href="https://instances.social">molts més!</a>
-        \n\nSi encara no tens cap copte, pots introduir el nom de la instància on t\'agradaria
-        unir-te i crear un compte allà.\n\nUna instànica és un únic lloc on el teu compte s\'hostatja
-        , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
-        \n\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància, com ara mastodont.cat, mastodon.social, icosahedron.website o <a href="https://instances.social">molts més!</a>
+\n
+\nSi encara no tens cap copte, pots introduir el nom de la instància on t\'agradaria unir-te i crear un compte allà.
+\n
+\nUna instànica és un únic lloc on el teu compte s\'hostatja , però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
+\n
+\nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de material multimèdia</string>
     <string name="dialog_message_uploading_media">S\'està pujant…</string>
     <string name="dialog_download_image">Baixa</string>
-    <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte?</string>
+    <string name="dialog_unfollow_warning">Vols deixar de seguir aquest compte\?</string>
     <string name="visibility_public">Pública: és visible a la cronologia pública</string>
     <string name="visibility_unlisted">Sense llistar: no és visible a les cronologies públiques</string>
     <string name="visibility_private">Només seguidors: només és visible per al teus seguidors</string>
@@ -154,23 +153,18 @@
     <string name="notification_summary_medium">%1$s, %2$s i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d interaccions noves</item>
+        <item quantity="one">%d interaccions noves</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_account_locked">Compte blocat</string>
     <string name="about_title_activity">Quant a</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert.
-        Està llicenciat en els termes de la Llicència Pública General GNU versió 3.
-        Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
+    <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert. Està llicenciat en els termes de la Llicència Pública General GNU versió 3. Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
     <!-- note to translators: the url can be changed to link to the localized version of the license -->
-    <string name="about_project_site">
-        Lloc web del projecte:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">
-        Informes d\'errors i peticions de funcionalitats:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Lloc web del projecte:
+\n https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Informes d\'errors i peticions de funcionalitats:
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Perfil del Tusky</string>
     <string name="post_share_content">Comparteix el contingut de la publicació</string>
     <string name="post_share_link">Comparteix l\'enllaç a la publicació</string>
@@ -288,8 +282,9 @@
     <string name="compose_active_account_description">Publicar amb el compte %1$s</string>
     <string name="error_failed_set_caption">Error al afegir la llegenda</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Descriure per a invidentes
+        <item quantity="one">Descriure per a invidentes
 \n(%d character limit)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Afegir una llegenda</string>
     <string name="action_remove">Eliminar</string>
@@ -345,7 +340,8 @@
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d més</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">màxim de %1$d pestanyes aconseguides</item>
+        <item quantity="one">màxim de %1$d pestanyes aconseguides</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_post_media">Mèdia : %s</string>
     <string name="description_post_media_no_description_placeholder">Sense descripció</string>

@@ -53,7 +53,7 @@
     <string name="notification_favourite_format">%s si oblíbil/a váš toot</string>
     <string name="notification_follow_format">%s vás nyní sleduje</string>
     <string name="report_username_format">Nahlásit uživatele @%s</string>
-    <string name="report_comment_hint">Dodatečné komentáře?</string>
+    <string name="report_comment_hint">Dodatečné komentáře\?</string>
     <string name="action_quick_reply">Rychlá odpověď</string>
     <string name="action_reply">Odpovědět</string>
     <string name="action_reblog">Boostnout</string>
@@ -64,7 +64,7 @@
     <string name="action_compose">Napsat</string>
     <string name="action_login">Přihlásit účtem Mastodon</string>
     <string name="action_logout">Odhlásit</string>
-    <string name="action_logout_confirm">Jste si jistý/á, že se chcete odhlásit z účtu %1$s?</string>
+    <string name="action_logout_confirm">Jste si jistý/á, že se chcete odhlásit z účtu %1$s\?</string>
     <string name="action_follow">Sledovat</string>
     <string name="action_unfollow">Přestat sledovat</string>
     <string name="action_block">Blokovat</string>
@@ -130,8 +130,8 @@
     <string name="confirmation_unmuted">Uživatel odkryt</string>
     <string name="post_sent">Odesláno!</string>
     <string name="post_sent_long">Odpověď byla úspěšně odeslána.</string>
-    <string name="hint_domain">Který server?</string>
-    <string name="hint_compose">Co se právě děje?</string>
+    <string name="hint_domain">Který server\?</string>
+    <string name="hint_compose">Co se právě děje\?</string>
     <string name="hint_content_warning">Varování o obsahu</string>
     <string name="hint_display_name">Zobrazované jméno</string>
     <string name="hint_note">O vás</string>
@@ -140,22 +140,20 @@
     <string name="label_quick_reply">Odpovědět…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Záhlaví</string>
-    <string name="link_whats_an_instance">Co je server?</string>
+    <string name="link_whats_an_instance">Co je server\?</string>
     <string name="login_connection">Připojuji se…</string>
-    <string name="dialog_whats_an_instance">Sem může být zadána adresa či doména jakéhokoliv
-        serveru, například mastodon.social, icosahedron.website, social.tchncs.de
-        a <a href="https://instances.social">další!</a>
-        \n\nPokud ještě nemáte účet, můžete zadat název instance, ke které se chcete
-        připojit, a vytvořit si tam účet.\n\nServer je jedno místo, kde je hostován váš
-        účet, můžete však jednoduše komunikovat a sledovat lidi na jiných serverech, jako by
-        byli na stejné stránce.
-        \n\nDalší informace mohou být nalezeny na stránce <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Sem může být zadána adresa či doména jakéhokoliv serveru, například mastodon.social, icosahedron.website, social.tchncs.de a <a href="https://instances.social">další!</a>
+\n
+\nPokud ještě nemáte účet, můžete zadat název instance, ke které se chcete připojit, a vytvořit si tam účet.
+\n
+\nServer je jedno místo, kde je hostován váš účet, můžete však jednoduše komunikovat a sledovat lidi na jiných serverech, jako by byli na stejné stránce.
+\n
+\nDalší informace mohou být nalezeny na stránce <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Dokončuji nahrávání médií</string>
     <string name="dialog_message_uploading_media">Nahrávám…</string>
     <string name="dialog_download_image">Stáhnout</string>
-    <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování?</string>
-    <string name="dialog_unfollow_warning">Přestat sledovat tento účet?</string>
+    <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování\?</string>
+    <string name="dialog_unfollow_warning">Přestat sledovat tento účet\?</string>
     <string name="dialog_delete_post_warning">Smazat tento toot?</string>
     <string name="visibility_public">Veřejný: Poslat na veřejné časové osy</string>
     <string name="visibility_unlisted">Neuvedený: Neposlat na veřejné časové osy</string>
@@ -221,26 +219,24 @@
     <string name="notification_summary_medium">%1$s, %2$s a %3$s</string>
     <string name="notification_summary_small">%1$s a %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d nových interakcí</item>
+        <item quantity="one">%d nových interakcí</item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_account_locked">Uzamčený účet</string>
     <string name="about_title_activity">O této aplikaci</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="about_tusky_license">Tusky je svobodný a otevřený software.
-        Je dostupný pod licencí GNU General Public License, verze 3.
-        Licenci můžete zobrazit zde: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky je svobodný a otevřený software. Je dostupný pod licencí GNU General Public License, verze 3. Licenci můžete zobrazit zde: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Webová stránka projektu:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        Hlášení chyb a návrhy na nové vlastnosti:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Webová stránka projektu:
+\n https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Hlášení chyb a návrhy na nové vlastnosti:
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profil aplikace Tusky</string>
     <string name="post_share_content">Sdílet obsah tootu</string>
     <string name="post_share_link">Sdílet odkaz k tootu</string>
@@ -287,13 +283,16 @@
     <string name="compose_active_account_description">Píšete s účtem %1$s</string>
     <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Popis pro zrakově postižené\n(limit %d znaků)</item>
+        <item quantity="one">Popis pro zrakově postižené
+\n(limit %d znaků)</item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Nastavit popisek</string>
     <string name="action_remove">Odstranit</string>
     <string name="lock_account_label">Uzamknout účet</string>
     <string name="lock_account_label_description">Vyžaduje, abyste ručně schvaloval/a sledující</string>
-    <string name="compose_save_draft">Uložit koncept?</string>
+    <string name="compose_save_draft">Uložit koncept\?</string>
     <string name="send_post_notification_title">Odesílám toot…</string>
     <string name="send_post_notification_error_title">Chyba při odesílání tootu</string>
     <string name="send_post_notification_channel_name">Odesílám tooty</string>
@@ -347,7 +346,9 @@
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s a %3$d další</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">bylo dosaženo maxima %1$d panelů</item>
+        <item quantity="one">bylo dosaženo maxima %1$d panelů</item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_post_media">        Média %s
     </string>
@@ -362,8 +363,7 @@
     <string name="description_visiblity_public">Veřejný</string>
     <string name="description_visiblity_unlisted">Neuvedený</string>
     <string name="description_visiblity_private">Pro sledující</string>
-    <string name="description_visiblity_direct">        Přímý
-    </string>
+    <string name="description_visiblity_direct">Přímý</string>
     <string name="hint_list_name">Název seznamu</string>
     <string name="edit_hashtag_hint">Hashtag bez #</string>
     <string name="compose_shortcut_long_label">Napsat toot</string>
