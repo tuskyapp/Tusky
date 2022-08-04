@@ -154,7 +154,7 @@
     <string name="dialog_download_image">Stáhnout</string>
     <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování\?</string>
     <string name="dialog_unfollow_warning">Přestat sledovat tento účet\?</string>
-    <string name="dialog_delete_post_warning">Smazat tento toot?</string>
+    <string name="dialog_delete_post_warning">Smazat tento toot\?</string>
     <string name="visibility_public">Veřejný: Poslat na veřejné časové osy</string>
     <string name="visibility_unlisted">Neuvedený: Neposlat na veřejné časové osy</string>
     <string name="visibility_private">Pouze pro sledující: Poslat pouze sledujícím</string>
@@ -350,16 +350,11 @@
         <item quantity="few"></item>
         <item quantity="other"></item>
     </plurals>
-    <string name="description_post_media">        Média %s
-    </string>
-    <string name="description_post_cw">        Varování o obsahu: %s
-    </string>
-    <string name="description_post_media_no_description_placeholder">        Žádný popis
-    </string>
-    <string name="description_post_reblogged">        Boostnutý
-    </string>
-    <string name="description_post_favourited">        Oblíbený
-    </string>
+    <string name="description_post_media">Média %s</string>
+    <string name="description_post_cw">Varování o obsahu: %s</string>
+    <string name="description_post_media_no_description_placeholder">Žádný popis</string>
+    <string name="description_post_reblogged">Boostnutý</string>
+    <string name="description_post_favourited">Oblíbený</string>
     <string name="description_visiblity_public">Veřejný</string>
     <string name="description_visiblity_unlisted">Neuvedený</string>
     <string name="description_visiblity_private">Pro sledující</string>
@@ -491,4 +486,71 @@
     <string name="error_loading_account_details">Nepodařilo se načíst detaily účtu</string>
     <string name="drafts_failed_loading_reply">Nepodařilo se načíst informace o odpovědi</string>
     <string name="error_image_edit_failed">Obrázek se nepodařilo upravit.</string>
+    <string name="review_notifications"></string>
+    <string name="follow_requests_info"></string>
+    <string name="pref_title_notification_filter_subscriptions"></string>
+    <string name="dialog_delete_list_warning"></string>
+    <string name="pref_title_notification_filter_follow_requests"></string>
+    <string name="notification_sign_up_description"></string>
+    <string name="dialog_delete_conversation_warning"></string>
+    <plurals name="poll_timespan_hours">
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="pref_title_animate_custom_emojis"></string>
+    <string name="wellbeing_hide_stats_profile"></string>
+    <string name="draft_deleted"></string>
+    <string name="pref_title_wellbeing_mode"></string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="limit_notifications"></string>
+    <string name="label_duration"></string>
+    <string name="pref_title_hide_top_toolbar"></string>
+    <string name="duration_indefinite"></string>
+    <string name="action_delete_conversation"></string>
+    <string name="no_announcements"></string>
+    <string name="pref_title_notification_filter_updates"></string>
+    <string name="notification_update_name"></string>
+    <string name="account_note_saved"></string>
+    <string name="notification_subscription_name"></string>
+    <string name="notification_subscription_description"></string>
+    <string name="account_date_joined"></string>
+    <string name="account_note_hint"></string>
+    <string name="action_dismiss"></string>
+    <string name="action_details"></string>
+    <string name="wellbeing_hide_stats_posts"></string>
+    <string name="pref_title_confirm_favourites"></string>
+    <string name="wellbeing_mode_notice"></string>
+    <string name="action_unbookmark"></string>
+    <string name="post_media_audio"></string>
+    <string name="status_count_one_plus"></string>
+    <string name="tips_push_notification_migration"></string>
+    <plurals name="poll_info_people">
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="duration_14_days"></string>
+    <string name="duration_30_days"></string>
+    <string name="duration_60_days"></string>
+    <string name="duration_90_days"></string>
+    <string name="drafts_post_reply_removed"></string>
+    <string name="action_subscribe_account"></string>
+    <string name="action_unsubscribe_account"></string>
+    <string name="tusky_compose_post_quicksetting_label"></string>
+    <string name="notification_update_description"></string>
+    <string name="post_media_attachments"></string>
+    <string name="action_edit_image"></string>
+    <string name="dialog_push_notification_migration_other_accounts"></string>
+    <string name="dialog_push_notification_migration"></string>
+    <string name="duration_180_days"></string>
+    <string name="duration_365_days"></string>
+    <string name="notification_update_format"></string>
+    <string name="pref_title_notification_filter_sign_ups"></string>
+    <string name="notification_sign_up_name"></string>
+    <string name="saving_draft"></string>
 </resources>
