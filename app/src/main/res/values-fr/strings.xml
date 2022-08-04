@@ -140,7 +140,7 @@
     <string name="label_quick_reply">Répondre…</string>
     <string name="label_avatar">Image de profil</string>
     <string name="label_header">Image d’en-tête</string>
-    <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
+    <string name="link_whats_an_instance">Qu’est-ce qu’une instance \?</string>
     <string name="login_connection">Connexion en cours…</string>
     <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, comme mastodon.social, icosahedron.website, social.tchncs.de, <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
 \n
