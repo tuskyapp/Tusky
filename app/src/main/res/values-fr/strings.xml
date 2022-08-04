@@ -346,8 +346,7 @@
         <item quantity="other">maximum de %1$d onglets atteint</item>
     </plurals>
     <string name="description_post_media">Média : %s</string>
-    <string name="description_post_cw">        Avertissement : %s
-    </string>
+    <string name="description_post_cw">Avertissement : %s</string>
     <string name="description_post_media_no_description_placeholder">Aucune description</string>
     <string name="description_post_reblogged">Partagé</string>
     <string name="description_post_favourited">Mis en favoris</string>
@@ -547,4 +546,5 @@
     <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s’inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l’option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
     <string name="tips_push_notification_migration">Reconnectez tous vos comptes pour activer les notifications instantanées.</string>
     <string name="error_image_edit_failed">L\'image n’a pas pu être retouchée.</string>
+    <string name="error_loading_account_details"></string>
 </resources>

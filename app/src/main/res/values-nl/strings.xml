@@ -152,7 +152,7 @@
     <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Het volgverzoek intrekken\?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen\?</string>
-    <string name="dialog_delete_post_warning">Deze toot verwijderen?</string>
+    <string name="dialog_delete_post_warning">Deze toot verwijderen\?</string>
     <string name="visibility_public">Openbaar: op openbare tijdlijnen tonen</string>
     <string name="visibility_unlisted">Minder openbaar: niet op openbare tijdlijnen tonen</string>
     <string name="visibility_private">Alleen volgers: alleen aan jouw volgers tonen</string>
@@ -325,16 +325,11 @@
         <item quantity="one">maximum van %1$d tab bereikt</item>
         <item quantity="other">maximum van %1$d tabs bereikt</item>
     </plurals>
-    <string name="description_post_media">        Media: %s
-    </string>
-    <string name="description_post_cw">        Inhoudswaarschuwing: %s
-    </string>
-    <string name="description_post_media_no_description_placeholder">        Geen omschrijving
-    </string>
-    <string name="description_post_reblogged">        Geboost
-    </string>
-    <string name="description_post_favourited">        Aan favorieten toegevoegd
-    </string>
+    <string name="description_post_media">Media: %s</string>
+    <string name="description_post_cw">Inhoudswaarschuwing: %s</string>
+    <string name="description_post_media_no_description_placeholder">Geen omschrijving</string>
+    <string name="description_post_reblogged">Geboost</string>
+    <string name="description_post_favourited">Aan favorieten toegevoegd</string>
     <string name="description_visiblity_public">Openbaar</string>
     <string name="description_visiblity_unlisted">Minder openbaar</string>
     <string name="description_visiblity_private">Volgers</string>
@@ -521,4 +516,35 @@
 \n- Volger/Bericht statistieken op profielen
 \n
 \nPush-notificaties zullen niet worden beïnvloed, maar uw kunt uw notificatie voorkeuren handmatig wijzigen.</string>
+    <string name="title_migration_relogin"></string>
+    <string name="action_dismiss"></string>
+    <string name="action_details"></string>
+    <string name="notification_update_format"></string>
+    <string name="pref_title_notification_filter_updates"></string>
+    <string name="notification_update_name"></string>
+    <string name="account_date_joined"></string>
+    <string name="dialog_push_notification_migration_other_accounts"></string>
+    <string name="tips_push_notification_migration"></string>
+    <string name="dialog_push_notification_migration"></string>
+    <string name="error_loading_account_details"></string>
+    <string name="title_login"></string>
+    <string name="action_unbookmark"></string>
+    <string name="pref_title_confirm_favourites"></string>
+    <string name="notification_sign_up_format"></string>
+    <string name="pref_title_notification_filter_sign_ups"></string>
+    <string name="notification_sign_up_name"></string>
+    <string name="notification_sign_up_description"></string>
+    <string name="duration_14_days"></string>
+    <string name="duration_30_days"></string>
+    <string name="duration_60_days"></string>
+    <string name="duration_90_days"></string>
+    <string name="duration_180_days"></string>
+    <string name="duration_365_days"></string>
+    <string name="status_count_one_plus"></string>
+    <string name="tusky_compose_post_quicksetting_label"></string>
+    <string name="error_could_not_load_login_page"></string>
+    <string name="action_edit_image"></string>
+    <string name="notification_update_description"></string>
+    <string name="error_image_edit_failed"></string>
+    <string name="saving_draft"></string>
 </resources>

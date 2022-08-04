@@ -544,4 +544,6 @@
     <string name="action_dismiss">رد کردن</string>
     <string name="action_details">جزییات</string>
     <string name="saving_draft">ذخیرهٔ پیش‌نویس…</string>
+    <string name="error_loading_account_details"></string>
+    <string name="error_image_edit_failed"></string>
 </resources>
