@@ -119,11 +119,11 @@
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال وصل شدن…</string>
     <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، مثل mastodon.social, icosahedron.website, social.tchncs.de, و <a href="https://instances.social">بیش‌تر!</a>.
-\n 
-\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه مورد نظر را وارد کرده و در آن حسابی بسازید. 
-\n 
+\n
+\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه مورد نظر را وارد کرده و در آن حسابی بسازید.
+\n
 \n نمونه، جاییست که حسابتان رویش میزبانی می‌شود، ولی به راحتی می‌توانید با دیگر افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید.
-\n 
+\n
 \nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. </string>
     <string name="dialog_title_finishing_media_upload">پایان بارگذاری رسانه</string>
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
@@ -206,7 +206,7 @@
     -->
     <string name="about_project_site">پایگاه وب پروژه :
 \n https://tusky.app</string>
-    <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها: 
+    <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">نمایهٔ تاسکی</string>
     <string name="post_share_content">هم‌رسانی محتوای فرسته</string>
@@ -232,8 +232,9 @@
     <string name="compose_active_account_description">در حال فرستادن با حساب %1$s</string>
     <string name="error_failed_set_caption">شکست در تنظیم عنوان</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">توصیف برای کم‌بینایان
+        <item quantity="one">توصیف برای کم‌بینایان
 \n(کران %d نویسه)</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">تنظیم عنوان</string>
     <string name="action_remove">برداشتن</string>
