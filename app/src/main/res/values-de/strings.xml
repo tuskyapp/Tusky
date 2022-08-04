@@ -458,8 +458,8 @@
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%s nicht mehr verstecken</string>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%s&lt;/b&gt; Boost</item>
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; Boosts</item>
+        <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="other"><b>%s</b> Boosts</item>
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
