@@ -20,15 +20,37 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
+import androidx.room.Transaction
+import androidx.room.Update
 
 @Dao
 interface InstanceDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
-    suspend fun insertOrReplace(instance: InstanceInfoEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
+    suspend fun insert(instance: InstanceInfoEntity): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
-    suspend fun insertOrReplace(emojis: EmojisEntity)
+    @Update(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
+    suspend fun update(instance: InstanceInfoEntity)
+
+    @Transaction
+    suspend fun upsert(instance: InstanceInfoEntity) {
+        if (insert(instance) == -1L) {
+            update(instance)
+        }
+    }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
+    suspend fun insert(emojis: EmojisEntity): Long
+
+    @Update(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
+    suspend fun update(emojis: EmojisEntity)
+
+    @Transaction
+    suspend fun upsert(emojis: EmojisEntity) {
+        if (insert(emojis) == -1L) {
+            update(emojis)
+        }
+    }
 
     @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
