@@ -191,7 +191,11 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Cuntas faoi Ghlas</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d idirghníomhaíochtaí nua</item>
+        <item quantity="one">%d idirghníomhaíochtaí nua</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="notification_summary_small">%1$s agus %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, agus %3$s</string>
@@ -293,7 +297,11 @@
     <string name="license_description">Tá cód agus sócmhainní ó na tionscadail foinse oscailte seo a leanas i Tusky:</string>
     <string name="label_remote_account">Féadfaidh an fhaisnéis thíos próifíl an úsáideora a léiriú go neamhiomlán. Brúigh chun próifíl iomlán a oscailt sa bhrabhsálaí.</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">uasmhéid de chluaisíní %1$d sroichte</item>
+        <item quantity="one">uasmhéid de chluaisíní %1$d sroichte</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_poll">Vótaíocht le roghanna: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="list">Liosta</string>
@@ -323,8 +331,12 @@
     <string name="compose_active_account_description">Postáil le cuntas %1$s</string>
     <string name="error_failed_set_caption">Theip ar an bhfotheideal a shocrú</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Déan cur síos ar dhaoine lagamhairc
+        <item quantity="one">Déan cur síos ar dhaoine lagamhairc
 \n(teorainn carachtar %d)</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_set_caption">Socraigh fotheideal</string>
     <string name="action_remove">Bain</string>
