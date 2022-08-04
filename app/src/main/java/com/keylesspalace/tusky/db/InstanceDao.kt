@@ -42,7 +42,7 @@ interface InstanceDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
     suspend fun insert(emojis: EmojisEntity): Long
 
-    @Update(onConflict = OnConflictStrategy.REPLACE, entity = InstanceEntity::class)
+    @Update(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
     suspend fun update(emojis: EmojisEntity)
 
     @Transaction
