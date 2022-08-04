@@ -47,7 +47,7 @@
     <string name="notification_favourite_format">%s wedi nodi\'ch tŵt yn ffefryn</string>
     <string name="notification_follow_format">%s wedi\'ch dilyn chi</string>
     <string name="report_username_format">Adrodd @%s</string>
-    <string name="report_comment_hint">Sylwadau ychwanegol?</string>
+    <string name="report_comment_hint">Sylwadau ychwanegol\?</string>
     <string name="action_quick_reply">Ateb Cyflym</string>
     <string name="action_reply">Ateb</string>
     <string name="action_reblog">Hybu</string>
@@ -56,7 +56,7 @@
     <string name="action_compose">Creu</string>
     <string name="action_login">Mewngofnodi â Mastodon</string>
     <string name="action_logout">Allgofnodi</string>
-    <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s?</string>
+    <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s\?</string>
     <string name="action_follow">Dilyn</string>
     <string name="action_unfollow">Dad-ddilyn</string>
     <string name="action_block">Blocio</string>
@@ -116,7 +116,7 @@
     <string name="label_quick_reply">Ateb…</string>
     <string name="label_avatar">Rhithffurf</string>
     <string name="label_header">Pennawd</string>
-    <string name="link_whats_an_instance">Beth yw achos?</string>
+    <string name="link_whats_an_instance">Beth yw achos\?</string>
     <string name="login_connection">Yn cysylltu …</string>
     <string name="dialog_whats_an_instance">Gallwch nodi cyfeiriad neu barth unrhyw achos
         yma, fel mastodon.social, twt.cymru, social.tchncs.de, a
