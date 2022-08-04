@@ -340,10 +340,10 @@
         <item quantity="many">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
         <item quantity="other">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
     </plurals>
-    <string name="description_post_media">الوسائط: %s    </string>
-    <string name="description_post_cw">تحذير عن المحتوى: %s    </string>
-    <string name="description_post_media_no_description_placeholder">مِن دون وصف    </string>
-    <string name="description_post_reblogged">أعاد تدوينه    </string>
+    <string name="description_post_media">الوسائط: %s</string>
+    <string name="description_post_cw">تحذير عن المحتوى: %s</string>
+    <string name="description_post_media_no_description_placeholder">مِن دون وصف</string>
+    <string name="description_post_reblogged">أعاد تدوينه</string>
     <string name="description_visiblity_public">للعامة    </string>
     <string name="description_visiblity_unlisted">غير مُدرَج    </string>
     <string name="description_visiblity_private">المتابِعون    </string>
@@ -556,4 +556,32 @@
     <string name="pref_title_notification_filter_sign_ups">أحدهم أنشأ حسابا جديدا</string>
     <string name="notification_update_name">منشورات تم تعديلها</string>
     <string name="notification_update_format">قام %s بتعديل منشوره</string>
+    <string name="pref_title_notification_filter_updates"></string>
+    <string name="title_migration_relogin"></string>
+    <string name="action_dismiss"></string>
+    <string name="action_details"></string>
+    <string name="dialog_push_notification_migration"></string>
+    <string name="pref_title_wellbeing_mode"></string>
+    <string name="account_date_joined"></string>
+    <string name="dialog_push_notification_migration_other_accounts"></string>
+    <string name="error_could_not_load_login_page"></string>
+    <string name="notification_subscription_description"></string>
+    <string name="notification_sign_up_description"></string>
+    <string name="follow_requests_info"></string>
+    <string name="status_count_one_plus"></string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="zero"></item>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="tips_push_notification_migration"></string>
+    <string name="error_loading_account_details"></string>
+    <string name="wellbeing_mode_notice"></string>
+    <string name="notification_update_description"></string>
+    <string name="action_edit_image"></string>
+    <string name="error_image_edit_failed"></string>
+    <string name="saving_draft"></string>
 </resources>
