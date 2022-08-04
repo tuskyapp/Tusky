@@ -80,10 +80,10 @@
     <string name="title_favourited_by">ชื่นชอบโดย</string>
     <string name="title_reblogged_by">บูสต์โดย</string>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b>%s&lt;/b> บูสต์</item>
+        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; บูสต์</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; ชื่นชอบ</item>
+        <item quantity="other"><b>%1$s</b> ชื่นชอบ</item>
     </plurals>
     <string name="pin_action">ปักหมุด</string>
     <string name="unpin_action">เลิกปักหมุด</string>
@@ -271,11 +271,11 @@
     <string name="dialog_message_uploading_media">กำลังอัปโหลด…</string>
     <string name="dialog_title_finishing_media_upload">กำลังอัปโหลดสื่อใกล้เสร็จ</string>
     <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a>
-\n 
-\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น 
-\n 
-\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน 
-\n 
+\n
+\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น
+\n
+\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน
+\n
 \nพบข้อมูลเพิ่มเติมได้ที่ <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="label_header">ภาพหัวบน</string>
     <string name="login_connection">กำลังเชื่อมต่อ…</string>
