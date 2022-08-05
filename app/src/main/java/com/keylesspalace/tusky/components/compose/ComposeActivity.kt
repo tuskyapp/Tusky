@@ -103,6 +103,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
+import java.text.DecimalFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
@@ -957,8 +958,12 @@ class ComposeActivity :
         lifecycleScope.launch {
             viewModel.pickMedia(uri).onFailure { throwable ->
                 val errorString = when (throwable) {
-                    is VideoSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.first().videoSizeLimit)
-                    is AudioSizeException -> getString(R.string.error_multimedia_size_limit, viewModel.instanceInfo.first().videoSizeLimit)
+                    is FileSizeException -> {
+                        val decimalFormat = DecimalFormat("0.##")
+                        val allowedSizeInMb = throwable.allowedSizeInBytes.toDouble() / (1024 * 1024)
+                        val formattedSize = decimalFormat.format(allowedSizeInMb)
+                        getString(R.string.error_multimedia_size_limit, formattedSize)
+                    }
                     is VideoOrImageException -> getString(R.string.error_media_upload_image_or_video)
                     else -> getString(R.string.error_media_upload_opening)
                 }
