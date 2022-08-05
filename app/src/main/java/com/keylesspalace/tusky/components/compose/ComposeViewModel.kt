@@ -262,7 +262,8 @@ class ComposeViewModel @Inject constructor(
             mediaDescriptions = mediaDescriptions,
             poll = poll.value,
             failedToSend = false,
-            scheduledAt = scheduledAt.value
+            scheduledAt = scheduledAt.value,
+            language = postLanguage,
         )
     }
 

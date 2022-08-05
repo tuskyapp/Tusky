@@ -260,7 +260,8 @@ class SendStatusService : Service(), Injectable {
             mediaDescriptions = status.mediaDescriptions,
             poll = status.poll,
             failedToSend = true,
-            scheduledAt = status.scheduledAt
+            scheduledAt = status.scheduledAt,
+            language = status.language,
         )
     }
 
