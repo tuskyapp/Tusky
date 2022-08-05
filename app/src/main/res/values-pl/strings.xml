@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
     <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
     <string name="error_compose_character_limit">Zbyt długi wpis!</string>
-    <string name="error_image_upload_size">Plik może mieć maksymalnie 8 MB.</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
     <string name="error_media_upload_permission">Wymagane jest pozwolenie na dostęp do plików z urządzenia.</string>
@@ -267,7 +266,6 @@
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
     <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
-    <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
     <string name="title_direct_messages">Wiadomości bezpośrednie</string>
     <string name="title_posts_pinned">Przypięte</string>
     <string name="post_content_show_more">Rozwiń</string>
@@ -464,7 +462,6 @@
     <string name="description_post_bookmarked">Dodany do zakładek</string>
     <string name="select_list_title">Wybierz listę</string>
     <string name="list">Lista</string>
-    <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
     <string name="no_drafts">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_posts">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>

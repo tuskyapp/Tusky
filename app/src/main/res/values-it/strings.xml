@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Autorizzazione negata.</string>
     <string name="error_retrieving_oauth_token">Acquisizione token di accesso fallita.</string>
     <string name="error_compose_character_limit">Il post è troppo lungo!</string>
-    <string name="error_image_upload_size">Il file deve essere più piccolo di 8 MB.</string>
     <string name="error_video_upload_size">I video devono essere più piccoli di 40 MB.</string>
     <string name="error_media_upload_type">Quel tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Non è stato possibile aprire quel file.</string>
@@ -464,7 +463,6 @@
     <string name="action_unmute_conversation">Smetti di silenziare la conversazione</string>
     <string name="action_mute_conversation">Silenzia conversazione</string>
     <string name="notification_follow_request_format">%s ha chiesto di seguirti</string>
-    <string name="error_audio_upload_size">I file audio devono essere più piccoli di 40 MB.</string>
     <string name="action_unmute_desc">Smetti di silenziare %s</string>
     <string name="notification_follow_request_name">Richieste di seguirti</string>
     <string name="account_note_saved">Salvato!</string>

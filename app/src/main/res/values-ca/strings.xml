@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">S\'ha denegat l\'autorització.</string>
     <string name="error_retrieving_oauth_token">Ha fallat l\'obtenció del token d\'inici de sessió.</string>
     <string name="error_compose_character_limit">L\'estat és massa llarg!</string>
-    <string name="error_image_upload_size">El fitxer ha de ser d\'una mida menor de 8MB.</string>
     <string name="error_media_upload_type">No es pot pujar aquest tipus de fitxer.</string>
     <string name="error_media_upload_opening">No es pot obrir aquest tipus de fitxer.</string>
     <string name="error_media_upload_permission">Cal permís d\'accés a l\'emmagatzematge.</string>
@@ -205,7 +204,6 @@
     <string name="message_empty">No hi ha res aquí.</string>
     <string name="action_unreblog">Elimina l\'impuls</string>
     <string name="error_network">S\'ha produït un error de connexió! Comproveu la connexió i torneu-ho a provar!</string>
-    <string name="error_video_upload_size">Els fitxers de vídeo han de ser de mida menor de 40 MB.</string>
     <string name="post_media_hidden_title">Multimèdia amagada</string>
     <string name="post_content_show_less">Amaga</string>
     <string name="action_logout_confirm">Estàs segur de tancar la sessió de %1$s\?</string>
@@ -430,7 +428,6 @@
     <string name="list">Llista</string>
     <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
     <string name="no_scheduled_posts">No tens cap estat planificat.</string>
-    <string name="error_audio_upload_size">Els fitxers d\'àudio han de ser de mida menor de 40MB.</string>
     <string name="no_drafts">No teniu cap esborrany.</string>
     <string name="warning_scheduling_interval">L\'interval mínim de planificació a Mastodon és de 5 minuts.</string>
     <string name="notification_follow_request_name">Peticions de seguiment</string>

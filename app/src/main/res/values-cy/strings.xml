@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">Gwrthodwyd awdurdodi.</string>
     <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi.</string>
     <string name="error_compose_character_limit">Mae\'r statws yn rhy hir!</string>
-    <string name="error_image_upload_size">Rhaid i\'r ffeil fod yn llai nag 8MB.</string>
     <string name="error_video_upload_size">Rhaid i ffeiliau fideo fod yn llai na 40MB.</string>
     <string name="error_media_upload_type">Ni allwch uwchlwytho\'r math hwnnw o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>

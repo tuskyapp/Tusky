@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">授權被拒絕。</string>
     <string name="error_retrieving_oauth_token">無法獲取登入資訊。</string>
     <string name="error_compose_character_limit">嘟文太長了！</string>
-    <string name="error_image_upload_size">檔案大小限制 8MB。</string>
     <string name="error_video_upload_size">影片大小限制 40MB。</string>
     <string name="error_media_upload_type">無法上傳此類型的檔案。</string>
     <string name="error_media_upload_opening">此檔案無法開啟。</string>
@@ -435,7 +434,6 @@
     <string name="edit_poll">編輯</string>
     <string name="action_edit">編輯</string>
     <string name="title_bookmarks">書籤</string>
-    <string name="error_audio_upload_size">音檔必需小於40MB。</string>
     <string name="wellbeing_hide_stats_profile">隱藏個人頁面中的狀態數量資訊</string>
     <string name="wellbeing_hide_stats_posts">隱藏貼文上的狀態數量資訊</string>
     <string name="limit_notifications">限制時間軸通知</string>
