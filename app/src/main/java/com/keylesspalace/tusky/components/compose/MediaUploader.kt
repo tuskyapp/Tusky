@@ -71,8 +71,7 @@ fun createNewImageFile(context: Context, suffix: String = ".jpg"): File {
 
 data class PreparedMedia(val type: QueuedMedia.Type, val uri: Uri, val size: Long)
 
-class AudioSizeException : Exception()
-class VideoSizeException : Exception()
+class FileSizeException(val allowedSizeInBytes: Int) : Exception()
 class MediaTypeException : Exception()
 class CouldNotOpenFileException : Exception()
 class UploadServerError(val errorMessage: String) : Exception()
@@ -166,7 +165,7 @@ class MediaUploader @Inject constructor(
             return when (mimeType.substring(0, mimeType.indexOf('/'))) {
                 "video" -> {
                     if (mediaSize > instanceInfo.videoSizeLimit) {
-                        throw VideoSizeException()
+                        throw FileSizeException(instanceInfo.videoSizeLimit)
                     }
                     PreparedMedia(QueuedMedia.Type.VIDEO, uri, mediaSize)
                 }
@@ -175,7 +174,7 @@ class MediaUploader @Inject constructor(
                 }
                 "audio" -> {
                     if (mediaSize > instanceInfo.videoSizeLimit) {
-                        throw AudioSizeException()
+                        throw FileSizeException(instanceInfo.videoSizeLimit)
                     }
                     PreparedMedia(QueuedMedia.Type.AUDIO, uri, mediaSize)
                 }
