@@ -464,7 +464,8 @@ class ComposeActivityTest {
             pollConfiguration = null,
             configuration = configuration,
             maxMediaAttachments = null,
-            pleroma = null
+            pleroma = null,
+            uploadLimit = null
         )
     }
 
