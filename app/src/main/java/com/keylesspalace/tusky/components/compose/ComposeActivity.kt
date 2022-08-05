@@ -482,7 +482,11 @@ class ComposeActivity :
     private fun setupLanguageSpinner(initialLanguage: String?) {
         val locales = Locale.getAvailableLocales()
             .filter { it.country.isNullOrEmpty() && it.script.isNullOrEmpty() && it.variant.isNullOrEmpty() } // Only "base" languages, "en" but not "en_DK"
-        val currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
+        var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
+        if (currentLocaleIndex < 0) {
+            // FIXME no-NB => nb-NO
+            currentLocaleIndex = locales.indexOfFirst { it.language == "en" }
+        }
 
         val context = this
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -502,7 +506,7 @@ class ComposeActivity :
 
     private fun getInitialLanguage(language: String? = null): String {
         return if (language.isNullOrEmpty()) {
-            // TODO: preference
+            // Setting the application ui preference sets the default locale
             Locale.getDefault().language
         } else {
             language
