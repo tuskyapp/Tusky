@@ -21,10 +21,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
@@ -106,7 +107,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private fun followTag(): Boolean {
         val tag = hashtag
         if (tag != null) {
-            val context = this
+            val context = findViewById<View>(R.id.action_follow_hashtag)
             lifecycleScope.launch {
                 mastodonApi.followTag(tag).fold(
                     {
@@ -114,7 +115,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         unfollowTagItem?.isVisible = true
                     },
                     {
-                        Toast.makeText(context, getString(R.string.error_following_hashtag_format, tag), Toast.LENGTH_SHORT).show()
+                        Snackbar.make(context, getString(R.string.error_following_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
                         Log.e(TAG, "Failed to follow #$tag", it)
                     }
                 )
@@ -127,7 +128,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private fun unfollowTag(): Boolean {
         val tag = hashtag
         if (tag != null) {
-            val context = this
+            val context = findViewById<View>(R.id.action_unfollow_hashtag)
             lifecycleScope.launch {
                 mastodonApi.unfollowTag(tag).fold(
                     {
@@ -135,7 +136,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         unfollowTagItem?.isVisible = false
                     },
                     {
-                        Toast.makeText(context, getString(R.string.error_unfollowing_hashtag_format, tag), Toast.LENGTH_SHORT).show()
+                        Snackbar.make(context, getString(R.string.error_unfollowing_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
                         Log.e(TAG, "Failed to unfollow #$tag", it)
                     }
                 )
