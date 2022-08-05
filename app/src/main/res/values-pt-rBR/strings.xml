@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">Autorização negada.</string>
     <string name="error_retrieving_oauth_token">Erro ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">O toot é muito longo!</string>
-    <string name="error_image_upload_size">A imagem deve ser menor que 8MB.</string>
     <string name="error_video_upload_size">O vídeo deve ser menor que 40MB.</string>
     <string name="error_media_upload_type">Esse tipo de arquivo não pode ser enviado.</string>
     <string name="error_media_upload_opening">Esse arquivo não pode ser aberto.</string>
@@ -446,7 +445,6 @@
     <string name="select_list_title">Selecionar lista</string>
     <string name="list">Lista</string>
     <string name="no_scheduled_posts">Sem toots agendados.</string>
-    <string name="error_audio_upload_size">O áudio deve ser menor que 40MB.</string>
     <string name="no_drafts">Sem rascunhos.</string>
     <string name="warning_scheduling_interval">Mastodon possui um intervalo mínimo de 5 minutos para agendar.</string>
     <string name="notification_follow_request_name">Seguidores pendentes</string>

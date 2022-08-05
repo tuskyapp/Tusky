@@ -520,9 +520,7 @@
     <string name="error_media_upload_permission">Tha feum air cead gus meadhanan a leughadh.</string>
     <string name="error_media_upload_opening">Cha b’ urrainn dhuinn am faidhle sin fhosgladh.</string>
     <string name="error_media_upload_type">Cha ghabh an seòrsa de dh’fhaidhle seo a luchdadh suas.</string>
-    <string name="error_audio_upload_size">Feumaidh faidhlichean fuaime a bhith nas lugha na 40MB.</string>
     <string name="error_video_upload_size">Feumaidh faidhlichean video a bhith nas lugha na 40MB.</string>
-    <string name="error_image_upload_size">Feumaidh am faidhle a bhith nas lugha na 8MB.</string>
     <string name="error_compose_character_limit">Tha am post ro fhada!</string>
     <string name="error_retrieving_oauth_token">Cha deach leinn tòcan clàraidh a-steach fhaighinn.</string>
     <string name="error_authorization_denied">Chaidh an t-ùghdarrachadh a dhiùltadh.</string>

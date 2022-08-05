@@ -332,7 +332,6 @@
     <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
     <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
     <string name="warning_scheduling_interval">মাস্টোডনের সর্বনিম্ন ৫ মিনিটের সময়সূচীর বিরতি আছে।</string>
-    <string name="error_audio_upload_size">অডিও ফাইলগুলি অবশ্যই ৪০MB এর চেয়ে কম হওয়া উচিত।</string>
     <string name="no_drafts">তোমার কোনো খসড়া নেই।</string>
     <string name="no_scheduled_posts">তোমার কোনো সময়সূচীত স্ট্যাটাস নেই।</string>
     <string name="list">তালিকা</string>
@@ -418,7 +417,6 @@
     <string name="error_media_upload_permission">মিডিয়া পড়তে অনুমতি প্রয়োজন।</string>
     <string name="error_media_upload_opening">ওই ফাইল খোলা যাবে না।</string>
     <string name="error_media_upload_type">যে ধরনের ফাইল আপলোড করা যাবে না।</string>
-    <string name="error_video_upload_size">ভিডিও ফাইল 40MB চেয়ে কম হতে হবে।</string>
     <string name="error_image_upload_size">ফাইল 8MB চেয়ে কম হতে হবে।</string>
     <string name="error_compose_character_limit">এই স্টেটাস টি খুব দীর্ঘ!</string>
     <string name="error_retrieving_oauth_token">একটি লগইন টোকেন পেতে ব্যর্থ।</string>

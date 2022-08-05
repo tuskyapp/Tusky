@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">承認が拒否されました。</string>
     <string name="error_retrieving_oauth_token">ログイントークンの取得に失敗しました。</string>
     <string name="error_compose_character_limit">投稿文が長すぎます！</string>
-    <string name="error_image_upload_size">ファイルは4MB未満にしてください。</string>
     <string name="error_video_upload_size">ビデオファイルは40MB未満にしてください。</string>
     <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
@@ -394,7 +393,6 @@
     <string name="failed_search">検索に失敗しました</string>
     <string name="pref_title_show_notifications_filter">通知フィルターを表示</string>
     <string name="action_reset_schedule">リセット</string>
-    <string name="error_audio_upload_size">音声ファイルは40MB未満にしてください。</string>
     <string name="title_bookmarks">ブックマーク</string>
     <string name="action_bookmark">ブックマーク</string>
     <string name="action_edit">編集</string>

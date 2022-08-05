@@ -22,7 +22,6 @@
     <string name="error_authorization_denied">ആധികാരികത ഉറപ്പുവരുത്താനായില്ല.</string>
     <string name="error_retrieving_oauth_token">ഒരു പ്രവേശന ടോക്കൺ ലഭ്യമാക്കുന്നതിൽ പരാജയപ്പെട്ടു.</string>
     <string name="error_compose_character_limit">ഈ സ്റ്റാറ്റസ് വളരെ നീളമേറിയതാണ്!</string>
-    <string name="error_image_upload_size">ഫയൽ 8 എംബിയേക്കാളും ചെറുതായിരിക്കണം.</string>
     <string name="error_video_upload_size">ചലച്ചിത്ര ഫയലുകൾ 40എംബിയിലും ചെറുതായിരിക്കണം.</string>
     <string name="error_media_upload_type">ഇത്തരം ഫയൽ അപ്‌ലോഡ് ചെയ്യാൻ സാധിക്കില്ല.</string>
     <string name="error_media_upload_opening">ഈ ഫയൽ തുറക്കാനായില്ല.</string>

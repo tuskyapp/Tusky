@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Rajtigo rifuzita.</string>
     <string name="error_retrieving_oauth_token">Akiro de atingoĵetono malsukcesis.</string>
     <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
-    <string name="error_image_upload_size">La dosiero devas esti malpli ol 8MB.</string>
     <string name="error_video_upload_size">Videaj dosieroj devas esti malpli ol 40MB.</string>
     <string name="error_media_upload_type">Tia dosiero ne estas rajtigita.</string>
     <string name="error_media_upload_opening">Tiu dosiero ne povas esti malfermita.</string>
@@ -437,7 +436,6 @@
     <string name="select_list_title">Elekti la liston</string>
     <string name="list">Listo</string>
     <string name="post_lookup_error_format">Eraro dum elserĉo de la mesaĝo %s</string>
-    <string name="error_audio_upload_size">Aŭdia dosiero devas esti malpli ol 40MB.</string>
     <string name="no_drafts">Vi ne havas iun ajn malneton.</string>
     <string name="no_scheduled_posts">Vi ne havas iun ajn planitan mesaĝon.</string>
     <string name="notification_follow_request_name">Petoj de sekvado</string>

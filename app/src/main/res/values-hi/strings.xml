@@ -28,16 +28,13 @@
     <string name="action_close">बंद करें</string>
     <string name="action_view_profile">प्रोफाइल</string>
     <string name="description_visiblity_private">अनुगामी</string>
-    <string name="error_image_upload_size">फ़ाइल 8 एमबी से कम होनी चाहिए।</string>
     <string name="error_media_upload_sending">अपलोड विफल रहा।</string>
     <string name="error_media_download_permission">मीडिया को स्टोर करने की अनुमति आवश्यक है।</string>
     <string name="error_media_upload_permission">मीडिया पढ़ने की अनुमति आवश्यक है।</string>
     <string name="error_media_upload_opening">वह फ़ाइल नहीं खोली जा सकी।</string>
     <string name="error_media_upload_type">उस प्रकार की फ़ाइल अपलोड नहीं की जा सकती।</string>
-    <string name="error_audio_upload_size">ऑडियो फाइलें 40 एमबी से कम होनी चाहिए।</string>
     <string name="error_generic">एक त्रुटि हुई।</string>
     <string name="action_reset_schedule">रीसेट</string>
-    <string name="error_video_upload_size">वीडियो फ़ाइलें 40MB से कम होनी चाहिए।</string>
     <string name="error_retrieving_oauth_token">लॉगिन टोकन प्राप्त करने में विफल।</string>
     <string name="error_authorization_denied">प्राधिकरण करने के से इनकार कर दिया।</string>
     <string name="error_authorization_unknown">एक अज्ञात प्राधिकरण त्रुटि हुई।</string>
