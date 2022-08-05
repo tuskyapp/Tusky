@@ -68,43 +68,6 @@ fun getMediaSize(contentResolver: ContentResolver, uri: Uri?): Long {
     return mediaSize
 }
 
-fun getSampledBitmap(contentResolver: ContentResolver, uri: Uri, @Px reqWidth: Int, @Px reqHeight: Int): Bitmap? {
-    // First decode with inJustDecodeBounds=true to check dimensions
-    val options = BitmapFactory.Options()
-    options.inJustDecodeBounds = true
-    var stream: InputStream?
-    try {
-        stream = contentResolver.openInputStream(uri)
-    } catch (e: FileNotFoundException) {
-        Log.w(TAG, e)
-        return null
-    }
-
-    BitmapFactory.decodeStream(stream, null, options)
-
-    IOUtils.closeQuietly(stream)
-
-    // Calculate inSampleSize
-    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
-
-    // Decode bitmap with inSampleSize set
-    options.inJustDecodeBounds = false
-    return try {
-        stream = contentResolver.openInputStream(uri)
-        val bitmap = BitmapFactory.decodeStream(stream, null, options)
-        val orientation = getImageOrientation(uri, contentResolver)
-        reorientBitmap(bitmap, orientation)
-    } catch (e: FileNotFoundException) {
-        Log.w(TAG, e)
-        null
-    } catch (e: OutOfMemoryError) {
-        Log.e(TAG, "OutOfMemoryError while trying to get sampled Bitmap", e)
-        null
-    } finally {
-        IOUtils.closeQuietly(stream)
-    }
-}
-
 @Throws(FileNotFoundException::class)
 fun getImageSquarePixels(contentResolver: ContentResolver, uri: Uri): Long {
     val input = contentResolver.openInputStream(uri)

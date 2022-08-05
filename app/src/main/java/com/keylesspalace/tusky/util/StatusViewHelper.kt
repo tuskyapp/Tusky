@@ -166,7 +166,7 @@ class StatusViewHelper(private val itemView: View) {
                 mediaPreviews[3].layoutParams.height = mediaPreviewHeight
             }
         }
-        if (attachments.isNullOrEmpty()) {
+        if (attachments.isEmpty()) {
             sensitiveMediaWarning.visibility = View.GONE
             sensitiveMediaShow.visibility = View.GONE
         } else {

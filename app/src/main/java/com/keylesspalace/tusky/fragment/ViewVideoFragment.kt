@@ -171,12 +171,11 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
-        val url: String
 
         if (attachment == null) {
             throw IllegalArgumentException("attachment has to be set")
         }
-        url = attachment.url
+        val url = attachment.url
         isAudio = attachment.type == Attachment.Type.AUDIO
         finalizeViewSetup(url, attachment.previewUrl, attachment.description)
     }
