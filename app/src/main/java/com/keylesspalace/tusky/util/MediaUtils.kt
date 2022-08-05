@@ -23,7 +23,6 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.annotation.Px
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileNotFoundException
