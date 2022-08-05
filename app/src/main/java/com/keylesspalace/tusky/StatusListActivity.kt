@@ -24,13 +24,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
@@ -83,18 +83,20 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         val tag = hashtag
         if (kind == Kind.TAG && tag != null) {
             lifecycleScope.launch {
-                try {
-                    val tagEntity = mastodonApi.tag(tag).await()
-                    menuInflater.inflate(R.menu.view_hashtag_toolbar, menu)
-                    followTagItem = menu.findItem(R.id.action_follow_hashtag)
-                    unfollowTagItem = menu.findItem(R.id.action_unfollow_hashtag)
-                    followTagItem?.isVisible = tagEntity.following == false
-                    unfollowTagItem?.isVisible = tagEntity.following == true
-                    followTagItem?.setOnMenuItemClickListener { followTag() }
-                    unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
-                } catch (exception: Exception) {
-                    Log.w("Failed to query tag #$tag", exception)
-                }
+                mastodonApi.tag(tag).fold(
+                    { tagEntity ->
+                        menuInflater.inflate(R.menu.view_hashtag_toolbar, menu)
+                        followTagItem = menu.findItem(R.id.action_follow_hashtag)
+                        unfollowTagItem = menu.findItem(R.id.action_unfollow_hashtag)
+                        followTagItem?.isVisible = tagEntity.following == false
+                        unfollowTagItem?.isVisible = tagEntity.following == true
+                        followTagItem?.setOnMenuItemClickListener { followTag() }
+                        unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
+                    },
+                    {
+                        Log.w("Failed to query tag #$tag", it)
+                    }
+                )
             }
         }
 
@@ -106,13 +108,15 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         if (tag != null) {
             val context = this
             lifecycleScope.launch {
-                try {
-                    mastodonApi.followTag(tag).await()
-                    followTagItem?.isVisible = false
-                    unfollowTagItem?.isVisible = true
-                } catch (_: Exception) {
-                    Toast.makeText(context, "Error following #$tag", Toast.LENGTH_SHORT).show()
-                }
+                mastodonApi.followTag(tag).fold(
+                    {
+                        followTagItem?.isVisible = false
+                        unfollowTagItem?.isVisible = true
+                    },
+                    {
+                        Toast.makeText(context, "Error following #$tag", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
 
@@ -124,13 +128,15 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         if (tag != null) {
             val context = this
             lifecycleScope.launch {
-                try {
-                    mastodonApi.unfollowTag(tag).await()
-                    followTagItem?.isVisible = true
-                    unfollowTagItem?.isVisible = false
-                } catch (_: Exception) {
-                    Toast.makeText(context, "Error unfollowing #$tag", Toast.LENGTH_SHORT).show()
-                }
+                mastodonApi.unfollowTag(tag).fold(
+                    {
+                        followTagItem?.isVisible = true
+                        unfollowTagItem?.isVisible = false
+                    },
+                    {
+                        Toast.makeText(context, "Error unfollowing #$tag", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
 

@@ -659,11 +659,11 @@ interface MastodonApi {
     ): NetworkResult<ResponseBody>
 
     @GET("api/v1/tags/{name}")
-    fun tag(@Path("name") name: String): Single<HashTag>
+    suspend fun tag(@Path("name") name: String): NetworkResult<HashTag>
 
     @POST("api/v1/tags/{name}/follow")
-    fun followTag(@Path("name") name: String): Single<HashTag>
+    suspend fun followTag(@Path("name") name: String): NetworkResult<HashTag>
 
     @POST("api/v1/tags/{name}/unfollow")
-    fun unfollowTag(@Path("name") name: String): Single<HashTag>
+    suspend fun unfollowTag(@Path("name") name: String): NetworkResult<HashTag>
 }
