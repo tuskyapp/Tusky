@@ -7,12 +7,14 @@
         android:id="@+id/action_follow_hashtag"
         android:title="@string/action_follow"
         app:showAsAction="ifRoom"
+        app:iconTint="?attr/colorOnSurface"
         android:icon="@drawable/ic_person_add_24dp" />
 
     <item
         android:id="@+id/action_unfollow_hashtag"
         android:title="@string/action_unfollow"
         app:showAsAction="ifRoom"
+        app:iconTint="?attr/colorOnSurface"
         android:icon="@drawable/ic_person_remove_24dp" />
 
 
