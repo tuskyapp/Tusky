@@ -35,6 +35,7 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
@@ -245,6 +246,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
+        setupLanguageSpinner(getInitialLanguage(composeOptions?.language))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -475,22 +477,35 @@ class ComposeActivity :
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
-        setupLanguageSpinner()
     }
 
-    private fun setupLanguageSpinner() {
+    private fun setupLanguageSpinner(initialLanguage: String?) {
         val locales = Locale.getAvailableLocales()
-            .filter { it.toLanguageTag().length == 2 }
-        val currentLocaleIndex = if (Locale.getDefault().language.length == 2) {
-            locales.indexOfFirst{ it.language == Locale.getDefault().language }
-        } else {
-            locales.indexOfFirst{ it.language == "en" }
-        }
+            .filter { it.country.isNullOrEmpty() && it.script.isNullOrEmpty() && it.variant.isNullOrEmpty() } // Only "base" languages, "en" but not "en_DK"
+        val currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
 
         val context = this
+        binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).language
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                parent.setSelection(locales.indexOfFirst { it.language == getInitialLanguage() })
+            }
+        }
         binding.composePostLanguageButton.apply {
             adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, locales)
             setSelection(currentLocaleIndex)
+        }
+    }
+
+    private fun getInitialLanguage(language: String? = null): String {
+        return if (language.isNullOrEmpty()) {
+            // TODO: preference
+            Locale.getDefault().language
+        } else {
+            language
         }
     }
 
@@ -1146,7 +1161,8 @@ class ComposeActivity :
         var scheduledAt: String? = null,
         var sensitive: Boolean? = null,
         var poll: NewPoll? = null,
-        var modifiedInitialState: Boolean? = null
+        var modifiedInitialState: Boolean? = null,
+        var language: String? = null,
     ) : Parcelable
 
     companion object {

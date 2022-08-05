@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.keylesspalace.tusky.util.ThemeUtils
-import java.util.*
+import java.util.Locale
 
 class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : ArrayAdapter<Locale>(context, resource, locales) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
