@@ -7,11 +7,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:7.2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.2.1"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
     }
-}
-plugins {
-    id "org.jlleitschuh.gradle.ktlint" version "10.2.1"
 }
 
 allprojects {
