@@ -23,6 +23,8 @@
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same post.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="error_sender_account_gone">Error sending post.</string>
+    <string name="error_following_hashtag_format">Error following #%s</string>
+    <string name="error_unfollowing_hashtag_format">Error unfollowing #%s</string>
 
     <string name="title_login">Login</string>
     <string name="title_home">Home</string>

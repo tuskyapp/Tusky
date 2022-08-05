@@ -94,7 +94,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
                     },
                     {
-                        Log.w("Failed to query tag #$tag", it)
+                        Log.w(TAG, "Failed to query tag #$tag", it)
                     }
                 )
             }
@@ -114,7 +114,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         unfollowTagItem?.isVisible = true
                     },
                     {
-                        Toast.makeText(context, "Error following #$tag", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.error_following_hashtag_format, tag), Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to follow #$tag", it)
                     }
                 )
             }
@@ -134,7 +135,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         unfollowTagItem?.isVisible = false
                     },
                     {
-                        Toast.makeText(context, "Error unfollowing #$tag", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.error_unfollowing_hashtag_format, tag), Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to unfollow #$tag", it)
                     }
                 )
             }
@@ -151,6 +153,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         private const val EXTRA_LIST_ID = "id"
         private const val EXTRA_LIST_TITLE = "title"
         private const val EXTRA_HASHTAG = "tag"
+        const val TAG = "StatusListActivity"
 
         fun newFavouritesIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
