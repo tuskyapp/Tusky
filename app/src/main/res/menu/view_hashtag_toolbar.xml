@@ -13,7 +13,7 @@
         android:id="@+id/action_unfollow_hashtag"
         android:title="@string/action_unfollow"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_cancel_24dp" />
+        android:icon="@drawable/ic_person_remove_24dp" />
 
 
 </menu>
