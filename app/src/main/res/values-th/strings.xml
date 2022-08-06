@@ -414,7 +414,6 @@
     <string name="error_media_upload_permission">ต้องมีสิทธิ์อ่านสื่อ</string>
     <string name="error_media_upload_opening">ไม่สามารถเปิดไฟล์ได้</string>
     <string name="error_media_upload_type">ไม่สามารถอัปโหลดไฟล์ประเภทนี้ได้</string>
-    <string name="error_video_upload_size">ไฟล์วิดีโอต้องมีขนาดน้อยกว่า 40MB</string>
     <string name="error_compose_character_limit">ข้อความสถานะยาวเกินไป!</string>
     <string name="error_retrieving_oauth_token">ไม่สามารถรับโทเค็นการเข้าสู่ระบบ</string>
     <string name="error_authorization_denied">การขออนุญาตสิทธิถูกปฏิเสธ</string>

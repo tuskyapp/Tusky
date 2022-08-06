@@ -112,7 +112,6 @@
     <string name="error_media_upload_permission">Requírese o permiso de lectura do multimedia.</string>
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
     <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
-    <string name="error_video_upload_size">Os ficheiros de vídeo teñen que ser menores de 40MB.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
     <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada.</string>

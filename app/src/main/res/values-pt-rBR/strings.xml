@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">Autorização negada.</string>
     <string name="error_retrieving_oauth_token">Erro ao adquirir token de entrada.</string>
     <string name="error_compose_character_limit">O toot é muito longo!</string>
-    <string name="error_video_upload_size">O vídeo deve ser menor que 40MB.</string>
     <string name="error_media_upload_type">Esse tipo de arquivo não pode ser enviado.</string>
     <string name="error_media_upload_opening">Esse arquivo não pode ser aberto.</string>
     <string name="error_media_upload_permission">Permissão para ler mídia é necessária.</string>

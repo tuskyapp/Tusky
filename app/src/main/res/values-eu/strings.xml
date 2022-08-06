@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">Akatsa baimentzerakoan.</string>
     <string name="error_retrieving_oauth_token">Akatsa login identifikatzailea lortzerakoan.</string>
     <string name="error_compose_character_limit">Tut luzeegia!</string>
-    <string name="error_video_upload_size">Bideoak 40MB baino gutxiago izan behar ditu.</string>
     <string name="error_media_upload_type">Ez da fitxategi mota hau onartzen.</string>
     <string name="error_media_upload_opening">Ezin izan da fitxategi hau ireki.</string>
     <string name="error_media_upload_permission">Memoriara sartzeko baimena behar da.</string>

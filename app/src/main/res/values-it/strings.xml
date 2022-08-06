@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Autorizzazione negata.</string>
     <string name="error_retrieving_oauth_token">Acquisizione token di accesso fallita.</string>
     <string name="error_compose_character_limit">Il post è troppo lungo!</string>
-    <string name="error_video_upload_size">I video devono essere più piccoli di 40 MB.</string>
     <string name="error_media_upload_type">Quel tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Non è stato possibile aprire quel file.</string>
     <string name="error_media_upload_permission">È richiesto il permesso di leggere file.</string>
