@@ -22,7 +22,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         applicationId APP_ID
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode 94
         versionName "19.0"

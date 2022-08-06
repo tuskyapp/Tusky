@@ -14,7 +14,6 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.ContextCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -88,7 +87,7 @@ class SendStatusService : Service(), Injectable {
                 .setContentText(notificationText)
                 .setProgress(1, 0, true)
                 .setOngoing(true)
-                .setColor(ContextCompat.getColor(this, R.color.notification_color))
+                .setColor(getColor(R.color.notification_color))
                 .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
 
             if (statusesToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -189,12 +188,7 @@ class SendStatusService : Service(), Injectable {
                         .setSmallIcon(R.drawable.ic_notify)
                         .setContentTitle(getString(R.string.send_post_notification_error_title))
                         .setContentText(getString(R.string.send_post_notification_saved_content))
-                        .setColor(
-                            ContextCompat.getColor(
-                                this@SendStatusService,
-                                R.color.notification_color
-                            )
-                        )
+                        .setColor(getColor(R.color.notification_color))
 
                     notificationManager.cancel(statusId)
                     notificationManager.notify(errorNotificationId--, builder.build())
@@ -237,7 +231,7 @@ class SendStatusService : Service(), Injectable {
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(getString(R.string.send_post_notification_cancel_title))
                 .setContentText(getString(R.string.send_post_notification_saved_content))
-                .setColor(ContextCompat.getColor(this@SendStatusService, R.color.notification_color))
+                .setColor(getColor(R.color.notification_color))
 
             notificationManager.notify(statusId, builder.build())
 
