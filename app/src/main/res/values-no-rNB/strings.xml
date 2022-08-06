@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Autorisasjon ble nektet.</string>
     <string name="error_retrieving_oauth_token">Henting av logintoken feilet.</string>
     <string name="error_compose_character_limit">Innlegget er for langt!</string>
-    <string name="error_video_upload_size">Videofiler må være mindre enn 40MB.</string>
     <string name="error_media_upload_type">Den filtypen kan ikke lastes opp.</string>
     <string name="error_media_upload_opening">Den filen kunne ikke åpnes.</string>
     <string name="error_media_upload_permission">Trenger tillatelse til å lese media.</string>
@@ -537,4 +536,5 @@
     <string name="action_edit_image">Rediger bilde</string>
     <string name="error_image_edit_failed">Bildet kunne ikke redigeres.</string>
     <string name="error_loading_account_details">Lasting av kontodetaljer feilet</string>
+    <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %s MB.</string>
 </resources>

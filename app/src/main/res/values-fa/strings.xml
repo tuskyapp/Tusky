@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">احراز هویت رد شد.</string>
     <string name="error_retrieving_oauth_token">دریافت ژتون ورود شکست خورد.</string>
     <string name="error_compose_character_limit">فرسته خیلی طولانی است!</string>
-    <string name="error_video_upload_size">پرونده ویدئویی باید کمتر از ۴۰ مگابایت باشد.</string>
     <string name="error_media_upload_type">این گونهٔ پرونده نمی‌تواند بارگذاری شود.</string>
     <string name="error_media_upload_opening">این پرونده نتوانست گشوده شود.</string>
     <string name="error_media_upload_permission">نیاز به اجازهٔ خواندن رسانه است.</string>

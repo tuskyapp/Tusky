@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Rajtigo rifuzita.</string>
     <string name="error_retrieving_oauth_token">Akiro de atingoĵetono malsukcesis.</string>
     <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
-    <string name="error_video_upload_size">Videaj dosieroj devas esti malpli ol 40MB.</string>
     <string name="error_media_upload_type">Tia dosiero ne estas rajtigita.</string>
     <string name="error_media_upload_opening">Tiu dosiero ne povas esti malfermita.</string>
     <string name="error_media_upload_permission">Permeso legi aŭdovidaĵojn necesas.</string>

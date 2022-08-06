@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Yetkilendirme reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
     <string name="error_compose_character_limit">Durum çok uzun!</string>
-    <string name="error_video_upload_size">Video dosyaları 40 MB’dan küçük olmalı.</string>
     <string name="error_media_upload_type">Bu tür bir dosya yüklenemez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>

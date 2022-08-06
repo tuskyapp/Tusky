@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">La autorización falló.</string>
     <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login.</string>
     <string name="error_compose_character_limit">¡El estado es demasiado largo!</string>
-    <string name="error_video_upload_size">Los archivos de vídeo deben tener menos de 40MB.</string>
     <string name="error_media_upload_type">No se admite este tipo de archivo.</string>
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>

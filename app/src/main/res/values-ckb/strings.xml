@@ -141,7 +141,6 @@
     <string name="error_media_upload_permission">مۆڵەت بۆ خوێندنەوەی میدیا پێویستە.</string>
     <string name="error_media_upload_opening">ئەم فایلە ناتوانرێت بکرێتەوە.</string>
     <string name="error_media_upload_type">ناتوانیت لەم جۆرە فایلانە بەرز بکەیتەوە.</string>
-    <string name="error_video_upload_size">دەبێت ڤیدیۆکان لە 40 مێگابایت گەورەتر نەبن.</string>
     <string name="error_compose_character_limit">ئەم نووسینە زۆر درێژە!</string>
     <string name="error_retrieving_oauth_token">سەرکەوتوو نەبوو لە بەدەستهێنانی نیشانەی چوونەژوورەوە.</string>
     <string name="error_authorization_denied">ڕێپێدان ڕەتکرایەوە.</string>

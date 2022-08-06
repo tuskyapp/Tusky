@@ -10,7 +10,6 @@
     <string name="error_authorization_denied">Autorizace byla zamítnuta.</string>
     <string name="error_retrieving_oauth_token">Nepodařilo se získat přihlašovací token.</string>
     <string name="error_compose_character_limit">Toot je příliš dlouhý!</string>
-    <string name="error_video_upload_size">Videosoubory musejí být menší než 40 MB.</string>
     <string name="error_media_upload_type">Tento typ souboru nemůže být nahrán.</string>
     <string name="error_media_upload_opening">Tento soubor nemohl být otevřen.</string>
     <string name="error_media_upload_permission">Je vyžadováno povolení číst média.</string>
