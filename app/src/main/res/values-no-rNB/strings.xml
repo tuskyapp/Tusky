@@ -536,4 +536,5 @@
     <string name="action_edit_image">Rediger bilde</string>
     <string name="error_image_edit_failed">Bildet kunne ikke redigeres.</string>
     <string name="error_loading_account_details">Lasting av kontodetaljer feilet</string>
+    <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %s MB.</string>
 </resources>
