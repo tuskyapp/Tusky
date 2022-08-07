@@ -484,7 +484,7 @@ class ComposeActivity :
             .filter { it.country.isNullOrEmpty() && it.script.isNullOrEmpty() && it.variant.isNullOrEmpty() } // Only "base" languages, "en" but not "en_DK"
         var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
         if (currentLocaleIndex < 0) {
-            // FIXME no-NB => nb-NO
+            Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
             currentLocaleIndex = locales.indexOfFirst { it.language == "en" }
         }
 
