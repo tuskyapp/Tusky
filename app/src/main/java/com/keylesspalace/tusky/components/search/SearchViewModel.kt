@@ -191,10 +191,6 @@ class SearchViewModel @Inject constructor(
             .autoDispose()
     }
 
-    fun getAllAccountsOrderedByActive(): List<AccountEntity> {
-        return accountManager.getAllAccountsOrderedByActive()
-    }
-
     fun muteAccount(accountId: String, notifications: Boolean, duration: Int?) {
         timelineCases.mute(accountId, notifications, duration)
     }

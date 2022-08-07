@@ -288,7 +288,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
                     val stringToShare = statusToShare.account.username +
                         " - " +
-                        statusToShare.content.toString()
+                        statusToShare.content
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare)
                     sendIntent.type = "text/plain"
                     startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_post_content_to)))
