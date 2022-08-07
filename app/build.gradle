@@ -92,7 +92,7 @@ android {
     }
 }
 
-ext.coroutinesVersion = "1.6.1"
+ext.coroutinesVersion = "1.6.4"
 ext.lifecycleVersion = "2.5.1"
 ext.roomVersion = '2.4.3'
 ext.retrofitVersion = '2.9.0'
