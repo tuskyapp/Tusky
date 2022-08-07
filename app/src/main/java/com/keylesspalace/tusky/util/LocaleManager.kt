@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.settings.PrefKeys
 import java.util.Locale
 
 class LocaleManager(context: Context) {
@@ -26,9 +27,16 @@ class LocaleManager(context: Context) {
     private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun setLocale(context: Context): Context {
-        val language = prefs.getNonNullString("language", "default")
+        var language = prefs.getNonNullString(PrefKeys.LANGUAGE, "default")
         if (language == "default") {
             return context
+        }
+        if (language == "no-nb") {
+            // one-time migration from no-nb to nb-no
+            language = "nb-no"
+            prefs.edit()
+                .putString(PrefKeys.LANGUAGE, language)
+                .apply()
         }
         val locale = Locale.forLanguageTag(language)
         Locale.setDefault(locale)
