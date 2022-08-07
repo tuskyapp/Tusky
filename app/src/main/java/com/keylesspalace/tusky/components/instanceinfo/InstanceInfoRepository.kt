@@ -45,7 +45,7 @@ class InstanceInfoRepository @Inject constructor(
      */
     suspend fun getEmojis(): List<Emoji> = withContext(Dispatchers.IO) {
         api.getCustomEmojis()
-            .onSuccess { emojiList -> dao.insertOrReplace(EmojisEntity(instanceName, emojiList)) }
+            .onSuccess { emojiList -> dao.upsert(EmojisEntity(instanceName, emojiList)) }
             .getOrElse { throwable ->
                 Log.w(TAG, "failed to load custom emojis, falling back to cache", throwable)
                 dao.getEmojiInfo(instanceName)?.emojiList.orEmpty()
@@ -78,7 +78,7 @@ class InstanceInfoRepository @Inject constructor(
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
                         maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
                     )
-                    dao.insertOrReplace(instanceEntity)
+                    dao.upsert(instanceEntity)
                     instanceEntity
                 },
                 { throwable ->
