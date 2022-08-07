@@ -42,6 +42,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
@@ -131,7 +132,7 @@ class ComposeActivityTest {
         }
 
         val viewModelFactoryMock: ViewModelFactory = mock {
-            on { create(ComposeViewModel::class.java) } doReturn viewModel
+            on { create(eq(ComposeViewModel::class.java), any()) } doReturn viewModel
         }
 
         activity.accountManager = accountManagerMock
@@ -464,7 +465,8 @@ class ComposeActivityTest {
             pollConfiguration = null,
             configuration = configuration,
             maxMediaAttachments = null,
-            pleroma = null
+            pleroma = null,
+            uploadLimit = null
         )
     }
 

@@ -31,9 +31,6 @@
     <string name="error_media_upload_permission">Cần có quyền đọc tập tin.</string>
     <string name="error_media_upload_opening">Không thể mở tập tin.</string>
     <string name="error_media_upload_type">Không hỗ trợ định dạng này.</string>
-    <string name="error_audio_upload_size">Kích cỡ audio tối đa 40MB.</string>
-    <string name="error_video_upload_size">Kích cỡ video tối đa 40MB.</string>
-    <string name="error_image_upload_size">Kích cỡ hình ảnh tối đa là 8MB.</string>
     <string name="error_compose_character_limit">Vượt quá số ký tự cho phép!</string>
     <string name="error_retrieving_oauth_token">Lấy token đăng nhập thất bại.</string>
     <string name="error_authorization_denied">Truy cập bị từ chối.</string>
@@ -528,4 +525,5 @@
     <string name="action_edit_image">Sửa ảnh</string>
     <string name="error_image_edit_failed">Hình ảnh này không thể sửa.</string>
     <string name="error_loading_account_details">Không thể tải thông tin tài khoản</string>
+    <string name="error_multimedia_size_limit">Video và audio không thể quá %s MB.</string>
 </resources>

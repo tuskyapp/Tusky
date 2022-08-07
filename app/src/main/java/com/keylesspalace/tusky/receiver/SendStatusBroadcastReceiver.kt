@@ -126,6 +126,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     private fun getReplyMessage(intent: Intent): CharSequence {
         val remoteInput = RemoteInput.getResultsFromIntent(intent)
 
-        return remoteInput.getCharSequence(NotificationHelper.KEY_REPLY, "")
+        return remoteInput?.getCharSequence(NotificationHelper.KEY_REPLY, "") ?: ""
     }
 }

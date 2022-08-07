@@ -18,12 +18,20 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
+import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
@@ -31,16 +39,21 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
+    private val binding: ActivityStatuslistBinding by viewBinding(ActivityStatuslistBinding::inflate)
+    private lateinit var kind: Kind
+    private var hashtag: String? = null
+    private var followTagItem: MenuItem? = null
+    private var unfollowTagItem: MenuItem? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityStatuslistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
+        kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
         val listId = intent.getStringExtra(EXTRA_LIST_ID)
-        val hashtag = intent.getStringExtra(EXTRA_HASHTAG)
+        hashtag = intent.getStringExtra(EXTRA_HASHTAG)
 
         val title = when (kind) {
             Kind.FAVOURITES -> getString(R.string.title_favourites)
@@ -67,6 +80,70 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val tag = hashtag
+        if (kind == Kind.TAG && tag != null) {
+            lifecycleScope.launch {
+                mastodonApi.tag(tag).fold(
+                    { tagEntity ->
+                        menuInflater.inflate(R.menu.view_hashtag_toolbar, menu)
+                        followTagItem = menu.findItem(R.id.action_follow_hashtag)
+                        unfollowTagItem = menu.findItem(R.id.action_unfollow_hashtag)
+                        followTagItem?.isVisible = tagEntity.following == false
+                        unfollowTagItem?.isVisible = tagEntity.following == true
+                        followTagItem?.setOnMenuItemClickListener { followTag() }
+                        unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
+                    },
+                    {
+                        Log.w(TAG, "Failed to query tag #$tag", it)
+                    }
+                )
+            }
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun followTag(): Boolean {
+        val tag = hashtag
+        if (tag != null) {
+            lifecycleScope.launch {
+                mastodonApi.followTag(tag).fold(
+                    {
+                        followTagItem?.isVisible = false
+                        unfollowTagItem?.isVisible = true
+                    },
+                    {
+                        Snackbar.make(binding.root, getString(R.string.error_following_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to follow #$tag", it)
+                    }
+                )
+            }
+        }
+
+        return true
+    }
+
+    private fun unfollowTag(): Boolean {
+        val tag = hashtag
+        if (tag != null) {
+            lifecycleScope.launch {
+                mastodonApi.unfollowTag(tag).fold(
+                    {
+                        followTagItem?.isVisible = true
+                        unfollowTagItem?.isVisible = false
+                    },
+                    {
+                        Snackbar.make(binding.root, getString(R.string.error_unfollowing_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to unfollow #$tag", it)
+                    }
+                )
+            }
+        }
+
+        return true
+    }
+
     override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
@@ -75,6 +152,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         private const val EXTRA_LIST_ID = "id"
         private const val EXTRA_LIST_TITLE = "title"
         private const val EXTRA_HASHTAG = "tag"
+        const val TAG = "StatusListActivity"
 
         fun newFavouritesIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
