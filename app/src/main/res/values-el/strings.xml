@@ -49,7 +49,6 @@
     <string name="action_follow">Ακολουθήστε</string>
     <string name="action_report">Αναφορά</string>
     <string name="action_mute">Σίγαση</string>
-    <string name="error_audio_upload_size">Τα μουσικά αρχεία πρέπει να είναι μικρότερα από 40MB.</string>
     <string name="action_unfavourite">Αφαίρεση αγαπημένου</string>
     <string name="report_username_format">Αναφορά του/της %s</string>
     <string name="action_view_account_preferences">Προτιμήσεις Λογαριασμού</string>
@@ -67,7 +66,6 @@
     <string name="action_save">Αποθήκευση</string>
     <string name="action_quick_reply">Γρήγορη Απάντηση</string>
     <string name="title_mutes">Χρήστες σε σίγαση</string>
-    <string name="error_image_upload_size">Το αρχείο πρέπει να είναι μικρότερο από 8MB.</string>
     <string name="action_hide_reblogs">Απόκρυψη προωθήσεων</string>
     <string name="action_view_preferences">Προτιμήσεις</string>
     <string name="title_login">Σύνδεση</string>

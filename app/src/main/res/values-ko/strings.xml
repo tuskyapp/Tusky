@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">인증이 거부되었습니다.</string>
     <string name="error_retrieving_oauth_token">로그인 토큰을 받아올 수 없습니다.</string>
     <string name="error_compose_character_limit">게시물 길이가 너무 깁니다!</string>
-    <string name="error_image_upload_size">파일 크기가 8MB 이상인 사진은 업로드할 수 없습니다.</string>
-    <string name="error_video_upload_size">파일 크기가 40MB 이상인 동영상은 업로드할 수 없습니다.</string>
     <string name="error_media_upload_type">이 파일은 첨부할 수 없습니다.</string>
     <string name="error_media_upload_opening">이 파일을 읽지 못했습니다.</string>
     <string name="error_media_upload_permission">미디어를 읽기 위한 권한이 필요합니다.</string>

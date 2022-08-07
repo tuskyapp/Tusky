@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">授權被拒絕。</string>
     <string name="error_retrieving_oauth_token">無法獲取登入資訊。</string>
     <string name="error_compose_character_limit">嘟文太長了！</string>
-    <string name="error_image_upload_size">檔案大小限制 8MB。</string>
-    <string name="error_video_upload_size">影片大小限制 40MB。</string>
     <string name="error_media_upload_type">無法上傳此類型的檔案。</string>
     <string name="error_media_upload_opening">此檔案無法開啟。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 讀取媒體檔案的權限。</string>
@@ -444,7 +442,6 @@
     <string name="title_announcements">公告</string>
     <string name="title_scheduled_posts">已排程的嘟文</string>
     <string name="title_domain_mutes">被隱藏的網域</string>
-    <string name="error_audio_upload_size">聲音檔大小限制 40MB。</string>
     <string name="filter_dialog_whole_word">完整字詞</string>
     <string name="drafts_post_reply_removed">你的草稿欲回覆的原嘟文已被刪除</string>
     <string name="draft_deleted">草稿已刪除</string>
