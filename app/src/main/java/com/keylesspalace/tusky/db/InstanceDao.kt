@@ -27,28 +27,28 @@ import androidx.room.Update
 interface InstanceDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun insert(instance: InstanceInfoEntity): Long
+    suspend fun insertOrIgnore(instance: InstanceInfoEntity): Long
 
     @Update(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun update(instance: InstanceInfoEntity)
+    suspend fun updateOrIgnore(instance: InstanceInfoEntity)
 
     @Transaction
     suspend fun upsert(instance: InstanceInfoEntity) {
-        if (insert(instance) == -1L) {
-            update(instance)
+        if (insertOrIgnore(instance) == -1L) {
+            updateOrIgnore(instance)
         }
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun insert(emojis: EmojisEntity): Long
+    suspend fun insertOrIgnore(emojis: EmojisEntity): Long
 
     @Update(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun update(emojis: EmojisEntity)
+    suspend fun updateOrIgnore(emojis: EmojisEntity)
 
     @Transaction
     suspend fun upsert(emojis: EmojisEntity) {
-        if (insert(emojis) == -1L) {
-            update(emojis)
+        if (insertOrIgnore(emojis) == -1L) {
+            updateOrIgnore(emojis)
         }
     }
 
