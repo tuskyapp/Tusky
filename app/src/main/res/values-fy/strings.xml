@@ -242,9 +242,6 @@
     <string name="error_media_upload_permission">Tastimming om media te lêzen is nedich.</string>
     <string name="error_media_upload_opening">Die triem koe net iepene wurde.</string>
     <string name="error_media_upload_type">Dat type triem kin net upload wurde.</string>
-    <string name="error_audio_upload_size">Lûdstriemen moatte lytser as 40MB wêze.</string>
-    <string name="error_video_upload_size">Fideo\'s moatte lytse as 40MB wêze.</string>
-    <string name="error_image_upload_size">De triem moat lytser as 8MB wêze.</string>
     <string name="error_compose_character_limit">De status is te lang!</string>
     <string name="error_retrieving_oauth_token">Koe gjin ynlogtoken krije.</string>
     <string name="error_authorization_denied">Ferifikaasje ôfkard.</string>

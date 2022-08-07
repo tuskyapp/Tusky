@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">Ingen behörighet.</string>
     <string name="error_retrieving_oauth_token">Misslyckades med att få en inloggnings-token.</string>
     <string name="error_compose_character_limit">Statusen är för lång!</string>
-    <string name="error_image_upload_size">Filen måste vara mindre än 8MB.</string>
-    <string name="error_video_upload_size">Videofiler måste vara mindre än 40MB.</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
     <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
     <string name="error_media_upload_permission">Behörighet att läsa media krävs.</string>
@@ -454,7 +452,6 @@
     <string name="select_list_title">Välj lista</string>
     <string name="list">Lista</string>
     <string name="no_scheduled_posts">Du har inga schemalagda statusar.</string>
-    <string name="error_audio_upload_size">Ljudfiler måste vara mindre än 40MB.</string>
     <string name="no_drafts">Du har inga utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har ett minimalt schemaläggningsintervall på 5 minuter.</string>
     <string name="action_mute_conversation">Tysta konversation</string>

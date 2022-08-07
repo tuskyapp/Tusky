@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">Авторизация была отклонена.</string>
     <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации.</string>
     <string name="error_compose_character_limit">Статус слишком длинный!</string>
-    <string name="error_image_upload_size">Файл должен быть не больше 8 Мбайт.</string>
-    <string name="error_video_upload_size">Видео должно быть не больше 40 Мбайт.</string>
     <string name="error_media_upload_type">Данный тип файла не может быть загружен.</string>
     <string name="error_media_upload_opening">Файл не может быть открыт.</string>
     <string name="error_media_upload_permission">Необходимо разрешение на чтение медиаконтента.</string>
@@ -466,7 +464,6 @@
     <string name="description_post_bookmarked">Добавлено в закладки</string>
     <string name="select_list_title">Выбрать список</string>
     <string name="list">Список</string>
-    <string name="error_audio_upload_size">Аудиофайлы должны быть меньше 40МБ.</string>
     <string name="post_lookup_error_format">Ошибка поиска поста %s</string>
     <string name="no_drafts">У вас нет черновиков.</string>
     <string name="no_scheduled_posts">У вас нет запланированный статусов.</string>
