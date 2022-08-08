@@ -65,6 +65,8 @@ class ViewThreadViewModel @Inject constructor(
     val errors: Flow<Throwable>
         get() = _errors
 
+    var isInitialLoad: Boolean = true
+
     private val alwaysShowSensitiveMedia: Boolean
     private val alwaysOpenSpoiler: Boolean
 

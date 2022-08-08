@@ -169,7 +169,15 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         }
                     }
                     is ThreadUiState.Success -> {
-                        adapter.submitList(uiState.statuses)
+                        adapter.submitList(uiState.statuses) {
+                            if (viewModel.isInitialLoad) {
+                                viewModel.isInitialLoad = false
+                                val detailedPosition = adapter.currentList.indexOfFirst { viewData ->
+                                    viewData.isDetailed
+                                }
+                                binding.recyclerView.scrollToPosition(detailedPosition)
+                            }
+                        }
 
                         updateRevealButton(uiState.revealButton)
                         binding.swipeRefreshLayout.isRefreshing = uiState.refreshing
