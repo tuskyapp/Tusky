@@ -131,7 +131,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         )
         val divider = DividerItemDecoration(context, LinearLayout.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
-        binding.recyclerView.addItemDecoration(ConversationLineItemDecoration(context!!))
+        binding.recyclerView.addItemDecoration(ConversationLineItemDecoration(requireContext()))
         alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
 
