@@ -545,4 +545,6 @@
     <string name="error_image_edit_failed">无法编辑图片。</string>
     <string name="error_loading_account_details">加载账户详情失败</string>
     <string name="error_multimedia_size_limit">音视频文件大小不能超出 %s MB。</string>
+    <string name="error_following_hashtag_format">关注 #%s 出错</string>
+    <string name="error_unfollowing_hashtag_format">取关 #%s 出错</string>
 </resources>
