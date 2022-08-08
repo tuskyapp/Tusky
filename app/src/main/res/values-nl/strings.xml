@@ -9,22 +9,22 @@
     <string name="error_authorization_unknown">Er deed zich een onbekende autorisatiefout voor.</string>
     <string name="error_authorization_denied">Autorisatie werd geweigerd.</string>
     <string name="error_retrieving_oauth_token">Kon geen inlogsleutel verkrijgen.</string>
-    <string name="error_compose_character_limit">Tekst van deze toot is te lang!</string>
+    <string name="error_compose_character_limit">Tekst van dit bericht is te lang!</string>
     <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
     <string name="error_media_upload_opening">Bestand kon niet worden geopend.</string>
     <string name="error_media_upload_permission">Er is toestemming nodig om deze media te lezen.</string>
     <string name="error_media_download_permission">Er is toestemming nodig om media op te slaan.</string>
-    <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan dezelfde toot worden toegevoegd.</string>
+    <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan hetzelfde bericht worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
-    <string name="error_sender_account_gone">Fout tijdens verzenden toot.</string>
+    <string name="error_sender_account_gone">Fout tijdens verzenden bericht.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Meldingen</string>
     <string name="title_public_local">Lokaal</string>
     <string name="title_public_federated">Globaal</string>
     <string name="title_direct_messages">Directe berichten</string>
     <string name="title_tab_preferences">Tabs</string>
-    <string name="title_view_thread">Toot</string>
-    <string name="title_posts">Toots</string>
+    <string name="title_view_thread">Gesprek</string>
+    <string name="title_posts">Berichten</string>
     <string name="title_posts_with_replies">Met reacties</string>
     <string name="title_posts_pinned">Vastgezet</string>
     <string name="title_follows">Volgend</string>
@@ -47,8 +47,8 @@
     <string name="post_content_show_less">Inklappen</string>
     <string name="message_empty">Hier is niets.</string>
     <string name="footer_empty">Niets te zien. Swipe naar beneden om te verversen!</string>
-    <string name="notification_reblog_format">%s boostte jouw toot</string>
-    <string name="notification_favourite_format">%s markeerde jouw toot als favoriet</string>
+    <string name="notification_reblog_format">%s boostte jouw bericht</string>
+    <string name="notification_favourite_format">%s markeerde jouw bericht als favoriet</string>
     <string name="notification_follow_format">%s volgt jou</string>
     <string name="report_username_format">Rapporteer @%s</string>
     <string name="report_comment_hint">Extra opmerkingen\?</string>
@@ -59,7 +59,7 @@
     <string name="action_favourite">Als favoriet markeren</string>
     <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
-    <string name="action_compose">Toot schrijven</string>
+    <string name="action_compose">Bericht schrijven</string>
     <string name="action_login">Aanmelden</string>
     <string name="action_logout">Afmelden</string>
     <string name="action_logout_confirm">Ben je er zeker van dat je het account %1$s wil afmelden?</string>
@@ -71,8 +71,8 @@
     <string name="action_show_reblogs">Boosts tonen</string>
     <string name="action_report">Rapporteren</string>
     <string name="action_delete">Verwijderen</string>
-    <string name="action_send">TOOT</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">Toot!</string>
+    <string name="action_send_public">Toot!</string>
     <string name="action_retry">Opnieuw proberen</string>
     <string name="action_close">Sluiten</string>
     <string name="action_view_profile">Profiel</string>
@@ -100,7 +100,7 @@
     <string name="action_reject">Afwijzen</string>
     <string name="action_search">Zoeken</string>
     <string name="action_access_drafts">Concepten</string>
-    <string name="action_toggle_visibility">Zichtbaarheid toot</string>
+    <string name="action_toggle_visibility">Zichtbaarheid bericht</string>
     <string name="action_content_warning">Tekstwaarschuwing</string>
     <string name="action_emoji_keyboard">Emojis</string>
     <string name="action_add_tab">Tab toevoegen</string>
@@ -118,8 +118,8 @@
     <string name="action_copy_link">Link kopiëren</string>
     <string name="action_open_as">Als %s openen</string>
     <string name="action_share_as">Delen als …</string>
-    <string name="send_post_link_to">Link van de toot delen</string>
-    <string name="send_post_content_to">Inhoud van de toot delen met…</string>
+    <string name="send_post_link_to">Link van het bericht delen met…</string>
+    <string name="send_post_content_to">Inhoud van het bericht delen met…</string>
     <string name="send_media_to">Media delen met …</string>
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
@@ -150,7 +150,7 @@
     <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Het volgverzoek intrekken?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen?</string>
-    <string name="dialog_delete_post_warning">Deze toot verwijderen?</string>
+    <string name="dialog_delete_post_warning">Dit bericht verwijderen\?</string>
     <string name="visibility_public">Openbaar: op openbare tijdlijnen tonen</string>
     <string name="visibility_unlisted">Minder openbaar: niet op openbare tijdlijnen tonen</string>
     <string name="visibility_private">Alleen volgers: alleen aan jouw volgers tonen</string>
@@ -164,8 +164,8 @@
     <string name="pref_title_notification_filters">Waarschuw mij wanneer</string>
     <string name="pref_title_notification_filter_mentions">ik word vermeld</string>
     <string name="pref_title_notification_filter_follows">ik word gevolgd</string>
-    <string name="pref_title_notification_filter_reblogs">mijn toots werden geboost</string>
-    <string name="pref_title_notification_filter_favourites">mijn toots als favoriet werden gemarkeerd</string>
+    <string name="pref_title_notification_filter_reblogs">mijn berichten werden geboost</string>
+    <string name="pref_title_notification_filter_favourites">mijn berichten zijn als favoriet gemarkeerd</string>
     <string name="pref_title_appearance_settings">Uiterlijk</string>
     <string name="pref_title_app_theme">Thema</string>
     <string name="pref_title_timelines">Tijdlijnen</string>
@@ -176,7 +176,7 @@
     <string name="app_theme_system">Systeemthema gebruiken</string>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
-    <string name="pref_title_hide_follow_button">Verberg zwevende tootknop tijdens scrollen</string>
+    <string name="pref_title_hide_follow_button">Verberg zwevende knop om een bericht te schrijven tijdens het scrollen</string>
     <string name="pref_title_language">Taal</string>
     <string name="pref_title_post_filter">Filteren</string>
     <string name="pref_title_post_tabs">Tijdlijnen</string>
@@ -188,14 +188,14 @@
     <string name="pref_title_http_proxy_enable">HTTP-proxy inschakelen</string>
     <string name="pref_title_http_proxy_server">Serveradres van HTTP-proxy</string>
     <string name="pref_title_http_proxy_port">Poort van HTTP-proxy</string>
-    <string name="pref_default_post_privacy">Standaardzichtbaarheid van jouw toots</string>
+    <string name="pref_default_post_privacy">Standaardzichtbaarheid van jouw berichten</string>
     <string name="pref_default_media_sensitivity">Media altijd als gevoelig markeren</string>
     <string name="pref_publishing">Publiceren</string>
     <string name="pref_failed_to_sync">Synchroniseren</string>
     <string name="post_privacy_public">Openbaar</string>
     <string name="post_privacy_unlisted">Minder openbaar</string>
     <string name="post_privacy_followers_only">Alleen volgers</string>
-    <string name="pref_post_text_size">Tekstgrootte van toots</string>
+    <string name="pref_post_text_size">Tekstgrootte van berichten</string>
     <string name="post_text_size_smallest">Kleinst</string>
     <string name="post_text_size_small">Klein</string>
     <string name="post_text_size_medium">Standaard</string>
@@ -206,9 +206,9 @@
     <string name="notification_follow_name">Nieuwe volgers</string>
     <string name="notification_follow_description">Meldingen over nieuwe volgers</string>
     <string name="notification_boost_name">Boosts</string>
-    <string name="notification_boost_description">Meldingen wanneer jouw toots worden geboost</string>
+    <string name="notification_boost_description">Meldingen wanneer jouw berichten worden geboost</string>
     <string name="notification_favourite_name">Favorieten</string>
-    <string name="notification_favourite_description">Meldingen wanneer jouw toots als favoriet worden gemarkeerd</string>
+    <string name="notification_favourite_description">Meldingen wanneer jouw berichten als favoriet worden gemarkeerd</string>
     <string name="notification_mention_format">%s vermeldde jou</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s en %4$d anderen</string>
     <string name="notification_summary_medium">%1$s, %2$s en %3$s</string>
@@ -232,8 +232,8 @@
     <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:\n
                     https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s profiel</string>
-    <string name="post_share_content">Deel de inhoud van de toot</string>
-    <string name="post_share_link">Deel de link van de toot</string>
+    <string name="post_share_content">Inhoud van bericht delen</string>
+    <string name="post_share_link">Link van het bericht delen</string>
     <string name="post_media_images">Afbeeldingen</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Volgverzoek verzonden</string>
@@ -267,19 +267,19 @@
     <string name="lock_account_label">Account besloten maken</string>
     <string name="lock_account_label_description">Handmatige goedkeuring vereist voor volgers</string>
     <string name="compose_save_draft">Concept bewaren?</string>
-    <string name="send_post_notification_title">Toot aan het verzenden…</string>
-    <string name="send_post_notification_error_title">Verzenden van toot mislukt</string>
-    <string name="send_post_notification_channel_name">Toots aan het verzenden</string>
+    <string name="send_post_notification_title">Bericht wordt verzonden…</string>
+    <string name="send_post_notification_error_title">Verzenden van het bericht is mislukt</string>
+    <string name="send_post_notification_channel_name">Berichten worden verzonden</string>
     <string name="send_post_notification_cancel_title">Verzenden geannuleerd</string>
-    <string name="send_post_notification_saved_content">Een kopie van de toot werd opgeslagen als concept</string>
-    <string name="action_compose_shortcut">Toot schrijven</string>
+    <string name="send_post_notification_saved_content">Een kopie van het bericht werd als concept opgeslagen</string>
+    <string name="action_compose_shortcut">Bericht schrijven</string>
     <string name="error_no_custom_emojis">Jouw server %s heeft geen lokale emojis</string>
     <string name="emoji_style">Emojistijl</string>
     <string name="system_default">Systeemstandaard</string>
     <string name="download_fonts">Je moet eerst deze emoji-sets downloaden</string>
     <string name="performing_lookup_title">Aan het zoeken…</string>
-    <string name="expand_collapse_all_posts">Alle toots in- of uitklappen</string>
-    <string name="action_open_post">Toot openen</string>
+    <string name="expand_collapse_all_posts">Alle berichten in- of uitklappen</string>
+    <string name="action_open_post">Bericht openen</string>
     <string name="restart_required">Herstarten app vereist</string>
     <string name="restart_emoji">Je moet Tusky herstarten om deze veranderingen te kunnen doorvoeren</string>
     <string name="later">Later</string>
@@ -313,7 +313,7 @@
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; boosts</item>
     </plurals>
     <string name="title_reblogged_by">Geboost door</string>
-    <string name="title_favourited_by">Aan favorieten toegevoegd door</string>
+    <string name="title_favourited_by">Als favoriet gemarkeerd door</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s en %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
@@ -321,16 +321,11 @@
         <item quantity="one">maximum van %1$d tab bereikt</item>
         <item quantity="other">maximum van %1$d tabs bereikt</item>
     </plurals>
-    <string name="description_post_media">        Media: %s
-    </string>
-    <string name="description_post_cw">        Inhoudswaarschuwing: %s
-    </string>
-    <string name="description_post_media_no_description_placeholder">        Geen omschrijving
-    </string>
-    <string name="description_post_reblogged">        Geboost
-    </string>
-    <string name="description_post_favourited">        Aan favorieten toegevoegd
-    </string>
+    <string name="description_post_media">Media: %s</string>
+    <string name="description_post_cw">Inhoudswaarschuwing: %s</string>
+    <string name="description_post_media_no_description_placeholder">Geen omschrijving</string>
+    <string name="description_post_reblogged">Geboost</string>
+    <string name="description_post_favourited">Als favoriet gemarkeerd</string>
     <string name="description_visiblity_public">        Openbaar
     </string>
     <string name="description_visiblity_unlisted">        Minder openbaar
@@ -362,11 +357,11 @@
     <string name="hint_list_name">Naam van lijst</string>
     <string name="edit_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
-    <string name="dialog_redraft_post_warning">Deze toot verwijderen en herschrijven\?</string>
+    <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
     <string name="notifications_clear">Leegmaken</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Toepassen</string>
-    <string name="compose_shortcut_long_label">Toot schrijven</string>
+    <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
     <string name="pref_title_bot_overlay">Botsindicator tonen</string>
     <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
@@ -416,7 +411,7 @@
     <string name="hint_additional_info">Extra opmerkingen</string>
     <string name="report_remote_instance">Verder naar %s</string>
     <string name="failed_report">Het rapporteren is mislukt</string>
-    <string name="failed_fetch_posts">Het ophalen van toots is mislukt</string>
+    <string name="failed_fetch_posts">Het ophalen van berichten is mislukt</string>
     <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt hieronder een uitleg geven over waarom je het account wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
     <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
@@ -434,25 +429,25 @@
     <string name="poll_new_choice_hint">Keuze %d</string>
     <string name="edit_poll">Bewerken</string>
     <string name="title_bookmarks">Bladwijzers</string>
-    <string name="title_scheduled_posts">Ingeplande toots</string>
+    <string name="title_scheduled_posts">Ingeplande berichten</string>
     <string name="action_bookmark">Bladwijzer</string>
     <string name="action_edit">Bewerken</string>
     <string name="action_view_bookmarks">Bladwijzers</string>
     <string name="action_add_poll">Poll toevoegen</string>
-    <string name="action_access_scheduled_posts">Ingeplande toots</string>
-    <string name="action_schedule_post">Ingeplande toot</string>
+    <string name="action_access_scheduled_posts">Ingeplande berichten</string>
+    <string name="action_schedule_post">Ingepland bericht</string>
     <string name="action_reset_schedule">Herstellen</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
-    <string name="pref_title_alway_open_spoiler">Altijd toots met tekstwaarschuwingen uitklappen</string>
+    <string name="pref_title_alway_open_spoiler">Berichten met tekstwaarschuwingen altijd uitklappen</string>
     <string name="description_post_bookmarked">Als bladwijzer toegevoegd</string>
     <string name="select_list_title">Kies een lijst</string>
     <string name="list">Lijst</string>
     <string name="title_accounts">Accounts</string>
     <string name="failed_search">Zoeken mislukt</string>
     <string name="create_poll_title">Poll</string>
-    <string name="post_lookup_error_format">Fout tijdens opzoeken toot %s</string>
-    <string name="no_drafts">Je hebt nog geen concepten</string>
-    <string name="no_scheduled_posts">Je hebt nog geen ingeplande toots</string>
+    <string name="post_lookup_error_format">Fout tijdens het opzoeken van bericht %s</string>
+    <string name="no_drafts">Je hebt nog geen concepten.</string>
+    <string name="no_scheduled_posts">Je hebt nog geen ingeplande berichten.</string>
     <string name="warning_scheduling_interval">Om in te plannen moet je in Mastodon een minimum interval van 5 minuten gebruiken.</string>
     <string name="notification_follow_request_name">Volgverzoeken</string>
     <string name="hashtags">Hashtags</string>
@@ -460,8 +455,8 @@
     <string name="pref_title_notification_filter_follow_requests">volgverzoek verstuurd</string>
     <string name="action_unsubscribe_account">Afmelden</string>
     <string name="action_subscribe_account">Abonneren</string>
-    <string name="drafts_post_reply_removed">De toot waarvoor jij een reactie had opgesteld, is verwijderd</string>
-    <string name="drafts_post_failed_to_send">Het versturen van deze toot is mislukt!</string>
+    <string name="drafts_post_reply_removed">Het bericht waarvoor jij een reactie had opgesteld, is verwijderd</string>
+    <string name="drafts_post_failed_to_send">Het versturen van dit bericht is mislukt!</string>
     <string name="dialog_delete_list_warning">Weet je zeker dat je de lijst %s wilt verwijderen\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Je kan niet meer dan %1$d mediabijlage uploaden.</item>
@@ -472,7 +467,7 @@
     <string name="account_note_hint">Jouw eigen opmerking over dit account</string>
     <string name="pref_title_wellbeing_mode">Welzijn</string>
     <string name="pref_title_hide_top_toolbar">De titel van de bovenste statusbalk verbergen</string>
-    <string name="pref_title_confirm_reblogs">Vraag voor het boosten van een toot een bevestiging</string>
+    <string name="pref_title_confirm_reblogs">Vraag voor het boosten van een bericht een bevestiging</string>
     <string name="pref_title_show_cards_in_timelines">Linkpreviews in tijdlijnen weergeven</string>
     <string name="no_announcements">Er zijn geen aankondigingen.</string>
     <string name="duration_indefinite">Oneindig</string>
@@ -484,14 +479,14 @@
     </plurals>
     <string name="add_hashtag_title">Hashtag toevoegen</string>
     <string name="post_media_audio">Geluid</string>
-    <string name="notification_subscription_description">Meldingen wanneer iemand waar je op bent geabonneerd een nieuwe toot plaatst</string>
-    <string name="notification_subscription_name">Nieuwe toots</string>
+    <string name="notification_subscription_description">Meldingen wanneer iemand waar je op bent geabonneerd een nieuw bericht plaatst</string>
+    <string name="notification_subscription_name">Nieuwe berichten</string>
     <string name="notification_follow_request_description">Meldingen over volgverzoeken</string>
     <string name="pref_main_nav_position_option_bottom">Onder</string>
     <string name="pref_main_nav_position_option_top">Boven</string>
     <string name="pref_title_animate_custom_emojis">Lokale emojis animeren</string>
     <string name="pref_title_gradient_for_media">Kleurverloop weergeven voor verborgen media</string>
-    <string name="pref_title_notification_filter_subscriptions">iemand waar ik op ben geabonneerd heeft een nieuwe toot geplaatst</string>
+    <string name="pref_title_notification_filter_subscriptions">iemand waar ik op ben geabonneerd heeft een nieuw bericht geplaatst</string>
     <string name="dialog_mute_hide_notifications">Meldingen verbergen</string>
     <string name="dialog_mute_warning">\@%s negeren\?</string>
     <string name="dialog_block_warning">\@%s blokkeren\?</string>
@@ -501,23 +496,53 @@
     <string name="action_mute_notifications_desc">Meldingen van %s negeren</string>
     <string name="action_unmute_notifications_desc">Meldingen van %s niet meer negeren</string>
     <string name="action_unmute_desc">%s niet meer negeren</string>
-    <string name="notification_subscription_format">%s heeft net een toot geplaatst</string>
+    <string name="notification_subscription_format">%s heeft zojuist een bericht geplaatst</string>
     <string name="notification_follow_request_format">%s verzoekt u te volgen</string>
     <string name="title_announcements">Aankondigingen</string>
     <string name="review_notifications">Meldingen beoordelen</string>
     <string name="draft_deleted">Concept verwijderd</string>
-    <string name="wellbeing_hide_stats_posts">Kwantitatieve statistieken voor toots verbergen</string>
+    <string name="wellbeing_hide_stats_posts">Kwantitatieve statistieken voor berichten verbergen</string>
     <string name="drafts_failed_loading_reply">Laden van reactie-informatie mislukt</string>
     <string name="wellbeing_hide_stats_profile">Kwantitatieve statistieken in profielen verbergen</string>
     <string name="pref_main_nav_position">Hoofd navigatiepositie</string>
     <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen\?</string>
     <string name="action_delete_conversation">Gesprek verwijderen</string>
     <string name="follow_requests_info">Ook al heb je geen besloten account, de medewerkers van %1$s dachten dat je misschien de volgverzoeken van deze accounts handmatig zou willen controleren.</string>
-    <string name="wellbeing_mode_notice">Bepaalde informatie die invloed kan hebben op uw geestelijk welzijn zal worden verborgen. Dit bevat onder andere:
+    <string name="wellbeing_mode_notice">Bepaalde informatie die invloed kan hebben op jouw geestelijk welzijn zal worden verborgen. Dit bevat onder andere:
 \n
-\n- Favoriet/Boost/Volg notificaties
-\n- Favoriet/Boost/Aantal boosts per toot
-\n- Volger/Bericht statistieken op profielen
+\n- Meldingen over favorieten, boosts en volgers
+\n- Weergave van het aantal favorieten en boosts per bericht
+\n- Statistieken over het aantal volgers en berichten op profielen
 \n
-\nPush-notificaties zullen niet worden beïnvloed, maar uw kunt uw notificatie voorkeuren handmatig wijzigen.</string>
+\nPushmeldingen worden hierdoor niet beïnvloed, maar je kunt de voorkeuren voor meldingen handmatig wijzigen.</string>
+    <string name="notification_sign_up_format">%s heeft zich geregistreerd</string>
+    <string name="tips_push_notification_migration">Alle accounts opnieuw inloggen i.v.m. ondersteuning pushmeldingen</string>
+    <string name="error_multimedia_size_limit">Afbeeldingen en video\'s kunnen niet groter zijn dan %s MB.</string>
+    <string name="error_image_edit_failed">Deze afbeelding kon niet worden bewerkt.</string>
+    <string name="title_login">Inloggen</string>
+    <string name="title_migration_relogin">Opnieuw inloggen i.v.m. pushmeldingen</string>
+    <string name="notification_update_format">%s heeft diens bericht bewerkt</string>
+    <string name="action_unbookmark">Bladwijzer verwijderen</string>
+    <string name="action_dismiss">Afwijzen</string>
+    <string name="action_details">Details</string>
+    <string name="pref_title_notification_filter_sign_ups">iemand heeft zich geregistreerd</string>
+    <string name="pref_title_notification_filter_updates">een bericht waarmee ik interactie had is bewerkt</string>
+    <string name="notification_sign_up_name">Registraties</string>
+    <string name="notification_sign_up_description">Meldingen over nieuwe gebruikers</string>
+    <string name="notification_update_name">Bewerkingen van berichten</string>
+    <string name="notification_update_description">Meldingen wanneer berichten waarmee je interactie had werden bewerkt</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="action_edit_image">Afbeelding bewerken</string>
+    <string name="duration_30_days">30 dagen</string>
+    <string name="duration_60_days">60 dagen</string>
+    <string name="duration_14_days">14 dagen</string>
+    <string name="duration_90_days">90 dagen</string>
+    <string name="duration_180_days">180 dagen</string>
+    <string name="duration_365_days">365 dagen</string>
+    <string name="pref_title_confirm_favourites">Vraag voor het markeren als favoriet een bevestiging</string>
+    <string name="tusky_compose_post_quicksetting_label">Bericht schrijven</string>
+    <string name="account_date_joined">Geregistreerd op %1$s</string>
+    <string name="saving_draft">Concept wordt opgeslagen…</string>
+    <string name="error_loading_account_details">Laden van accountdetails mislukt</string>
+    <string name="error_could_not_load_login_page">De inlogpagina kon niet worden geladen.</string>
 </resources>
