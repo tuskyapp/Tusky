@@ -32,7 +32,8 @@ data class Instance(
     @SerializedName("poll_limits") val pollConfiguration: PollConfiguration?,
     val configuration: InstanceConfiguration?,
     @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
-    val pleroma: PleromaConfiguration?
+    val pleroma: PleromaConfiguration?,
+    @SerializedName("upload_limit") val uploadLimit: Int?
 ) {
     override fun hashCode(): Int {
         return uri.hashCode()

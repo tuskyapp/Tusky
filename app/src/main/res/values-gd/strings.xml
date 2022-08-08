@@ -520,9 +520,6 @@
     <string name="error_media_upload_permission">Tha feum air cead gus meadhanan a leughadh.</string>
     <string name="error_media_upload_opening">Cha b’ urrainn dhuinn am faidhle sin fhosgladh.</string>
     <string name="error_media_upload_type">Cha ghabh an seòrsa de dh’fhaidhle seo a luchdadh suas.</string>
-    <string name="error_audio_upload_size">Feumaidh faidhlichean fuaime a bhith nas lugha na 40MB.</string>
-    <string name="error_video_upload_size">Feumaidh faidhlichean video a bhith nas lugha na 40MB.</string>
-    <string name="error_image_upload_size">Feumaidh am faidhle a bhith nas lugha na 8MB.</string>
     <string name="error_compose_character_limit">Tha am post ro fhada!</string>
     <string name="error_retrieving_oauth_token">Cha deach leinn tòcan clàraidh a-steach fhaighinn.</string>
     <string name="error_authorization_denied">Chaidh an t-ùghdarrachadh a dhiùltadh.</string>
@@ -563,4 +560,9 @@
     <string name="title_migration_relogin">Clàraich a-steach às ùr airson brathan putaidh</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Deasaich an dealbh</string>
+    <string name="error_following_hashtag_format">Mearachd a’ leantainn air #%s</string>
+    <string name="error_multimedia_size_limit">Chan fhaod na faidhlichean video ’ fuaime a bhith nas motha na %s MB.</string>
+    <string name="error_unfollowing_hashtag_format">Mearachd a’ sgur de leantainn air #%s</string>
+    <string name="error_loading_account_details">Mearachd a’ luchdadh fiosrachadh a’ chunntais</string>
+    <string name="error_image_edit_failed">Cha b’ urrainn dhuinn an dealbh a dheasachadh.</string>
 </resources>

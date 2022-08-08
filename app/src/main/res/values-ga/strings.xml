@@ -156,9 +156,6 @@
     <string name="action_bookmark">Leabharmharc</string>
     <string name="action_favourite">Ainmnigh</string>
     <string name="error_media_upload_type">Ní féidir an cineál comhaid sin a uaslódáil.</string>
-    <string name="error_audio_upload_size">Caithfidh comhaid fuaime a bheith níos lú ná 40MB.</string>
-    <string name="error_video_upload_size">Caithfidh comhaid físe a bheith níos lú ná 40MB.</string>
-    <string name="error_image_upload_size">Caithfidh an comhad a bheith níos lú ná 8MB.</string>
     <string name="error_compose_character_limit">Tá an stádas ró-fhada!</string>
     <string name="error_retrieving_oauth_token">Theip ar chomhartha logála isteach a fháil.</string>
     <string name="error_authorization_denied">Diúltaíodh údarú.</string>

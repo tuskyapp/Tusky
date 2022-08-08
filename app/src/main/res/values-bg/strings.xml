@@ -425,9 +425,6 @@
     <string name="error_media_upload_permission">Изисква се разрешение за четене на носител.</string>
     <string name="error_media_upload_opening">Този файл не можа да бъде отворен.</string>
     <string name="error_media_upload_type">Този тип файл не може да бъде качен.</string>
-    <string name="error_audio_upload_size">Аудио файловете трябва да са по-малки от 40MB.</string>
-    <string name="error_video_upload_size">Видео файловете трябва да са по-малки от 40MB.</string>
-    <string name="error_image_upload_size">Файлът трябва да е по-малък от 8MB.</string>
     <string name="error_compose_character_limit">Състоянието е твърде дълго!</string>
     <string name="error_retrieving_oauth_token">Получаването на токен за вход бе неуспешно.</string>
     <string name="error_authorization_denied">Упълномощаването е отказано.</string>

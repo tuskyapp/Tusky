@@ -103,6 +103,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
+import java.text.DecimalFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
@@ -247,7 +248,10 @@ class ComposeActivity :
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
-        viewModel.setupComplete.value = true
+
+        binding.composeEditField.post {
+            binding.composeEditField.requestFocus()
+        }
     }
 
     private fun applyShareIntent(intent: Intent, savedInstanceState: Bundle?) {
@@ -431,13 +435,6 @@ class ComposeActivity :
                 }
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.setupComplete.collect {
-                // Focus may have changed during view model setup, ensure initial focus is on the edit field
-                binding.composeEditField.requestFocus()
-            }
-        }
     }
 
     private fun setupButtons() {
@@ -599,12 +596,12 @@ class ComposeActivity :
             @ColorInt val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
-                ContextCompat.getColor(this, R.color.transparent_tusky_blue)
+                getColor(R.color.transparent_tusky_blue)
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                    ContextCompat.getColor(this, R.color.tusky_blue)
+                    getColor(R.color.tusky_blue)
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
                     ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
@@ -618,7 +615,7 @@ class ComposeActivity :
         @ColorInt val color = if (binding.composeScheduleView.time == null) {
             ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         } else {
-            ContextCompat.getColor(this, R.color.tusky_blue)
+            getColor(R.color.tusky_blue)
         }
         binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -801,7 +798,7 @@ class ComposeActivity :
         binding.composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
 
         val textColor = if (remainingLength < 0) {
-            ContextCompat.getColor(this, R.color.tusky_red)
+            getColor(R.color.tusky_red)
         } else {
             ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         }
@@ -956,13 +953,17 @@ class ComposeActivity :
     private fun pickMedia(uri: Uri) {
         lifecycleScope.launch {
             viewModel.pickMedia(uri).onFailure { throwable ->
-                val errorId = when (throwable) {
-                    is VideoSizeException -> R.string.error_video_upload_size
-                    is AudioSizeException -> R.string.error_audio_upload_size
-                    is VideoOrImageException -> R.string.error_media_upload_image_or_video
-                    else -> R.string.error_media_upload_opening
+                val errorString = when (throwable) {
+                    is FileSizeException -> {
+                        val decimalFormat = DecimalFormat("0.##")
+                        val allowedSizeInMb = throwable.allowedSizeInBytes.toDouble() / (1024 * 1024)
+                        val formattedSize = decimalFormat.format(allowedSizeInMb)
+                        getString(R.string.error_multimedia_size_limit, formattedSize)
+                    }
+                    is VideoOrImageException -> getString(R.string.error_media_upload_image_or_video)
+                    else -> getString(R.string.error_media_upload_opening)
                 }
-                displayTransientError(errorId)
+                displayTransientError(errorString)
             }
         }
     }
@@ -973,7 +974,7 @@ class ComposeActivity :
             binding.composeContentWarningBar.show()
             binding.composeContentWarningField.setSelection(binding.composeContentWarningField.text.length)
             binding.composeContentWarningField.requestFocus()
-            ContextCompat.getColor(this, R.color.tusky_blue)
+            getColor(R.color.tusky_blue)
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()

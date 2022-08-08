@@ -42,14 +42,11 @@
     <string name="error_generic">An error occurred.</string>
     <string name="title_public_local">Local</string>
     <string name="title_blocks">Blocked users</string>
-    <string name="error_video_upload_size">Video files must be less than 40MB.</string>
     <string name="title_tab_preferences">Tabs</string>
-    <string name="error_audio_upload_size">Audio files must be less than 40MB.</string>
     <string name="title_follow_requests">Follow Requests</string>
     <string name="title_home">Home</string>
     <string name="title_mutes">Muted users</string>
     <string name="title_view_thread">Thread</string>
-    <string name="error_image_upload_size">The file must be less than 8MB.</string>
     <string name="error_sender_account_gone">Error sending post.</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_media_download_permission">Permission to store media is required.</string>

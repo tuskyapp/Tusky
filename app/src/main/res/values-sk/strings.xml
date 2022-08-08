@@ -34,9 +34,6 @@
     <string name="error_empty">Toto nemôže byť prázdne.</string>
     <string name="error_authorization_denied">Autorizácia bola zamietnutá.</string>
     <string name="error_retrieving_oauth_token">Nepodarilo sa získať prihlasovací token.</string>
-    <string name="error_image_upload_size">Súbor musí byť menší ako 8 MB.</string>
-    <string name="error_video_upload_size">Videosúbory musia byť menšie ako 40 MB.</string>
-    <string name="error_audio_upload_size">Audio súbory musia byť menšie ako 40 MB.</string>
     <string name="error_media_upload_opening">Súbor sa nepodarilo otvoriť.</string>
     <string name="title_home">Domov</string>
     <string name="title_tab_preferences">Panely</string>

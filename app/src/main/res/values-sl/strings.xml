@@ -8,8 +8,6 @@
     <string name="error_authorization_denied">Pooblastitev je bila zavrnjena.</string>
     <string name="error_retrieving_oauth_token">Ni bilo mogoče pridobiti žetona za prijavo.</string>
     <string name="error_compose_character_limit">Status je predolgo!</string>
-    <string name="error_image_upload_size">Datoteka mora biti manjša od 8 MB.</string>
-    <string name="error_video_upload_size">Video datoteke morajo biti manjše od 40 MB.</string>
     <string name="error_media_upload_type">Te vrste datoteke ni mogoče poslati.</string>
     <string name="error_media_upload_opening">Te datoteke ni bilo mogoče odpreti.</string>
     <string name="error_media_upload_permission">Potrebno je dovoljenje za branje medijev.</string>

@@ -354,7 +354,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                         urlIndex);
                 if (view != null) {
                     String url = active.getAttachment().getUrl();
-                    ViewCompat.setTransitionName(view, url);
+                    view.setTransitionName(url);
                     ActivityOptionsCompat options =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                                     view, url);

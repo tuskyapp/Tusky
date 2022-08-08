@@ -45,7 +45,7 @@ class InstanceInfoRepository @Inject constructor(
      */
     suspend fun getEmojis(): List<Emoji> = withContext(Dispatchers.IO) {
         api.getCustomEmojis()
-            .onSuccess { emojiList -> dao.insertOrReplace(EmojisEntity(instanceName, emojiList)) }
+            .onSuccess { emojiList -> dao.upsert(EmojisEntity(instanceName, emojiList)) }
             .getOrElse { throwable ->
                 Log.w(TAG, "failed to load custom emojis, falling back to cache", throwable)
                 dao.getEmojiInfo(instanceName)?.emojiList.orEmpty()
@@ -70,15 +70,15 @@ class InstanceInfoRepository @Inject constructor(
                         maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
                         charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
                         version = instance.version,
-                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit,
-                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit,
+                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit ?: instance.uploadLimit,
+                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit ?: instance.uploadLimit,
                         imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
                         maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
                         maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
                         maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
                     )
-                    dao.insertOrReplace(instanceEntity)
+                    dao.upsert(instanceEntity)
                     instanceEntity
                 },
                 { throwable ->

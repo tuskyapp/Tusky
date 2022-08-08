@@ -33,7 +33,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Lifecycle
@@ -376,7 +375,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             closeDrawerOnProfileListClick = true
         }
 
-        header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.headerBackgroundFilter))
+        header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
