@@ -560,4 +560,9 @@
     <string name="title_migration_relogin">Clàraich a-steach às ùr airson brathan putaidh</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Deasaich an dealbh</string>
+    <string name="error_following_hashtag_format">Mearachd a’ leantainn air #%s</string>
+    <string name="error_multimedia_size_limit">Chan fhaod na faidhlichean video ’ fuaime a bhith nas motha na %s MB.</string>
+    <string name="error_unfollowing_hashtag_format">Mearachd a’ sgur de leantainn air #%s</string>
+    <string name="error_loading_account_details">Mearachd a’ luchdadh fiosrachadh a’ chunntais</string>
+    <string name="error_image_edit_failed">Cha b’ urrainn dhuinn an dealbh a dheasachadh.</string>
 </resources>
