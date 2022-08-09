@@ -10,7 +10,11 @@ import java.util.Date
 
 private val fixedDate = Date(1638889052000)
 
-fun mockStatus(id: String = "100") = Status(
+fun mockStatus(
+    id: String = "100",
+    inReplyToId: String? = null,
+    inReplyToAccountId: String? = null
+) = Status(
     id = id,
     url = "https://mastodon.example/@ConnyDuck/$id",
     account = TimelineAccount(
@@ -21,8 +25,8 @@ fun mockStatus(id: String = "100") = Status(
         url = "https://mastodon.example/@ConnyDuck",
         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
     ),
-    inReplyToId = null,
-    inReplyToAccountId = null,
+    inReplyToId = inReplyToId,
+    inReplyToAccountId = inReplyToAccountId,
     reblog = null,
     content = "Test",
     createdAt = fixedDate,
@@ -46,11 +50,17 @@ fun mockStatus(id: String = "100") = Status(
     card = null
 )
 
-fun mockStatusViewData(id: String = "100") = StatusViewData.Concrete(
-    status = mockStatus(id),
+fun mockStatusViewData(
+    id: String = "100",
+    inReplyToId: String? = null,
+    inReplyToAccountId: String? = null,
+    isDetailed: Boolean = false
+) = StatusViewData.Concrete(
+    status = mockStatus(id, inReplyToId, inReplyToAccountId),
     isExpanded = false,
     isShowingContent = false,
-    isCollapsed = true,
+    isCollapsed = !isDetailed,
+    isDetailed = isDetailed
 )
 
 fun mockStatusEntityWithAccount(
