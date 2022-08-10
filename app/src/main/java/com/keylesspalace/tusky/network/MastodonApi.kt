@@ -61,6 +61,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Date
 
 /**
  * for documentation of the Mastodon REST API see https://docs.joinmastodon.org/api/
@@ -542,7 +543,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: String?
+        @Field("expires_in") expiresIn: Date?
     ): Call<Filter>
 
     @DELETE("api/v1/filters/{id}")
