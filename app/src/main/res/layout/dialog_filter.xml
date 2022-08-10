@@ -18,12 +18,21 @@
     <CheckBox
         android:id="@+id/phraseWholeWord"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:paddingEnd="24dp"
         android:paddingStart="24dp"
         android:text="@string/filter_dialog_whole_word"
         app:layout_constraintTop_toBottomOf="@id/phraseEditText"
         app:layout_constraintLeft_toLeftOf="parent"
+        />
+    <Spinner
+        android:id="@+id/filterDurationSpinner"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        app:layout_constraintTop_toBottomOf="@id/phraseEditText"
+        app:layout_constraintLeft_toRightOf="@id/phraseWholeWord"
         />
     <TextView
         android:layout_width="wrap_content"
