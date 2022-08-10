@@ -537,7 +537,7 @@ interface MastodonApi {
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
         @Field("expires_in") expiresInSeconds: Int?
-    ): Call<Filter>
+    ): NetworkResult<Filter>
 
     @FormUrlEncoded
     @PUT("api/v1/filters/{id}")
@@ -548,12 +548,12 @@ interface MastodonApi {
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
         @Field("expires_in") expiresInSeconds: Int?
-    ): Call<Filter>
+    ): NetworkResult<Filter>
 
     @DELETE("api/v1/filters/{id}")
     fun deleteFilter(
         @Path("id") id: String
-    ): Call<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
     @POST("api/v1/polls/{id}/votes")

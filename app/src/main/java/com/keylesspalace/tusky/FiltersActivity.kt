@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
@@ -19,10 +20,6 @@ import com.keylesspalace.tusky.view.setupEditDialogForFilter
 import com.keylesspalace.tusky.view.showAddFilterDialog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.IOException
 import java.util.Date
 import javax.inject.Inject
@@ -59,14 +56,9 @@ class FiltersActivity : BaseActivity() {
     }
 
     fun updateFilter(id: String, phrase: String, filterContext: List<String>, irreversible: Boolean, wholeWord: Boolean, expiresInSeconds: Int?, itemIndex: Int) {
-        api.updateFilter(id, phrase, filterContext, irreversible, wholeWord, expiresInSeconds)
-            .enqueue(object : Callback<Filter> {
-                override fun onFailure(call: Call<Filter>, t: Throwable) {
-                    Toast.makeText(this@FiltersActivity, "Error updating filter '$phrase'", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
-                    val updatedFilter = response.body()!!
+        lifecycleScope.launch {
+            api.updateFilter(id, phrase, filterContext, irreversible, wholeWord, expiresInSeconds).fold(
+                { updatedFilter ->
                     if (updatedFilter.context.contains(context)) {
                         filters[itemIndex] = updatedFilter
                     } else {
@@ -74,25 +66,30 @@ class FiltersActivity : BaseActivity() {
                     }
                     refreshFilterDisplay()
                     eventHub.dispatch(PreferenceChangedEvent(context))
+                },
+                {
+                    Toast.makeText(this@FiltersActivity, "Error updating filter '$phrase'", Toast.LENGTH_SHORT).show()
                 }
-            })
+            )
+        }
     }
 
     fun deleteFilter(itemIndex: Int) {
         val filter = filters[itemIndex]
         if (filter.context.size == 1) {
-            // This is the only context for this filter; delete it
-            api.deleteFilter(filters[itemIndex].id).enqueue(object : Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(this@FiltersActivity, "Error updating filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    filters.removeAt(itemIndex)
-                    refreshFilterDisplay()
-                    eventHub.dispatch(PreferenceChangedEvent(context))
-                }
-            })
+            lifecycleScope.launch {
+                // This is the only context for this filter; delete it
+                api.deleteFilter(filters[itemIndex].id).fold(
+                    {
+                        filters.removeAt(itemIndex)
+                        refreshFilterDisplay()
+                        eventHub.dispatch(PreferenceChangedEvent(context))
+                    },
+                    {
+                        Toast.makeText(this@FiltersActivity, "Error deleting filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
         } else {
             // Keep the filter, but remove it from this context
             val oldFilter = filters[itemIndex]
@@ -108,22 +105,18 @@ class FiltersActivity : BaseActivity() {
     }
 
     fun createFilter(phrase: String, wholeWord: Boolean, expiresInSeconds: Int? = null) {
-        api.createFilter(phrase, listOf(context), false, wholeWord, expiresInSeconds).enqueue(object : Callback<Filter> {
-            override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
-                val filterResponse = response.body()
-                if (response.isSuccessful && filterResponse != null) {
-                    filters.add(filterResponse)
+        lifecycleScope.launch {
+            api.createFilter(phrase, listOf(context), false, wholeWord, expiresInSeconds).fold(
+                { filter ->
+                    filters.add(filter)
                     refreshFilterDisplay()
                     eventHub.dispatch(PreferenceChangedEvent(context))
-                } else {
+                },
+                {
                     Toast.makeText(this@FiltersActivity, "Error creating filter '$phrase'", Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            override fun onFailure(call: Call<Filter>, t: Throwable) {
-                Toast.makeText(this@FiltersActivity, "Error creating filter '$phrase'", Toast.LENGTH_SHORT).show()
-            }
-        })
+            )
+        }
     }
 
     private fun refreshFilterDisplay() {
