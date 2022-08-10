@@ -383,6 +383,7 @@
     <string name="filter_dialog_whole_word">Whole word</string>
     <string name="filter_dialog_whole_word_description">When the keyword or phrase is alphanumeric only, it will only be applied if it matches the whole word</string>
     <string name="filter_add_description">Phrase to filter</string>
+    <string name="filter_expiration_format">%s (%s)</string>
 
     <string name="add_account_name">Add Account</string>
     <string name="add_account_description">Add new Mastodon Account</string>

@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -22,6 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.Date
 import javax.inject.Inject
 
 class FiltersActivity : BaseActivity() {
@@ -158,7 +160,26 @@ class FiltersActivity : BaseActivity() {
     }
 
     private fun refreshFilterDisplay() {
-        binding.filtersView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filters.map { filter -> filter.phrase })
+        binding.filtersView.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            filters.map { filter ->
+                if (filter.expiresAt == null) {
+                    filter.phrase
+                } else {
+                    getString(
+                        R.string.filter_expiration_format,
+                        filter.phrase,
+                        DateUtils.getRelativeTimeSpanString(
+                            filter.expiresAt.time,
+                            Date().time,
+                            DateUtils.MINUTE_IN_MILLIS,
+                            DateUtils.FORMAT_ABBREV_RELATIVE
+                        )
+                    )
+                }
+            }
+        )
         binding.filtersView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> setupEditDialogForItem(position) }
     }
 
