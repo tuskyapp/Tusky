@@ -136,7 +136,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun refresh(id: String) {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             uiState.copy(refreshing = true)
         }
         loadThread(id)
@@ -199,7 +199,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun removeStatus(statusToRemove: StatusViewData.Concrete) {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             uiState.copy(
                 statuses = uiState.statuses.filterNot { status -> status == statusToRemove }
             )
@@ -207,7 +207,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             val statuses = uiState.statuses.map { viewData ->
                 if (viewData.id == status.id) {
                     viewData.copy(isExpanded = expanded)
@@ -259,7 +259,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     private fun removeAllByAccountId(accountId: String) {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             uiState.copy(
                 statuses = uiState.statuses.filter { viewData ->
                     viewData.status.account.id == accountId
@@ -270,7 +270,7 @@ class ViewThreadViewModel @Inject constructor(
 
     private fun handleStatusComposedEvent(event: StatusComposedEvent) {
         val eventStatus = event.status
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             val statuses = uiState.statuses
             val detailedIndex = statuses.indexOfFirst { status -> status.isDetailed }
             val repliedIndex = statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
@@ -287,7 +287,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     private fun handleStatusDeletedEvent(event: StatusDeletedEvent) {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             uiState.copy(
                 statuses = uiState.statuses.filter { status ->
                     status.id != event.statusId
@@ -297,7 +297,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun toggleRevealButton() {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             when (uiState.revealButton) {
                 RevealButtonState.HIDE -> uiState.copy(
                     statuses = uiState.statuses.map { viewData ->
@@ -349,7 +349,7 @@ class ViewThreadViewModel @Inject constructor(
                 }
             )
 
-            _uiState.updateSuccess { uiState ->
+            updateSuccess { uiState ->
                 val statuses = uiState.statuses.filter()
                 uiState.copy(
                     statuses = statuses,
@@ -374,8 +374,8 @@ class ViewThreadViewModel @Inject constructor(
         )
     }
 
-    private inline fun MutableStateFlow<ThreadUiState>.updateSuccess(updater: (ThreadUiState.Success) -> ThreadUiState.Success) {
-        update { uiState ->
+    private inline fun updateSuccess(updater: (ThreadUiState.Success) -> ThreadUiState.Success) {
+        _uiState.update { uiState ->
             if (uiState is ThreadUiState.Success) {
                 updater(uiState)
             } else {
@@ -385,7 +385,7 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     private fun updateStatusViewData(statusId: String, updater: (StatusViewData.Concrete) -> StatusViewData.Concrete) {
-        _uiState.updateSuccess { uiState ->
+        updateSuccess { uiState ->
             uiState.copy(
                 statuses = uiState.statuses.map { viewData ->
                     if (viewData.id == statusId) {

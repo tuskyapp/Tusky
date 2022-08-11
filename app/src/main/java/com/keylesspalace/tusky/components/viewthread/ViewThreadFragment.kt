@@ -137,7 +137,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
         binding.recyclerView.adapter = adapter
 
-        (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations = false
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
@@ -277,7 +277,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onLoadMore(position: Int) {
-        // on used in timelines
+        // only used in timelines
     }
 
     override fun onShowReblogs(position: Int) {
