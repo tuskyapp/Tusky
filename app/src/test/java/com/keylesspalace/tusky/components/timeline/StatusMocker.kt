@@ -14,7 +14,10 @@ fun mockStatus(
     id: String = "100",
     inReplyToId: String? = null,
     inReplyToAccountId: String? = null,
-    spoilerText: String = ""
+    spoilerText: String = "",
+    reblogged: Boolean = false,
+    favourited: Boolean = true,
+    bookmarked: Boolean = true
 ) = Status(
     id = id,
     url = "https://mastodon.example/@ConnyDuck/$id",
@@ -35,9 +38,9 @@ fun mockStatus(
     reblogsCount = 1,
     favouritesCount = 2,
     repliesCount = 3,
-    reblogged = false,
-    favourited = true,
-    bookmarked = true,
+    reblogged = reblogged,
+    favourited = favourited,
+    bookmarked = bookmarked,
     sensitive = true,
     spoilerText = spoilerText,
     visibility = Status.Visibility.PUBLIC,
@@ -57,12 +60,25 @@ fun mockStatusViewData(
     inReplyToAccountId: String? = null,
     isDetailed: Boolean = false,
     spoilerText: String = "",
-    isExpanded: Boolean = false
+    isExpanded: Boolean = false,
+    isShowingContent: Boolean = false,
+    isCollapsed: Boolean = !isDetailed,
+    reblogged: Boolean = false,
+    favourited: Boolean = true,
+    bookmarked: Boolean = true
 ) = StatusViewData.Concrete(
-    status = mockStatus(id, inReplyToId, inReplyToAccountId, spoilerText),
+    status = mockStatus(
+        id = id,
+        inReplyToId = inReplyToId,
+        inReplyToAccountId = inReplyToAccountId,
+        spoilerText = spoilerText,
+        reblogged = reblogged,
+        favourited = favourited,
+        bookmarked = bookmarked
+    ),
     isExpanded = isExpanded,
-    isShowingContent = false,
-    isCollapsed = !isDetailed,
+    isShowingContent = isShowingContent,
+    isCollapsed = isCollapsed,
     isDetailed = isDetailed
 )
 
