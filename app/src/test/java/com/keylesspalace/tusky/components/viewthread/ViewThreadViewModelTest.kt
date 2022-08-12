@@ -57,15 +57,7 @@ class ViewThreadViewModelTest {
 
     @Test
     fun `should emit status and context when both load`() {
-        api.stub {
-            onBlocking { statusAsync(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1"))
-            onBlocking { statusContext(threadId) } doReturn NetworkResult.success(
-                StatusContext(
-                    ancestors = listOf(mockStatus(id = "1")),
-                    descendants = listOf(mockStatus(id = "3", inReplyToId = "2", inReplyToAccountId = "1"))
-                )
-            )
-        }
+        mockSuccessResponses()
 
         viewModel.loadThread(threadId)
 
@@ -73,11 +65,11 @@ class ViewThreadViewModelTest {
             assertEquals(
                 ThreadUiState.Success(
                     statuses = listOf(
-                        mockStatusViewData(id = "1"),
-                        mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true),
-                        mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1")
+                        mockStatusViewData(id = "1", spoilerText = "Test"),
+                        mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
+                        mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
-                    revealButton = RevealButtonState.NO_BUTTON,
+                    revealButton = RevealButtonState.REVEAL,
                     refreshing = false
                 ),
                 viewModel.uiState.first()
@@ -143,6 +135,41 @@ class ViewThreadViewModelTest {
             assertEquals(
                 ThreadUiState.Error::class.java,
                 viewModel.uiState.first().javaClass
+            )
+        }
+    }
+
+    @Test
+    fun `should update state when reveal button is toggled`() {
+        mockSuccessResponses()
+
+        viewModel.loadThread(threadId)
+        viewModel.toggleRevealButton()
+
+        runBlocking {
+            assertEquals(
+                ThreadUiState.Success(
+                    statuses = listOf(
+                        mockStatusViewData(id = "1", spoilerText = "Test", isExpanded = true),
+                        mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isExpanded = true),
+                        mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test", isExpanded = true)
+                    ),
+                    revealButton = RevealButtonState.HIDE,
+                    refreshing = false
+                ),
+                viewModel.uiState.first()
+            )
+        }
+    }
+
+    private fun mockSuccessResponses() {
+        api.stub {
+            onBlocking { statusAsync(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1", spoilerText = "Test"))
+            onBlocking { statusContext(threadId) } doReturn NetworkResult.success(
+                StatusContext(
+                    ancestors = listOf(mockStatus(id = "1", spoilerText = "Test")),
+                    descendants = listOf(mockStatus(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test"))
+                )
             )
         }
     }

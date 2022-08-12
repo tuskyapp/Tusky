@@ -13,7 +13,8 @@ private val fixedDate = Date(1638889052000)
 fun mockStatus(
     id: String = "100",
     inReplyToId: String? = null,
-    inReplyToAccountId: String? = null
+    inReplyToAccountId: String? = null,
+    spoilerText: String = ""
 ) = Status(
     id = id,
     url = "https://mastodon.example/@ConnyDuck/$id",
@@ -38,7 +39,7 @@ fun mockStatus(
     favourited = true,
     bookmarked = true,
     sensitive = true,
-    spoilerText = "",
+    spoilerText = spoilerText,
     visibility = Status.Visibility.PUBLIC,
     attachments = ArrayList(),
     mentions = emptyList(),
@@ -54,10 +55,12 @@ fun mockStatusViewData(
     id: String = "100",
     inReplyToId: String? = null,
     inReplyToAccountId: String? = null,
-    isDetailed: Boolean = false
+    isDetailed: Boolean = false,
+    spoilerText: String = "",
+    isExpanded: Boolean = false
 ) = StatusViewData.Concrete(
-    status = mockStatus(id, inReplyToId, inReplyToAccountId),
-    isExpanded = false,
+    status = mockStatus(id, inReplyToId, inReplyToAccountId, spoilerText),
+    isExpanded = isExpanded,
     isShowingContent = false,
     isCollapsed = !isDetailed,
     isDetailed = isDetailed
