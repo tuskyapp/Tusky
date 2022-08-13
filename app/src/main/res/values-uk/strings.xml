@@ -558,4 +558,7 @@
     <string name="status_count_one_plus">1+</string>
     <string name="error_image_edit_failed">Неможливо редагувати зображення.</string>
     <string name="error_loading_account_details">Не вдалося завантажити подробиці облікового запису</string>
+    <string name="error_following_hashtag_format">Помилка підписки на #%s</string>
+    <string name="error_multimedia_size_limit">Розмір відео та аудіофайлів не може перевищувати %s Мб.</string>
+    <string name="error_unfollowing_hashtag_format">Помилка скасування підписки на #%s</string>
 </resources>
