@@ -565,4 +565,6 @@
     <string name="error_unfollowing_hashtag_format">Mearachd a’ sgur de leantainn air #%s</string>
     <string name="error_loading_account_details">Mearachd a’ luchdadh fiosrachadh a’ chunntais</string>
     <string name="error_image_edit_failed">Cha b’ urrainn dhuinn an dealbh a dheasachadh.</string>
+    <string name="dialog_push_notification_migration">Airson brathan putaidh slighe UnifiedPush a chleachdadh, feumaidh Tusky cead airson fo-sgrìobhadh air brathan air an fhrithealaiche Mastodon agad fhaighinn. Bidh feum air clàradh a-steach às ùr airson na sgòpaichean OAuth a chaidh a cheadachadh dha Tusky atharrachadh. Ma nì thu clàradh a-steach às ùr an-seo no ann an roghainnean a’ chunntais, cumaidh sinn na dreachdan is an tasgadan ionadail agad.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Rinn thu clàradh a-steach às ùr dhan chunntas làithreach agad airson cead fo-sgrìobhadh putaidh a thoirt dha Tusky. Gidheadh, cha cunntasan eile agad fhathast nach deach imrich air an dòigh sin. Geàrr leum thuca is dèan clàradh a-steach às ùr do gach fear dhiubh airson taic do bhrathan UnifiedPush a chur an comas dhaibh.</string>
 </resources>
