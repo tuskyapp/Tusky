@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
+import java.time.Instant
 import java.util.ArrayList
 import java.util.Date
 
@@ -50,7 +51,23 @@ class FilterTest {
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = true
-            )
+            ),
+            Filter(
+                id = "123",
+                phrase = "expired",
+                context = listOf(Filter.HOME),
+                expiresAt = Date.from(Instant.now().minusSeconds(10)),
+                irreversible = false,
+                wholeWord = true
+            ),
+            Filter(
+                id = "123",
+                phrase = "unexpired",
+                context = listOf(Filter.HOME),
+                expiresAt = Date.from(Instant.now().plusSeconds(3600)),
+                irreversible = false,
+                wholeWord = true
+            ),
         )
 
         filterModel.initWithFilters(filters)
@@ -148,6 +165,23 @@ class FilterTest {
         )
     }
 
+    @Test
+    fun shouldNotFilter_whenFilterIsExpired() {
+        assertFalse(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "content matching expired filter should not be filtered")
+            )
+        )
+    }
+
+    @Test
+    fun shouldFilter_whenFilterIsUnexpired() {
+        assertTrue(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "content matching unexpired filter should be filtered")
+            )
+        )
+    }
     private fun mockStatus(
         content: String = "",
         spoilerText: String = "",

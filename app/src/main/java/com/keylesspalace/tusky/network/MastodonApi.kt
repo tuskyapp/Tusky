@@ -536,7 +536,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: String?
+        @Field("expires_in") expiresIn: Int?
     ): Call<Filter>
 
     @FormUrlEncoded
@@ -547,7 +547,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: String?
+        @Field("expires_in") expiresIn: Int?
     ): Call<Filter>
 
     @DELETE("api/v1/filters/{id}")

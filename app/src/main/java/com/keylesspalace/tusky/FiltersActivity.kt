@@ -56,7 +56,7 @@ class FiltersActivity : BaseActivity() {
     }
 
     private fun updateFilter(filter: Filter, itemIndex: Int) {
-        api.updateFilter(filter.id, filter.phrase, filter.context, filter.irreversible, filter.wholeWord, filter.expiresAt)
+        api.updateFilter(filter.id, filter.phrase, filter.context, filter.irreversible, filter.wholeWord, null)
             .enqueue(object : Callback<Filter> {
                 override fun onFailure(call: Call<Filter>, t: Throwable) {
                     Toast.makeText(this@FiltersActivity, "Error updating filter '${filter.phrase}'", Toast.LENGTH_SHORT).show()
@@ -102,7 +102,7 @@ class FiltersActivity : BaseActivity() {
     }
 
     private fun createFilter(phrase: String, wholeWord: Boolean) {
-        api.createFilter(phrase, listOf(context), false, wholeWord, "").enqueue(object : Callback<Filter> {
+        api.createFilter(phrase, listOf(context), false, wholeWord, null).enqueue(object : Callback<Filter> {
             override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
                 val filterResponse = response.body()
                 if (response.isSuccessful && filterResponse != null) {
