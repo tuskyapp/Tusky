@@ -101,7 +101,7 @@ class TimelineDaoTest {
         assertStatuses(statusesAfterCleanup, loadedStatuses)
 
         val loadedAccounts: MutableList<Pair<Long, String>> = mutableListOf()
-        val accountCursor = db.query("SELECT timelineUserId, serverId FROM TimelineAccountEntity", null)
+        val accountCursor = db.query("SELECT timelineUserId, serverId FROM TimelineAccountEntity ORDER BY timelineUserId, serverId", null)
         accountCursor.moveToFirst()
         while (!accountCursor.isAfterLast) {
             val accountId: Long = accountCursor.getLong(accountCursor.getColumnIndex("timelineUserId"))
@@ -111,10 +111,10 @@ class TimelineDaoTest {
         }
 
         val expectedAccounts = listOf(
-            1L to "3",
             1L to "10",
-            1L to "R10",
             1L to "20",
+            1L to "3",
+            1L to "R10",
             2L to "5"
         )
 
