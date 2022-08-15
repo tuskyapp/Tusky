@@ -187,7 +187,7 @@ class SendStatusService : Service(), Injectable {
                     statusesToSend.remove(statusId)
                     saveStatusToDrafts(statusToSend)
 
-                    val notification = draftNotification(
+                    val notification = buildDraftNotification(
                         R.string.send_post_notification_error_title,
                         R.string.send_post_notification_saved_content,
                         statusToSend.accountId,
@@ -231,7 +231,7 @@ class SendStatusService : Service(), Injectable {
 
             saveStatusToDrafts(statusToCancel)
 
-            val notification = draftNotification(
+            val notification = buildDraftNotification(
                 R.string.send_post_notification_cancel_title,
                 R.string.send_post_notification_saved_content,
                 statusToCancel.accountId,
@@ -274,7 +274,7 @@ class SendStatusService : Service(), Injectable {
         )
     }
 
-    private fun draftNotification(
+    private fun buildDraftNotification(
         @StringRes title: Int,
         @StringRes content: Int,
         accountId: Long,
