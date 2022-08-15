@@ -98,7 +98,7 @@
             android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".ViewThreadActivity"
+            android:name=".components.viewthread.ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ViewMediaActivity"

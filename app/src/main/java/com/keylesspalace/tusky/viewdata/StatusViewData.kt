@@ -42,6 +42,7 @@ sealed class StatusViewData {
          */
         /** Whether the status meets the requirement to be collapse  */
         val isCollapsed: Boolean,
+        val isDetailed: Boolean = false
     ) : StatusViewData() {
         override val id: String
             get() = status.id
