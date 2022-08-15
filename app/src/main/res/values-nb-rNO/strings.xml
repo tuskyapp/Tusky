@@ -537,4 +537,6 @@
     <string name="error_image_edit_failed">Bildet kunne ikke redigeres.</string>
     <string name="error_loading_account_details">Lasting av kontodetaljer feilet</string>
     <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %s MB.</string>
+    <string name="error_following_hashtag_format">Det oppsto en feil under følging av #%s</string>
+    <string name="error_unfollowing_hashtag_format">Det oppsto en feil når følging av #%s skulle avsluttes</string>
 </resources>
