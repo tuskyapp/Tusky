@@ -175,7 +175,7 @@ dependencies {
     implementation "com.mikepenz:materialdrawer-iconics:$materialdrawerVersion"
     implementation 'com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar'
 
-    implementation "com.github.CanHub:Android-Image-Cropper:4.2.1"
+    implementation "com.github.CanHub:Android-Image-Cropper:4.3.1"
 
     implementation "de.c1710:filemojicompat-ui:$filemojicompat_version"
     implementation "de.c1710:filemojicompat:$filemojicompat_version"
