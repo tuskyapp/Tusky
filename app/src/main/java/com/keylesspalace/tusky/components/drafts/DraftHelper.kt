@@ -78,11 +78,11 @@ class DraftHelper @Inject constructor(
 
         val uris = mediaUris.map { uriString ->
             uriString.toUri()
-        }.mapNotNull { uri ->
+        }.mapIndexedNotNull { index, uri ->
             if (uri.isInFolder(draftDirectory)) {
                 uri
             } else {
-                uri.copyToFolder(draftDirectory)
+                uri.copyToFolder(draftDirectory, index)
             }
         }
 
@@ -155,7 +155,7 @@ class DraftHelper @Inject constructor(
         return File(filePath).parentFile == folder
     }
 
-    private fun Uri.copyToFolder(folder: File): Uri? {
+    private fun Uri.copyToFolder(folder: File, index: Int): Uri? {
         val contentResolver = context.contentResolver
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
 
@@ -167,7 +167,7 @@ class DraftHelper @Inject constructor(
             map.getExtensionFromMimeType(mimeType)
         }
 
-        val filename = String.format("Tusky_Draft_Media_%s.%s", timeStamp, fileExtension)
+        val filename = String.format("Tusky_Draft_Media_%s_%d.%s", timeStamp, index, fileExtension)
         val file = File(folder, filename)
 
         if (scheme == "https") {
