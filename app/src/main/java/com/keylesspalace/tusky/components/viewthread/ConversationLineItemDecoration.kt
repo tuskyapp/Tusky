@@ -20,6 +20,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 
@@ -31,14 +32,13 @@ class ConversationLineItemDecoration(private val context: Context) : RecyclerVie
         val dividerStart = parent.paddingStart + context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)
         val dividerEnd = dividerStart + divider.intrinsicWidth
 
-        val childCount = parent.childCount
         val avatarMargin = context.resources.getDimensionPixelSize(R.dimen.account_avatar_margin)
 
-        for (i in 0 until childCount) {
-            val child = parent.getChildAt(i)
+        val items = (parent.adapter as ThreadAdapter).currentList
+
+        parent.forEach { child ->
 
             val position = parent.getChildAdapterPosition(child)
-            val items = (parent.adapter as ThreadAdapter).currentList
 
             val current = items.getOrNull(position)
 
