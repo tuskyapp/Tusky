@@ -50,7 +50,7 @@ class ConversationLineItemDecoration(private val context: Context) : RecyclerVie
                     child.top + avatarMargin
                 }
                 val below = items.getOrNull(position + 1)
-                val dividerBottom = if (below != null && current.id == below.status.inReplyToId && below.isDetailed) {
+                val dividerBottom = if (below != null && current.id == below.status.inReplyToId && !current.isDetailed) {
                     child.bottom
                 } else {
                     child.top + avatarMargin
