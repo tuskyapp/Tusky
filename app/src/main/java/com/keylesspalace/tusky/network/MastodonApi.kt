@@ -531,7 +531,7 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/filters")
-    fun createFilter(
+    suspend fun createFilter(
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
@@ -541,7 +541,7 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @PUT("api/v1/filters/{id}")
-    fun updateFilter(
+    suspend fun updateFilter(
         @Path("id") id: String,
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
@@ -551,7 +551,7 @@ interface MastodonApi {
     ): NetworkResult<Filter>
 
     @DELETE("api/v1/filters/{id}")
-    fun deleteFilter(
+    suspend fun deleteFilter(
         @Path("id") id: String
     ): NetworkResult<ResponseBody>
 
