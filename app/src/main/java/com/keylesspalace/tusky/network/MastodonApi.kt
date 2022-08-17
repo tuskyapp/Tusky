@@ -531,29 +531,29 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/filters")
-    fun createFilter(
+    suspend fun createFilter(
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: Int?
-    ): Call<Filter>
+        @Field("expires_in") expiresInSeconds: Int?
+    ): NetworkResult<Filter>
 
     @FormUrlEncoded
     @PUT("api/v1/filters/{id}")
-    fun updateFilter(
+    suspend fun updateFilter(
         @Path("id") id: String,
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: Int?
-    ): Call<Filter>
+        @Field("expires_in") expiresInSeconds: Int?
+    ): NetworkResult<Filter>
 
     @DELETE("api/v1/filters/{id}")
-    fun deleteFilter(
+    suspend fun deleteFilter(
         @Path("id") id: String
-    ): Call<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
     @POST("api/v1/polls/{id}/votes")
