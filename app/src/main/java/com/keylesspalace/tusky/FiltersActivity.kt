@@ -21,7 +21,6 @@ import com.keylesspalace.tusky.view.showAddFilterDialog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import java.io.IOException
-import java.util.Date
 import javax.inject.Inject
 
 class FiltersActivity : BaseActivity() {
@@ -132,7 +131,7 @@ class FiltersActivity : BaseActivity() {
                         filter.phrase,
                         DateUtils.getRelativeTimeSpanString(
                             filter.expiresAt.time,
-                            Date().time,
+                            System.currentTimeMillis(),
                             DateUtils.MINUTE_IN_MILLIS,
                             DateUtils.FORMAT_ABBREV_RELATIVE
                         )

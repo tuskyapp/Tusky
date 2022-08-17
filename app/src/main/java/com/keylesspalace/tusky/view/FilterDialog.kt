@@ -66,7 +66,7 @@ fun setupEditDialogForFilter(activity: FiltersActivity, filter: Filter, itemInde
 // but create/edit take a number of seconds (relative to the time the operation is posted)
 fun getSecondsForDurationIndex(index: Int, context: Context?, default: Date? = null): Int? {
     return when (index) {
-        -1 -> if (default == null) { default } else { ((default.time - Date().time) / 1000).toInt() }
+        -1 -> if (default == null) { default } else { ((default.time - System.currentTimeMillis()) / 1000).toInt() }
         0 -> null
         else -> context?.resources?.getIntArray(R.array.filter_duration_values)?.get(index)
     }
