@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2022 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -85,9 +85,13 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
         super.onViewCreated(view, savedInstanceState)
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
+        val imageSpacing = view.context.resources.getDimensionPixelSize(R.dimen.profile_media_spacing)
+
         val layoutManager = GridLayoutManager(view.context, columnCount)
 
         adapter.baseItemColor = ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
+
+        binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(columnCount, imageSpacing, 0))
 
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
