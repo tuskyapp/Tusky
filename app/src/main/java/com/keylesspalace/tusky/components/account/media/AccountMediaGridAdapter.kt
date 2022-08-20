@@ -8,11 +8,15 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
-class AccountMediaGridAdapter : PagingDataAdapter<AttachmentViewData, AccountMediaGridAdapter.MediaViewHolder>(
+class AccountMediaGridAdapter(
+    private val alwaysShowSensitiveMedia: Boolean,
+    private val useBlurhash: Boolean
+) : PagingDataAdapter<AttachmentViewData, AccountMediaGridAdapter.MediaViewHolder>(
     object : DiffUtil.ItemCallback<AttachmentViewData>() {
         override fun areItemsTheSame(oldItem: AttachmentViewData, newItem: AttachmentViewData): Boolean {
             return oldItem.statusId == newItem.statusId && oldItem.attachment.id == newItem.attachment.id
@@ -45,13 +49,16 @@ class AccountMediaGridAdapter : PagingDataAdapter<AttachmentViewData, AccountMed
         itemBgBaseHSV[2] = random.nextFloat() * (1f - 0.3f) + 0.3f
         holder.imageView.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
         getItem(position)?.let { item ->
+            val blurhash = item.attachment.blurhash
+            val placeholder = if (useBlurhash && blurhash != null) decodeBlurHash(holder.imageView.context, blurhash) else null
+
             Glide.with(holder.imageView)
                 .load(item.attachment.previewUrl)
+                .placeholder(placeholder)
                 .centerInside()
                 .into(holder.imageView)
         }
     }
-
 
     inner class MediaViewHolder(val imageView: ImageView) :
         RecyclerView.ViewHolder(imageView),

@@ -15,48 +15,30 @@
 
 package com.keylesspalace.tusky.components.account.media
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import autodispose2.androidx.lifecycle.autoDispose
-import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.components.account.AccountViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
-import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.ThemeUtils
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.view.SquareImageView
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.SingleObserver
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import java.io.IOException
-import java.util.Random
 import javax.inject.Inject
 
 /**
@@ -70,11 +52,14 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var accountManager: AccountManager
+
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private val viewModel: AccountMediaViewModel by viewModels { viewModelFactory }
 
-    private val adapter = AccountMediaGridAdapter()
+    private lateinit var adapter: AccountMediaGridAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,18 +67,24 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+        val alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
+        val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
+
+        adapter = AccountMediaGridAdapter(
+            alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
+            useBlurhash = useBlurhash
+        )
+        adapter.baseItemColor = ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
         val imageSpacing = view.context.resources.getDimensionPixelSize(R.dimen.profile_media_spacing)
 
-        val layoutManager = GridLayoutManager(view.context, columnCount)
-
-        adapter.baseItemColor = ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
-
         binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(columnCount, imageSpacing, 0))
 
-        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = GridLayoutManager(view.context, columnCount)
         binding.recyclerView.adapter = adapter
 
         binding.swipeRefreshLayout.isEnabled = false
