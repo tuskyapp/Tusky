@@ -22,7 +22,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.flatMap
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -30,8 +29,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AccountMediaViewModel @Inject constructor (
-        api: MastodonApi
-    ): ViewModel() {
+    api: MastodonApi
+) : ViewModel() {
 
     lateinit var accountId: String
 
@@ -61,9 +60,7 @@ class AccountMediaViewModel @Inject constructor (
         }
         .cachedIn(viewModelScope)
 
-
     companion object {
         private const val LOAD_AT_ONCE = 30
     }
-
 }

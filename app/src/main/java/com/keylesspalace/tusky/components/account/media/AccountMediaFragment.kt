@@ -75,9 +75,9 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
 
         adapter = AccountMediaGridAdapter(
             alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
-            useBlurhash = useBlurhash
+            useBlurhash = useBlurhash,
+            baseItemBackgroundColor = ThemeUtils.getColor(view.context, R.attr.colorSurface)
         )
-        adapter.baseItemColor = ThemeUtils.getColor(view.context, android.R.attr.windowBackground)
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
         val imageSpacing = view.context.resources.getDimensionPixelSize(R.dimen.profile_media_spacing)
