@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
-    <com.keylesspalace.tusky.view.SquareImageView
+    <com.keylesspalace.tusky.components.account.media.SquareImageView
         android:id="@+id/accountMediaImageView"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
