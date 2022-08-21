@@ -81,7 +81,7 @@ class AccountMediaFragment :
             alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
             useBlurhash = useBlurhash,
             baseItemBackgroundColor = ThemeUtils.getColor(view.context, R.attr.colorSurface),
-            this
+            onAttachmentClickListener = this
         )
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
@@ -140,7 +140,7 @@ class AccountMediaFragment :
 
     companion object {
 
-        fun newInstance(accountId: String, enableSwipeToRefresh: Boolean = true): AccountMediaFragment {
+        fun newInstance(accountId: String): AccountMediaFragment {
             val fragment = AccountMediaFragment()
             val args = Bundle(1)
             args.putString(ACCOUNT_ID_ARG, accountId)
