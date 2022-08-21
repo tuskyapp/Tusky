@@ -17,19 +17,19 @@ package com.keylesspalace.tusky.components.account.media
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 
 class AccountMediaPagingSource(
     private val viewModel: AccountMediaViewModel
-) : PagingSource<String, Status>() {
+) : PagingSource<String, AttachmentViewData>() {
 
-    override fun getRefreshKey(state: PagingState<String, Status>): String? = null
+    override fun getRefreshKey(state: PagingState<String, AttachmentViewData>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, AttachmentViewData> {
 
         return if (params is LoadParams.Refresh) {
-            val list = viewModel.statusData.toList()
-            LoadResult.Page(list, null, list.lastOrNull()?.id)
+            val list = viewModel.attachmentData.toList()
+            LoadResult.Page(list, null, list.lastOrNull()?.statusId)
         } else {
             LoadResult.Page(emptyList(), null, null)
         }

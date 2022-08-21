@@ -20,8 +20,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 
@@ -29,11 +29,11 @@ import retrofit2.HttpException
 class AccountMediaRemoteMediator(
     private val api: MastodonApi,
     private val viewModel: AccountMediaViewModel
-) : RemoteMediator<String, Status>() {
+) : RemoteMediator<String, AttachmentViewData>() {
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<String, Status>
+        state: PagingState<String, AttachmentViewData>
     ): MediatorResult {
 
         try {
@@ -45,7 +45,7 @@ class AccountMediaRemoteMediator(
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.APPEND -> {
-                    val maxId = state.lastItemOrNull()?.id
+                    val maxId = state.lastItemOrNull()?.statusId
                     if (maxId != null) {
                         api.accountStatuses(viewModel.accountId, maxId = maxId, onlyMedia = true).await()
                     } else {
@@ -59,7 +59,11 @@ class AccountMediaRemoteMediator(
                 return MediatorResult.Error(HttpException(statusResponse))
             }
 
-            viewModel.statusData.addAll(statuses)
+            val attachments = statuses.flatMap { status ->
+                AttachmentViewData.list(status)
+            }
+
+            viewModel.attachmentData.addAll(attachments)
 
             viewModel.currentSource?.invalidate()
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())

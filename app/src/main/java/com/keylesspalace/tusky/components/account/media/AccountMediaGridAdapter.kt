@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.components.account.media
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
@@ -18,10 +19,18 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
+interface OnAttachmentClickListener {
+    fun onAttachmentClick(
+        selected: AttachmentViewData,
+        view: View
+    )
+}
+
 class AccountMediaGridAdapter(
     private val alwaysShowSensitiveMedia: Boolean,
     private val useBlurhash: Boolean,
-    @ColorInt private val baseItemBackgroundColor: Int
+    @ColorInt private val baseItemBackgroundColor: Int,
+    private val onAttachmentClickListener: OnAttachmentClickListener
 ) : PagingDataAdapter<AttachmentViewData, BindingHolder<ItemAccountMediaBinding>>(
     object : DiffUtil.ItemCallback<AttachmentViewData>() {
         override fun areItemsTheSame(oldItem: AttachmentViewData, newItem: AttachmentViewData): Boolean {
@@ -73,12 +82,15 @@ class AccountMediaGridAdapter(
                     overlay.hide()
                 }
 
-                Glide.with(holder.binding.accountMediaImageView)
+                Glide.with(imageView)
                     .asBitmap()
                     .load(item.attachment.previewUrl)
                     .placeholder(placeholder)
                     .centerInside()
-                    .into(holder.binding.accountMediaImageView)
+                    .into(imageView)
+            }
+            holder.binding.root.setOnClickListener {
+                onAttachmentClickListener.onAttachmentClick(item, holder.binding.root)
             }
         }
     }

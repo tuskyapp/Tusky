@@ -21,11 +21,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import androidx.paging.flatMap
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AccountMediaViewModel @Inject constructor (
@@ -34,7 +31,7 @@ class AccountMediaViewModel @Inject constructor (
 
     lateinit var accountId: String
 
-    val statusData: MutableList<Status> = mutableListOf()
+    val attachmentData: MutableList<AttachmentViewData> = mutableListOf()
 
     var currentSource: AccountMediaPagingSource? = null
 
@@ -53,12 +50,13 @@ class AccountMediaViewModel @Inject constructor (
         },
         remoteMediator = AccountMediaRemoteMediator(api, this)
     ).flow
-        .map { pagingData ->
-            pagingData.flatMap { status ->
-                AttachmentViewData.list(status)
-            }
-        }
         .cachedIn(viewModelScope)
+
+    fun revealAttachment(viewData: AttachmentViewData) {
+        val position = attachmentData.indexOfFirst { oldViewData -> oldViewData.id == viewData.id }
+        attachmentData[position] = viewData.copy(isRevealed = true)
+        currentSource?.invalidate()
+    }
 
     companion object {
         private const val LOAD_AT_ONCE = 30

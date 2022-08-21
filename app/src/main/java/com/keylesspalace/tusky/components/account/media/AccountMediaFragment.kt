@@ -47,7 +47,11 @@ import javax.inject.Inject
  * Fragment with multiple columns of media previews for the specified account.
  */
 
-class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFragment, Injectable {
+class AccountMediaFragment :
+    Fragment(R.layout.fragment_timeline),
+    RefreshableFragment,
+    OnAttachmentClickListener,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -76,7 +80,8 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
         adapter = AccountMediaGridAdapter(
             alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
             useBlurhash = useBlurhash,
-            baseItemBackgroundColor = ThemeUtils.getColor(view.context, R.attr.colorSurface)
+            baseItemBackgroundColor = ThemeUtils.getColor(view.context, R.attr.colorSurface),
+            this
         )
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
@@ -98,16 +103,24 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
         }
     }
 
-    private fun viewMedia(items: List<AttachmentViewData>, currentIndex: Int, view: View?) {
+    override fun onAttachmentClick(selected: AttachmentViewData, view: View) {
+        if (!selected.isRevealed) {
+            viewModel.revealAttachment(selected)
+            return
+        }
+        val attachmentsFromSameStatus = viewModel.attachmentData.filter { attachmentViewData ->
+            attachmentViewData.statusId == selected.statusId
+        }
+        val currentIndex = attachmentsFromSameStatus.indexOf(selected)
 
-        when (items[currentIndex].attachment.type) {
+        when (selected.attachment.type) {
             Attachment.Type.IMAGE,
             Attachment.Type.GIFV,
             Attachment.Type.VIDEO,
             Attachment.Type.AUDIO -> {
-                val intent = ViewMediaActivity.newIntent(context, items, currentIndex)
-                if (view != null && activity != null) {
-                    val url = items[currentIndex].attachment.url
+                val intent = ViewMediaActivity.newIntent(context, attachmentsFromSameStatus, currentIndex)
+                if (activity != null) {
+                    val url = selected.attachment.url
                     ViewCompat.setTransitionName(view, url)
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, url)
                     startActivity(intent, options.toBundle())
@@ -116,7 +129,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
                 }
             }
             Attachment.Type.UNKNOWN -> {
-                context?.openLink(items[currentIndex].attachment.url)
+                context?.openLink(selected.attachment.url)
             }
         }
     }
@@ -129,7 +142,7 @@ class AccountMediaFragment : Fragment(R.layout.fragment_timeline), RefreshableFr
 
         fun newInstance(accountId: String, enableSwipeToRefresh: Boolean = true): AccountMediaFragment {
             val fragment = AccountMediaFragment()
-            val args = Bundle()
+            val args = Bundle(1)
             args.putString(ACCOUNT_ID_ARG, accountId)
             fragment.arguments = args
             return fragment
