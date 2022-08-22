@@ -89,6 +89,7 @@ fun <T> T.makeCaptionDialog(
         .setView(dialogLayout)
         .setPositiveButton(android.R.string.ok, okListener)
         .setNegativeButton(android.R.string.cancel, null)
+        .setCancelable(false)
         .create()
 
     val window = dialog.window
