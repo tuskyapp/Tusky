@@ -63,6 +63,10 @@ class AccountMediaRemoteMediator(
                 AttachmentViewData.list(status)
             }
 
+            if (loadType == LoadType.REFRESH) {
+                viewModel.attachmentData.clear()
+            }
+
             viewModel.attachmentData.addAll(attachments)
 
             viewModel.currentSource?.invalidate()

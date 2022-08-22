@@ -22,6 +22,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.keylesspalace.tusky.R
@@ -33,11 +34,15 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -99,6 +104,23 @@ class AccountMediaFragment :
                 adapter.submitData(pagingData)
             }
         }
+
+        adapter.addLoadStateListener { loadState ->
+            binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+
+            if (loadState.refresh is LoadState.Error) {
+                binding.recyclerView.hide()
+                binding.statusView.show()
+                if ((loadState.refresh as LoadState.Error).error is IOException) {
+                    binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) { adapter.retry() }
+                } else {
+                    binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) { adapter.retry() }
+                }
+            } else {
+                binding.recyclerView.show()
+                binding.statusView.hide()
+            }
+        }
     }
 
     private fun onAttachmentClick(selected: AttachmentViewData, view: View) {
@@ -133,6 +155,7 @@ class AccountMediaFragment :
     }
 
     override fun refreshContent() {
+        //viewModel.attachmentData.clear()
         adapter.refresh()
     }
 
