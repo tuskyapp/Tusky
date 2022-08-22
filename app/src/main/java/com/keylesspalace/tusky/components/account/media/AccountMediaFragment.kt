@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.account.media
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
@@ -111,11 +112,13 @@ class AccountMediaFragment :
             if (loadState.refresh is LoadState.Error) {
                 binding.recyclerView.hide()
                 binding.statusView.show()
-                if ((loadState.refresh as LoadState.Error).error is IOException) {
+                val errorState = loadState.refresh as LoadState.Error
+                if (errorState.error is IOException) {
                     binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) { adapter.retry() }
                 } else {
                     binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) { adapter.retry() }
                 }
+                Log.w(TAG, "error loading account media", errorState.error)
             } else {
                 binding.recyclerView.show()
                 binding.statusView.hide()
