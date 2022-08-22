@@ -539,4 +539,6 @@
     <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %s MB.</string>
     <string name="error_following_hashtag_format">Det oppsto en feil under følging av #%s</string>
     <string name="error_unfollowing_hashtag_format">Det oppsto en feil når følging av #%s skulle avsluttes</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="duration_no_change">(Ingen endring)</string>
 </resources>
