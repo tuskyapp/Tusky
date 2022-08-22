@@ -1,10 +1,10 @@
 package com.keylesspalace.tusky.components.account.media
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -13,28 +13,22 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
-interface OnAttachmentClickListener {
-    fun onAttachmentClick(
-        selected: AttachmentViewData,
-        view: View
-    )
-}
-
 class AccountMediaGridAdapter(
     private val alwaysShowSensitiveMedia: Boolean,
     private val useBlurhash: Boolean,
-    @ColorInt private val baseItemBackgroundColor: Int,
-    private val onAttachmentClickListener: OnAttachmentClickListener
+    context: Context,
+    private val onAttachmentClickListener: (AttachmentViewData, View) -> Unit
 ) : PagingDataAdapter<AttachmentViewData, BindingHolder<ItemAccountMediaBinding>>(
     object : DiffUtil.ItemCallback<AttachmentViewData>() {
         override fun areItemsTheSame(oldItem: AttachmentViewData, newItem: AttachmentViewData): Boolean {
-            return oldItem.statusId == newItem.statusId && oldItem.attachment.id == newItem.attachment.id
+            return oldItem.attachment.id == newItem.attachment.id
         }
 
         override fun areContentsTheSame(oldItem: AttachmentViewData, newItem: AttachmentViewData): Boolean {
@@ -42,6 +36,11 @@ class AccountMediaGridAdapter(
         }
     }
 ) {
+
+    private val baseItemBackgroundColor = ThemeUtils.getColor(context, R.attr.colorSurface)
+    private val videoIndicator = AppCompatResources.getDrawable(context, R.drawable.ic_play_indicator)
+    private val mediaHiddenDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_hide_media_24dp)
+
     private val itemBgBaseHSV = FloatArray(3)
     private val random = Random()
 
@@ -68,7 +67,7 @@ class AccountMediaGridAdapter(
 
             if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
                 overlay.show()
-                overlay.setImageDrawable(AppCompatResources.getDrawable(overlay.context, R.drawable.ic_hide_media_24dp))
+                overlay.setImageDrawable(mediaHiddenDrawable)
 
                 Glide.with(imageView)
                     .load(placeholder)
@@ -77,7 +76,7 @@ class AccountMediaGridAdapter(
             } else {
                 if (item.attachment.type == Attachment.Type.VIDEO || item.attachment.type == Attachment.Type.GIFV) {
                     overlay.show()
-                    overlay.setImageDrawable(AppCompatResources.getDrawable(overlay.context, R.drawable.ic_play_indicator))
+                    overlay.setImageDrawable(videoIndicator)
                 } else {
                     overlay.hide()
                 }
@@ -90,7 +89,7 @@ class AccountMediaGridAdapter(
                     .into(imageView)
             }
             holder.binding.root.setOnClickListener {
-                onAttachmentClickListener.onAttachmentClick(item, holder.binding.root)
+                onAttachmentClickListener(item, holder.binding.root)
             }
         }
     }

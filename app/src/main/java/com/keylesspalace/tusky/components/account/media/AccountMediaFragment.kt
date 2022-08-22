@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -50,7 +49,6 @@ import javax.inject.Inject
 class AccountMediaFragment :
     Fragment(R.layout.fragment_timeline),
     RefreshableFragment,
-    OnAttachmentClickListener,
     Injectable {
 
     @Inject
@@ -80,8 +78,8 @@ class AccountMediaFragment :
         adapter = AccountMediaGridAdapter(
             alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
             useBlurhash = useBlurhash,
-            baseItemBackgroundColor = ThemeUtils.getColor(view.context, R.attr.colorSurface),
-            onAttachmentClickListener = this
+            context = view.context,
+            onAttachmentClickListener = ::onAttachmentClick
         )
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
@@ -103,7 +101,7 @@ class AccountMediaFragment :
         }
     }
 
-    override fun onAttachmentClick(selected: AttachmentViewData, view: View) {
+    private fun onAttachmentClick(selected: AttachmentViewData, view: View) {
         if (!selected.isRevealed) {
             viewModel.revealAttachment(selected)
             return
