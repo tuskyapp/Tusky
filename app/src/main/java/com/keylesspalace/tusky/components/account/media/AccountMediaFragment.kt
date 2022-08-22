@@ -155,7 +155,6 @@ class AccountMediaFragment :
     }
 
     override fun refreshContent() {
-        //viewModel.attachmentData.clear()
         adapter.refresh()
     }
 
