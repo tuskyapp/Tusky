@@ -23,6 +23,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -40,6 +41,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.preference.PreferenceManager;
 
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
@@ -56,6 +58,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.network.MastodonApi;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.usecase.TimelineCases;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusParsingHelper;
@@ -258,9 +261,12 @@ public abstract class SFragment extends Fragment implements Injectable {
                     String stringToTranslate = StatusParsingHelper.parseAsMastodonHtml(statusToTranslate.getContent()).toString();
                     String stringToTranslateEncoded = stringToTranslate.replaceAll("\\s", "%20");
 
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    String lingvaInstance = prefs.getString(PrefKeys.LINGVA_INSTANCE, "lingva.ml");
+
                     String lang = Locale.getDefault().getLanguage();
 
-                    LinkHelper.openLink(requireContext(), "https://lingva.ml/auto/" + lang + "/" + stringToTranslateEncoded);
+                    LinkHelper.openLink(requireContext(), "https://" + lingvaInstance + "/auto/" + lang + "/" + stringToTranslateEncoded);
                     return true;
                 }
                 case R.id.status_open_as: {
