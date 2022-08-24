@@ -259,7 +259,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                 case R.id.status_translate_lingva: {
                     Status statusToTranslate = status;
                     String stringToTranslate = StatusParsingHelper.parseAsMastodonHtml(statusToTranslate.getContent()).toString();
-                    String stringToTranslateEncoded = stringToTranslate.replaceAll("\\s", "%20");
+                    String stringToTranslateEncoded = stringToTranslate.replaceAll("\n", "%0A").replaceAll("\r", "%0A").replaceAll("\\s", "%20");
 
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     String lingvaInstance = prefs.getString(PrefKeys.LINGVA_INSTANCE, "lingva.ml");
