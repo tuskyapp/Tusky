@@ -22,6 +22,19 @@
             tools:ignore="ContentDescription" />
         <!--content description will be set in code -->
 
+        <Spinner
+            android:id="@+id/composePostLanguageButton"
+            style="@style/TuskyImageButton"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end"
+            android:padding="0dp"
+            android:contentDescription="@string/description_post_language"
+            android:textColor="?android:attr/textColorTertiary"
+            android:textSize="?attr/status_text_large"
+            android:textStyle="bold"
+            app:tooltipText="@string/description_post_language" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/atButton"
             style="@style/TuskyImageButton"
@@ -318,19 +331,6 @@
             android:padding="4dp"
             app:srcCompat="@drawable/ic_access_time"
             app:tooltipText="@string/action_schedule_post" />
-
-        <Spinner
-            android:id="@+id/composePostLanguageButton"
-            style="@style/TuskyImageButton"
-            android:layout_width="48dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="4dp"
-            android:contentDescription="@string/description_post_language"
-            android:padding="4dp"
-            android:textColor="?android:attr/textColorTertiary"
-            android:textSize="?attr/status_text_medium"
-            android:textStyle="bold"
-            app:tooltipText="@string/description_post_language" />
 
         <Space
             android:layout_width="0dp"
