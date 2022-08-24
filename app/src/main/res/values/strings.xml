@@ -162,6 +162,7 @@
     <string name="download_image">Downloading %1$s</string>
 
     <string name="action_copy_link">Copy the link</string>
+    <string name="action_translate_lingva">Translate with Lingva</string>
     <string name="action_open_as">Open as %s</string>
     <string name="action_share_as">Share as …</string>
     <string name="download_media">Download media</string>

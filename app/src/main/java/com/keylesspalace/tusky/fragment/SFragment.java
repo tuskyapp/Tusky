@@ -62,8 +62,10 @@ import com.keylesspalace.tusky.util.StatusParsingHelper;
 import com.keylesspalace.tusky.view.MuteAccountDialog;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -249,6 +251,16 @@ public abstract class SFragment extends Fragment implements Injectable {
                             getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText(null, statusUrl);
                     clipboard.setPrimaryClip(clip);
+                    return true;
+                }
+                case R.id.status_translate_lingva: {
+                    Status statusToTranslate = status;
+                    String stringToTranslate = StatusParsingHelper.parseAsMastodonHtml(statusToTranslate.getContent()).toString();
+                    String stringToTranslateEncoded = stringToTranslate.replaceAll("\\s", "%20");
+
+                    String lang = Locale.getDefault().getLanguage();
+
+                    LinkHelper.openLink(requireContext(), "https://lingva.ml/auto/" + lang + "/" + stringToTranslateEncoded);
                     return true;
                 }
                 case R.id.status_open_as: {
