@@ -34,6 +34,8 @@ object PrefKeys {
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
     const val ANIMATE_CUSTOM_EMOJIS = "animateCustomEmojis"
 
+    const val LINGVA_INSTANCE = "lingvaInstance"
+
     const val CUSTOM_TABS = "customTabs"
     const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"
     const val WELLBEING_HIDE_STATS_POSTS = "wellbeingHideStatsPosts"

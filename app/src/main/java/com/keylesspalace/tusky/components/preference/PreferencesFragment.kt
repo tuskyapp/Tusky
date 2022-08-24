@@ -22,14 +22,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.settings.AppTheme
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.emojiPreference
-import com.keylesspalace.tusky.settings.listPreference
-import com.keylesspalace.tusky.settings.makePreferenceScreen
-import com.keylesspalace.tusky.settings.preference
-import com.keylesspalace.tusky.settings.preferenceCategory
-import com.keylesspalace.tusky.settings.switchPreference
+import com.keylesspalace.tusky.settings.*
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.getNonNullString
@@ -178,6 +171,15 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
                     isSingleLineTitle = false
+                }
+            }
+
+            preferenceCategory(R.string.pref_title_translation_settings) {
+                editTextPreference {
+                    setDefaultValue("lingva.ml")
+                    key = PrefKeys.LINGVA_INSTANCE
+                    setTitle(R.string.pref_title_lingva_instance)
+                    isSingleLineTitle = true
                 }
             }
 

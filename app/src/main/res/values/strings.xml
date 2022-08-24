@@ -252,6 +252,9 @@
     <string name="app_theme_auto">Automatic at sunset</string>
     <string name="app_theme_system">Use System Design</string>
 
+    <string name="pref_title_translation_settings">Translation</string>
+    <string name="pref_title_lingva_instance">Lingva instance</string>
+
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
