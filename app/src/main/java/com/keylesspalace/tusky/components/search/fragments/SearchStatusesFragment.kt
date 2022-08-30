@@ -461,7 +461,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                         contentWarning = redraftStatus.spoilerText,
                                         mediaAttachments = redraftStatus.attachments,
                                         sensitive = redraftStatus.sensitive,
-                                        poll = redraftStatus.poll?.toNewPoll(status.createdAt)
+                                        poll = redraftStatus.poll?.toNewPoll(status.createdAt),
+                                        language = redraftStatus.language,
                                     )
                                 )
                                 startActivity(intent)
