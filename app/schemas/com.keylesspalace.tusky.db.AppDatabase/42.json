@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 42,
-    "identityHash": "f701b793c4cddfae06993b8a39fbd83e",
+    "identityHash": "a62399cb3859de7fcbb9bd7053f7cb1d",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -461,7 +461,7 @@
       },
       {
         "tableName": "TimelineStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `timelineUserId` INTEGER NOT NULL, `authorServerId` TEXT, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, PRIMARY KEY(`serverId`, `timelineUserId`), FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `timelineUserId` INTEGER NOT NULL, `authorServerId` TEXT, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, PRIMARY KEY(`serverId`, `timelineUserId`), FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -648,6 +648,12 @@
             "columnName": "card",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "language",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -756,7 +762,7 @@
       },
       {
         "tableName": "ConversationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `order` INTEGER NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_repliesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_bookmarked` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_tags` TEXT, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_muted` INTEGER NOT NULL, `s_poll` TEXT, PRIMARY KEY(`id`, `accountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `order` INTEGER NOT NULL, `accounts` TEXT NOT NULL, `unread` INTEGER NOT NULL, `s_id` TEXT NOT NULL, `s_url` TEXT, `s_inReplyToId` TEXT, `s_inReplyToAccountId` TEXT, `s_account` TEXT NOT NULL, `s_content` TEXT NOT NULL, `s_createdAt` INTEGER NOT NULL, `s_emojis` TEXT NOT NULL, `s_favouritesCount` INTEGER NOT NULL, `s_repliesCount` INTEGER NOT NULL, `s_favourited` INTEGER NOT NULL, `s_bookmarked` INTEGER NOT NULL, `s_sensitive` INTEGER NOT NULL, `s_spoilerText` TEXT NOT NULL, `s_attachments` TEXT NOT NULL, `s_mentions` TEXT NOT NULL, `s_tags` TEXT, `s_showingHiddenContent` INTEGER NOT NULL, `s_expanded` INTEGER NOT NULL, `s_collapsed` INTEGER NOT NULL, `s_muted` INTEGER NOT NULL, `s_poll` TEXT, `s_language` TEXT, PRIMARY KEY(`id`, `accountId`))",
         "fields": [
           {
             "fieldPath": "accountId",
@@ -919,6 +925,12 @@
             "columnName": "s_poll",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastStatus.language",
+            "columnName": "s_language",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -935,7 +947,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f701b793c4cddfae06993b8a39fbd83e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a62399cb3859de7fcbb9bd7053f7cb1d')"
     ]
   }
 }

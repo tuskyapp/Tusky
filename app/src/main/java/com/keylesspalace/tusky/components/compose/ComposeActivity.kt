@@ -830,6 +830,10 @@ class ComposeActivity :
         return length
     }
 
+    @VisibleForTesting
+    val selectedLanguage: String?
+        get() = viewModel.postLanguage
+
     private fun updateVisibleCharactersLeft() {
         val remainingLength = maximumTootCharacters - calculateTextLength()
         binding.composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)

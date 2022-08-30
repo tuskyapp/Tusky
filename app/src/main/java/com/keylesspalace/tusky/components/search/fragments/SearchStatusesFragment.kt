@@ -216,7 +216,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 contentWarning = actionableStatus.spoilerText,
                 mentionedUsernames = mentionedUsernames,
                 replyingStatusAuthor = actionableStatus.account.localUsername,
-                replyingStatusContent = status.content.toString()
+                replyingStatusContent = status.content.toString(),
+                language = actionableStatus.language,
             )
         )
         bottomSheetActivity?.startActivityWithSlideInAnimation(intent)

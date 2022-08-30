@@ -154,6 +154,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         composeOptions.setMentionedUsernames(mentionedUsernames);
         composeOptions.setReplyingStatusAuthor(actionableStatus.getAccount().getLocalUsername());
         composeOptions.setReplyingStatusContent(parseAsMastodonHtml(actionableStatus.getContent()).toString());
+        composeOptions.setLanguage(actionableStatus.getLanguage());
 
         Intent intent = ComposeActivity.startIntent(getContext(), composeOptions);
         getActivity().startActivity(intent);

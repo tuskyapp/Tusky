@@ -365,6 +365,7 @@ public class NotificationHelper {
         composeOptions.setReplyingStatusContent(citedText);
         composeOptions.setMentionedUsernames(mentionedUsernames);
         composeOptions.setModifiedInitialState(true);
+        composeOptions.setLanguage(actionableStatus.getLanguage());
 
         Intent composeIntent = ComposeActivity.startIntent(
                 context,

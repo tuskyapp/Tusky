@@ -606,6 +606,8 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `DraftEntity` ADD COLUMN `language` TEXT");
+            database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `language` TEXT");
+            database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_language` TEXT");
         }
     };
 }
