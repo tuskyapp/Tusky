@@ -55,7 +55,8 @@ class FilterModel @Inject constructor() {
     }
 
     private fun makeFilter(filters: List<Filter>): Pattern? {
-        val nonExpiredFilters = filters.filter { it.expiresAt?.before(Date()) != true }
+        val now = Date()
+        val nonExpiredFilters = filters.filter { it.expiresAt?.before(now) != true }
         if (nonExpiredFilters.isEmpty()) return null
         val tokens = nonExpiredFilters
             .map { filterToRegexToken(it) }
