@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.setPadding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
@@ -65,9 +66,20 @@ class AccountMediaGridAdapter(
                 null
             }
 
-            if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
+            if (item.attachment.type == Attachment.Type.AUDIO) {
+                overlay.hide()
+
+                imageView.setPadding(imageView.context.resources.getDimensionPixelSize(R.dimen.profile_media_audio_icon_padding))
+
+                Glide.with(imageView)
+                    .load(R.drawable.ic_music_box_preview_24dp)
+                    .centerInside()
+                    .into(imageView)
+            } else if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
                 overlay.show()
                 overlay.setImageDrawable(mediaHiddenDrawable)
+
+                imageView.setPadding(0)
 
                 Glide.with(imageView)
                     .load(placeholder)
@@ -80,6 +92,8 @@ class AccountMediaGridAdapter(
                 } else {
                     overlay.hide()
                 }
+
+                imageView.setPadding(0)
 
                 Glide.with(imageView)
                     .asBitmap()
