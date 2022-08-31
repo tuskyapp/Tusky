@@ -48,6 +48,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
+import java.util.Locale
 
 /**
  * Created by charlag on 3/7/18.
@@ -442,6 +443,19 @@ class ComposeActivityTest {
         // Selection is expanded accordingly
         assertEquals(selectionStart, editor.selectionStart)
         assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
+    }
+
+    @Test
+    fun whenNoLanguageIsGiven_defaultLanguageIsSelected() {
+        assertEquals(Locale.getDefault().language, activity.selectedLanguage)
+    }
+
+    @Test
+    fun languageGivenInComposeOptionsIsRespected() {
+        val language = "no"
+        composeOptions = ComposeActivity.ComposeOptions(language = language)
+        setupActivity()
+        assertEquals(language, activity.selectedLanguage)
     }
 
     private fun clickUp() {

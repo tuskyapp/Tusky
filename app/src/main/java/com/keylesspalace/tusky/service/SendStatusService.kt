@@ -156,7 +156,8 @@ class SendStatusService : Service(), Injectable {
                 statusToSend.sensitive,
                 statusToSend.mediaIds,
                 statusToSend.scheduledAt,
-                statusToSend.poll
+                statusToSend.poll,
+                statusToSend.language,
             )
 
             mastodonApi.createStatus(
@@ -259,7 +260,8 @@ class SendStatusService : Service(), Injectable {
             mediaDescriptions = status.mediaDescriptions,
             poll = status.poll,
             failedToSend = true,
-            scheduledAt = status.scheduledAt
+            scheduledAt = status.scheduledAt,
+            language = status.language,
         )
     }
 
@@ -366,5 +368,6 @@ data class StatusToSend(
     val draftId: Int,
     val idempotencyKey: String,
     var retries: Int,
-    val mediaProcessed: MutableList<Boolean>
+    val mediaProcessed: MutableList<Boolean>,
+    val language: String?,
 ) : Parcelable

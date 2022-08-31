@@ -51,7 +51,8 @@ fun mockStatus(
     pinned = false,
     muted = false,
     poll = null,
-    card = null
+    card = null,
+    language = null,
 )
 
 fun mockStatusViewData(

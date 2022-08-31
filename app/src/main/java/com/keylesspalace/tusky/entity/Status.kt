@@ -48,7 +48,8 @@ data class Status(
     val pinned: Boolean?,
     val muted: Boolean?,
     val poll: Poll?,
-    val card: Card?
+    val card: Card?,
+    val language: String?,
 ) {
 
     val actionableId: String
@@ -130,7 +131,8 @@ data class Status(
             sensitive = sensitive,
             attachments = attachments,
             poll = poll,
-            createdAt = createdAt
+            createdAt = createdAt,
+            language = language,
         )
     }
 

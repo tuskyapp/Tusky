@@ -81,6 +81,7 @@ data class TimelineStatusEntity(
     val contentShowing: Boolean,
     val pinned: Boolean,
     val card: String?,
+    val language: String?,
 )
 
 @Entity(
