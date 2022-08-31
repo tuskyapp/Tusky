@@ -547,4 +547,6 @@
     <string name="error_multimedia_size_limit">音视频文件大小不能超出 %s MB。</string>
     <string name="error_following_hashtag_format">关注 #%s 出错</string>
     <string name="error_unfollowing_hashtag_format">取关 #%s 出错</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="duration_no_change">(无更改)</string>
 </resources>

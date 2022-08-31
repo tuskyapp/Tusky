@@ -154,6 +154,7 @@ public abstract class SFragment extends Fragment implements Injectable {
         composeOptions.setMentionedUsernames(mentionedUsernames);
         composeOptions.setReplyingStatusAuthor(actionableStatus.getAccount().getLocalUsername());
         composeOptions.setReplyingStatusContent(parseAsMastodonHtml(actionableStatus.getContent()).toString());
+        composeOptions.setLanguage(actionableStatus.getLanguage());
 
         Intent intent = ComposeActivity.startIntent(getContext(), composeOptions);
         getActivity().startActivity(intent);
@@ -425,6 +426,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                                         composeOptions.setMediaAttachments(deletedStatus.getAttachments());
                                         composeOptions.setSensitive(deletedStatus.getSensitive());
                                         composeOptions.setModifiedInitialState(true);
+                                        composeOptions.setLanguage(deletedStatus.getLanguage());
                                         if (deletedStatus.getPoll() != null) {
                                             composeOptions.setPoll(deletedStatus.getPoll().toNewPoll(deletedStatus.getCreatedAt()));
                                         }

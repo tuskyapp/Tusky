@@ -260,7 +260,8 @@ class FilterTest {
                     ownVotes = null
                 )
             } else null,
-            card = null
+            card = null,
+            language = null,
         )
     }
 }

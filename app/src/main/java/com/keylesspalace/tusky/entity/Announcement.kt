@@ -48,8 +48,8 @@ data class Announcement(
 
     data class Reaction(
         val name: String,
-        var count: Int,
-        var me: Boolean,
+        val count: Int,
+        val me: Boolean,
         val url: String?,
         @SerializedName("static_url") val staticUrl: String?
     )
