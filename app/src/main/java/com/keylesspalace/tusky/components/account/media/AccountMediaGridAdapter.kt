@@ -103,7 +103,7 @@ class AccountMediaGridAdapter(
                     .into(imageView)
             }
             holder.binding.root.setOnClickListener {
-                onAttachmentClickListener(item, holder.binding.root)
+                onAttachmentClickListener(item, imageView)
             }
         }
     }
