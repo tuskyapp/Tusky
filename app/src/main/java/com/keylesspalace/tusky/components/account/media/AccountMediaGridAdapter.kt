@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.setPadding
 import androidx.paging.PagingDataAdapter
@@ -16,6 +17,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.decodeBlurHash
+import com.keylesspalace.tusky.util.getFormattedDescription
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -54,6 +56,7 @@ class AccountMediaGridAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemAccountMediaBinding>, position: Int) {
+        val context = holder.binding.root.context
         getItem(position)?.let { item ->
 
             val imageView = holder.binding.accountMediaImageView
@@ -61,7 +64,7 @@ class AccountMediaGridAdapter(
 
             val blurhash = item.attachment.blurhash
             val placeholder = if (useBlurhash && blurhash != null) {
-                decodeBlurHash(imageView.context, blurhash)
+                decodeBlurHash(context, blurhash)
             } else {
                 null
             }
@@ -69,14 +72,14 @@ class AccountMediaGridAdapter(
             if (item.attachment.type == Attachment.Type.AUDIO) {
                 overlay.hide()
 
-                imageView.setPadding(imageView.context.resources.getDimensionPixelSize(R.dimen.profile_media_audio_icon_padding))
+                imageView.setPadding(context.resources.getDimensionPixelSize(R.dimen.profile_media_audio_icon_padding))
 
                 Glide.with(imageView)
                     .load(R.drawable.ic_music_box_preview_24dp)
                     .centerInside()
                     .into(imageView)
 
-                imageView.contentDescription = item.attachment.description
+                imageView.contentDescription = item.attachment.getFormattedDescription(context)
             } else if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
                 overlay.show()
                 overlay.setImageDrawable(mediaHiddenDrawable)
@@ -89,7 +92,6 @@ class AccountMediaGridAdapter(
                     .into(imageView)
 
                 imageView.contentDescription = imageView.context.getString(R.string.post_media_hidden_title)
-
             } else {
                 if (item.attachment.type == Attachment.Type.VIDEO || item.attachment.type == Attachment.Type.GIFV) {
                     overlay.show()
@@ -107,10 +109,17 @@ class AccountMediaGridAdapter(
                     .centerInside()
                     .into(imageView)
 
-                imageView.contentDescription = item.attachment.description
+                imageView.contentDescription = item.attachment.getFormattedDescription(context)
             }
+
             holder.binding.root.setOnClickListener {
                 onAttachmentClickListener(item, imageView)
+            }
+
+            holder.binding.root.setOnLongClickListener { view ->
+                val description = item.attachment.getFormattedDescription(view.context)
+                Toast.makeText(view.context, description, Toast.LENGTH_LONG).show()
+                true
             }
         }
     }
