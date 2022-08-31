@@ -75,6 +75,8 @@ class AccountMediaGridAdapter(
                     .load(R.drawable.ic_music_box_preview_24dp)
                     .centerInside()
                     .into(imageView)
+
+                imageView.contentDescription = item.attachment.description
             } else if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
                 overlay.show()
                 overlay.setImageDrawable(mediaHiddenDrawable)
@@ -85,6 +87,9 @@ class AccountMediaGridAdapter(
                     .load(placeholder)
                     .centerInside()
                     .into(imageView)
+
+                imageView.contentDescription = imageView.context.getString(R.string.post_media_hidden_title)
+
             } else {
                 if (item.attachment.type == Attachment.Type.VIDEO || item.attachment.type == Attachment.Type.GIFV) {
                     overlay.show()
@@ -101,6 +106,8 @@ class AccountMediaGridAdapter(
                     .placeholder(placeholder)
                     .centerInside()
                     .into(imageView)
+
+                imageView.contentDescription = item.attachment.description
             }
             holder.binding.root.setOnClickListener {
                 onAttachmentClickListener(item, imageView)
