@@ -319,12 +319,12 @@ interface MastodonApi {
     @GET("api/v1/accounts/{id}/statuses")
     fun accountStatuses(
         @Path("id") accountId: String,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?,
-        @Query("exclude_replies") excludeReplies: Boolean?,
-        @Query("only_media") onlyMedia: Boolean?,
-        @Query("pinned") pinned: Boolean?
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("exclude_replies") excludeReplies: Boolean? = null,
+        @Query("only_media") onlyMedia: Boolean? = null,
+        @Query("pinned") pinned: Boolean? = null
     ): Single<Response<List<Status>>>
 
     @GET("api/v1/accounts/{id}/followers")

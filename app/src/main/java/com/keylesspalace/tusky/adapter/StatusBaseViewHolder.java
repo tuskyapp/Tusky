@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.google.android.material.button.MaterialButton;
@@ -44,6 +43,7 @@ import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
+import com.keylesspalace.tusky.util.AttachmentHelper;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
@@ -563,7 +563,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (i < attachments.size()) {
                 Attachment attachment = attachments.get(i);
                 mediaLabel.setVisibility(View.VISIBLE);
-                mediaDescriptions[i] = getAttachmentDescription(context, attachment);
+                mediaDescriptions[i] = AttachmentHelper.getFormattedDescription(attachment, context);
                 updateMediaLabel(i, sensitive, showingContent);
 
                 // Set the icon next to the label.
@@ -590,22 +590,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         });
         view.setOnLongClickListener(v -> {
-            CharSequence description = getAttachmentDescription(view.getContext(), attachment);
+            CharSequence description = AttachmentHelper.getFormattedDescription(attachment, view.getContext());
             Toast.makeText(view.getContext(), description, Toast.LENGTH_LONG).show();
             return true;
         });
-    }
-
-    private static CharSequence getAttachmentDescription(Context context, Attachment attachment) {
-        String duration = "";
-        if (attachment.getMeta() != null && attachment.getMeta().getDuration() != null && attachment.getMeta().getDuration() > 0) {
-            duration = formatDuration(attachment.getMeta().getDuration()) + " ";
-        }
-        if (TextUtils.isEmpty(attachment.getDescription())) {
-            return duration + context.getString(R.string.description_post_media_no_description_placeholder);
-        } else {
-            return duration + attachment.getDescription();
-        }
     }
 
     protected void hideSensitiveMediaWarning() {
@@ -1168,13 +1156,4 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         bookmarkButton.setVisibility(visibility);
         moreButton.setVisibility(visibility);
     }
-
-    private static String formatDuration(double durationInSeconds) {
-        int seconds = (int) Math.round(durationInSeconds) % 60;
-        int minutes = (int) durationInSeconds % 3600 / 60;
-        int hours = (int) durationInSeconds / 3600;
-
-        return String.format("%d:%02d:%02d", hours, minutes, seconds);
-    }
-
 }
