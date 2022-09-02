@@ -22,7 +22,6 @@ import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -39,7 +38,7 @@ class AccountMediaRemoteMediator(
         try {
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.accountStatuses(viewModel.accountId, onlyMedia = true).await()
+                    api.accountStatuses(viewModel.accountId, onlyMedia = true)
                 }
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
@@ -47,7 +46,7 @@ class AccountMediaRemoteMediator(
                 LoadType.APPEND -> {
                     val maxId = state.lastItemOrNull()?.statusId
                     if (maxId != null) {
-                        api.accountStatuses(viewModel.accountId, maxId = maxId, onlyMedia = true).await()
+                        api.accountStatuses(viewModel.accountId, maxId = maxId, onlyMedia = true)
                     } else {
                         return MediatorResult.Success(endOfPaginationReached = false)
                     }
