@@ -85,6 +85,7 @@ interface MastodonApi {
     fun getFilters(): Single<List<Filter>>
 
     @GET("api/v1/timelines/home")
+    @Throws(Exception::class)
     suspend fun homeTimeline(
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
