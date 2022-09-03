@@ -17,7 +17,12 @@ package com.keylesspalace.tusky.components.compose.dialog
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -47,9 +52,7 @@ import java.security.MessageDigest
 import java.util.concurrent.locks.Lock
 
 // Private, but necessary to implement BitmapTransformation, function extracted from Glide
-private fun getAlphaSafeBitmap(
-    pool: BitmapPool, maybeAlphaSafe: Bitmap
-): Bitmap {
+private fun getAlphaSafeBitmap(pool: BitmapPool, maybeAlphaSafe: Bitmap): Bitmap {
     val safeConfig: Bitmap.Config = getAlphaSafeConfig(maybeAlphaSafe)
     if (safeConfig == maybeAlphaSafe.config) {
         return maybeAlphaSafe
@@ -77,9 +80,7 @@ private val transparentDarkGray = 0x40000000
 
 /** Glide BitmapTransformation which overlays a highlight on a focus point. */
 class HighlightFocus(val focus: Focus) : BitmapTransformation() {
-    override fun transform(
-        pool: BitmapPool, inBitmap: Bitmap, outWidth: Int, outHeight: Int
-    ): Bitmap {
+    override fun transform(pool: BitmapPool, inBitmap: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
         // Draw overlaid target
         val bitmapDrawableLock: Lock = TransformationUtils.getBitmapDrawableLock()
         val safeConfig: Bitmap.Config = getAlphaSafeConfig(inBitmap)
@@ -90,7 +91,7 @@ class HighlightFocus(val focus: Focus) : BitmapTransformation() {
         val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         strokePaint.setAntiAlias(true)
         strokePaint.setStyle(Paint.Style.STROKE)
-        val strokeWidth = 10.0f;
+        val strokeWidth = 10.0f
         strokePaint.setStrokeWidth(strokeWidth)
         strokePaint.setColor(Color.WHITE)
         val curtainPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -106,9 +107,9 @@ class HighlightFocus(val focus: Focus) : BitmapTransformation() {
             // Canvas range is 0..size Y-down but Mastodon API range is -1..1 Y-up
             val width = result.width.toFloat()
             val height = result.height.toFloat()
-            val x = (focus.x+1.0f)/2.0f*width;
-            val y = (1.0f-focus.y)/2.0f*height
-            val circleRadius = Math.min(width, height).toFloat()/4.0f
+            val x = (focus.x + 1.0f) / 2.0f * width
+            val y = (1.0f - focus.y) / 2.0f * height
+            val circleRadius = Math.min(width, height).toFloat() / 4.0f
 
             val curtainPath = Path() // Draw a flood fill with a hole cut out of it
             curtainPath.setFillType(Path.FillType.WINDING)
@@ -117,7 +118,7 @@ class HighlightFocus(val focus: Focus) : BitmapTransformation() {
             canvas.drawPath(curtainPath, curtainPaint)
 
             canvas.drawCircle(x, y, circleRadius, strokePaint)
-            canvas.drawCircle(x, y, strokeWidth/2.0f, strokePaint)
+            canvas.drawCircle(x, y, strokeWidth / 2.0f, strokePaint)
 
             canvas.setBitmap(null)
         } finally {
@@ -171,7 +172,7 @@ fun <T> T.makeFocusDialog(
         .load(previewUri)
         .downsample(DownsampleStrategy.CENTER_INSIDE)
 
-    var imageView:PhotoView? = null
+    var imageView: PhotoView? = null
 
     // Note all calls of this function are after imageView goes non-null
     fun imageRequest() {
