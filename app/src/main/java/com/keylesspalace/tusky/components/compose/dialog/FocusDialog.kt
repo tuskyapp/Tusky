@@ -21,7 +21,6 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -74,6 +73,8 @@ private fun getAlphaSafeConfig(inBitmap: Bitmap): Bitmap.Config {
     return Bitmap.Config.ARGB_8888
 }
 
+private val transparentDarkGray = 0x40000000
+
 /** Glide BitmapTransformation which overlays a highlight on a focus point. */
 class HighlightFocus(val focus: Focus) : BitmapTransformation() {
     override fun transform(
@@ -86,12 +87,15 @@ class HighlightFocus(val focus: Focus) : BitmapTransformation() {
         val result = pool[toTransform.width, toTransform.height, safeConfig]
 
         val plainPaint = Paint()
-        val strokePaint = Paint()
+        val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         strokePaint.setAntiAlias(true)
         strokePaint.setStyle(Paint.Style.STROKE)
-        val strokeWidth = 8.0f;
+        val strokeWidth = 10.0f;
         strokePaint.setStrokeWidth(strokeWidth)
-        strokePaint.setColor(Color.RED)
+        strokePaint.setColor(Color.WHITE)
+        val curtainPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        curtainPaint.style = Paint.Style.FILL
+        curtainPaint.color = transparentDarkGray
 
         bitmapDrawableLock.lock()
         try {
@@ -100,9 +104,19 @@ class HighlightFocus(val focus: Focus) : BitmapTransformation() {
             canvas.drawBitmap(toTransform, Matrix.IDENTITY_MATRIX, plainPaint)
 
             // Canvas range is 0..size Y-down but Mastodon API range is -1..1 Y-up
-            val x = (focus.x+1.0f)/2.0f*result.width.toFloat();
-            val y = (1.0f-focus.y)/2.0f*result.height.toFloat();
-            canvas.drawCircle(x, y, Math.min(result.width, result.height).toFloat()/4.0f, strokePaint)
+            val width = result.width.toFloat()
+            val height = result.height.toFloat()
+            val x = (focus.x+1.0f)/2.0f*width;
+            val y = (1.0f-focus.y)/2.0f*height
+            val circleRadius = Math.min(width, height).toFloat()/4.0f
+
+            val curtainPath = Path() // Draw a flood fill with a hole cut out of it
+            curtainPath.setFillType(Path.FillType.WINDING)
+            curtainPath.addRect(0.0f, 0.0f, width, height, Path.Direction.CW)
+            curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
+            canvas.drawPath(curtainPath, curtainPaint)
+
+            canvas.drawCircle(x, y, circleRadius, strokePaint)
             canvas.drawCircle(x, y, strokeWidth/2.0f, strokePaint)
 
             canvas.setBitmap(null)
