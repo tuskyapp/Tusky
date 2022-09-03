@@ -151,13 +151,34 @@ fun <T> T.makeFocusDialog(
     val dialogLayout = LinearLayout(this)
     val padding = Utils.dpToPx(this, 8)
     dialogLayout.setPadding(padding, padding, padding, padding)
-
     dialogLayout.orientation = LinearLayout.VERTICAL
-    val imageView = PhotoView(this).apply {
+
+    val baseImageRequest = Glide.with(this)
+        .load(previewUri)
+        .downsample(DownsampleStrategy.CENTER_INSIDE)
+
+    var imageView:PhotoView? = null
+
+    // Note all calls of this function are after imageView goes non-null
+    fun imageRequest() {
+        baseImageRequest.transform(HighlightFocus(focus))
+            .into(object : CustomTarget<Drawable>(4096, 4096) {
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    imageView!!.setImageDrawable(placeholder)
+                }
+
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    imageView!!.setImageDrawable(resource)
+                }
+            })
+    }
+
+    imageView = PhotoView(this).apply {
         maximumScale = 6f
         setOnPhotoTapListener(object : OnPhotoTapListener {
             override fun onPhotoTap(view: ImageView, x: Float, y: Float) {
                 focus = Focus(x * 2 - 1, 1 - y * 2) // PhotoView range is 0..1 Y-down but Mastodon API range is -1..1 Y-up
+                imageRequest()
             }
         })
     }
@@ -191,19 +212,7 @@ fun <T> T.makeFocusDialog(
     dialog.show()
 
     // Load the image and manually set it into the ImageView because it doesn't have a fixed  size.
-    Glide.with(this)
-        .load(previewUri)
-        .downsample(DownsampleStrategy.CENTER_INSIDE)
-        .transform(HighlightFocus(focus))
-        .into(object : CustomTarget<Drawable>(4096, 4096) {
-            override fun onLoadCleared(placeholder: Drawable?) {
-                imageView.setImageDrawable(placeholder)
-            }
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                imageView.setImageDrawable(resource)
-            }
-        })
+    imageRequest()
 }
 
 private fun Activity.showFailedFocusMessage() {
