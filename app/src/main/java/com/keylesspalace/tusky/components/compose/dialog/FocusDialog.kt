@@ -52,111 +52,6 @@ import java.nio.ByteBuffer
 import java.security.MessageDigest
 import java.util.concurrent.locks.Lock
 
-// Private, but necessary to implement BitmapTransformation, function extracted from Glide
-private fun getAlphaSafeBitmap(pool: BitmapPool, maybeAlphaSafe: Bitmap): Bitmap {
-    val safeConfig: Bitmap.Config = getAlphaSafeConfig(maybeAlphaSafe)
-    if (safeConfig == maybeAlphaSafe.config) {
-        return maybeAlphaSafe
-    }
-    val argbBitmap = pool[maybeAlphaSafe.width, maybeAlphaSafe.height, safeConfig]
-    Canvas(argbBitmap).drawBitmap(maybeAlphaSafe, 0.0f /*left*/, 0.0f /*top*/, null /*paint*/)
-
-    // From Glide: "We now own this Bitmap. It's our responsibility to replace it in the pool outside this method
-    // when we're finished with it."
-    return argbBitmap
-}
-
-// Private, but necessary to implement BitmapTransformation, function extracted from Glide
-private fun getAlphaSafeConfig(inBitmap: Bitmap): Bitmap.Config {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // Avoid short circuiting the sdk check.
-        if (Bitmap.Config.RGBA_F16 == inBitmap.config) { // NOPMD
-            return Bitmap.Config.RGBA_F16
-        }
-    }
-    return Bitmap.Config.ARGB_8888
-}
-
-private val transparentDarkGray = 0x40000000
-
-/** Glide BitmapTransformation which overlays a highlight on a focus point. */
-class HighlightFocus(val focus: Focus) : BitmapTransformation() {
-    override fun transform(pool: BitmapPool, inBitmap: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
-        // Draw overlaid target
-        val bitmapDrawableLock: Lock = TransformationUtils.getBitmapDrawableLock()
-        val safeConfig: Bitmap.Config = getAlphaSafeConfig(inBitmap)
-        val toTransform: Bitmap = getAlphaSafeBitmap(pool, inBitmap)
-        val result = pool[toTransform.width, toTransform.height, safeConfig]
-
-        val plainPaint = Paint()
-        val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        strokePaint.setAntiAlias(true)
-        strokePaint.setStyle(Paint.Style.STROKE)
-        val strokeWidth = 10.0f
-        strokePaint.setStrokeWidth(strokeWidth)
-        strokePaint.setColor(Color.WHITE)
-        val curtainPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        curtainPaint.style = Paint.Style.FILL
-        curtainPaint.color = transparentDarkGray
-
-        bitmapDrawableLock.lock()
-        try {
-            val canvas: Canvas = Canvas(result)
-
-            canvas.drawBitmap(toTransform, Matrix.IDENTITY_MATRIX, plainPaint)
-
-            // Canvas range is 0..size Y-down but Mastodon API range is -1..1 Y-up
-            val width = result.width.toFloat()
-            val height = result.height.toFloat()
-            val x = (focus.x + 1.0f) / 2.0f * width
-            val y = (1.0f - focus.y) / 2.0f * height
-            val circleRadius = Math.min(width, height).toFloat() / 4.0f
-
-            val curtainPath = Path() // Draw a flood fill with a hole cut out of it
-            curtainPath.setFillType(Path.FillType.WINDING)
-            curtainPath.addRect(0.0f, 0.0f, width, height, Path.Direction.CW)
-            curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
-            canvas.drawPath(curtainPath, curtainPaint)
-
-            canvas.drawCircle(x, y, circleRadius, strokePaint)
-            canvas.drawCircle(x, y, strokeWidth / 2.0f, strokePaint)
-
-            canvas.setBitmap(null)
-        } finally {
-            bitmapDrawableLock.unlock()
-        }
-
-        if (!toTransform.equals(inBitmap)) {
-            pool.put(toTransform)
-        }
-
-        return result
-    }
-
-    // Remaining methods are boilerplate for BitmapTransformations to work with image caching.
-    override fun equals(other: Any?): Boolean {
-        if (other is HighlightFocus) {
-            return focus == other.focus
-        }
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return Util.hashCode(ID.hashCode(), Util.hashCode(Util.hashCode(focus.x), Util.hashCode(focus.y)))
-    }
-
-    override fun updateDiskCacheKey(messageDigest: MessageDigest) {
-        messageDigest.update(ID_BYTES)
-        val radiusData: ByteArray = ByteBuffer.allocate(8).putFloat(focus.x).putFloat(focus.y).array()
-        messageDigest.update(radiusData)
-    }
-
-    companion object {
-        private const val ID = "com.keylesspalace.tusky.components.compose.dialog.HighlightFocus"
-        private val ID_BYTES = ID.toByteArray(CHARSET)
-    }
-}
-
 fun <T> T.makeFocusDialog(
     existingFocus: Focus?,
     previewUri: Uri,
@@ -166,11 +61,12 @@ fun <T> T.makeFocusDialog(
 
     val dialogBinding = DialogFocusBinding.inflate(layoutInflater)
 
+    dialogBinding.focusIndicator.setFocus(focus)
+
     Glide.with(this)
         .load(previewUri)
         .downsample(DownsampleStrategy.CENTER_INSIDE)
         .into(dialogBinding.imageView)
-
 
     val okListener = { dialog: DialogInterface, _: Int ->
         lifecycleScope.launch {
@@ -193,8 +89,6 @@ fun <T> T.makeFocusDialog(
     )
 
     dialog.show()
-
-
 }
 
 private fun Activity.showFailedFocusMessage() {
