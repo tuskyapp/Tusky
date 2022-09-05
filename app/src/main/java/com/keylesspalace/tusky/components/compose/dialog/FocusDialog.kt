@@ -45,6 +45,7 @@ import com.bumptech.glide.util.Util
 import com.github.chrisbanes.photoview.OnPhotoTapListener
 import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.DialogFocusBinding
 import com.keylesspalace.tusky.entity.Attachment.Focus
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
@@ -161,48 +162,15 @@ fun <T> T.makeFocusDialog(
     previewUri: Uri,
     onUpdateFocus: suspend (Focus) -> Boolean
 ) where T : Activity, T : LifecycleOwner {
-    var focus = existingFocus ?: Focus(0.0f, 0.0f) // Default to center
+    val focus = existingFocus ?: Focus(0.0f, 0.0f) // Default to center
 
-    val dialogLayout = LinearLayout(this)
-    val padding = Utils.dpToPx(this, 8)
-    dialogLayout.setPadding(padding, padding, padding, padding)
-    dialogLayout.orientation = LinearLayout.VERTICAL
+    val dialogBinding = DialogFocusBinding.inflate(layoutInflater)
 
-    val baseImageRequest = Glide.with(this)
+    Glide.with(this)
         .load(previewUri)
         .downsample(DownsampleStrategy.CENTER_INSIDE)
+        .into(dialogBinding.imageView)
 
-    var imageView: PhotoView? = null
-
-    // Note all calls of this function are after imageView goes non-null
-    fun imageRequest() {
-        baseImageRequest.transform(HighlightFocus(focus))
-            .into(object : CustomTarget<Drawable>(4096, 4096) {
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    imageView!!.setImageDrawable(placeholder)
-                }
-
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    imageView!!.setImageDrawable(resource)
-                }
-            })
-    }
-
-    imageView = PhotoView(this).apply {
-        maximumScale = 6f
-        setOnPhotoTapListener(object : OnPhotoTapListener {
-            override fun onPhotoTap(view: ImageView, x: Float, y: Float) {
-                focus = Focus(x * 2 - 1, 1 - y * 2) // PhotoView range is 0..1 Y-down but Mastodon API range is -1..1 Y-up
-                imageRequest()
-            }
-        })
-    }
-
-    val margin = Utils.dpToPx(this, 4)
-    dialogLayout.addView(imageView)
-    (imageView.layoutParams as LinearLayout.LayoutParams).weight = 1f
-    imageView.layoutParams.height = 0
-    (imageView.layoutParams as LinearLayout.LayoutParams).setMargins(0, margin, 0, 0)
 
     val okListener = { dialog: DialogInterface, _: Int ->
         lifecycleScope.launch {
@@ -214,7 +182,7 @@ fun <T> T.makeFocusDialog(
     }
 
     val dialog = AlertDialog.Builder(this)
-        .setView(dialogLayout)
+        .setView(dialogBinding.root)
         .setPositiveButton(android.R.string.ok, okListener)
         .setNegativeButton(android.R.string.cancel, null)
         .create()
@@ -226,8 +194,7 @@ fun <T> T.makeFocusDialog(
 
     dialog.show()
 
-    // Load the image and manually set it into the ImageView because it doesn't have a fixed  size.
-    imageRequest()
+
 }
 
 private fun Activity.showFailedFocusMessage() {
