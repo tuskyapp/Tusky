@@ -64,7 +64,7 @@ class FocusIndicatorView
     }
 
     private val transparentDarkGray = 0x40000000
-    private val strokeWidth = 10.0f
+    private val strokeWidth = 4.0f * getResources().getDisplayMetrics().density
 
     private val curtainPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
