@@ -5,6 +5,7 @@ import android.graphics.BlendMode
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -45,11 +46,12 @@ class FocusIndicatorView
     private val transparentDarkGray = 0x40000000
     private val strokeWidth = 10.0f
 
-    private val erasePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val curtainPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        erasePaint.setBlendMode(BlendMode.CLEAR)
+        curtainPaint.setColor(transparentDarkGray)
+        curtainPaint.style = Paint.Style.FILL
 
         strokePaint.setStyle(Paint.Style.STROKE)
         strokePaint.setStrokeWidth(strokeWidth)
@@ -59,11 +61,16 @@ class FocusIndicatorView
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas.drawColor(transparentDarkGray, BlendMode.SRC_OUT)  // Blank canvas
+        val width = getWidth().toFloat()
+        val height = getHeight().toFloat()
+        val circleRadius = Math.min(width, height) / 4.0f
 
-        val circleRadius = Math.min(getWidth(), getHeight()).toFloat() / 4.0f
+        val curtainPath = Path() // Draw a flood fill with a hole cut out of it
+        curtainPath.setFillType(Path.FillType.WINDING)
+        curtainPath.addRect(0.0f, 0.0f, width, height, Path.Direction.CW)
+        curtainPath.addCircle(posX, posY, circleRadius, Path.Direction.CCW)
+        canvas.drawPath(curtainPath, curtainPaint)
 
-        canvas.drawCircle(posX, posY, circleRadius, erasePaint)              // Erase hole in curtain
         canvas.drawCircle(posX, posY, circleRadius, strokePaint)             // Draw white circle
         canvas.drawCircle(posX, posY, strokeWidth / 2.0f, strokePaint) // Draw white dot
     }
