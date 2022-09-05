@@ -5,6 +5,7 @@ package com.keylesspalace.tusky.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.components.account.AccountViewModel
+import com.keylesspalace.tusky.components.account.media.AccountMediaViewModel
 import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
@@ -113,5 +114,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ViewThreadViewModel::class)
     internal abstract fun viewThreadViewModel(viewModel: ViewThreadViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountMediaViewModel::class)
+    internal abstract fun accountMediaViewModel(viewModel: AccountMediaViewModel): ViewModel
     // Add more ViewModels here
 }

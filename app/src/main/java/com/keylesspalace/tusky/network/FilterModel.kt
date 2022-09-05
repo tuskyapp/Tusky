@@ -38,7 +38,8 @@ class FilterModel @Inject constructor() {
                 (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
                 (
                     attachmentsDescriptions.isNotEmpty() &&
-                        matcher.reset(attachmentsDescriptions.joinToString("\n")).find()
+                        matcher.reset(attachmentsDescriptions.joinToString("\n"))
+                            .find()
                     )
             )
     }
@@ -54,9 +55,10 @@ class FilterModel @Inject constructor() {
     }
 
     private fun makeFilter(filters: List<Filter>): Pattern? {
-        if (filters.isEmpty()) return null
-        val tokens = filters
-            .filter { it.expiresAt?.before(Date()) != true }
+        val now = Date()
+        val nonExpiredFilters = filters.filter { it.expiresAt?.before(now) != true }
+        if (nonExpiredFilters.isEmpty()) return null
+        val tokens = nonExpiredFilters
             .map { filterToRegexToken(it) }
 
         return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE)

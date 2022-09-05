@@ -40,6 +40,7 @@ data class DraftEntity(
     val poll: NewPoll?,
     val failedToSend: Boolean,
     val scheduledAt: String?,
+    val language: String?,
 )
 
 /**

@@ -68,6 +68,7 @@ class ComposeViewModel @Inject constructor(
     private var replyingStatusAuthor: String? = null
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
+    internal var postLanguage: String? = null
     private var draftId: Int = 0
     private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
@@ -261,7 +262,8 @@ class ComposeViewModel @Inject constructor(
             mediaDescriptions = mediaDescriptions,
             poll = poll.value,
             failedToSend = false,
-            scheduledAt = scheduledAt.value
+            scheduledAt = scheduledAt.value,
+            language = postLanguage,
         )
     }
 
@@ -308,7 +310,8 @@ class ComposeViewModel @Inject constructor(
                     draftId = draftId,
                     idempotencyKey = randomAlphanumericString(16),
                     retries = 0,
-                    mediaProcessed = mediaProcessed
+                    mediaProcessed = mediaProcessed,
+                    language = postLanguage,
                 )
 
                 serviceClient.sendToot(tootToSend)
@@ -426,6 +429,7 @@ class ComposeViewModel @Inject constructor(
         draftId = composeOptions?.draftId ?: 0
         scheduledTootId = composeOptions?.scheduledTootId
         startingText = composeOptions?.content
+        postLanguage = composeOptions?.language
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
         if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {

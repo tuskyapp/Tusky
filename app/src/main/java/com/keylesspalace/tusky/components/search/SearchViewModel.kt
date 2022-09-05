@@ -24,7 +24,6 @@ import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFacto
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.DeletedStatus
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -113,11 +112,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {
-        val idx = loadedStatuses.indexOf(statusViewData)
-        if (idx >= 0) {
-            loadedStatuses[idx] = statusViewData.copy(isExpanded = expanded)
-            statusesPagingSourceFactory.invalidate()
-        }
+        updateStatusViewData(statusViewData.copy(isExpanded = expanded))
     }
 
     fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
@@ -131,51 +126,34 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun setRebloggedForStatus(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        statusViewData.status.reblogged = reblog
-        statusViewData.status.reblog?.reblogged = reblog
-        statusesPagingSourceFactory.invalidate()
+        updateStatus(
+            statusViewData.status.copy(
+                reblogged = reblog,
+                reblog = statusViewData.status.reblog?.copy(reblogged = reblog)
+            )
+        )
     }
 
     fun contentHiddenChange(statusViewData: StatusViewData.Concrete, isShowing: Boolean) {
-        val idx = loadedStatuses.indexOf(statusViewData)
-        if (idx >= 0) {
-            loadedStatuses[idx] = statusViewData.copy(isShowingContent = isShowing)
-            statusesPagingSourceFactory.invalidate()
-        }
+        updateStatusViewData(statusViewData.copy(isShowingContent = isShowing))
     }
 
     fun collapsedChange(statusViewData: StatusViewData.Concrete, collapsed: Boolean) {
-        val idx = loadedStatuses.indexOf(statusViewData)
-        if (idx >= 0) {
-            loadedStatuses[idx] = statusViewData.copy(isCollapsed = collapsed)
-            statusesPagingSourceFactory.invalidate()
-        }
+        updateStatusViewData(statusViewData.copy(isCollapsed = collapsed))
     }
 
     fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: MutableList<Int>) {
         val votedPoll = statusViewData.status.actionableStatus.poll!!.votedCopy(choices)
-        updateStatus(statusViewData, votedPoll)
+        updateStatus(statusViewData.status.copy(poll = votedPoll))
         timelineCases.voteInPoll(statusViewData.id, votedPoll.id, choices)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { newPoll -> updateStatus(statusViewData, newPoll) },
-                { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
-            )
+            .doOnError { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
+            .subscribe()
             .autoDispose()
     }
 
-    private fun updateStatus(statusViewData: StatusViewData.Concrete, newPoll: Poll) {
-        val idx = loadedStatuses.indexOf(statusViewData)
-        if (idx >= 0) {
-            val newStatus = statusViewData.status.copy(poll = newPoll)
-            loadedStatuses[idx] = statusViewData.copy(status = newStatus)
-            statusesPagingSourceFactory.invalidate()
-        }
-    }
-
     fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
-        statusViewData.status.favourited = isFavorited
-        statusesPagingSourceFactory.invalidate()
+        updateStatus(statusViewData.status.copy(favourited = isFavorited))
         timelineCases.favourite(statusViewData.id, isFavorited)
             .onErrorReturnItem(statusViewData.status)
             .subscribe()
@@ -183,8 +161,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
-        statusViewData.status.bookmarked = isBookmarked
-        statusesPagingSourceFactory.invalidate()
+        updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
         timelineCases.bookmark(statusViewData.id, isBookmarked)
             .onErrorReturnItem(statusViewData.status)
             .subscribe()
@@ -208,16 +185,26 @@ class SearchViewModel @Inject constructor(
     }
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
-        val idx = loadedStatuses.indexOf(statusViewData)
-        if (idx >= 0) {
-            val newStatus = statusViewData.status.copy(muted = mute)
-            loadedStatuses[idx] = statusViewData.copy(status = newStatus)
-            statusesPagingSourceFactory.invalidate()
-        }
+        updateStatus(statusViewData.status.copy(muted = mute))
         timelineCases.muteConversation(statusViewData.id, mute)
             .onErrorReturnItem(statusViewData.status)
             .subscribe()
             .autoDispose()
+    }
+
+    private fun updateStatusViewData(newStatusViewData: StatusViewData.Concrete) {
+        val idx = loadedStatuses.indexOfFirst { it.id == newStatusViewData.id }
+        if (idx >= 0) {
+            loadedStatuses[idx] = newStatusViewData
+            statusesPagingSourceFactory.invalidate()
+        }
+    }
+
+    private fun updateStatus(newStatus: Status) {
+        val statusViewData = loadedStatuses.find { it.id == newStatus.id }
+        if (statusViewData != null) {
+            updateStatusViewData(statusViewData.copy(status = newStatus))
+        }
     }
 
     companion object {

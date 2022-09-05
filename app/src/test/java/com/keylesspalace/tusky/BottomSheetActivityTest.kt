@@ -88,7 +88,8 @@ class BottomSheetActivityTest {
         pinned = false,
         muted = false,
         poll = null,
-        card = null
+        card = null,
+        language = null,
     )
     private val statusSingle = Single.just(SearchResult(emptyList(), listOf(status), emptyList()))
 

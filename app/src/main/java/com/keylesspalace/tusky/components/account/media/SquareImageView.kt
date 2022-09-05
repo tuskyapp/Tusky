@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.view
+package com.keylesspalace.tusky.components.account.media
 
 import android.content.Context
 import android.util.AttributeSet
