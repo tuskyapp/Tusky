@@ -6,8 +6,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
@@ -20,25 +22,48 @@ class FocusIndicatorView
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    private var posX = 0f
-    private var posY = 0f
+    private var focus: Attachment.Focus? = null
+    private var imageSize: Point? = null
 
-    fun setFocus(focus: Attachment.Focus) {
-        // TODO
-        invalidate()
+    fun setImageSize(width: Int, height: Int) {
+        this.imageSize = Point(width, height)
+        if (focus != null)
+            invalidate()
     }
 
-    fun getFocus() {
-        // TODO
-        invalidate()
+    fun setFocus(focus: Attachment.Focus) {
+        this.focus = focus
+        if (imageSize != null)
+            invalidate()
+    }
+
+    // Assumes setFocus called first
+    fun getFocus(): Attachment.Focus {
+        return focus!!
+    }
+
+    // Remember focus uses -1..1 y-down coordinates
+    private fun axisToFocus(value: Float, innerLimit: Int, outerLimit: Int) : Float {
+        val offset = (outerLimit-innerLimit)/2
+        val result = (value-offset).toFloat()/innerLimit.toFloat() * -2.0f + 1.0f // To range -1..1
+        return Math.min(1.0f, Math.max(-1.0f, result)) // Clamp
+    }
+
+    private fun axisFromFocus(value:Float, innerLimit: Int, outerLimit: Int) : Float {
+        val offset = (outerLimit-innerLimit)/2
+        return offset.toFloat() + ((-value+1.0f)/2.0f)*innerLimit.toFloat() // From range -1..1
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        // TODO: only handle events if they are on top of the image below
-        // TODO: don't handle all event actions
+        if (event.getActionMasked() == MotionEvent.ACTION_CANCEL)
+            return false
 
-        posX = event.x
-        posY = event.y
+        val imageSize = this.imageSize
+        if (imageSize == null)
+            return false
+
+        // Convert touch xy to point inside image
+        focus = Attachment.Focus(axisToFocus(event.x, imageSize.x, getWidth()), axisToFocus(event.y, imageSize.y, getHeight()))
         invalidate()
         return true
     }
@@ -61,17 +86,29 @@ class FocusIndicatorView
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val width = getWidth().toFloat()
-        val height = getHeight().toFloat()
-        val circleRadius = Math.min(width, height) / 4.0f
+        val imageSize = this.imageSize
+        val focus = this.focus
 
-        val curtainPath = Path() // Draw a flood fill with a hole cut out of it
-        curtainPath.setFillType(Path.FillType.WINDING)
-        curtainPath.addRect(0.0f, 0.0f, width, height, Path.Direction.CW)
-        curtainPath.addCircle(posX, posY, circleRadius, Path.Direction.CCW)
-        canvas.drawPath(curtainPath, curtainPaint)
+        if (imageSize != null && focus != null) {
+            val x = axisFromFocus(focus.x, imageSize.x, getWidth())
+            val y = axisFromFocus(focus.y, imageSize.y, getHeight())
+            val width = getWidth().toFloat()
+            val height = getHeight().toFloat()
+            val circleRadius = Math.min(width, height) / 4.0f
 
-        canvas.drawCircle(posX, posY, circleRadius, strokePaint)             // Draw white circle
-        canvas.drawCircle(posX, posY, strokeWidth / 2.0f, strokePaint) // Draw white dot
+            val curtainPath = Path() // Draw a flood fill with a hole cut out of it
+            curtainPath.setFillType(Path.FillType.WINDING)
+            curtainPath.addRect(0.0f, 0.0f, width, height, Path.Direction.CW)
+            curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
+            canvas.drawPath(curtainPath, curtainPaint)
+
+            canvas.drawCircle(
+                x,
+                y,
+                circleRadius,
+                strokePaint
+            )             // Draw white circle
+            canvas.drawCircle(x, y, strokeWidth / 2.0f, strokePaint) // Draw white dot
+        }
     }
 }
