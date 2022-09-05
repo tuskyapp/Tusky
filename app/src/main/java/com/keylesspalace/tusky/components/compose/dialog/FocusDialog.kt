@@ -17,45 +17,23 @@ package com.keylesspalace.tusky.components.compose.dialog
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.SizeReadyCallback
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
-import com.bumptech.glide.util.Util
-import com.github.chrisbanes.photoview.OnPhotoTapListener
-import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogFocusBinding
 import com.keylesspalace.tusky.entity.Attachment.Focus
 import kotlinx.coroutines.launch
-import java.nio.ByteBuffer
-import java.security.MessageDigest
-import java.util.concurrent.locks.Lock
 
 fun <T> T.makeFocusDialog(
     existingFocus: Focus?,
@@ -71,14 +49,14 @@ fun <T> T.makeFocusDialog(
     Glide.with(this)
         .load(previewUri)
         .downsample(DownsampleStrategy.CENTER_INSIDE)
-        .listener(object: RequestListener<Drawable> {
-            override fun onLoadFailed(p0: GlideException?, p1:Any?, p2:Target<Drawable?>?, p3: Boolean): Boolean {
+        .listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(p0: GlideException?, p1: Any?, p2: Target<Drawable?>?, p3: Boolean): Boolean {
                 return false
             }
 
             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable?>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                 dialogBinding.focusIndicator.setImageSize(resource!!.getIntrinsicWidth(), resource.getIntrinsicHeight())
-                return false
+                return false // Pass through
             }
         })
         .into(dialogBinding.imageView)

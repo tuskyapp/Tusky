@@ -1,19 +1,14 @@
 package com.keylesspalace.tusky.components.compose.view
 
 import android.content.Context
-import android.graphics.BlendMode
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Point
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import androidx.appcompat.content.res.AppCompatResources
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 
 class FocusIndicatorView
@@ -43,15 +38,15 @@ class FocusIndicatorView
     }
 
     // Remember focus uses -1..1 y-down coordinates
-    private fun axisToFocus(value: Float, innerLimit: Int, outerLimit: Int) : Float {
-        val offset = (outerLimit-innerLimit)/2
-        val result = (value-offset).toFloat()/innerLimit.toFloat() * -2.0f + 1.0f // To range -1..1
+    private fun axisToFocus(value: Float, innerLimit: Int, outerLimit: Int): Float {
+        val offset = (outerLimit - innerLimit) / 2 // Assume image is centered in widget frame
+        val result = (value - offset).toFloat() / innerLimit.toFloat() * -2.0f + 1.0f // To range -1..1
         return Math.min(1.0f, Math.max(-1.0f, result)) // Clamp
     }
 
-    private fun axisFromFocus(value:Float, innerLimit: Int, outerLimit: Int) : Float {
-        val offset = (outerLimit-innerLimit)/2
-        return offset.toFloat() + ((-value+1.0f)/2.0f)*innerLimit.toFloat() // From range -1..1
+    private fun axisFromFocus(value: Float, innerLimit: Int, outerLimit: Int): Float {
+        val offset = (outerLimit - innerLimit) / 2
+        return offset.toFloat() + ((-value + 1.0f) / 2.0f) * innerLimit.toFloat() // From range -1..1
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -102,12 +97,7 @@ class FocusIndicatorView
             curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
             canvas.drawPath(curtainPath, curtainPaint)
 
-            canvas.drawCircle(
-                x,
-                y,
-                circleRadius,
-                strokePaint
-            )             // Draw white circle
+            canvas.drawCircle(x, y, circleRadius, strokePaint) // Draw white circle
             canvas.drawCircle(x, y, strokeWidth / 2.0f, strokePaint) // Draw white dot
         }
     }
