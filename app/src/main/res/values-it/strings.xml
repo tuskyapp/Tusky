@@ -482,7 +482,7 @@
     <string name="pref_title_notification_filter_follow_requests">mi viene richiesto di seguirmi</string>
     <string name="wellbeing_hide_stats_profile">Nascondi statistiche quantitative sui profili</string>
     <string name="wellbeing_hide_stats_posts">Nascondi le statistiche quantitative sui post</string>
-    <string name="limit_notifications">Limita notifiche (esclude condivisioni, preferiti e nuovi seguaci)</string>
+    <string name="limit_notifications">Nascondi notifiche quantitative</string>
     <string name="review_notifications">Rivedi le notifiche</string>
     <string name="pref_title_wellbeing_mode">Benessere</string>
     <string name="notification_subscription_description">Notifiche di nuovi messaggi di qualcuno a cui sei iscritto</string>
