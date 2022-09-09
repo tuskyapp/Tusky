@@ -534,4 +534,12 @@
     <string name="title_migration_relogin">Skráðu aftur inn fyrir ýti-tilkynningar</string>
     <string name="action_dismiss">Hunsa</string>
     <string name="action_details">Nánar</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_multimedia_size_limit">Myndskeiða- og hljóðskrár geta ekki verið stærri en %s MB.</string>
+    <string name="description_post_language">Tungumál færslu</string>
+    <string name="duration_no_change">(engin breyting)</string>
+    <string name="error_following_hashtag_format">Villa við að fylgjast með #%s</string>
+    <string name="error_unfollowing_hashtag_format">Villa við að hætta að fylgjast með #%s</string>
+    <string name="error_loading_account_details">Mistókst að hlaða inn nánari upplýsingum notandaaðgangs</string>
+    <string name="error_image_edit_failed">Ekki var hægt að breyta myndinni.</string>
 </resources>
