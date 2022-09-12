@@ -68,7 +68,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
-import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
@@ -118,7 +118,8 @@ class ComposeActivity :
     OnEmojiSelectedListener,
     Injectable,
     OnReceiveContentListener,
-    ComposeScheduleView.OnTimeSetListener {
+    ComposeScheduleView.OnTimeSetListener,
+    CaptionDialog.Listener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -213,9 +214,8 @@ class ComposeActivity :
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
-                makeCaptionDialog(item.description, item.uri) { newDescription ->
-                    viewModel.updateDescription(item.localId, newDescription)
-                }
+                CaptionDialog.newInstance(item.localId, item.description, item.uri)
+                    .show(supportFragmentManager, "caption_dialog")
             },
             onEditImage = this::editImageInQueue,
             onRemove = this::removeMediaFromQueue
@@ -1147,6 +1147,14 @@ class ComposeActivity :
     private fun resetSchedule() {
         viewModel.updateScheduledAt(null)
         scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    override fun onUpdateDescription(localId: Int, description: String) {
+        lifecycleScope.launch {
+            if (!viewModel.updateDescription(localId, description)) {
+                Toast.makeText(this@ComposeActivity, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     @Parcelize
