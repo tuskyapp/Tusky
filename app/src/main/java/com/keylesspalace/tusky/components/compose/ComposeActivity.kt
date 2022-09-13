@@ -236,6 +236,17 @@ class ComposeActivity :
         val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
 
         viewModel.setup(composeOptions)
+
+        if (accountManager.accounts.size > 1) {
+            binding.composeUsernameView.text = getString(
+                R.string.compose_active_account_description,
+                activeAccount.fullName
+            )
+            binding.composeUsernameView.show()
+        } else {
+            binding.composeUsernameView.hide()
+        }
+
         setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
         val statusContent = composeOptions?.content
         if (!statusContent.isNullOrEmpty()) {
