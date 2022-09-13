@@ -41,4 +41,7 @@
     <color name="elephant_friend_light_color_1">#CAD4E0</color>
     <color name="elephant_friend_light_color_2">#d9e1e8</color>
 
+    <!-- colors used in the app icon -->
+    <color name="icon_background">#09497b</color>
+    <color name="icon_highlight">#39acff</color>
 </resources>
