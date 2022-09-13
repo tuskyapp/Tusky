@@ -530,4 +530,5 @@
     <string name="error_unfollowing_hashtag_format">Lỗi khi bỏ theo dõi #%s</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Không đổi)</string>
+    <string name="description_post_language">Ngôn ngữ đăng</string>
 </resources>
