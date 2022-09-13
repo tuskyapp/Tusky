@@ -83,7 +83,7 @@ fun markupHiddenUrls(context: Context, content: CharSequence, mentions: List<Men
         val start = spannableContent.getSpanStart(span)
         val end = spannableContent.getSpanEnd(span)
         val originalText = spannableContent.subSequence(start, end)
-        val replacementText = context.getString(R.string.url_domain_notifier).format(originalText, getDomain(span.url))
+        val replacementText = context.getString(R.string.url_domain_notifier, originalText, getDomain(span.url))
         spannableContent.replace(start, end, replacementText) // this also updates the span locations
     }
 

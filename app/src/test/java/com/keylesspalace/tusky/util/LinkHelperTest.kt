@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -153,7 +154,7 @@ class LinkHelperTest {
         val maliciousUrl = "https://$maliciousDomain/to/go"
         val content = SpannableStringBuilder()
         content.append(displayedContent, URLSpan(maliciousUrl), 0)
-        Assert.assertEquals("$displayedContent ($maliciousDomain)", markupHiddenUrls(context, content, listOf(), listOf(), listener).toString())
+        Assert.assertEquals(context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain), markupHiddenUrls(context, content, listOf(), listOf(), listener).toString())
     }
 
     @Test
@@ -163,7 +164,7 @@ class LinkHelperTest {
         val maliciousUrl = "https://$maliciousDomain/to/go"
         val content = SpannableStringBuilder()
         content.append(displayedContent, URLSpan(maliciousUrl), 0)
-        Assert.assertEquals("$displayedContent ($maliciousDomain)", markupHiddenUrls(context, content, listOf(), listOf(), listener).toString())
+        Assert.assertEquals(context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain), markupHiddenUrls(context, content, listOf(), listOf(), listener).toString())
     }
 
     @Test fun multipleHiddenDomainsAreMarkedUp() {
@@ -176,7 +177,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, content, listOf(), listOf(), listener)
         for (domain in domains) {
-            Assert.assertTrue(markedUpContent.contains("$displayedContent ($domain)"))
+            Assert.assertTrue(markedUpContent.contains(context.getString(R.string.url_domain_notifier, displayedContent, domain)))
         }
     }
 
@@ -190,7 +191,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, builder, mentions, tags, listener)
         for (mention in mentions) {
-            Assert.assertFalse(markedUpContent.contains("(${getDomain(mention.url)})"))
+            Assert.assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
         }
     }
 
@@ -204,7 +205,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, builder, listOf(), tags, listener)
         for (mention in mentions) {
-            Assert.assertTrue(markedUpContent.contains("(${getDomain(mention.url)})"))
+            Assert.assertTrue(markedUpContent.contains("${getDomain(mention.url)})"))
         }
     }
 
@@ -218,7 +219,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, builder, mentions, tags, listener)
         for (tag in tags) {
-            Assert.assertFalse(markedUpContent.contains("(${getDomain(tag.url)})"))
+            Assert.assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
         }
     }
 
@@ -232,7 +233,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, builder, mentions, listOf(), listener)
         for (tag in tags) {
-            Assert.assertTrue(markedUpContent.contains("(${getDomain(tag.url)})"))
+            Assert.assertTrue(markedUpContent.contains("${getDomain(tag.url)})"))
         }
     }
 }
