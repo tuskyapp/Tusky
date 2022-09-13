@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -71,7 +70,7 @@ class CachedTimelineRemoteMediator(
                         maxId = cachedTopId,
                         sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
                         limit = state.config.pageSize
-                    ).await()
+                    )
 
                     val statuses = statusResponse.body()
                     if (statusResponse.isSuccessful && statuses != null) {
@@ -86,14 +85,14 @@ class CachedTimelineRemoteMediator(
 
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.homeTimeline(sinceId = topPlaceholderId, limit = state.config.pageSize).await()
+                    api.homeTimeline(sinceId = topPlaceholderId, limit = state.config.pageSize)
                 }
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.APPEND -> {
                     val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.status?.serverId
-                    api.homeTimeline(maxId = maxId, limit = state.config.pageSize).await()
+                    api.homeTimeline(maxId = maxId, limit = state.config.pageSize)
                 }
             }
 

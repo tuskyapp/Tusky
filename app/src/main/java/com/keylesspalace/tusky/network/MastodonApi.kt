@@ -85,37 +85,38 @@ interface MastodonApi {
     fun getFilters(): Single<List<Filter>>
 
     @GET("api/v1/timelines/home")
-    fun homeTimeline(
+    @Throws(Exception::class)
+    suspend fun homeTimeline(
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/timelines/public")
-    fun publicTimeline(
+    suspend fun publicTimeline(
         @Query("local") local: Boolean? = null,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/timelines/tag/{hashtag}")
-    fun hashtagTimeline(
+    suspend fun hashtagTimeline(
         @Path("hashtag") hashtag: String,
         @Query("any[]") any: List<String>?,
         @Query("local") local: Boolean?,
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/timelines/list/{listId}")
-    fun listTimeline(
+    suspend fun listTimeline(
         @Path("listId") listId: String,
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/notifications")
     fun notifications(
@@ -317,7 +318,7 @@ interface MastodonApi {
      * @param onlyMedia only return statuses that have media attached
      */
     @GET("api/v1/accounts/{id}/statuses")
-    fun accountStatuses(
+    suspend fun accountStatuses(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
@@ -325,7 +326,7 @@ interface MastodonApi {
         @Query("exclude_replies") excludeReplies: Boolean? = null,
         @Query("only_media") onlyMedia: Boolean? = null,
         @Query("pinned") pinned: Boolean? = null
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/accounts/{id}/followers")
     fun accountFollowers(
@@ -419,18 +420,18 @@ interface MastodonApi {
     fun unblockDomain(@Field("domain") domain: String): Call<Any>
 
     @GET("api/v1/favourites")
-    fun favourites(
+    suspend fun favourites(
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/bookmarks")
-    fun bookmarks(
+    suspend fun bookmarks(
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/follow_requests")
     fun followRequests(
