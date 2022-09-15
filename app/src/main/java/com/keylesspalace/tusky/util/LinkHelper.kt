@@ -74,8 +74,8 @@ fun markupHiddenUrls(context: Context, content: CharSequence, mentions: List<Men
     val obscuredLinkSpans = originalSpans.filter {
         val text = spannableContent.subSequence(spannableContent.getSpanStart(it), spannableContent.getSpanEnd(it))
         val firstCharacter = text[0]
-        (firstCharacter != '#' || getCustomSpanForTag(text, tags, it, listener) == null) &&
-            (firstCharacter != '@' || getCustomSpanForMention(mentions, it, listener) == null) &&
+        firstCharacter != '#' &&
+            firstCharacter != '@' &&
             getDomain(text.toString()) != getDomain(it.url)
     }
 

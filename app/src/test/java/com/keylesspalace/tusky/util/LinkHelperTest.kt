@@ -196,7 +196,7 @@ class LinkHelperTest {
     }
 
     @Test
-    fun invalidMentionsAreMarkedUp() {
+    fun invalidMentionsAreNotMarkedUp() {
         val builder = SpannableStringBuilder()
         for (mention in mentions) {
             builder.append("@${mention.username}", URLSpan(mention.url), 0)
@@ -205,7 +205,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, builder, listOf(), tags, listener)
         for (mention in mentions) {
-            Assert.assertTrue(markedUpContent.contains("${getDomain(mention.url)})"))
+            Assert.assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
         }
     }
 
@@ -224,7 +224,7 @@ class LinkHelperTest {
     }
 
     @Test
-    fun invalidTagsAreMarkedUp() {
+    fun invalidTagsAreNotMarkedUp() {
         val builder = SpannableStringBuilder()
         for (tag in tags) {
             builder.append("#${tag.name}", URLSpan(tag.url), 0)
@@ -233,7 +233,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(context, builder, mentions, listOf(), listener)
         for (tag in tags) {
-            Assert.assertTrue(markedUpContent.contains("${getDomain(tag.url)})"))
+            Assert.assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
         }
     }
 }
