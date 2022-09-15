@@ -81,6 +81,17 @@ class LinkHelperTest {
     }
 
     @Test
+    fun whenCheckingTags_tagNameIsNormalized() {
+        val mutator = "aeiou".toList().zip("åÉîøÜ".toList()).toMap()
+        for (tag in tags) {
+            val mutatedTagName = String(tag.name.map { mutator[it] ?: it }.toCharArray())
+            val tagName = getTagName("#$mutatedTagName", tags)
+            Assert.assertNotNull(tagName)
+            Assert.assertNotNull(tags.firstOrNull { it.name == tagName })
+        }
+    }
+
+    @Test
     fun hashedUrlSpans_withNoMatchingTag_areNotModified() {
         for (tag in tags) {
             Assert.assertNull(getTagName("#not${tag.name}", tags))
