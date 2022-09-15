@@ -12,13 +12,16 @@ import kotlin.math.max
  * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/tag.rb">
  *     Tag#HASHTAG_RE</a>.
  */
-private const val TAG_REGEX = "(?:^|[^/)A-Za-z0-9_])#([\\w_]*[\\p{Alpha}_][\\w_]*)"
+private const val HASHTAG_SEPARATORS = "_\\u00B7\\u200c"
+private const val UNICODE_WORD = "\\p{L}\\p{Mn}\\p{Nd}\\p{Nl}\\p{Pc}" // Ugh, java ( https://stackoverflow.com/questions/4304928/unicode-equivalents-for-w-and-b-in-java-regular-expressions )
+private const val TAG_REGEX = "(?:^|[^/)\\w])#(([${UNICODE_WORD}_][$UNICODE_WORD$HASHTAG_SEPARATORS]*[\\p{Alpha}$HASHTAG_SEPARATORS][$UNICODE_WORD$HASHTAG_SEPARATORS]*[${UNICODE_WORD}_])|([${UNICODE_WORD}_]*[\\p{Alpha}][${UNICODE_WORD}_]*))"
 
 /**
  * @see <a href="https://github.com/tootsuite/mastodon/blob/master/app/models/account.rb">
  *     Account#MENTION_RE</a>
  */
-private const val MENTION_REGEX = "(?:^|[^/[:word:]])@([a-z0-9_-]+(?:@[a-z0-9\\.\\-]+[a-z0-9]+)?)"
+private const val USERNAME_REGEX = "[\\w]+([\\w\\.-]+[\\w]+)?"
+private const val MENTION_REGEX = "(?<=^|[^\\/$UNICODE_WORD])@(($USERNAME_REGEX)(?:@[$UNICODE_WORD\\.\\-]+[$UNICODE_WORD]+)?)"
 
 private const val HTTP_URL_REGEX = "(?:(^|\\b)http://[^\\s]+)"
 private const val HTTPS_URL_REGEX = "(?:(^|\\b)https://[^\\s]+)"
