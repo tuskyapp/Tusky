@@ -124,7 +124,7 @@ fun setClickableText(
 
 @VisibleForTesting
 fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
-    val scrapedName = text.subSequence(1, text.length).toString()
+    val scrapedName = normalizeToASCII(text.subSequence(1, text.length)).toString()
     return when (tags) {
         null -> scrapedName
         else -> tags.firstOrNull { it.name.equals(scrapedName, true) }?.name
