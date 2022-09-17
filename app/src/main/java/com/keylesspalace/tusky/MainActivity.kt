@@ -834,6 +834,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.clear()
         header.profiles = profiles
         header.setActiveProfile(accountManager.activeAccount!!.id)
+        binding.mainToolbar.subtitle = if (accountManager.accounts.size > 1) {
+            accountManager.activeAccount!!.fullName
+        } else null
     }
 
     override fun getActionButton() = binding.composeButton

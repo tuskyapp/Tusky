@@ -401,7 +401,7 @@
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
 
-    <string name="compose_active_account_description">Posting with account %1$s</string>
+    <string name="compose_active_account_description">Posting as %1$s</string>
 
     <string name="error_failed_set_caption">Failed to set caption</string>
     <plurals name="hint_describe_for_visually_impaired">
