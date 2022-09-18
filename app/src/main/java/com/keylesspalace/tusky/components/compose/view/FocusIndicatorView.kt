@@ -19,6 +19,7 @@ class FocusIndicatorView
 ) : View(context, attrs, defStyleAttr) {
     private var focus: Attachment.Focus? = null
     private var imageSize: Point? = null
+    private var circleRadius: Float? = null
 
     fun setImageSize(width: Int, height: Int) {
         this.imageSize = Point(width, height)
@@ -35,6 +36,17 @@ class FocusIndicatorView
     // Assumes setFocus called first
     fun getFocus(): Attachment.Focus {
         return focus!!
+    }
+
+    // This needs to be consistent every time it is consulted over the lifetime of the object,
+    // so base it on the view width/height whenever the first access occurs.
+    fun getCirleRadius(): Float {
+        val circleRadius = this.circleRadius
+        if (circleRadius != null)
+            return circleRadius
+        val newCircleRadius = Math.min(getWidth(), getHeight()).toFloat() / 4.0f
+        this.circleRadius = newCircleRadius
+        return newCircleRadius
     }
 
     // Remember focus uses -1..1 y-down coordinates
@@ -87,13 +99,11 @@ class FocusIndicatorView
         if (imageSize != null && focus != null) {
             val x = axisFromFocus(focus.x, imageSize.x, getWidth())
             val y = axisFromFocus(focus.y, imageSize.y, getHeight())
-            val width = getWidth().toFloat()
-            val height = getHeight().toFloat()
-            val circleRadius = width / 4.0f
+            val circleRadius = getCirleRadius()
 
             val curtainPath = Path() // Draw a flood fill with a hole cut out of it
             curtainPath.setFillType(Path.FillType.WINDING)
-            curtainPath.addRect(0.0f, 0.0f, width, height, Path.Direction.CW)
+            curtainPath.addRect(0.0f, 0.0f, getWidth().toFloat(), getHeight().toFloat(), Path.Direction.CW)
             curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
             canvas.drawPath(curtainPath, curtainPaint)
 
@@ -105,8 +115,9 @@ class FocusIndicatorView
     // Give a "safe" height based on currently set image size. Assume imageSize is set and height>width already checked
     fun maxAttractiveHeight(): Int {
         val height = this.imageSize!!.y
-        // As hardcoded above, the focus indicator circle is radius 1/4 of the width
-        // So give us enough space for the image, plus on each size a focus indicator circle plus a strokeWidth
-        return Math.ceil(height.toDouble() + getWidth()/2.0 + strokeWidth).toInt()
+        val circleRadius = getCirleRadius()
+
+        // Give us enough space for the image, plus on each side half a focus indicator circle, plus a strokeWidth
+        return Math.ceil((height.toFloat() + circleRadius*2.0f + strokeWidth).toDouble()).toInt()
     }
 }
