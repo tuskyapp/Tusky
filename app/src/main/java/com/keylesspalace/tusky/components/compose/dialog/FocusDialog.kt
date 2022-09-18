@@ -19,7 +19,10 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
@@ -55,7 +58,25 @@ fun <T> T.makeFocusDialog(
             }
 
             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable?>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                dialogBinding.focusIndicator.setImageSize(resource!!.getIntrinsicWidth(), resource.getIntrinsicHeight())
+                val width = resource!!.getIntrinsicWidth()
+                val height = resource.getIntrinsicHeight()
+
+                dialogBinding.focusIndicator.setImageSize(width, height)
+
+                // We want the dialog to be a little taller than the image, so you can slide your thumb past the image border,
+                // but if it's *too* much taller that looks weird. See if a threshold has been crossed:
+                if (width > height) {
+                    val maxHeight = dialogBinding.focusIndicator.maxAttractiveHeight()
+                    Log.w(
+                        "TUSKYFOCUS",
+                        "Resource $width x $height View ${dialogBinding.imageView.getWidth()} x ${dialogBinding.imageView.getHeight()} Max $maxHeight"
+                    )
+                    if (dialogBinding.imageView.getHeight() > maxHeight) {
+                        val verticalShrinkLayout = FrameLayout.LayoutParams(width, maxHeight)
+                        dialogBinding.imageView.setLayoutParams(verticalShrinkLayout)
+                        dialogBinding.focusIndicator.setLayoutParams(verticalShrinkLayout)
+                    }
+                }
                 return false // Pass through
             }
         })

@@ -89,7 +89,7 @@ class FocusIndicatorView
             val y = axisFromFocus(focus.y, imageSize.y, getHeight())
             val width = getWidth().toFloat()
             val height = getHeight().toFloat()
-            val circleRadius = Math.min(width, height) / 4.0f
+            val circleRadius = width / 4.0f
 
             val curtainPath = Path() // Draw a flood fill with a hole cut out of it
             curtainPath.setFillType(Path.FillType.WINDING)
@@ -100,5 +100,13 @@ class FocusIndicatorView
             canvas.drawCircle(x, y, circleRadius, strokePaint) // Draw white circle
             canvas.drawCircle(x, y, strokeWidth / 2.0f, strokePaint) // Draw white dot
         }
+    }
+
+    // Give a "safe" height based on currently set image size. Assume imageSize is set and height>width already checked
+    fun maxAttractiveHeight(): Int {
+        val height = this.imageSize!!.y
+        // As hardcoded above, the focus indicator circle is radius 1/4 of the width
+        // So give us enough space for the image, plus on each size a focus indicator circle plus a strokeWidth
+        return Math.ceil(height.toDouble() + getWidth()/2.0 + strokeWidth).toInt()
     }
 }
