@@ -31,9 +31,6 @@
     <string name="error_media_upload_permission">Cần có quyền đọc tập tin.</string>
     <string name="error_media_upload_opening">Không thể mở tập tin.</string>
     <string name="error_media_upload_type">Không hỗ trợ định dạng này.</string>
-    <string name="error_audio_upload_size">Kích cỡ audio tối đa 40MB.</string>
-    <string name="error_video_upload_size">Kích cỡ video tối đa 40MB.</string>
-    <string name="error_image_upload_size">Kích cỡ hình ảnh tối đa là 8MB.</string>
     <string name="error_compose_character_limit">Vượt quá số ký tự cho phép!</string>
     <string name="error_retrieving_oauth_token">Lấy token đăng nhập thất bại.</string>
     <string name="error_authorization_denied">Truy cập bị từ chối.</string>
@@ -236,7 +233,7 @@
     <string name="pref_title_notification_alerts">Báo động</string>
     <string name="pref_title_notifications_enabled">Thông báo</string>
     <string name="pref_title_edit_notification_settings">Thông báo</string>
-    <string name="visibility_direct">Nhắn riêng: Chỉ người được nhắc đến thấy</string>
+    <string name="visibility_direct">Nhắn riêng: Chỉ người được nhắc đến</string>
     <string name="visibility_private">Riêng tư: Chỉ người theo dõi</string>
     <string name="visibility_unlisted">Hạn chế: Không hiện trên bảng tin</string>
     <string name="visibility_public">Công khai: Mọi người đều thấy</string>
@@ -289,7 +286,7 @@
     <string name="filter_addition_dialog_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Chủ đề</string>
     <string name="pref_title_public_filter_keywords">Thế giới</string>
-    <string name="load_more_placeholder_text">tiếp tục đọc</string>
+    <string name="load_more_placeholder_text">tải tút chưa đọc</string>
     <string name="replying_to">Trả lời @%s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
@@ -528,4 +525,10 @@
     <string name="action_edit_image">Sửa ảnh</string>
     <string name="error_image_edit_failed">Hình ảnh này không thể sửa.</string>
     <string name="error_loading_account_details">Không thể tải thông tin tài khoản</string>
+    <string name="error_multimedia_size_limit">Video và audio không thể quá %s MB.</string>
+    <string name="error_following_hashtag_format">Lỗi khi theo dõi #%s</string>
+    <string name="error_unfollowing_hashtag_format">Lỗi khi bỏ theo dõi #%s</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="duration_no_change">(Không đổi)</string>
+    <string name="description_post_language">Ngôn ngữ đăng</string>
 </resources>

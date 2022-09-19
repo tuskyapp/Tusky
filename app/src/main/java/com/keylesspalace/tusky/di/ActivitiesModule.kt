@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.ViewThreadActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
@@ -39,6 +38,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
+import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

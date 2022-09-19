@@ -45,7 +45,6 @@ import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -298,7 +297,7 @@ class NetworkTimelineViewModel @Inject constructor(
             Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
             Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
             Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
-        }.await()
+        }
     }
 
     private fun StatusViewData.Concrete.update() {

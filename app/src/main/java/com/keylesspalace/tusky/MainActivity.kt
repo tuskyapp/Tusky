@@ -33,7 +33,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Lifecycle
@@ -176,6 +175,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             if (accountRequested && accountId != activeAccount.id) {
                 accountManager.setActiveAccount(accountId)
             }
+
+            val openDrafts = intent.getBooleanExtra(OPEN_DRAFTS, false)
+
             if (canHandleMimeType(intent.type)) {
                 // Sharing to Tusky from an external app
                 if (accountRequested) {
@@ -200,6 +202,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     )
                 }
+            } else if (openDrafts) {
+                val intent = DraftsActivity.newIntent(this)
+                startActivity(intent)
             } else if (accountRequested && savedInstanceState == null) {
                 // user clicked a notification, show notification tab
                 showNotificationTab = true
@@ -376,7 +381,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             closeDrawerOnProfileListClick = true
         }
 
-        header.accountHeaderBackground.setColorFilter(ContextCompat.getColor(this, R.color.headerBackgroundFilter))
+        header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
@@ -829,6 +834,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.clear()
         header.profiles = profiles
         header.setActiveProfile(accountManager.activeAccount!!.id)
+        binding.mainToolbar.subtitle = if (accountManager.accounts.size > 1) {
+            accountManager.activeAccount!!.fullName
+        } else null
     }
 
     override fun getActionButton() = binding.composeButton
@@ -840,6 +848,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
         const val REDIRECT_URL = "redirectUrl"
+        const val OPEN_DRAFTS = "draft"
     }
 }
 

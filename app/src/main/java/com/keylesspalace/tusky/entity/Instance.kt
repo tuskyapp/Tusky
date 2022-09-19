@@ -19,19 +19,21 @@ import com.google.gson.annotations.SerializedName
 
 data class Instance(
     val uri: String,
-    val title: String,
-    val description: String,
-    val email: String,
+    // val title: String,
+    // val description: String,
+    // val email: String,
     val version: String,
-    val urls: Map<String, String>,
-    val stats: Map<String, Int>?,
-    val thumbnail: String?,
-    val languages: List<String>,
-    @SerializedName("contact_account") val contactAccount: Account,
+    // val urls: Map<String, String>,
+    // val stats: Map<String, Int>?,
+    // val thumbnail: String?,
+    // val languages: List<String>,
+    // @SerializedName("contact_account") val contactAccount: Account,
     @SerializedName("max_toot_chars") val maxTootChars: Int?,
-    @SerializedName("max_bio_chars") val maxBioChars: Int?,
     @SerializedName("poll_limits") val pollConfiguration: PollConfiguration?,
     val configuration: InstanceConfiguration?,
+    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
+    val pleroma: PleromaConfiguration?,
+    @SerializedName("upload_limit") val uploadLimit: Int?
 ) {
     override fun hashCode(): Int {
         return uri.hashCode()
@@ -73,4 +75,18 @@ data class MediaAttachmentConfiguration(
     @SerializedName("video_size_limit") val videoSizeLimit: Int?,
     @SerializedName("video_frame_rate_limit") val videoFrameRateLimit: Int?,
     @SerializedName("video_matrix_limit") val videoMatrixLimit: Int?,
+)
+
+data class PleromaConfiguration(
+    val metadata: PleromaMetadata?
+)
+
+data class PleromaMetadata(
+    @SerializedName("fields_limits") val fieldLimits: PleromaFieldLimits
+)
+
+data class PleromaFieldLimits(
+    @SerializedName("max_fields") val maxFields: Int?,
+    @SerializedName("name_length") val nameLength: Int?,
+    @SerializedName("value_length") val valueLength: Int?
 )

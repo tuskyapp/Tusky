@@ -9,8 +9,6 @@
     <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
     <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
     <string name="error_compose_character_limit">L\'estatut es tròp long !</string>
-    <string name="error_image_upload_size">Lo fichièr a d’èsser inferior a 8Mo.</string>
-    <string name="error_video_upload_size">Los fichièrs vidèo devon pas far mai de 40 Mo.</string>
     <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
     <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
     <string name="error_media_upload_permission">Cal permís de lectura del mèdia.</string>
@@ -449,7 +447,6 @@
     <string name="description_post_bookmarked">Ajustat als marcapaginas</string>
     <string name="select_list_title">Seleccionar la list</string>
     <string name="list">Lista</string>
-    <string name="error_audio_upload_size">Los fichièrs àudio devon èsser inferiors a 40 Mo.</string>
     <string name="no_drafts">Avètz pas cap de borrolhon.</string>
     <string name="no_scheduled_posts">Avètz pas cap de tut planificat.</string>
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>

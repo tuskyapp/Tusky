@@ -7,6 +7,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
+import com.keylesspalace.tusky.view.getSecondsForDurationIndex
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -14,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
+import java.time.Instant
 import java.util.ArrayList
 import java.util.Date
 
@@ -50,7 +52,23 @@ class FilterTest {
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = true
-            )
+            ),
+            Filter(
+                id = "123",
+                phrase = "expired",
+                context = listOf(Filter.HOME),
+                expiresAt = Date.from(Instant.now().minusSeconds(10)),
+                irreversible = false,
+                wholeWord = true
+            ),
+            Filter(
+                id = "123",
+                phrase = "unexpired",
+                context = listOf(Filter.HOME),
+                expiresAt = Date.from(Instant.now().plusSeconds(3600)),
+                irreversible = false,
+                wholeWord = true
+            ),
         )
 
         filterModel.initWithFilters(filters)
@@ -148,6 +166,40 @@ class FilterTest {
         )
     }
 
+    @Test
+    fun shouldNotFilter_whenFilterIsExpired() {
+        assertFalse(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "content matching expired filter should not be filtered")
+            )
+        )
+    }
+
+    @Test
+    fun shouldFilter_whenFilterIsUnexpired() {
+        assertTrue(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "content matching unexpired filter should be filtered")
+            )
+        )
+    }
+
+    @Test
+    fun unchangedExpiration_shouldBeNegative_whenFilterIsExpired() {
+        val expiredBySeconds = 3600
+        val expiredDate = Date.from(Instant.now().minusSeconds(expiredBySeconds.toLong()))
+        val updatedDuration = getSecondsForDurationIndex(-1, null, expiredDate)
+        assert(updatedDuration != null && updatedDuration <= -expiredBySeconds)
+    }
+
+    @Test
+    fun unchangedExpiration_shouldBePositive_whenFilterIsUnexpired() {
+        val expiresInSeconds = 3600
+        val expiredDate = Date.from(Instant.now().plusSeconds(expiresInSeconds.toLong()))
+        val updatedDuration = getSecondsForDurationIndex(-1, null, expiredDate)
+        assert(updatedDuration != null && updatedDuration > (expiresInSeconds - 60))
+    }
+
     private fun mockStatus(
         content: String = "",
         spoilerText: String = "",
@@ -208,7 +260,8 @@ class FilterTest {
                     ownVotes = null
                 )
             } else null,
-            card = null
+            card = null,
+            language = null,
         )
     }
 }

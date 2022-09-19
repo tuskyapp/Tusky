@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">授权被拒绝。</string>
     <string name="error_retrieving_oauth_token">未能获取登录令牌。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
-    <string name="error_image_upload_size">文件大小限制为 8MB。</string>
-    <string name="error_video_upload_size">视频文件大小限制为 40MB。</string>
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
     <string name="error_media_upload_opening">打不开此文件。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
@@ -397,7 +395,6 @@
         <item quantity="other">剩余 %d 秒</item>
     </plurals>
     <string name="action_reset_schedule">重置</string>
-    <string name="error_audio_upload_size">音频文件大小限制为 40M。</string>
     <string name="title_bookmarks">书签</string>
     <string name="title_domain_mutes">隐藏的域名</string>
     <string name="title_scheduled_posts">定时嘟文</string>
@@ -547,4 +544,10 @@
     <string name="action_edit_image">编辑图片</string>
     <string name="error_image_edit_failed">无法编辑图片。</string>
     <string name="error_loading_account_details">加载账户详情失败</string>
+    <string name="error_multimedia_size_limit">音视频文件大小不能超出 %s MB。</string>
+    <string name="error_following_hashtag_format">关注 #%s 出错</string>
+    <string name="error_unfollowing_hashtag_format">取关 #%s 出错</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="duration_no_change">(无更改)</string>
+    <string name="description_post_language">帖子语言</string>
 </resources>

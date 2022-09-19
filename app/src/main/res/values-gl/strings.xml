@@ -112,9 +112,6 @@
     <string name="error_media_upload_permission">Requírese o permiso de lectura do multimedia.</string>
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
     <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
-    <string name="error_audio_upload_size">Os ficheiros de audio teñen que ser menores de 40MB.</string>
-    <string name="error_video_upload_size">Os ficheiros de vídeo teñen que ser menores de 40MB.</string>
-    <string name="error_image_upload_size">O ficheiro debe ser menor de 8MB.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
     <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada.</string>
@@ -133,7 +130,7 @@
     <string name="label_duration">Duración</string>
     <string name="create_poll_title">Enquisa</string>
     <string name="pref_title_enable_swipe_for_tabs">Activar xestos de desprazamento para moverse entre lapelas</string>
-    <string name="pref_title_show_notifications_filter">Motrar filtro das notificacións</string>
+    <string name="pref_title_show_notifications_filter">Mostrar filtro das notificacións</string>
     <string name="failed_search">Fallou a busca</string>
     <string name="title_accounts">Contas</string>
     <string name="report_description_remote_instance">A conta pertence a outro servidor. Queres enviar unha copia anónima da denuncia alí tamén\?</string>
@@ -537,4 +534,6 @@
     <string name="saving_draft">Gardando borrador…</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Editar imaxe</string>
+    <string name="error_loading_account_details">Fallou a carga dos detalles da conta</string>
+    <string name="error_image_edit_failed">A imaxe non puido ser editada.</string>
 </resources>

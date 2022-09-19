@@ -22,8 +22,6 @@
     <string name="error_authorization_denied">Heimild var hafnað.</string>
     <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn.</string>
     <string name="error_compose_character_limit">Færslan er of löng!</string>
-    <string name="error_image_upload_size">Skráin verður að vera minni en 8MB.</string>
-    <string name="error_video_upload_size">Myndskeiðaskrár verða að vera minni en 40MB.</string>
     <string name="error_media_upload_type">Þessa tegund skrár er ekki hægt að senda inn.</string>
     <string name="error_media_upload_opening">Ekki var hægt að opna skrána.</string>
     <string name="error_media_upload_permission">Krafist er heimilda til að lesa gögn.</string>
@@ -416,7 +414,6 @@
     <string name="post_lookup_error_format">Villa við að fletta upp færslunni %s</string>
     <string name="no_drafts">Þú ert ekki með nein drög.</string>
     <string name="no_scheduled_posts">Þú ert ekki með neinar áætlaðar stöðufærslur.</string>
-    <string name="error_audio_upload_size">Hljóðskrár verða að vera minni en 40MB.</string>
     <string name="warning_scheduling_interval">Mastodon er með 5 mínútna lágmarksbil fyrir áætlaðar aðgerðir.</string>
     <string name="notification_follow_request_name">Fylgjendabeiðnir</string>
     <string name="hashtags">Myllumerki</string>
@@ -537,4 +534,12 @@
     <string name="title_migration_relogin">Skráðu aftur inn fyrir ýti-tilkynningar</string>
     <string name="action_dismiss">Hunsa</string>
     <string name="action_details">Nánar</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_multimedia_size_limit">Myndskeiða- og hljóðskrár geta ekki verið stærri en %s MB.</string>
+    <string name="description_post_language">Tungumál færslu</string>
+    <string name="duration_no_change">(engin breyting)</string>
+    <string name="error_following_hashtag_format">Villa við að fylgjast með #%s</string>
+    <string name="error_unfollowing_hashtag_format">Villa við að hætta að fylgjast með #%s</string>
+    <string name="error_loading_account_details">Mistókst að hlaða inn nánari upplýsingum notandaaðgangs</string>
+    <string name="error_image_edit_failed">Ekki var hægt að breyta myndinni.</string>
 </resources>

@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceDao
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.StatusConfiguration
@@ -43,13 +42,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
-import java.util.Date
-import kotlin.collections.HashMap
+import java.util.Locale
 
 /**
  * Created by charlag on 3/7/18.
@@ -110,7 +109,7 @@ class ComposeActivityTest {
 
         val instanceDaoMock: InstanceDao = mock {
             onBlocking { getInstanceInfo(any()) } doReturn
-                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null)
+                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
             onBlocking { getEmojiInfo(any()) } doReturn
                 EmojisEntity(instanceDomain, emptyList())
         }
@@ -134,7 +133,7 @@ class ComposeActivityTest {
         }
 
         val viewModelFactoryMock: ViewModelFactory = mock {
-            on { create(ComposeViewModel::class.java) } doReturn viewModel
+            on { create(eq(ComposeViewModel::class.java), any()) } doReturn viewModel
         }
 
         activity.accountManager = accountManagerMock
@@ -446,6 +445,19 @@ class ComposeActivityTest {
         assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
     }
 
+    @Test
+    fun whenNoLanguageIsGiven_defaultLanguageIsSelected() {
+        assertEquals(Locale.getDefault().language, activity.selectedLanguage)
+    }
+
+    @Test
+    fun languageGivenInComposeOptionsIsRespected() {
+        val language = "no"
+        composeOptions = ComposeActivity.ComposeOptions(language = language)
+        setupActivity()
+        assertEquals(language, activity.selectedLanguage)
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)
@@ -461,38 +473,14 @@ class ComposeActivityTest {
 
     private fun getInstanceWithCustomConfiguration(maximumLegacyTootCharacters: Int? = null, configuration: InstanceConfiguration? = null): Instance {
         return Instance(
-            "https://example.token",
-            "Example dot Token",
-            "Example instance for testing",
-            "admin@example.token",
-            "2.6.3",
-            HashMap(),
-            null,
-            null,
-            listOf("en"),
-            Account(
-                id = "1",
-                localUsername = "admin",
-                username = "admin",
-                displayName = "admin",
-                createdAt = Date(),
-                note = "",
-                url = "https://example.token",
-                avatar = "",
-                header = "",
-                locked = false,
-                statusesCount = 0,
-                followersCount = 0,
-                followingCount = 0,
-                source = null,
-                bot = false,
-                emojis = emptyList(),
-                fields = emptyList(),
-            ),
-            maximumLegacyTootCharacters,
-            null,
-            null,
-            configuration,
+            uri = "https://example.token",
+            version = "2.6.3",
+            maxTootChars = maximumLegacyTootCharacters,
+            pollConfiguration = null,
+            configuration = configuration,
+            maxMediaAttachments = null,
+            pleroma = null,
+            uploadLimit = null
         )
     }
 

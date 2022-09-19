@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">অনুমোদন অস্বীকার করা হয়েছে।</string>
     <string name="error_retrieving_oauth_token">একটি লগইন টোকেন পেতে ব্যর্থ।</string>
     <string name="error_compose_character_limit">এই স্টেটাস টি খুব দীর্ঘ!</string>
-    <string name="error_image_upload_size">ফাইল 8MB চেয়ে কম হতে হবে।</string>
-    <string name="error_video_upload_size">ভিডিও ফাইল 40MB চেয়ে কম হতে হবে।</string>
     <string name="error_media_upload_type">যে ধরনের ফাইল আপলোড করা যাবে না।</string>
     <string name="error_media_upload_opening">ওই ফাইল খোলা যাবে না।</string>
     <string name="error_media_upload_permission">মিডিয়া পড়তে অনুমতি প্রয়োজন।</string>
@@ -421,7 +419,6 @@
     <string name="action_bookmark">বুকমার্ক</string>
     <string name="notification_follow_request_format">%s আপনাকে অনুসরণ করার জন্য অনুরোধ করেছে</string>
     <string name="title_bookmarks">বুকমার্কগুলি</string>
-    <string name="error_audio_upload_size">অডিও ফাইলগুলি অবশ্যই ৪০MB এর চেয়ে কম হওয়া উচিত।</string>
     <string name="pref_title_notification_filter_follow_requests">অনুরোধ অনুসরণ করো</string>
     <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>
     <string name="dialog_mute_warning">নিঃশব্দ @%s\?</string>

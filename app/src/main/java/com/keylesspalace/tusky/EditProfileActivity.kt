@@ -28,6 +28,7 @@ import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -37,6 +38,7 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityEditProfileBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -50,6 +52,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EditProfileActivity : BaseActivity(), Injectable {
@@ -58,8 +61,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
         const val AVATAR_SIZE = 400
         const val HEADER_WIDTH = 1500
         const val HEADER_HEIGHT = 500
-
-        private const val MAX_ACCOUNT_FIELDS = 4
     }
 
     @Inject
@@ -70,6 +71,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
     private val binding by viewBinding(ActivityEditProfileBinding::inflate)
 
     private val accountFieldEditAdapter = AccountFieldEditAdapter()
+
+    private var maxAccountFields = InstanceInfoRepository.DEFAULT_MAX_ACCOUNT_FIELDS
 
     private enum class PickType {
         AVATAR,
@@ -112,7 +115,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         binding.addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
-            if (accountFieldEditAdapter.itemCount >= MAX_ACCOUNT_FIELDS) {
+            if (accountFieldEditAdapter.itemCount >= maxAccountFields) {
                 it.isVisible = false
             }
 
@@ -134,7 +137,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         binding.lockedCheckBox.isChecked = me.locked
 
                         accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
-                        binding.addFieldButton.isEnabled = me.source?.fields?.size ?: 0 < MAX_ACCOUNT_FIELDS
+                        binding.addFieldButton.isVisible =
+                            (me.source?.fields?.size ?: 0) < maxAccountFields
 
                         if (viewModel.avatarData.value == null) {
                             Glide.with(this)
@@ -165,13 +169,12 @@ class EditProfileActivity : BaseActivity(), Injectable {
             }
         }
 
-        viewModel.obtainInstance()
-        viewModel.instanceData.observe(this) { result ->
-            if (result is Success) {
-                val instance = result.data
-                if (instance?.maxBioChars != null && instance.maxBioChars > 0) {
-                    binding.noteEditTextLayout.counterMaxLength = instance.maxBioChars
-                }
+        lifecycleScope.launch {
+            viewModel.instanceData.collect { instanceInfo ->
+                maxAccountFields = instanceInfo.maxFields
+                accountFieldEditAdapter.setFieldLimits(instanceInfo.maxFieldNameLength, instanceInfo.maxFieldValueLength)
+                binding.addFieldButton.isVisible =
+                    accountFieldEditAdapter.itemCount < maxAccountFields
             }
         }
 

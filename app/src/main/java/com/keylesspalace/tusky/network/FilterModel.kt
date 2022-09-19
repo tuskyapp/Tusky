@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.network
 import android.text.TextUtils
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import java.util.Date
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -37,7 +38,8 @@ class FilterModel @Inject constructor() {
                 (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
                 (
                     attachmentsDescriptions.isNotEmpty() &&
-                        matcher.reset(attachmentsDescriptions.joinToString("\n")).find()
+                        matcher.reset(attachmentsDescriptions.joinToString("\n"))
+                            .find()
                     )
             )
     }
@@ -53,8 +55,11 @@ class FilterModel @Inject constructor() {
     }
 
     private fun makeFilter(filters: List<Filter>): Pattern? {
-        if (filters.isEmpty()) return null
-        val tokens = filters.map { filterToRegexToken(it) }
+        val now = Date()
+        val nonExpiredFilters = filters.filter { it.expiresAt?.before(now) != true }
+        if (nonExpiredFilters.isEmpty()) return null
+        val tokens = nonExpiredFilters
+            .map { filterToRegexToken(it) }
 
         return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE)
     }

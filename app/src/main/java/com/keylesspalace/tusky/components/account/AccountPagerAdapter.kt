@@ -35,7 +35,7 @@ class AccountPagerAdapter(
             0 -> TimelineFragment.newInstance(TimelineViewModel.Kind.USER, accountId, false)
             1 -> TimelineFragment.newInstance(TimelineViewModel.Kind.USER_WITH_REPLIES, accountId, false)
             2 -> TimelineFragment.newInstance(TimelineViewModel.Kind.USER_PINNED, accountId, false)
-            3 -> AccountMediaFragment.newInstance(accountId, false)
+            3 -> AccountMediaFragment.newInstance(accountId)
             else -> throw AssertionError("Page $position is out of AccountPagerAdapter bounds")
         }
     }

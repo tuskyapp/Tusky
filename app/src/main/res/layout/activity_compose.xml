@@ -22,6 +22,19 @@
             tools:ignore="ContentDescription" />
         <!--content description will be set in code -->
 
+        <Spinner
+            android:id="@+id/composePostLanguageButton"
+            style="@style/TuskyImageButton"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="0dp"
+            android:contentDescription="@string/description_post_language"
+            android:textColor="?android:attr/textColorTertiary"
+            android:textSize="?attr/status_text_large"
+            android:textStyle="bold"
+            app:tooltipText="@string/description_post_language" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/atButton"
             style="@style/TuskyImageButton"
@@ -57,6 +70,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/composeUsernameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="0dp"
+                android:textSize="?attr/status_text_small"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="Posting as @username@domain"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/composeReplyView"

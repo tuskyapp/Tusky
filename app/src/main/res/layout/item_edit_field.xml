@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
@@ -17,23 +18,40 @@
         android:paddingEnd="16dp"
         android:paddingBottom="8dp">
 
-        <androidx.emoji2.widget.EmojiEditText
-            android:id="@+id/accountFieldName"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TuskyTextInput"
+            android:id="@+id/accountFieldNameTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:hint="@string/profile_metadata_label_label"
-            android:textColorHint="?android:attr/textColorTertiary"
-            android:textSize="?attr/status_text_medium" />
+            app:counterTextColor="?android:textColorTertiary">
 
-        <androidx.emoji2.widget.EmojiEditText
-            android:id="@+id/accountFieldValue"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accountFieldNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TuskyTextInput"
+            android:id="@+id/accountFieldValueTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:hint="@string/profile_metadata_content_label"
-            android:lineSpacingMultiplier="1.1"
-            android:textColorHint="?android:attr/textColorTertiary"
-            android:textSize="?attr/status_text_medium" />
+            app:counterTextColor="?android:textColorTertiary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accountFieldValueText"
+                android:lineSpacingMultiplier="1.1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

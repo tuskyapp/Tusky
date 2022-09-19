@@ -21,9 +21,6 @@
     <string name="error_media_upload_permission">Потрібен дозвіл на читання медіа.</string>
     <string name="error_media_upload_opening">Не вдається відкрити цей файл.</string>
     <string name="error_media_upload_type">Неможливо відвантажити файл цього типу.</string>
-    <string name="error_audio_upload_size">Аудіофайли повинні бути менше 40 МБ.</string>
-    <string name="error_video_upload_size">Відео повинне бути менше 40 МБ.</string>
-    <string name="error_image_upload_size">Файл повинен бути менше 8 МБ.</string>
     <string name="error_compose_character_limit">Допис задовгий!</string>
     <string name="error_no_web_browser_found">Не вдалося знайти браузер, який можна використати.</string>
     <string name="error_empty">Не може бути порожнім.</string>
@@ -561,4 +558,7 @@
     <string name="status_count_one_plus">1+</string>
     <string name="error_image_edit_failed">Неможливо редагувати зображення.</string>
     <string name="error_loading_account_details">Не вдалося завантажити подробиці облікового запису</string>
+    <string name="error_following_hashtag_format">Помилка підписки на #%s</string>
+    <string name="error_multimedia_size_limit">Розмір відео та аудіофайлів не може перевищувати %s Мб.</string>
+    <string name="error_unfollowing_hashtag_format">Помилка скасування підписки на #%s</string>
 </resources>

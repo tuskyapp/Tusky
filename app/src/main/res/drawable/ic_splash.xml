@@ -3,13 +3,9 @@
     android:layout_height="240dp"
     android:layout_width="240dp">
 
-    <item android:drawable="@drawable/ic_launcher_background" />
+    <item android:drawable="@color/icon_background" />
 
     <item
-        android:top="40dp"
-        android:bottom="40dp"
-        android:left="40dp"
-        android:right="40dp"
         android:drawable="@drawable/ic_launcher_foreground" />
 
 </layer-list>
