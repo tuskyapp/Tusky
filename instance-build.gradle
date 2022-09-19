@@ -4,10 +4,10 @@ Note: Publishing a custom build on Google Play may violate the Google Play devel
  */
 
 // The app name
-ext.APP_NAME = "Tusky-DEV"
+ext.APP_NAME = "Tusky"
 
 // The application id. Must be unique, e.g. based on your domain
-ext.APP_ID = "com.keylesspalace.tusky_DEV"
+ext.APP_ID = "com.keylesspalace.tusky"
 
 // url of a custom app logo. Recommended size at least 600x600. Keep empty to use the Tusky elephant friend.
 ext.CUSTOM_LOGO_URL = ""
