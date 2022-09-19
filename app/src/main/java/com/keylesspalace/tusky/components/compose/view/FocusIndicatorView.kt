@@ -49,16 +49,16 @@ class FocusIndicatorView
         return newCircleRadius
     }
 
-    // Remember focus uses -1..1 y-down coordinates
+    // Remember focus uses -1..1 y-down coordinates (so focus value should be negated for y)
     private fun axisToFocus(value: Float, innerLimit: Int, outerLimit: Int): Float {
         val offset = (outerLimit - innerLimit) / 2 // Assume image is centered in widget frame
-        val result = (value - offset).toFloat() / innerLimit.toFloat() * -2.0f + 1.0f // To range -1..1
+        val result = (value - offset).toFloat() / innerLimit.toFloat() * 2.0f - 1.0f // To range -1..1
         return Math.min(1.0f, Math.max(-1.0f, result)) // Clamp
     }
 
     private fun axisFromFocus(value: Float, innerLimit: Int, outerLimit: Int): Float {
         val offset = (outerLimit - innerLimit) / 2
-        return offset.toFloat() + ((-value + 1.0f) / 2.0f) * innerLimit.toFloat() // From range -1..1
+        return offset.toFloat() + ((value + 1.0f) / 2.0f) * innerLimit.toFloat() // From range -1..1
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -70,7 +70,7 @@ class FocusIndicatorView
             return false
 
         // Convert touch xy to point inside image
-        focus = Attachment.Focus(axisToFocus(event.x, imageSize.x, getWidth()), axisToFocus(event.y, imageSize.y, getHeight()))
+        focus = Attachment.Focus(axisToFocus(event.x, imageSize.x, getWidth()), -axisToFocus(event.y, imageSize.y, getHeight()))
         invalidate()
         return true
     }
@@ -98,7 +98,7 @@ class FocusIndicatorView
 
         if (imageSize != null && focus != null) {
             val x = axisFromFocus(focus.x, imageSize.x, getWidth())
-            val y = axisFromFocus(focus.y, imageSize.y, getHeight())
+            val y = axisFromFocus(-focus.y, imageSize.y, getHeight())
             val circleRadius = getCirleRadius()
 
             val curtainPath = Path() // Draw a flood fill with a hole cut out of it
