@@ -19,10 +19,8 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.Log
 import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
@@ -67,10 +65,7 @@ fun <T> T.makeFocusDialog(
                 // but if it's *too* much taller that looks weird. See if a threshold has been crossed:
                 if (width > height) {
                     val maxHeight = dialogBinding.focusIndicator.maxAttractiveHeight()
-                    Log.w(
-                        "TUSKYFOCUS",
-                        "Resource $width x $height View ${dialogBinding.imageView.getWidth()} x ${dialogBinding.imageView.getHeight()} Max $maxHeight"
-                    )
+
                     if (dialogBinding.imageView.getHeight() > maxHeight) {
                         val verticalShrinkLayout = FrameLayout.LayoutParams(width, maxHeight)
                         dialogBinding.imageView.setLayoutParams(verticalShrinkLayout)

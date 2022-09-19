@@ -118,6 +118,6 @@ class FocusIndicatorView
         val circleRadius = getCirleRadius()
 
         // Give us enough space for the image, plus on each side half a focus indicator circle, plus a strokeWidth
-        return Math.ceil((height.toFloat() + circleRadius*2.0f + strokeWidth).toDouble()).toInt()
+        return Math.ceil((height.toFloat() + circleRadius * 2.0f + strokeWidth).toDouble()).toInt()
     }
 }
