@@ -68,8 +68,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
-import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
