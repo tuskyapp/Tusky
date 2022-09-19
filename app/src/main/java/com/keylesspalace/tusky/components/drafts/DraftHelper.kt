@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.IOUtils
@@ -59,6 +60,7 @@ class DraftHelper @Inject constructor(
         visibility: Status.Visibility,
         mediaUris: List<String>,
         mediaDescriptions: List<String?>,
+        mediaFocus: List<Attachment.Focus?>,
         poll: NewPoll?,
         failedToSend: Boolean
     ) = withContext(Dispatchers.IO) {
@@ -101,6 +103,7 @@ class DraftHelper @Inject constructor(
                 DraftAttachment(
                     uriString = uris[i].toString(),
                     description = mediaDescriptions[i],
+                    focus = mediaFocus[i],
                     type = types[i]
                 )
             )

@@ -170,6 +170,7 @@ class ComposeActivity :
                         uriNew,
                         size,
                         itemOld.description,
+                        null, // Intentionally reset focus when cropping
                         itemOld
                     )
                 }
