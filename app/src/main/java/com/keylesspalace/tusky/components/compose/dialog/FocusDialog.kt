@@ -56,8 +56,8 @@ fun <T> T.makeFocusDialog(
             }
 
             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable?>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                val width = resource!!.getIntrinsicWidth()
-                val height = resource.getIntrinsicHeight()
+                val width = resource!!.intrinsicWidth
+                val height = resource.intrinsicHeight
 
                 dialogBinding.focusIndicator.setImageSize(width, height)
 
@@ -66,10 +66,10 @@ fun <T> T.makeFocusDialog(
                 if (width > height) {
                     val maxHeight = dialogBinding.focusIndicator.maxAttractiveHeight()
 
-                    if (dialogBinding.imageView.getHeight() > maxHeight) {
+                    if (dialogBinding.imageView.height > maxHeight) {
                         val verticalShrinkLayout = FrameLayout.LayoutParams(width, maxHeight)
-                        dialogBinding.imageView.setLayoutParams(verticalShrinkLayout)
-                        dialogBinding.focusIndicator.setLayoutParams(verticalShrinkLayout)
+                        dialogBinding.imageView.layoutParams = verticalShrinkLayout
+                        dialogBinding.focusIndicator.layoutParams = verticalShrinkLayout
                     }
                 }
                 return false // Pass through
