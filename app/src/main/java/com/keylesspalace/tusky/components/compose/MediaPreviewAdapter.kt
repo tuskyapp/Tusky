@@ -89,7 +89,7 @@ class MediaPreviewAdapter(
             if (focus != null)
                 imageView.setFocalPoint(focus)
             else
-                imageView.removeFocalPoint(); // Probably unnecessary since we have no UI for removal once added.
+                imageView.removeFocalPoint() // Probably unnecessary since we have no UI for removal once added.
 
             var glide = Glide.with(holder.itemView.context)
                 .load(item.uri)
