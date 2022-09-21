@@ -69,6 +69,7 @@ import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
@@ -171,6 +172,7 @@ class ComposeActivity :
                         uriNew,
                         size,
                         itemOld.description,
+                        null, // Intentionally reset focus when cropping
                         itemOld
                     )
                 }
@@ -216,6 +218,11 @@ class ComposeActivity :
             onAddCaption = { item ->
                 CaptionDialog.newInstance(item.localId, item.description, item.uri)
                     .show(supportFragmentManager, "caption_dialog")
+            },
+            onAddFocus = { item ->
+                makeFocusDialog(item.focus, item.uri) { newFocus ->
+                    viewModel.updateFocus(item.localId, newFocus)
+                }
             },
             onEditImage = this::editImageInQueue,
             onRemove = this::removeMediaFromQueue
@@ -1139,7 +1146,8 @@ class ComposeActivity :
         val mediaSize: Long,
         val uploadPercent: Int = 0,
         val id: String? = null,
-        val description: String? = null
+        val description: String? = null,
+        val focus: Attachment.Focus? = null
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;

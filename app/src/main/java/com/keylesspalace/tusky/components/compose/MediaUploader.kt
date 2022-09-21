@@ -225,7 +225,13 @@ class MediaUploader @Inject constructor(
                 null
             }
 
-            mediaUploadApi.uploadMedia(body, description).fold({ result ->
+            val focus = if (media.focus != null) {
+                MultipartBody.Part.createFormData("focus", "${media.focus.x},${media.focus.y}")
+            } else {
+                null
+            }
+
+            mediaUploadApi.uploadMedia(body, description, focus).fold({ result ->
                 send(UploadEvent.FinishedEvent(result.id))
             }, { throwable ->
                 val errorMessage = throwable.getServerErrorMessage()

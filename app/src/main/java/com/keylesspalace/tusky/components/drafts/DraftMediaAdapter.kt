@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.drafts
 
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -26,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.DraftAttachment
+import com.keylesspalace.tusky.view.MediaPreviewImageView
 
 class DraftMediaAdapter(
     private val attachmentClick: () -> Unit
@@ -42,24 +42,34 @@ class DraftMediaAdapter(
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DraftMediaViewHolder {
-        return DraftMediaViewHolder(AppCompatImageView(parent.context))
+        return DraftMediaViewHolder(MediaPreviewImageView(parent.context))
     }
 
     override fun onBindViewHolder(holder: DraftMediaViewHolder, position: Int) {
         getItem(position)?.let { attachment ->
             if (attachment.type == DraftAttachment.Type.AUDIO) {
+                holder.imageView.clearFocus()
                 holder.imageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
             } else {
-                Glide.with(holder.itemView.context)
+                if (attachment.focus != null)
+                    holder.imageView.setFocalPoint(attachment.focus)
+                else
+                    holder.imageView.clearFocus()
+                var glide = Glide.with(holder.itemView.context)
                     .load(attachment.uri)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .dontAnimate()
-                    .into(holder.imageView)
+                    .centerInside()
+
+                if (attachment.focus != null)
+                    glide = glide.addListener(holder.imageView)
+
+                glide.into(holder.imageView)
             }
         }
     }
 
-    inner class DraftMediaViewHolder(val imageView: ImageView) :
+    inner class DraftMediaViewHolder(val imageView: MediaPreviewImageView) :
         RecyclerView.ViewHolder(imageView) {
         init {
             val thumbnailViewSize =

@@ -147,7 +147,8 @@ interface MastodonApi {
     @PUT("api/v1/media/{mediaId}")
     suspend fun updateMedia(
         @Path("mediaId") mediaId: String,
-        @Field("description") description: String
+        @Field("description") description: String?,
+        @Field("focus") focus: String?
     ): NetworkResult<Attachment>
 
     @GET("api/v1/media/{mediaId}")

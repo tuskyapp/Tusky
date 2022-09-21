@@ -89,6 +89,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         mediaIds = emptyList(),
                         mediaUris = emptyList(),
                         mediaDescriptions = emptyList(),
+                        mediaFocus = emptyList(),
                         scheduledAt = null,
                         inReplyToId = citedStatusId,
                         poll = null,

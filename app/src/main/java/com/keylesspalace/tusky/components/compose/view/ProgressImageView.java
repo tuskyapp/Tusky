@@ -30,9 +30,10 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import at.connyduck.sparkbutton.helpers.Utils;
 
-public final class ProgressImageView extends AppCompatImageView {
+public final class ProgressImageView extends MediaPreviewImageView {
 
     private int progress = -1;
     private final RectF progressRect = new RectF();

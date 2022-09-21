@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
@@ -258,6 +259,7 @@ class SendStatusService : Service(), Injectable {
             visibility = Status.Visibility.byString(status.visibility),
             mediaUris = status.mediaUris,
             mediaDescriptions = status.mediaDescriptions,
+            mediaFocus = status.mediaFocus,
             poll = status.poll,
             failedToSend = true,
             scheduledAt = status.scheduledAt,
@@ -359,6 +361,7 @@ data class StatusToSend(
     val mediaIds: List<String>,
     val mediaUris: List<String>,
     val mediaDescriptions: List<String>,
+    val mediaFocus: List<Attachment.Focus?>,
     val scheduledAt: String?,
     val inReplyToId: String?,
     val poll: NewPoll?,
