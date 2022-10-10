@@ -31,6 +31,7 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -267,6 +268,25 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when {
+                        binding.mainDrawerLayout.isOpen -> {
+                            binding.mainDrawerLayout.close()
+                        }
+                        binding.viewPager.currentItem != 0 -> {
+                            binding.viewPager.currentItem = 0
+                        }
+                        else -> {
+                            finish()
+                        }
+                    }
+                }
+            }
+        )
     }
 
     override fun onResume() {
@@ -289,20 +309,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // For some reason the navigation drawer is opened when the activity is recreated
         if (binding.mainDrawerLayout.isOpen) {
             binding.mainDrawerLayout.closeDrawer(GravityCompat.START, false)
-        }
-    }
-
-    override fun onBackPressed() {
-        when {
-            binding.mainDrawerLayout.isOpen -> {
-                binding.mainDrawerLayout.close()
-            }
-            binding.viewPager.currentItem != 0 -> {
-                binding.viewPager.currentItem = 0
-            }
-            else -> {
-                super.onBackPressed()
-            }
         }
     }
 

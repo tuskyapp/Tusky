@@ -40,6 +40,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
@@ -495,6 +496,27 @@ class ComposeActivity :
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+                    ) {
+                        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        return
+                    }
+
+                    handleCloseButton()
+                }
+            }
+        )
     }
 
     private fun setupLanguageSpinner(initialLanguage: String?) {
@@ -1051,23 +1073,6 @@ class ComposeActivity :
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        // Acting like a teen: deliberately ignoring parent.
-        if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
-        ) {
-            composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            return
-        }
-
-        handleCloseButton()
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         Log.d(TAG, event.toString())
         if (event.action == KeyEvent.ACTION_DOWN) {
@@ -1080,7 +1085,7 @@ class ComposeActivity :
             }
 
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
                 return true
             }
         }
