@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.parcelableExtra
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.parcelize.Parcelize
 
@@ -39,7 +40,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         return if (resultCode == Activity.RESULT_CANCELED) {
             LoginResult.Cancel
         } else {
-            intent!!.getParcelableExtra(RESULT_EXTRA)!!
+            intent!!.parcelableExtra(RESULT_EXTRA)!!
         }
     }
 
@@ -48,7 +49,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         private const val DATA_EXTRA = "data"
 
         fun parseData(intent: Intent): LoginData {
-            return intent.getParcelableExtra(DATA_EXTRA)!!
+            return intent.parcelableExtra(DATA_EXTRA)!!
         }
 
         fun makeResultIntent(result: LoginResult): Intent {

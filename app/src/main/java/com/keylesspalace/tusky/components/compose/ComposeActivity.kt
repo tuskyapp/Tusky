@@ -93,6 +93,9 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.parcelable
+import com.keylesspalace.tusky.util.parcelableArrayListExtra
+import com.keylesspalace.tusky.util.parcelableExtra
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -236,12 +239,12 @@ class ComposeActivity :
         setupButtons()
         subscribeToUpdates(mediaAdapter)
 
-        photoUploadUri = savedInstanceState?.getParcelable(PHOTO_UPLOAD_URI_KEY)
+        photoUploadUri = savedInstanceState?.parcelable(PHOTO_UPLOAD_URI_KEY)
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
 
-        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+        val composeOptions: ComposeOptions? = intent.parcelableExtra(COMPOSE_OPTIONS_EXTRA)
 
         viewModel.setup(composeOptions)
 
@@ -285,12 +288,12 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                            intent.parcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                            intent.parcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
                                 pickMedia(uri)
                             }
                         }
