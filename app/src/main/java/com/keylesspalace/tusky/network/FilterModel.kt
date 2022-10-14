@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.network
 import android.text.TextUtils
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import java.util.Date
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -34,7 +35,7 @@ class FilterModel @Inject constructor() {
             .mapNotNull { it.description }
 
         return (
-            matcher.reset(status.actionableStatus.content).find() ||
+            matcher.reset(status.actionableStatus.content.parseAsMastodonHtml().toString()).find() ||
                 (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
                 (
                     attachmentsDescriptions.isNotEmpty() &&
