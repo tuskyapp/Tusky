@@ -271,7 +271,7 @@
     <string name="send_post_notification_channel_name">Надсилання дмухів</string>
     <string name="send_post_notification_error_title">Помилка надсилання дмуху</string>
     <string name="send_post_notification_title">Надсилання дмуху…</string>
-    <string name="compose_active_account_description">Оприлюднення з облікового запису %1$s</string>
+    <string name="compose_active_account_description">Публікування як %1$s</string>
     <string name="action_remove_from_list">Вилучити обліковий запис зі списку</string>
     <string name="action_add_to_list">Додати обліковий запис до списку</string>
     <string name="hint_search_people_list">Пошук серед тих, на кого ви підписані</string>
@@ -561,4 +561,10 @@
     <string name="error_following_hashtag_format">Помилка підписки на #%s</string>
     <string name="error_multimedia_size_limit">Розмір відео та аудіофайлів не може перевищувати %s Мб.</string>
     <string name="error_unfollowing_hashtag_format">Помилка скасування підписки на #%s</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="description_post_language">Мова допису</string>
+    <string name="duration_no_change">(Не змінено)</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Не вдалося налаштувати точку фокусування</string>
+    <string name="action_set_focus">Налаштувати точку фокусування</string>
 </resources>
