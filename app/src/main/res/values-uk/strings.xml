@@ -97,7 +97,7 @@
     <string name="notification_follow_request_format">%s надсилає запит на підписку</string>
     <string name="notification_follow_format">%s підписується на вас</string>
     <string name="footer_empty">Тут нічого немає. Потягніть вниз, щоб оновити!</string>
-    <string name="message_empty">Тут порожньо.</string>
+    <string name="message_empty">Нічого немає.</string>
     <string name="post_content_warning_show_less">Згорнути</string>
     <string name="post_content_warning_show_more">Розгорнути</string>
     <string name="post_sensitive_media_directions">Натисніть для перегляду</string>
