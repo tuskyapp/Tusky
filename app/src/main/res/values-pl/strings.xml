@@ -228,7 +228,7 @@
     <string name="add_account_description">Dodaj nowe Konto Mastodon</string>
     <string name="action_lists">Listy</string>
     <string name="title_lists">Listy</string>
-    <string name="compose_active_account_description">Publikowanie z konta %1$s</string>
+    <string name="compose_active_account_description">Publikowanie jako %1$s</string>
     <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
     <string name="action_set_caption">Ustaw podpis</string>
     <string name="action_remove">Usuń</string>
@@ -566,4 +566,11 @@
     <string name="action_dismiss">Odrzuć</string>
     <string name="action_details">Detale</string>
     <string name="error_loading_account_details">Ładowanie informacji o koncie nie powiodło się</string>
+    <string name="error_multimedia_size_limit">Pliki wideo i audio nie mogą przekraczać rozmiarem %s MB.</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="description_post_language">Język wpisu</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="duration_no_change">(bez zmian)</string>
+    <string name="error_following_hashtag_format">Wystąpił błąd podczas obserwowania #%s</string>
+    <string name="error_unfollowing_hashtag_format">Wystąpił błąd podczas usuwania obserwacji #%s</string>
 </resources>
