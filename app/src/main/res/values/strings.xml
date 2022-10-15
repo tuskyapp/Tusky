@@ -617,6 +617,7 @@
     <string name="no_scheduled_posts">You don\'t have any scheduled posts.</string>
     <string name="no_announcements">There are no announcements.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
+    <string name="pref_title_show_self_username_disambiguation">Show username when multiple accounts are logged in</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
     <string name="pref_title_confirm_reblogs">Show confirmation dialog before boosting</string>
     <string name="pref_title_confirm_favourites">Show confirmation dialog before favoriting</string>

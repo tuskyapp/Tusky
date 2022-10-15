@@ -834,7 +834,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.clear()
         header.profiles = profiles
         header.setActiveProfile(accountManager.activeAccount!!.id)
-        binding.mainToolbar.subtitle = if (accountManager.accounts.size > 1) {
+        binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername(this)) {
             accountManager.activeAccount!!.fullName
         } else null
     }
