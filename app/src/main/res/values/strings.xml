@@ -408,6 +408,7 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Describe for visually impaired\n(%d character limit)</item>
     </plurals>
+    <string name="set_focus_description">Tap or drag the circle to choose the focal point which will always be visible in thumbnails.</string>
     <string name="action_set_caption">Set caption</string>
     <string name="action_set_focus">Set focus point</string>
     <string name="action_edit_image">Edit image</string>
