@@ -531,4 +531,7 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Không đổi)</string>
     <string name="description_post_language">Ngôn ngữ đăng</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Không thể chọn tâm điểm</string>
+    <string name="action_set_focus">Chọn tâm điểm</string>
 </resources>

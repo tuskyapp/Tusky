@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Wsparcie dla Unified Push. Aby aktywować wsparcie należy zalogować się ponownie na swoje konta.
+- Ilość odpowiedzi na wpis jest teraz pokazywana na osiach czasu.
+- Obrazki mogą teraz być przycinane podczas tworzenia wpisu.
+- Profile pokazują teraz datę, w której zostały stworzone.
+- Nazwa przeglądanej listy jest teraz pokazywana na górnym pasku.
+- Mnóstwo poprawek
+- Ulepszone tłumaczenia

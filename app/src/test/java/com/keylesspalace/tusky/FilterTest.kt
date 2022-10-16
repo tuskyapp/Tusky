@@ -55,6 +55,14 @@ class FilterTest {
             ),
             Filter(
                 id = "123",
+                phrase = "#hashtag",
+                context = listOf(Filter.HOME),
+                expiresAt = null,
+                irreversible = false,
+                wholeWord = true
+            ),
+            Filter(
+                id = "123",
                 phrase = "expired",
                 context = listOf(Filter.HOME),
                 expiresAt = Date.from(Instant.now().minusSeconds(10)),
@@ -68,6 +76,14 @@ class FilterTest {
                 expiresAt = Date.from(Instant.now().plusSeconds(3600)),
                 irreversible = false,
                 wholeWord = true
+            ),
+            Filter(
+                id = "123",
+                phrase = "href",
+                context = listOf(Filter.HOME),
+                expiresAt = null,
+                irreversible = false,
+                wholeWord = false
             ),
         )
 
@@ -162,6 +178,33 @@ class FilterTest {
         assertTrue(
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two someone@twitter.com three")
+            )
+        )
+    }
+
+    @Test
+    fun shouldFilterHashtags() {
+        assertTrue(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "#hashtag one two three")
+            )
+        )
+    }
+
+    @Test
+    fun shouldFilterHashtags_whenContentIsMarkedUp() {
+        assertTrue(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "<p><a href=\"https://foo.bar/tags/hashtag\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>hashtag</span></a>one two three</p>")
+            )
+        )
+    }
+
+    @Test
+    fun shouldNotFilterHtmlAttributes() {
+        assertFalse(
+            filterModel.shouldFilterStatus(
+                mockStatus(content = "<p><a href=\"https://foo.bar/\">https://foo.bar/</a> one two three</p>")
             )
         )
     }
