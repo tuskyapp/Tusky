@@ -137,8 +137,15 @@ class SendStatusService : Service(), Injectable {
                     delay(1000L * mediaCheckRetries)
                     statusToSend.mediaProcessed.forEachIndexed { index, processed ->
                         if (!processed) {
-                            // Mastodon returns 206 if the media was not yet processed
-                            statusToSend.mediaProcessed[index] = mastodonApi.getMedia(statusToSend.mediaIds[index]).code() == 200
+                            when (mastodonApi.getMedia(statusToSend.mediaIds[index]).code()) {
+                                200 -> statusToSend.mediaProcessed[index] = true // success
+                                206 -> { } // media is still being processed, continue checking
+                                else -> { // some kind of server error, retrying probably doesn't make sense
+                                    failSending(statusId)
+                                    stopSelfWhenDone()
+                                    return@launch
+                                }
+                            }
                         }
                     }
                     mediaCheckRetries ++
@@ -186,18 +193,7 @@ class SendStatusService : Service(), Injectable {
                 Log.w(TAG, "failed sending status", throwable)
                 if (throwable is HttpException) {
                     // the server refused to accept the status, save status & show error message
-                    statusesToSend.remove(statusId)
-                    saveStatusToDrafts(statusToSend)
-
-                    val notification = buildDraftNotification(
-                        R.string.send_post_notification_error_title,
-                        R.string.send_post_notification_saved_content,
-                        statusToSend.accountId,
-                        statusId
-                    )
-
-                    notificationManager.cancel(statusId)
-                    notificationManager.notify(errorNotificationId--, notification)
+                    failSending(statusId)
                 } else {
                     // a network problem occurred, let's retry sending the status
                     retrySending(statusId)
@@ -222,6 +218,24 @@ class SendStatusService : Service(), Injectable {
         if (statusesToSend.isEmpty()) {
             ServiceCompat.stopForeground(this@SendStatusService, ServiceCompat.STOP_FOREGROUND_REMOVE)
             stopSelf()
+        }
+    }
+
+    private suspend fun failSending(statusId: Int) {
+        val failedStatus = statusesToSend.remove(statusId)
+        if (failedStatus != null) {
+
+            saveStatusToDrafts(failedStatus)
+
+            val notification = buildDraftNotification(
+                R.string.send_post_notification_error_title,
+                R.string.send_post_notification_saved_content,
+                failedStatus.accountId,
+                statusId
+            )
+
+            notificationManager.cancel(statusId)
+            notificationManager.notify(errorNotificationId++, notification)
         }
     }
 
