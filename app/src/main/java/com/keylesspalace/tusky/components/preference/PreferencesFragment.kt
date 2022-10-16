@@ -145,10 +145,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     isSingleLineTitle = false
                 }
 
-                switchPreference {
-                    setDefaultValue(true)
-                    key = PrefKeys.SHOW_SELF_USERNAME_DISAMBIGUATION
-                    setTitle(R.string.pref_title_show_self_username_disambiguation)
+                listPreference {
+                    setDefaultValue("disambiguate")
+                    setEntries(R.array.pref_show_self_username_names)
+                    setEntryValues(R.array.pref_show_self_username_values)
+                    key = PrefKeys.SHOW_SELF_USERNAME
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_show_self_username)
                     isSingleLineTitle = false
                 }
 

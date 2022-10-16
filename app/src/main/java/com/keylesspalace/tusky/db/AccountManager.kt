@@ -234,8 +234,12 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      */
     fun shouldDisplaySelfUsername(context: Context): Boolean {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val showUsernamePreference = sharedPreferences.getString(PrefKeys.SHOW_SELF_USERNAME, "disambiguate")
+        if (showUsernamePreference == "always")
+            return true
+        if (showUsernamePreference == "never")
+            return false
 
-        return sharedPreferences.getBoolean(PrefKeys.SHOW_SELF_USERNAME_DISAMBIGUATION, true) &&
-            accounts.size > 1
+        return accounts.size > 1 // "disambiguate"
     }
 }
