@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -134,7 +135,13 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
     }
 
     override fun delete(item: ScheduledStatus) {
-        viewModel.deleteScheduledStatus(item)
+        AlertDialog.Builder(this)
+            .setMessage(R.string.delete_scheduled_post_warning)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                viewModel.deleteScheduledStatus(item)
+            }
+            .show()
     }
 
     companion object {
