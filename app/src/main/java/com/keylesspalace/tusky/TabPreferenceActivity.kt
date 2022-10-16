@@ -74,7 +74,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private val hashtagRegex by lazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
 
-    private val onFabDismissedCallback = object: OnBackPressedCallback(false) {
+    private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
             toggleFab(false)
         }

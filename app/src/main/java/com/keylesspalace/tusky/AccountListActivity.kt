@@ -45,7 +45,7 @@ class AccountListActivity : BaseActivity(), HasAndroidInjector {
         val binding = ActivityAccountListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val type: Type = intent.requireSerializableExtra(EXTRA_TYPE)!!
+        val type: Type = intent.requireSerializableExtra(EXTRA_TYPE)
         val id: String? = intent.getStringExtra(EXTRA_ID)
         val accountLocked: Boolean = intent.getBooleanExtra(EXTRA_ACCOUNT_LOCKED, false)
 
