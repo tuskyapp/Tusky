@@ -281,7 +281,6 @@ class ComposeActivity :
             }
 
             it.getString(SCHEDULED_TIME_KEY)?.let { time ->
-                binding.composeScheduleView.setDateTime(time)
                 viewModel.updateScheduledAt(time)
             }
         }
