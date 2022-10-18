@@ -235,8 +235,6 @@ class ComposeActivity :
         setupButtons()
         subscribeToUpdates(mediaAdapter)
 
-        photoUploadUri = savedInstanceState?.getParcelable(PHOTO_UPLOAD_URI_KEY)
-
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
 
@@ -269,6 +267,23 @@ class ComposeActivity :
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
+
+        /* Finally, overwrite state with data from saved instance state. */
+        savedInstanceState?.let {
+            photoUploadUri = it.getParcelable(PHOTO_UPLOAD_URI_KEY)
+
+            (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
+                setStatusVisibility(this)
+            }
+
+            it.getBoolean(CONTENT_WARNING_VISIBLE_KEY).apply {
+                viewModel.contentWarningChanged(this)
+            }
+
+            it.getString(SCHEDULED_TIME_KEY)?.let { time ->
+                viewModel.updateScheduledAt(time)
+            }
+        }
 
         binding.composeEditField.post {
             binding.composeEditField.requestFocus()
@@ -625,6 +640,9 @@ class ComposeActivity :
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(PHOTO_UPLOAD_URI_KEY, photoUploadUri)
+        outState.putSerializable(VISIBILITY_KEY, viewModel.statusVisibility.value)
+        outState.putBoolean(CONTENT_WARNING_VISIBLE_KEY, viewModel.showContentWarning.value)
+        outState.putString(SCHEDULED_TIME_KEY, viewModel.scheduledAt.value)
         super.onSaveInstanceState(outState)
     }
 
@@ -1208,6 +1226,9 @@ class ComposeActivity :
         private const val NOTIFICATION_ID_EXTRA = "NOTIFICATION_ID"
         private const val ACCOUNT_ID_EXTRA = "ACCOUNT_ID"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
+        private const val VISIBILITY_KEY = "VISIBILITY"
+        private const val SCHEDULED_TIME_KEY = "SCHEDULE"
+        private const val CONTENT_WARNING_VISIBLE_KEY = "CONTENT_WARNING_VISIBLE"
 
         /**
          * @param options ComposeOptions to configure the ComposeActivity
