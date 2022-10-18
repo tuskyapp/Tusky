@@ -96,6 +96,16 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_main_nav_position)
                 }
 
+                listPreference {
+                    setDefaultValue("disambiguate")
+                    setEntries(R.array.pref_show_self_username_names)
+                    setEntryValues(R.array.pref_show_self_username_values)
+                    key = PrefKeys.SHOW_SELF_USERNAME
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_show_self_username)
+                    isSingleLineTitle = false
+                }
+
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.HIDE_TOP_TOOLBAR
@@ -142,16 +152,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue(true)
                     key = PrefKeys.USE_BLURHASH
                     setTitle(R.string.pref_title_gradient_for_media)
-                    isSingleLineTitle = false
-                }
-
-                listPreference {
-                    setDefaultValue("disambiguate")
-                    setEntries(R.array.pref_show_self_username_names)
-                    setEntryValues(R.array.pref_show_self_username_values)
-                    key = PrefKeys.SHOW_SELF_USERNAME
-                    setSummaryProvider { entry }
-                    setTitle(R.string.pref_title_show_self_username)
                     isSingleLineTitle = false
                 }
 
