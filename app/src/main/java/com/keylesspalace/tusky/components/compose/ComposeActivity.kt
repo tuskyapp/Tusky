@@ -244,7 +244,7 @@ class ComposeActivity :
 
         viewModel.setup(composeOptions)
 
-        if (accountManager.accounts.size > 1) {
+        if (accountManager.shouldDisplaySelfUsername(this)) {
             binding.composeUsernameView.text = getString(
                 R.string.compose_active_account_description,
                 activeAccount.fullName

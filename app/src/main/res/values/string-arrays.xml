@@ -23,4 +23,10 @@
         <item>@string/post_text_size_largest</item>
     </string-array>
 
+    <string-array name="pref_show_self_username_names">
+        <item>@string/pref_show_self_username_always</item>
+        <item>@string/pref_show_self_username_disambiguate</item>
+        <item>@string/pref_show_self_username_never</item>
+    </string-array>
+
 </resources>
