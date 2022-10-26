@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Support for new Mastodon 3.5 notification types
+- The bot badge now looks better and adjusts to the selected theme
+- Text can now be selected on the post detail view
+- Fixed a lot of bugs, including one that prevented logins on Android 6 and lower
