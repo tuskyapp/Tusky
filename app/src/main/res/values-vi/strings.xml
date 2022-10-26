@@ -534,4 +534,9 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="error_failed_set_focus">Không thể chọn tâm điểm</string>
     <string name="action_set_focus">Chọn tâm điểm</string>
+    <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
+    <string name="pref_title_show_self_username">Hiện tên người dùng trong thanh công cụ</string>
+    <string name="pref_show_self_username_always">Luôn luôn</string>
+    <string name="pref_show_self_username_disambiguate">Khi đăng nhập nhiều tài khoản</string>
+    <string name="pref_show_self_username_never">Không bao giờ</string>
 </resources>
