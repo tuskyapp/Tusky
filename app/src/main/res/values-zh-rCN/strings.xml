@@ -553,4 +553,9 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="error_failed_set_focus">设置焦点失败</string>
     <string name="action_set_focus">设置焦点</string>
+    <string name="set_focus_description">轻按或拖动圆圈选择始终在缩略图中可见的焦点。</string>
+    <string name="pref_show_self_username_disambiguate">登录多个账户时</string>
+    <string name="pref_title_show_self_username">在工具栏中显示用户名</string>
+    <string name="pref_show_self_username_always">始终</string>
+    <string name="pref_show_self_username_never">从不</string>
 </resources>
