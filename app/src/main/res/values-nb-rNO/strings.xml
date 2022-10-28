@@ -545,4 +545,9 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Sett fokuspunkt</string>
     <string name="error_failed_set_focus">Klarte ikke å sette et fokuspunkt</string>
+    <string name="set_focus_description">Trykk eller dra sirkelen for å velge fokuspunktet som alltid skal være synlig i miniatyrbilder.</string>
+    <string name="pref_show_self_username_always">Alltid</string>
+    <string name="pref_show_self_username_disambiguate">Når flere konti er logget inn</string>
+    <string name="pref_show_self_username_never">Aldri</string>
+    <string name="pref_title_show_self_username">Vis brukernavn på verktøylinjer</string>
 </resources>

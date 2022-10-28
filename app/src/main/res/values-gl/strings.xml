@@ -261,7 +261,7 @@
 \n(%d caracteres como máximo)</item>
     </plurals>
     <string name="error_failed_set_caption">Fallou establecemento do texto</string>
-    <string name="compose_active_account_description">Publicar coa conta %1$s</string>
+    <string name="compose_active_account_description">Publicar como %1$s</string>
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
     <string name="hint_search_people_list">Atopar persoas ás que segues</string>
@@ -536,4 +536,14 @@
     <string name="action_edit_image">Editar imaxe</string>
     <string name="error_loading_account_details">Fallou a carga dos detalles da conta</string>
     <string name="error_image_edit_failed">A imaxe non puido ser editada.</string>
+    <string name="set_focus_description">Toca ou arrastra o círculo para elexir onde centrar a imaxe e sexa máis visible nas miniaturas.</string>
+    <string name="duration_no_change">(Sen cambio)</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
+    <string name="description_post_language">Idioma de publicación</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Fallou o establecemento do foco</string>
+    <string name="action_set_focus">Establece foco</string>
+    <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
+    <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
 </resources>
