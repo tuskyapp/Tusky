@@ -668,5 +668,6 @@
     <string name="dialog_push_notification_migration_other_accounts">You have re-logged into your current account to grant push subscription permission to Tusky. However, you still have other accounts that have not been migrated this way. Switch to them and re-login one by one in order to enable UnifiedPush notifications support.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
 
+    <string name="delete_scheduled_post_warning">Delete this scheduled post?</string>
 
 </resources>
