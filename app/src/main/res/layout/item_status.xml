@@ -314,6 +314,7 @@
         android:padding="6dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        app:tint="@color/tusky_grey_50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
