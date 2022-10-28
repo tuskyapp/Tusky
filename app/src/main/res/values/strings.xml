@@ -293,6 +293,10 @@
     <string name="post_text_size_large">Large</string>
     <string name="post_text_size_largest">Largest</string>
 
+    <string name="pref_show_self_username_always">Always</string>
+    <string name="pref_show_self_username_disambiguate">When multiple accounts logged in</string>
+    <string name="pref_show_self_username_never">Never</string>
+
     <string name="notification_mention_name">New Mentions</string>
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_follow_name">New Followers</string>
@@ -618,6 +622,7 @@
     <string name="no_scheduled_posts">You don\'t have any scheduled posts.</string>
     <string name="no_announcements">There are no announcements.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
+    <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
     <string name="pref_title_confirm_reblogs">Show confirmation dialog before boosting</string>
     <string name="pref_title_confirm_favourites">Show confirmation dialog before favoriting</string>
@@ -663,5 +668,6 @@
     <string name="dialog_push_notification_migration_other_accounts">You have re-logged into your current account to grant push subscription permission to Tusky. However, you still have other accounts that have not been migrated this way. Switch to them and re-login one by one in order to enable UnifiedPush notifications support.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
 
+    <string name="delete_scheduled_post_warning">Delete this scheduled post?</string>
 
 </resources>

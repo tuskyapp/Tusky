@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Get notified when a followed user posts - click the bell icon on their profile! (Mastodon 3.3.0 feature)
+- The draft feature in Tusky has been completely redesigned to be faster, more user friendly and less buggy.
+- A new wellbeing mode that allows you to limit certain Tusky features has been added.
+- Tusky can now animate custom emojis.
+Full changelog: https://github.com/tuskyapp/Tusky/releases

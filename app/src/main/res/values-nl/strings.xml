@@ -76,8 +76,8 @@
     <string name="action_retry">Opnieuw proberen</string>
     <string name="action_close">Sluiten</string>
     <string name="action_view_profile">Profiel</string>
-    <string name="action_view_preferences">Voorkeuren</string>
-    <string name="action_view_account_preferences">Accountinstellingen</string>
+    <string name="action_view_preferences">App-voorkeuren</string>
+    <string name="action_view_account_preferences">Accountvoorkeuren</string>
     <string name="action_view_favourites">Favorieten</string>
     <string name="action_view_mutes">Genegeerde gebruikers</string>
     <string name="action_view_blocks">Geblokkeerde gebruikers</string>
@@ -172,7 +172,7 @@
     <string name="app_them_dark">Donker</string>
     <string name="app_theme_light">Licht</string>
     <string name="app_theme_black">Zwart</string>
-    <string name="app_theme_auto">Automatisch tijdens zonsondergang</string>
+    <string name="app_theme_auto">Automatisch tijdens zonsop- en ondergang</string>
     <string name="app_theme_system">Systeemthema gebruiken</string>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
@@ -257,7 +257,7 @@
     <string name="add_account_description">Een nieuw Mastodonaccount toevoegen</string>
     <string name="action_lists">Lijsten</string>
     <string name="title_lists">Lijsten</string>
-    <string name="compose_active_account_description">Aan het publiceren met account %1$s</string>
+    <string name="compose_active_account_description">Berichten plaatsen als %1$s</string>
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Omschrijf dit voor mensen met een visuele beperking\n(tekenlimiet is %d)</item>
@@ -437,7 +437,7 @@
     <string name="action_access_scheduled_posts">Ingeplande berichten</string>
     <string name="action_schedule_post">Ingepland bericht</string>
     <string name="action_reset_schedule">Herstellen</string>
-    <string name="about_powered_by_tusky">Powered by Tusky</string>
+    <string name="about_powered_by_tusky">Mogelijk gemaakt door Tusky</string>
     <string name="pref_title_alway_open_spoiler">Berichten met tekstwaarschuwingen altijd uitklappen</string>
     <string name="description_post_bookmarked">Als bladwijzer toegevoegd</string>
     <string name="select_list_title">Kies een lijst</string>
@@ -466,7 +466,7 @@
     <string name="account_note_saved">Opgeslagen!</string>
     <string name="account_note_hint">Jouw eigen opmerking over dit account</string>
     <string name="pref_title_wellbeing_mode">Welzijn</string>
-    <string name="pref_title_hide_top_toolbar">De titel van de bovenste statusbalk verbergen</string>
+    <string name="pref_title_hide_top_toolbar">De bovenste werkbalk verbergen</string>
     <string name="pref_title_confirm_reblogs">Vraag voor het boosten van een bericht een bevestiging</string>
     <string name="pref_title_show_cards_in_timelines">Linkpreviews in tijdlijnen weergeven</string>
     <string name="no_announcements">Er zijn geen aankondigingen.</string>
@@ -516,7 +516,7 @@
 \n
 \nPushmeldingen worden hierdoor niet beïnvloed, maar je kunt de voorkeuren voor meldingen handmatig wijzigen.</string>
     <string name="notification_sign_up_format">%s heeft zich geregistreerd</string>
-    <string name="tips_push_notification_migration">Alle accounts opnieuw inloggen i.v.m. ondersteuning pushmeldingen</string>
+    <string name="tips_push_notification_migration">Alle accounts opnieuw inloggen i.v.m. ondersteuning pushmeldingen.</string>
     <string name="error_multimedia_size_limit">Afbeeldingen en video\'s kunnen niet groter zijn dan %s MB.</string>
     <string name="error_image_edit_failed">Deze afbeelding kon niet worden bewerkt.</string>
     <string name="title_login">Inloggen</string>
@@ -541,8 +541,23 @@
     <string name="duration_365_days">365 dagen</string>
     <string name="pref_title_confirm_favourites">Vraag voor het markeren als favoriet een bevestiging</string>
     <string name="tusky_compose_post_quicksetting_label">Bericht schrijven</string>
-    <string name="account_date_joined">Geregistreerd op %1$s</string>
+    <string name="account_date_joined">Geregistreerd in %1$s</string>
     <string name="saving_draft">Concept wordt opgeslagen…</string>
     <string name="error_loading_account_details">Laden van accountdetails mislukt</string>
     <string name="error_could_not_load_login_page">De inlogpagina kon niet worden geladen.</string>
+    <string name="description_post_language">Taal van jouw berichten</string>
+    <string name="duration_no_change">(geen verandering)</string>
+    <string name="pref_title_show_self_username">Gebruikersnaam op werkbalken tonen</string>
+    <string name="set_focus_description">Tik of sleep de cirkel naar een centraal focuspunt dat op elke thumbnail zichtbaar moet blijven.</string>
+    <string name="dialog_push_notification_migration">Om pushmeldingen via UnifiedPush te kunnen gebruiken, moet Tusky zich op meldingen van jouw Mastodon-server abonneren. Dit betekent dat je opnieuw moet inloggen om de OAuth-toestemmingen voor Tusky te wijzigen. Het hier of onder accountvoorkeuren opnieuw inloggen behoudt jouw lokale concepten en buffer.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Je hebt opnieuw op jouw huidige account ingelogd om toestemming voor pushmeldingen aan Tusky te verlenen. Je hebt echter nog andere accounts die nog niet op deze manier zijn overgezet. Ga naar deze accounts en log één voor één opnieuw in om UnifiedPush-meldingen ook daar in te schakelen.</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="pref_show_self_username_always">Altijd</string>
+    <string name="pref_show_self_username_disambiguate">Wanneer meerdere accounts zijn ingelogd</string>
+    <string name="pref_show_self_username_never">Nooit</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="action_set_focus">Focuspunt instellen</string>
+    <string name="error_failed_set_focus">Instellen van focuspunt mislukt</string>
+    <string name="error_following_hashtag_format">Fout tijdens het volgen van #%s</string>
+    <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%s</string>
 </resources>

@@ -42,7 +42,7 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="post_sent">Надіслати!</string>
+    <string name="post_sent">Надіслано!</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
@@ -54,7 +54,7 @@
     <string name="action_mentions">Згадки</string>
     <string name="action_links">Посилання</string>
     <string name="action_content_warning">Попередження про вміст</string>
-    <string name="action_access_scheduled_posts">Заплановані дмухи</string>
+    <string name="action_access_scheduled_posts">Заплановані дописи</string>
     <string name="action_access_drafts">Чернетки</string>
     <string name="action_reject">Відхилити</string>
     <string name="action_accept">Прийняти</string>
@@ -107,7 +107,7 @@
     <string name="compose_shortcut_short_label">Написати</string>
     <string name="action_unmute_conversation">Скасувати приглушення розмови</string>
     <string name="action_mute_conversation">Заглушити розмову</string>
-    <string name="title_scheduled_posts">Заплановані дмухи</string>
+    <string name="title_scheduled_posts">Заплановані дописи</string>
     <string name="description_visiblity_private">Підписники</string>
     <string name="action_compose_shortcut">Написати</string>
     <string name="title_media">Медіа</string>
@@ -156,7 +156,7 @@
 \n - Статистика підписників/Публікацій у профілях
 \n
 \n На push-сповіщення це не вплине, але ви можете переглянути налаштування сповіщень вручну.</string>
-    <string name="description_post_favourited">Вподобано</string>
+    <string name="description_post_favourited">Уподобано</string>
     <string name="title_favourited_by">Вподобали</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> вподобання</item>
@@ -241,9 +241,9 @@
     <string name="poll_info_time_absolute">завершується о %s</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s особа</item>
-        <item quantity="few">%s особи</item>
-        <item quantity="many">%s осіб</item>
-        <item quantity="other">%s осіб</item>
+        <item quantity="few">%s людини</item>
+        <item quantity="many">%s людей</item>
+        <item quantity="other">%s людей</item>
     </plurals>
     <plurals name="poll_info_votes">
         <item quantity="one">%s голос</item>
@@ -264,13 +264,13 @@
     <string name="later">Пізніше</string>
     <string name="restart_emoji">Вам потрібно буде перезапустити Tusky, щоб застосувати ці зміни</string>
     <string name="restart_required">Необхідно перезапустити застосунок</string>
-    <string name="action_open_post">Відкрити дмух</string>
-    <string name="expand_collapse_all_posts">Розгорнути/згорнути всі статуси</string>
-    <string name="send_post_notification_saved_content">Копію дмуху збережено до ваших чернеток</string>
+    <string name="action_open_post">Відкрити допис</string>
+    <string name="expand_collapse_all_posts">Розгорнути/згорнути всі дописи</string>
+    <string name="send_post_notification_saved_content">Копію допису збережено до ваших чернеток</string>
     <string name="send_post_notification_cancel_title">Надсилання скасовано</string>
-    <string name="send_post_notification_channel_name">Надсилання дмухів</string>
-    <string name="send_post_notification_error_title">Помилка надсилання дмуху</string>
-    <string name="send_post_notification_title">Надсилання дмуху…</string>
+    <string name="send_post_notification_channel_name">Надсилання дописів</string>
+    <string name="send_post_notification_error_title">Помилка надсилання допису</string>
+    <string name="send_post_notification_title">Надсилання допису…</string>
     <string name="compose_active_account_description">Публікування як %1$s</string>
     <string name="action_remove_from_list">Вилучити обліковий запис зі списку</string>
     <string name="action_add_to_list">Додати обліковий запис до списку</string>
@@ -355,7 +355,7 @@
     <string name="post_text_size_medium">Середній</string>
     <string name="post_text_size_small">Маленький</string>
     <string name="post_text_size_smallest">Найменший</string>
-    <string name="pref_post_text_size">Розмір шрифту статусу</string>
+    <string name="pref_post_text_size">Розмір шрифту допису</string>
     <string name="post_privacy_followers_only">Лише для підписників</string>
     <string name="description_visiblity_unlisted">Приховано</string>
     <string name="post_privacy_unlisted">Приховано</string>
@@ -413,8 +413,8 @@
     <string name="dialog_block_warning">Заблокувати @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Сховати весь домен</string>
     <string name="mute_domain_warning">Ви впевнені, що хочете заблокувати все з %s\? Ви не побачите вміст із цього домену в жодних загальнодоступних стрічках або у своїх сповіщеннях. Ваших підписників з цього домену буде видалено.</string>
-    <string name="dialog_redraft_post_warning">Видалити й переписати цей дмух\?</string>
-    <string name="dialog_delete_post_warning">Видалити цей дмух\?</string>
+    <string name="dialog_redraft_post_warning">Видалити й переписати цей допис\?</string>
+    <string name="dialog_delete_post_warning">Видалити цей допис\?</string>
     <string name="dialog_unfollow_warning">Не стежити за цим обліковим записом\?</string>
     <string name="dialog_message_cancel_follow_request">Відкликати запит на підписку\?</string>
     <string name="dialog_download_image">Завантаження</string>
@@ -433,7 +433,7 @@
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Відповісти…</string>
     <string name="hint_display_name">Показуване ім\'я</string>
-    <string name="post_sent_long">Відповідь успішно надіслано.</string>
+    <string name="post_sent_long">Відповідь надіслано.</string>
     <string name="confirmation_domain_unmuted">%s показано</string>
     <string name="confirmation_unmuted">Глушіння користувача прибрано</string>
     <string name="confirmation_unblocked">Користувача розблоковано</string>
@@ -448,12 +448,12 @@
     <string name="title_hashtags_dialog">Хештеги</string>
     <string name="action_open_reblogger">Відкрити автора просування</string>
     <string name="action_add_tab">Додати вкладку</string>
-    <string name="action_schedule_post">Запланувати дмух</string>
+    <string name="action_schedule_post">Запланувати допис</string>
     <string name="action_emoji_keyboard">Клавіотура емодзі</string>
-    <string name="drafts_post_reply_removed">Дмух, для якого ви створили чернетку відповіді, вилучено</string>
+    <string name="drafts_post_reply_removed">Допис, для якого ви створили чернетку відповіді, вилучено</string>
     <string name="draft_deleted">Чернетку видалено</string>
     <string name="drafts_failed_loading_reply">Не вдалося завантажити дані відповіді</string>
-    <string name="drafts_post_failed_to_send">Не вдалося надіслати цей дмух!</string>
+    <string name="drafts_post_failed_to_send">Не вдалося надіслати цей допис!</string>
     <string name="dialog_delete_list_warning">Ви дійсно хочете видалити список %s\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Ви не можете завантажити більше ніж %1$d медіавкладення.</item>
@@ -472,7 +472,7 @@
     <string name="pref_title_show_cards_in_timelines">Показувати попередній перегляд посилань у стрічках</string>
     <string name="warning_scheduling_interval">Найкоротший час планування Mastodon становить 5 хвилин.</string>
     <string name="no_announcements">Оголошень немає.</string>
-    <string name="no_scheduled_posts">Черга статусів порожня.</string>
+    <string name="no_scheduled_posts">Немає запланованих дописів.</string>
     <string name="no_drafts">У вас немає чернеток.</string>
     <string name="post_lookup_error_format">Помилка пошуку допису %s</string>
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
@@ -480,7 +480,7 @@
     <string name="failed_search">Не вдалося здійснити пошук</string>
     <string name="report_description_remote_instance">Обліковий запис з іншого сервера. Надіслати анонімізовану копію звіту й туди\?</string>
     <string name="report_description_1">Скаргу буде надіслано вашому модератору сервера. Ви можете надати пояснення, чому ви повідомляєте про цей обліковий запис знизу:</string>
-    <string name="failed_fetch_posts">Не вдалося отримати статуси</string>
+    <string name="failed_fetch_posts">Не вдалося отримати дописи</string>
     <string name="report_remote_instance">Переслати до %s</string>
     <string name="compose_preview_image_description">Дії для зображення %s</string>
     <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення\?</string>
@@ -498,7 +498,7 @@
     <string name="description_post_bookmarked">Додано до закладок</string>
     <string name="description_post_reblogged">Просунуто</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="one">досягнено обмеження %1$d вкладка</item>
+        <item quantity="one">досягнено обмеження %1$d вкладку</item>
         <item quantity="few">досягнено обмеження %1$d вкладки</item>
         <item quantity="many">досягнено обмеження %1$d вкладок</item>
         <item quantity="other">досягнено обмеження %1$d вкладок</item>
@@ -567,4 +567,9 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="error_failed_set_focus">Не вдалося налаштувати точку фокусування</string>
     <string name="action_set_focus">Налаштувати точку фокусування</string>
+    <string name="pref_show_self_username_always">Завжди</string>
+    <string name="set_focus_description">Торкніться або перетягніть коло, щоб вибрати точку фокусування, яку завжди буде видно на мініатюрах.</string>
+    <string name="pref_show_self_username_disambiguate">Якщо ви ввійшли у кілька облікових записів</string>
+    <string name="pref_show_self_username_never">Ніколи</string>
+    <string name="pref_title_show_self_username">Показувати ім\'я користувача на панелях інструментів</string>
 </resources>

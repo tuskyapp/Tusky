@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Follow requests are now always shown in the main menu.
+- The time picker for scheduling a post has a design consistent with the rest of the app now
+Full changelog: https://github.com/tuskyapp/Tusky/releases
