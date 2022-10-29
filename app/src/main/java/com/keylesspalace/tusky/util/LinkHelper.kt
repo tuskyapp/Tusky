@@ -74,9 +74,20 @@ fun markupHiddenUrls(context: Context, content: CharSequence, mentions: List<Men
     val obscuredLinkSpans = originalSpans.filter {
         val text = spannableContent.subSequence(spannableContent.getSpanStart(it), spannableContent.getSpanEnd(it))
         val firstCharacter = text[0]
-        firstCharacter != '#' &&
-            firstCharacter != '@' &&
-            getDomain(text.toString()) != getDomain(it.url)
+        return@filter if (firstCharacter == '#' || firstCharacter == '@') {
+            false
+        } else {
+            var textDomain = getDomain(text.toString())
+            if (textDomain.isBlank()) {
+                // Allow "some.domain" or "www.some.domain" without a domain notifier
+                textDomain = if (text.startsWith("www.")) {
+                    text.substring(4)
+                } else {
+                    text.toString()
+                }
+            }
+            getDomain(it.url) != textDomain
+        }
     }
 
     for (span in obscuredLinkSpans) {
