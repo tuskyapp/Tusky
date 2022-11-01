@@ -1134,12 +1134,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             View.OnClickListener visitLink = v -> listener.onViewUrl(card.getUrl());
-            View.OnClickListener openImage = v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbed_url()));
 
-            cardInfo.setOnClickListener(visitLink);
+            cardView.setOnClickListener(visitLink);
             // View embedded photos in our image viewer instead of opening the browser
-            cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbed_url()) ?
-                    openImage :
+            cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbedUrl()) ?
+                    v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbedUrl())) :
                     visitLink);
 
             cardView.setClipToOutline(true);
