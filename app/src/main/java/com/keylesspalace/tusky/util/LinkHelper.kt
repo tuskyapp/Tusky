@@ -57,7 +57,7 @@ fun getDomain(urlString: String?): String {
  * @param listener to notify about particular spans that are clicked
  */
 fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener) {
-    val spannableContent = markupHiddenUrls(view.context, content, mentions, tags, listener)
+    val spannableContent = markupHiddenUrls(view.context, content)
 
     view.text = spannableContent.apply {
         getSpans(0, content.length, URLSpan::class.java).forEach {
@@ -68,15 +68,26 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
 }
 
 @VisibleForTesting
-fun markupHiddenUrls(context: Context, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener): SpannableStringBuilder {
+fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBuilder {
     val spannableContent = SpannableStringBuilder.valueOf(content)
     val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
     val obscuredLinkSpans = originalSpans.filter {
         val text = spannableContent.subSequence(spannableContent.getSpanStart(it), spannableContent.getSpanEnd(it))
         val firstCharacter = text[0]
-        firstCharacter != '#' &&
-            firstCharacter != '@' &&
-            getDomain(text.toString()) != getDomain(it.url)
+        return@filter if (firstCharacter == '#' || firstCharacter == '@') {
+            false
+        } else {
+            var textDomain = getDomain(text.toString())
+            if (textDomain.isBlank()) {
+                // Allow "some.domain" or "www.some.domain" without a domain notifier
+                textDomain = if (text.startsWith("www.")) {
+                    text.substring(4)
+                } else {
+                    text.toString()
+                }
+            }
+            getDomain(it.url) != textDomain
+        }
     }
 
     for (span in obscuredLinkSpans) {
