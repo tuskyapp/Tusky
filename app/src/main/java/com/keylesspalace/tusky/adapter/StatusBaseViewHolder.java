@@ -1142,7 +1142,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     visitLink);
 
             cardView.setClipToOutline(true);
-            cardImage.setClipToOutline(true);
         } else {
             cardView.setVisibility(View.GONE);
         }
