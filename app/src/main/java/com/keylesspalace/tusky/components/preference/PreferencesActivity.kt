@@ -50,6 +50,10 @@ class PreferencesActivity :
 
     private val restartActivitiesOnBackPressedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
+            /* Switching themes won't actually change the theme of activities on the back stack.
+             * Either the back stack activities need to all be recreated, or do the easier thing, which
+             * is hijack the back button press and use it to launch a new MainActivity and clear the
+             * back stack. */
             val intent = Intent(this@PreferencesActivity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivityWithSlideInAnimation(intent)
