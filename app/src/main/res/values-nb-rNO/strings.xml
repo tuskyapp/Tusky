@@ -260,6 +260,8 @@
     <string name="compose_active_account_description">Poster som konto %1$s</string>
     <string name="error_failed_set_caption">Klarte ikke å sette bildetekst</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one">Beskriv for de med nedsatt synsevne
+\n(maks %d tegn)</item>
         <item quantity="other">Beskriv for de med nedsatt synsevne
 \n(maks %d tegn)</item>
     </plurals>
@@ -550,4 +552,5 @@
     <string name="pref_show_self_username_disambiguate">Når flere konti er logget inn</string>
     <string name="pref_show_self_username_never">Aldri</string>
     <string name="pref_title_show_self_username">Vis brukernavn på verktøylinjer</string>
+    <string name="delete_scheduled_post_warning">Slette dette planlagte innlegget\?</string>
 </resources>
