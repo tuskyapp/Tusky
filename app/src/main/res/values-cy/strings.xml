@@ -180,7 +180,7 @@
     <string name="notification_mention_descriptions">Hysbysiadau sôn amdanoch o\'r newydd</string>
     <string name="notification_follow_name">Dilynwyr Newydd</string>
     <string name="notification_follow_description">Hysbysiadau am ddilynwyr newydd </string>
-    <string name="notification_boost_name">Hybiau</string>
+    <string name="notification_boost_name">Hybiau, Hwb</string>
     <string name="notification_boost_description">Hysbysiadau pan gaiff eich pyst eu hybu</string>
     <string name="notification_favourite_name">Ffefrynnau</string>
     <string name="notification_favourite_description">Hysbysiadau pan fo\'r pyst wedi\'u marcio fel ffefryn</string>
