@@ -545,4 +545,5 @@
     <string name="action_details">Details</string>
     <string name="error_image_edit_failed">Das Bild konnte nicht bearbeitet werden.</string>
     <string name="saving_draft">Speichere den Entwurf…</string>
+    <string name="error_multimedia_size_limit">Video- oder Tondateien dürfen nicht grösser als %s MB sein.</string>
 </resources>
