@@ -7,7 +7,7 @@
     <string name="error_failed_app_registration">Authentifizieren mit dieser Instanz fehlgeschlagen.</string>
     <string name="error_no_web_browser_found">Kein Webbrowser gefunden.</string>
     <string name="error_authorization_unknown">Ein unbekannter Fehler ist bei der Autorisierung aufgetreten.</string>
-    <string name="error_authorization_denied">Autorisierung fehlgeschlagen.</string>
+    <string name="error_authorization_denied">Autorisierung wurde abgelehnt.</string>
     <string name="error_retrieving_oauth_token">Es konnte kein Login-Token abgerufen werden.</string>
     <string name="error_compose_character_limit">Der Beitrag ist zu lang!</string>
     <string name="error_media_upload_type">Dieser Dateityp darf nicht hochgeladen werden.</string>
@@ -259,7 +259,7 @@
     <string name="action_delete_list">Liste löschen</string>
     <string name="action_edit_list">Liste bearbeiten</string>
     <string name="action_add_to_list">Ein Konto zu einer Liste hinzufügen</string>
-    <string name="compose_active_account_description">verfassen mit %1$s</string>
+    <string name="compose_active_account_description">Veröffentlichen als %1$s</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Für Menschen mit Sehbehinderung beschreiben\n(%d Zeichen)</item>
@@ -546,4 +546,6 @@
     <string name="error_image_edit_failed">Das Bild konnte nicht bearbeitet werden.</string>
     <string name="saving_draft">Speichere den Entwurf…</string>
     <string name="error_multimedia_size_limit">Video- oder Tondateien dürfen nicht grösser als %s MB sein.</string>
+    <string name="error_following_hashtag_format">#%s folgen fehlgeschlagen</string>
+    <string name="error_unfollowing_hashtag_format">#%s entfolgen fehlgeschlagen</string>
 </resources>
