@@ -464,7 +464,7 @@ class ComposeActivityTest {
     }
 
     private fun clickBack() {
-        activity.onBackPressed()
+        activity.onBackPressedDispatcher.onBackPressed()
     }
 
     private fun insertSomeTextInContent(text: String? = null) {

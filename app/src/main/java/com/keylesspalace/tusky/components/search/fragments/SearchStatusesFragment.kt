@@ -383,7 +383,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         } != null
     }
 
-    private fun showOpenAsDialog(statusUrl: String, dialogTitle: CharSequence) {
+    private fun showOpenAsDialog(statusUrl: String, dialogTitle: CharSequence?) {
         bottomSheetActivity?.showAccountChooserDialog(
             dialogTitle, false,
             object : AccountSelectionListener {

@@ -144,7 +144,7 @@
         app:layout_constraintTop_toBottomOf="@+id/status_content"
         tools:visibility="gone">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"

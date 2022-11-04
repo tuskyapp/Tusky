@@ -19,11 +19,11 @@ def getGitSha = {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId APP_ID
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 94
         versionName "19.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -92,109 +92,63 @@ android {
     }
 }
 
-ext.coroutinesVersion = "1.6.4"
-ext.lifecycleVersion = "2.5.1"
-ext.roomVersion = '2.4.3'
-ext.retrofitVersion = '2.9.0'
-ext.okhttpVersion = '4.10.0'
-ext.glideVersion = '4.13.2'
-ext.daggerVersion = '2.43.2'
-ext.materialdrawerVersion = '8.4.5'
-ext.emoji2_version = '1.1.0'
-ext.filemojicompat_version = '3.2.3'
-
-// if libraries are changed here, they should also be changed in LicenseActivity
+// library versions are in PROJECT_ROOT/gradle/libs.versions.toml
 dependencies {
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:$coroutinesVersion"
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.rx3
 
-    implementation "androidx.core:core-ktx:1.8.0"
-    implementation "androidx.appcompat:appcompat:1.4.2"
-    implementation "androidx.fragment:fragment-ktx:1.5.1"
-    implementation "androidx.browser:browser:1.4.0"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation "androidx.exifinterface:exifinterface:1.3.3"
-    implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.preference:preference-ktx:1.2.0"
-    implementation "androidx.sharetarget:sharetarget:1.2.0-rc01"
-    implementation "androidx.emoji2:emoji2:$emoji2_version"
-    implementation "androidx.emoji2:emoji2-views:$emoji2_version"
-    implementation "androidx.emoji2:emoji2-views-helper:$emoji2_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation "androidx.work:work-runtime:2.7.1"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    implementation "androidx.room:room-paging:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation libs.bundles.androidx
+    implementation libs.bundles.room
+    kapt libs.androidx.room.compiler
 
-    implementation "com.google.android.material:material:1.6.1"
+    implementation libs.android.material
 
-    implementation "com.google.code.gson:gson:2.9.0"
+    implementation libs.gson
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
-    implementation "at.connyduck:networkresult-calladapter:1.0.0"
+    implementation libs.bundles.retrofit
+    implementation libs.networkresult.calladapter
 
-    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation libs.bundles.okhttp
 
-    implementation "org.conscrypt:conscrypt-android:2.5.2"
+    implementation libs.conscrypt.android
 
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
-    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+    implementation libs.bundles.glide
+    kapt libs.glide.compiler
 
-    implementation "com.github.penfeizhou.android.animation:glide-plugin:2.23.0"
+    implementation libs.bundles.rxjava3
 
-    implementation "io.reactivex.rxjava3:rxjava:3.1.3"
-    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
-    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    implementation libs.bundles.autodispose
 
-    implementation "com.uber.autodispose2:autodispose-androidx-lifecycle:2.1.1"
-    implementation "com.uber.autodispose2:autodispose:2.1.1"
+    implementation libs.bundles.dagger
+    kapt libs.bundles.dagger.processors
 
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    implementation libs.sparkbutton
 
-    implementation "com.github.connyduck:sparkbutton:4.1.0"
+    implementation libs.photoview
 
-    implementation "com.github.chrisbanes:PhotoView:2.3.0"
+    implementation libs.bundles.material.drawer
+    implementation libs.material.typeface, {
+        artifact {
+            type = "aar"
+        }
+    }
 
-    implementation "com.mikepenz:materialdrawer:$materialdrawerVersion"
-    implementation "com.mikepenz:materialdrawer-iconics:$materialdrawerVersion"
-    implementation 'com.mikepenz:google-material-typeface:4.0.0.2-kotlin@aar'
+    implementation libs.image.cropper
 
-    implementation "com.github.CanHub:Android-Image-Cropper:4.3.1"
+    implementation libs.bundles.filemojicompat
 
-    implementation "de.c1710:filemojicompat-ui:$filemojicompat_version"
-    implementation "de.c1710:filemojicompat:$filemojicompat_version"
-    implementation "de.c1710:filemojicompat-defaults:$filemojicompat_version"
+    implementation libs.bouncycastle
+    implementation libs.unified.push
 
-    implementation "org.bouncycastle:bcprov-jdk15on:1.70"
-    implementation "com.github.UnifiedPush:android-connector:2.0.1"
+    testImplementation libs.androidx.test.junit
+    testImplementation libs.robolectric
+    testImplementation libs.bundles.mockito
+    testImplementation libs.mockwebserver
+    testImplementation libs.androidx.core.testing
+    testImplementation libs.kotlinx.coroutines.test
 
-    testImplementation "androidx.test.ext:junit:1.1.3"
-    testImplementation "org.robolectric:robolectric:4.8.1"
-    testImplementation "org.mockito:mockito-inline:4.7.0"
-    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
+    androidTestImplementation libs.espresso.core
+    androidTestImplementation libs.androidx.room.testing
+    androidTestImplementation libs.androidx.test.junit
 
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
-
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
-    androidTestImplementation "androidx.test.ext:junit:1.1.3"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 }
