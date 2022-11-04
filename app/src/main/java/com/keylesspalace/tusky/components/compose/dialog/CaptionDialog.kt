@@ -38,6 +38,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.util.parcelable
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
@@ -93,8 +94,7 @@ class CaptionDialog : DialogFragment() {
         val window = dialog.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        val previewUri =
-            arguments?.getParcelable<Uri>(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
+        val previewUri: Uri = arguments?.parcelable(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
         // Load the image and manually set it into the ImageView because it doesn't have a fixed size.
         Glide.with(this)
             .load(previewUri)

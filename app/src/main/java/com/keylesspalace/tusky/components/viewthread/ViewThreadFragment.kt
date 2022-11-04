@@ -102,7 +102,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

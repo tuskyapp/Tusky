@@ -15,9 +15,11 @@
 
 package com.keylesspalace.tusky
 
+import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -31,8 +33,11 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Lifecycle
@@ -267,6 +272,33 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when {
+                        binding.mainDrawerLayout.isOpen -> {
+                            binding.mainDrawerLayout.close()
+                        }
+                        binding.viewPager.currentItem != 0 -> {
+                            binding.viewPager.currentItem = 0
+                        }
+                        else -> {
+                            finish()
+                        }
+                    }
+                }
+            }
+        )
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                1
+            )
+        }
     }
 
     override fun onResume() {
@@ -289,20 +321,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // For some reason the navigation drawer is opened when the activity is recreated
         if (binding.mainDrawerLayout.isOpen) {
             binding.mainDrawerLayout.closeDrawer(GravityCompat.START, false)
-        }
-    }
-
-    override fun onBackPressed() {
-        when {
-            binding.mainDrawerLayout.isOpen -> {
-                binding.mainDrawerLayout.close()
-            }
-            binding.viewPager.currentItem != 0 -> {
-                binding.viewPager.currentItem = 0
-            }
-            else -> {
-                super.onBackPressed()
-            }
         }
     }
 

@@ -40,6 +40,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
@@ -92,6 +93,8 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.parcelableArrayListExtra
+import com.keylesspalace.tusky.util.parcelableExtra
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -237,8 +240,7 @@ class ComposeActivity :
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-
-        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+        val composeOptions: ComposeOptions? = intent.parcelableExtra(COMPOSE_OPTIONS_EXTRA)
 
         viewModel.setup(composeOptions)
 
@@ -299,12 +301,12 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                            intent.parcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                            intent.parcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
                                 pickMedia(uri)
                             }
                         }
@@ -510,6 +512,27 @@ class ComposeActivity :
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+                    ) {
+                        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        return
+                    }
+
+                    handleCloseButton()
+                }
+            }
+        )
     }
 
     private fun setupLanguageSpinner(initialLanguage: String?) {
@@ -1069,23 +1092,6 @@ class ComposeActivity :
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        // Acting like a teen: deliberately ignoring parent.
-        if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
-        ) {
-            composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            return
-        }
-
-        handleCloseButton()
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         Log.d(TAG, event.toString())
         if (event.action == KeyEvent.ACTION_DOWN) {
@@ -1098,7 +1104,7 @@ class ComposeActivity :
             }
 
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
                 return true
             }
         }
