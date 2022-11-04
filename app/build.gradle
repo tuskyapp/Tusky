@@ -127,7 +127,11 @@ dependencies {
     implementation libs.photoview
 
     implementation libs.bundles.material.drawer
-    implementation libs.material.typeface
+    implementation libs.material.typeface, {
+        artifact {
+            type = "aar"
+        }
+    }
 
     implementation libs.image.cropper
 
