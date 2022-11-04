@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 class LoginWebViewViewModel @Inject constructor(
     private val api: MastodonApi
-): ViewModel() {
+) : ViewModel() {
 
     val instanceRules: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
 

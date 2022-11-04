@@ -24,7 +24,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.webkit.*
+import android.webkit.CookieManager
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebStorage
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -196,7 +201,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
                     AlertDialog.Builder(this@LoginWebViewActivity)
                         .setTitle(getString(R.string.instance_rule_title, data.domain))
                         .setMessage(
-                            instanceRules.joinToString(separator = "\n\n") { "• $it"}
+                            instanceRules.joinToString(separator = "\n\n") { "• $it" }
                         )
                         .setPositiveButton(android.R.string.ok, null)
                         .show()
