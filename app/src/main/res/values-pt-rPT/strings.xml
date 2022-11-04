@@ -6,6 +6,7 @@
     <string name="notification_summary_small">%1$s e %2$s</string>
     <plurals name="notification_title_summary">
         <item quantity="one">%d nova interação</item>
+        <item quantity="many">%d novas interações</item>
         <item quantity="other">%d novas interações</item>
     </plurals>
     <string name="replying_to">A responder a @%s</string>
@@ -335,6 +336,8 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descrição para deficientes visuais
 \n(até %d letra)</item>
+        <item quantity="many">Descrição para deficientes visuais
+\n(até %d caracteres)</item>
         <item quantity="other">Descrição para deficientes visuais
 \n(até %d caracteres)</item>
     </plurals>
@@ -379,10 +382,12 @@
     <string name="pin_action">Fixar</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorito</item>
+        <item quantity="many"><b>%1$s</b> Favoritos</item>
         <item quantity="other"><b>%1$s</b> Favoritos</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> Boost</item>
+        <item quantity="many"><b>%s</b> Boosts</item>
         <item quantity="other"><b>%s</b> Boosts</item>
     </plurals>
     <string name="title_reblogged_by">Boost dado por</string>
@@ -391,6 +396,7 @@
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mais</string>
     <plurals name="max_tab_number_reached">
         <item quantity="one">atingiu o máximo de %1$d separador</item>
+        <item quantity="many">atingiu o máximo de %1$d separadores</item>
         <item quantity="other">atingiu o máximo de %1$d separadores</item>
     </plurals>
     <string name="description_post_media">Conteúdo multimédia: %s</string>
@@ -420,10 +426,12 @@
     <string name="poll_info_format"> <!-- 15 votos • 1 hora restante --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voto</item>
+        <item quantity="many">%s votos</item>
         <item quantity="other">%s votos</item>
     </plurals>
     <plurals name="poll_info_people">
         <item quantity="one">%s pessoa</item>
+        <item quantity="many">%s pessoas</item>
         <item quantity="other">%s pessoas</item>
     </plurals>
     <string name="poll_info_time_absolute">termina em %s</string>
@@ -433,18 +441,22 @@
     <string name="poll_ended_created">A sua votação terminou</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dia restante</item>
+        <item quantity="many">%d dias restantes</item>
         <item quantity="other">%d dias restantes</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d hora restante</item>
+        <item quantity="many">%d horas restantes</item>
         <item quantity="other">%d horas restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuto restante</item>
+        <item quantity="many">%d minutos restantes</item>
         <item quantity="other">%d minutos restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d segundo restante</item>
+        <item quantity="many">%d segundos restantes</item>
         <item quantity="other">%d segundos restantes</item>
     </plurals>
     <string name="button_continue">Continuar</string>
@@ -505,6 +517,7 @@
     <string name="wellbeing_hide_stats_profile">Esconder estatísticas quantitativas nos perfis</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Não é possível enviar mais de %1$d arquivo de conteúdo multimédia.</item>
+        <item quantity="many">Não é possível enviar mais de %1$d arquivos de conteúdo multimédia.</item>
         <item quantity="other">Não é possível enviar mais de %1$d arquivos de conteúdo multimédia.</item>
     </plurals>
     <string name="drafts_post_failed_to_send">Erro ao enviar o toot!</string>
@@ -525,7 +538,7 @@
     <string name="action_undo">Desfazer</string>
     <string name="action_accept">Aceitar</string>
     <string name="action_reject">Rejeitar</string>
-    <string name="error_could_not_load_login_page">Não foi possível carregar a página de login</string>
+    <string name="error_could_not_load_login_page">Não foi possível carregar a página de autenticação.</string>
     <string name="error_loading_account_details">Erro ao carregar os detalhes da conta</string>
     <string name="tips_push_notification_migration">Faz novamente login em todas as contas para ativar as notificações push.</string>
     <string name="account_date_joined">Criada em %1$s</string>
@@ -538,4 +551,19 @@
     <string name="title_migration_relogin">Faz novamente login para as notificações push</string>
     <string name="action_dismiss">Descartar</string>
     <string name="action_details">Detalhes</string>
+    <string name="delete_scheduled_post_warning">Apagar esta publicação agendada\?</string>
+    <string name="set_focus_description">Toca ou arrasta o círculo para escolher o ponto de focagem que estará sempre visível nas pré-visualizações.</string>
+    <string name="filter_expiration_format">%s(%s)</string>
+    <string name="duration_no_change">(Sem alteração)</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="pref_show_self_username_always">Sempre</string>
+    <string name="pref_show_self_username_disambiguate">Quando autenticado em várias contas</string>
+    <string name="pref_show_self_username_never">Nunca</string>
+    <string name="description_post_language">Idioma da publicação</string>
+    <string name="pref_title_show_self_username">Mostrar o nome de utilizador nas barras de ferramentas</string>
+    <string name="error_multimedia_size_limit">Os ficheiros de áudio e vídeo não podem exceder os %s MB.</string>
+    <string name="error_failed_set_focus">Erro ao definir ponto de focagem</string>
+    <string name="action_set_focus">Define o ponto de focagem</string>
+    <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
+    <string name="error_unfollowing_hashtag_format">Erro ao deixar de seguir #%s</string>
 </resources>

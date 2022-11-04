@@ -79,7 +79,7 @@
     <string name="search_no_results">Không tìm thấy</string>
     <string name="hint_search">Tìm kiếm…</string>
     <string name="hint_note">Tiểu sử</string>
-    <string name="hint_display_name">Tên hiển thị</string>
+    <string name="hint_display_name">Biệt danh</string>
     <string name="hint_content_warning">Nội dung bạn muốn ẩn</string>
     <string name="hint_compose">Bạn đang nghĩ về điều gì\?</string>
     <string name="hint_domain">Bạn ở máy chủ nào\?</string>
@@ -435,7 +435,7 @@
     <string name="action_set_caption">Mô tả</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Mô tả dành cho người khiếm thị
-\n(giới hạn %d chữ)</item>
+\n(Max %d ký tự)</item>
     </plurals>
     <string name="compose_active_account_description">Đăng bằng tài khoản %1$s</string>
     <string name="action_add_to_list">Thêm tài khoản vào danh sách</string>
@@ -503,10 +503,10 @@
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
     <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
-    <string name="pref_title_notification_filter_sign_ups">ai đó đăng ký trên máy chủ</string>
-    <string name="notification_sign_up_format">%s đăng ký</string>
-    <string name="notification_sign_up_name">Đăng ký</string>
-    <string name="notification_sign_up_description">Thông báo về người dùng mới đăng ký</string>
+    <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
+    <string name="notification_sign_up_format">%s tham gia máy chủ</string>
+    <string name="notification_sign_up_name">Người dùng mới</string>
+    <string name="notification_sign_up_description">Thông báo về người dùng mới tham gia</string>
     <string name="notification_update_format">%s đã sửa tút của họ</string>
     <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
     <string name="notification_update_name">Sửa tút</string>
@@ -539,4 +539,5 @@
     <string name="pref_show_self_username_always">Luôn luôn</string>
     <string name="pref_show_self_username_disambiguate">Khi đăng nhập nhiều tài khoản</string>
     <string name="pref_show_self_username_never">Không bao giờ</string>
+    <string name="delete_scheduled_post_warning">Bạn có chắc muốn xóa tút đã lên lịch\?</string>
 </resources>
