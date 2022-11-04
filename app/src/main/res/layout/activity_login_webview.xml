@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,12 +20,33 @@
         android:id="@+id/loginProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"  />
+        android:layout_gravity="center" />
 
-    <WebView
-        android:id="@+id/loginWebView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <WebView
+            android:id="@+id/loginWebView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/loginRules"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/colorBackground"
+            android:drawablePadding="8dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:lineSpacingMultiplier="1.1"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            app:drawableStartCompat="@drawable/info_24dp"
+            tools:text="By logging in you agree to the rules of instance.example" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

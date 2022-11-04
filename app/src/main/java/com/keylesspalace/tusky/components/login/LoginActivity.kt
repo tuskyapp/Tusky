@@ -216,7 +216,7 @@ class LoginActivity : BaseActivity(), Injectable {
             .addQueryParameter("response_type", "code")
             .addQueryParameter("scope", OAUTH_SCOPES)
             .build()
-        doWebViewAuth.launch(LoginData(url.toString().toUri(), oauthRedirectUri.toUri()))
+        doWebViewAuth.launch(LoginData(domain, url.toString().toUri(), oauthRedirectUri.toUri()))
     }
 
     override fun onStart() {
