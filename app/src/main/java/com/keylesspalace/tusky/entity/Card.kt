@@ -27,7 +27,7 @@ data class Card(
     val width: Int,
     val height: Int,
     val blurhash: String?,
-    val embed_url: String?
+    @SerializedName("embed_url") val embedUrl: String?
 ) {
 
     override fun hashCode() = url.hashCode()
