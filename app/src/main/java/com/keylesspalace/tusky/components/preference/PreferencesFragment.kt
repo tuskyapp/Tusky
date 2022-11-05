@@ -108,7 +108,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 switchPreference {
                     setDefaultValue(false)
-                    key = PrefKeys.HIDE_TOP_TOOLBAR
+                    key = PrefKeys.HIDE_TOP_TOOLBAR_TITLE
                     setTitle(R.string.pref_title_hide_top_toolbar)
                 }
 

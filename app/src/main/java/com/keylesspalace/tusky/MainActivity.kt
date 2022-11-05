@@ -90,7 +90,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -225,9 +224,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             startActivity(composeIntent)
         }
 
-        val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
-        binding.mainToolbar.visible(!hideTopToolbar)
-
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
         binding.mainToolbar.menu.add(R.string.action_search).apply {
@@ -242,7 +238,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
         }
 
-        setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
+        setupDrawer(savedInstanceState)
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
@@ -375,7 +371,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
+    private fun setupDrawer(savedInstanceState: Bundle?) {
 
         binding.mainToolbar.setNavigationOnClickListener {
             binding.mainDrawerLayout.open()
@@ -532,18 +528,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             )
 
-            if (addSearchButton) {
-                binding.mainDrawer.addItemsAtPosition(
-                    4,
-                    primaryDrawerItem {
-                        nameRes = R.string.action_search
-                        iconicsIcon = GoogleMaterial.Icon.gmd_search
-                        onClick = {
-                            startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                        }
+            binding.mainDrawer.addItemsAtPosition(
+                4,
+                primaryDrawerItem {
+                    nameRes = R.string.action_search
+                    iconicsIcon = GoogleMaterial.Icon.gmd_search
+                    onClick = {
+                        startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
                     }
-                )
-            }
+                }
+            )
 
             setSavedInstance(savedInstanceState)
         }
@@ -612,13 +606,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             activeTabLayout.removeOnTabSelectedListener(it)
         }
 
+        val hideTopToolbarTitle = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR_TITLE, false)
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.position == notificationTabPosition) {
                     NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
                 }
 
-                binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+                if (!hideTopToolbarTitle) {
+                    binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -634,7 +631,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
-        binding.mainToolbar.title = tabs[activeTabPosition].title(this@MainActivity)
+        binding.mainToolbar.title = if (hideTopToolbarTitle) {
+            getString(R.string.app_name)
+        } else {
+            tabs[activeTabPosition].title(this@MainActivity)
+        }
         binding.mainToolbar.setOnClickListener {
             (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
