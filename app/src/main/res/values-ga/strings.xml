@@ -56,9 +56,9 @@
     <string name="dialog_mute_hide_notifications">Folaigh fógraí</string>
     <string name="dialog_block_warning">Bloc @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">Folaigh an fearann iomlán</string>
-    <string name="mute_domain_warning">An bhfuil tú cinnte gur mhaith leat gach %1$s a bhac\? Ní fheicfidh tú inneachar ón bhfearann sin in aon amlíne poiblí ar bith ná i do chuid fógraí. Bainfear do chuid leantóirí ón bhfearann sin.</string>
-    <string name="dialog_redraft_post_warning">Scrios agus athdhréachtaigh an postáil seo\?</string>
-    <string name="dialog_delete_post_warning">Scrios an postáil seo\?</string>
+    <string name="mute_domain_warning">An bhfuil tú cinnte gur mhaith leat gach %1$s a bhac? Ní fheicfidh tú inneachar ón bhfearann sin in aon amlíne poiblí ar bith ná i do chuid fógraí. Bainfear do chuid leantóirí ón bhfearann sin.</string>
+    <string name="dialog_redraft_post_warning">Scrios agus athdhréachtaigh an postáil seo?</string>
+    <string name="dialog_delete_post_warning">Scrios an postáil seo?</string>
     <string name="dialog_unfollow_warning">An cuntas seo a scaoileadh?</string>
     <string name="dialog_message_cancel_follow_request">An iarraidh seo a leanas a chúlghairm?</string>
     <string name="dialog_download_image">Íoslódáil</string>
@@ -73,7 +73,7 @@
     <string name="hint_display_name">Ainm taispeána</string>
     <string name="hint_content_warning">Rabhadh ábhair</string>
     <string name="hint_compose">Cad atá ag tarlú?</string>
-    <string name="hint_domain">Cén ásc\?</string>
+    <string name="hint_domain">Cén ásc?</string>
     <string name="confirmation_domain_unmuted">%1$s neamhcheangailte</string>
     <string name="confirmation_unmuted">Úsáideoir gan trácht</string>
     <string name="confirmation_unblocked">Úsáideoir gan bhac</string>
@@ -166,7 +166,7 @@
     <string name="title_drafts">Dréachtaí</string>
     <string name="title_favourites">Toghanna</string>
     <string name="error_failed_app_registration">Theip ar fhíordheimhniú leis an ásc sin.</string>
-    <string name="link_whats_an_instance">Cad is ásc ann\?</string>
+    <string name="link_whats_an_instance">Cad is ásc ann?</string>
     <string name="action_login">Logáil isteach le Mastodon</string>
     <string name="post_media_images">Íomhánna</string>
     <string name="post_share_link">Comhroinn nasc chuig postáil</string>
@@ -494,5 +494,5 @@
     <string name="action_delete_conversation">Scrios comhrá</string>
     <string name="action_dismiss">Dún</string>
     <string name="action_details">Sonraí</string>
-    <string name="dialog_delete_conversation_warning">Scrios an comhrá seo\?</string>
+    <string name="dialog_delete_conversation_warning">Scrios an comhrá seo?</string>
 </resources>
