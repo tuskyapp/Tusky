@@ -670,4 +670,7 @@
 
     <string name="delete_scheduled_post_warning">Delete this scheduled post?</string>
 
+    <string name="instance_rule_info">By logging in you agree to the rules of %s.</string>
+    <string name="instance_rule_title">%s rules</string>
+
 </resources>

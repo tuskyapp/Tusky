@@ -1,3 +1,18 @@
+/* Copyright 2022 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.components.login
 
 import android.annotation.SuppressLint
@@ -16,16 +31,23 @@ import android.webkit.WebStorage
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.parcelableExtra
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 /** Contract for starting [LoginWebViewActivity]. */
 class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
@@ -62,6 +84,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
 
 @Parcelize
 data class LoginData(
+    val domain: String,
     val url: Uri,
     val oauthRedirectUrl: Uri,
 ) : Parcelable
@@ -80,6 +103,11 @@ sealed class LoginResult : Parcelable {
 /** Activity to do Oauth process using WebView. */
 class LoginWebViewActivity : BaseActivity(), Injectable {
     private val binding by viewBinding(ActivityLoginWebviewBinding::inflate)
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel: LoginWebViewViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,6 +189,25 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
             webView.loadUrl(data.url.toString())
         } else {
             webView.restoreState(savedInstanceState)
+        }
+
+        binding.loginRules.text = getString(R.string.instance_rule_info, data.domain)
+
+        viewModel.init(data.domain)
+
+        lifecycleScope.launch {
+            viewModel.instanceRules.collect { instanceRules ->
+                binding.loginRules.visible(instanceRules.isNotEmpty())
+                binding.loginRules.setOnClickListener {
+                    AlertDialog.Builder(this@LoginWebViewActivity)
+                        .setTitle(getString(R.string.instance_rule_title, data.domain))
+                        .setMessage(
+                            instanceRules.joinToString(separator = "\n\n") { "• $it" }
+                        )
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show()
+                }
+            }
         }
     }
 

@@ -480,7 +480,8 @@ class ComposeActivityTest {
             configuration = configuration,
             maxMediaAttachments = null,
             pleroma = null,
-            uploadLimit = null
+            uploadLimit = null,
+            rules = emptyList()
         )
     }
 
