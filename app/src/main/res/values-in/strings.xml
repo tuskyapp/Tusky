@@ -86,13 +86,13 @@
     <string name="download_media">Unduh media</string>
     <string name="downloading_media">Mengunduh media</string>
     <string name="confirmation_reported">Terkirim!</string>
-    <string name="hint_compose">Apa yang terjadi\?</string>
+    <string name="hint_compose">Apa yang terjadi?</string>
     <string name="hint_search">Cari…</string>
     <string name="login_connection">Menghubungkan…</string>
     <string name="dialog_title_finishing_media_upload">Menyelesaikan Pengunggahan Media</string>
-    <string name="dialog_block_warning">Blokir @%1$s\?</string>
-    <string name="dialog_mute_warning">Bisukan @%1$s\?</string>
-    <string name="dialog_delete_conversation_warning">Hapus percakapan ini\?</string>
+    <string name="dialog_block_warning">Blokir @%1$s?</string>
+    <string name="dialog_mute_warning">Bisukan @%1$s?</string>
+    <string name="dialog_delete_conversation_warning">Hapus percakapan ini?</string>
     <string name="pref_title_notification_alert_sound">Beri tahu dengan suara</string>
     <string name="pref_title_notification_alert_vibrate">Beri tahu dengan getaran</string>
     <string name="pref_title_notification_alert_light">Beri tahu dengan lampu</string>
