@@ -73,6 +73,13 @@ class AnnouncementAdapter(
             return
         }
 
+        // hide button if announcement badge limit is already reached
+        if (item.reactions.size >= 8) {
+            addReactionChip.visibility = View.GONE
+        } else {
+            addReactionChip.visibility = View.VISIBLE
+        }
+
         item.reactions.forEachIndexed { i, reaction ->
             (
                 chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
