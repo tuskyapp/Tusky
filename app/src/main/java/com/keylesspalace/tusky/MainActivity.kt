@@ -215,7 +215,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
                 if (intent.getStringExtra(NotificationHelper.TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
-                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = true)
                     startActivityWithSlideInAnimation(intent)
                 } else {
                     showNotificationTab = true
