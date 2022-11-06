@@ -20,7 +20,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RawRes
 import com.keylesspalace.tusky.databinding.ActivityLicenseBinding
-import com.keylesspalace.tusky.util.IOUtils
+import com.keylesspalace.tusky.util.closeQuietly
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -60,7 +60,7 @@ class LicenseActivity : BaseActivity() {
             Log.w("LicenseActivity", e)
         }
 
-        IOUtils.closeQuietly(br)
+        br.closeQuietly()
 
         textView.text = sb.toString()
     }

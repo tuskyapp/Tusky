@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.IOUtils
+import com.keylesspalace.tusky.util.copyToFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -194,7 +194,7 @@ class DraftHelper @Inject constructor(
                 return null
             }
         } else {
-            IOUtils.copyToFile(contentResolver, this, file)
+            this.copyToFile(contentResolver, file)
         }
         return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
     }
