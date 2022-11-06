@@ -132,6 +132,9 @@ class TimelineCases @Inject constructor(
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
             .onErrorResumeNext(::convertError)
+            .doOnError { e ->
+                Log.w("Failed to pin", e)
+            }
             .doAfterSuccess {
                 eventHub.dispatch(PinEvent(statusId, pin))
             }
@@ -148,15 +151,8 @@ class TimelineCases @Inject constructor(
     }
 
     private fun <T : Any> convertError(e: Throwable): Single<T> {
-        val message = e.getServerErrorMessage()
-        return Single.error(
-            if (message == null) {
-                e
-            } else {
-                TimelineError(message)
-            }
-        )
+        return Single.error(TimelineError(e.getServerErrorMessage()))
     }
 }
 
-class TimelineError(message: String) : RuntimeException(message)
+class TimelineError(message: String?) : RuntimeException(message)

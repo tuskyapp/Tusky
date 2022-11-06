@@ -51,7 +51,7 @@ class TimelineCasesTest {
     }
 
     @Test
-    fun `pin failure throws TimelineError`() {
+    fun `pin failure with server error throws TimelineError with server message`() {
         api.stub {
             onBlocking { pinStatus(statusId) } doReturn Single.error(
                 HttpException(

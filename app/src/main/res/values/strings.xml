@@ -467,6 +467,8 @@
 
     <string name="unpin_action">Unpin</string>
     <string name="pin_action">Pin</string>
+    <string name="failed_to_pin">Failed to Pin</string>
+    <string name="failed_to_unpin">Failed to Unpin</string>
 
     <plurals name="favs">
         <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>

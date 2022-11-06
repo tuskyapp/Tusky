@@ -294,9 +294,10 @@ public abstract class SFragment extends Fragment implements Injectable {
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnError(e -> {
                                 String message = e.getMessage();
-                                if (message != null) {
-                                    Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                                if (message == null) {
+                                    message = getString(status.isPinned() ? R.string.failed_to_unpin : R.string.failed_to_pin);
                                 }
+                                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
                             })
                             .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe();
