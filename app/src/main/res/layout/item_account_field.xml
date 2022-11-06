@@ -29,6 +29,7 @@
         android:drawablePadding="6dp"
         android:gravity="center"
         android:lineSpacingMultiplier="1.1"
+        android:textIsSelectable="true"
         android:textSize="?attr/status_text_medium"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
