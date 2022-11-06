@@ -41,6 +41,7 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.BaseActivity;
 import com.keylesspalace.tusky.BottomSheetActivity;
 import com.keylesspalace.tusky.PostLookupFallbackBehavior;
@@ -292,7 +293,10 @@ public abstract class SFragment extends Fragment implements Injectable {
                     timelineCases.pin(status.getId(), !status.isPinned())
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnError(e -> {
-                                Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                String message = e.getMessage();
+                                if (message != null) {
+                                    Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                                }
                             })
                             .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe();
