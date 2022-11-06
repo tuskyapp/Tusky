@@ -290,6 +290,10 @@ public abstract class SFragment extends Fragment implements Injectable {
                 }
                 case R.id.pin: {
                     timelineCases.pin(status.getId(), !status.isPinned())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnError(e -> {
+                                Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            })
                             .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                             .subscribe();
                     return true;
