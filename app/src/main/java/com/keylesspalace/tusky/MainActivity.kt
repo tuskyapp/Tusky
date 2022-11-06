@@ -77,6 +77,7 @@ import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -211,8 +212,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 val intent = DraftsActivity.newIntent(this)
                 startActivity(intent)
             } else if (accountRequested && savedInstanceState == null) {
-                // user clicked a notification, show notification tab
-                showNotificationTab = true
+                // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
+                // otherwise show notification tab
+                if (intent.getStringExtra(NotificationHelper.TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
+                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+                    startActivityWithSlideInAnimation(intent)
+                } else {
+                    showNotificationTab = true
+                }
             }
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
