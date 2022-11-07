@@ -75,7 +75,7 @@ class AnnouncementAdapter(
         }
 
         // hide button if announcement badge limit is already reached
-        addReactionChip.visible(item.reactions.size >= 8)
+        addReactionChip.visible(item.reactions.size < 8)
 
         item.reactions.forEachIndexed { i, reaction ->
             (
