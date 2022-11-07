@@ -132,7 +132,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         webView.settings.databaseEnabled = false
         webView.settings.displayZoomControls = false
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
-        // Javascript needs to be enabled because otherwise 2FA does not work in some instances
+        // JavaScript needs to be enabled because otherwise 2FA does not work in some instances
         @SuppressLint("SetJavaScriptEnabled")
         webView.settings.javaScriptEnabled = true
         webView.settings.userAgentString += " Tusky/${BuildConfig.VERSION_NAME}"
