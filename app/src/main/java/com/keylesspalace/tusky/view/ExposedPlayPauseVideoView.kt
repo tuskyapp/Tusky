@@ -12,6 +12,7 @@ class ExposedPlayPauseVideoView @JvmOverloads constructor(
     VideoView(context, attrs, defStyleAttr) {
 
     private var listener: PlayPauseListener? = null
+    private var playing = false
 
     fun setPlayPauseListener(listener: PlayPauseListener) {
         this.listener = listener
@@ -19,12 +20,18 @@ class ExposedPlayPauseVideoView @JvmOverloads constructor(
 
     override fun start() {
         super.start()
-        listener?.onPlay()
+        if (!playing) {
+            playing = true
+            listener?.onPlay()
+        }
     }
 
     override fun pause() {
         super.pause()
-        listener?.onPause()
+        if (playing) {
+            playing = false
+            listener?.onPause()
+        }
     }
 
     interface PlayPauseListener {
