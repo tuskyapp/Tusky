@@ -77,7 +77,7 @@ abstract class ActivitiesModule {
     abstract fun contributesStatusListActivity(): StatusListActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesSearchAvtivity(): SearchActivity
+    abstract fun contributesSearchActivity(): SearchActivity
 
     @ContributesAndroidInjector
     abstract fun contributesAboutActivity(): AboutActivity

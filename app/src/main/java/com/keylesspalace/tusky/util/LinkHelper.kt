@@ -240,7 +240,7 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
     try {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-        Log.w(TAG, "Actvity was not found for intent, $intent")
+        Log.w(TAG, "Activity was not found for intent, $intent")
     }
 }
 
