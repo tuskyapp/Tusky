@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.parcelable
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
@@ -93,7 +92,7 @@ class ViewImageFragment : ViewMediaFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val arguments = this.requireArguments()
-        val attachment: Attachment? = arguments.parcelable(ARG_ATTACHMENT)
+        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
         this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
         val url: String?
         var description: String? = null
