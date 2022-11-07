@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/load_more_placeholder_text"
-        android:textSize="?attr/status_text_medium" />
+        android:textStyle="bold"
+        android:textSize="?attr/status_text_large" />
 
     <ProgressBar
         android:id="@+id/progressBar"
