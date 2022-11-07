@@ -146,6 +146,7 @@ dependencies {
     testImplementation libs.mockwebserver
     testImplementation libs.androidx.core.testing
     testImplementation libs.kotlinx.coroutines.test
+    testImplementation libs.androidx.work.testing
 
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing

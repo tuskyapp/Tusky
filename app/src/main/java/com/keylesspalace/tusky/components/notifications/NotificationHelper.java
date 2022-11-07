@@ -84,6 +84,8 @@ public class NotificationHelper {
      */
     public static final String ACCOUNT_ID = "account_id";
 
+    public static final String TYPE = "type";
+
     private static final String TAG = "NotificationHelper";
 
     public static final String REPLY_ACTION = "REPLY_ACTION";
@@ -268,6 +270,7 @@ public class NotificationHelper {
     private static NotificationCompat.Builder newNotification(Context context, Notification body, AccountEntity account, boolean summary) {
         Intent summaryResultIntent = new Intent(context, MainActivity.class);
         summaryResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        summaryResultIntent.putExtra(TYPE, body.getType().name());
         TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
         summaryStackBuilder.addParentStack(MainActivity.class);
         summaryStackBuilder.addNextIntent(summaryResultIntent);
@@ -278,6 +281,7 @@ public class NotificationHelper {
         // we have to switch account here
         Intent eventResultIntent = new Intent(context, MainActivity.class);
         eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
+        eventResultIntent.putExtra(TYPE, body.getType().name());
         TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
         eventStackBuilder.addParentStack(MainActivity.class);
         eventStackBuilder.addNextIntent(eventResultIntent);
