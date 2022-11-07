@@ -621,7 +621,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         });
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
-                // return true to play animaion
+                // return true to play animation
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     if (statusDisplayOptions.confirmReblogs()) {
@@ -638,7 +638,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         favouriteButton.setEventListener((button, buttonState) -> {
-            // return true to play animaion
+            // return true to play animation
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 if (statusDisplayOptions.confirmFavourites()) {
