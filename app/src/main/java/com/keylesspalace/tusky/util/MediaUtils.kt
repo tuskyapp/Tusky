@@ -75,7 +75,7 @@ fun getImageSquarePixels(contentResolver: ContentResolver, uri: Uri): Long {
     options.inJustDecodeBounds = true
     BitmapFactory.decodeStream(input, null, options)
 
-    IOUtils.closeQuietly(input)
+    input.closeQuietly()
 
     return (options.outWidth * options.outHeight).toLong()
 }
@@ -158,11 +158,11 @@ fun getImageOrientation(uri: Uri, contentResolver: ContentResolver): Int {
         exifInterface = ExifInterface(inputStream)
     } catch (e: IOException) {
         Log.w(TAG, e)
-        IOUtils.closeQuietly(inputStream)
+        inputStream.closeQuietly()
         return ExifInterface.ORIENTATION_UNDEFINED
     }
     val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-    IOUtils.closeQuietly(inputStream)
+    inputStream.closeQuietly()
     return orientation
 }
 

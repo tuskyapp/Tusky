@@ -20,8 +20,8 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.net.Uri
-import com.keylesspalace.tusky.util.IOUtils
 import com.keylesspalace.tusky.util.calculateInSampleSize
+import com.keylesspalace.tusky.util.closeQuietly
 import com.keylesspalace.tusky.util.getImageOrientation
 import com.keylesspalace.tusky.util.reorientBitmap
 import java.io.File
@@ -51,7 +51,7 @@ fun downsizeImage(
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
     BitmapFactory.decodeStream(decodeBoundsInputStream, null, options)
-    IOUtils.closeQuietly(decodeBoundsInputStream)
+    decodeBoundsInputStream.closeQuietly()
     // Get EXIF data, for orientation info.
     val orientation = getImageOrientation(uri, contentResolver)
     /* Unfortunately, there isn't a determined worst case compression ratio for image
@@ -78,7 +78,7 @@ fun downsizeImage(
         } catch (error: OutOfMemoryError) {
             return false
         } finally {
-            IOUtils.closeQuietly(decodeBitmapInputStream)
+            decodeBitmapInputStream.closeQuietly()
         } ?: return false
 
         val reorientedBitmap = reorientBitmap(scaledBitmap, orientation)
