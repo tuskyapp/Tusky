@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s stelumis vian mesaĝon</string>
     <string name="notification_follow_format">%1$s eksekvis vin</string>
     <string name="report_username_format">Signali @%1$s</string>
-    <string name="report_comment_hint">Ĉu pliaj komentoj\?</string>
+    <string name="report_comment_hint">Ĉu pliaj komentoj?</string>
     <string name="action_quick_reply">Rapida respondo</string>
     <string name="action_reply">Respondi</string>
     <string name="action_reblog">Diskonigi</string>
@@ -127,7 +127,7 @@
     <string name="confirmation_unblocked">Malblokita uzanto</string>
     <string name="confirmation_unmuted">Malsilentigita uzanto</string>
     <string name="hint_domain">Kiu nodo?</string>
-    <string name="hint_compose">Kio nova\?</string>
+    <string name="hint_compose">Kio nova?</string>
     <string name="hint_content_warning">Enhava averto</string>
     <string name="hint_display_name">Publika nomo</string>
     <string name="hint_note">Sinprezento</string>
@@ -148,9 +148,9 @@
     <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutado…</string>
     <string name="dialog_download_image">Elŝuti</string>
-    <string name="dialog_message_cancel_follow_request">Ĉu nuligi peton de sekvado\?</string>
-    <string name="dialog_unfollow_warning">Ĉu ne plu sekvi\?</string>
-    <string name="dialog_delete_post_warning">Ĉu forigi ĉi tiun mesaĝon\?</string>
+    <string name="dialog_message_cancel_follow_request">Ĉu nuligi peton de sekvado?</string>
+    <string name="dialog_unfollow_warning">Ĉu ne plu sekvi?</string>
+    <string name="dialog_delete_post_warning">Ĉu forigi ĉi tiun mesaĝon?</string>
     <string name="visibility_public">Publika: afiŝi en publikaj tempolinioj</string>
     <string name="visibility_unlisted">Nelistigita: Ne afiŝi en publikaj tempolinioj</string>
     <string name="visibility_private">Nur por sekvantoj: Afiŝi nur al sekvantoj</string>
@@ -273,7 +273,7 @@
     <string name="action_remove_from_list">Forigi konton el la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one"/>
+        <item quantity="one"></item>
         <item quantity="other">Priskribi por vide handikapitaj homoj
 \n(%1$d signoj maksimume)</item>
     </plurals>
@@ -281,7 +281,7 @@
     <string name="action_remove">Forigi</string>
     <string name="lock_account_label">Ŝlosi konton</string>
     <string name="lock_account_label_description">Vi devas permane rajtigi sekvantojn</string>
-    <string name="compose_save_draft">Ĉu konservi malneton\?</string>
+    <string name="compose_save_draft">Ĉu konservi malneton?</string>
     <string name="send_post_notification_title">Sendado de la mesaĝo…</string>
     <string name="send_post_notification_error_title">Eraro dum sendo de la mesaĝo</string>
     <string name="send_post_notification_channel_name">Sendado de la mesaĝoj</string>
@@ -343,7 +343,7 @@
     <string name="description_visibility_direct">Rekta</string>
     <string name="hint_list_name">Nomo de la listo</string>
     <string name="action_delete_and_redraft">Forigi kaj reskribi</string>
-    <string name="dialog_redraft_post_warning">Ĉu forigi kaj reskribi ĉi tiun mesaĝon\?</string>
+    <string name="dialog_redraft_post_warning">Ĉu forigi kaj reskribi ĉi tiun mesaĝon?</string>
     <string name="pref_title_bot_overlay">Montri indikilon pri robotoj</string>
     <string name="pref_title_animate_gif_avatars">Ebligi GIF-profilbildojn</string>
     <string name="notification_poll_name">Enketoj</string>
@@ -354,7 +354,7 @@
     <string name="filter_apply">Apliki</string>
     <string name="compose_shortcut_long_label">Verki mesaĝon</string>
     <string name="compose_shortcut_short_label">Verki</string>
-    <string name="notification_clear_text">Ĉu vi certas, ke vi volas porĉiame viŝi ĉiujn viajn sciigojn\?</string>
+    <string name="notification_clear_text">Ĉu vi certas, ke vi volas porĉiame viŝi ĉiujn viajn sciigojn?</string>
     <string name="compose_preview_image_description">Agoj por bildo %1$s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -370,7 +370,7 @@
     <string name="action_view_domain_mutes">Kaŝitaj domajnoj</string>
     <string name="action_mute_domain">Silentigi %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s malsilentigita</string>
-    <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %1$s\? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj el tiu domajno estos forigitaj.</string>
+    <string name="mute_domain_warning">Ĉu vi certas ke vi volas tute bloki %1$s? Vi ne vidos enhavon de tiu domajno en publika tempolinio aŭ en viaj sciigoj. Viaj sekvantoj el tiu domajno estos forigitaj.</string>
     <string name="mute_domain_warning_dialog_ok">Kaŝi la tutan domajnon</string>
     <string name="caption_notoemoji">La aktuala emoĝiaro de Google</string>
     <string name="description_poll">Balotenketo kun elektoj: %1$s, %2$s, %3$s, %4$s, %5$s</string>
@@ -427,8 +427,8 @@
     <string name="notification_follow_request_description">Sciigoj pri petoj de sekvado</string>
     <string name="pref_title_gradient_for_media">Montri buntajn transirojn por kaŝitaj aŭdovidaĵoj</string>
     <string name="dialog_mute_hide_notifications">Kaŝi la sciigojn</string>
-    <string name="dialog_mute_warning">Ĉu silentigi @%1$s\?</string>
-    <string name="dialog_block_warning">Ĉu bloki @%1$s\?</string>
+    <string name="dialog_mute_warning">Ĉu silentigi @%1$s?</string>
+    <string name="dialog_block_warning">Ĉu bloki @%1$s?</string>
     <string name="action_unmute_conversation">Malsilentigi la konversacion</string>
     <string name="action_mute_conversation">Silentigi la konversacion</string>
     <string name="action_unmute_domain">Malsilentigi %1$s</string>
@@ -476,7 +476,7 @@
     <string name="action_unsubscribe_account">Malaboni</string>
     <string name="notification_subscription_name">Novaj mesaĝoj</string>
     <string name="action_unbookmark">Forigi la legosignon</string>
-    <string name="dialog_delete_conversation_warning">Ĉu forigi ĉi tiun konversacion\?</string>
+    <string name="dialog_delete_conversation_warning">Ĉu forigi ĉi tiun konversacion?</string>
     <string name="pref_title_animate_custom_emojis">Animacii proprajn emoĝiojn</string>
     <string name="wellbeing_hide_stats_profile">Kaŝi kvantecajn statistikaĵojn pri la profiloj</string>
     <string name="action_delete_conversation">Forigi konversacion</string>
@@ -524,7 +524,7 @@
     <string name="saving_draft">Konservado de la malneto…</string>
     <string name="error_could_not_load_login_page">La salutpaĝo ne povis esti ŝargita.</string>
     <string name="error_loading_account_details">Ŝargo de detaloj pri la konto malsukcesis</string>
-    <string name="delete_scheduled_post_warning">Ĉu forigi tiun planitan mesaĝon\?</string>
+    <string name="delete_scheduled_post_warning">Ĉu forigi tiun planitan mesaĝon?</string>
     <string name="instance_rule_info">Si vi ensalutas, vi konsentas je la regulo de %1$s.</string>
     <string name="instance_rule_title">Regulo de %1$s</string>
     <string name="duration_no_change">(Neniu ŝanĝo)</string>
