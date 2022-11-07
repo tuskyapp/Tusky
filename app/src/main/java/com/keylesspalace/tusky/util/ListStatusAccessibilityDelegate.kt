@@ -135,7 +135,7 @@ class ListStatusAccessibilityDelegate(
                 }
                 R.id.action_expand_cw -> {
                     // Toggling it directly to avoid animations
-                    // which cannot be disabled for detaild status for some reason
+                    // which cannot be disabled for detailed status for some reason
                     val holder = recyclerView.getChildViewHolder(host) as StatusBaseViewHolder
                     holder.toggleContentWarning()
                     // Stop and restart narrator before it reads old description.
