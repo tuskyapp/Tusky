@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Eraro okazis.</string>
     <string name="error_network">Reta eraro okazis! Bonvolu kontroli vian konekton kaj klopodi denove!</string>
-    <string name="error_empty">Ne povas esti malplena.</string>
+    <string name="error_empty">Tiu ne povas esti malplena.</string>
     <string name="error_invalid_domain">Enmetita domajno estas nevalida</string>
     <string name="error_failed_app_registration">Aŭtentigo en ĉi tiu nodo malsukcesis.</string>
     <string name="error_no_web_browser_found">Ne eblas trovi retumilon.</string>
@@ -10,7 +10,7 @@
     <string name="error_authorization_denied">Rajtigo rifuzita.</string>
     <string name="error_retrieving_oauth_token">Akiro de atingoĵetono malsukcesis.</string>
     <string name="error_compose_character_limit">Via mesaĝo estas tro longa!</string>
-    <string name="error_media_upload_type">Tia dosiero ne estas rajtigita.</string>
+    <string name="error_media_upload_type">Tia dosiero ne estas alŝutebla.</string>
     <string name="error_media_upload_opening">Tiu dosiero ne povas esti malfermita.</string>
     <string name="error_media_upload_permission">Permeso legi aŭdovidaĵojn necesas.</string>
     <string name="error_media_download_permission">Permeso konservi aŭdovidaĵojn necesas.</string>
@@ -45,13 +45,13 @@
     <string name="post_content_warning_show_less">Montri malpli</string>
     <string name="post_content_show_more">Pligrandigi</string>
     <string name="post_content_show_less">Malgrandigi</string>
-    <string name="message_empty">Nenio ĉi tie.</string>
-    <string name="footer_empty">Nenio ĉi tie. Tiru malsupren por aktualigi!</string>
+    <string name="message_empty">Nenio tie ĉi.</string>
+    <string name="footer_empty">Nenio tie ĉi. Tiru malsupren por aktualigi!</string>
     <string name="notification_reblog_format">%s diskonigis vian mesaĝon</string>
     <string name="notification_favourite_format">%s stelumis vian mesaĝon</string>
     <string name="notification_follow_format">%s eksekvis vin</string>
     <string name="report_username_format">Signali @%s</string>
-    <string name="report_comment_hint">Pliaj komentoj?</string>
+    <string name="report_comment_hint">Ĉu pliaj komentoj\?</string>
     <string name="action_quick_reply">Rapida respondo</string>
     <string name="action_reply">Respondi</string>
     <string name="action_reblog">Diskonigi</string>
@@ -62,9 +62,9 @@
     <string name="action_compose">Verki</string>
     <string name="action_login">Ensaluti al Mastodon</string>
     <string name="action_logout">Elsaluti</string>
-    <string name="action_logout_confirm">Ĉu vi certas ke vi volas elsaluti el konto %1$s?</string>
+    <string name="action_logout_confirm">Ĉu vi certas, ke vi volas elsaluti el la konto %1$s\?</string>
     <string name="action_follow">Sekvi</string>
-    <string name="action_unfollow">Ne plus sekvi</string>
+    <string name="action_unfollow">Ne plu sekvi</string>
     <string name="action_block">Bloki</string>
     <string name="action_unblock">Malbloki</string>
     <string name="action_hide_reblogs">Kaŝi diskonigojn</string>
@@ -73,11 +73,11 @@
     <string name="action_delete">Forigi</string>
     <string name="action_send">HUP</string>
     <string name="action_send_public">HUP!</string>
-    <string name="action_retry">Reprovu</string>
+    <string name="action_retry">Reprovi</string>
     <string name="action_close">Fermi</string>
     <string name="action_view_profile">Profilo</string>
-    <string name="action_view_preferences">Preferoj</string>
-    <string name="action_view_account_preferences">Preferoj de konto</string>
+    <string name="action_view_preferences">Agordoj</string>
+    <string name="action_view_account_preferences">Agordoj de konto</string>
     <string name="action_view_favourites">Stelumoj</string>
     <string name="action_view_mutes">Silentigitaj uzantoj</string>
     <string name="action_view_blocks">Blokitaj uzantoj</string>
@@ -114,22 +114,22 @@
     <string name="title_mentions_dialog">Mencioj</string>
     <string name="title_links_dialog">Ligiloj</string>
     <string name="action_open_media_n">Malfermi aŭdovidaĵon #%d</string>
-    <string name="download_image">Elŝutante %1$s</string>
+    <string name="download_image">Elŝutado de %1$s</string>
     <string name="action_copy_link">Kopii la ligilon</string>
     <string name="action_open_as">Malfermi kiel %s</string>
-    <string name="action_share_as">Konigi kiel …</string>
+    <string name="action_share_as">Konigi kiel…</string>
     <string name="download_media">Elŝuti aŭdovidaĵon</string>
-    <string name="downloading_media">Elŝutante aŭdovidaĵo</string>
-    <string name="send_post_link_to">Konigi URL de mesaĝo al…</string>
+    <string name="downloading_media">Elŝutado de la aŭdovidaĵo</string>
+    <string name="send_post_link_to">Konigi ligilon de mesaĝo al…</string>
     <string name="send_post_content_to">Konigi mesaĝon al…</string>
     <string name="send_media_to">Konigi aŭdovidaĵon al…</string>
     <string name="confirmation_reported">Sendita!</string>
     <string name="confirmation_unblocked">Malblokita uzanto</string>
     <string name="confirmation_unmuted">Malsilentigita uzanto</string>
     <string name="post_sent">Sendita!</string>
-    <string name="post_sent_long">Respondi sukcese sendita.</string>
+    <string name="post_sent_long">Respondo sukcese sendita.</string>
     <string name="hint_domain">Kiu nodo?</string>
-    <string name="hint_compose">Kio okazas?</string>
+    <string name="hint_compose">Kio nova\?</string>
     <string name="hint_content_warning">Enhava averto</string>
     <string name="hint_display_name">Publika nomo</string>
     <string name="hint_note">Sinprezento</string>
@@ -139,12 +139,14 @@
     <string name="label_avatar">Profilbildo</string>
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
-    <string name="login_connection">Konektante…</string>
-    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetitaĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj
-        <a href="https://instances.social">pli!</a>
-        \n\nSe vi ne ankoraŭ havas konton, vi povas enmeti la nomon de la nodo ke vi volas aliĝi kaj krei konton tie.\n\nNodo estas unika loko kie via konto estas gastigita, sed vi povas facile komuniki kun kaj sekvi homojn ĉe aliaj nodoj kiel vi estus ĉe la sama retejo.
-        \n\nPliaj informoj troviĝas ĉe <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="login_connection">Konektado…</string>
+    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetita ĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj <a href="https://instances.social">pli!</a>
+\n
+\nSe vi ankoraŭ ne havas konton, vi povas enmeti la nomon de la nodo, al kiu vi volas aliĝi, kaj krei konton tie.
+\n
+\nNodo estas unika loko tie, kie via konto estas gastigita, sed vi povas facile komuniki kun homoj, kaj sekvi ilin ĉe aliaj nodoj, kvazaŭ vi estus samreteje.
+\n
+\nPliaj informoj troviĝas ĉe <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutante…</string>
     <string name="dialog_download_image">Elŝuti</string>
@@ -533,7 +535,7 @@
     <string name="title_login">Ensaluti</string>
     <string name="error_following_hashtag_format">Okazis eraro dum la sekvado de #%s</string>
     <string name="error_unfollowing_hashtag_format">Okazos eraro dum la malsekvado de #%s</string>
-    <string name="title_migration_relogin">Ensalutu denove por ricevi sciigojn</string>
+    <string name="title_migration_relogin">Ensaluti denove por ricevi sciigojn</string>
     <string name="notification_update_format">%s redaktis sian mesaĝon</string>
     <string name="action_dismiss">Fermi</string>
     <string name="action_details">Detaloj</string>
