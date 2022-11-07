@@ -223,6 +223,7 @@
                         android:lineSpacingMultiplier="1.1"
                         android:paddingTop="2dp"
                         android:textColor="?android:textColorTertiary"
+                        android:textIsSelectable="true"
                         android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toBottomOf="@id/saveNoteInfo"
                         tools:text="This is a test description. Descriptions can be quite looooong." />
