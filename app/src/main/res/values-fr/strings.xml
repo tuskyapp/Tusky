@@ -356,12 +356,12 @@
     <string name="description_post_media_no_description_placeholder">Aucune description</string>
     <string name="description_post_reblogged">Partagé</string>
     <string name="description_post_favourited">Mis en favoris</string>
-    <string name="description_visiblity_public">        Public
+    <string name="description_visibility_public">        Public
     </string>
-    <string name="description_visiblity_unlisted">Non listé</string>
-    <string name="description_visiblity_private">        Abonné·e·s
+    <string name="description_visibility_unlisted">Non listé</string>
+    <string name="description_visibility_private">        Abonné·e·s
     </string>
-    <string name="description_visiblity_direct">        Direct
+    <string name="description_visibility_direct">        Direct
     </string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="edit_hashtag_hint">Hashtag sans #</string>

@@ -67,9 +67,9 @@
     <string name="add_hashtag_title">Добавяне на хаштаг</string>
     <string name="hint_list_name">Име на списък</string>
     <string name="description_poll">Анкета с избори: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">Директно</string>
-    <string name="description_visiblity_private">Последователи</string>
-    <string name="description_visiblity_public">Публично</string>
+    <string name="description_visibility_direct">Директно</string>
+    <string name="description_visibility_private">Последователи</string>
+    <string name="description_visibility_public">Публично</string>
     <string name="description_post_bookmarked">Отметнато</string>
     <string name="description_post_favourited">Поставено в любими</string>
     <string name="description_post_reblogged">Реблог</string>
@@ -212,7 +212,7 @@
     <string name="notification_favourite_name">Любими</string>
     <string name="notification_boost_description">Известия, когато публикациите ви се споделят</string>
     <string name="post_text_size_smallest">Най-малък</string>
-    <string name="description_visiblity_unlisted">Скрито</string>
+    <string name="description_visibility_unlisted">Скрито</string>
     <string name="pref_title_post_tabs">Раздели</string>
     <string name="pref_title_post_filter">Филтриране на емисия</string>
     <string name="pref_title_animate_custom_emojis">Анимиране на персонализирани емоджита</string>

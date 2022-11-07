@@ -350,10 +350,10 @@
     <string name="description_post_media_no_description_placeholder">Cap de descripcion</string>
     <string name="description_post_reblogged">Repartajat</string>
     <string name="description_post_favourited">Mes en favorit</string>
-    <string name="description_visiblity_public">Public</string>
-    <string name="description_visiblity_unlisted">Pas listada</string>
-    <string name="description_visiblity_private">Seguidors</string>
-    <string name="description_visiblity_direct">Dirècte</string>
+    <string name="description_visibility_public">Public</string>
+    <string name="description_visibility_unlisted">Pas listada</string>
+    <string name="description_visibility_private">Seguidors</string>
+    <string name="description_visibility_direct">Dirècte</string>
     <string name="hint_list_name">Nom de la lista</string>
     <string name="edit_hashtag_hint">Etiquetas sens #</string>
     <string name="compose_shortcut_long_label">Escriure un tut</string>

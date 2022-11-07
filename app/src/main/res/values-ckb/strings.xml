@@ -316,10 +316,10 @@
     <string name="add_hashtag_title">هاشتاگی زیاد بکە</string>
     <string name="hint_list_name">ناوی لیست</string>
     <string name="description_poll">ڕاپرسی لەگەڵ هەڵبژاردنەکان: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">ڕاستەوخۆ</string>
-    <string name="description_visiblity_private">شوێنکەوتوانی</string>
-    <string name="description_visiblity_unlisted">لە لیست نەکراو</string>
-    <string name="description_visiblity_public">گشتی</string>
+    <string name="description_visibility_direct">ڕاستەوخۆ</string>
+    <string name="description_visibility_private">شوێنکەوتوانی</string>
+    <string name="description_visibility_unlisted">لە لیست نەکراو</string>
+    <string name="description_visibility_public">گشتی</string>
     <string name="description_post_bookmarked">نیشانکراوە</string>
     <string name="description_post_favourited">پەسەندکراو</string>
     <string name="description_post_reblogged">دووبارە بڵاگ کرا</string>

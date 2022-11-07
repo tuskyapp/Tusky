@@ -383,12 +383,12 @@
     </string>
     <string name="description_post_reblogged">Реблогнуто</string>
     <string name="description_post_favourited">Понравилось</string>
-    <string name="description_visiblity_public">
+    <string name="description_visibility_public">
         Публичный
     </string>
-    <string name="description_visiblity_unlisted">Неизвестно</string>
-    <string name="description_visiblity_private">Подписчики</string>
-    <string name="description_visiblity_direct">Непосредственно</string>
+    <string name="description_visibility_unlisted">Неизвестно</string>
+    <string name="description_visibility_private">Подписчики</string>
+    <string name="description_visibility_direct">Непосредственно</string>
     <string name="hint_list_name">Название списка</string>
     <string name="edit_hashtag_hint">Хэштег без #</string>
     <string name="notifications_clear">Очистить</string>

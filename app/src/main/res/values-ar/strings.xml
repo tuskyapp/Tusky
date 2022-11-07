@@ -342,10 +342,10 @@
     <string name="description_post_cw">تحذير عن المحتوى: %s    </string>
     <string name="description_post_media_no_description_placeholder">مِن دون وصف    </string>
     <string name="description_post_reblogged">أعاد تدوينه    </string>
-    <string name="description_visiblity_public">للعامة    </string>
-    <string name="description_visiblity_unlisted">غير مُدرَج    </string>
-    <string name="description_visiblity_private">المتابِعون    </string>
-    <string name="description_visiblity_direct">مباشر    </string>
+    <string name="description_visibility_public">للعامة    </string>
+    <string name="description_visibility_unlisted">غير مُدرَج    </string>
+    <string name="description_visibility_private">المتابِعون    </string>
+    <string name="description_visibility_direct">مباشر    </string>
     <string name="hint_list_name">اسم القائمة</string>
     <string name="action_delete_and_redraft">حذف وإعادة الصياغة</string>
     <string name="action_open_reblogger">إظهار صاحب الترقية</string>

@@ -22,7 +22,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 
 abstract class ViewMediaFragment : Fragment() {
-    private var toolbarVisibiltyDisposable: Function0<Boolean>? = null
+    private var toolbarVisibilityDisposable: Function0<Boolean>? = null
 
     abstract fun setupMediaView(
         url: String,
@@ -83,14 +83,14 @@ abstract class ViewMediaFragment : Fragment() {
         isDescriptionVisible = showingDescription
         setupMediaView(url, previewUrl, description, showingDescription && mediaActivity.isToolbarVisible)
 
-        toolbarVisibiltyDisposable = (activity as ViewMediaActivity)
+        toolbarVisibilityDisposable = (activity as ViewMediaActivity)
             .addToolbarVisibilityListener { isVisible ->
                 onToolbarVisibilityChange(isVisible)
             }
     }
 
     override fun onDestroyView() {
-        toolbarVisibiltyDisposable?.invoke()
+        toolbarVisibilityDisposable?.invoke()
         super.onDestroyView()
     }
 }

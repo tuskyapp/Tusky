@@ -187,10 +187,10 @@
     <string name="add_hashtag_title">Engadir cancelo</string>
     <string name="hint_list_name">Nome da lista</string>
     <string name="description_poll">Enquisa con opcións: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">Directo</string>
-    <string name="description_visiblity_private">Seguidoras</string>
-    <string name="description_visiblity_unlisted">Non listado</string>
-    <string name="description_visiblity_public">Público</string>
+    <string name="description_visibility_direct">Directo</string>
+    <string name="description_visibility_private">Seguidoras</string>
+    <string name="description_visibility_unlisted">Non listado</string>
+    <string name="description_visibility_public">Público</string>
     <string name="description_post_bookmarked">Marcado</string>
     <string name="description_post_favourited">Favorecido</string>
     <string name="description_post_reblogged">Repetido</string>

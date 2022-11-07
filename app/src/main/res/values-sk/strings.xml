@@ -112,10 +112,10 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="description_post_media_no_description_placeholder">Žiadny popis</string>
-    <string name="description_visiblity_public">Verejný</string>
+    <string name="description_visibility_public">Verejný</string>
     <string name="action_reblog">Podporiť</string>
     <string name="action_unreblog">Prestať podporovať</string>
-    <string name="description_visiblity_private">Sledujúci</string>
+    <string name="description_visibility_private">Sledujúci</string>
     <string name="post_privacy_public">Verejný</string>
     <string name="action_view_bookmarks">Záložky</string>
     <string name="notification_summary_small">%1$s a %2$s</string>

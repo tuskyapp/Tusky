@@ -360,10 +360,10 @@
     <string name="description_post_reblogged">Endurbloggað</string>
     <string name="description_post_favourited">Í eftirlætum</string>
     <string name="description_post_bookmarked">Bókamerkt</string>
-    <string name="description_visiblity_public">Opinbert</string>
-    <string name="description_visiblity_unlisted">Óskráð</string>
-    <string name="description_visiblity_private">Fylgjendur</string>
-    <string name="description_visiblity_direct">Beint</string>
+    <string name="description_visibility_public">Opinbert</string>
+    <string name="description_visibility_unlisted">Óskráð</string>
+    <string name="description_visibility_private">Fylgjendur</string>
+    <string name="description_visibility_direct">Beint</string>
     <string name="description_poll">Könnun með valkostunum: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Heiti á lista</string>
     <string name="edit_hashtag_hint">Myllumerki án #</string>

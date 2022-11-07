@@ -317,9 +317,9 @@
     </plurals>
     <string name="description_post_media_no_description_placeholder">        Keine Beschreibung    </string>
     <string name="description_post_favourited">Favorisiert    </string>
-    <string name="description_visiblity_public">Öffentlich    </string>
-    <string name="description_visiblity_private">Folgende</string>
-    <string name="description_visiblity_direct">Direkt    </string>
+    <string name="description_visibility_public">Öffentlich    </string>
+    <string name="description_visibility_private">Folgende</string>
+    <string name="description_visibility_direct">Direkt    </string>
     <string name="hint_list_name">Listenname</string>
     <string name="download_media">Medien herunterladen</string>
     <string name="downloading_media">Medien werden heruntergeladen</string>
@@ -340,7 +340,7 @@
     <string name="description_post_media">Medien: %s</string>
     <string name="description_post_cw">Inhaltswarnung: %s</string>
     <string name="description_post_reblogged">Geteilt</string>
-    <string name="description_visiblity_unlisted">Ungelistet</string>
+    <string name="description_visibility_unlisted">Ungelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
     <string name="dialog_redraft_post_warning">Bist du dir sicher, dass du diesen Beitrag löschen und neu erstellen möchtest\?</string>
     <string name="pref_title_notification_filter_poll">Umfragen beendet sind</string>

@@ -359,16 +359,16 @@
         被轉嘟
     </string>
     <string name="description_post_favourited">被最愛</string>
-    <string name="description_visiblity_public">
+    <string name="description_visibility_public">
         公開
     </string>
-    <string name="description_visiblity_unlisted">
+    <string name="description_visibility_unlisted">
         不公開
     </string>
-    <string name="description_visiblity_private">
+    <string name="description_visibility_private">
         僅關注者
     </string>
-    <string name="description_visiblity_direct">
+    <string name="description_visibility_direct">
         私信
     </string>
     <string name="hint_list_name">列表名</string>

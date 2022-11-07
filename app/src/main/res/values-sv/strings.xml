@@ -349,13 +349,13 @@
     </string>
     <string name="description_post_favourited">        Favoriserad
     </string>
-    <string name="description_visiblity_public">        Publik
+    <string name="description_visibility_public">        Publik
     </string>
-    <string name="description_visiblity_unlisted">        Olistad
+    <string name="description_visibility_unlisted">        Olistad
     </string>
-    <string name="description_visiblity_private">        Följare
+    <string name="description_visibility_private">        Följare
     </string>
-    <string name="description_visiblity_direct">        Direkt
+    <string name="description_visibility_direct">        Direkt
     </string>
     <string name="hint_list_name">Listnamn</string>
     <string name="download_media">Ladda ned media</string>

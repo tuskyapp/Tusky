@@ -179,7 +179,7 @@
     <string name="add_hashtag_title">Cuir taga hais ris</string>
     <string name="hint_list_name">Ainm na liosta</string>
     <string name="description_poll">Cunntas-bheachd le roghainnean: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">Dìreach</string>
+    <string name="description_visibility_direct">Dìreach</string>
     <string name="description_post_bookmarked">’Na chomharra-lìn</string>
     <string name="description_post_favourited">’Na annsachd</string>
     <string name="description_post_reblogged">Air ath-bhlogadh</string>
@@ -301,9 +301,9 @@
     <string name="error_sender_account_gone">Mearachd a’ cur a’ phuist.</string>
     <string name="action_unmute_desc">Dì-mhùch %s</string>
     <string name="hashtags">Tagaichean hais</string>
-    <string name="description_visiblity_private">Luchd-leantainn</string>
-    <string name="description_visiblity_unlisted">Neo-liostaichte</string>
-    <string name="description_visiblity_public">Poblach</string>
+    <string name="description_visibility_private">Luchd-leantainn</string>
+    <string name="description_visibility_unlisted">Neo-liostaichte</string>
+    <string name="description_visibility_public">Poblach</string>
     <string name="conversation_2_recipients">%1$s ’s %2$s</string>
     <string name="action_remove">Thoir air falbh</string>
     <string name="filter_dialog_whole_word">Facal slàn</string>

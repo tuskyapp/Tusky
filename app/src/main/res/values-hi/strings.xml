@@ -27,7 +27,7 @@
     <string name="action_retry">पुनः प्रयास करें</string>
     <string name="action_close">बंद करें</string>
     <string name="action_view_profile">प्रोफाइल</string>
-    <string name="description_visiblity_private">अनुगामी</string>
+    <string name="description_visibility_private">अनुगामी</string>
     <string name="error_media_upload_sending">अपलोड विफल रहा।</string>
     <string name="error_media_download_permission">मीडिया को स्टोर करने की अनुमति आवश्यक है।</string>
     <string name="error_media_upload_permission">मीडिया पढ़ने की अनुमति आवश्यक है।</string>
@@ -272,9 +272,9 @@
     <string name="notifications_clear">साफ करें</string>
     <string name="select_list_title">सूची का चयन करें</string>
     <string name="add_hashtag_title">हैशटैग जोड़ें</string>
-    <string name="description_visiblity_direct">प्रत्यक्ष</string>
-    <string name="description_visiblity_unlisted">असूचीबद्ध</string>
-    <string name="description_visiblity_public">सार्वजनिक</string>
+    <string name="description_visibility_direct">प्रत्यक्ष</string>
+    <string name="description_visibility_unlisted">असूचीबद्ध</string>
+    <string name="description_visibility_public">सार्वजनिक</string>
     <string name="description_post_cw">विषय वस्तु चेतावनी: %s</string>
     <plurals name="max_tab_number_reached">
         <item quantity="other">अधिकतम %1$d टैब तक पहुंच गऐ</item>

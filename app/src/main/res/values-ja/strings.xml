@@ -313,11 +313,11 @@
     <plurals name="max_tab_number_reached">
         <item quantity="other">タブは %1$d 個が上限です</item>
     </plurals>
-    <string name="description_visiblity_public">        公開
+    <string name="description_visibility_public">        公開
     </string>
-    <string name="description_visiblity_unlisted">        未収載
+    <string name="description_visibility_unlisted">        未収載
     </string>
-    <string name="description_visiblity_direct">        ダイレクト
+    <string name="description_visibility_direct">        ダイレクト
     </string>
     <string name="hint_list_name">リスト名</string>
     <string name="error_network">ネットワークエラーが発生しました！接続を確認してもう一度試してください！</string>
@@ -399,7 +399,7 @@
     <string name="title_scheduled_posts">予約トゥート</string>
     <string name="action_access_scheduled_posts">予約トゥート</string>
     <string name="action_schedule_post">予約トゥート</string>
-    <string name="description_visiblity_private">フォロワー</string>
+    <string name="description_visibility_private">フォロワー</string>
     <string name="conversation_2_recipients">%1$sさん、%2$sさん</string>
     <string name="notification_follow_request_name">フォローリクエスト</string>
     <string name="action_unmute_desc">%sさんのミュートを解除</string>

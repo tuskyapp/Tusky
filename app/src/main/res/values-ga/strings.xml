@@ -380,10 +380,10 @@
     <string name="description_post_media_no_description_placeholder">Gan cur síos</string>
     <string name="description_post_favourited">Tofa</string>
     <string name="description_post_bookmarked">Leabharmharcáilte</string>
-    <string name="description_visiblity_public">Poiblí</string>
-    <string name="description_visiblity_unlisted">Neamhliostaithe</string>
-    <string name="description_visiblity_private">Leantóirí</string>
-    <string name="description_visiblity_direct">Díreach</string>
+    <string name="description_visibility_public">Poiblí</string>
+    <string name="description_visibility_unlisted">Neamhliostaithe</string>
+    <string name="description_visibility_private">Leantóirí</string>
+    <string name="description_visibility_direct">Díreach</string>
     <string name="hint_list_name">Ainm liosta</string>
     <string name="add_hashtag_title">Cuir hashtag leis</string>
     <string name="edit_hashtag_hint">Hashtag gan #</string>

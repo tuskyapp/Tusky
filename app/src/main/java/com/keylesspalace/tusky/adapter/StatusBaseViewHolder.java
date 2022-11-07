@@ -873,16 +873,16 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         int resource;
         switch (visibility) {
             case PUBLIC:
-                resource = R.string.description_visiblity_public;
+                resource = R.string.description_visibility_public;
                 break;
             case UNLISTED:
-                resource = R.string.description_visiblity_unlisted;
+                resource = R.string.description_visibility_unlisted;
                 break;
             case PRIVATE:
-                resource = R.string.description_visiblity_private;
+                resource = R.string.description_visibility_private;
                 break;
             case DIRECT:
-                resource = R.string.description_visiblity_direct;
+                resource = R.string.description_visibility_direct;
                 break;
             default:
                 return "";

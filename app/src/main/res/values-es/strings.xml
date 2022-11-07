@@ -329,7 +329,7 @@
     <string name="action_add_to_list">Añadir cuenta a la lista</string>
     <string name="action_remove_from_list">Eliminar cuenta de la lista</string>
     <string name="description_post_favourited">1Favoritos</string>
-    <string name="description_visiblity_private">Seguidores</string>
+    <string name="description_visibility_private">Seguidores</string>
     <string name="filter_apply">Aplicar</string>
     <string name="pref_title_bot_overlay">Mostrar indicador de bots</string>
     <string name="poll_vote">Votar</string>
@@ -381,9 +381,9 @@
     <string name="description_post_cw">Aviso de contenido: %s</string>
     <string name="description_post_media_no_description_placeholder">Sin descripción</string>
     <string name="description_post_reblogged">Compartido</string>
-    <string name="description_visiblity_public">Público</string>
-    <string name="description_visiblity_unlisted">Sin listar</string>
-    <string name="description_visiblity_direct">Directo</string>
+    <string name="description_visibility_public">Público</string>
+    <string name="description_visibility_unlisted">Sin listar</string>
+    <string name="description_visibility_direct">Directo</string>
     <string name="hint_list_name">Nombre de la lista</string>
     <string name="edit_hashtag_hint">Etiqueta sin #</string>
     <string name="notifications_clear">Limpiar</string>
