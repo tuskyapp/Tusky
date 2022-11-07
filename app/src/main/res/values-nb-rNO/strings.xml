@@ -37,7 +37,7 @@
     <string name="title_drafts">Kladder</string>
     <string name="title_licenses">Lisenser</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s boostet</string>
+    <string name="post_boosted_format">%s fremhevet</string>
     <string name="post_sensitive_media_title">Sensitivt innhold</string>
     <string name="post_media_hidden_title">Media skjult</string>
     <string name="post_sensitive_media_directions">Klikk for å vise</string>
@@ -47,15 +47,15 @@
     <string name="post_content_show_less">Kollaps</string>
     <string name="message_empty">Her er det ingenting.</string>
     <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
-    <string name="notification_reblog_format">%s boostet innlegget ditt</string>
+    <string name="notification_reblog_format">%s fremhevde innlegget ditt</string>
     <string name="notification_favourite_format">%s favoriserte innlegget ditt</string>
     <string name="notification_follow_format">%s følger deg</string>
     <string name="report_username_format">Rapporter @%s</string>
     <string name="report_comment_hint">Ytterligere kommentarer\?</string>
     <string name="action_quick_reply">Hurtigsvar</string>
     <string name="action_reply">Svar</string>
-    <string name="action_reblog">Boost</string>
-    <string name="action_unreblog">Fjern boost</string>
+    <string name="action_reblog">Fremhev</string>
+    <string name="action_unreblog">Fjern fremheving</string>
     <string name="action_favourite">Legg til i favoritter</string>
     <string name="action_unfavourite">Fjern favoritt</string>
     <string name="action_more">Mer</string>
@@ -65,14 +65,14 @@
     <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\?</string>
     <string name="action_follow">Følg</string>
     <string name="action_unfollow">Slutt å følge</string>
-    <string name="action_block">Blokker</string>
+    <string name="action_block">Blokkér</string>
     <string name="action_unblock">Fjern blokkering</string>
-    <string name="action_hide_reblogs">Skjul boosts</string>
-    <string name="action_show_reblogs">Vis boosts</string>
+    <string name="action_hide_reblogs">Skjul fremhevinger</string>
+    <string name="action_show_reblogs">Vis fremhevinger</string>
     <string name="action_report">Rapporter</string>
     <string name="action_delete">Slett</string>
-    <string name="action_send">TOOT</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">Publiser</string>
+    <string name="action_send_public">Publiser!</string>
     <string name="action_retry">Prøv igjen</string>
     <string name="action_close">Steng</string>
     <string name="action_view_profile">Profil</string>
@@ -107,8 +107,8 @@
     <string name="action_links">Linker</string>
     <string name="action_mentions">Nevner</string>
     <string name="action_hashtags">Stikkord</string>
-    <string name="action_open_reblogger">Åpne toot-forfatter</string>
-    <string name="action_open_reblogged_by">Vis boosts</string>
+    <string name="action_open_reblogger">Åpne innlegg-forfatter</string>
+    <string name="action_open_reblogged_by">Vis fremhevinger</string>
     <string name="action_open_faved_by">Vis favoritter</string>
     <string name="title_hashtags_dialog">Stikkord</string>
     <string name="title_mentions_dialog">Nevner</string>
@@ -152,7 +152,7 @@
     <string name="dialog_download_image">Last ned</string>
     <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
     <string name="dialog_unfollow_warning">Slutte å følge denne kontoen\?</string>
-    <string name="dialog_delete_post_warning">Slette dette tootet\?</string>
+    <string name="dialog_delete_post_warning">Slette dette innlegget\?</string>
     <string name="visibility_public">Offentlig: Vis i offentlig tidslinjer</string>
     <string name="visibility_unlisted">Ikke oppført: Ikke vis i offentlige tidslinjer</string>
     <string name="visibility_private">Bare følgere: Vis bare til følgere</string>
@@ -166,8 +166,8 @@
     <string name="pref_title_notification_filters">Varsle meg når</string>
     <string name="pref_title_notification_filter_mentions">nevnt</string>
     <string name="pref_title_notification_filter_follows">fulgt</string>
-    <string name="pref_title_notification_filter_reblogs">tootene mine blir boostet</string>
-    <string name="pref_title_notification_filter_favourites">tootene mine blir favorisert</string>
+    <string name="pref_title_notification_filter_reblogs">innleggene mine blir fremhevet</string>
+    <string name="pref_title_notification_filter_favourites">innleggene mine blir favorisert</string>
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
@@ -178,7 +178,7 @@
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Tidslinjefiltrering</string>
     <string name="pref_title_post_tabs">Faner</string>
-    <string name="pref_title_show_boosts">Vis boosts</string>
+    <string name="pref_title_show_boosts">Vis fremhevinger</string>
     <string name="pref_title_show_replies">Vis svar</string>
     <string name="pref_title_show_media_preview">Last ned forhåndsvisning av media</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -192,8 +192,8 @@
     <string name="pref_post_text_size">Størrelse på statustekst</string>
     <string name="notification_follow_name">Nye følgere</string>
     <string name="notification_follow_description">Varsler om nye følgere</string>
-    <string name="notification_boost_name">Booster</string>
-    <string name="notification_boost_description">Varsler når innleggene dine blir boostet</string>
+    <string name="notification_boost_name">Fremhevinger</string>
+    <string name="notification_boost_description">Varsler når innleggene dine blir fremhevet</string>
     <string name="notification_favourite_name">Favoritter</string>
     <string name="notification_favourite_description">Varsler når innleggene dine blir favorisert</string>
     <string name="notification_mention_format">%s nevnte deg</string>
@@ -270,11 +270,11 @@
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
     <string name="compose_save_draft">Lagre kladd\?</string>
-    <string name="send_post_notification_title">Sender toot…</string>
-    <string name="send_post_notification_error_title">Det oppsto en feil under sending av tootet</string>
-    <string name="send_post_notification_channel_name">Sender toots</string>
+    <string name="send_post_notification_title">Sender innlegg…</string>
+    <string name="send_post_notification_error_title">Det oppsto en feil under sending av innlegget</string>
+    <string name="send_post_notification_channel_name">Sender innleggene</string>
     <string name="send_post_notification_cancel_title">Sending avbrutt</string>
-    <string name="send_post_notification_saved_content">En kopi av tootet er lagret i kladdene dine</string>
+    <string name="send_post_notification_saved_content">En kopi av innlegget er lagret i kladdene dine</string>
     <string name="action_compose_shortcut">Skriv</string>
     <string name="error_no_custom_emojis">Instansen %s har ingen egendefinerte emojis</string>
     <string name="emoji_style">Emoji-stil</string>
@@ -282,7 +282,7 @@
     <string name="download_fonts">Du må laste ned emoji-samlingene før de kan brukes</string>
     <string name="performing_lookup_title">Gjennomfører oppslag…</string>
     <string name="expand_collapse_all_posts">Utvid/kollaps alle statuser</string>
-    <string name="action_open_post">Åpne toot</string>
+    <string name="action_open_post">Åpne innlegg</string>
     <string name="restart_required">Omstart av applikasjonen er påkrevd</string>
     <string name="restart_emoji">Du må starte Tusky på nytt for at endringene skal bli aktive</string>
     <string name="later">Senere</string>
@@ -293,8 +293,8 @@
     <string name="download_failed">Nedlasting feilet</string>
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s har flyttet til:</string>
-    <string name="reblog_private">Boost til opprinnelig publikum</string>
-    <string name="unreblog_private">Fjern boost</string>
+    <string name="reblog_private">Fremhev til opprinnelig publikum</string>
+    <string name="unreblog_private">Fjern fremheving</string>
     <string name="license_description">Tusky inneholder programkode og elementer fra følgende åpen kildekode-prosjekter:</string>
     <string name="license_apache_2">Lisensiert under Apache License (kopi under)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -312,10 +312,10 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritter</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Boost</item>
-        <item quantity="other"><b>%s</b> Booster</item>
+        <item quantity="one"><b>%s</b> Fremheving</item>
+        <item quantity="other"><b>%s</b> Fremhevinger</item>
     </plurals>
-    <string name="title_reblogged_by">Boostet av</string>
+    <string name="title_reblogged_by">Fremhevet av</string>
     <string name="title_favourited_by">Favorisert av</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
@@ -425,10 +425,10 @@
     <string name="poll_allow_multiple_choices">Flere valg</string>
     <string name="poll_new_choice_hint">Valg %d</string>
     <string name="edit_poll">Endre</string>
-    <string name="title_scheduled_posts">Planlagte toots</string>
+    <string name="title_scheduled_posts">Planlagte innlegg</string>
     <string name="action_edit">Rediger</string>
-    <string name="action_access_scheduled_posts">Planlagte toots</string>
-    <string name="action_schedule_post">Planlegg toot</string>
+    <string name="action_access_scheduled_posts">Planlagte innlegg</string>
+    <string name="action_schedule_post">Planlegg innlegg</string>
     <string name="action_reset_schedule">Tilbakestill</string>
     <string name="post_lookup_error_format">Det oppsto en feil under henting av %s</string>
     <string name="about_powered_by_tusky">Drevet av Tusky</string>
@@ -442,7 +442,7 @@
     <string name="no_drafts">Du har ikke lagret noen kladder.</string>
     <string name="warning_scheduling_interval">Mastodon har et minimums planleggingsinterval på 5 minutter.</string>
     <string name="pref_title_show_cards_in_timelines">Vis forhåndsvisning av linker i tidslinjer</string>
-    <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før boosting</string>
+    <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før fremheving</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s person</item>
@@ -473,12 +473,12 @@
     <string name="no_announcements">Det er ingen kunngjøringer.</string>
     <string name="title_announcements">Kunngjøringer</string>
     <string name="wellbeing_hide_stats_profile">Skjul kvantitativ informasjon på profiler</string>
-    <string name="wellbeing_hide_stats_posts">Skjul kvantitativ informasjon på toots</string>
+    <string name="wellbeing_hide_stats_posts">Skjul kvantitativ statistikk på innleggene</string>
     <string name="limit_notifications">Begrens tidslinjevarsler</string>
     <string name="review_notifications">Se over varsler</string>
     <string name="wellbeing_mode_notice">Informasjon som kan påvirke ditt mentale velvære vil bli skjult. Dette inkluderer:
 \n
-\n - Varsler om favorisering, boosts og følgere
+\n - Varsler om favorisering, fremhevinger og følgere
 \n - Antall favoriseringer og boots på innlegg
 \n - Antall følgere og innlegg på profiler
 \n
@@ -487,7 +487,7 @@
     <string name="notification_subscription_description">Varsler når noen jeg følger publiserer et nytt innlegg</string>
     <string name="notification_subscription_name">Nye innlegg</string>
     <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer et nytt innlegg</string>
-    <string name="notification_subscription_format">%s tootet akkurat</string>
+    <string name="notification_subscription_format">%s postet akkurat</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
         <item quantity="other">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
@@ -497,10 +497,10 @@
     <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %s\?</string>
     <string name="post_media_attachments">Vedlegg</string>
     <string name="post_media_audio">Lyd</string>
-    <string name="drafts_post_reply_removed">Tootet du kladdet et svar til har blitt fjernet</string>
+    <string name="drafts_post_reply_removed">Innlegget du kladdet et svar på har blitt fjernet</string>
     <string name="draft_deleted">Kladd slettet</string>
     <string name="drafts_failed_loading_reply">Lasting av svarinformasjon feilet</string>
-    <string name="drafts_post_failed_to_send">Sending av toot feilet!</string>
+    <string name="drafts_post_failed_to_send">Sending av innlegg feilet!</string>
     <string name="pref_title_animate_custom_emojis">Animer egendefinerte emojis</string>
     <string name="action_unsubscribe_account">Avslutt abonnementet</string>
     <string name="action_subscribe_account">Abonner</string>
@@ -515,7 +515,7 @@
     <string name="duration_180_days">180 dager</string>
     <string name="duration_365_days">365 dager</string>
     <string name="duration_14_days">14 dager</string>
-    <string name="tusky_compose_post_quicksetting_label">Komponer toot</string>
+    <string name="tusky_compose_post_quicksetting_label">Skriv innlegg</string>
     <string name="notification_sign_up_format">%s registrerte seg</string>
     <string name="pref_title_notification_filter_sign_ups">noen registrerte seg</string>
     <string name="notification_sign_up_name">Registreringer</string>
@@ -553,4 +553,6 @@
     <string name="pref_show_self_username_never">Aldri</string>
     <string name="pref_title_show_self_username">Vis brukernavn på verktøylinjer</string>
     <string name="delete_scheduled_post_warning">Slette dette planlagte innlegget\?</string>
+    <string name="instance_rule_title">Regler på %s</string>
+    <string name="instance_rule_info">Ved å logge inn godtar du reglene på %s.</string>
 </resources>
