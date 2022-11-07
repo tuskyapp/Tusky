@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.util.EmojiSpan
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
+import com.keylesspalace.tusky.util.visible
 import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
@@ -72,6 +73,9 @@ class AnnouncementAdapter(
             addReactionChip.visibility = View.GONE
             return
         }
+
+        // hide button if announcement badge limit is already reached
+        addReactionChip.visible(item.reactions.size < 8)
 
         item.reactions.forEachIndexed { i, reaction ->
             (
