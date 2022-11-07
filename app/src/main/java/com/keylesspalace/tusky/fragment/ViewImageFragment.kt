@@ -296,7 +296,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 }
             } else {
                 // This wait for transition. If there's no transition then we should hit
-                // another branch. take() will unsubscribe after we have it to not leak menmory
+                // another branch. take() will unsubscribe after we have it to not leak memory
                 transition
                     .take(1)
                     .subscribe {
