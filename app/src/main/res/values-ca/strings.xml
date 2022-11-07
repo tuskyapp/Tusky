@@ -209,7 +209,7 @@
     <string name="action_logout_confirm">Estàs segur de tancar la sessió de %1$s\?</string>
     <string name="action_hide_reblogs">Amaga els impulsos</string>
     <string name="action_show_reblogs">Mostra els impulsos</string>
-    <string name="action_delete_and_redraft">Elimina i reecririu</string>
+    <string name="action_delete_and_redraft">Elimina i reescriu</string>
     <string name="action_open_drawer">Obre el menú</string>
     <string name="action_toggle_visibility">Visibilitat de la publicació</string>
     <string name="action_content_warning">Contingut sensible</string>
