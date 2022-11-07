@@ -579,4 +579,6 @@
     <string name="pref_show_self_username_never">Ніколи</string>
     <string name="pref_title_show_self_username">Показувати ім\'я користувача на панелях інструментів</string>
     <string name="delete_scheduled_post_warning">Видалити цей запланований допис\?</string>
+    <string name="instance_rule_info">Увійшовши, ви погоджуєтесь з правилами %s.</string>
+    <string name="instance_rule_title">Правила %s</string>
 </resources>
