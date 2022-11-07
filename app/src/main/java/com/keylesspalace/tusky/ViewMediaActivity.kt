@@ -47,12 +47,14 @@ import autodispose2.autoDispose
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
+import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.databinding.ActivityViewMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
+import com.keylesspalace.tusky.util.parcelableArrayListExtra
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -93,7 +95,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         supportPostponeEnterTransition()
 
         // Gather the parameters.
-        attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
+        attachments = intent.parcelableArrayListExtra(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener

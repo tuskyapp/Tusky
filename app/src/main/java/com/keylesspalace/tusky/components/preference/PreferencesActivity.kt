@@ -20,6 +20,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
@@ -47,7 +48,17 @@ class PreferencesActivity :
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    private var restartActivitiesOnExit: Boolean = false
+    private val restartActivitiesOnBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            /* Switching themes won't actually change the theme of activities on the back stack.
+             * Either the back stack activities need to all be recreated, or do the easier thing, which
+             * is hijack the back button press and use it to launch a new MainActivity and clear the
+             * back stack. */
+            val intent = Intent(this@PreferencesActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivityWithSlideInAnimation(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +103,8 @@ class PreferencesActivity :
             replace(R.id.fragment_container, fragment, fragmentTag)
         }
 
-        restartActivitiesOnExit = intent.getBooleanExtra("restart", false)
+        onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
+        restartActivitiesOnBackPressedCallback.isEnabled = savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
     }
 
     override fun onResume() {
@@ -106,11 +118,11 @@ class PreferencesActivity :
     }
 
     private fun saveInstanceState(outState: Bundle) {
-        outState.putBoolean("restart", restartActivitiesOnExit)
+        outState.putBoolean(EXTRA_RESTART_ON_BACK, restartActivitiesOnBackPressedCallback.isEnabled)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("restart", restartActivitiesOnExit)
+        outState.putBoolean(EXTRA_RESTART_ON_BACK, restartActivitiesOnBackPressedCallback.isEnabled)
         super.onSaveInstanceState(outState)
     }
 
@@ -121,16 +133,16 @@ class PreferencesActivity :
                 Log.d("activeTheme", theme)
                 ThemeUtils.setAppNightMode(theme)
 
-                restartActivitiesOnExit = true
+                restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }
             "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
-            "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
+            "showSelfUsername", "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
             "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
-                restartActivitiesOnExit = true
+                restartActivitiesOnBackPressedCallback.isEnabled = true
             }
             "language" -> {
-                restartActivitiesOnExit = true
+                restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }
         }
@@ -148,20 +160,6 @@ class PreferencesActivity :
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
-    override fun onBackPressed() {
-        /* Switching themes won't actually change the theme of activities on the back stack.
-         * Either the back stack activities need to all be recreated, or do the easier thing, which
-         * is hijack the back button press and use it to launch a new MainActivity and clear the
-         * back stack. */
-        if (restartActivitiesOnExit) {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivityWithSlideInAnimation(intent)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun androidInjector() = androidInjector
 
     companion object {
@@ -172,6 +170,7 @@ class PreferencesActivity :
         const val TAB_FILTER_PREFERENCES = 3
         const val PROXY_PREFERENCES = 4
         private const val EXTRA_PREFERENCE_TYPE = "EXTRA_PREFERENCE_TYPE"
+        private const val EXTRA_RESTART_ON_BACK = "restart"
 
         @JvmStatic
         fun newIntent(context: Context, preferenceType: Int): Intent {

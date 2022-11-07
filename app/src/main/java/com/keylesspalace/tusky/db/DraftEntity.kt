@@ -22,6 +22,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.parcelize.Parcelize
@@ -40,6 +41,7 @@ data class DraftEntity(
     val poll: NewPoll?,
     val failedToSend: Boolean,
     val scheduledAt: String?,
+    val language: String?,
 )
 
 /**
@@ -51,6 +53,7 @@ data class DraftEntity(
 data class DraftAttachment(
     @SerializedName(value = "uriString", alternate = ["e", "i"]) val uriString: String,
     @SerializedName(value = "description", alternate = ["f", "j"]) val description: String?,
+    @SerializedName(value = "focus") val focus: Attachment.Focus?,
     @SerializedName(value = "type", alternate = ["g", "k"]) val type: Type
 ) : Parcelable {
     val uri: Uri

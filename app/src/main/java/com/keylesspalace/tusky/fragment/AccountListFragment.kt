@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.requireSerializable
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
@@ -78,8 +79,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = arguments?.getSerializable(ARG_TYPE) as Type
-        id = arguments?.getString(ARG_ID)
+        type = requireArguments().requireSerializable(ARG_TYPE)
+        id = requireArguments().getString(ARG_ID)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,7 +101,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
             Type.FOLLOW_REQUESTS -> {
-                val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.get(ARG_ACCOUNT_LOCKED) == true)
+                val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true)
                 val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter

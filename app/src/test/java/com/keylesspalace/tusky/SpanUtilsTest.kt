@@ -38,6 +38,7 @@ class SpanUtilsTest {
                 return listOf(
                     "@mention",
                     "#tag",
+                    "#tåg",
                     "https://thr.ee/meh?foo=bar&wat=@at#hmm",
                     "http://thr.ee/meh?foo=bar&wat=@at#hmm"
                 )

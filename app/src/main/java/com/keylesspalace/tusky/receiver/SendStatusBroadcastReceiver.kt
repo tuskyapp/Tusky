@@ -18,13 +18,10 @@ package com.keylesspalace.tusky.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
-import androidx.core.content.ContextCompat
-import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
@@ -32,6 +29,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendStatusService
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import com.keylesspalace.tusky.util.requireSerializableExtra
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -51,7 +49,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
             val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
             val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
-            val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
+            val visibility: Status.Visibility = intent.requireSerializableExtra(NotificationHelper.KEY_VISIBILITY)!!
             val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER) ?: ""
             val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS) ?: emptyArray()
 
@@ -66,7 +64,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
                     .setSmallIcon(R.drawable.ic_notify)
-                    .setColor(ContextCompat.getColor(context, R.color.tusky_blue))
+                    .setColor(context.getColor(R.color.tusky_blue))
                     .setGroup(senderFullName)
                     .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
@@ -92,6 +90,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         mediaIds = emptyList(),
                         mediaUris = emptyList(),
                         mediaDescriptions = emptyList(),
+                        mediaFocus = emptyList(),
                         scheduledAt = null,
                         inReplyToId = citedStatusId,
                         poll = null,
@@ -101,21 +100,16 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         draftId = -1,
                         idempotencyKey = randomAlphanumericString(16),
                         retries = 0,
-                        mediaProcessed = mutableListOf()
+                        mediaProcessed = mutableListOf(),
+                        null,
                     )
                 )
 
                 context.startService(sendIntent)
 
-                val color = if (BuildConfig.FLAVOR == "green") {
-                    Color.parseColor("#19A341")
-                } else {
-                    ContextCompat.getColor(context, R.color.tusky_blue)
-                }
-
                 val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
                     .setSmallIcon(R.drawable.ic_notify)
-                    .setColor(color)
+                    .setColor(context.getColor(R.color.notification_color))
                     .setGroup(senderFullName)
                     .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
 
@@ -135,6 +129,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     private fun getReplyMessage(intent: Intent): CharSequence {
         val remoteInput = RemoteInput.getResultsFromIntent(intent)
 
-        return remoteInput.getCharSequence(NotificationHelper.KEY_REPLY, "")
+        return remoteInput?.getCharSequence(NotificationHelper.KEY_REPLY, "") ?: ""
     }
 }

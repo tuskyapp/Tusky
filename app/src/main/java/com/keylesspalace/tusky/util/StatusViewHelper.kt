@@ -23,7 +23,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
@@ -167,7 +166,7 @@ class StatusViewHelper(private val itemView: View) {
                 mediaPreviews[3].layoutParams.height = mediaPreviewHeight
             }
         }
-        if (attachments.isNullOrEmpty()) {
+        if (attachments.isEmpty()) {
             sensitiveMediaWarning.visibility = View.GONE
             sensitiveMediaShow.visibility = View.GONE
         } else {
@@ -319,7 +318,7 @@ class StatusViewHelper(private val itemView: View) {
                 }
 
                 pollResults[i].background.level = level
-                pollResults[i].background.setTint(ContextCompat.getColor(pollResults[i].context, optionColor))
+                pollResults[i].background.setTint(pollResults[i].context.getColor(optionColor))
             } else {
                 pollResults[i].visibility = View.GONE
             }

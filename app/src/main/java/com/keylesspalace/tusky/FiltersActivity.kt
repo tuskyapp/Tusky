@@ -1,26 +1,25 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
-import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.getSecondsForDurationIndex
+import com.keylesspalace.tusky.view.setupEditDialogForFilter
+import com.keylesspalace.tusky.view.showAddFilterDialog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -47,7 +46,7 @@ class FiltersActivity : BaseActivity() {
             setDisplayShowHomeEnabled(true)
         }
         binding.addFilterButton.setOnClickListener {
-            showAddFilterDialog()
+            showAddFilterDialog(this)
         }
 
         title = intent?.getStringExtra(FILTERS_TITLE)
@@ -55,15 +54,10 @@ class FiltersActivity : BaseActivity() {
         loadFilters()
     }
 
-    private fun updateFilter(filter: Filter, itemIndex: Int) {
-        api.updateFilter(filter.id, filter.phrase, filter.context, filter.irreversible, filter.wholeWord, filter.expiresAt)
-            .enqueue(object : Callback<Filter> {
-                override fun onFailure(call: Call<Filter>, t: Throwable) {
-                    Toast.makeText(this@FiltersActivity, "Error updating filter '${filter.phrase}'", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
-                    val updatedFilter = response.body()!!
+    fun updateFilter(id: String, phrase: String, filterContext: List<String>, irreversible: Boolean, wholeWord: Boolean, expiresInSeconds: Int?, itemIndex: Int) {
+        lifecycleScope.launch {
+            api.updateFilter(id, phrase, filterContext, irreversible, wholeWord, expiresInSeconds).fold(
+                { updatedFilter ->
                     if (updatedFilter.context.contains(context)) {
                         filters[itemIndex] = updatedFilter
                     } else {
@@ -71,25 +65,30 @@ class FiltersActivity : BaseActivity() {
                     }
                     refreshFilterDisplay()
                     eventHub.dispatch(PreferenceChangedEvent(context))
+                },
+                {
+                    Toast.makeText(this@FiltersActivity, "Error updating filter '$phrase'", Toast.LENGTH_SHORT).show()
                 }
-            })
+            )
+        }
     }
 
-    private fun deleteFilter(itemIndex: Int) {
+    fun deleteFilter(itemIndex: Int) {
         val filter = filters[itemIndex]
         if (filter.context.size == 1) {
-            // This is the only context for this filter; delete it
-            api.deleteFilter(filters[itemIndex].id).enqueue(object : Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(this@FiltersActivity, "Error updating filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    filters.removeAt(itemIndex)
-                    refreshFilterDisplay()
-                    eventHub.dispatch(PreferenceChangedEvent(context))
-                }
-            })
+            lifecycleScope.launch {
+                // This is the only context for this filter; delete it
+                api.deleteFilter(filters[itemIndex].id).fold(
+                    {
+                        filters.removeAt(itemIndex)
+                        refreshFilterDisplay()
+                        eventHub.dispatch(PreferenceChangedEvent(context))
+                    },
+                    {
+                        Toast.makeText(this@FiltersActivity, "Error deleting filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
         } else {
             // Keep the filter, but remove it from this context
             val oldFilter = filters[itemIndex]
@@ -97,69 +96,50 @@ class FiltersActivity : BaseActivity() {
                 oldFilter.id, oldFilter.phrase, oldFilter.context.filter { c -> c != context },
                 oldFilter.expiresAt, oldFilter.irreversible, oldFilter.wholeWord
             )
-            updateFilter(newFilter, itemIndex)
+            updateFilter(
+                newFilter.id, newFilter.phrase, newFilter.context, newFilter.irreversible, newFilter.wholeWord,
+                getSecondsForDurationIndex(-1, this, oldFilter.expiresAt), itemIndex
+            )
         }
     }
 
-    private fun createFilter(phrase: String, wholeWord: Boolean) {
-        api.createFilter(phrase, listOf(context), false, wholeWord, "").enqueue(object : Callback<Filter> {
-            override fun onResponse(call: Call<Filter>, response: Response<Filter>) {
-                val filterResponse = response.body()
-                if (response.isSuccessful && filterResponse != null) {
-                    filters.add(filterResponse)
+    fun createFilter(phrase: String, wholeWord: Boolean, expiresInSeconds: Int? = null) {
+        lifecycleScope.launch {
+            api.createFilter(phrase, listOf(context), false, wholeWord, expiresInSeconds).fold(
+                { filter ->
+                    filters.add(filter)
                     refreshFilterDisplay()
                     eventHub.dispatch(PreferenceChangedEvent(context))
-                } else {
+                },
+                {
                     Toast.makeText(this@FiltersActivity, "Error creating filter '$phrase'", Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            override fun onFailure(call: Call<Filter>, t: Throwable) {
-                Toast.makeText(this@FiltersActivity, "Error creating filter '$phrase'", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun showAddFilterDialog() {
-        val binding = DialogFilterBinding.inflate(layoutInflater)
-        binding.phraseWholeWord.isChecked = true
-        AlertDialog.Builder(this@FiltersActivity)
-            .setTitle(R.string.filter_addition_dialog_title)
-            .setView(binding.root)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                createFilter(binding.phraseEditText.text.toString(), binding.phraseWholeWord.isChecked)
-            }
-            .setNeutralButton(android.R.string.cancel, null)
-            .show()
-    }
-
-    private fun setupEditDialogForItem(itemIndex: Int) {
-        val binding = DialogFilterBinding.inflate(layoutInflater)
-        val filter = filters[itemIndex]
-        binding.phraseEditText.setText(filter.phrase)
-        binding.phraseWholeWord.isChecked = filter.wholeWord
-
-        AlertDialog.Builder(this@FiltersActivity)
-            .setTitle(R.string.filter_edit_dialog_title)
-            .setView(binding.root)
-            .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
-                val oldFilter = filters[itemIndex]
-                val newFilter = Filter(
-                    oldFilter.id, binding.phraseEditText.text.toString(), oldFilter.context,
-                    oldFilter.expiresAt, oldFilter.irreversible, binding.phraseWholeWord.isChecked
-                )
-                updateFilter(newFilter, itemIndex)
-            }
-            .setNegativeButton(R.string.filter_dialog_remove_button) { _, _ ->
-                deleteFilter(itemIndex)
-            }
-            .setNeutralButton(android.R.string.cancel, null)
-            .show()
+            )
+        }
     }
 
     private fun refreshFilterDisplay() {
-        binding.filtersView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filters.map { filter -> filter.phrase })
-        binding.filtersView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> setupEditDialogForItem(position) }
+        binding.filtersView.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            filters.map { filter ->
+                if (filter.expiresAt == null) {
+                    filter.phrase
+                } else {
+                    getString(
+                        R.string.filter_expiration_format,
+                        filter.phrase,
+                        DateUtils.getRelativeTimeSpanString(
+                            filter.expiresAt.time,
+                            System.currentTimeMillis(),
+                            DateUtils.MINUTE_IN_MILLIS,
+                            DateUtils.FORMAT_ABBREV_RELATIVE
+                        )
+                    )
+                }
+            }
+        )
+        binding.filtersView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> setupEditDialogForFilter(this, filters[position], position) }
     }
 
     private fun loadFilters() {

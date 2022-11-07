@@ -37,7 +37,7 @@ import com.keylesspalace.tusky.util.FocalPointUtil
  * However if there is no focal point set (e.g. it is null), then this view should simply
  * act exactly the same as an ordinary android ImageView.
  */
-class MediaPreviewImageView
+open class MediaPreviewImageView
 @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

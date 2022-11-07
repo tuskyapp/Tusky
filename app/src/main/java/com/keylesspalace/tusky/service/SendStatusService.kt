@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.service
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,10 +13,11 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.ContextCompat
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
@@ -24,10 +26,12 @@ import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.parcelableExtra
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +73,7 @@ class SendStatusService : Service(), Injectable {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (intent.hasExtra(KEY_STATUS)) {
-            val statusToSend = intent.getParcelableExtra<StatusToSend>(KEY_STATUS)
+            val statusToSend: StatusToSend = intent.parcelableExtra(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -88,7 +92,7 @@ class SendStatusService : Service(), Injectable {
                 .setContentText(notificationText)
                 .setProgress(1, 0, true)
                 .setOngoing(true)
-                .setColor(ContextCompat.getColor(this, R.color.notification_color))
+                .setColor(getColor(R.color.notification_color))
                 .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
 
             if (statusesToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -134,8 +138,15 @@ class SendStatusService : Service(), Injectable {
                     delay(1000L * mediaCheckRetries)
                     statusToSend.mediaProcessed.forEachIndexed { index, processed ->
                         if (!processed) {
-                            // Mastodon returns 206 if the media was not yet processed
-                            statusToSend.mediaProcessed[index] = mastodonApi.getMedia(statusToSend.mediaIds[index]).code() == 200
+                            when (mastodonApi.getMedia(statusToSend.mediaIds[index]).code()) {
+                                200 -> statusToSend.mediaProcessed[index] = true // success
+                                206 -> { } // media is still being processed, continue checking
+                                else -> { // some kind of server error, retrying probably doesn't make sense
+                                    failSending(statusId)
+                                    stopSelfWhenDone()
+                                    return@launch
+                                }
+                            }
                         }
                     }
                     mediaCheckRetries ++
@@ -154,7 +165,8 @@ class SendStatusService : Service(), Injectable {
                 statusToSend.sensitive,
                 statusToSend.mediaIds,
                 statusToSend.scheduledAt,
-                statusToSend.poll
+                statusToSend.poll,
+                statusToSend.language,
             )
 
             mastodonApi.createStatus(
@@ -182,22 +194,7 @@ class SendStatusService : Service(), Injectable {
                 Log.w(TAG, "failed sending status", throwable)
                 if (throwable is HttpException) {
                     // the server refused to accept the status, save status & show error message
-                    statusesToSend.remove(statusId)
-                    saveStatusToDrafts(statusToSend)
-
-                    val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_notify)
-                        .setContentTitle(getString(R.string.send_post_notification_error_title))
-                        .setContentText(getString(R.string.send_post_notification_saved_content))
-                        .setColor(
-                            ContextCompat.getColor(
-                                this@SendStatusService,
-                                R.color.notification_color
-                            )
-                        )
-
-                    notificationManager.cancel(statusId)
-                    notificationManager.notify(errorNotificationId--, builder.build())
+                    failSending(statusId)
                 } else {
                     // a network problem occurred, let's retry sending the status
                     retrySending(statusId)
@@ -225,6 +222,24 @@ class SendStatusService : Service(), Injectable {
         }
     }
 
+    private suspend fun failSending(statusId: Int) {
+        val failedStatus = statusesToSend.remove(statusId)
+        if (failedStatus != null) {
+
+            saveStatusToDrafts(failedStatus)
+
+            val notification = buildDraftNotification(
+                R.string.send_post_notification_error_title,
+                R.string.send_post_notification_saved_content,
+                failedStatus.accountId,
+                statusId
+            )
+
+            notificationManager.cancel(statusId)
+            notificationManager.notify(errorNotificationId++, notification)
+        }
+    }
+
     private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
@@ -233,15 +248,18 @@ class SendStatusService : Service(), Injectable {
 
             saveStatusToDrafts(statusToCancel)
 
-            val builder = NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notify)
-                .setContentTitle(getString(R.string.send_post_notification_cancel_title))
-                .setContentText(getString(R.string.send_post_notification_saved_content))
-                .setColor(ContextCompat.getColor(this@SendStatusService, R.color.notification_color))
+            val notification = buildDraftNotification(
+                R.string.send_post_notification_cancel_title,
+                R.string.send_post_notification_saved_content,
+                statusToCancel.accountId,
+                statusId
+            )
 
-            notificationManager.notify(statusId, builder.build())
+            notificationManager.notify(statusId, notification)
 
             delay(5000)
+
+            stopSelfWhenDone()
         }
     }
 
@@ -256,16 +274,52 @@ class SendStatusService : Service(), Injectable {
             visibility = Status.Visibility.byString(status.visibility),
             mediaUris = status.mediaUris,
             mediaDescriptions = status.mediaDescriptions,
+            mediaFocus = status.mediaFocus,
             poll = status.poll,
             failedToSend = true,
-            scheduledAt = status.scheduledAt
+            scheduledAt = status.scheduledAt,
+            language = status.language,
         )
     }
 
     private fun cancelSendingIntent(statusId: Int): PendingIntent {
         val intent = Intent(this, SendStatusService::class.java)
         intent.putExtra(KEY_CANCEL, statusId)
-        return PendingIntent.getService(this, statusId, intent, NotificationHelper.pendingIntentFlags(false))
+        return PendingIntent.getService(
+            this,
+            statusId,
+            intent,
+            NotificationHelper.pendingIntentFlags(false)
+        )
+    }
+
+    private fun buildDraftNotification(
+        @StringRes title: Int,
+        @StringRes content: Int,
+        accountId: Long,
+        statusId: Int
+    ): Notification {
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(NotificationHelper.ACCOUNT_ID, accountId)
+        intent.putExtra(MainActivity.OPEN_DRAFTS, true)
+
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            statusId,
+            intent,
+            NotificationHelper.pendingIntentFlags(false)
+        )
+
+        return NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notify)
+            .setContentTitle(getString(title))
+            .setContentText(getString(content))
+            .setColor(getColor(R.color.notification_color))
+            .setAutoCancel(true)
+            .setOngoing(false)
+            .setContentIntent(pendingIntent)
+            .build()
     }
 
     override fun onDestroy() {
@@ -285,7 +339,6 @@ class SendStatusService : Service(), Injectable {
         private var sendingNotificationId = -1 // use negative ids to not clash with other notis
         private var errorNotificationId = Int.MIN_VALUE // use even more negative ids to not clash with other notis
 
-        @JvmStatic
         fun sendStatusIntent(
             context: Context,
             statusToSend: StatusToSend
@@ -323,6 +376,7 @@ data class StatusToSend(
     val mediaIds: List<String>,
     val mediaUris: List<String>,
     val mediaDescriptions: List<String>,
+    val mediaFocus: List<Attachment.Focus?>,
     val scheduledAt: String?,
     val inReplyToId: String?,
     val poll: NewPoll?,
@@ -332,5 +386,6 @@ data class StatusToSend(
     val draftId: Int,
     val idempotencyKey: String,
     var retries: Int,
-    val mediaProcessed: MutableList<Boolean>
+    val mediaProcessed: MutableList<Boolean>,
+    val language: String?,
 ) : Parcelable

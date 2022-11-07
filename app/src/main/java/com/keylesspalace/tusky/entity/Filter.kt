@@ -16,12 +16,13 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class Filter(
     val id: String,
     val phrase: String,
     val context: List<String>,
-    @SerializedName("expires_at") val expiresAt: String?,
+    @SerializedName("expires_at") val expiresAt: Date?,
     val irreversible: Boolean,
     @SerializedName("whole_word") val wholeWord: Boolean
 ) {

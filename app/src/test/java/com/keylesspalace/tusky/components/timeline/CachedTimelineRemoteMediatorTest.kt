@@ -17,7 +17,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -30,6 +29,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.mock
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
@@ -78,7 +78,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Single.just(Response.error(500, "".toResponseBody()))
+                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
             db = db,
             gson = Gson()
@@ -98,7 +98,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Single.error(IOException())
+                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
             db = db,
             gson = Gson()
@@ -154,22 +154,18 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 3) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("8"),
-                            mockStatus("7"),
-                            mockStatus("5")
-                        )
+                onBlocking { homeTimeline(limit = 3) } doReturn Response.success(
+                    listOf(
+                        mockStatus("8"),
+                        mockStatus("7"),
+                        mockStatus("5")
                     )
                 )
-                on { homeTimeline(maxId = "3", limit = 3) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("3"),
-                            mockStatus("2"),
-                            mockStatus("1")
-                        )
+                onBlocking { homeTimeline(maxId = "3", limit = 3) } doReturn Response.success(
+                    listOf(
+                        mockStatus("3"),
+                        mockStatus("2"),
+                        mockStatus("1")
                     )
                 )
             },
@@ -222,22 +218,18 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("8"),
-                            mockStatus("7"),
-                            mockStatus("5")
-                        )
+                onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("8"),
+                        mockStatus("7"),
+                        mockStatus("5")
                     )
                 )
-                on { homeTimeline(maxId = "3", limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("3"),
-                            mockStatus("2"),
-                            mockStatus("1")
-                        )
+                onBlocking { homeTimeline(maxId = "3", limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("3"),
+                        mockStatus("2"),
+                        mockStatus("1")
                     )
                 )
             },
@@ -287,22 +279,18 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 3) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("6"),
-                            mockStatus("4"),
-                            mockStatus("3")
-                        )
+                onBlocking { homeTimeline(limit = 3) } doReturn Response.success(
+                    listOf(
+                        mockStatus("6"),
+                        mockStatus("4"),
+                        mockStatus("3")
                     )
                 )
-                on { homeTimeline(maxId = "3", limit = 3) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("3"),
-                            mockStatus("2"),
-                            mockStatus("1")
-                        )
+                onBlocking { homeTimeline(maxId = "3", limit = 3) } doReturn Response.success(
+                    listOf(
+                        mockStatus("3"),
+                        mockStatus("2"),
+                        mockStatus("1")
                     )
                 )
             },
@@ -344,13 +332,11 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("5"),
-                            mockStatus("4"),
-                            mockStatus("3")
-                        )
+                onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("5"),
+                        mockStatus("4"),
+                        mockStatus("3")
                     )
                 )
             },
@@ -397,15 +383,12 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(limit = 20) } doReturn Single.just(
-                    Response.success(emptyList())
-                )
-                on { homeTimeline(maxId = "3", limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("3"),
-                            mockStatus("1")
-                        )
+                onBlocking { homeTimeline(limit = 20) } doReturn Response.success(emptyList())
+
+                onBlocking { homeTimeline(maxId = "3", limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("3"),
+                        mockStatus("1")
                     )
                 )
             },
@@ -452,21 +435,17 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(sinceId = "6", limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("9"),
-                            mockStatus("8"),
-                            mockStatus("7")
-                        )
+                onBlocking { homeTimeline(sinceId = "6", limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("9"),
+                        mockStatus("8"),
+                        mockStatus("7")
                     )
                 )
-                on { homeTimeline(maxId = "8", sinceId = "6", limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("8"),
-                            mockStatus("7")
-                        )
+                onBlocking { homeTimeline(maxId = "8", sinceId = "6", limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("8"),
+                        mockStatus("7")
                     )
                 )
             },
@@ -515,13 +494,11 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                on { homeTimeline(maxId = "5", limit = 20) } doReturn Single.just(
-                    Response.success(
-                        listOf(
-                            mockStatus("3"),
-                            mockStatus("2"),
-                            mockStatus("1")
-                        )
+                onBlocking { homeTimeline(maxId = "5", limit = 20) } doReturn Response.success(
+                    listOf(
+                        mockStatus("3"),
+                        mockStatus("2"),
+                        mockStatus("1")
                     )
                 )
             },

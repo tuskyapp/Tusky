@@ -20,9 +20,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -73,6 +73,12 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
 
     private val hashtagRegex by lazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
+
+    private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            toggleFab(false)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,6 +155,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         binding.maxTabsInfo.text = resources.getQuantityString(R.plurals.max_tab_number_reached, MAX_TAB_COUNT, MAX_TAB_COUNT)
 
         updateAvailableTabs()
+
+        onBackPressedDispatcher.addCallback(onFabDismissedCallback)
     }
 
     override fun onTabAdded(tab: TabData) {
@@ -209,6 +217,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         binding.actionButton.visible(!expand)
         binding.sheet.visible(expand)
         binding.scrim.visible(expand)
+
+        onFabDismissedCallback.isEnabled = expand
     }
 
     private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
@@ -336,14 +346,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 .subscribe()
         }
         tabsChanged = true
-    }
-
-    override fun onBackPressed() {
-        if (binding.actionButton.isVisible) {
-            super.onBackPressed()
-        } else {
-            toggleFab(false)
-        }
     }
 
     override fun onPause() {

@@ -112,9 +112,6 @@
     <string name="error_media_upload_permission">Requírese o permiso de lectura do multimedia.</string>
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
     <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
-    <string name="error_audio_upload_size">Os ficheiros de audio teñen que ser menores de 40MB.</string>
-    <string name="error_video_upload_size">Os ficheiros de vídeo teñen que ser menores de 40MB.</string>
-    <string name="error_image_upload_size">O ficheiro debe ser menor de 8MB.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
     <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada.</string>
@@ -133,7 +130,7 @@
     <string name="label_duration">Duración</string>
     <string name="create_poll_title">Enquisa</string>
     <string name="pref_title_enable_swipe_for_tabs">Activar xestos de desprazamento para moverse entre lapelas</string>
-    <string name="pref_title_show_notifications_filter">Motrar filtro das notificacións</string>
+    <string name="pref_title_show_notifications_filter">Mostrar filtro das notificacións</string>
     <string name="failed_search">Fallou a busca</string>
     <string name="title_accounts">Contas</string>
     <string name="report_description_remote_instance">A conta pertence a outro servidor. Queres enviar unha copia anónima da denuncia alí tamén\?</string>
@@ -264,7 +261,7 @@
 \n(%d caracteres como máximo)</item>
     </plurals>
     <string name="error_failed_set_caption">Fallou establecemento do texto</string>
-    <string name="compose_active_account_description">Publicar coa conta %1$s</string>
+    <string name="compose_active_account_description">Publicar como %1$s</string>
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
     <string name="hint_search_people_list">Atopar persoas ás que segues</string>
@@ -537,4 +534,16 @@
     <string name="saving_draft">Gardando borrador…</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Editar imaxe</string>
+    <string name="error_loading_account_details">Fallou a carga dos detalles da conta</string>
+    <string name="error_image_edit_failed">A imaxe non puido ser editada.</string>
+    <string name="set_focus_description">Toca ou arrastra o círculo para elexir onde centrar a imaxe e sexa máis visible nas miniaturas.</string>
+    <string name="duration_no_change">(Sen cambio)</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
+    <string name="description_post_language">Idioma de publicación</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Fallou o establecemento do foco</string>
+    <string name="action_set_focus">Establece foco</string>
+    <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
+    <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
 </resources>

@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">Yetkilendirme reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
     <string name="error_compose_character_limit">Durum çok uzun!</string>
-    <string name="error_image_upload_size">Dosya 8 MB\'dan küçük olmalı.</string>
-    <string name="error_video_upload_size">Video dosyaları 40 MB’dan küçük olmalı.</string>
     <string name="error_media_upload_type">Bu tür bir dosya yüklenemez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>
@@ -465,7 +463,6 @@
     <string name="action_unmute_notifications_desc">%s kullanıcısından gelen bildirimleri göster</string>
     <string name="action_unmute_desc">%s sesini aç</string>
     <string name="notification_follow_request_format">%s seni takip etmek istiyor</string>
-    <string name="error_audio_upload_size">Ses dosyaları 40 MB\'dan küçük olmalı.</string>
     <string name="action_unmute_conversation">Sohbetin sesini aç</string>
     <string name="pref_title_notification_filter_follow_requests">takip istendi</string>
     <string name="action_mute_conversation">Sohbeti sessize al</string>

@@ -30,9 +30,10 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import at.connyduck.sparkbutton.helpers.Utils;
 
-public final class ProgressImageView extends AppCompatImageView {
+public final class ProgressImageView extends MediaPreviewImageView {
 
     private int progress = -1;
     private final RectF progressRect = new RectF();
@@ -58,15 +59,14 @@ public final class ProgressImageView extends AppCompatImageView {
     }
 
     private void init() {
-        circlePaint.setColor(ContextCompat.getColor(getContext(), R.color.tusky_blue));
+        circlePaint.setColor(getContext().getColor(R.color.tusky_blue));
         circlePaint.setStrokeWidth(Utils.dpToPx(getContext(), 4));
         circlePaint.setStyle(Paint.Style.STROKE);
 
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
 
         markBgPaint.setStyle(Paint.Style.FILL);
-        markBgPaint.setColor(ContextCompat.getColor(getContext(),
-                R.color.tusky_grey_10));
+        markBgPaint.setColor(getContext().getColor(R.color.tusky_grey_10));
         captionDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.spellcheck);
     }
 
@@ -81,8 +81,7 @@ public final class ProgressImageView extends AppCompatImageView {
     }
 
     public void setChecked(boolean checked) {
-        this.markBgPaint.setColor(ContextCompat.getColor(getContext(),
-                checked ? R.color.tusky_blue : R.color.tusky_grey_10));
+        this.markBgPaint.setColor(getContext().getColor(checked ? R.color.tusky_blue : R.color.tusky_grey_10));
         invalidate();
     }
 

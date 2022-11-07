@@ -1,8 +1,11 @@
 package com.keylesspalace.tusky.util
 
+import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -28,6 +31,9 @@ class LinkHelperTest {
         HashTag("Tusky", "https://example.com/Tags/Tusky"),
         HashTag("mastodev", "https://example.com/Tags/mastodev"),
     )
+
+    private val context: Context
+        get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
     fun whenSettingClickableText_mentionUrlsArePreserved() {
@@ -77,6 +83,17 @@ class LinkHelperTest {
                 Assert.assertNotNull(tagName)
                 Assert.assertNotNull(tags.firstOrNull { it.name == tagName })
             }
+        }
+    }
+
+    @Test
+    fun whenCheckingTags_tagNameIsNormalized() {
+        val mutator = "aeiou".toList().zip("åÉîøÜ".toList()).toMap()
+        for (tag in tags) {
+            val mutatedTagName = String(tag.name.map { mutator[it] ?: it }.toCharArray())
+            val tagName = getTagName("#$mutatedTagName", tags)
+            Assert.assertNotNull(tagName)
+            Assert.assertNotNull(tags.firstOrNull { it.name == tagName })
         }
     }
 
@@ -138,6 +155,117 @@ class LinkHelperTest {
             "https://wwwexample.com/" to "wwwexample.com",
         ).forEach { (url, domain) ->
             Assert.assertEquals(domain, getDomain(url))
+        }
+    }
+
+    @Test
+    fun hiddenDomainsAreMarkedUp() {
+        val displayedContent = "This is a good place to go"
+        val maliciousDomain = "malicious.place"
+        val maliciousUrl = "https://$maliciousDomain/to/go"
+        val content = SpannableStringBuilder()
+        content.append(displayedContent, URLSpan(maliciousUrl), 0)
+        Assert.assertEquals(
+            context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain),
+            markupHiddenUrls(context, content).toString()
+        )
+    }
+
+    @Test
+    fun fraudulentDomainsAreMarkedUp() {
+        val displayedContent = "https://tusky.app/"
+        val maliciousDomain = "malicious.place"
+        val maliciousUrl = "https://$maliciousDomain/to/go"
+        val content = SpannableStringBuilder()
+        content.append(displayedContent, URLSpan(maliciousUrl), 0)
+        Assert.assertEquals(
+            context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain),
+            markupHiddenUrls(context, content).toString()
+        )
+    }
+
+    @Test
+    fun multipleHiddenDomainsAreMarkedUp() {
+        val domains = listOf("one.place", "another.place", "athird.place")
+        val displayedContent = "link"
+        val content = SpannableStringBuilder()
+        for (domain in domains) {
+            content.append(displayedContent, URLSpan("https://$domain/foo/bar"), 0)
+        }
+
+        val markedUpContent = markupHiddenUrls(context, content)
+        for (domain in domains) {
+            Assert.assertTrue(markedUpContent.contains(context.getString(R.string.url_domain_notifier, displayedContent, domain)))
+        }
+    }
+
+    @Test
+    fun nonUriTextExactlyMatchingDomainIsNotMarkedUp() {
+        val domain = "some.place"
+        val content = SpannableStringBuilder()
+            .append(domain, URLSpan("https://some.place/"), 0)
+            .append(domain, URLSpan("https://some.place"), 0)
+            .append(domain, URLSpan("https://www.some.place"), 0)
+            .append("www.$domain", URLSpan("https://some.place"), 0)
+            .append("www.$domain", URLSpan("https://some.place/"), 0)
+
+        val markedUpContent = markupHiddenUrls(context, content)
+        Assert.assertFalse(markedUpContent.contains("🔗"))
+    }
+
+    @Test
+    fun validMentionsAreNotMarkedUp() {
+        val builder = SpannableStringBuilder()
+        for (mention in mentions) {
+            builder.append("@${mention.username}", URLSpan(mention.url), 0)
+            builder.append(" ")
+        }
+
+        val markedUpContent = markupHiddenUrls(context, builder)
+        for (mention in mentions) {
+            Assert.assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
+        }
+    }
+
+    @Test
+    fun invalidMentionsAreNotMarkedUp() {
+        val builder = SpannableStringBuilder()
+        for (mention in mentions) {
+            builder.append("@${mention.username}", URLSpan(mention.url), 0)
+            builder.append(" ")
+        }
+
+        val markedUpContent = markupHiddenUrls(context, builder)
+        for (mention in mentions) {
+            Assert.assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
+        }
+    }
+
+    @Test
+    fun validTagsAreNotMarkedUp() {
+        val builder = SpannableStringBuilder()
+        for (tag in tags) {
+            builder.append("#${tag.name}", URLSpan(tag.url), 0)
+            builder.append(" ")
+        }
+
+        val markedUpContent = markupHiddenUrls(context, builder)
+        for (tag in tags) {
+            Assert.assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
+        }
+    }
+
+    @Test
+    fun invalidTagsAreNotMarkedUp() {
+        val builder = SpannableStringBuilder()
+        for (tag in tags) {
+            builder.append("#${tag.name}", URLSpan(tag.url), 0)
+            builder.append(" ")
+        }
+
+        val markedUpContent = markupHiddenUrls(context, builder)
+        for (tag in tags) {
+            Assert.assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
         }
     }
 }

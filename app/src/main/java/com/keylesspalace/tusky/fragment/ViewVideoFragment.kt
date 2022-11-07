@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.parcelable
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
 
@@ -170,13 +171,12 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
-        val url: String
+        val attachment: Attachment? = requireArguments().parcelable(ARG_ATTACHMENT)
 
         if (attachment == null) {
             throw IllegalArgumentException("attachment has to be set")
         }
-        url = attachment.url
+        val url = attachment.url
         isAudio = attachment.type == Attachment.Type.AUDIO
         finalizeViewSetup(url, attachment.previewUrl, attachment.description)
     }

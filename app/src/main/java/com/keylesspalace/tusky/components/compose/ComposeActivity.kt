@@ -35,10 +35,12 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
@@ -69,8 +71,10 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
+import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
-import com.keylesspalace.tusky.components.compose.dialog.makeCaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
+import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
@@ -93,6 +97,8 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.parcelableArrayListExtra
+import com.keylesspalace.tusky.util.parcelableExtra
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -107,6 +113,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
+import java.text.DecimalFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
@@ -119,7 +126,8 @@ class ComposeActivity :
     OnEmojiSelectedListener,
     Injectable,
     OnReceiveContentListener,
-    ComposeScheduleView.OnTimeSetListener {
+    ComposeScheduleView.OnTimeSetListener,
+    CaptionDialog.Listener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -171,6 +179,7 @@ class ComposeActivity :
                         uriNew,
                         size,
                         itemOld.description,
+                        null, // Intentionally reset focus when cropping
                         itemOld
                     )
                 }
@@ -217,8 +226,12 @@ class ComposeActivity :
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
-                makeCaptionDialog(item.description, item.uri) { newDescription ->
-                    viewModel.updateDescription(item.localId, newDescription)
+                CaptionDialog.newInstance(item.localId, item.description, item.uri)
+                    .show(supportFragmentManager, "caption_dialog")
+            },
+            onAddFocus = { item ->
+                makeFocusDialog(item.focus, item.uri) { newFocus ->
+                    viewModel.updateFocus(item.localId, newFocus)
                 }
             },
             onEditImage = this::editImageInQueue,
@@ -232,14 +245,22 @@ class ComposeActivity :
         setupButtons()
         subscribeToUpdates(mediaAdapter)
 
-        photoUploadUri = savedInstanceState?.getParcelable(PHOTO_UPLOAD_URI_KEY)
-
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-
-        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+        val composeOptions: ComposeOptions? = intent.parcelableExtra(COMPOSE_OPTIONS_EXTRA)
 
         viewModel.setup(composeOptions)
+
+        if (accountManager.shouldDisplaySelfUsername(this)) {
+            binding.composeUsernameView.text = getString(
+                R.string.compose_active_account_description,
+                activeAccount.fullName
+            )
+            binding.composeUsernameView.show()
+        } else {
+            binding.composeUsernameView.hide()
+        }
+
         setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
         val statusContent = composeOptions?.content
         if (!statusContent.isNullOrEmpty()) {
@@ -250,11 +271,32 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
+        setupLanguageSpinner(getInitialLanguage(composeOptions?.language))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
         applyShareIntent(intent, savedInstanceState)
-        viewModel.setupComplete.value = true
+
+        /* Finally, overwrite state with data from saved instance state. */
+        savedInstanceState?.let {
+            photoUploadUri = it.getParcelable(PHOTO_UPLOAD_URI_KEY)
+
+            (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
+                setStatusVisibility(this)
+            }
+
+            it.getBoolean(CONTENT_WARNING_VISIBLE_KEY).apply {
+                viewModel.contentWarningChanged(this)
+            }
+
+            it.getString(SCHEDULED_TIME_KEY)?.let { time ->
+                viewModel.updateScheduledAt(time)
+            }
+        }
+
+        binding.composeEditField.post {
+            binding.composeEditField.requestFocus()
+        }
     }
 
     private fun setupWindowInsets() {
@@ -287,12 +329,12 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                            intent.parcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                            intent.parcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
                                 pickMedia(uri)
                             }
                         }
@@ -459,13 +501,6 @@ class ComposeActivity :
                 }
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.setupComplete.collect {
-                // Focus may have changed during view model setup, ensure initial focus is on the edit field
-                binding.composeEditField.requestFocus()
-            }
-        }
     }
 
     private fun setupButtons() {
@@ -505,6 +540,61 @@ class ComposeActivity :
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                        scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+                    ) {
+                        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        return
+                    }
+
+                    handleCloseButton()
+                }
+            }
+        )
+    }
+
+    private fun setupLanguageSpinner(initialLanguage: String?) {
+        val locales = Locale.getAvailableLocales()
+            .filter { it.country.isNullOrEmpty() && it.script.isNullOrEmpty() && it.variant.isNullOrEmpty() } // Only "base" languages, "en" but not "en_DK"
+        var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
+        if (currentLocaleIndex < 0) {
+            Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
+            currentLocaleIndex = locales.indexOfFirst { it.language == "en" }
+        }
+
+        val context = this
+        binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).language
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                parent.setSelection(locales.indexOfFirst { it.language == getInitialLanguage() })
+            }
+        }
+        binding.composePostLanguageButton.apply {
+            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, locales)
+            setSelection(currentLocaleIndex)
+        }
+    }
+
+    private fun getInitialLanguage(language: String? = null): String {
+        return if (language.isNullOrEmpty()) {
+            // Setting the application ui preference sets the default locale
+            Locale.getDefault().language
+        } else {
+            language
+        }
     }
 
     private fun setupActionBar() {
@@ -601,6 +691,9 @@ class ComposeActivity :
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(PHOTO_UPLOAD_URI_KEY, photoUploadUri)
+        outState.putSerializable(VISIBILITY_KEY, viewModel.statusVisibility.value)
+        outState.putBoolean(CONTENT_WARNING_VISIBLE_KEY, viewModel.showContentWarning.value)
+        outState.putString(SCHEDULED_TIME_KEY, viewModel.scheduledAt.value)
         super.onSaveInstanceState(outState)
     }
 
@@ -627,12 +720,12 @@ class ComposeActivity :
             @ColorInt val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
-                ContextCompat.getColor(this, R.color.transparent_tusky_blue)
+                getColor(R.color.transparent_tusky_blue)
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                    ContextCompat.getColor(this, R.color.tusky_blue)
+                    getColor(R.color.tusky_blue)
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
                     ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
@@ -646,7 +739,7 @@ class ComposeActivity :
         @ColorInt val color = if (binding.composeScheduleView.time == null) {
             ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         } else {
-            ContextCompat.getColor(this, R.color.tusky_blue)
+            getColor(R.color.tusky_blue)
         }
         binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -824,12 +917,16 @@ class ComposeActivity :
         return length
     }
 
+    @VisibleForTesting
+    val selectedLanguage: String?
+        get() = viewModel.postLanguage
+
     private fun updateVisibleCharactersLeft() {
         val remainingLength = maximumTootCharacters - calculateTextLength()
         binding.composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
 
         val textColor = if (remainingLength < 0) {
-            ContextCompat.getColor(this, R.color.tusky_red)
+            getColor(R.color.tusky_red)
         } else {
             ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
         }
@@ -984,13 +1081,17 @@ class ComposeActivity :
     private fun pickMedia(uri: Uri) {
         lifecycleScope.launch {
             viewModel.pickMedia(uri).onFailure { throwable ->
-                val errorId = when (throwable) {
-                    is VideoSizeException -> R.string.error_video_upload_size
-                    is AudioSizeException -> R.string.error_audio_upload_size
-                    is VideoOrImageException -> R.string.error_media_upload_image_or_video
-                    else -> R.string.error_media_upload_opening
+                val errorString = when (throwable) {
+                    is FileSizeException -> {
+                        val decimalFormat = DecimalFormat("0.##")
+                        val allowedSizeInMb = throwable.allowedSizeInBytes.toDouble() / (1024 * 1024)
+                        val formattedSize = decimalFormat.format(allowedSizeInMb)
+                        getString(R.string.error_multimedia_size_limit, formattedSize)
+                    }
+                    is VideoOrImageException -> getString(R.string.error_media_upload_image_or_video)
+                    else -> getString(R.string.error_media_upload_opening)
                 }
-                displayTransientError(errorId)
+                displayTransientError(errorString)
             }
         }
     }
@@ -1001,7 +1102,7 @@ class ComposeActivity :
             binding.composeContentWarningBar.show()
             binding.composeContentWarningField.setSelection(binding.composeContentWarningField.text.length)
             binding.composeContentWarningField.requestFocus()
-            ContextCompat.getColor(this, R.color.tusky_blue)
+            getColor(R.color.tusky_blue)
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
@@ -1019,23 +1120,6 @@ class ComposeActivity :
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        // Acting like a teen: deliberately ignoring parent.
-        if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-            scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
-        ) {
-            composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            return
-        }
-
-        handleCloseButton()
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         Log.d(TAG, event.toString())
         if (event.action == KeyEvent.ACTION_DOWN) {
@@ -1048,7 +1132,7 @@ class ComposeActivity :
             }
 
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
                 return true
             }
         }
@@ -1114,7 +1198,8 @@ class ComposeActivity :
         val mediaSize: Long,
         val uploadPercent: Int = 0,
         val id: String? = null,
-        val description: String? = null
+        val description: String? = null,
+        val focus: Attachment.Focus? = null
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;
@@ -1133,6 +1218,14 @@ class ComposeActivity :
     private fun resetSchedule() {
         viewModel.updateScheduledAt(null)
         scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    override fun onUpdateDescription(localId: Int, description: String) {
+        lifecycleScope.launch {
+            if (!viewModel.updateDescription(localId, description)) {
+                Toast.makeText(this@ComposeActivity, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     @Parcelize
@@ -1155,7 +1248,8 @@ class ComposeActivity :
         var scheduledAt: String? = null,
         var sensitive: Boolean? = null,
         var poll: NewPoll? = null,
-        var modifiedInitialState: Boolean? = null
+        var modifiedInitialState: Boolean? = null,
+        var language: String? = null,
     ) : Parcelable
 
     companion object {
@@ -1166,6 +1260,9 @@ class ComposeActivity :
         private const val NOTIFICATION_ID_EXTRA = "NOTIFICATION_ID"
         private const val ACCOUNT_ID_EXTRA = "ACCOUNT_ID"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
+        private const val VISIBILITY_KEY = "VISIBILITY"
+        private const val SCHEDULED_TIME_KEY = "SCHEDULE"
+        private const val CONTENT_WARNING_VISIBLE_KEY = "CONTENT_WARNING_VISIBLE"
 
         /**
          * @param options ComposeOptions to configure the ComposeActivity

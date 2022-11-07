@@ -9,7 +9,6 @@
     <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
     <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
     <string name="error_compose_character_limit">Zbyt długi wpis!</string>
-    <string name="error_image_upload_size">Plik może mieć maksymalnie 8 MB.</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
     <string name="error_media_upload_permission">Wymagane jest pozwolenie na dostęp do plików z urządzenia.</string>
@@ -229,7 +228,7 @@
     <string name="add_account_description">Dodaj nowe Konto Mastodon</string>
     <string name="action_lists">Listy</string>
     <string name="title_lists">Listy</string>
-    <string name="compose_active_account_description">Publikowanie z konta %1$s</string>
+    <string name="compose_active_account_description">Publikowanie jako %1$s</string>
     <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
     <string name="action_set_caption">Ustaw podpis</string>
     <string name="action_remove">Usuń</string>
@@ -267,7 +266,6 @@
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
     <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
-    <string name="error_video_upload_size">Pliki wideo muszą być mniejsze niż 40MB.</string>
     <string name="title_direct_messages">Wiadomości bezpośrednie</string>
     <string name="title_posts_pinned">Przypięte</string>
     <string name="post_content_show_more">Rozwiń</string>
@@ -464,7 +462,6 @@
     <string name="description_post_bookmarked">Dodany do zakładek</string>
     <string name="select_list_title">Wybierz listę</string>
     <string name="list">Lista</string>
-    <string name="error_audio_upload_size">Pliki audio muszą być mniejsze niż 40MB.</string>
     <string name="no_drafts">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_posts">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
@@ -558,4 +555,22 @@
     <string name="notification_update_name">Edycje wpisów</string>
     <string name="saving_draft">Zapisywanie szkicu…</string>
     <string name="error_could_not_load_login_page">Nie można załadować strony logowania.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Zalogowałeś/-aś się ponownie na swoje konto, aby przyzwolić Tusky na wysyłanie powiadomień push. Masz jednak inne konta które nie zostały zmigrowane. Przełącz się na nie i zaloguj się ponownie aby włączyć wsparcie dla powiadomień UnifiedPush.</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="account_date_joined">Dołączył/-a %1$s</string>
+    <string name="tips_push_notification_migration">Zaloguj się ponownie na wszystkie konta aby włączyć wsparcie dla powiadomień push.</string>
+    <string name="dialog_push_notification_migration">Aby użyć powiadomień push przez UnifiedPush, Tusky wymaga pozwolenia na subskrybowanie powiadomień na twoim serwerze Mastodon. Wymaga to ponownego zalogowania aby zmienić zakresy OAuth przyznane Tusky. Użycie opcji ponownego zalogowania tutaj lub w ustawieniach konta zachowa wszystkie szkice i pamięć podręczną.</string>
+    <string name="action_edit_image">Edytuj obraz</string>
+    <string name="error_image_edit_failed">Obrazek nie mógł być zmodyfikowany.</string>
+    <string name="title_migration_relogin">Zaloguj się ponownie aby włączyć powiadomienia push</string>
+    <string name="action_dismiss">Odrzuć</string>
+    <string name="action_details">Detale</string>
+    <string name="error_loading_account_details">Ładowanie informacji o koncie nie powiodło się</string>
+    <string name="error_multimedia_size_limit">Pliki wideo i audio nie mogą przekraczać rozmiarem %s MB.</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="description_post_language">Język wpisu</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="duration_no_change">(bez zmian)</string>
+    <string name="error_following_hashtag_format">Wystąpił błąd podczas obserwowania #%s</string>
+    <string name="error_unfollowing_hashtag_format">Wystąpił błąd podczas usuwania obserwacji #%s</string>
 </resources>

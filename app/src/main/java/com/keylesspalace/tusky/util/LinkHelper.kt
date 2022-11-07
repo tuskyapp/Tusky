@@ -57,12 +57,48 @@ fun getDomain(urlString: String?): String {
  * @param listener to notify about particular spans that are clicked
  */
 fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener) {
-    view.text = SpannableStringBuilder.valueOf(content).apply {
+    val spannableContent = markupHiddenUrls(view.context, content)
+
+    view.text = spannableContent.apply {
         getSpans(0, content.length, URLSpan::class.java).forEach {
             setClickableText(it, this, mentions, tags, listener)
         }
     }
     view.movementMethod = LinkMovementMethod.getInstance()
+}
+
+@VisibleForTesting
+fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBuilder {
+    val spannableContent = SpannableStringBuilder.valueOf(content)
+    val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
+    val obscuredLinkSpans = originalSpans.filter {
+        val text = spannableContent.subSequence(spannableContent.getSpanStart(it), spannableContent.getSpanEnd(it))
+        val firstCharacter = text[0]
+        return@filter if (firstCharacter == '#' || firstCharacter == '@') {
+            false
+        } else {
+            var textDomain = getDomain(text.toString())
+            if (textDomain.isBlank()) {
+                // Allow "some.domain" or "www.some.domain" without a domain notifier
+                textDomain = if (text.startsWith("www.")) {
+                    text.substring(4)
+                } else {
+                    text.toString()
+                }
+            }
+            getDomain(it.url) != textDomain
+        }
+    }
+
+    for (span in obscuredLinkSpans) {
+        val start = spannableContent.getSpanStart(span)
+        val end = spannableContent.getSpanEnd(span)
+        val originalText = spannableContent.subSequence(start, end)
+        val replacementText = context.getString(R.string.url_domain_notifier, originalText, getDomain(span.url))
+        spannableContent.replace(start, end, replacementText) // this also updates the span locations
+    }
+
+    return spannableContent
 }
 
 @VisibleForTesting
@@ -99,7 +135,7 @@ fun setClickableText(
 
 @VisibleForTesting
 fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
-    val scrapedName = text.subSequence(1, text.length).toString()
+    val scrapedName = normalizeToASCII(text.subSequence(1, text.length)).toString()
     return when (tags) {
         null -> scrapedName
         else -> tags.firstOrNull { it.name.equals(scrapedName, true) }?.name

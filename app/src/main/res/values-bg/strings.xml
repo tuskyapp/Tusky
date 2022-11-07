@@ -420,14 +420,11 @@
     <string name="title_home">Начало</string>
     <string name="error_sender_account_gone">Грешка при изпращане на публикация.</string>
     <string name="error_media_upload_sending">Качването бе неуспешно.</string>
-    <string name="error_media_upload_image_or_video">Изображения и видеоклипове не могат да бъдат прикачени към едно и също състояние.</string>
+    <string name="error_media_upload_image_or_video">Изображения и видеоклипове не могат да бъдат прикачени към една и съща публикация.</string>
     <string name="error_media_download_permission">Изисква се разрешение за съхранение на мултимедия.</string>
     <string name="error_media_upload_permission">Изисква се разрешение за четене на носител.</string>
     <string name="error_media_upload_opening">Този файл не можа да бъде отворен.</string>
     <string name="error_media_upload_type">Този тип файл не може да бъде качен.</string>
-    <string name="error_audio_upload_size">Аудио файловете трябва да са по-малки от 40MB.</string>
-    <string name="error_video_upload_size">Видео файловете трябва да са по-малки от 40MB.</string>
-    <string name="error_image_upload_size">Файлът трябва да е по-малък от 8MB.</string>
     <string name="error_compose_character_limit">Състоянието е твърде дълго!</string>
     <string name="error_retrieving_oauth_token">Получаването на токен за вход бе неуспешно.</string>
     <string name="error_authorization_denied">Упълномощаването е отказано.</string>
@@ -506,4 +503,6 @@
     <string name="pref_title_show_media_preview">Изтегляне на визуализации за мултимедии</string>
     <string name="pref_title_show_replies">Показване на отговори</string>
     <string name="pref_title_show_boosts">Показване на споделяния</string>
+    <string name="error_multimedia_size_limit">Видео и аудио файловете не може да превишават %s МБ в размер.</string>
+    <string name="error_image_edit_failed">Тази снимка не може да абъде редактирана.</string>
 </resources>

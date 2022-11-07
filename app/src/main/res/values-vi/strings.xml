@@ -31,9 +31,6 @@
     <string name="error_media_upload_permission">Cần có quyền đọc tập tin.</string>
     <string name="error_media_upload_opening">Không thể mở tập tin.</string>
     <string name="error_media_upload_type">Không hỗ trợ định dạng này.</string>
-    <string name="error_audio_upload_size">Kích cỡ audio tối đa 40MB.</string>
-    <string name="error_video_upload_size">Kích cỡ video tối đa 40MB.</string>
-    <string name="error_image_upload_size">Kích cỡ hình ảnh tối đa là 8MB.</string>
     <string name="error_compose_character_limit">Vượt quá số ký tự cho phép!</string>
     <string name="error_retrieving_oauth_token">Lấy token đăng nhập thất bại.</string>
     <string name="error_authorization_denied">Truy cập bị từ chối.</string>
@@ -82,7 +79,7 @@
     <string name="search_no_results">Không tìm thấy</string>
     <string name="hint_search">Tìm kiếm…</string>
     <string name="hint_note">Tiểu sử</string>
-    <string name="hint_display_name">Tên hiển thị</string>
+    <string name="hint_display_name">Biệt danh</string>
     <string name="hint_content_warning">Nội dung bạn muốn ẩn</string>
     <string name="hint_compose">Bạn đang nghĩ về điều gì\?</string>
     <string name="hint_domain">Bạn ở máy chủ nào\?</string>
@@ -289,7 +286,7 @@
     <string name="filter_addition_dialog_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Chủ đề</string>
     <string name="pref_title_public_filter_keywords">Thế giới</string>
-    <string name="load_more_placeholder_text">tiếp tục đọc</string>
+    <string name="load_more_placeholder_text">tải tút chưa đọc</string>
     <string name="replying_to">Trả lời @%s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Luôn hiện nội dung bị ẩn</string>
@@ -438,7 +435,7 @@
     <string name="action_set_caption">Mô tả</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Mô tả dành cho người khiếm thị
-\n(giới hạn %d chữ)</item>
+\n(Max %d ký tự)</item>
     </plurals>
     <string name="compose_active_account_description">Đăng bằng tài khoản %1$s</string>
     <string name="action_add_to_list">Thêm tài khoản vào danh sách</string>
@@ -506,10 +503,10 @@
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
     <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
-    <string name="pref_title_notification_filter_sign_ups">ai đó đăng ký trên máy chủ</string>
-    <string name="notification_sign_up_format">%s đăng ký</string>
-    <string name="notification_sign_up_name">Đăng ký</string>
-    <string name="notification_sign_up_description">Thông báo về người dùng mới đăng ký</string>
+    <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
+    <string name="notification_sign_up_format">%s tham gia máy chủ</string>
+    <string name="notification_sign_up_name">Người dùng mới</string>
+    <string name="notification_sign_up_description">Thông báo về người dùng mới tham gia</string>
     <string name="notification_update_format">%s đã sửa tút của họ</string>
     <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
     <string name="notification_update_name">Sửa tút</string>
@@ -528,4 +525,19 @@
     <string name="action_edit_image">Sửa ảnh</string>
     <string name="error_image_edit_failed">Hình ảnh này không thể sửa.</string>
     <string name="error_loading_account_details">Không thể tải thông tin tài khoản</string>
+    <string name="error_multimedia_size_limit">Video và audio không thể quá %s MB.</string>
+    <string name="error_following_hashtag_format">Lỗi khi theo dõi #%s</string>
+    <string name="error_unfollowing_hashtag_format">Lỗi khi bỏ theo dõi #%s</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="duration_no_change">(Không đổi)</string>
+    <string name="description_post_language">Ngôn ngữ đăng</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Không thể chọn tâm điểm</string>
+    <string name="action_set_focus">Chọn tâm điểm</string>
+    <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
+    <string name="pref_title_show_self_username">Hiện tên người dùng trong thanh công cụ</string>
+    <string name="pref_show_self_username_always">Luôn luôn</string>
+    <string name="pref_show_self_username_disambiguate">Khi đăng nhập nhiều tài khoản</string>
+    <string name="pref_show_self_username_never">Không bao giờ</string>
+    <string name="delete_scheduled_post_warning">Bạn có chắc muốn xóa tút đã lên lịch\?</string>
 </resources>

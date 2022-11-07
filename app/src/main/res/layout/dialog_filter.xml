@@ -4,32 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp">
+    android:padding="24dp">
 
     <EditText
         android:id="@+id/phraseEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="24dp"
-        android:paddingStart="24dp"
         android:hint="@string/filter_add_description"
         app:layout_constraintTop_toTopOf="parent"
+        />
+    <Spinner
+        android:id="@+id/filterDurationSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/phraseEditText"
+        app:layout_constraintLeft_toLeftOf="parent"
         />
     <CheckBox
         android:id="@+id/phraseWholeWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingEnd="24dp"
-        android:paddingStart="24dp"
         android:text="@string/filter_dialog_whole_word"
-        app:layout_constraintTop_toBottomOf="@id/phraseEditText"
+        app:layout_constraintTop_toBottomOf="@id/filterDurationSpinner"
         app:layout_constraintLeft_toLeftOf="parent"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
+        android:lineSpacingMultiplier="1.1"
         app:layout_constraintTop_toBottomOf="@id/phraseWholeWord"
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="@string/filter_dialog_whole_word_description"

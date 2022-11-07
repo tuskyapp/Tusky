@@ -5,15 +5,18 @@ package com.keylesspalace.tusky.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.components.account.AccountViewModel
+import com.keylesspalace.tusky.components.account.media.AccountMediaViewModel
 import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
+import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
@@ -107,6 +110,21 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NetworkTimelineViewModel::class)
     internal abstract fun networkTimelineViewModel(viewModel: NetworkTimelineViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ViewThreadViewModel::class)
+    internal abstract fun viewThreadViewModel(viewModel: ViewThreadViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountMediaViewModel::class)
+    internal abstract fun accountMediaViewModel(viewModel: AccountMediaViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginWebViewViewModel::class)
+    internal abstract fun loginWebViewViewModel(viewModel: LoginWebViewViewModel): ViewModel
 
     // Add more ViewModels here
 }

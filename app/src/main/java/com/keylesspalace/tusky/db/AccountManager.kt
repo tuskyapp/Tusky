@@ -15,9 +15,12 @@
 
 package com.keylesspalace.tusky.db
 
+import android.content.Context
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.PrefKeys
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -224,5 +227,19 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         return accounts.find {
             identifier == it.identifier
         }
+    }
+
+    /**
+     * @return true if the name of the currently-selected account should be displayed in UIs
+     */
+    fun shouldDisplaySelfUsername(context: Context): Boolean {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val showUsernamePreference = sharedPreferences.getString(PrefKeys.SHOW_SELF_USERNAME, "disambiguate")
+        if (showUsernamePreference == "always")
+            return true
+        if (showUsernamePreference == "never")
+            return false
+
+        return accounts.size > 1 // "disambiguate"
     }
 }

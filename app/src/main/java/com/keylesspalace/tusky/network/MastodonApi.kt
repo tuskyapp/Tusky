@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
@@ -78,43 +79,44 @@ interface MastodonApi {
     suspend fun getCustomEmojis(): NetworkResult<List<Emoji>>
 
     @GET("api/v1/instance")
-    suspend fun getInstance(): NetworkResult<Instance>
+    suspend fun getInstance(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<Instance>
 
     @GET("api/v1/filters")
     fun getFilters(): Single<List<Filter>>
 
     @GET("api/v1/timelines/home")
-    fun homeTimeline(
+    @Throws(Exception::class)
+    suspend fun homeTimeline(
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/timelines/public")
-    fun publicTimeline(
+    suspend fun publicTimeline(
         @Query("local") local: Boolean? = null,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/timelines/tag/{hashtag}")
-    fun hashtagTimeline(
+    suspend fun hashtagTimeline(
         @Path("hashtag") hashtag: String,
         @Query("any[]") any: List<String>?,
         @Query("local") local: Boolean?,
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/timelines/list/{listId}")
-    fun listTimeline(
+    suspend fun listTimeline(
         @Path("listId") listId: String,
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/notifications")
     fun notifications(
@@ -145,7 +147,8 @@ interface MastodonApi {
     @PUT("api/v1/media/{mediaId}")
     suspend fun updateMedia(
         @Path("mediaId") mediaId: String,
-        @Field("description") description: String
+        @Field("description") description: String?,
+        @Field("focus") focus: String?
     ): NetworkResult<Attachment>
 
     @GET("api/v1/media/{mediaId}")
@@ -166,10 +169,15 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): Single<Status>
 
-    @GET("api/v1/statuses/{id}/context")
-    fun statusContext(
+    @GET("api/v1/statuses/{id}")
+    suspend fun statusAsync(
         @Path("id") statusId: String
-    ): Single<StatusContext>
+    ): NetworkResult<Status>
+
+    @GET("api/v1/statuses/{id}/context")
+    suspend fun statusContext(
+        @Path("id") statusId: String
+    ): NetworkResult<StatusContext>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
     fun statusRebloggedBy(
@@ -311,15 +319,15 @@ interface MastodonApi {
      * @param onlyMedia only return statuses that have media attached
      */
     @GET("api/v1/accounts/{id}/statuses")
-    fun accountStatuses(
+    suspend fun accountStatuses(
         @Path("id") accountId: String,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?,
-        @Query("exclude_replies") excludeReplies: Boolean?,
-        @Query("only_media") onlyMedia: Boolean?,
-        @Query("pinned") pinned: Boolean?
-    ): Single<Response<List<Status>>>
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("exclude_replies") excludeReplies: Boolean? = null,
+        @Query("only_media") onlyMedia: Boolean? = null,
+        @Query("pinned") pinned: Boolean? = null
+    ): Response<List<Status>>
 
     @GET("api/v1/accounts/{id}/followers")
     fun accountFollowers(
@@ -413,18 +421,18 @@ interface MastodonApi {
     fun unblockDomain(@Field("domain") domain: String): Call<Any>
 
     @GET("api/v1/favourites")
-    fun favourites(
+    suspend fun favourites(
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/bookmarks")
-    fun bookmarks(
+    suspend fun bookmarks(
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("limit") limit: Int?
-    ): Single<Response<List<Status>>>
+    ): Response<List<Status>>
 
     @GET("api/v1/follow_requests")
     fun followRequests(
@@ -525,29 +533,29 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/filters")
-    fun createFilter(
+    suspend fun createFilter(
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: String?
-    ): Call<Filter>
+        @Field("expires_in") expiresInSeconds: Int?
+    ): NetworkResult<Filter>
 
     @FormUrlEncoded
     @PUT("api/v1/filters/{id}")
-    fun updateFilter(
+    suspend fun updateFilter(
         @Path("id") id: String,
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresIn: String?
-    ): Call<Filter>
+        @Field("expires_in") expiresInSeconds: Int?
+    ): NetworkResult<Filter>
 
     @DELETE("api/v1/filters/{id}")
-    fun deleteFilter(
+    suspend fun deleteFilter(
         @Path("id") id: String
-    ): Call<ResponseBody>
+    ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
     @POST("api/v1/polls/{id}/votes")
@@ -656,4 +664,13 @@ interface MastodonApi {
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
     ): NetworkResult<ResponseBody>
+
+    @GET("api/v1/tags/{name}")
+    suspend fun tag(@Path("name") name: String): NetworkResult<HashTag>
+
+    @POST("api/v1/tags/{name}/follow")
+    suspend fun followTag(@Path("name") name: String): NetworkResult<HashTag>
+
+    @POST("api/v1/tags/{name}/unfollow")
+    suspend fun unfollowTag(@Path("name") name: String): NetworkResult<HashTag>
 }

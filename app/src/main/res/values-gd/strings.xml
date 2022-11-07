@@ -260,7 +260,7 @@
 \n(%d caractar air a char as fhaide)</item>
     </plurals>
     <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
-    <string name="compose_active_account_description">A’ postadh leis a’ chunntas %1$s</string>
+    <string name="compose_active_account_description">A’ postadh mar %1$s</string>
     <string name="action_remove_from_list">Thoir an cunntas air falbh on liosta</string>
     <string name="action_add_to_list">Cuir cunntas ris an liosta</string>
     <string name="hint_search_people_list">Lorg daoine air a leanas tu</string>
@@ -520,9 +520,6 @@
     <string name="error_media_upload_permission">Tha feum air cead gus meadhanan a leughadh.</string>
     <string name="error_media_upload_opening">Cha b’ urrainn dhuinn am faidhle sin fhosgladh.</string>
     <string name="error_media_upload_type">Cha ghabh an seòrsa de dh’fhaidhle seo a luchdadh suas.</string>
-    <string name="error_audio_upload_size">Feumaidh faidhlichean fuaime a bhith nas lugha na 40MB.</string>
-    <string name="error_video_upload_size">Feumaidh faidhlichean video a bhith nas lugha na 40MB.</string>
-    <string name="error_image_upload_size">Feumaidh am faidhle a bhith nas lugha na 8MB.</string>
     <string name="error_compose_character_limit">Tha am post ro fhada!</string>
     <string name="error_retrieving_oauth_token">Cha deach leinn tòcan clàraidh a-steach fhaighinn.</string>
     <string name="error_authorization_denied">Chaidh an t-ùghdarrachadh a dhiùltadh.</string>
@@ -563,4 +560,22 @@
     <string name="title_migration_relogin">Clàraich a-steach às ùr airson brathan putaidh</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Deasaich an dealbh</string>
+    <string name="error_following_hashtag_format">Mearachd a’ leantainn air #%s</string>
+    <string name="error_multimedia_size_limit">Chan fhaod na faidhlichean video ’ fuaime a bhith nas motha na %s MB.</string>
+    <string name="error_unfollowing_hashtag_format">Mearachd a’ sgur de leantainn air #%s</string>
+    <string name="error_loading_account_details">Mearachd a’ luchdadh fiosrachadh a’ chunntais</string>
+    <string name="error_image_edit_failed">Cha b’ urrainn dhuinn an dealbh a dheasachadh.</string>
+    <string name="dialog_push_notification_migration">Airson brathan putaidh slighe UnifiedPush a chleachdadh, feumaidh Tusky cead airson fo-sgrìobhadh air brathan air an fhrithealaiche Mastodon agad fhaighinn. Bidh feum air clàradh a-steach às ùr airson na sgòpaichean OAuth a chaidh a cheadachadh dha Tusky atharrachadh. Ma nì thu clàradh a-steach às ùr an-seo no ann an roghainnean a’ chunntais, cumaidh sinn na dreachdan is an tasgadan ionadail agad.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Rinn thu clàradh a-steach às ùr dhan chunntas làithreach agad airson cead fo-sgrìobhadh putaidh a thoirt dha Tusky. Gidheadh, cha cunntasan eile agad fhathast nach deach imrich air an dòigh sin. Geàrr leum thuca is dèan clàradh a-steach às ùr do gach fear dhiubh airson taic do bhrathan UnifiedPush a chur an comas dhaibh.</string>
+    <string name="duration_no_change">(Gun atharrachadh)</string>
+    <string name="pref_title_show_self_username">Seall an t-ainm-cleachdaiche air na bàraichean-inneal</string>
+    <string name="set_focus_description">Thoir gogag no slaod an cearcall a thaghadh puing an fhòcais a chithear air na dealbhagan an-còmhnaidh.</string>
+    <string name="description_post_language">Cànan a’ phuist</string>
+    <string name="pref_show_self_username_always">An-còmhnaidh</string>
+    <string name="pref_show_self_username_disambiguate">Nuair a bhios iomadh cunntas air an clàradh a-steach</string>
+    <string name="pref_show_self_username_never">Chan ann idir</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Dh’fhàillig suidheachadh na puinge-fòcais</string>
+    <string name="action_set_focus">Suidhich puing an fhòcais</string>
 </resources>

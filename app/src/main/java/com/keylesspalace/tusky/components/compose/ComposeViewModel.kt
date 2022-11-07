@@ -68,6 +68,7 @@ class ComposeViewModel @Inject constructor(
     private var replyingStatusAuthor: String? = null
     private var replyingStatusContent: String? = null
     internal var startingText: String? = null
+    internal var postLanguage: String? = null
     private var draftId: Int = 0
     private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
@@ -89,7 +90,6 @@ class ComposeViewModel @Inject constructor(
 
     val statusVisibility: MutableStateFlow<Status.Visibility> = MutableStateFlow(Status.Visibility.UNKNOWN)
     val showContentWarning: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val setupComplete: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val poll: MutableStateFlow<NewPoll?> = MutableStateFlow(null)
     val scheduledAt: MutableStateFlow<String?> = MutableStateFlow(null)
 
@@ -101,7 +101,9 @@ class ComposeViewModel @Inject constructor(
     // Used in ComposeActivity to pass state to result function when cropImage contract inflight
     var cropImageItemOld: QueuedMedia? = null
 
-    suspend fun pickMedia(mediaUri: Uri, description: String? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
+    private var setupComplete = false
+
+    suspend fun pickMedia(mediaUri: Uri, description: String? = null, focus: Attachment.Focus? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
         try {
             val (type, uri, size) = mediaUploader.prepareMedia(mediaUri, instanceInfo.first())
             val mediaItems = media.value
@@ -111,7 +113,7 @@ class ComposeViewModel @Inject constructor(
             ) {
                 Result.failure(VideoOrImageException())
             } else {
-                val queuedMedia = addMediaToQueue(type, uri, size, description)
+                val queuedMedia = addMediaToQueue(type, uri, size, description, focus)
                 Result.success(queuedMedia)
             }
         } catch (e: Exception) {
@@ -124,6 +126,7 @@ class ComposeViewModel @Inject constructor(
         uri: Uri,
         mediaSize: Long,
         description: String? = null,
+        focus: Attachment.Focus? = null,
         replaceItem: QueuedMedia? = null
     ): QueuedMedia {
         var stashMediaItem: QueuedMedia? = null
@@ -134,7 +137,8 @@ class ComposeViewModel @Inject constructor(
                 uri = uri,
                 type = type,
                 mediaSize = mediaSize,
-                description = description
+                description = description,
+                focus = focus
             )
             stashMediaItem = mediaItem
 
@@ -179,7 +183,7 @@ class ComposeViewModel @Inject constructor(
         return mediaItem
     }
 
-    private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?) {
+    private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?, focus: Attachment.Focus?) {
         media.update { mediaValue ->
             val mediaItem = QueuedMedia(
                 localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
@@ -188,7 +192,8 @@ class ComposeViewModel @Inject constructor(
                 mediaSize = 0,
                 uploadPercent = -1,
                 id = id,
-                description = description
+                description = description,
+                focus = focus
             )
             mediaValue + mediaItem
         }
@@ -243,9 +248,11 @@ class ComposeViewModel @Inject constructor(
     suspend fun saveDraft(content: String, contentWarning: String) {
         val mediaUris: MutableList<String> = mutableListOf()
         val mediaDescriptions: MutableList<String?> = mutableListOf()
+        val mediaFocus: MutableList<Attachment.Focus?> = mutableListOf()
         media.value.forEach { item ->
             mediaUris.add(item.uri.toString())
             mediaDescriptions.add(item.description)
+            mediaFocus.add(item.focus)
         }
 
         draftHelper.saveDraft(
@@ -258,9 +265,11 @@ class ComposeViewModel @Inject constructor(
             visibility = statusVisibility.value,
             mediaUris = mediaUris,
             mediaDescriptions = mediaDescriptions,
+            mediaFocus = mediaFocus,
             poll = poll.value,
             failedToSend = false,
-            scheduledAt = scheduledAt.value
+            scheduledAt = scheduledAt.value,
+            language = postLanguage,
         )
     }
 
@@ -283,11 +292,13 @@ class ComposeViewModel @Inject constructor(
                 val mediaIds: MutableList<String> = mutableListOf()
                 val mediaUris: MutableList<Uri> = mutableListOf()
                 val mediaDescriptions: MutableList<String> = mutableListOf()
+                val mediaFocus: MutableList<Attachment.Focus?> = mutableListOf()
                 val mediaProcessed: MutableList<Boolean> = mutableListOf()
                 media.value.forEach { item ->
                     mediaIds.add(item.id!!)
                     mediaUris.add(item.uri)
                     mediaDescriptions.add(item.description ?: "")
+                    mediaFocus.add(item.focus)
                     mediaProcessed.add(false)
                 }
                 val tootToSend = StatusToSend(
@@ -298,6 +309,7 @@ class ComposeViewModel @Inject constructor(
                     mediaIds = mediaIds,
                     mediaUris = mediaUris.map { it.toString() },
                     mediaDescriptions = mediaDescriptions,
+                    mediaFocus = mediaFocus,
                     scheduledAt = scheduledAt.value,
                     inReplyToId = inReplyToId,
                     poll = poll.value,
@@ -307,7 +319,8 @@ class ComposeViewModel @Inject constructor(
                     draftId = draftId,
                     idempotencyKey = randomAlphanumericString(16),
                     retries = 0,
-                    mediaProcessed = mediaProcessed
+                    mediaProcessed = mediaProcessed,
+                    language = postLanguage,
                 )
 
                 serviceClient.sendToot(tootToSend)
@@ -315,11 +328,12 @@ class ComposeViewModel @Inject constructor(
             }
     }
 
-    suspend fun updateDescription(localId: Int, description: String): Boolean {
+    // Updates a QueuedMedia item arbitrarily, then sends description and focus to server
+    private suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
         val newMediaList = media.updateAndGet { mediaValue ->
             mediaValue.map { mediaItem ->
                 if (mediaItem.localId == localId) {
-                    mediaItem.copy(description = description)
+                    mutator(mediaItem)
                 } else {
                     mediaItem
                 }
@@ -328,7 +342,9 @@ class ComposeViewModel @Inject constructor(
 
         val updatedItem = newMediaList.find { it.localId == localId }
         if (updatedItem?.id != null) {
-            return api.updateMedia(updatedItem.id, description)
+            val focus = updatedItem.focus
+            val focusString = if (focus != null) "${focus.x},${focus.y}" else null
+            return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
                 .fold({
                     true
                 }, { throwable ->
@@ -337,6 +353,18 @@ class ComposeViewModel @Inject constructor(
                 })
         }
         return true
+    }
+
+    suspend fun updateDescription(localId: Int, description: String): Boolean {
+        return updateMediaItem(localId, { mediaItem ->
+            mediaItem.copy(description = description)
+        })
+    }
+
+    suspend fun updateFocus(localId: Int, focus: Attachment.Focus): Boolean {
+        return updateMediaItem(localId, { mediaItem ->
+            mediaItem.copy(focus = focus)
+        })
     }
 
     fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
@@ -380,7 +408,7 @@ class ComposeViewModel @Inject constructor(
 
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
 
-        if (setupComplete.value) {
+        if (setupComplete) {
             return
         }
 
@@ -409,7 +437,7 @@ class ComposeViewModel @Inject constructor(
             // when coming from DraftActivity
             viewModelScope.launch {
                 draftAttachments.forEach { attachment ->
-                    pickMedia(attachment.uri, attachment.description)
+                    pickMedia(attachment.uri, attachment.description, attachment.focus)
                 }
             }
         } else composeOptions?.mediaAttachments?.forEach { a ->
@@ -419,12 +447,13 @@ class ComposeViewModel @Inject constructor(
                 Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
                 Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
             }
-            addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description)
+            addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
         }
 
         draftId = composeOptions?.draftId ?: 0
         scheduledTootId = composeOptions?.scheduledTootId
         startingText = composeOptions?.content
+        postLanguage = composeOptions?.language
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
         if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
@@ -452,6 +481,8 @@ class ComposeViewModel @Inject constructor(
         }
         replyingStatusContent = composeOptions?.replyingStatusContent
         replyingStatusAuthor = composeOptions?.replyingStatusAuthor
+
+        setupComplete = true
     }
 
     fun updatePoll(newPoll: NewPoll) {

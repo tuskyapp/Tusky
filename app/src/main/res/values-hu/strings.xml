@@ -10,8 +10,6 @@
     <string name="error_authorization_denied">Engedély megtagadva.</string>
     <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
     <string name="error_compose_character_limit">Túl hosszú a bejegyzés!</string>
-    <string name="error_image_upload_size">A fájlnak kisebbnek kell lennie, mint 8 MB.</string>
-    <string name="error_video_upload_size">A videofájloknak kisebbnek kell lenniük, mint 40 MB.</string>
     <string name="error_media_upload_type">Ilyen típusú fájlt nem lehet feltölteni.</string>
     <string name="error_media_upload_opening">Fájl megnyitása sikertelen.</string>
     <string name="error_media_upload_permission">Média olvasási engedély szükséges.</string>
@@ -339,9 +337,11 @@
     <string name="hint_search_people_list">Általad követettek keresése</string>
     <string name="action_add_to_list">Fiók hozzáadása a listához</string>
     <string name="action_remove_from_list">Fiók eltávolítása a listából</string>
-    <string name="compose_active_account_description">Bejegyzés %1$s fiókkal</string>
+    <string name="compose_active_account_description">Bejegyzés mint %1$s</string>
     <string name="error_failed_set_caption">Cím beállítása nem sikerült</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one">Leírás látássérülteknek
+\n(%d karakter korlát)</item>
         <item quantity="other">Leírás látássérülteknek
 \n(%d karakter korlát)</item>
     </plurals>
@@ -446,7 +446,6 @@
     <string name="description_post_bookmarked">Könyvjelzőzve</string>
     <string name="select_list_title">Lista kiválasztása</string>
     <string name="list">Lista</string>
-    <string name="error_audio_upload_size">A hangfájloknak kisebbnek kell lenniük, mint 40 MB.</string>
     <string name="no_drafts">Nincs egy piszkozatod sem.</string>
     <string name="no_scheduled_posts">Nincs egy ütemezett bejegyzésed sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
@@ -547,4 +546,19 @@
     <string name="action_edit_image">Kép szerkesztése</string>
     <string name="error_image_edit_failed">A kép nem szerkeszthető.</string>
     <string name="error_loading_account_details">Nem sikerült betölteni a fiókadatokat</string>
+    <string name="pref_title_show_self_username">Felhasználónév mutatása az eszköztáron</string>
+    <string name="delete_scheduled_post_warning">Töröljük ezt az időzített bejegyzést\?</string>
+    <string name="set_focus_description">Koppintsd vagy húzd a kört, hogy kijelöld azt a fókuszpontot, mely mindig látható lesz az előnézetekben.</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_multimedia_size_limit">Video és audio állományok mérete nem lehet %s MB-nál nagyobb.</string>
+    <string name="description_post_language">Bejegyzés nyelve</string>
+    <string name="pref_show_self_username_always">Mindig</string>
+    <string name="pref_show_self_username_disambiguate">Ha több fiók is be van jelentkezve</string>
+    <string name="pref_show_self_username_never">Soha</string>
+    <string name="duration_no_change">(Nincs változás)</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_failed_set_focus">Nem sikerült a fókuszpont beállítása</string>
+    <string name="action_set_focus">Fókuszpont beállítása</string>
+    <string name="error_following_hashtag_format">Hiba a #%s követésekor</string>
+    <string name="error_unfollowing_hashtag_format">Hiba a #%s követésének befejezésekor</string>
 </resources>

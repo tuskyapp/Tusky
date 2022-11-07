@@ -103,7 +103,7 @@
         <item>it</item>
         <item>hu</item>
         <item>nl</item>
-        <item>no-nb</item>
+        <item>nb-no</item>
         <item>oc</item>
         <item>pl</item>
         <item>pt-BR</item>
@@ -142,6 +142,12 @@
     <string-array name="pref_main_nav_position_values">
         <item>top</item>
         <item>bottom</item>
+    </string-array>
+
+    <string-array name="pref_show_self_username_values">
+        <item>always</item>
+        <item>disambiguate</item>
+        <item>never</item>
     </string-array>
 
     <string name="description_status" translatable="false">
@@ -190,6 +196,8 @@
         <item>31536000</item>
     </integer-array>
 
+    <string name="poll_percent_format"><!-- 15% --> &lt;b>%1$d%%&lt;/b></string>
+
     <string-array name="mute_duration_names">
         <item>@string/duration_indefinite</item>
         <item>@string/duration_5_min</item>
@@ -212,5 +220,25 @@
         <item>604800</item>
     </integer-array>
 
-    <string name="poll_percent_format"><!-- 15% --> &lt;b>%1$d%%&lt;/b></string>
+    <string-array name="filter_duration_names">
+        <item>@string/duration_indefinite</item>
+        <item>@string/duration_5_min</item>
+        <item>@string/duration_30_min</item>
+        <item>@string/duration_1_hour</item>
+        <item>@string/duration_6_hours</item>
+        <item>@string/duration_1_day</item>
+        <item>@string/duration_3_days</item>
+        <item>@string/duration_7_days</item>
+    </string-array>
+
+    <integer-array name="filter_duration_values"> <!-- values in seconds, corresponding to mute_duration_names -->
+        <item>0</item>
+        <item>300</item>
+        <item>1800</item>
+        <item>3600</item>
+        <item>21600</item>
+        <item>86400</item>
+        <item>259200</item>
+        <item>604800</item>
+    </integer-array>
 </resources>

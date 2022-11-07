@@ -42,11 +42,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
+import java.util.Locale
 
 /**
  * Created by charlag on 3/7/18.
@@ -131,7 +133,7 @@ class ComposeActivityTest {
         }
 
         val viewModelFactoryMock: ViewModelFactory = mock {
-            on { create(ComposeViewModel::class.java) } doReturn viewModel
+            on { create(eq(ComposeViewModel::class.java), any()) } doReturn viewModel
         }
 
         activity.accountManager = accountManagerMock
@@ -443,13 +445,26 @@ class ComposeActivityTest {
         assertEquals(selectionEnd + insertText.length, editor.selectionEnd)
     }
 
+    @Test
+    fun whenNoLanguageIsGiven_defaultLanguageIsSelected() {
+        assertEquals(Locale.getDefault().language, activity.selectedLanguage)
+    }
+
+    @Test
+    fun languageGivenInComposeOptionsIsRespected() {
+        val language = "no"
+        composeOptions = ComposeActivity.ComposeOptions(language = language)
+        setupActivity()
+        assertEquals(language, activity.selectedLanguage)
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)
     }
 
     private fun clickBack() {
-        activity.onBackPressed()
+        activity.onBackPressedDispatcher.onBackPressed()
     }
 
     private fun insertSomeTextInContent(text: String? = null) {
@@ -464,7 +479,9 @@ class ComposeActivityTest {
             pollConfiguration = null,
             configuration = configuration,
             maxMediaAttachments = null,
-            pleroma = null
+            pleroma = null,
+            uploadLimit = null,
+            rules = emptyList()
         )
     }
 
