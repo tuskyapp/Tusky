@@ -54,7 +54,7 @@
     <string name="report_comment_hint">Irgendwelche Anmerkungen?</string>
     <string name="action_quick_reply">Schnell antworten</string>
     <string name="action_reply">Antworten</string>
-    <string name="action_reblog">Teilen</string>
+    <string name="action_reblog">Boosten</string>
     <string name="action_unreblog">Boost entfernen</string>
     <string name="action_favourite">Favorisieren</string>
     <string name="action_unfavourite">Favorisierung entfernen</string>

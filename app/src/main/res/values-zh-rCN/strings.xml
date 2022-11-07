@@ -559,4 +559,6 @@
     <string name="pref_show_self_username_always">始终</string>
     <string name="pref_show_self_username_never">从不</string>
     <string name="delete_scheduled_post_warning">删除这条定时嘟文吗？</string>
+    <string name="instance_rule_info">登录即表示您同意 %s 的规定。</string>
+    <string name="instance_rule_title">%s 的规定</string>
 </resources>
