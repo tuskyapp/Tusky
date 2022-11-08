@@ -131,10 +131,10 @@ class TimelineCases @Inject constructor(
     fun pin(statusId: String, pin: Boolean): Single<Status> {
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
-            .onErrorResumeNext(::convertError)
             .doOnError { e ->
-                Log.w("Failed to pin", e)
+                Log.w("Failed to change pin state", e)
             }
+            .onErrorResumeNext(::convertError)
             .doAfterSuccess {
                 eventHub.dispatch(PinEvent(statusId, pin))
             }
