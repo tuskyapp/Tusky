@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.requireSerializable
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
@@ -79,7 +78,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = requireArguments().requireSerializable(ARG_TYPE)
+        type = requireArguments().getSerializable(ARG_TYPE) as Type
         id = requireArguments().getString(ARG_ID)
     }
 

@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.parcelableExtra
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,7 +72,7 @@ class SendStatusService : Service(), Injectable {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (intent.hasExtra(KEY_STATUS)) {
-            val statusToSend: StatusToSend = intent.parcelableExtra(KEY_STATUS)
+            val statusToSend: StatusToSend = intent.getParcelableExtra(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

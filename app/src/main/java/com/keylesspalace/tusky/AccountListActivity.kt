@@ -20,7 +20,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
 import com.keylesspalace.tusky.fragment.AccountListFragment
-import com.keylesspalace.tusky.util.requireSerializableExtra
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
@@ -45,7 +44,7 @@ class AccountListActivity : BaseActivity(), HasAndroidInjector {
         val binding = ActivityAccountListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val type: Type = intent.requireSerializableExtra(EXTRA_TYPE)
+        val type = intent.getSerializableExtra(EXTRA_TYPE) as Type
         val id: String? = intent.getStringExtra(EXTRA_ID)
         val accountLocked: Boolean = intent.getBooleanExtra(EXTRA_ACCOUNT_LOCKED, false)
 
