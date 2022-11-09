@@ -77,6 +77,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         inReplyToAccountId = null,
         content = null,
         createdAt = 0L,
+        editedAt = 0L,
         emojis = null,
         reblogsCount = 0,
         favouritesCount = 0,
@@ -120,6 +121,7 @@ fun Status.toEntity(
         inReplyToAccountId = actionableStatus.inReplyToAccountId,
         content = actionableStatus.content,
         createdAt = actionableStatus.createdAt.time,
+        editedAt = actionableStatus.editedAt?.time,
         emojis = actionableStatus.emojis.let(gson::toJson),
         reblogsCount = actionableStatus.reblogsCount,
         favouritesCount = actionableStatus.favouritesCount,
@@ -170,7 +172,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             reblog = null,
             content = status.content.orEmpty(),
             createdAt = Date(status.createdAt),
-            editedAt = null, // FIXME: Cache me..
+            editedAt = status.editedAt?.let { Date(it) },
             emojis = emojis,
             reblogsCount = status.reblogsCount,
             favouritesCount = status.favouritesCount,
@@ -233,7 +235,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             reblog = null,
             content = status.content.orEmpty(),
             createdAt = Date(status.createdAt),
-            editedAt = null, // FIXME: Cache me..
+            editedAt = status.editedAt?.let { Date(it) },
             emojis = emojis,
             reblogsCount = status.reblogsCount,
             favouritesCount = status.favouritesCount,
