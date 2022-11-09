@@ -371,10 +371,10 @@
     <string name="description_post_media_no_description_placeholder">Deskribapenik ez</string>
     <string name="description_post_reblogged">Birblogeatuta</string>
     <string name="description_post_favourited">Gogotuta</string>
-    <string name="description_visiblity_public">Publiko</string>
-    <string name="description_visiblity_unlisted">Zerrendagabetuta</string>
-    <string name="description_visiblity_private">Jarraitzaileak</string>
-    <string name="description_visiblity_direct">Zuzena</string>
+    <string name="description_visibility_public">Publiko</string>
+    <string name="description_visibility_unlisted">Zerrendagabetuta</string>
+    <string name="description_visibility_private">Jarraitzaileak</string>
+    <string name="description_visibility_direct">Zuzena</string>
     <string name="description_poll">Inkestatu aukerekin: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Zerrendaren izena</string>
     <string name="edit_hashtag_hint">Traola # gabe</string>

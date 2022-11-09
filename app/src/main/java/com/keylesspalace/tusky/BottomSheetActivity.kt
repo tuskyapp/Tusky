@@ -36,8 +36,8 @@ import java.net.URISyntaxException
 import javax.inject.Inject
 
 /** this is the base class for all activities that open links
- *  links are checked against the api if they are mastodon links so they can be openend in Tusky
- *  Subclasses must have a bottom sheet with Id item_status_bottom_sheet in their layout hierachy
+ *  links are checked against the api if they are mastodon links so they can be opened in Tusky
+ *  Subclasses must have a bottom sheet with Id item_status_bottom_sheet in their layout hierarchy
  */
 
 abstract class BottomSheetActivity : BaseActivity() {

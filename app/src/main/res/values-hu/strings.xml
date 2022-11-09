@@ -278,8 +278,8 @@
         <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
     </plurals>
     <string name="description_post_media_no_description_placeholder">Nincs leírás</string>
-    <string name="description_visiblity_public">Nyilvános    </string>
-    <string name="description_visiblity_private">Követők</string>
+    <string name="description_visibility_public">Nyilvános    </string>
+    <string name="description_visibility_private">Követők</string>
     <string name="action_unfavourite">Kedvenc eltávolítása</string>
     <string name="action_delete_and_redraft">Törlés és újrafogalmazás</string>
     <string name="action_open_media_n">Média megnyitása: #%d</string>
@@ -368,8 +368,8 @@
     <string name="description_post_cw">Tartalomfigyelmeztetés: %s</string>
     <string name="description_post_reblogged">Megtolt</string>
     <string name="description_post_favourited">Kedvelt</string>
-    <string name="description_visiblity_unlisted">Listázatlan</string>
-    <string name="description_visiblity_direct">Közvetlen</string>
+    <string name="description_visibility_unlisted">Listázatlan</string>
+    <string name="description_visibility_direct">Közvetlen</string>
     <string name="description_poll">Szavazás válaszokkal: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Lista neve</string>
     <string name="edit_hashtag_hint">Hashtag # nélkül</string>

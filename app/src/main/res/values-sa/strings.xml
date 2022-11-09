@@ -438,10 +438,10 @@
     <string name="add_hashtag_title">प्रचलितं युज्यताम्</string>
     <string name="hint_list_name">सूचिनाम</string>
     <string name="description_poll">मतदाने मतानि- %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">प्रत्यक्षम्</string>
-    <string name="description_visiblity_private">अनुसर्तारः</string>
-    <string name="description_visiblity_unlisted">अनिर्दिष्टम्</string>
-    <string name="description_visiblity_public">सार्वजनिकम्</string>
+    <string name="description_visibility_direct">प्रत्यक्षम्</string>
+    <string name="description_visibility_private">अनुसर्तारः</string>
+    <string name="description_visibility_unlisted">अनिर्दिष्टम्</string>
+    <string name="description_visibility_public">सार्वजनिकम्</string>
     <string name="description_post_bookmarked">पुटचिह्नं कृतम्</string>
     <string name="description_post_favourited">प्रीतिर्दत्ता</string>
     <string name="description_post_reblogged">पुनर्लिखितम्</string>

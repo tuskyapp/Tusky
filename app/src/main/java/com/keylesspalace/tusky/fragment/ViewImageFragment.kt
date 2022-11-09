@@ -215,7 +215,7 @@ class ViewImageFragment : ViewMediaFragment() {
                             .dontAnimate()
                             .onlyRetrieveFromCache(true)
                             .centerInside()
-                            .addListener(ImageRequestListener(true, isThumnailRequest = true))
+                            .addListener(ImageRequestListener(true, isThumbnailRequest = true))
                     )
                 else it
             }
@@ -223,10 +223,10 @@ class ViewImageFragment : ViewMediaFragment() {
             .error(
                 glide.load(url)
                     .centerInside()
-                    .addListener(ImageRequestListener(false, isThumnailRequest = false))
+                    .addListener(ImageRequestListener(false, isThumbnailRequest = false))
             )
             .centerInside()
-            .addListener(ImageRequestListener(true, isThumnailRequest = false))
+            .addListener(ImageRequestListener(true, isThumbnailRequest = false))
             .into(photoView)
     }
 
@@ -252,7 +252,7 @@ class ViewImageFragment : ViewMediaFragment() {
      */
     private inner class ImageRequestListener(
         private val isCacheRequest: Boolean,
-        private val isThumnailRequest: Boolean
+        private val isThumbnailRequest: Boolean
     ) : RequestListener<Drawable> {
 
         override fun onLoadFailed(
@@ -262,7 +262,7 @@ class ViewImageFragment : ViewMediaFragment() {
             isFirstResource: Boolean
         ): Boolean {
             // If cache for full image failed complete transition
-            if (isCacheRequest && !isThumnailRequest && shouldStartTransition &&
+            if (isCacheRequest && !isThumbnailRequest && shouldStartTransition &&
                 !startedTransition
             ) {
                 photoActionsListener.onBringUp()
@@ -296,7 +296,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 }
             } else {
                 // This wait for transition. If there's no transition then we should hit
-                // another branch. take() will unsubscribe after we have it to not leak menmory
+                // another branch. take() will unsubscribe after we have it to not leak memory
                 transition
                     .take(1)
                     .subscribe {

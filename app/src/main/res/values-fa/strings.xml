@@ -361,10 +361,10 @@
     <string name="description_post_media_no_description_placeholder">بدون شرح</string>
     <string name="description_post_reblogged">تقویت شده</string>
     <string name="description_post_favourited">برگزیده</string>
-    <string name="description_visiblity_public">عمومی</string>
-    <string name="description_visiblity_unlisted">فهرست‌نشده</string>
-    <string name="description_visiblity_private">پی‌گیران</string>
-    <string name="description_visiblity_direct">مستقیم</string>
+    <string name="description_visibility_public">عمومی</string>
+    <string name="description_visibility_unlisted">فهرست‌نشده</string>
+    <string name="description_visibility_private">پی‌گیران</string>
+    <string name="description_visibility_direct">مستقیم</string>
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام فهرست</string>
     <string name="edit_hashtag_hint">برچسب بدون #</string>

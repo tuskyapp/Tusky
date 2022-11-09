@@ -97,7 +97,7 @@
     <string name="hint_additional_info">අතිරේක අදහස්</string>
     <string name="notification_favourite_name">ප්‍රියතමයන්</string>
     <string name="download_fonts">ඔබ මේ ඉමෝජි කට්ටල පළමුව බාගත යුතුයි</string>
-    <string name="description_visiblity_direct">සෘජු</string>
+    <string name="description_visibility_direct">සෘජු</string>
     <string name="hint_search">සොයන්න…</string>
     <string name="pref_title_app_theme">යෙදුමේ තේමාව</string>
     <string name="title_bookmarks">පොත්යොමු</string>
@@ -130,7 +130,7 @@
     <string name="send_post_notification_channel_name">ටූට්ස් යැවෙමින්</string>
     <string name="pref_title_thread_filter_keywords">සංවාද</string>
     <string name="post_text_size_large">විශාල</string>
-    <string name="description_visiblity_public">ප්‍රසිද්ධ</string>
+    <string name="description_visibility_public">ප්‍රසිද්ධ</string>
     <string name="add_account_description">නව මාස්ටඩන් ගිණුමක් එක්කරන්න</string>
     <string name="dialog_title_finishing_media_upload">මාධ්‍ය උඩුගත වීම අහවර වෙමින්</string>
     <plurals name="poll_timespan_seconds">

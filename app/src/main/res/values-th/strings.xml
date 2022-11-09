@@ -61,10 +61,10 @@
     <string name="add_hashtag_title">เพิ่มแฮชแท็ก</string>
     <string name="hint_list_name">ชื่อรายการ</string>
     <string name="description_poll">โพลกับตัวเลือก: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">ไดเร็กต์</string>
-    <string name="description_visiblity_private">ผู้ติดตาม</string>
-    <string name="description_visiblity_unlisted">ไม่อยู่ในรายการ</string>
-    <string name="description_visiblity_public">สาธารณะ</string>
+    <string name="description_visibility_direct">ไดเร็กต์</string>
+    <string name="description_visibility_private">ผู้ติดตาม</string>
+    <string name="description_visibility_unlisted">ไม่อยู่ในรายการ</string>
+    <string name="description_visibility_public">สาธารณะ</string>
     <string name="description_post_bookmarked">คั่นหน้า</string>
     <string name="description_post_favourited">ชื่นชอบ</string>
     <string name="description_post_reblogged">ได้ถูกเขียนใหม่</string>

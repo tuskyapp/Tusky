@@ -56,7 +56,7 @@
     <string name="action_retry">വീണ്ടും ശ്രമിക്കുക</string>
     <string name="action_view_follow_requests">പിന്‍തുടരുവാനുള്ള അഭ്യര്‍ത്ഥനകള്‍</string>
     <string name="title_domain_mutes">മറച്ചുവെച്ച ഡൊമൈനുകൾ</string>
-    <string name="description_visiblity_private">പിന്തുടരുന്നവർ</string>
+    <string name="description_visibility_private">പിന്തുടരുന്നവർ</string>
     <string name="footer_empty">പുതിയത് ലഭിക്കാൻ താഴേക്ക് വലിക്കുക</string>
     <string name="message_empty">ലഭ്യമല്ല</string>
     <string name="post_content_show_less">ചുരുക്കുക</string>

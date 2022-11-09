@@ -374,10 +374,10 @@
     <string name="description_post_media_no_description_placeholder">Brak opisu</string>
     <string name="description_post_reblogged">Podbity</string>
     <string name="description_post_favourited">Polubiony</string>
-    <string name="description_visiblity_public">Publiczny</string>
-    <string name="description_visiblity_unlisted">Niewidoczne</string>
-    <string name="description_visiblity_private">Śledzący</string>
-    <string name="description_visiblity_direct">Bezpośrednio</string>
+    <string name="description_visibility_public">Publiczny</string>
+    <string name="description_visibility_unlisted">Niewidoczne</string>
+    <string name="description_visibility_private">Śledzący</string>
+    <string name="description_visibility_direct">Bezpośrednio</string>
     <string name="description_poll">Głosowanie z opcjami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Nazwa listy</string>
     <string name="edit_hashtag_hint">Hashtag bez #</string>

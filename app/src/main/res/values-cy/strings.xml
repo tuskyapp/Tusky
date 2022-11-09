@@ -298,11 +298,11 @@
     <string name="action_edit">Golygu</string>
     <string name="edit_poll">Golygu</string>
     <string name="compose_shortcut_short_label">Creu</string>
-    <string name="description_visiblity_private">Dilynwyr</string>
-    <string name="description_visiblity_unlisted">Heb ei restru</string>
+    <string name="description_visibility_private">Dilynwyr</string>
+    <string name="description_visibility_unlisted">Heb ei restru</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="filter_dialog_remove_button">Dileu</string>
-    <string name="description_visiblity_public">Cyhoeddus</string>
+    <string name="description_visibility_public">Cyhoeddus</string>
     <string name="action_unmute_conversation">Dad-dewi sgwrs</string>
     <string name="pref_title_thread_filter_keywords">Sgyrsiau</string>
     <string name="mute_domain_warning_dialog_ok">Cuddio parth cyfan gwbl</string>

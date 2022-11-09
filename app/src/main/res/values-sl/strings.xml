@@ -322,10 +322,10 @@
     <string name="description_post_media_no_description_placeholder">Brez opisa</string>
     <string name="description_post_reblogged">Ponovno objavljen</string>
     <string name="description_post_favourited">Priljubljene</string>
-    <string name="description_visiblity_public">Javno</string>
-    <string name="description_visiblity_unlisted">Ni prikazano</string>
-    <string name="description_visiblity_private">Sledilci</string>
-    <string name="description_visiblity_direct">Neposredno</string>
+    <string name="description_visibility_public">Javno</string>
+    <string name="description_visibility_unlisted">Ni prikazano</string>
+    <string name="description_visibility_private">Sledilci</string>
+    <string name="description_visibility_direct">Neposredno</string>
     <string name="hint_list_name">Ime seznama</string>
     <string name="edit_hashtag_hint">Ključnik brez #</string>
     <string name="notifications_clear">Počisti</string>

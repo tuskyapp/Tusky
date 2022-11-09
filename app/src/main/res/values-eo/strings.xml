@@ -355,12 +355,12 @@
     </string>
     <string name="description_post_favourited">        Stelumita
     </string>
-    <string name="description_visiblity_public">        Publika
+    <string name="description_visibility_public">        Publika
     </string>
-    <string name="description_visiblity_unlisted">        Nelistigita    </string>
-    <string name="description_visiblity_private">        Sekvantoj
+    <string name="description_visibility_unlisted">        Nelistigita    </string>
+    <string name="description_visibility_private">        Sekvantoj
     </string>
-    <string name="description_visiblity_direct">        Rekta    </string>
+    <string name="description_visibility_direct">        Rekta    </string>
     <string name="hint_list_name">Nomo de la listo</string>
     <string name="action_delete_and_redraft">Forigi kaj reskribi</string>
     <string name="dialog_redraft_post_warning">Ĉu forigi kaj reskribi ĉi-tiun mesaĝon\?</string>

@@ -357,10 +357,10 @@
     </string>
     <string name="description_post_favourited">        Oblíbený
     </string>
-    <string name="description_visiblity_public">Veřejný</string>
-    <string name="description_visiblity_unlisted">Neuvedený</string>
-    <string name="description_visiblity_private">Pro sledující</string>
-    <string name="description_visiblity_direct">        Přímý
+    <string name="description_visibility_public">Veřejný</string>
+    <string name="description_visibility_unlisted">Neuvedený</string>
+    <string name="description_visibility_private">Pro sledující</string>
+    <string name="description_visibility_direct">        Přímý
     </string>
     <string name="hint_list_name">Název seznamu</string>
     <string name="edit_hashtag_hint">Hashtag bez #</string>

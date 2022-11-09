@@ -84,7 +84,7 @@
     <string name="notifications_apply_filter">Suodatin</string>
     <string name="list">Lista</string>
     <string name="hashtags">Aihetunnisteet</string>
-    <string name="description_visiblity_public">Julkinen</string>
+    <string name="description_visibility_public">Julkinen</string>
     <string name="pin_action">Kiinnitä</string>
     <string name="unpin_action">Poista kiinnitys</string>
     <string name="profile_badge_bot_text">Botti</string>

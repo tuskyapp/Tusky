@@ -347,10 +347,10 @@
     <string name="description_post_media_no_description_placeholder">Açıklama yok</string>
     <string name="description_post_reblogged">Yeniden blogladı</string>
     <string name="description_post_favourited">Favorilendi</string>
-    <string name="description_visiblity_public">Herkese açık</string>
-    <string name="description_visiblity_unlisted">Liste dışı</string>
-    <string name="description_visiblity_private">Takipçiler</string>
-    <string name="description_visiblity_direct">Direkt</string>
+    <string name="description_visibility_public">Herkese açık</string>
+    <string name="description_visibility_unlisted">Liste dışı</string>
+    <string name="description_visibility_private">Takipçiler</string>
+    <string name="description_visibility_direct">Direkt</string>
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
     <string name="edit_hashtag_hint"># olmadan hashtag</string>

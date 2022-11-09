@@ -373,10 +373,10 @@
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
     <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visiblity_direct">Nhắn riêng</string>
-    <string name="description_visiblity_private">Người theo dõi</string>
-    <string name="description_visiblity_unlisted">Hạn chế</string>
-    <string name="description_visiblity_public">Công khai</string>
+    <string name="description_visibility_direct">Nhắn riêng</string>
+    <string name="description_visibility_private">Người theo dõi</string>
+    <string name="description_visibility_unlisted">Hạn chế</string>
+    <string name="description_visibility_public">Công khai</string>
     <string name="description_post_bookmarked">Đã lưu</string>
     <string name="description_post_favourited">Đã thích</string>
     <string name="description_post_reblogged">Đã đăng lại</string>

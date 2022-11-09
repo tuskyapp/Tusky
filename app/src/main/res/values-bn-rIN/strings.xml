@@ -353,10 +353,10 @@
     <string name="description_post_media_no_description_placeholder">বর্ণনা নাই</string>
     <string name="description_post_reblogged">আবার ব্লগ</string>
     <string name="description_post_favourited">পছন্দ</string>
-    <string name="description_visiblity_public">সর্বজনীন</string>
-    <string name="description_visiblity_unlisted">অতালিকাভুক্ত</string>
-    <string name="description_visiblity_private">অনুগামিবৃন্দ</string>
-    <string name="description_visiblity_direct">সরাসরি</string>
+    <string name="description_visibility_public">সর্বজনীন</string>
+    <string name="description_visibility_unlisted">অতালিকাভুক্ত</string>
+    <string name="description_visibility_private">অনুগামিবৃন্দ</string>
+    <string name="description_visibility_direct">সরাসরি</string>
     <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">নামের তালিকা</string>
     <string name="edit_hashtag_hint"># ছাড়া হ্যাশট্যাগ</string>

@@ -30,7 +30,7 @@ import java.util.Objects;
  * It is either a {@link Placeholder} or a {@link Concrete}.
  * It is modelled this way because close relationship between placeholder and concrete notification
  * is fine in this case. Placeholder case is not modelled as a type of notification because
- * invariants would be violated and because it would model domain incorrectly. It is prefereable to
+ * invariants would be violated and because it would model domain incorrectly. It is preferable to
  * {@link com.keylesspalace.tusky.util.Either} because class hierarchy is cheaper, faster and
  * more native.
  */

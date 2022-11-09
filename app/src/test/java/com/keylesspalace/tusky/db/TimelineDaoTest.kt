@@ -448,7 +448,7 @@ class TimelineDaoTest {
             favourited = !even,
             bookmarked = false,
             sensitive = even,
-            spoilerText = "spoier$statusId",
+            spoilerText = "spoiler$statusId",
             visibility = Status.Visibility.PRIVATE,
             attachments = "attachments$accountId",
             mentions = "mentions$accountId",

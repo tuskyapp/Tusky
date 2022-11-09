@@ -328,13 +328,13 @@
     <string name="description_post_media_no_description_placeholder">Geen omschrijving</string>
     <string name="description_post_reblogged">Geboost</string>
     <string name="description_post_favourited">Als favoriet gemarkeerd</string>
-    <string name="description_visiblity_public">        Openbaar
+    <string name="description_visibility_public">        Openbaar
     </string>
-    <string name="description_visiblity_unlisted">        Minder openbaar
+    <string name="description_visibility_unlisted">        Minder openbaar
     </string>
-    <string name="description_visiblity_private">        Volgers
+    <string name="description_visibility_private">        Volgers
     </string>
-    <string name="description_visiblity_direct">        Direct
+    <string name="description_visibility_direct">        Direct
     </string>
     <string name="download_media">Media downloaden</string>
     <string name="downloading_media">Media aan het downloaden</string>
