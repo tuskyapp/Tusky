@@ -62,6 +62,7 @@
     <string name="post_content_warning_show_less">Show Less</string>
     <string name="post_content_show_more">Expand</string>
     <string name="post_content_show_less">Collapse</string>
+    <string name="post_edited">Edited %s</string>
 
     <string name="message_empty">Nothing here.</string>
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>

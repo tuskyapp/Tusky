@@ -307,19 +307,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setCreatedAt(Date createdAt, StatusDisplayOptions statusDisplayOptions) {
+    protected void setCreatedAt(Date createdAt, Date editedAt, StatusDisplayOptions statusDisplayOptions) {
+        String timestampText;
         if (statusDisplayOptions.useAbsoluteTime()) {
-            timestampInfo.setText(absoluteTimeFormatter.format(createdAt, true));
+            timestampText = absoluteTimeFormatter.format(createdAt, true);
         } else {
             if (createdAt == null) {
-                timestampInfo.setText("?m");
+                timestampText = "?m";
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
                 String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-                timestampInfo.setText(readout);
+                timestampText = readout;
             }
         }
+
+        if (editedAt != null) {
+            timestampText = timestampInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
+        }
+        timestampInfo.setText(timestampText);
     }
 
     private CharSequence getCreatedAtDescription(Date createdAt,
@@ -700,7 +706,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(status.getUsername());
-            setCreatedAt(actionable.getCreatedAt(), statusDisplayOptions);
+            setCreatedAt(actionable.getCreatedAt(), actionable.getEditedAt(), statusDisplayOptions);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
@@ -752,7 +758,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (payloads instanceof List)
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setCreatedAt(status.getActionable().getCreatedAt(), statusDisplayOptions);
+                        setCreatedAt(status.getActionable().getCreatedAt(), status.getActionable().getEditedAt(), statusDisplayOptions);
                     }
                 }
 
