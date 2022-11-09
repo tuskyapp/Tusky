@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Stöd för Unified Push. För att aktivera stöd behöver du logga in igen till dina konton.
+- Antalet svar på ett inlägg visas nu i tidslinjer.
+- Bilder kan nu beskäras medan du skriver ett inlägg.
+- Profiler visar nu datum då de skapades.
+- När en lista visas,syns också dess titel i verktygsraden.
+- Många buggfixar
+- Förbättrade översättningar
