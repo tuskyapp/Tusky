@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -130,6 +131,10 @@ class TimelineCases @Inject constructor(
     fun pin(statusId: String, pin: Boolean): Single<Status> {
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
+            .doOnError { e ->
+                Log.w("Failed to change pin state", e)
+            }
+            .onErrorResumeNext(::convertError)
             .doAfterSuccess {
                 eventHub.dispatch(PinEvent(statusId, pin))
             }
@@ -144,4 +149,10 @@ class TimelineCases @Inject constructor(
             eventHub.dispatch(PollVoteEvent(statusId, it))
         }
     }
+
+    private fun <T : Any> convertError(e: Throwable): Single<T> {
+        return Single.error(TimelineError(e.getServerErrorMessage()))
+    }
 }
+
+class TimelineError(message: String?) : RuntimeException(message)
