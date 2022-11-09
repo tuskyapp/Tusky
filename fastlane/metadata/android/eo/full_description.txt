@@ -1,12 +1,12 @@
 Tusky estas malpeza klienta aplikaĵo por Mastodon, libera kaj malfermitkoda socireta servilo.
 
-• Material Design
+• „Material Design“
 • Funkcias kun la plejmulto de API de Mastodon
 • Subtenas uzadon de pluraj uzantkontoj
 • Hela kaj malhela etosoj kun la eblo de aŭtomata ŝanĝo inter ili depende de la momento de la tago
-• Malnetoj – ekredaktu hupojn kaj konservu ilin por poste
+• Malnetoj: ekredaktu hupojn kaj konservu ilin por poste
 • Elektu inter malsamaj emoĝi-stiloj
 • Optimumigita por ĉiuj ekrangrandoj
-• Tute malfermitkoda – sen ajna dependo de fermitkodaj servoj kiel tiuj de Google
+• Tute malfermitkoda: sen ajna dependo de fermitkodaj servoj kiel tiuj de Google
 
-Por ekscii pli pri Mastodon, vizitu  https://joinmastodon.org/
+Por ekscii pli pri Mastodon, vizitu https://joinmastodon.org/
