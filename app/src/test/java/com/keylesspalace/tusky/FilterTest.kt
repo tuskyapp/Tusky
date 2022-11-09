@@ -258,6 +258,7 @@ class FilterTest {
             reblog = null,
             content = content,
             createdAt = Date(),
+            editedAt = null,
             emojis = emptyList(),
             reblogsCount = 0,
             favouritesCount = 0,
