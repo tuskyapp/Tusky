@@ -420,6 +420,7 @@
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
     <string name="compose_save_draft">Save draft?</string>
+    <string name="compose_save_draft_loses_media">Save draft? (Attachments will be uploaded again when you restore the draft.)</string>
     <string name="send_post_notification_title">Sending post…</string>
     <string name="send_post_notification_error_title">Error sending post</string>
     <string name="send_post_notification_channel_name">Sending Posts</string>

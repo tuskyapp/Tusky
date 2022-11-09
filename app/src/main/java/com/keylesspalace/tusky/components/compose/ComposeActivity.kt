@@ -1113,8 +1113,15 @@ class ComposeActivity :
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
         if (viewModel.didChange(contentText, contentWarning)) {
+
+            val warning = if (!viewModel.media.value.isEmpty()) {
+                R.string.compose_save_draft_loses_media
+            } else {
+                R.string.compose_save_draft
+            }
+
             AlertDialog.Builder(this)
-                .setMessage(R.string.compose_save_draft)
+                .setMessage(warning)
                 .setPositiveButton(R.string.action_save) { _, _ ->
                     saveDraftAndFinish(contentText, contentWarning)
                 }
