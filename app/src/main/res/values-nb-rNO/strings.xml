@@ -34,7 +34,7 @@
     <string name="title_blocks">Blokkerte brukere</string>
     <string name="title_follow_requests">Følgeforespørsler</string>
     <string name="title_edit_profile">Endre profilen din</string>
-    <string name="title_drafts">Kladder</string>
+    <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Lisenser</string>
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s fremhevet</string>
@@ -99,7 +99,7 @@
     <string name="action_accept">Aksepter</string>
     <string name="action_reject">Avvis</string>
     <string name="action_search">Søk</string>
-    <string name="action_access_drafts">Kladder</string>
+    <string name="action_access_drafts">Utkast</string>
     <string name="action_toggle_visibility">Synlighet på innlegg</string>
     <string name="action_content_warning">Innholdsadvarsel</string>
     <string name="action_emoji_keyboard">Emoji-tastatur</string>
@@ -269,12 +269,12 @@
     <string name="action_remove">Slett</string>
     <string name="lock_account_label">Lås konto</string>
     <string name="lock_account_label_description">Krever at du manuelt godkjenner nye følgere</string>
-    <string name="compose_save_draft">Lagre kladd\?</string>
+    <string name="compose_save_draft">Lagre utkast\?</string>
     <string name="send_post_notification_title">Sender innlegg…</string>
     <string name="send_post_notification_error_title">Det oppsto en feil under sending av innlegget</string>
     <string name="send_post_notification_channel_name">Sender innleggene</string>
     <string name="send_post_notification_cancel_title">Sending avbrutt</string>
-    <string name="send_post_notification_saved_content">En kopi av innlegget er lagret i kladdene dine</string>
+    <string name="send_post_notification_saved_content">En kopi av innlegget er lagret i utkastene dine</string>
     <string name="action_compose_shortcut">Skriv</string>
     <string name="error_no_custom_emojis">Instansen %s har ingen egendefinerte emojis</string>
     <string name="emoji_style">Emoji-stil</string>
@@ -439,7 +439,7 @@
     <string name="select_list_title">Velg liste</string>
     <string name="list">Liste</string>
     <string name="no_scheduled_posts">Du har ingen planlagte innlegg.</string>
-    <string name="no_drafts">Du har ikke lagret noen kladder.</string>
+    <string name="no_drafts">Du har ikke lagret noen utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har et minimums planleggingsinterval på 5 minutter.</string>
     <string name="pref_title_show_cards_in_timelines">Vis forhåndsvisning av linker i tidslinjer</string>
     <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før fremheving</string>
@@ -497,8 +497,8 @@
     <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %s\?</string>
     <string name="post_media_attachments">Vedlegg</string>
     <string name="post_media_audio">Lyd</string>
-    <string name="drafts_post_reply_removed">Innlegget du kladdet et svar på har blitt fjernet</string>
-    <string name="draft_deleted">Kladd slettet</string>
+    <string name="drafts_post_reply_removed">Innlegget du hadde opprettet et utkast som svar på har blitt fjernet</string>
+    <string name="draft_deleted">Utkast slettet</string>
     <string name="drafts_failed_loading_reply">Lasting av svarinformasjon feilet</string>
     <string name="drafts_post_failed_to_send">Sending av innlegg feilet!</string>
     <string name="pref_title_animate_custom_emojis">Animer egendefinerte emojis</string>
@@ -531,9 +531,9 @@
     <string name="action_details">Detaljer</string>
     <string name="account_date_joined">Ble med %1$s</string>
     <string name="tips_push_notification_migration">Logg inn all konti på nytt for å skru på pushvarsler.</string>
-    <string name="dialog_push_notification_migration">For å kunne sende pushvarsler via UnifiedPush trenger Tusky tillatelse til å abonnere på varsler på Mastodon-serveren. Dette krever at du logger inn på nytt. Ved å bruke muligheten til å logge inn på nytt her eller i kontoinstillinger vil alle lokale kladder være tilgjengelig også etter at du har logget inn på nytt.</string>
+    <string name="dialog_push_notification_migration">For å kunne sende pushvarsler via UnifiedPush trenger Tusky tillatelse til å abonnere på varsler på Mastodon-serveren. Dette krever at du logger inn på nytt. Ved å bruke muligheten til å logge inn på nytt her eller i kontoinstillinger vil alle lokale utkast være tilgjengelig også etter at du har logget inn på nytt.</string>
     <string name="dialog_push_notification_migration_other_accounts">Du har logget inn på nytt for å tillate Tusky til å sende pushvarsler, men du har fortsatt andre konti som ikke har fått den nødvendige tillatelsen. Bytt til dem og logg inn på nytt på samme måte for å skru på støtte for pushvarsler via UnifiedPush.</string>
-    <string name="saving_draft">Lagrer kladd…</string>
+    <string name="saving_draft">Lagrer utkast…</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Rediger bilde</string>
     <string name="error_image_edit_failed">Bildet kunne ikke redigeres.</string>
@@ -555,4 +555,7 @@
     <string name="delete_scheduled_post_warning">Slette dette planlagte innlegget\?</string>
     <string name="instance_rule_title">Regler på %s</string>
     <string name="instance_rule_info">Ved å logge inn godtar du reglene på %s.</string>
+    <string name="compose_save_draft_loses_media">Lagre utkast\? (Vedlegg vil bli lastet opp igjen når du fortsetter å jobbe på utkastet.)</string>
+    <string name="failed_to_pin">Klarte ikke å feste</string>
+    <string name="failed_to_unpin">Klarte ikke å løsne</string>
 </resources>
