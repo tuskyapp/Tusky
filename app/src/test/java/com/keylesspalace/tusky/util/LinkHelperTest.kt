@@ -214,6 +214,41 @@ class LinkHelperTest {
     }
 
     @Test
+    fun spanEndsWithUrlIsNotMarkedUp() {
+        val content = SpannableStringBuilder()
+            .append("Some Place: some.place", URLSpan("https://some.place"), 0)
+            .append("Some Place: some.place/", URLSpan("https://some.place/"), 0)
+            .append("Some Place - https://some.place", URLSpan("https://some.place"), 0)
+            .append("Some Place | https://some.place/", URLSpan("https://some.place/"), 0)
+            .append("Some Place https://some.place/path", URLSpan("https://some.place/path"), 0)
+
+        val markedUpContent = markupHiddenUrls(context, content)
+        Assert.assertFalse(markedUpContent.contains("🔗"))
+    }
+
+    @Test
+    fun spanEndsWithFraudulentUrlIsMarkedUp() {
+        val content = SpannableStringBuilder()
+            .append("Another Place: another.place", URLSpan("https://some.place"), 0)
+            .append("Another Place: another.place/", URLSpan("https://some.place/"), 0)
+            .append("Another Place - https://another.place", URLSpan("https://some.place"), 0)
+            .append("Another Place | https://another.place/", URLSpan("https://some.place/"), 0)
+            .append("Another Place https://another.place/path", URLSpan("https://some.place/path"), 0)
+
+        val markedUpContent = markupHiddenUrls(context, content)
+        val asserts = listOf(
+            "Another Place: another.place",
+            "Another Place: another.place/",
+            "Another Place - https://another.place",
+            "Another Place | https://another.place/",
+            "Another Place https://another.place/path",
+        )
+        asserts.forEach {
+            Assert.assertTrue(markedUpContent.contains(context.getString(R.string.url_domain_notifier, it, "some.place")))
+        }
+    }
+
+    @Test
     fun validMentionsAreNotMarkedUp() {
         val builder = SpannableStringBuilder()
         for (mention in mentions) {

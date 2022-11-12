@@ -77,13 +77,16 @@ fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBu
         return@filter if (firstCharacter == '#' || firstCharacter == '@') {
             false
         } else {
-            var textDomain = getDomain(text.toString())
+            val lastPart = text.toString().split(' ').lastOrNull() ?: ""
+            var textDomain = getDomain(lastPart)
             if (textDomain.isBlank()) {
                 // Allow "some.domain" or "www.some.domain" without a domain notifier
-                textDomain = if (text.startsWith("www.")) {
-                    text.substring(4)
-                } else {
-                    text.toString()
+                textDomain = lastPart
+                if (textDomain.startsWith("www.")) {
+                    textDomain = textDomain.substring(4)
+                }
+                if (textDomain.endsWith("/")) {
+                    textDomain = textDomain.substring(0, textDomain.length - 1)
                 }
             }
             getDomain(it.url) != textDomain
