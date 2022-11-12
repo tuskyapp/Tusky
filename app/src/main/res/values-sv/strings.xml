@@ -9,21 +9,21 @@
     <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
     <string name="error_authorization_denied">Ingen behörighet.</string>
     <string name="error_retrieving_oauth_token">Misslyckades med att få en inloggnings-token.</string>
-    <string name="error_compose_character_limit">Statusen är för lång!</string>
+    <string name="error_compose_character_limit">Inlägget är för långt!</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
     <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
     <string name="error_media_upload_permission">Behörighet att läsa media krävs.</string>
     <string name="error_media_download_permission">Behörighet att spara media krävs.</string>
-    <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma status.</string>
+    <string name="error_media_upload_image_or_video">Bilder och videoklipp kan inte båda bifogas i samma inlägg.</string>
     <string name="error_media_upload_sending">Uppladdningen misslyckades.</string>
-    <string name="error_sender_account_gone">Kunde inte skicka toot.</string>
+    <string name="error_sender_account_gone">Kunde inte posta inlägg.</string>
     <string name="title_home">Hem</string>
     <string name="title_notifications">Aviseringar</string>
     <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
     <string name="title_direct_messages">Direkta meddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
-    <string name="title_view_thread">Toot</string>
+    <string name="title_view_thread">Tråd</string>
     <string name="title_posts">Inlägg</string>
     <string name="title_posts_with_replies">Med svar</string>
     <string name="title_posts_pinned">Fastnålade</string>
@@ -47,8 +47,8 @@
     <string name="post_content_show_less">Dölj</string>
     <string name="message_empty">Ingenting här.</string>
     <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
-    <string name="notification_reblog_format">%s knuffade din toot</string>
-    <string name="notification_favourite_format">%s favoriserade din toot</string>
+    <string name="notification_reblog_format">%s puffade ditt inlägg</string>
+    <string name="notification_favourite_format">%s favoriserade ditt inlägg</string>
     <string name="notification_follow_format">%s följer dig</string>
     <string name="report_username_format">Rapportera @%s</string>
     <string name="report_comment_hint">Ytterligare kommentarer?</string>
@@ -100,7 +100,7 @@
     <string name="action_reject">Avvisa</string>
     <string name="action_search">Sök</string>
     <string name="action_access_drafts">Utkast</string>
-    <string name="action_toggle_visibility">Toot synlighet</string>
+    <string name="action_toggle_visibility">Inläggssynlighet</string>
     <string name="action_content_warning">Innehållsvarning</string>
     <string name="action_emoji_keyboard">Emoji-tangentbord</string>
     <string name="action_add_tab">Lägg till flik</string>
@@ -208,14 +208,15 @@
     <string name="notification_follow_name">Nya följare</string>
     <string name="notification_follow_description">Aviseringar på nya följare</string>
     <string name="notification_boost_name">Knuffar</string>
-    <string name="notification_boost_description">Aviseringar när dina toots blir knuffade</string>
+    <string name="notification_boost_description">Aviseringar när dina inlägg blir puffade</string>
     <string name="notification_favourite_name">Favoriter</string>
-    <string name="notification_favourite_description">Aviseringar när dina toots blir markerade som favoriter</string>
+    <string name="notification_favourite_description">Aviseringar när dina inlägg blir favoritmarkerade</string>
     <string name="notification_mention_format">%s omnämnde dig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s och %4$d andra</string>
     <string name="notification_summary_medium">%1$s, %2$s, och %3$s</string>
     <string name="notification_summary_small">%1$s och %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d ny interaktion</item>
         <item quantity="other">%d nya interaktioner</item>
     </plurals>
     <string name="description_account_locked">Låst konto</string>
@@ -277,10 +278,13 @@
     <string name="hint_search_people_list">Sök efter personer du följer</string>
     <string name="action_add_to_list">Lägg till konto i listan</string>
     <string name="action_remove_from_list">Ta bort kontot från listan</string>
-    <string name="compose_active_account_description">Inlägg med kontot %1$s</string>
+    <string name="compose_active_account_description">Publicerar som %1$s</string>
     <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Beskriv för synskadade\n(%d teckengräns)</item>
+        <item quantity="one">Beskriv för synskadade
+\n(max %d tecken)</item>
+        <item quantity="other">Beskriv för synskadade
+\n(max %d tecken)</item>
     </plurals>
     <string name="action_set_caption">Ange bildtext</string>
     <string name="action_remove">Ta bort</string>
@@ -338,10 +342,10 @@
     <string name="conversation_2_recipients">%1$s och %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">max antal flikar %1$d uppnådd</item>
+        <item quantity="one">max antal flikar %1$d uppnådd</item>
+        <item quantity="other">max antal flikar %1$d uppnådda</item>
     </plurals>
-    <string name="description_post_media">        Media: %s
-    </string>
+    <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innehållsvarning: %s</string>
     <string name="description_post_media_no_description_placeholder">        Ingen beskrivning
     </string>
@@ -361,7 +365,7 @@
     <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
     <string name="edit_hashtag_hint">Hashtag utan #</string>
-    <string name="compose_shortcut_long_label">Skriv toot</string>
+    <string name="compose_shortcut_long_label">Skriv inlägg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
     <string name="notifications_clear">Rensa</string>
     <string name="notifications_apply_filter">Filtrera</string>
@@ -422,7 +426,7 @@
     <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen enbart är alfanumerisk, appliceras den om den matchar hela ordet</string>
-    <string name="pref_title_alway_open_spoiler">Expandera alltid toots med innehållsvarningar</string>
+    <string name="pref_title_alway_open_spoiler">Expandera alltid inlägg med innehållsvarningar</string>
     <string name="title_accounts">Konton</string>
     <string name="failed_search">Sökning misslyckades</string>
     <string name="action_add_poll">Skapa en omröstning</string>
@@ -485,9 +489,9 @@
     <string name="account_note_hint">Din privata notering om detta kontot</string>
     <string name="no_announcements">Det finns inga meddelanden.</string>
     <string name="title_announcements">Meddelanden</string>
-    <string name="notification_subscription_description">Aviseringar när någon du följer skrivit en ny toot</string>
-    <string name="notification_subscription_name">Nya toots</string>
-    <string name="pref_title_notification_filter_subscriptions">någon som jag följer har skrivit en ny toot</string>
+    <string name="notification_subscription_description">Aviseringar när någon du följer skrivit ett nytt inlägg</string>
+    <string name="notification_subscription_name">Nya inlägg</string>
+    <string name="pref_title_notification_filter_subscriptions">någon jag följer har skrivit ett nytt inlägg</string>
     <string name="notification_subscription_format">%s skrev precis</string>
     <string name="wellbeing_hide_stats_profile">Dölj kvantitativ information på profiler</string>
     <string name="wellbeing_hide_stats_posts">Dölj kvantitativ information på inlägg</string>
@@ -495,10 +499,80 @@
     <string name="review_notifications">Ändra aviseringar</string>
     <string name="wellbeing_mode_notice">Information som kan påverka ditt välmående kommer att döljas. Detta inkluderar:
 \n
-\n- Favorisering/Knuff/Följaraviseringar
-\n- Favorisering/Antal knuffar
-\n- Följare/Inlägg på profiler
+\n- Favoritmarkering-/Knuff-/Följaraviseringar
+\n- Favoritmarkering/Antal knuffar på inlägg
+\n- Följare/Inläggsstatistik på profiler
 \n
 \nPush-aviseringar påverkas inte, men du ändra dina aviseringinställningar manuellt.</string>
     <string name="pref_title_wellbeing_mode">Välmående</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Du kan inte ladda upp fler än %1$d mediebilaga.</item>
+        <item quantity="other">Du kan inte ladda upp fler än %1$d mediebilagor.</item>
+    </plurals>
+    <string name="delete_scheduled_post_warning">Radera detta schemalagda inlägg\?</string>
+    <string name="instance_rule_info">Genom att logga in accepterar du reglerna på %s.</string>
+    <string name="instance_rule_title">%s regler</string>
+    <string name="error_unfollowing_hashtag_format">Kunde inte avfölja #%s</string>
+    <string name="dialog_delete_conversation_warning">Radera denna konversation\?</string>
+    <string name="pref_show_self_username_always">Alltid</string>
+    <string name="dialog_push_notification_migration">För att använda pushnotiser via UnifiedPush behöver Tusky din tillåtelse att prenumerera på notiser på din Mastodon-server. Detta kräver att du loggar in igen för att ändra vilka OAuth-scopes Tusky har tillgång till. Genom använda alternativet logga in igen här eller i Kontoinställningarna behåller du alla dina lokala utkast och data i cache.</string>
+    <string name="set_focus_description">Tryck eller dra cirkeln för att välja fokuspunkten som alltid kommer synas i miniatyrbilder.</string>
+    <string name="label_duration">Varaktighet</string>
+    <string name="duration_indefinite">Oändligt</string>
+    <string name="dialog_push_notification_migration_other_accounts">Du har loggat in igen på ditt konto för att ge Tusky tillgång till push-prenumeration. Dock har du andra konton som inte har migrerats såhär ännu. Växla till dem och logga in igen för att aktivera stöd för UnifiedPush-notiser.</string>
+    <string name="action_unsubscribe_account">Sluta prenumerera</string>
+    <string name="description_post_language">Inläggsspråk</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="pref_show_self_username_disambiguate">När flera konton är inloggade</string>
+    <string name="pref_show_self_username_never">Aldrig</string>
+    <string name="notification_sign_up_name">Registreringar</string>
+    <string name="notification_sign_up_description">Notiser om nya användare</string>
+    <string name="notification_update_name">Inläggsredigeringar</string>
+    <string name="notification_update_description">Notiser när inlägg du interagerat med redigerats</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="action_edit_image">Redigera bild</string>
+    <string name="duration_14_days">14 dagar</string>
+    <string name="duration_30_days">30 dagar</string>
+    <string name="duration_60_days">60 dagar</string>
+    <string name="duration_90_days">90 dagar</string>
+    <string name="duration_no_change">(Ingen ändring)</string>
+    <string name="pref_title_show_self_username">Visa användarnamn i verktygsrader</string>
+    <string name="pref_title_confirm_favourites">Visa bekräftelsedialog före favoritmarkering</string>
+    <string name="dialog_delete_list_warning">Vill du verkligen radera listan %s\?</string>
+    <string name="drafts_post_failed_to_send">Det här inlägget kunde inte skickas!</string>
+    <string name="drafts_failed_loading_reply">Kunde inte ladda information om svar</string>
+    <string name="draft_deleted">Utkast raderat</string>
+    <string name="drafts_post_reply_removed">Inlägget du skrev ett utkast till svar på har raderats</string>
+    <string name="follow_requests_info">Även om ditt konto inte är låst så tänker administratörerna på %1$s att du kanske ändå vill granska följförfrågan från dessa konton manuellt.</string>
+    <string name="action_subscribe_account">Prenumerera</string>
+    <string name="tusky_compose_post_quicksetting_label">Skriv inlägg</string>
+    <string name="account_date_joined">Gick med i %1$s</string>
+    <string name="saving_draft">Sparar utkast…</string>
+    <string name="tips_push_notification_migration">Logga in igen på alla konton för att tillåta pushnotiser.</string>
+    <string name="error_multimedia_size_limit">Video- och ljudfiler kan inte överskrida %s MB i storlek.</string>
+    <string name="error_image_edit_failed">Bilden kunde inte redigeras.</string>
+    <string name="duration_365_days">365 dagar</string>
+    <string name="duration_180_days">180 dagar</string>
+    <string name="error_failed_set_focus">Kunde inte sätta fokuspunkt</string>
+    <string name="action_set_focus">Sätt fokuspunkt</string>
+    <string name="error_following_hashtag_format">Kunde inte följa #%s</string>
+    <string name="notification_sign_up_format">%s registrerade sig</string>
+    <string name="notification_update_format">%s redigerade sitt inlägg</string>
+    <string name="action_unbookmark">Ta bort bokmärke</string>
+    <string name="action_delete_conversation">Radera konversation</string>
+    <string name="pref_title_notification_filter_sign_ups">någon registrerade sig</string>
+    <string name="pref_title_notification_filter_updates">ett inlägg jag interagerat med har redigerats</string>
+    <string name="pref_title_animate_custom_emojis">Animera skräddarsydda emojis</string>
+    <string name="post_media_audio">Ljud</string>
+    <string name="post_media_attachments">Bilagor</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="title_migration_relogin">Logga in igen för pushnotiser</string>
+    <string name="action_dismiss">Avvisa</string>
+    <string name="action_details">Detaljer</string>
+    <string name="error_loading_account_details">Kunde inte ladda kontodetaljer</string>
+    <string name="title_login">Logga in</string>
+    <string name="error_could_not_load_login_page">Kunde inte ladda inloggningssidan.</string>
+    <string name="compose_save_draft_loses_media">Spara utkast\? (Bilagor kommer att laddas upp igen när du återställer utkastet.)</string>
+    <string name="failed_to_pin">Kunde inte fästa</string>
+    <string name="failed_to_unpin">Kunde inte lossa</string>
 </resources>
