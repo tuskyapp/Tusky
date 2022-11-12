@@ -404,6 +404,9 @@
     <string name="hint_search_people_list">Search for people you follow</string>
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
+    <string name="action_add_or_remove_from_list">Add or remove from list</string>
+    <string name="failed_to_add_to_list">Failed to add the account to the list</string>
+    <string name="failed_to_remove_from_list">Failed to remove the account from the list</string>
 
     <string name="compose_active_account_description">Posting as %1$s</string>
 
@@ -624,6 +627,7 @@
     <string name="no_drafts">You don\'t have any drafts.</string>
     <string name="no_scheduled_posts">You don\'t have any scheduled posts.</string>
     <string name="no_announcements">There are no announcements.</string>
+    <string name="no_lists">You don\'t have any lists.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>

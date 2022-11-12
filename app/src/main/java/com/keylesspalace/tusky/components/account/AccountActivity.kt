@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
@@ -740,6 +741,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             menu.removeItem(R.id.action_report)
         }
 
+        if (!viewModel.isSelf && followState != FollowState.FOLLOWING) {
+            menu.removeItem(R.id.action_add_or_remove_from_list)
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -850,6 +855,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_mute -> {
                 toggleMute()
+                return true
+            }
+            R.id.action_add_or_remove_from_list -> {
+                ListsForAccountFragment.newInstance(viewModel.accountId).show(supportFragmentManager, null)
                 return true
             }
             R.id.action_mute_domain -> {
