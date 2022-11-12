@@ -69,7 +69,7 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
 
 @VisibleForTesting
 fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBuilder {
-    val spannableContent = SpannableStringBuilder.valueOf(content)
+    val spannableContent = SpannableStringBuilder(content)
     val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
     val obscuredLinkSpans = originalSpans.filter {
         val text = spannableContent.subSequence(spannableContent.getSpanStart(it), spannableContent.getSpanEnd(it))
