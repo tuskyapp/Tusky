@@ -524,11 +524,11 @@
     <string name="error_multimedia_size_limit">Video- und Audiodateien dürfen nicht größer als %1$s MB sein.</string>
     <string name="error_following_hashtag_format">Fehler beim Folgen von #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Fehler beim Entfolgen von #%1$s</string>
-    <string name="delete_scheduled_post_warning">Diesen geplanten Beitrag löschen\?</string>
+    <string name="delete_scheduled_post_warning">Diesen geplanten Beitrag löschen?</string>
     <string name="instance_rule_title">%1$s-Regeln</string>
     <string name="instance_rule_info">Mit dem Anmelden stimmst du den Regeln von %1$s zu.</string>
     <string name="set_focus_description">Tippe oder ziehe den Kreis auf die Stelle, die in Vorschaubildern immer sichtbar sein soll.</string>
-    <string name="compose_save_draft_loses_media">Entwurf speichern\? (Anhänge werden erneut hochgeladen, sobald du den Entwurf wiederherstellst.)</string>
+    <string name="compose_save_draft_loses_media">Entwurf speichern? (Anhänge werden erneut hochgeladen, sobald du den Entwurf wiederherstellst.)</string>
     <string name="duration_no_change">(Keine Änderung)</string>
     <string name="pref_title_show_self_username">Profilname in der Hauptnavigation anzeigen</string>
     <string name="failed_to_pin">Anheften fehlgeschlagen</string>
@@ -554,7 +554,7 @@
     <string name="report_category_other">Sonstiges</string>
     <string name="error_following_hashtags_unsupported">Diese Instanz unterstützt das Folgen von Hashtags nicht.</string>
     <string name="title_followed_hashtags">Gefolgte Hashtags</string>
-    <string name="action_unfollow_hashtag_format">#%1$s entfolgen\?</string>
+    <string name="action_unfollow_hashtag_format">#%1$s entfolgen?</string>
     <string name="description_post_edited">Bearbeitet</string>
     <string name="a11y_label_loading_thread">Thread wird geladen …</string>
     <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
