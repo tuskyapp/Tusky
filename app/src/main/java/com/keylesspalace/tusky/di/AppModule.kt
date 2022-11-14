@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.db.AccountDao
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import dagger.Module
@@ -66,8 +67,11 @@ class AppModule {
                 AppDatabase.MIGRATION_32_33, AppDatabase.MIGRATION_33_34, AppDatabase.MIGRATION_34_35,
                 AppDatabase.MIGRATION_35_36, AppDatabase.MIGRATION_36_37, AppDatabase.MIGRATION_37_38,
                 AppDatabase.MIGRATION_38_39, AppDatabase.MIGRATION_39_40, AppDatabase.MIGRATION_40_41,
-                AppDatabase.MIGRATION_41_42,
+                AppDatabase.MIGRATION_41_42, AppDatabase.MIGRATION_42_43
             )
             .build()
     }
+
+    @Provides
+    fun providesAccountDao(db: AppDatabase): AccountDao = db.accountDao()
 }

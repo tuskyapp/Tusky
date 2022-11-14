@@ -173,6 +173,28 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     }
                 }
 
+                val activeAccount = accountManager.activeAccount
+                if (activeAccount != null) {
+                    listPreference {
+                        setTitle(R.string.pref_default_reply_privacy)
+                        setEntries(R.array.post_privacy_names)
+                        setEntryValues(R.array.post_privacy_values)
+                        key = PrefKeys.DEFAULT_REPLY_PRIVACY
+                        setSummaryProvider { entry }
+                        val visibility = activeAccount.defaultReplyPrivacy
+                        value = visibility.serverString()
+                        setIcon(getIconForVisibility(visibility))
+                        setOnPreferenceChangeListener { _, newValue ->
+                            val newVisibility = Status.Visibility.byString(newValue as String)
+                            setIcon(getIconForVisibility(newVisibility))
+                            activeAccount.defaultReplyPrivacy = newVisibility
+                            accountManager.saveAccount(activeAccount)
+                            eventHub.dispatch(PreferenceChangedEvent(key))
+                            true
+                        }
+                    }
+                }
+
                 switchPreference {
                     setTitle(R.string.pref_default_media_sensitivity)
                     setIcon(R.drawable.ic_eye_24dp)

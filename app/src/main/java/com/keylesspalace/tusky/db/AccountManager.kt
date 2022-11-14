@@ -33,14 +33,13 @@ import javax.inject.Singleton
 private const val TAG = "AccountManager"
 
 @Singleton
-class AccountManager @Inject constructor(db: AppDatabase) {
+class AccountManager @Inject constructor(private val accountDao: AccountDao) {
 
     @Volatile
     var activeAccount: AccountEntity? = null
 
     var accounts: MutableList<AccountEntity> = mutableListOf()
         private set
-    private val accountDao: AccountDao = db.accountDao()
 
     init {
         accounts = accountDao.loadAll().toMutableList()
