@@ -290,6 +290,10 @@ public abstract class SFragment extends Fragment implements Injectable {
                     showConfirmEditDialog(id, position, status);
                     return true;
                 }
+                case R.id.status_edit: {
+                    editStatus(id, position, status);
+                    return true;
+                }
                 case R.id.pin: {
                     timelineCases.pin(status.getId(), !status.isPinned())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -453,6 +457,26 @@ public abstract class SFragment extends Fragment implements Injectable {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void editStatus(final String id, final int position, final Status status) {
+        ComposeOptions composeOptions = new ComposeOptions();
+        composeOptions.setContent(status.getEditableText());
+        composeOptions.setInReplyToId(status.getInReplyToId());
+        composeOptions.setVisibility(status.getVisibility());
+        composeOptions.setContentWarning(status.getSpoilerText());
+        composeOptions.setMediaAttachments(status.getAttachments());
+        composeOptions.setSensitive(status.getSensitive());
+        composeOptions.setModifiedInitialState(true);
+        composeOptions.setLanguage(status.getLanguage());
+        composeOptions.setStatusId(status.getId());
+        if (status.getPoll() != null) {
+            composeOptions.setPoll(status.getPoll().toNewPoll(status.getCreatedAt()));
+        }
+
+        Intent intent = ComposeActivity
+                .startIntent(getContext(), composeOptions);
+        startActivity(intent);
     }
 
     private void showOpenAsDialog(String statusUrl, CharSequence dialogTitle) {

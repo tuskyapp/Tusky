@@ -1230,6 +1230,7 @@ class ComposeActivity :
         var poll: NewPoll? = null,
         var modifiedInitialState: Boolean? = null,
         var language: String? = null,
+        var statusId: String? = null,
     ) : Parcelable
 
     companion object {

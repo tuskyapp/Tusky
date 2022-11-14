@@ -169,6 +169,15 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): NetworkResult<Status>
 
+    @PUT("api/v1/statuses/{id}")
+    suspend fun editStatus(
+        @Path("id") statusId: String,
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Header("Idempotency-Key") idempotencyKey: String,
+        @Body editedStatus: NewStatus,
+    ): NetworkResult<Status>
+
     @GET("api/v1/statuses/{id}")
     suspend fun statusAsync(
         @Path("id") statusId: String

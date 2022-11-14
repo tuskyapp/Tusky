@@ -351,6 +351,10 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     showConfirmEditDialog(id, position, status)
                     return@setOnMenuItemClickListener true
                 }
+                R.id.status_edit -> {
+                    editStatus(id, position, status)
+                    return@setOnMenuItemClickListener true
+                }
                 R.id.pin -> {
                     viewModel.pinAccount(status, !status.isPinned())
                     return@setOnMenuItemClickListener true
@@ -486,5 +490,23 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
+    }
+
+    private fun editStatus(id: String, position: Int, status: Status) {
+        val intent = ComposeActivity.startIntent(
+            requireContext(),
+            ComposeOptions(
+                content = status.getEditableText() ?: "",
+                inReplyToId = status.inReplyToId,
+                visibility = status.visibility,
+                contentWarning = status.spoilerText,
+                mediaAttachments = status.attachments,
+                sensitive = status.sensitive,
+                poll = status.poll?.toNewPoll(status.createdAt),
+                language = status.language,
+                statusId = status.id,
+            )
+        )
+        startActivity(intent)
     }
 }
