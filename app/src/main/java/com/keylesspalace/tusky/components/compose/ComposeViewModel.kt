@@ -87,13 +87,18 @@ class ComposeViewModel @Inject constructor(
     val markMediaAsSensitive: MutableStateFlow<Boolean> =
         MutableStateFlow(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
 
-    val statusVisibility: MutableStateFlow<Status.Visibility> = MutableStateFlow(Status.Visibility.UNKNOWN)
+    val statusVisibility: MutableStateFlow<Status.Visibility> =
+        MutableStateFlow(Status.Visibility.UNKNOWN)
     val showContentWarning: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val poll: MutableStateFlow<NewPoll?> = MutableStateFlow(null)
     val scheduledAt: MutableStateFlow<String?> = MutableStateFlow(null)
 
     val media: MutableStateFlow<List<QueuedMedia>> = MutableStateFlow(emptyList())
-    val uploadError = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val uploadError = MutableSharedFlow<Throwable>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     lateinit var composeKind: ComposeActivity.ComposeKind
 
@@ -102,7 +107,11 @@ class ComposeViewModel @Inject constructor(
 
     private var setupComplete = false
 
-    suspend fun pickMedia(mediaUri: Uri, description: String? = null, focus: Attachment.Focus? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
+    suspend fun pickMedia(
+        mediaUri: Uri,
+        description: String? = null,
+        focus: Attachment.Focus? = null
+    ): Result<QueuedMedia> = withContext(Dispatchers.IO) {
         try {
             val (type, uri, size) = mediaUploader.prepareMedia(mediaUri, instanceInfo.first())
             val mediaItems = media.value
@@ -151,7 +160,8 @@ class ComposeViewModel @Inject constructor(
                 mediaValue + mediaItem
             }
         }
-        val mediaItem = stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
+        val mediaItem =
+            stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
 
         viewModelScope.launch {
             mediaUploader
@@ -162,6 +172,7 @@ class ComposeViewModel @Inject constructor(
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
+
                         is UploadEvent.FinishedEvent ->
                             item.copy(
                                 id = event.mediaId,
@@ -188,7 +199,13 @@ class ComposeViewModel @Inject constructor(
         return mediaItem
     }
 
-    private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?, focus: Attachment.Focus?) {
+    private fun addUploadedMedia(
+        id: String,
+        type: QueuedMedia.Type,
+        uri: Uri,
+        description: String?,
+        focus: Attachment.Focus?
+    ) {
         media.update { mediaValue ->
             val mediaItem = QueuedMedia(
                 localId = mediaUploader.getNewLocalMediaId(),
@@ -323,7 +340,10 @@ class ComposeViewModel @Inject constructor(
     }
 
     // Updates a QueuedMedia item arbitrarily, then sends description and focus to server
-    private suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
+    private suspend fun updateMediaItem(
+        localId: Int,
+        mutator: (QueuedMedia) -> QueuedMedia
+    ): Boolean {
         val newMediaList = media.updateAndGet { mediaValue ->
             mediaValue.map { mediaItem ->
                 if (mediaItem.localId == localId) {
@@ -372,8 +392,13 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
+
             '#' -> {
-                return api.searchSync(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
+                return api.searchSync(
+                    query = token,
+                    type = SearchType.Hashtag.apiParameter,
+                    limit = 10
+                )
                     .fold({ searchResult ->
                         searchResult.hashtags.map { AutocompleteResult.HashtagResult(it.name) }
                     }, { e ->
@@ -381,6 +406,7 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
+
             ':' -> {
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
@@ -393,6 +419,7 @@ class ComposeViewModel @Inject constructor(
                     AutocompleteResult.EmojiResult(emoji)
                 }
             }
+
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")
                 return emptyList()
@@ -407,15 +434,16 @@ class ComposeViewModel @Inject constructor(
         }
 
         composeKind = composeOptions?.kind ?: ComposeActivity.ComposeKind.NEW
+        inReplyToId = composeOptions?.inReplyToId
 
-        val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
+        val activeAccount = accountManager.activeAccount!!
+        val preferredVisibility =
+            if (inReplyToId != null) activeAccount.defaultReplyPrivacy else activeAccount.defaultPostPrivacy
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
         startingVisibility = Status.Visibility.byNum(
             preferredVisibility.num.coerceAtLeast(replyVisibility.num)
         )
-
-        inReplyToId = composeOptions?.inReplyToId
 
         modifiedInitialState = composeOptions?.modifiedInitialState == true
 
