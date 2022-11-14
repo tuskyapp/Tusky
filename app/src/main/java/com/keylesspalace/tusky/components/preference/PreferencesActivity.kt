@@ -72,35 +72,30 @@ class PreferencesActivity :
             setDisplayShowHomeEnabled(true)
         }
 
-        val fragmentTag = "preference_fragment_$EXTRA_PREFERENCE_TYPE"
+        val preferenceType = intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)
+
+        val fragmentTag = "preference_fragment_$preferenceType"
 
         val fragment: Fragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-            ?: when (intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
-                GENERAL_PREFERENCES -> {
-                    setTitle(R.string.action_view_preferences)
-                    PreferencesFragment.newInstance()
-                }
-                ACCOUNT_PREFERENCES -> {
-                    setTitle(R.string.action_view_account_preferences)
-                    AccountPreferencesFragment.newInstance()
-                }
-                NOTIFICATION_PREFERENCES -> {
-                    setTitle(R.string.pref_title_edit_notification_settings)
-                    NotificationPreferencesFragment.newInstance()
-                }
-                TAB_FILTER_PREFERENCES -> {
-                    setTitle(R.string.pref_title_post_tabs)
-                    TabFilterPreferencesFragment.newInstance()
-                }
-                PROXY_PREFERENCES -> {
-                    setTitle(R.string.pref_title_http_proxy_settings)
-                    ProxyPreferencesFragment.newInstance()
-                }
+            ?: when (preferenceType) {
+                GENERAL_PREFERENCES -> PreferencesFragment.newInstance()
+                ACCOUNT_PREFERENCES -> AccountPreferencesFragment.newInstance()
+                NOTIFICATION_PREFERENCES -> NotificationPreferencesFragment.newInstance()
+                TAB_FILTER_PREFERENCES -> TabFilterPreferencesFragment.newInstance()
+                PROXY_PREFERENCES -> ProxyPreferencesFragment.newInstance()
                 else -> throw IllegalArgumentException("preferenceType not known")
             }
 
         supportFragmentManager.commit {
             replace(R.id.fragment_container, fragment, fragmentTag)
+        }
+
+        when (preferenceType) {
+            GENERAL_PREFERENCES -> setTitle(R.string.action_view_preferences)
+            ACCOUNT_PREFERENCES -> setTitle(R.string.action_view_account_preferences)
+            NOTIFICATION_PREFERENCES -> setTitle(R.string.pref_title_edit_notification_settings)
+            TAB_FILTER_PREFERENCES -> setTitle(R.string.pref_title_post_tabs)
+            PROXY_PREFERENCES -> setTitle(R.string.pref_title_http_proxy_settings)
         }
 
         onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
@@ -140,10 +135,6 @@ class PreferencesActivity :
             "showSelfUsername", "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
             "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
-            }
-            "language" -> {
-                restartActivitiesOnBackPressedCallback.isEnabled = true
-                this.restartCurrentActivity()
             }
         }
 

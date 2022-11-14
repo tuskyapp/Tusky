@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
-import android.content.Context
-import android.content.res.Configuration
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
@@ -43,6 +41,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var notificationWorkerFactory: NotificationWorkerFactory
+
+    @Inject
+    lateinit var localeManager: LocaleManager
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -74,6 +75,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
         ThemeUtils.setAppNightMode(theme)
 
+        localeManager.setLocale()
+
         RxJavaPlugins.setErrorHandler {
             Log.w("RxJava", "undeliverable exception", it)
         }
@@ -86,20 +89,5 @@ class TuskyApplication : Application(), HasAndroidInjector {
         )
     }
 
-    override fun attachBaseContext(base: Context) {
-        localeManager = LocaleManager(base)
-        super.attachBaseContext(localeManager.setLocale(base))
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        localeManager.setLocale(this)
-    }
-
     override fun androidInjector() = androidInjector
-
-    companion object {
-        @JvmStatic
-        lateinit var localeManager: LocaleManager
-    }
 }
