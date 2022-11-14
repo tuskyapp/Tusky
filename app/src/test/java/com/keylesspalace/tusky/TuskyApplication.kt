@@ -16,9 +16,6 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
-import android.content.Context
-import android.content.res.Configuration
-import com.keylesspalace.tusky.util.LocaleManager
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 
@@ -28,20 +25,5 @@ class TuskyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this))
-    }
-
-    override fun attachBaseContext(base: Context) {
-        localeManager = LocaleManager(base)
-        super.attachBaseContext(localeManager.setLocale(base))
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        localeManager.setLocale(this)
-    }
-
-    companion object {
-        @JvmStatic
-        lateinit var localeManager: LocaleManager
     }
 }
