@@ -542,4 +542,7 @@
     <string name="delete_scheduled_post_warning">Bạn có chắc muốn xóa tút đã lên lịch\?</string>
     <string name="instance_rule_info">Đăng nhập nghĩa là bạn đồng ý với quy tắc của %s.</string>
     <string name="instance_rule_title">%s quy tắc</string>
+    <string name="compose_save_draft_loses_media">Lưu bản nháp\? (Bạn sẽ cần tải lên lại file đính kèm)</string>
+    <string name="failed_to_unpin">Không thể bỏ ghim</string>
+    <string name="failed_to_pin">Không thể ghim</string>
 </resources>

@@ -69,22 +69,18 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
 
 @VisibleForTesting
 fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBuilder {
-    val spannableContent = SpannableStringBuilder.valueOf(content)
+    val spannableContent = SpannableStringBuilder(content)
     val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
     val obscuredLinkSpans = originalSpans.filter {
-        val text = spannableContent.subSequence(spannableContent.getSpanStart(it), spannableContent.getSpanEnd(it))
-        val firstCharacter = text[0]
+        val start = spannableContent.getSpanStart(it)
+        val firstCharacter = content[start]
         return@filter if (firstCharacter == '#' || firstCharacter == '@') {
             false
         } else {
-            var textDomain = getDomain(text.toString())
+            val text = spannableContent.subSequence(start, spannableContent.getSpanEnd(it)).toString()
+            var textDomain = getDomain(text)
             if (textDomain.isBlank()) {
-                // Allow "some.domain" or "www.some.domain" without a domain notifier
-                textDomain = if (text.startsWith("www.")) {
-                    text.substring(4)
-                } else {
-                    text.toString()
-                }
+                textDomain = getDomain("https://$text")
             }
             getDomain(it.url) != textDomain
         }
