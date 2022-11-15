@@ -203,11 +203,14 @@ class LinkHelperTest {
     fun nonUriTextExactlyMatchingDomainIsNotMarkedUp() {
         val domain = "some.place"
         val content = SpannableStringBuilder()
-            .append(domain, URLSpan("https://some.place/"), 0)
-            .append(domain, URLSpan("https://some.place"), 0)
-            .append(domain, URLSpan("https://www.some.place"), 0)
-            .append("www.$domain", URLSpan("https://some.place"), 0)
-            .append("www.$domain", URLSpan("https://some.place/"), 0)
+            .append(domain, URLSpan("https://$domain/"), 0)
+            .append(domain, URLSpan("https://$domain"), 0)
+            .append(domain, URLSpan("https://www.$domain"), 0)
+            .append("www.$domain", URLSpan("https://$domain"), 0)
+            .append("www.$domain", URLSpan("https://$domain/"), 0)
+            .append("$domain/", URLSpan("https://$domain/"), 0)
+            .append("$domain/", URLSpan("https://$domain"), 0)
+            .append("$domain/", URLSpan("https://www.$domain"), 0)
 
         val markedUpContent = markupHiddenUrls(context, content)
         Assert.assertFalse(markedUpContent.contains("🔗"))
