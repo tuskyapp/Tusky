@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
@@ -474,13 +475,17 @@ public abstract class SFragment extends Fragment implements Injectable {
     }
 
     private void requestDownloadAllMedia(Status status) {
-        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        ((BaseActivity) getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadAllMedia(status);
-            } else {
-                Toast.makeText(getContext(), R.string.error_media_download_permission, Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            ((BaseActivity) getActivity()).requestPermissions(permissions, (permissions1, grantResults) -> {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    downloadAllMedia(status);
+                } else {
+                    Toast.makeText(getContext(), R.string.error_media_download_permission, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            downloadAllMedia(status);
+        }
     }
 }
