@@ -27,11 +27,11 @@ class AbsoluteTimeFormatterTest {
     @Test
     fun `same year formatting`() {
         val nextDay = Date.from(Instant.parse("2022-04-12T00:10:00.00Z"))
-        assertEquals("04-12 00:10", formatter.format(nextDay, true, now))
-        assertEquals("04-12 00:10", formatter.format(nextDay, false, now))
+        assertEquals("12 Apr, 00:10", formatter.format(nextDay, true, now))
+        assertEquals("12 Apr, 00:10", formatter.format(nextDay, false, now))
         val endOfYear = Date.from(Instant.parse("2022-12-31T23:59:00.00Z"))
-        assertEquals("12-31 23:59", formatter.format(endOfYear, true, now))
-        assertEquals("12-31 23:59", formatter.format(endOfYear, false, now))
+        assertEquals("31 Dec, 23:59", formatter.format(endOfYear, true, now))
+        assertEquals("31 Dec, 23:59", formatter.format(endOfYear, false, now))
     }
 
     @Test
