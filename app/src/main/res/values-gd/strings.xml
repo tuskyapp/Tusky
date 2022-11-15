@@ -578,4 +578,7 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="error_failed_set_focus">Dh’fhàillig suidheachadh na puinge-fòcais</string>
     <string name="action_set_focus">Suidhich puing an fhòcais</string>
+    <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
+    <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %s.</string>
+    <string name="instance_rule_title">riaghailtean %s</string>
 </resources>
