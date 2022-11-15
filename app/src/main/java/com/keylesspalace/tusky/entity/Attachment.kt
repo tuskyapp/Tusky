@@ -68,7 +68,8 @@ data class Attachment(
     @Parcelize
     data class MetaData(
         val focus: Focus?,
-        val duration: Float?
+        val duration: Float?,
+        val original: Size?,
     ) : Parcelable
 
     /**
@@ -81,5 +82,15 @@ data class Attachment(
     data class Focus(
         val x: Float,
         val y: Float
+    ) : Parcelable
+
+    /**
+     * The size of an image, used to specify the width/height.
+     */
+    @Parcelize
+    data class Size(
+        val width: Int,
+        val height: Int,
+        val aspect: Double
     ) : Parcelable
 }

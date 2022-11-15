@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -116,6 +117,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private final Drawable mediaPreviewUnloaded;
 
+    private final ConstraintSet constraintSet = new ConstraintSet();
+
     protected StatusBaseViewHolder(View itemView) {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
@@ -179,6 +182,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
 
         mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
+
+        constraintSet.clone(mediaContainer);
     }
 
     protected abstract int getMediaPreviewHeight(Context context);
@@ -461,10 +466,35 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         final int mediaPreviewHeight = getMediaPreviewHeight(context);
 
-        if (n <= 2) {
+        ConstraintLayout mediaContainer = itemView.findViewById(R.id.status_media_preview_container);
+
+        if (n == 1) {
+            MetaData meta = attachments.get(0).getMeta();
+            Attachment.Size size = meta != null ? meta.getOriginal() : null;
+            if (size != null) {
+                double aspect = meta.getOriginal().getAspect();
+                if (aspect <= 0.5 || aspect >= 2.0) {
+                    size = null;
+                }
+            }
+            if (size == null) {
+                constraintSet.setDimensionRatio(R.id.status_media_preview_0, null);
+                constraintSet.applyTo(mediaContainer);
+                mediaPreviews[0].getLayoutParams().height = mediaPreviewHeight * 2;
+            } else {
+                String ratio = "H," + size.getWidth() + ":" + size.getHeight();
+                constraintSet.setDimensionRatio(R.id.status_media_preview_0, ratio);
+                constraintSet.applyTo(mediaContainer);
+                mediaPreviews[0].getLayoutParams().height = 0;
+            }
+        } else if (n <= 2) {
+            constraintSet.setDimensionRatio(R.id.status_media_preview_0, null);
+            constraintSet.applyTo(mediaContainer);
             mediaPreviews[0].getLayoutParams().height = mediaPreviewHeight * 2;
             mediaPreviews[1].getLayoutParams().height = mediaPreviewHeight * 2;
         } else {
+            constraintSet.setDimensionRatio(R.id.status_media_preview_0, null);
+            constraintSet.applyTo(mediaContainer);
             mediaPreviews[0].getLayoutParams().height = mediaPreviewHeight;
             mediaPreviews[1].getLayoutParams().height = mediaPreviewHeight;
             mediaPreviews[2].getLayoutParams().height = mediaPreviewHeight;
