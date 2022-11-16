@@ -561,4 +561,7 @@
     <string name="delete_scheduled_post_warning">删除这条定时嘟文吗？</string>
     <string name="instance_rule_info">登录即表示您同意 %s 的规定。</string>
     <string name="instance_rule_title">%s 的规定</string>
+    <string name="compose_save_draft_loses_media">保存草稿？（当您恢复草稿时附件将被再次上传。）</string>
+    <string name="failed_to_pin">固定失败</string>
+    <string name="failed_to_unpin">取消固定失败</string>
 </resources>

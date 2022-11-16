@@ -165,10 +165,12 @@ class LinkHelperTest {
         val maliciousUrl = "https://$maliciousDomain/to/go"
         val content = SpannableStringBuilder()
         content.append(displayedContent, URLSpan(maliciousUrl), 0)
+        val oldContent = content.toString()
         Assert.assertEquals(
             context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain),
             markupHiddenUrls(context, content).toString()
         )
+        Assert.assertEquals(oldContent, content.toString())
     }
 
     @Test
@@ -203,11 +205,14 @@ class LinkHelperTest {
     fun nonUriTextExactlyMatchingDomainIsNotMarkedUp() {
         val domain = "some.place"
         val content = SpannableStringBuilder()
-            .append(domain, URLSpan("https://some.place/"), 0)
-            .append(domain, URLSpan("https://some.place"), 0)
-            .append(domain, URLSpan("https://www.some.place"), 0)
-            .append("www.$domain", URLSpan("https://some.place"), 0)
-            .append("www.$domain", URLSpan("https://some.place/"), 0)
+            .append(domain, URLSpan("https://$domain/"), 0)
+            .append(domain, URLSpan("https://$domain"), 0)
+            .append(domain, URLSpan("https://www.$domain"), 0)
+            .append("www.$domain", URLSpan("https://$domain"), 0)
+            .append("www.$domain", URLSpan("https://$domain/"), 0)
+            .append("$domain/", URLSpan("https://$domain/"), 0)
+            .append("$domain/", URLSpan("https://$domain"), 0)
+            .append("$domain/", URLSpan("https://www.$domain"), 0)
 
         val markedUpContent = markupHiddenUrls(context, content)
         Assert.assertFalse(markedUpContent.contains("🔗"))
