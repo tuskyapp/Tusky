@@ -2,10 +2,10 @@ package com.keylesspalace.tusky.util
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import org.junit.Assert.assertEquals
 
 private const val S_IN_MS = 1000L
 
