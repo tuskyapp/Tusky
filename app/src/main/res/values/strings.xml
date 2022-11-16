@@ -153,6 +153,7 @@
     <string name="action_open_faved_by">Show favorites</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="action_details">Details</string>
+    <string name="action_add_reaction">add reaction</string>
 
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
