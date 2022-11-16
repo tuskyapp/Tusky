@@ -47,6 +47,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -561,7 +562,7 @@ class ComposeActivity :
     private fun getInitialLanguage(language: String? = null): String {
         return if (language.isNullOrEmpty()) {
             // Setting the application ui preference sets the default locale
-            Locale.getDefault().language
+            AppCompatDelegate.getApplicationLocales()[0]?.language ?: Locale.getDefault().language
         } else {
             language
         }

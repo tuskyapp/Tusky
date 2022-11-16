@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
+import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.getNonNullString
@@ -45,6 +46,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var accountManager: AccountManager
+
+    @Inject
+    lateinit var localeManager: LocaleManager
 
     private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
     private var httpProxyPref: Preference? = null
@@ -71,10 +75,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue("default")
                     setEntries(R.array.language_entries)
                     setEntryValues(R.array.language_values)
-                    key = PrefKeys.LANGUAGE
+                    key = PrefKeys.LANGUAGE + "_" // deliberately not the actual key, the real handling happens in LocaleManager
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_language)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_translate)
+                    preferenceDataStore = localeManager
                 }
 
                 listPreference {
