@@ -230,6 +230,7 @@
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Solicitud enviada</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="status_created_at_now">Ahora</string>
     <string name="abbreviated_in_years">en %dy</string>
     <string name="abbreviated_in_days">en %dd</string>
     <string name="abbreviated_in_hours">en %dh</string>
