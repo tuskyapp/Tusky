@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
     <TextView
         android:id="@+id/listNameView"
@@ -18,9 +18,10 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:drawableTint="?android:attr/textColorSecondary"
         app:drawableStartCompat="@drawable/ic_list"
+        app:drawableTint="?android:attr/textColorSecondary"
         tools:text="Example list" />
 
     <ImageButton
