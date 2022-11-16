@@ -94,7 +94,7 @@ class FollowedTagsActivity : BaseActivity(), HashtagActionListener {
         }
     }
 
-    private suspend fun refreshDisplay() {
+    private fun refreshDisplay() {
         binding.followedTagsView.adapter = FollowedTagsAdapter(this, this, tags.map { it.name })
     }
 
