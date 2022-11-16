@@ -177,6 +177,7 @@
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
     <string name="confirmation_domain_unmuted">%s unhidden</string>
+    <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
     <string name="post_sent">Sent!</string>
     <string name="post_sent_long">Reply sent successfully.</string>

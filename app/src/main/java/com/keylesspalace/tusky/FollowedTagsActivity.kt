@@ -1,14 +1,13 @@
 package com.keylesspalace.tusky
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.adapter.FollowedTagsAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
 import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -19,7 +18,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class FollowedTagsActivity : BaseActivity() {
+class FollowedTagsActivity : BaseActivity(), HashtagActionListener {
     @Inject
     lateinit var api: MastodonApi
 
@@ -42,42 +41,61 @@ class FollowedTagsActivity : BaseActivity() {
         loadTags()
     }
 
-    private suspend fun refreshDisplay() {
-        binding.followedTagsView.adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            tags.map { it.name }
-        )
-        binding.followedTagsView.onItemClickListener =
-            AdapterView.OnItemClickListener { _, _, position, _ ->
-                val tagName = tags[position].name
-                AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.action_unfollow_hashtag_format, tagName))
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                        lifecycleScope.launch {
-                            api.unfollowTag(tagName).fold(
-                                {
-                                    tags.removeAt(position)
-                                    refreshDisplay()
-                                },
-                                {
-                                    Snackbar.make(
-                                        this@FollowedTagsActivity,
-                                        binding.followedTagsView,
-                                        getString(
-                                            R.string.error_unfollowing_hashtag_format,
-                                            tagName
-                                        ),
-                                        Snackbar.LENGTH_SHORT
-                                    )
-                                        .show()
-                                }
-                            )
+    fun follow(tagName: String, position: Int) {
+        lifecycleScope.launch {
+            api.followTag(tagName).fold(
+                {
+                    tags.add(position, it)
+                    refreshDisplay()
+                },
+                {
+                    Snackbar.make(
+                        this@FollowedTagsActivity,
+                        binding.followedTagsView,
+                        getString(R.string.error_following_hashtag_format, tagName),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            )
+        }
+    }
+
+    override fun unfollow(tagName: String, position: Int) {
+        lifecycleScope.launch {
+            api.unfollowTag(tagName).fold(
+                {
+                    tags.removeAt(position)
+                    refreshDisplay()
+                    Snackbar.make(
+                        this@FollowedTagsActivity,
+                        binding.followedTagsView,
+                        getString(R.string.confirmation_hashtag_unfollowed, tagName),
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.action_undo) {
+                            follow(tagName, position)
                         }
-                    }
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show()
-            }
+                        .show()
+                },
+                {
+                    Snackbar.make(
+                        this@FollowedTagsActivity,
+                        binding.followedTagsView,
+                        getString(
+                            R.string.error_unfollowing_hashtag_format,
+                            tagName
+                        ),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            )
+        }
+    }
+
+    private suspend fun refreshDisplay() {
+        binding.followedTagsView.adapter = FollowedTagsAdapter(this, this, tags.map { it.name })
     }
 
     private fun loadTags() {
