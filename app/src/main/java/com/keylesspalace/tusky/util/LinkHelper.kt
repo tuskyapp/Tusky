@@ -78,6 +78,7 @@ fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBu
             false
         } else {
             val text = spannableContent.subSequence(start, spannableContent.getSpanEnd(it)).toString()
+                .split(' ').lastOrNull() ?: ""
             var textDomain = getDomain(text)
             if (textDomain.isBlank()) {
                 textDomain = getDomain("https://$text")
