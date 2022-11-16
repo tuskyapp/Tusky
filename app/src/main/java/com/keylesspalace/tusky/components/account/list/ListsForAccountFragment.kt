@@ -138,6 +138,10 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             }
         }
 
+        binding.doneButton.setOnClickListener {
+            dismiss()
+        }
+
         load()
     }
 
