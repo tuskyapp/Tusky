@@ -135,7 +135,7 @@
     <string name="label_quick_reply">Antworten …</string>
     <string name="label_avatar">Profilbild</string>
     <string name="label_header">Titelbild</string>
-    <string name="link_whats_an_instance">Was ist eine Instanz\?</string>
+    <string name="link_whats_an_instance">Was ist eine Instanz?</string>
     <string name="login_connection">Wird verbunden …</string>
     <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a>
 \n
