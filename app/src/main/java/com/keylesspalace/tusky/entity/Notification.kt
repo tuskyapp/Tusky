@@ -25,7 +25,8 @@ data class Notification(
     val type: Type,
     val id: String,
     val account: TimelineAccount,
-    val status: Status?
+    val status: Status?,
+    val report: Report?,
 ) {
 
     @JsonAdapter(NotificationTypeAdapter::class)
@@ -40,6 +41,7 @@ data class Notification(
         STATUS("status"),
         SIGN_UP("admin.sign_up"),
         UPDATE("update"),
+        REPORT("admin.report"),
         ;
 
         companion object {
@@ -52,7 +54,7 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE)
+            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
         }
 
         override fun toString(): String {
