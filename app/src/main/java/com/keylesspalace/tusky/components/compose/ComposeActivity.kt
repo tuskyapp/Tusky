@@ -51,6 +51,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -535,8 +536,25 @@ class ComposeActivity :
     }
 
     private fun setupLanguageSpinner(initialLanguage: String?) {
-        val locales = Locale.getAvailableLocales()
-            .filter { it.country.isNullOrEmpty() && it.script.isNullOrEmpty() && it.variant.isNullOrEmpty() } // Only "base" languages, "en" but not "en_DK"
+        val locales = mutableListOf<Locale>().apply {
+            val preferredLocales = LocaleListCompat.getDefault()
+
+            // Prioritize user default locales
+            for (index in 0 until preferredLocales.size()) {
+                val locale = preferredLocales[index]
+                if (locale != null) {
+                    add(locale)
+                }
+            }
+            addAll(
+                // Only "base" languages, "en" but not "en_DK"
+                Locale.getAvailableLocales().filter {
+                    it.country.isNullOrEmpty() &&
+                        it.script.isNullOrEmpty() &&
+                        it.variant.isNullOrEmpty()
+                }
+            )
+        }
         var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
         if (currentLocaleIndex < 0) {
             Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
