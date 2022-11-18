@@ -366,11 +366,12 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     private fun Status.toViewData(detailed: Boolean = false): StatusViewData.Concrete {
+        val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statuses?.find { it.id == this.id }
         return toViewData(
-            isShowingContent = alwaysShowSensitiveMedia || !actionableStatus.sensitive,
-            isExpanded = alwaysOpenSpoiler,
-            isCollapsed = !detailed,
-            isDetailed = detailed
+            isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
+            isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
+            isCollapsed = oldStatus?.isCollapsed ?: !detailed,
+            isDetailed = oldStatus?.isDetailed ?: detailed
         )
     }
 
