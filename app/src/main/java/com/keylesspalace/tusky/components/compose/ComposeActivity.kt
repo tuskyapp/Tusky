@@ -535,26 +535,28 @@ class ComposeActivity :
         )
     }
 
-    private fun setupLanguageSpinner(initialLanguage: String?) {
-        val locales = mutableListOf<Locale>().apply {
-            val preferredLocales = LocaleListCompat.getDefault()
-
-            // Prioritize user default locales
-            for (index in 0 until preferredLocales.size()) {
-                val locale = preferredLocales[index]
-                if (locale != null) {
-                    add(locale)
-                }
+    private fun mergeLocaleListCompat(list: MutableList<Locale>, localeListCompat: LocaleListCompat) {
+        for (index in 0 until localeListCompat.size()) {
+            val locale = localeListCompat[index]
+            if (locale != null && !list.contains(locale)) {
+                list.add(locale)
             }
-            addAll(
-                // Only "base" languages, "en" but not "en_DK"
-                Locale.getAvailableLocales().filter {
-                    it.country.isNullOrEmpty() &&
-                        it.script.isNullOrEmpty() &&
-                        it.variant.isNullOrEmpty()
-                }
-            )
         }
+    }
+
+    private fun setupLanguageSpinner(initialLanguage: String?) {
+        val locales = mutableListOf<Locale>()
+        mergeLocaleListCompat(locales, AppCompatDelegate.getApplicationLocales()) // configured app languages first
+        mergeLocaleListCompat(locales, LocaleListCompat.getDefault()) // then configured system languages
+        locales.addAll( // finally, other languages
+            // Only "base" languages, "en" but not "en_DK"
+            Locale.getAvailableLocales().filter {
+                it.country.isNullOrEmpty() &&
+                    it.script.isNullOrEmpty() &&
+                    it.variant.isNullOrEmpty()
+            }
+        )
+
         var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
         if (currentLocaleIndex < 0) {
             Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
