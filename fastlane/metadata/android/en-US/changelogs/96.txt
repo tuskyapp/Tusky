@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- New App icon by Dzuk https://dzuk.zone/
+- You can now follow hashtags. Click on a hashtag and then on the icon in the toolbar.
+- Support for Android 13
+- new dropdown in the compose view to set the language of a post
+- The media tab in profiles now respects sensitive media and loads smoother.
+- It is now possible to set the focus point of an image before posting
+- New option to show your full username in the toolbar
