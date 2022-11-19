@@ -19,8 +19,6 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
@@ -48,9 +46,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var accountManager: AccountManager
-
-    @Inject
-    lateinit var eventHub: EventHub
 
     @Inject
     lateinit var localeManager: LocaleManager

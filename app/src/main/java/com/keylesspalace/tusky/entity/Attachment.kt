@@ -70,6 +70,7 @@ data class Attachment(
         val focus: Focus?,
         val duration: Float?,
         val original: Size?,
+        val small: Size?,
     ) : Parcelable
 
     /**

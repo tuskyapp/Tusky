@@ -68,11 +68,6 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         this.listener = listener;
     }
 
-    @Override
-    protected int getMediaPreviewHeight(Context context) {
-        return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
-    }
-
     void setupWithConversation(
             @NonNull ConversationViewData conversation,
             @Nullable Object payloads
@@ -108,10 +103,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             } else {
                 setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent());
                 // Hide all unused views.
-                mediaPreviews[0].setVisibility(View.GONE);
-                mediaPreviews[1].setVisibility(View.GONE);
-                mediaPreviews[2].setVisibility(View.GONE);
-                mediaPreviews[3].setVisibility(View.GONE);
+                mediaPreview.setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
 
