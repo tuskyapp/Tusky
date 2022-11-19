@@ -589,7 +589,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val adapter = MainPagerAdapter(tabs, this)
         binding.viewPager.adapter = adapter
-        TabLayoutMediator(activeTabLayout, binding.viewPager) { _: TabLayout.Tab?, _: Int -> }.attach()
+        val smoothScroll = false; // avoid other timelines being loaded needlessly
+        TabLayoutMediator(activeTabLayout, binding.viewPager, true, smoothScroll) { _: TabLayout.Tab?, _: Int -> }.attach()
         activeTabLayout.removeAllTabs()
         for (i in tabs.indices) {
             val tab = activeTabLayout.newTab()
