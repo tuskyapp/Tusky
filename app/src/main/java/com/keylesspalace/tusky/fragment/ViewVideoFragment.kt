@@ -18,27 +18,36 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.method.ScrollingMovementMethod
+import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.core.view.GestureDetectorCompat
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
+import kotlin.math.abs
 
 class ViewVideoFragment : ViewMediaFragment() {
+    interface VideoActionsListener {
+        fun onDismiss()
+    }
 
     private var _binding: FragmentViewVideoBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var videoActionsListener: VideoActionsListener
     private lateinit var toolbar: View
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
@@ -51,6 +60,11 @@ class ViewVideoFragment : ViewMediaFragment() {
     private val TOOLBAR_HIDE_DELAY_MS = 3000L
     private lateinit var mediaController: MediaController
     private var isAudio = false
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        videoActionsListener = context as VideoActionsListener
+    }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         // Start/pause/resume video playback as fragment is shown/hidden
@@ -168,6 +182,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
@@ -177,6 +192,32 @@ class ViewVideoFragment : ViewMediaFragment() {
         }
         val url = attachment.url
         isAudio = attachment.type == Attachment.Type.AUDIO
+
+        val gestureDetector: GestureDetectorCompat
+        val simpleOnGestureListener: GestureDetector.SimpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(event: MotionEvent): Boolean {
+                return true
+            }
+
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (abs(velocityY) > abs(velocityX)) {
+                    videoActionsListener.onDismiss()
+                    return true
+                }
+                return false
+            }
+        }
+
+        gestureDetector = GestureDetectorCompat(requireContext(), simpleOnGestureListener)
+        binding.root.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+        }
+
         finalizeViewSetup(url, attachment.previewUrl, attachment.description)
     }
 
