@@ -226,8 +226,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 setContentWarningButtonText(!expanded);
 
                 this.setTextVisible(sensitive, !expanded, content, mentions, tags, emojis, poll, statusDisplayOptions, listener);
+                mediaContainer.setVisibility(!expanded ? View.VISIBLE : View.GONE);
             });
             this.setTextVisible(sensitive, expanded, content, mentions, tags, emojis, poll, statusDisplayOptions, listener);
+            mediaContainer.setVisibility(expanded ? View.VISIBLE : View.GONE);
         } else {
             contentWarningDescription.setVisibility(View.GONE);
             contentWarningButton.setVisibility(View.GONE);
@@ -265,7 +267,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         } else {
             hidePoll();
-            LinkHelper.setClickableMentions(this.content, mentions, listener);
+            this.content.setText(""); // otherwise some random other status text is displayed (?)
         }
         if (TextUtils.isEmpty(this.content.getText())) {
             this.content.setVisibility(View.GONE);
