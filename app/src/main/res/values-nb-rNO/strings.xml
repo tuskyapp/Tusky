@@ -330,7 +330,7 @@
     <string name="pref_title_bot_overlay">Vis robotindikator</string>
     <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
     <string name="action_delete_and_redraft">Slett og skriv på nytt</string>
-    <string name="dialog_redraft_post_warning">Vil du slette denne tuten og skrive den på nytt\?</string>
+    <string name="dialog_redraft_post_warning">Vil du slette denne tuten og skrive den på nytt?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s stemme</item>
@@ -639,9 +639,9 @@
     <string name="title_public_trending_hashtags">Trendy hashtaggs</string>
     <string name="pref_title_show_stat_inline">Vis poststatistikk i tidslinjen</string>
     <string name="load_newest_notifications">Last de nyeste varslene</string>
-    <string name="compose_delete_draft">Del utkast\?</string>
-    <string name="error_missing_edits">Serveren din vet at denne posten ble endret, men har ingen kopi av entringene så de kann ikke vises.
-\n
+    <string name="compose_delete_draft">Del utkast?</string>
+    <string name="error_missing_edits">Serveren din vet at denne posten ble endret, men har ingen kopi av entringene så de kann ikke vises. 
+\n 
 \nDette er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="pref_title_show_self_boosts">Vis selvompostinger</string>
     <string name="error_media_upload_sending_fmt">Opplasting feilet: %1$s</string>
