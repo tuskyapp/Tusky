@@ -1,28 +1,27 @@
 package com.keylesspalace.tusky.util
 
+import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
+import com.keylesspalace.tusky.R
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
 
-private const val S_IN_MS = 1000L
+private const val STATUS_CREATED_AT_NOW = "test"
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class TimestampUtilsTest {
-    private val ctx = InstrumentationRegistry.getInstrumentation().targetContext
-
-    @Test
-    fun shouldShowNowForSmallTimeSpans() {
-        assertEquals("now", TimestampUtils.getRelativeTimeSpanString(ctx, 0, 300))
-        assertEquals("now", TimestampUtils.getRelativeTimeSpanString(ctx, 300, 0))
+    private val ctx: Context = mock {
+        on { getString(R.string.status_created_at_now) } doReturn STATUS_CREATED_AT_NOW
     }
 
     @Test
-    fun shouldShowSecondsForLTOneMinute() {
-        assertEquals("1s", TimestampUtils.getRelativeTimeSpanString(ctx, 0, 1 * S_IN_MS))
-        assertEquals("54s", TimestampUtils.getRelativeTimeSpanString(ctx, 0, 54 * S_IN_MS))
+    fun shouldShowNowForSmallTimeSpans() {
+        assertEquals(STATUS_CREATED_AT_NOW, TimestampUtils.getRelativeTimeSpanString(ctx, 0, 300))
+        assertEquals(STATUS_CREATED_AT_NOW, TimestampUtils.getRelativeTimeSpanString(ctx, 300, 0))
     }
 }
