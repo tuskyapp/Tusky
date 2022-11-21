@@ -102,6 +102,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private lateinit var accountFieldAdapter: AccountFieldAdapter
 
+    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
     private var muting: Boolean = false
@@ -241,6 +243,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.accountFragmentViewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
+        val enableSwipeForTabs = preferences.getBoolean(PrefKeys.ENABLE_SWIPE_FOR_TABS, true)
+        binding.accountFragmentViewPager.isUserInputEnabled = enableSwipeForTabs
 
         binding.accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
