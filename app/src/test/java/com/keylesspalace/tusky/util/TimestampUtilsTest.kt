@@ -23,5 +23,7 @@ class TimestampUtilsTest {
     fun shouldShowNowForSmallTimeSpans() {
         assertEquals(STATUS_CREATED_AT_NOW, TimestampUtils.getRelativeTimeSpanString(ctx, 0, 300))
         assertEquals(STATUS_CREATED_AT_NOW, TimestampUtils.getRelativeTimeSpanString(ctx, 300, 0))
+        assertEquals(STATUS_CREATED_AT_NOW, TimestampUtils.getRelativeTimeSpanString(ctx, 501, 0))
+        assertEquals(STATUS_CREATED_AT_NOW, TimestampUtils.getRelativeTimeSpanString(ctx, 0, 999))
     }
 }

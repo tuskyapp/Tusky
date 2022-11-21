@@ -21,7 +21,6 @@ import com.keylesspalace.tusky.R;
 
 public class TimestampUtils {
 
-    private static final long ZERO_SECOND_THRESHOLD_IN_MILLIS = 500;
     private static final long SECOND_IN_MILLIS = 1000;
     private static final long MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
     private static final long HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
@@ -35,7 +34,7 @@ public class TimestampUtils {
     public static String getRelativeTimeSpanString(Context context, long then, long now) {
         long span = now - then;
         boolean future = false;
-        if (Math.abs(span) < ZERO_SECOND_THRESHOLD_IN_MILLIS) {
+        if (Math.abs(span) < SECOND_IN_MILLIS) {
             return context.getString(R.string.status_created_at_now);
         }
         else if (span < 0) {
