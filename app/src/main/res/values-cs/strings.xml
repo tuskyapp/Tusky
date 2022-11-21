@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s si oblíbil/a váš příspěvek</string>
     <string name="notification_follow_format">%1$s vás nyní sleduje</string>
     <string name="report_username_format">Nahlásit uživatele @%1$s</string>
-    <string name="report_comment_hint">Další komentáře\?</string>
+    <string name="report_comment_hint">Další komentáře?</string>
     <string name="action_quick_reply">Rychlá odpověď</string>
     <string name="action_reply">Odpovědět</string>
     <string name="action_reblog">Boostnout</string>
@@ -136,7 +136,7 @@
     <string name="label_quick_reply">Odpovědět…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Záhlaví</string>
-    <string name="link_whats_an_instance">Co je to server\?</string>
+    <string name="link_whats_an_instance">Co je to server?</string>
     <string name="login_connection">Připojuji se…</string>
     <string name="dialog_whats_an_instance">Sem může být zadána adresa či doména jakéhokoliv serveru, například mastodon.social, icosahedron.website, social.tchncs.de a <a href="https://instances.social">další!</a>
 \n
@@ -150,7 +150,7 @@
     <string name="dialog_download_image">Stáhnout</string>
     <string name="dialog_message_cancel_follow_request">Zrušit požadavek o sledování?</string>
     <string name="dialog_unfollow_warning">Přestat sledovat tento účet?</string>
-    <string name="dialog_delete_post_warning">Smazat tento příspěvek\?</string>
+    <string name="dialog_delete_post_warning">Smazat tento příspěvek?</string>
     <string name="visibility_public">Veřejný: Poslat na veřejné časové osy</string>
     <string name="visibility_unlisted">Neuvedený: Neposlat na veřejné časové osy</string>
     <string name="visibility_private">Pouze pro sledující: Poslat pouze sledujícím</string>
@@ -356,7 +356,7 @@
     <string name="pref_title_bot_overlay">Zobrazovat indikátor pro roboty</string>
     <string name="notification_clear_text">Jste si jistý/á, že chcete trvale vymazat všechna vaše oznámení\?</string>
     <string name="action_delete_and_redraft">Smazat a přepsat</string>
-    <string name="dialog_redraft_post_warning">Smazat a přepsat tento příspěvek\?</string>
+    <string name="dialog_redraft_post_warning">Smazat a přepsat tento příspěvek?</string>
     <string name="poll_info_format"> \u0020<!-- 15 hlasů • 1 hodina do konce --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s hlas</item>
@@ -404,7 +404,7 @@
     <string name="failed_report">Nahlášení selhalo</string>
     <string name="failed_fetch_posts">Stahování příspěvků selhalo</string>
     <string name="report_description_1">Hlášení bude zasláno moderátorům vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
-    <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii nahlášení\?</string>
+    <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii nahlášení?</string>
     <string name="create_poll_title">Anketa</string>
     <string name="duration_5_min">5 minut</string>
     <string name="duration_30_min">30 minut</string>
@@ -455,7 +455,7 @@
     <string name="pref_main_nav_position_option_top">Nahoře</string>
     <string name="action_unmute_domain">Zrušit skrytí domény %1$s</string>
     <string name="action_unmute_desc">Zrušit skrytí %1$s</string>
-    <string name="dialog_mute_warning">Skrýt @%1$s\?</string>
+    <string name="dialog_mute_warning">Skrýt @%1$s?</string>
     <string name="notification_follow_request_format">%1$s požádal/a aby vás mohl/a sledovat</string>
     <string name="pref_title_confirm_reblogs">Zobrazit potvrzení při boostování</string>
     <string name="notification_subscription_format">%1$s právě zveřejnil/a příspěvek</string>
@@ -482,7 +482,7 @@
         <item quantity="few">Nemůžete nahrát více než %1$d mediální přílohy.</item>
         <item quantity="other">Nemůžete nahrát více než %1$d mediálních příloh.</item>
     </plurals>
-    <string name="delete_scheduled_post_warning">Smazat tento naplánovaný příspěvek\?</string>
+    <string name="delete_scheduled_post_warning">Smazat tento naplánovaný příspěvek?</string>
     <string name="notification_subscription_description">Upozornění na nový toot někoho, koho sledujete.</string>
     <string name="instance_rule_info">Přihlášením souhlasíte s pravidly serveru %1$s.</string>
     <string name="instance_rule_title">Pravidla serveru %1$s</string>
@@ -493,12 +493,12 @@
 \n- Statistiky sledujících a příspěvků na profilech
 \n
 \nPush oznámení nebudou ovlivněna, ale můžete si zkontrolovat jejich nastavení manuálně.</string>
-    <string name="compose_save_draft_loses_media">Uložit koncept\? (Přílohy budou znovu nahrány, když obnovíte koncept.)</string>
+    <string name="compose_save_draft_loses_media">Uložit koncept? (Přílohy budou znovu nahrány, když obnovíte koncept.)</string>
     <string name="set_focus_description">Klepnutím nebo přetažením kruhu vyberte ohnisko, které bude vždy viditelné v miniaturách.</string>
     <string name="pref_title_confirm_favourites">Zobrazit potvrzení při oblíbení</string>
     <string name="pref_title_hide_top_toolbar">Skrýt nadpis horního panelu nástrojů</string>
     <string name="wellbeing_hide_stats_profile">Skrýt kvantitativní statistiky profilů</string>
-    <string name="dialog_delete_list_warning">Opravdu chcete smazat seznam %1$s\?</string>
+    <string name="dialog_delete_list_warning">Opravdu chcete smazat seznam %1$s?</string>
     <string name="follow_requests_info">I když váš účet není uzamčen, zaměstnanci %1$s si myslí, že byste mohli chtít zkontrolovat žádosti o sledování z těchto účtů ručně.</string>
     <string name="action_subscribe_account">Odebírat</string>
     <string name="action_unsubscribe_account">Přestat odebírat</string>
@@ -550,7 +550,7 @@
     <string name="action_delete_conversation">Smazat konverzaci</string>
     <string name="action_dismiss">Zavřít</string>
     <string name="action_details">Podrobnosti</string>
-    <string name="dialog_delete_conversation_warning">Smazat tuto konverzaci\?</string>
+    <string name="dialog_delete_conversation_warning">Smazat tuto konverzaci?</string>
     <string name="pref_title_animate_custom_emojis">Animovat vlastní emotikony</string>
     <string name="action_follow_hashtag">Sleduj nový hashtag</string>
     <string name="action_translate">Přeložit</string>
