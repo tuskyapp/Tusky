@@ -146,7 +146,11 @@ fun TimelineAccount.toEntity() =
         emojis = emojis ?: emptyList()
     )
 
-fun Status.toEntity() =
+fun Status.toEntity(
+    expanded: Boolean,
+    contentShowing: Boolean,
+    contentCollapsed: Boolean
+) =
     ConversationStatusEntity(
         id = id,
         url = url,
@@ -165,20 +169,30 @@ fun Status.toEntity() =
         attachments = attachments,
         mentions = mentions,
         tags = tags,
-        showingHiddenContent = false,
-        expanded = false,
-        collapsed = true,
+        showingHiddenContent = contentShowing,
+        expanded = expanded,
+        collapsed = contentCollapsed,
         muted = muted ?: false,
         poll = poll,
         language = language,
     )
 
-fun Conversation.toEntity(accountId: Long, order: Int) =
+fun Conversation.toEntity(
+    accountId: Long,
+    order: Int,
+    expanded: Boolean,
+    contentShowing: Boolean,
+    contentCollapsed: Boolean
+) =
     ConversationEntity(
         accountId = accountId,
         id = id,
         order = order,
         accounts = accounts.map { it.toEntity() },
         unread = unread,
-        lastStatus = lastStatus!!.toEntity()
+        lastStatus = lastStatus!!.toEntity(
+            expanded = expanded,
+            contentShowing = contentShowing,
+            contentCollapsed = contentCollapsed
+        )
     )
