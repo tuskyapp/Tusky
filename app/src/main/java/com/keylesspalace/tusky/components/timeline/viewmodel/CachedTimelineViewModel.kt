@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
@@ -85,7 +86,7 @@ class CachedTimelineViewModel @Inject constructor(
         pagingSourceFactory = {
             val activeAccount = accountManager.activeAccount
             if (activeAccount == null) {
-                EmptyTimelinePagingSource()
+                EmptyPagingSource()
             } else {
                 db.timelineDao().getStatuses(activeAccount.id)
             }.also { newPagingSource ->

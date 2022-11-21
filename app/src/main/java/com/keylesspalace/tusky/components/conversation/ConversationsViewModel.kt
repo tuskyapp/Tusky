@@ -23,6 +23,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
@@ -43,7 +44,13 @@ class ConversationsViewModel @Inject constructor(
     val conversationFlow = Pager(
         config = PagingConfig(pageSize = 30),
         remoteMediator = ConversationsRemoteMediator(accountManager.activeAccount!!.id, api, database),
-        pagingSourceFactory = { database.conversationDao().conversationsForAccount(accountManager.activeAccount!!.id) }
+        pagingSourceFactory = {
+            val activeAccount = accountManager.activeAccount
+            if (activeAccount == null) {
+                EmptyPagingSource()
+            } else {
+                database.conversationDao().conversationsForAccount(activeAccount.id) }
+            }
     )
         .flow
         .map { pagingData ->
