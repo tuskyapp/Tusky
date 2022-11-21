@@ -42,7 +42,7 @@ class ConversationsViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     val conversationFlow = Pager(
         config = PagingConfig(pageSize = 30),
-        remoteMediator = ConversationsRemoteMediator( api, database, accountManager),
+        remoteMediator = ConversationsRemoteMediator(api, database, accountManager),
         pagingSourceFactory = { database.conversationDao().conversationsForAccount(accountManager.activeAccount!!.id) }
     )
         .flow
