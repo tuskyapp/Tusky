@@ -5,6 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
@@ -12,14 +13,16 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class ConversationsRemoteMediator(
-    private val accountId: Long,
     private val api: MastodonApi,
-    private val db: AppDatabase
+    private val db: AppDatabase,
+    accountManager: AccountManager,
 ) : RemoteMediator<Int, ConversationEntity>() {
 
     private var nextKey: String? = null
 
     private var order: Int = 0
+
+    private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
         loadType: LoadType,
@@ -46,7 +49,7 @@ class ConversationsRemoteMediator(
             db.withTransaction {
 
                 if (loadType == LoadType.REFRESH) {
-                    db.conversationDao().deleteForAccount(accountId)
+                    db.conversationDao().deleteForAccount(activeAccount.id)
                 }
 
                 val linkHeader = conversationsResponse.headers()["Link"]
@@ -56,8 +59,19 @@ class ConversationsRemoteMediator(
                 db.conversationDao().insert(
                     conversations
                         .filterNot { it.lastStatus == null }
-                        .map {
-                            it.toEntity(accountId, order++)
+                        .map { conversation ->
+
+                            val expanded = activeAccount.alwaysOpenSpoiler
+                            val contentShowing = activeAccount.alwaysShowSensitiveMedia || !conversation.lastStatus!!.sensitive
+                            val contentCollapsed = true
+
+                            conversation.toEntity(
+                                accountId = activeAccount.id,
+                                order = order++,
+                                expanded = expanded,
+                                contentShowing = contentShowing,
+                                contentCollapsed = contentCollapsed
+                            )
                         }
                 )
             }
