@@ -262,7 +262,7 @@
     <string name="action_details">Yksityiskohdat</string>
     <string name="error_image_edit_failed">Kuvaa ei voitu muokata.</string>
     <string name="description_visibility_unlisted">Listaamaton</string>
-    <string name="dialog_delete_conversation_warning">Poista tämä keskustelu\?</string>
+    <string name="dialog_delete_conversation_warning">Poista tämä keskustelu?</string>
     <string name="pref_title_show_media_preview">Lataa median esikatselu</string>
     <string name="post_privacy_unlisted">Listaamaton</string>
     <string name="pref_title_alway_show_sensitive_media">Näytä aina arkaluonteinen media</string>
@@ -278,7 +278,7 @@
     <string name="action_add_reaction">lisää reaktio</string>
     <string name="confirmation_reported">Lähetetty!</string>
     <string name="login_connection">Yhdistetään…</string>
-    <string name="dialog_mute_warning">Hiljennä @%1$s\?</string>
+    <string name="dialog_mute_warning">Hiljennä @%1$s?</string>
     <string name="dialog_mute_hide_notifications">Piilota ilmoitukset</string>
     <string name="pref_title_appearance_settings">Ulkoasu</string>
     <string name="pref_title_show_boosts">Näytä buustaukset</string>
@@ -301,7 +301,7 @@
     <string name="pref_title_http_proxy_server">HTTP-välityspalvelin</string>
     <string name="restart">Käynnistä uudelleen</string>
     <string name="error_failed_app_registration">Tunnistautuminen valitsemasi instanssin kanssa epäonnistui. Jos tämä jatkuu, valitse valikosta Kirjaudu selaimella.</string>
-    <string name="dialog_block_warning">Estä @%1$s\?</string>
+    <string name="dialog_block_warning">Estä @%1$s?</string>
     <string name="action_follow_hashtag">Seuraa uutta aihetunnistetta</string>
     <string name="action_translate">Käännä</string>
     <string name="action_show_original">Näytä alkuperäinen</string>
