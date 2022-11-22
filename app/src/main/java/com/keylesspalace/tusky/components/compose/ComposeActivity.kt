@@ -538,7 +538,7 @@ class ComposeActivity :
     private fun mergeLocaleListCompat(list: MutableList<Locale>, localeListCompat: LocaleListCompat) {
         for (index in 0 until localeListCompat.size()) {
             val locale = localeListCompat[index]
-            if (locale != null && !list.contains(locale)) {
+            if (locale != null && list.none { locale.language == it.language }) {
                 list.add(locale)
             }
         }
