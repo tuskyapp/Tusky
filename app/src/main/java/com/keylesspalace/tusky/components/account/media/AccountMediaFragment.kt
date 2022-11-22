@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.account.media
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
@@ -39,7 +38,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
