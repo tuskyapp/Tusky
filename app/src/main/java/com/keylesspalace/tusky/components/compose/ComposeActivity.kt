@@ -498,7 +498,7 @@ class ComposeActivity :
         binding.atButton.setOnClickListener { atButtonClicked() }
         binding.hashButton.setOnClickListener { hashButtonClicked() }
         binding.mediaWarningButton.setOnClickListener {
-            Toast.makeText(this, R.string.hint_media_description_missing, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.hint_media_description_missing, Toast.LENGTH_LONG).show()
         }
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
@@ -729,7 +729,7 @@ class ComposeActivity :
             binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
 
             var oneMediaWithoutDescription = false
-            for (media  in viewModel.media.value) {
+            for (media in viewModel.media.value) {
                 if (media.description == null || media.description.isEmpty()) {
                     oneMediaWithoutDescription = true
                     break
