@@ -545,7 +545,7 @@ class ComposeActivity :
         }
     }
 
-    private fun setupLanguageSpinner(initialLanguage: String?) {
+    private fun setupLanguageSpinner(initialLanguage: String) {
         val locales = mutableListOf<Locale>()
         mergeLocaleListCompat(locales, AppCompatDelegate.getApplicationLocales()) // configured app languages first
         mergeLocaleListCompat(locales, LocaleListCompat.getDefault()) // then configured system languages
@@ -566,8 +566,12 @@ class ComposeActivity :
             currentLocaleIndex = locales.indexOfFirst { it.modernLanguageCode == initialLanguage }
 
             if (currentLocaleIndex < 0) {
-                Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
-                currentLocaleIndex = locales.indexOfFirst { it.language == "en" }
+                // This can happen when:
+                // - Your per-account posting language is set to one android doesn't know (e.g. toki pona)
+                // - Replying to a post in a language android doesn't know
+                locales.add(0, Locale(initialLanguage))
+                Log.w(TAG, "Attempting to use unknown language tag '$initialLanguage'")
+                currentLocaleIndex = 0
             }
         }
 
