@@ -497,6 +497,9 @@ class ComposeActivity :
         binding.composeScheduleView.setListener(this)
         binding.atButton.setOnClickListener { atButtonClicked() }
         binding.hashButton.setOnClickListener { hashButtonClicked() }
+        binding.mediaWarningButton.setOnClickListener {
+            Toast.makeText(this, R.string.hint_media_description_missing, Toast.LENGTH_LONG).show();
+        }
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
 
@@ -706,6 +709,7 @@ class ComposeActivity :
     private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
         if (viewModel.media.value.isEmpty()) {
             binding.composeHideMediaButton.hide()
+            binding.mediaWarningButton.hide()
         } else {
             binding.composeHideMediaButton.show()
             @ColorInt val color = if (contentWarningShown) {
@@ -723,6 +727,15 @@ class ComposeActivity :
                 }
             }
             binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+
+            var oneMediaWithoutDescription = false
+            for (media  in viewModel.media.value) {
+                if (media.description == null || media.description.isEmpty()) {
+                    oneMediaWithoutDescription = true
+                    break
+                }
+            }
+            binding.mediaWarningButton.visibility = if (oneMediaWithoutDescription) View.VISIBLE else View.GONE
         }
     }
 
