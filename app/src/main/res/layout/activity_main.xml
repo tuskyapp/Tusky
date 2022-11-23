@@ -22,10 +22,10 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/mainToolbar"
+                style="@style/Widget.AppCompat.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentInsetStartWithNavigation="0dp"
-                style="@style/Widget.AppCompat.Toolbar"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationContentDescription="@string/action_open_drawer" />
 
