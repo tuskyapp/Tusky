@@ -59,6 +59,7 @@ data class AccountEntity(
     var notificationLight: Boolean = true,
     var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
     var defaultMediaSensitivity: Boolean = false,
+    var defaultPostLanguage: String = "",
     var alwaysShowSensitiveMedia: Boolean = false,
     var alwaysOpenSpoiler: Boolean = false,
     var mediaPreviewEnabled: Boolean = true,

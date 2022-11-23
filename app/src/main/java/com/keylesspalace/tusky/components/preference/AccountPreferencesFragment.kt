@@ -154,6 +154,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
+            // TODO language
             preferenceCategory(R.string.pref_publishing) {
                 listPreference {
                     setTitle(R.string.pref_default_post_privacy)

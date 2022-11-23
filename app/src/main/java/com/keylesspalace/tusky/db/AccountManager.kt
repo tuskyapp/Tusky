@@ -154,6 +154,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
             it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+            it.defaultPostLanguage = account.source?.language ?: ""
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
             it.emojis = account.emojis ?: emptyList()
 

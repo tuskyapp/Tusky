@@ -589,8 +589,14 @@ class ComposeActivity :
 
     private fun getInitialLanguage(language: String? = null): String {
         return if (language.isNullOrEmpty()) {
-            // Setting the application ui preference sets the default locale
-            AppCompatDelegate.getApplicationLocales()[0]?.language ?: Locale.getDefault().language
+            // Account-specific language set on the server
+            if (accountManager.activeAccount?.defaultPostLanguage?.isNotEmpty() == true) {
+                accountManager.activeAccount?.defaultPostLanguage!!
+            } else {
+                // Setting the application ui preference sets the default locale
+                AppCompatDelegate.getApplicationLocales()[0]?.language
+                    ?: Locale.getDefault().language
+            }
         } else {
             language
         }
