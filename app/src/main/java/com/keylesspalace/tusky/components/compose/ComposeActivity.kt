@@ -545,6 +545,31 @@ class ComposeActivity :
         }
     }
 
+    // Ensure that the locale whose code matches the given language is first in the list
+    private fun ensureLanguageIsFirst(locales: MutableList<Locale>, language: String) {
+        var currentLocaleIndex = locales.indexOfFirst { it.language == language }
+        if (currentLocaleIndex < 0) {
+            // Recheck against modern language codes
+            // This should only happen when replying or when the per-account post language is set
+            // to a modern code
+            currentLocaleIndex = locales.indexOfFirst { it.modernLanguageCode == language }
+
+            if (currentLocaleIndex < 0) {
+                // This can happen when:
+                // - Your per-account posting language is set to one android doesn't know (e.g. toki pona)
+                // - Replying to a post in a language android doesn't know
+                locales.add(0, Locale(language))
+                Log.w(TAG, "Attempting to use unknown language tag '$language'")
+                return
+            }
+        }
+
+        if (currentLocaleIndex > 0) {
+            // Move preselected locale to the top
+            locales.add(0, locales.removeAt(currentLocaleIndex))
+        }
+    }
+
     private fun setupLanguageSpinner(initialLanguage: String) {
         val locales = mutableListOf<Locale>()
         mergeLocaleListCompat(locales, AppCompatDelegate.getApplicationLocales()) // configured app languages first
@@ -557,37 +582,20 @@ class ComposeActivity :
                     it.variant.isNullOrEmpty()
             }
         )
+        ensureLanguageIsFirst(locales, initialLanguage)
 
-        var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
-        if (currentLocaleIndex < 0) {
-            // Recheck against modern language codes
-            // This should only happen when replying or when the per-account post language is set
-            // to a modern code
-            currentLocaleIndex = locales.indexOfFirst { it.modernLanguageCode == initialLanguage }
-
-            if (currentLocaleIndex < 0) {
-                // This can happen when:
-                // - Your per-account posting language is set to one android doesn't know (e.g. toki pona)
-                // - Replying to a post in a language android doesn't know
-                locales.add(0, Locale(initialLanguage))
-                Log.w(TAG, "Attempting to use unknown language tag '$initialLanguage'")
-                currentLocaleIndex = 0
-            }
-        }
-
-        val context = this
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                parent.setSelection(locales.indexOfFirst { it.language == getInitialLanguage() })
+                parent.setSelection(0)
             }
         }
         binding.composePostLanguageButton.apply {
             adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, locales)
-            setSelection(currentLocaleIndex)
+            setSelection(0)
         }
     }
 
