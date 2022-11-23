@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
+import com.keylesspalace.tusky.network.UnicodeSafeMastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
@@ -117,7 +118,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create()
+    fun providesApi(retrofit: Retrofit): MastodonApi {
+        val api = retrofit.create<MastodonApi>()
+        return UnicodeSafeMastodonApi(api)
+    }
 
     @Provides
     @Singleton
