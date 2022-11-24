@@ -558,4 +558,5 @@
     <string name="compose_save_draft_loses_media">Lagre utkast\? (Vedlegg vil bli lastet opp igjen når du fortsetter å jobbe på utkastet.)</string>
     <string name="failed_to_pin">Klarte ikke å feste</string>
     <string name="failed_to_unpin">Klarte ikke å løsne</string>
+    <string name="action_add_reaction">Legg til reaksjon</string>
 </resources>
