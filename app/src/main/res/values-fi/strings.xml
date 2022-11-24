@@ -184,7 +184,7 @@
     <string name="error_media_upload_type">Tällaista tiedostoa ei voida ladata ylös.</string>
     <string name="notification_follow_request_format">%s haluaa seurata sinua</string>
     <string name="title_public_federated">Verkostoitu</string>
-    <string name="error_media_upload_sending">Lähetys epäonnistui.</string>
+    <string name="error_media_upload_sending">Lähettäminen epäonnistui.</string>
     <string name="report_username_format">Ilmianna @%s</string>
     <string name="report_comment_hint">Lisähuomautuksia\?</string>
     <string name="error_loading_account_details">Tilitietojen lataaminen epäonnistui</string>
@@ -203,7 +203,7 @@
     <string name="download_image">Ladataan kuvaa %1$s</string>
     <string name="error_failed_set_caption">Kuvauksen lisääminen epäonnistui</string>
     <string name="action_mute_conversation">Mykistä keskustelu</string>
-    <string name="error_generic">On syntynyt virhe.</string>
+    <string name="error_generic">Tapahtui virhe.</string>
     <string name="action_logout_confirm">Halutako varmasti kirjautua ulos tililtä %s1\?</string>
     <string name="action_unreblog">Poista jako</string>
     <string name="action_create_list">Luo lista</string>
@@ -218,7 +218,7 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Kuvaa näkövammaisille
 \n(enintään %d merkkiä)</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="edit_hashtag_hint">Aihetunniste ilman #-merkkiä</string>
     <string name="title_domain_mutes">Piilotetus verkkonimet</string>
@@ -230,9 +230,9 @@
     <string name="action_quick_reply">Vastaa nopeasti</string>
     <string name="action_hide_reblogs">Piilota jaetut julkaisut</string>
     <string name="footer_empty">Täällä ei ole mitään. Liu\'uta alaspäin päivittääksesi!</string>
-    <string name="error_network">On syntynyt verkostovirhe! Tarkista yhteytesi ja yritä uudelleen!</string>
+    <string name="error_network">Verkkovirhe! Tarkista yhteytesi ja yritä uudelleen!</string>
     <string name="action_open_media_n">Avaa media No. %d</string>
-    <string name="error_sender_account_gone">Julkaisun lähetys epäonnistui.</string>
+    <string name="error_sender_account_gone">Julkaisun lähettäminen epäonnistui.</string>
     <string name="error_empty">Tätä kenttää ei voi jättää tyhjäksi.</string>
     <string name="title_announcements">Tiedotukset</string>
     <string name="notification_subscription_description">Ilmoitukset seuraamiesi uusista julkaisuista</string>
@@ -268,4 +268,47 @@
     <string name="action_mute_notifications_desc">Mykistä ilmoitukset tililtä %s</string>
     <string name="action_details">Yksityiskohdat</string>
     <string name="error_image_edit_failed">Kuvaa ei voitu muokata.</string>
+    <string name="description_visibility_unlisted">Listaamaton</string>
+    <string name="dialog_delete_conversation_warning">Poista tämä keskustelu\?</string>
+    <string name="pref_title_show_media_preview">Lataa median esikatselu</string>
+    <string name="post_privacy_unlisted">Listaamaton</string>
+    <string name="pref_title_alway_show_sensitive_media">Näytä aina arkaluonteinen sisältö</string>
+    <string name="send_post_notification_cancel_title">Lähettäminen peruutettu</string>
+    <string name="description_visibility_private">Seuraajat</string>
+    <string name="pref_show_self_username_always">Aina</string>
+    <string name="pref_show_self_username_never">Ei koskaan</string>
+    <string name="notification_boost_name">Buustaukset</string>
+    <string name="notification_favourite_name">Suosikit</string>
+    <string name="notification_poll_name">Äänestykset</string>
+    <string name="notification_poll_description">Ilmoitukset päättyneistä äänestyksistä</string>
+    <string name="filter_edit_dialog_title">Muokkaa suodatinta</string>
+    <string name="action_add_reaction">lisää reaktio</string>
+    <string name="confirmation_reported">Lähetetty!</string>
+    <string name="post_sent">Lähetetty!</string>
+    <string name="post_sent_long">Vastaus lähetetty onnistuneesti.</string>
+    <string name="login_connection">Yhdistetään…</string>
+    <string name="dialog_mute_warning">Hiljennä @%s\?</string>
+    <string name="dialog_mute_hide_notifications">Piilota ilmoitukset</string>
+    <string name="pref_title_appearance_settings">Ulkoasu</string>
+    <string name="pref_title_show_boosts">Näytä buustaukset</string>
+    <string name="pref_default_media_sensitivity">Merkitse media aina arkaluontoiseksi</string>
+    <string name="pref_failed_to_sync">Asetusten synkronointi epäonnistui</string>
+    <string name="post_text_size_smallest">Pienin</string>
+    <string name="post_text_size_small">Pieni</string>
+    <string name="post_text_size_medium">Keskikokoinen</string>
+    <string name="post_text_size_large">Suuri</string>
+    <string name="post_text_size_largest">Suurin</string>
+    <string name="post_share_link">Jaa linkki postaukseen</string>
+    <string name="post_media_attachments">Liitteet</string>
+    <string name="title_media">Media</string>
+    <string name="load_more_placeholder_text">lataa lisää</string>
+    <string name="pref_title_public_filter_keywords">Julkiset aikajanat</string>
+    <string name="pref_title_thread_filter_keywords">Keskustelut</string>
+    <string name="filter_addition_dialog_title">Lisää suodatin</string>
+    <string name="later">Myöhemmin</string>
+    <string name="description_post_cw">Sisältövaroitus: %s</string>
+    <string name="pref_title_http_proxy_server">HTTP-välityspalvelin</string>
+    <string name="restart">Käynnistä uudelleen</string>
+    <string name="error_failed_app_registration">Tunnistautuminen valitsemasi instanssin kanssa epäonnistui.</string>
+    <string name="dialog_block_warning">Estä @%s\?</string>
 </resources>

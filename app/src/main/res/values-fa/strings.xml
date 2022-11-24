@@ -227,9 +227,11 @@
     <string name="add_account_description">افزودن حساب ماستودون جدید</string>
     <string name="action_lists">فهرست‌ها</string>
     <string name="title_lists">فهرست‌ها</string>
-    <string name="compose_active_account_description">در حال فرستادن با حساب %1$s</string>
+    <string name="compose_active_account_description">فرستادن از طرف %1$s</string>
     <string name="error_failed_set_caption">شکست در تنظیم عنوان</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one">توصیف برای کم‌بینایان
+\n(کران ۱ نویسه)</item>
         <item quantity="other">توصیف برای کم‌بینایان
 \n(کران %d نویسه)</item>
     </plurals>
@@ -340,7 +342,7 @@
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> برگزیدن</item>
+        <item quantity="one">۱ برگزیدن</item>
         <item quantity="other"><b>%1$s</b> برگزیدن</item>
     </plurals>
     <plurals name="reblogs">
@@ -541,4 +543,27 @@
     <string name="action_dismiss">رد کردن</string>
     <string name="action_details">جزییات</string>
     <string name="saving_draft">ذخیرهٔ پیش‌نویس…</string>
+    <string name="error_following_hashtag_format">خطا در پی‌گیری #%s</string>
+    <string name="error_unfollowing_hashtag_format">خطا در ناپی‌گیری #%s</string>
+    <string name="delete_scheduled_post_warning">حذف این فرستهٔ زمان‌بسته؟</string>
+    <string name="instance_rule_title">قواعد %s</string>
+    <string name="instance_rule_info">با ورودتان، قواعد %s را می‌پذیرید.</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="failed_to_pin">شکست در سنجاق کردن</string>
+    <string name="failed_to_unpin">شکست در برداشتن سنجاق</string>
+    <string name="error_multimedia_size_limit">پرونده‌های صوتی و ویدیویی نمی‌توانند بیش از %sم‌ب باشند.</string>
+    <string name="error_image_edit_failed">تصویر نتوانست ویرایش شود.</string>
+    <string name="description_post_language">زبان فرسته</string>
+    <string name="pref_show_self_username_always">همیشه</string>
+    <string name="pref_show_self_username_disambiguate">هنگام ورود چندین حساب</string>
+    <string name="pref_show_self_username_never">هرگز</string>
+    <string name="pref_title_show_self_username">نمایش نام کاربری در نوارابزارها</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="action_add_reaction">افزودن واکنش</string>
+    <string name="error_failed_set_focus">شکست در تنظیم نقطهٔ تمرکز</string>
+    <string name="action_set_focus">تنظیم نقطهٔ تمرکز</string>
+    <string name="duration_no_change">(بدون تغییر)</string>
+    <string name="error_loading_account_details">شکست در بار کردن جزییات حساب</string>
+    <string name="set_focus_description">ضربه زده یا دایره را کشیده تا نقطهٔ کانونی‌ای که همواره باید در بندانگشتی‌ها نمایان باشد را برگزینید.</string>
+    <string name="compose_save_draft_loses_media">ذخیرهٔ پیش‌نویس؟ (پیوست‌ها هنگام بازگردانی پیش‌نویس، دوباره بارگذاری خواهند شد)</string>
 </resources>

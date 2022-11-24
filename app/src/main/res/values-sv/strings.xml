@@ -575,4 +575,5 @@
     <string name="compose_save_draft_loses_media">Spara utkast\? (Bilagor kommer att laddas upp igen när du återställer utkastet.)</string>
     <string name="failed_to_pin">Kunde inte fästa</string>
     <string name="failed_to_unpin">Kunde inte lossa</string>
+    <string name="action_add_reaction">lägg till reaktion</string>
 </resources>

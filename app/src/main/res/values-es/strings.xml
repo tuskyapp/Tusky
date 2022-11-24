@@ -9,12 +9,12 @@
     <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
     <string name="error_authorization_denied">La autorización falló.</string>
     <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login.</string>
-    <string name="error_compose_character_limit">¡El estado es demasiado largo!</string>
+    <string name="error_compose_character_limit">¡La publicación es demasiado larga!</string>
     <string name="error_media_upload_type">No se admite este tipo de archivo.</string>
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
     <string name="error_media_upload_permission">Se requiere permiso para acceder al almacenamiento.</string>
     <string name="error_media_download_permission">Se requiere permiso para descargar al almacenamiento.</string>
-    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en el mismo estado.</string>
+    <string name="error_media_upload_image_or_video">No se pueden adjuntar imágenes y vídeos en la misma publicación.</string>
     <string name="error_media_upload_sending">La subida falló.</string>
     <string name="error_sender_account_gone">Error al publicar.</string>
     <string name="title_home">Inicio</string>
@@ -23,7 +23,7 @@
     <string name="title_public_federated">Federada</string>
     <string name="title_direct_messages">Mensajes Directos</string>
     <string name="title_tab_preferences">Pestañas</string>
-    <string name="title_view_thread">Publicación</string>
+    <string name="title_view_thread">Hilo</string>
     <string name="title_posts">Estados</string>
     <string name="title_posts_with_replies">Con respuestas</string>
     <string name="title_posts_pinned">Fijado</string>
@@ -47,7 +47,7 @@
     <string name="post_content_show_less">Ocultar</string>
     <string name="message_empty">Nada aquí.</string>
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
-    <string name="notification_reblog_format">%s impulsó tu toot</string>
+    <string name="notification_reblog_format">%s impulsó tu publicación</string>
     <string name="notification_favourite_format">%s marcó favorito</string>
     <string name="notification_follow_format">%s te siguió</string>
     <string name="report_username_format">Reportar @%s</string>
@@ -98,7 +98,7 @@
     <string name="action_reject">Rechazar</string>
     <string name="action_search">Buscar</string>
     <string name="action_access_drafts">Borradores</string>
-    <string name="action_toggle_visibility">Visibilidad del estado</string>
+    <string name="action_toggle_visibility">Visibilidad de la publicación</string>
     <string name="action_content_warning">Aviso de contenido</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
     <string name="action_add_tab">Añadir pestaña</string>
@@ -493,7 +493,7 @@
     <string name="pref_title_wellbeing_mode">Bienestar</string>
     <string name="notification_subscription_description">Notificaciones cuando alguien al que estoy suscrito publicó un nuevo toot</string>
     <string name="notification_subscription_name">Nuevos toots</string>
-    <string name="pref_title_notification_filter_subscriptions">alguien al que estoy suscrito publicó un nuevo toot</string>
+    <string name="pref_title_notification_filter_subscriptions">alguien al que estoy suscrito hizo una nueva publicación</string>
     <string name="wellbeing_mode_notice">Algunas informaciones que podríam afectar tu bienestar van a ser ocultas. Esto incluye:
 \n
 \n- Notificaciones de favoritos, impulsos y seguidores
@@ -519,4 +519,21 @@
     <string name="action_unsubscribe_account">Darse de baja</string>
     <string name="action_delete_conversation">Eliminar conversación</string>
     <string name="pref_title_confirm_favourites">Mostrar diálogo de confirmación antes de marcar como favorito</string>
+    <string name="pref_title_notification_filter_updates">una publicación con la que interactué se editó</string>
+    <string name="error_multimedia_size_limit">Los archivos de video y audio no pueden pesar más de %s MB.</string>
+    <string name="error_image_edit_failed">La imágen no pudo ser editada.</string>
+    <string name="pref_show_self_username_always">Siempre</string>
+    <string name="pref_show_self_username_never">Nunca</string>
+    <string name="action_add_reaction">añadir reacción</string>
+    <string name="pref_title_notification_filter_sign_ups">alguien se registró</string>
+    <string name="error_following_hashtag_format">Error al seguir #%s</string>
+    <string name="error_unfollowing_hashtag_format">Error dejando de seguir #%s</string>
+    <string name="title_login">Ingreso</string>
+    <string name="title_migration_relogin">Reingresa para activar notificaciones push</string>
+    <string name="notification_sign_up_format">%s se registró</string>
+    <string name="notification_update_format">%s editó su publicación</string>
+    <string name="action_dismiss">Descartar</string>
+    <string name="action_details">Detalles</string>
+    <string name="error_loading_account_details">Fallo cargando los detalles de la cuenta</string>
+    <string name="error_could_not_load_login_page">Fallo cargando la página de ingreso.</string>
 </resources>
