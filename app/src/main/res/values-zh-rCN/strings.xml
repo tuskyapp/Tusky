@@ -11,12 +11,12 @@
     <string name="error_retrieving_oauth_token">未能获取登录令牌。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
-    <string name="error_media_upload_opening">打不开此文件。</string>
+    <string name="error_media_upload_opening">此文件无法打开。</string>
     <string name="error_media_upload_permission">需要授予 Tusky 读取媒体文件的权限。</string>
     <string name="error_media_download_permission">需要授予 Tusky 存储媒体的权限。</string>
     <string name="error_media_upload_image_or_video">无法在一篇嘟文中同时插入视频和图片。</string>
     <string name="error_media_upload_sending">上传失败。</string>
-    <string name="error_sender_account_gone">嘟文发送时出错。</string>
+    <string name="error_sender_account_gone">嘟文发送时发生出错。</string>
     <string name="title_home">主页</string>
     <string name="title_notifications">通知</string>
     <string name="title_public_local">本站时间轴</string>
@@ -25,11 +25,11 @@
     <string name="title_tab_preferences">标签页</string>
     <string name="title_view_thread">嘟文</string>
     <string name="title_posts">嘟文</string>
-    <string name="title_posts_with_replies">有回复</string>
+    <string name="title_posts_with_replies">嘟文和回复</string>
     <string name="title_posts_pinned">已置顶</string>
     <string name="title_follows">正在关注</string>
     <string name="title_followers">关注者</string>
-    <string name="title_favourites">喜欢</string>
+    <string name="title_favourites">收藏</string>
     <string name="title_mutes">被隐藏的用户</string>
     <string name="title_blocks">被屏蔽的用户</string>
     <string name="title_follow_requests">关注请求</string>
@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%s 喜欢了你的嘟文</string>
     <string name="notification_follow_format">%s 关注了你</string>
     <string name="report_username_format">举报 @%s</string>
-    <string name="report_comment_hint">是否有更多信息需报告？</string>
+    <string name="report_comment_hint">报告更多信息？</string>
     <string name="action_quick_reply">快速回复</string>
     <string name="action_reply">回复</string>
     <string name="action_reblog">转嘟</string>
@@ -396,7 +396,7 @@
     </plurals>
     <string name="action_reset_schedule">重置</string>
     <string name="title_bookmarks">书签</string>
-    <string name="title_domain_mutes">隐藏的域名</string>
+    <string name="title_domain_mutes">被隐藏的域名</string>
     <string name="title_scheduled_posts">定时嘟文</string>
     <string name="action_bookmark">书签</string>
     <string name="action_edit">编辑</string>
@@ -509,7 +509,7 @@
     <string name="notification_subscription_name">新嘟文</string>
     <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
     <string name="pref_title_notification_filter_subscriptions">关注的人发布了新嘟文</string>
-    <string name="notification_subscription_format">%s 发送了新嘟文</string>
+    <string name="notification_subscription_format">%s 刚刚发送了新嘟文</string>
     <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
     <string name="action_delete_conversation">删除对话</string>
