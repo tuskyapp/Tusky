@@ -545,4 +545,5 @@
     <string name="compose_save_draft_loses_media">Lưu bản nháp\? (Bạn sẽ cần tải lên lại file đính kèm)</string>
     <string name="failed_to_unpin">Không thể bỏ ghim</string>
     <string name="failed_to_pin">Không thể ghim</string>
+    <string name="action_add_reaction">biểu cảm</string>
 </resources>
