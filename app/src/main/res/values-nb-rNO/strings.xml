@@ -4,7 +4,7 @@
     <string name="error_network">En nettverksfeil har oppstått! Sjekk tilkoblingen, og prøv igjen!</string>
     <string name="error_empty">Denne kan ikke være tom.</string>
     <string name="error_invalid_domain">Ugyldig domene</string>
-    <string name="error_failed_app_registration">Autentisering feilet.</string>
+    <string name="error_failed_app_registration">Kunne ikke autentisere med den instansen.</string>
     <string name="error_no_web_browser_found">Fant ingen nettleser som kunne brukes.</string>
     <string name="error_authorization_unknown">En ukjent autoriseringsfeil oppsto.</string>
     <string name="error_authorization_denied">Autorisasjon ble nektet.</string>
@@ -14,13 +14,13 @@
     <string name="error_media_upload_opening">Den filen kunne ikke åpnes.</string>
     <string name="error_media_upload_permission">Trenger tillatelse til å lese media.</string>
     <string name="error_media_download_permission">Trenger tillatelse for å lagre media.</string>
-    <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke kobles til samme innlegg.</string>
+    <string name="error_media_upload_image_or_video">Bilder og videoer kan ikke legges til samme innlegg.</string>
     <string name="error_media_upload_sending">Opplastingen feilet.</string>
     <string name="error_sender_account_gone">En feil oppsto under sending av innlegget.</string>
     <string name="title_home">Hjem</string>
     <string name="title_notifications">Varsler</string>
     <string name="title_public_local">Lokal</string>
-    <string name="title_public_federated">Forent</string>
+    <string name="title_public_federated">Føderert</string>
     <string name="title_direct_messages">Direktemeldinger</string>
     <string name="title_tab_preferences">Faner</string>
     <string name="title_view_thread">Tråd</string>
@@ -37,25 +37,25 @@
     <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Lisenser</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s fremhevet</string>
+    <string name="post_boosted_format">%s delte</string>
     <string name="post_sensitive_media_title">Sensitivt innhold</string>
     <string name="post_media_hidden_title">Media skjult</string>
-    <string name="post_sensitive_media_directions">Klikk for å vise</string>
+    <string name="post_sensitive_media_directions">Trykk for å vise</string>
     <string name="post_content_warning_show_more">Vis mer</string>
     <string name="post_content_warning_show_less">Vis mindre</string>
     <string name="post_content_show_more">Utvid</string>
-    <string name="post_content_show_less">Kollaps</string>
-    <string name="message_empty">Her er det ingenting.</string>
-    <string name="footer_empty">Her er det ingenting. Dra ned for å oppdatere!</string>
-    <string name="notification_reblog_format">%s fremhevde innlegget ditt</string>
+    <string name="post_content_show_less">Skjul</string>
+    <string name="message_empty">Ingenting her.</string>
+    <string name="footer_empty">Ingenting her. Dra ned for å oppdatere!</string>
+    <string name="notification_reblog_format">%s delte innlegget ditt</string>
     <string name="notification_favourite_format">%s favoriserte innlegget ditt</string>
     <string name="notification_follow_format">%s følger deg</string>
     <string name="report_username_format">Rapporter @%s</string>
     <string name="report_comment_hint">Ytterligere kommentarer\?</string>
     <string name="action_quick_reply">Hurtigsvar</string>
     <string name="action_reply">Svar</string>
-    <string name="action_reblog">Fremhev</string>
-    <string name="action_unreblog">Fjern fremheving</string>
+    <string name="action_reblog">Del</string>
+    <string name="action_unreblog">Fjern deling</string>
     <string name="action_favourite">Legg til i favoritter</string>
     <string name="action_unfavourite">Fjern favoritt</string>
     <string name="action_more">Mer</string>
@@ -67,12 +67,12 @@
     <string name="action_unfollow">Slutt å følge</string>
     <string name="action_block">Blokkér</string>
     <string name="action_unblock">Fjern blokkering</string>
-    <string name="action_hide_reblogs">Skjul fremhevinger</string>
-    <string name="action_show_reblogs">Vis fremhevinger</string>
+    <string name="action_hide_reblogs">Skjul delinger</string>
+    <string name="action_show_reblogs">Vis delte inlegg</string>
     <string name="action_report">Rapporter</string>
     <string name="action_delete">Slett</string>
-    <string name="action_send">Publiser</string>
-    <string name="action_send_public">Publiser!</string>
+    <string name="action_send">TUT</string>
+    <string name="action_send_public">TUT!</string>
     <string name="action_retry">Prøv igjen</string>
     <string name="action_close">Steng</string>
     <string name="action_view_profile">Profil</string>
@@ -104,24 +104,24 @@
     <string name="action_content_warning">Innholdsadvarsel</string>
     <string name="action_emoji_keyboard">Emoji-tastatur</string>
     <string name="action_add_tab">Legg til fane</string>
-    <string name="action_links">Linker</string>
-    <string name="action_mentions">Nevner</string>
+    <string name="action_links">Lenker</string>
+    <string name="action_mentions">Nevnelser</string>
     <string name="action_hashtags">Stikkord</string>
-    <string name="action_open_reblogger">Åpne innlegg-forfatter</string>
-    <string name="action_open_reblogged_by">Vis fremhevinger</string>
+    <string name="action_open_reblogger">Åpne deler</string>
+    <string name="action_open_reblogged_by">Vis delinger</string>
     <string name="action_open_faved_by">Vis favoritter</string>
     <string name="title_hashtags_dialog">Stikkord</string>
-    <string name="title_mentions_dialog">Nevner</string>
-    <string name="title_links_dialog">Linker</string>
+    <string name="title_mentions_dialog">Nevnelser</string>
+    <string name="title_links_dialog">Lenker</string>
     <string name="action_open_media_n">Åpne media #%d</string>
     <string name="download_image">Laster ned %1$s</string>
-    <string name="action_copy_link">Kopier link</string>
+    <string name="action_copy_link">Kopier lenken</string>
     <string name="action_open_as">Åpne som %s</string>
     <string name="action_share_as">Del som …</string>
     <string name="download_media">Last ned media</string>
     <string name="downloading_media">Laster ned media</string>
-    <string name="send_post_link_to">Del innlegg-URL til…</string>
-    <string name="send_post_content_to">Del innlegg til…</string>
+    <string name="send_post_link_to">Del tut-URL til…</string>
+    <string name="send_post_content_to">Del tut til…</string>
     <string name="send_media_to">Del media til…</string>
     <string name="confirmation_reported">Sendt!</string>
     <string name="confirmation_unblocked">Fjernet blokkering av bruker</string>
@@ -140,20 +140,20 @@
     <string name="label_header">Overskrift</string>
     <string name="link_whats_an_instance">Hva er en instans\?</string>
     <string name="login_connection">Kobler til…</string>
-    <string name="dialog_whats_an_instance"><a href="https://instances.social">more!</a> 
-\n
-\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
-\n
-\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
-\n
-\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="dialog_title_finishing_media_upload">Media opplasting er ferdig</string>
+    <string name="dialog_whats_an_instance">Addressen eller domenet til enhver instans kan legges til her, f. eks. mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">mer!</a> 
+\n 
+\nHvis du ikke har en konto kan du gi navnet på instansen du vil bli medlem av, og lage en konto der. 
+\n 
+\nEn instans er en plass der du har kontoen din, men du kan lett kommunisere med og følge andre personer på andre instanser, som om du var på den samme nettsiden. 
+\n 
+\nDu kan finne mer info på <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_title_finishing_media_upload">Opplasting av Media er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
     <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
-    <string name="dialog_unfollow_warning">Slutte å følge denne kontoen\?</string>
-    <string name="dialog_delete_post_warning">Slette dette innlegget\?</string>
-    <string name="visibility_public">Offentlig: Vis i offentlig tidslinjer</string>
+    <string name="dialog_unfollow_warning">Slutt å følge denne kontoen\?</string>
+    <string name="dialog_delete_post_warning">Slett dette innlegget\?</string>
+    <string name="visibility_public">Offentlig: Vis i offentlige tidslinjer</string>
     <string name="visibility_unlisted">Ikke oppført: Ikke vis i offentlige tidslinjer</string>
     <string name="visibility_private">Bare følgere: Vis bare til følgere</string>
     <string name="visibility_direct">Direkte: Vis bare til nevnte brukere</string>
@@ -164,21 +164,21 @@
     <string name="pref_title_notification_alert_vibrate">Varsle med vibrasjon</string>
     <string name="pref_title_notification_alert_light">Varsle med lys</string>
     <string name="pref_title_notification_filters">Varsle meg når</string>
-    <string name="pref_title_notification_filter_mentions">nevnt</string>
-    <string name="pref_title_notification_filter_follows">fulgt</string>
-    <string name="pref_title_notification_filter_reblogs">innleggene mine blir fremhevet</string>
+    <string name="pref_title_notification_filter_mentions">jeg blir nevnt</string>
+    <string name="pref_title_notification_filter_follows">jeg blir fulgt</string>
+    <string name="pref_title_notification_filter_reblogs">innleggene mine blir delt</string>
     <string name="pref_title_notification_filter_favourites">innleggene mine blir favorisert</string>
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filtere</string>
     <string name="pref_title_browser_settings">Nettleser</string>
-    <string name="pref_title_custom_tabs">Bruke Chrome tilpassede faner</string>
-    <string name="pref_title_hide_follow_button">Skjul skriv-knappen under scrolling</string>
+    <string name="pref_title_custom_tabs">Bruke Chrome-tilpassede faner</string>
+    <string name="pref_title_hide_follow_button">Skjul skriv-knappen ved scrolling</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Tidslinjefiltrering</string>
     <string name="pref_title_post_tabs">Faner</string>
-    <string name="pref_title_show_boosts">Vis fremhevinger</string>
+    <string name="pref_title_show_boosts">Vis delinger</string>
     <string name="pref_title_show_replies">Vis svar</string>
     <string name="pref_title_show_media_preview">Last ned forhåndsvisning av media</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -192,12 +192,12 @@
     <string name="pref_post_text_size">Størrelse på statustekst</string>
     <string name="notification_follow_name">Nye følgere</string>
     <string name="notification_follow_description">Varsler om nye følgere</string>
-    <string name="notification_boost_name">Fremhevinger</string>
-    <string name="notification_boost_description">Varsler når innleggene dine blir fremhevet</string>
+    <string name="notification_boost_name">Delte innlegg</string>
+    <string name="notification_boost_description">Varsler når innleggene dine blir delt</string>
     <string name="notification_favourite_name">Favoritter</string>
     <string name="notification_favourite_description">Varsler når innleggene dine blir favorisert</string>
     <string name="notification_mention_format">%s nevnte deg</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d anre</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d andre</string>
     <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
     <plurals name="notification_title_summary">
@@ -209,9 +209,9 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_bug_feature_request_site">Rapporter feil og ønsker om funksjonalitet her: 
 \n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_tusky_account">Tuskys Mastodon-profil</string>
+    <string name="about_tusky_account">Tuskys Profil</string>
     <string name="post_share_content">Del inneholdet i innlegget</string>
-    <string name="post_share_link">Del link til innlegget</string>
+    <string name="post_share_link">Del lenke til tuten</string>
     <string name="post_media_images">Bilder</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Forespørsel sendt</string>
@@ -233,9 +233,9 @@
     <string name="pref_title_thread_filter_keywords">Samtaler</string>
     <string name="filter_addition_dialog_title">Legg til filter</string>
     <string name="filter_edit_dialog_title">Endre filter</string>
-    <string name="filter_dialog_remove_button">Slett</string>
+    <string name="filter_dialog_remove_button">Fjern</string>
     <string name="filter_dialog_update_button">Oppdater</string>
-    <string name="filter_add_description">Frase å filtere</string>
+    <string name="filter_add_description">Filtrer frase</string>
     <string name="add_account_name">Legg til konto</string>
     <string name="add_account_description">Legg til ny Mastodon-konto</string>
     <string name="action_lists">Lister</string>
@@ -245,19 +245,19 @@
     <string name="error_delete_list">Kunne ikke slette liste</string>
     <string name="action_create_list">Opprett en liste</string>
     <string name="action_rename_list">Gi listen nytt navn</string>
-    <string name="action_delete_list">Slett listen</string>
+    <string name="action_delete_list">Fjern listen</string>
     <string name="action_edit_list">Endre listen</string>
     <string name="hint_search_people_list">Søk etter personer du følger</string>
     <string name="action_add_to_list">Legg til konto i listen</string>
-    <string name="action_remove_from_list">Slett konto fra listen</string>
-    <string name="pref_default_post_privacy">Standard proxy-personvern</string>
-    <string name="notification_mention_name">Nye omtaler</string>
-    <string name="notification_mention_descriptions">Varsler om nye omtaler</string>
+    <string name="action_remove_from_list">Fjern konto fra listen</string>
+    <string name="pref_default_post_privacy">Standardinstilling for innlegg</string>
+    <string name="notification_mention_name">Nye nevnelser</string>
+    <string name="notification_mention_descriptions">Varsler om nye nevnelser</string>
     <string name="about_tusky_license">Tusky er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">Hjemmeside: 
 \n https://tusky.app</string>
     <string name="abbreviated_in_years">om %dy</string>
-    <string name="compose_active_account_description">Poster som konto %1$s</string>
+    <string name="compose_active_account_description">Poster som %1$s</string>
     <string name="error_failed_set_caption">Klarte ikke å sette bildetekst</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Beskriv for de med nedsatt synsevne
@@ -280,21 +280,21 @@
     <string name="emoji_style">Emoji-stil</string>
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du må laste ned emoji-samlingene før de kan brukes</string>
-    <string name="performing_lookup_title">Gjennomfører oppslag…</string>
-    <string name="expand_collapse_all_posts">Utvid/kollaps alle statuser</string>
-    <string name="action_open_post">Åpne innlegg</string>
-    <string name="restart_required">Omstart av applikasjonen er påkrevd</string>
-    <string name="restart_emoji">Du må starte Tusky på nytt for at endringene skal bli aktive</string>
+    <string name="performing_lookup_title">Søker…</string>
+    <string name="expand_collapse_all_posts">Utvid/Gjem alle statuser</string>
+    <string name="action_open_post">Åpne tut</string>
+    <string name="restart_required">Omstart av applikasjonen kreves</string>
+    <string name="restart_emoji">Du må starte Tusky på nytt for at endringene blir aktivert</string>
     <string name="later">Senere</string>
     <string name="restart">Start på nytt</string>
-    <string name="caption_systememoji">Din enhets standard emoji-samling</string>
+    <string name="caption_systememoji">Standard-emojis for din enhet</string>
     <string name="caption_blobmoji">Blob-emojis kjent fra Android 4.4–7.1</string>
     <string name="caption_twemoji">Mastadons standard emoji-samling</string>
     <string name="download_failed">Nedlasting feilet</string>
     <string name="profile_badge_bot_text">Robot</string>
     <string name="account_moved_description">%1$s har flyttet til:</string>
-    <string name="reblog_private">Fremhev til opprinnelig publikum</string>
-    <string name="unreblog_private">Fjern fremheving</string>
+    <string name="reblog_private">Del til opprinnelig publikum</string>
+    <string name="unreblog_private">Fjern deling</string>
     <string name="license_description">Tusky inneholder programkode og elementer fra følgende åpen kildekode-prosjekter:</string>
     <string name="license_apache_2">Lisensiert under Apache License (kopi under)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -312,10 +312,10 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritter</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Fremheving</item>
-        <item quantity="other"><b>%s</b> Fremhevinger</item>
+        <item quantity="one">Delt <b>%s</b> gang</item>
+        <item quantity="other">Delt <b>%s</b> ganger</item>
     </plurals>
-    <string name="title_reblogged_by">Fremhevet av</string>
+    <string name="title_reblogged_by">Delt av</string>
     <string name="title_favourited_by">Favorisert av</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
@@ -340,10 +340,10 @@
     <string name="filter_apply">Bruk</string>
     <string name="compose_shortcut_long_label">Skriv innlegg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
-    <string name="pref_title_bot_overlay">Vis at konto er en robot</string>
+    <string name="pref_title_bot_overlay">Vis robotindikator</string>
     <string name="notification_clear_text">Er du sikker på at du vil slette alle varsler\?</string>
     <string name="action_delete_and_redraft">Slett og skriv på nytt</string>
-    <string name="dialog_redraft_post_warning">Vil du slette dette tottet og skrive det på nytt\?</string>
+    <string name="dialog_redraft_post_warning">Vil du slette denne tuten og skrive den på nytt\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s stemme</item>
@@ -404,11 +404,11 @@
     <string name="action_view_domain_mutes">Skjulte domener</string>
     <string name="action_mute_domain">Demp %s</string>
     <string name="confirmation_domain_unmuted">%s er ikke lenger skjult</string>
-    <string name="mute_domain_warning">Er du sikker på at du vil blokkere hele %s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra domenet vil bli fjernet.</string>
+    <string name="mute_domain_warning">Er du sikker på at du vil blokkere alt fra %s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra dette domenet vil bli fjernet.</string>
     <string name="mute_domain_warning_dialog_ok">Skjul hele domenet</string>
     <string name="pref_title_show_notifications_filter">Vis varselfilter</string>
-    <string name="filter_dialog_whole_word">Hele ordet</string>
-    <string name="filter_dialog_whole_word_description">Når nøkkelordet kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
+    <string name="filter_dialog_whole_word">Helt ord</string>
+    <string name="filter_dialog_whole_word_description">Når nøkkelordet eller frasen kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
     <string name="title_accounts">Kontoer</string>
     <string name="failed_search">Klarte ikke å søke</string>
     <string name="pref_title_alway_open_spoiler">Ekspander alltid innlegg markert med innholdsadvarsel</string>
@@ -442,7 +442,7 @@
     <string name="no_drafts">Du har ikke lagret noen utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har et minimums planleggingsinterval på 5 minutter.</string>
     <string name="pref_title_show_cards_in_timelines">Vis forhåndsvisning av linker i tidslinjer</string>
-    <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før fremheving</string>
+    <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før deling</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s person</item>
@@ -478,8 +478,8 @@
     <string name="review_notifications">Se over varsler</string>
     <string name="wellbeing_mode_notice">Informasjon som kan påvirke ditt mentale velvære vil bli skjult. Dette inkluderer:
 \n
-\n - Varsler om favorisering, fremhevinger og følgere
-\n - Antall favoriseringer og boots på innlegg
+\n - Varsler om favorisering, deling og følgere
+\n - Antall favoriseringer og delinger av innlegg
 \n - Antall følgere og innlegg på profiler
 \n
 \n Push-varsler vil ikke påvirkes, men du kan se over dine varselinnstillinger manuelt.</string>
@@ -505,9 +505,9 @@
     <string name="action_unsubscribe_account">Avslutt abonnementet</string>
     <string name="action_subscribe_account">Abonner</string>
     <string name="follow_requests_info">Selv om kontoen din ikke er låst, har %1$s administratorer markert disse følgeforespørsler for manuell godkjenning.</string>
-    <string name="dialog_delete_conversation_warning">Slette denne samtalen\?</string>
+    <string name="dialog_delete_conversation_warning">Slett denne samtalen\?</string>
     <string name="action_delete_conversation">Slett samtale</string>
-    <string name="action_unbookmark">Slett bokmerke</string>
+    <string name="action_unbookmark">Fjern bokmerke</string>
     <string name="pref_title_confirm_favourites">Vis bekreftelsesdialog når favoritt skal legges til</string>
     <string name="duration_30_days">30 dager</string>
     <string name="duration_60_days">60 dager</string>
@@ -521,10 +521,10 @@
     <string name="notification_sign_up_name">Registreringer</string>
     <string name="notification_sign_up_description">Varslinger om nye brukere</string>
     <string name="notification_update_format">%s redigerte innlegget sitt</string>
-    <string name="pref_title_notification_filter_updates">et innlegg jeg har hatt en interaksjon med er redigert</string>
+    <string name="pref_title_notification_filter_updates">et innlegg jeg har interagert med, er redigert</string>
     <string name="notification_update_name">Redigerte innlegg</string>
-    <string name="notification_update_description">Varslinger når et innlegg du har hatt en interaksjon med er redigert</string>
-    <string name="title_login">Innlogging</string>
+    <string name="notification_update_description">Varslinger når et innlegg du har interagert med er redigert</string>
+    <string name="title_login">Logg inn</string>
     <string name="error_could_not_load_login_page">Klarte ikke å laste innloggingssiden.</string>
     <string name="title_migration_relogin">Logg inn på nytt for pushvarsler</string>
     <string name="action_dismiss">Avvis</string>
@@ -540,13 +540,13 @@
     <string name="error_loading_account_details">Lasting av kontodetaljer feilet</string>
     <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %s MB.</string>
     <string name="error_following_hashtag_format">Det oppsto en feil under følging av #%s</string>
-    <string name="error_unfollowing_hashtag_format">Det oppsto en feil når følging av #%s skulle avsluttes</string>
+    <string name="error_unfollowing_hashtag_format">Kunne ikke slutte å følge #%s</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Ingen endring)</string>
     <string name="description_post_language">Innleggspråk</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Sett fokuspunkt</string>
-    <string name="error_failed_set_focus">Klarte ikke å sette et fokuspunkt</string>
+    <string name="error_failed_set_focus">Klarte ikke å sette fokuspunkt</string>
     <string name="set_focus_description">Trykk eller dra sirkelen for å velge fokuspunktet som alltid skal være synlig i miniatyrbilder.</string>
     <string name="pref_show_self_username_always">Alltid</string>
     <string name="pref_show_self_username_disambiguate">Når flere konti er logget inn</string>
