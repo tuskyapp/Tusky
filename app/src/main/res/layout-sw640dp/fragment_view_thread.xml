@@ -14,10 +14,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/title_view_thread"
-            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:menu="@menu/view_thread_toolbar"
             app:navigationContentDescription="@string/abc_action_bar_up_description"
-            app:menu="@menu/view_thread_toolbar" />
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="@string/title_view_thread" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -25,8 +25,8 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="640dp"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal|top"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -47,7 +47,7 @@
         android:id="@+id/statusView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
