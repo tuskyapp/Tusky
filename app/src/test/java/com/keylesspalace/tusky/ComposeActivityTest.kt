@@ -458,6 +458,23 @@ class ComposeActivityTest {
         assertEquals(language, activity.selectedLanguage)
     }
 
+    @Test
+    fun modernLanguageCodeIsUsed() {
+        // https://github.com/tuskyapp/Tusky/issues/2903
+        // "ji" was deprecated in favor of "yi"
+        composeOptions = ComposeActivity.ComposeOptions(language = "ji")
+        setupActivity()
+        assertEquals("yi", activity.selectedLanguage)
+    }
+
+    @Test
+    fun unknownLanguageGivenInComposeOptionsIsRespected() {
+        val language = "zzz"
+        composeOptions = ComposeActivity.ComposeOptions(language = language)
+        setupActivity()
+        assertEquals(language, activity.selectedLanguage)
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)

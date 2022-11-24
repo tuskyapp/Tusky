@@ -94,6 +94,7 @@ import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -538,13 +539,38 @@ class ComposeActivity :
     private fun mergeLocaleListCompat(list: MutableList<Locale>, localeListCompat: LocaleListCompat) {
         for (index in 0 until localeListCompat.size()) {
             val locale = localeListCompat[index]
-            if (locale != null && !list.contains(locale)) {
+            if (locale != null && list.none { locale.language == it.language }) {
                 list.add(locale)
             }
         }
     }
 
-    private fun setupLanguageSpinner(initialLanguage: String?) {
+    // Ensure that the locale whose code matches the given language is first in the list
+    private fun ensureLanguageIsFirst(locales: MutableList<Locale>, language: String) {
+        var currentLocaleIndex = locales.indexOfFirst { it.language == language }
+        if (currentLocaleIndex < 0) {
+            // Recheck against modern language codes
+            // This should only happen when replying or when the per-account post language is set
+            // to a modern code
+            currentLocaleIndex = locales.indexOfFirst { it.modernLanguageCode == language }
+
+            if (currentLocaleIndex < 0) {
+                // This can happen when:
+                // - Your per-account posting language is set to one android doesn't know (e.g. toki pona)
+                // - Replying to a post in a language android doesn't know
+                locales.add(0, Locale(language))
+                Log.w(TAG, "Attempting to use unknown language tag '$language'")
+                return
+            }
+        }
+
+        if (currentLocaleIndex > 0) {
+            // Move preselected locale to the top
+            locales.add(0, locales.removeAt(currentLocaleIndex))
+        }
+    }
+
+    private fun setupLanguageSpinner(initialLanguage: String) {
         val locales = mutableListOf<Locale>()
         mergeLocaleListCompat(locales, AppCompatDelegate.getApplicationLocales()) // configured app languages first
         mergeLocaleListCompat(locales, LocaleListCompat.getDefault()) // then configured system languages
@@ -556,33 +582,33 @@ class ComposeActivity :
                     it.variant.isNullOrEmpty()
             }
         )
+        ensureLanguageIsFirst(locales, initialLanguage)
 
-        var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
-        if (currentLocaleIndex < 0) {
-            Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
-            currentLocaleIndex = locales.indexOfFirst { it.language == "en" }
-        }
-
-        val context = this
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).language
+                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                parent.setSelection(locales.indexOfFirst { it.language == getInitialLanguage() })
+                parent.setSelection(0)
             }
         }
         binding.composePostLanguageButton.apply {
             adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, locales)
-            setSelection(currentLocaleIndex)
+            setSelection(0)
         }
     }
 
     private fun getInitialLanguage(language: String? = null): String {
         return if (language.isNullOrEmpty()) {
-            // Setting the application ui preference sets the default locale
-            AppCompatDelegate.getApplicationLocales()[0]?.language ?: Locale.getDefault().language
+            // Account-specific language set on the server
+            if (accountManager.activeAccount?.defaultPostLanguage?.isNotEmpty() == true) {
+                accountManager.activeAccount?.defaultPostLanguage!!
+            } else {
+                // Setting the application ui preference sets the default locale
+                AppCompatDelegate.getApplicationLocales()[0]?.language
+                    ?: Locale.getDefault().language
+            }
         } else {
             language
         }
