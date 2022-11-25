@@ -517,6 +517,9 @@
     <string name="description_post_media_no_description_placeholder">
         No description
     </string>
+    <string name="description_post_edited">
+        Edited
+    </string>
     <string name="description_post_reblogged">
         Reblogged
     </string>

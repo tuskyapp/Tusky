@@ -784,6 +784,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 getContentWarningDescription(context, status),
                 (TextUtils.isEmpty(status.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
                 getCreatedAtDescription(actionable.getCreatedAt(), statusDisplayOptions),
+                actionable.getEditedAt() != null ? context.getString(R.string.description_post_edited) : "",
                 getReblogDescription(context, status),
                 status.getUsername(),
                 actionable.getReblogged() ? context.getString(R.string.description_post_reblogged) : "",
