@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Nytt applikasjonsikon av Dzuk https://dzuk.zone/
+- Du kan nå følge stikkord. Klikk på et stikkord, og deretter ikonet i verktøylinjen.
+- Støtte for Android 13
+- Ny nedtrekksliste for å konfigurere hvilket språk et innlegg er skrevet på
+- Media-fanen i profilvisning håndterer nå sensitivt media og laster fortere
+- Det er nå mulig å sette fokuspunkt på et bilde før det publiseres
+- Mulighet for å vise ditt fulle navn på verktøylinjen
