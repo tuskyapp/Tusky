@@ -85,6 +85,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView[] mediaOverlays;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
+    private TextView mediaDescriptionIndicator;
     protected TextView[] mediaLabels;
     protected CharSequence[] mediaDescriptions;
     private MaterialButton contentWarningButton;
@@ -147,6 +148,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         };
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
+        mediaDescriptionIndicator = itemView.findViewById(R.id.status_media_description_indicator);
         mediaLabels = new TextView[]{
                 itemView.findViewById(R.id.status_media_label_0),
                 itemView.findViewById(R.id.status_media_label_1),
@@ -471,6 +473,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             mediaPreviews[3].getLayoutParams().height = mediaPreviewHeight;
         }
 
+        boolean withDescription = false;
         for (int i = 0; i < n; i++) {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
@@ -484,6 +487,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .getString(R.string.action_view_media));
             } else {
                 imageView.setContentDescription(description);
+                withDescription = true;
             }
 
             loadImage(
@@ -502,6 +506,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setAttachmentClickListener(imageView, listener, i, attachment, true);
         }
+
+        mediaDescriptionIndicator.setVisibility(withDescription ? View.VISIBLE : View.GONE);
 
         if (sensitive) {
             sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
