@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.randomAlphanumericString
@@ -128,7 +129,7 @@ class ComposeViewModel @Inject constructor(
 
         media.updateAndGet { mediaValue ->
             val mediaItem = QueuedMedia(
-                localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
+                localId = mediaUploader.getNewLocalMediaId(),
                 uri = uri,
                 type = type,
                 mediaSize = mediaSize,
@@ -138,7 +139,7 @@ class ComposeViewModel @Inject constructor(
             stashMediaItem = mediaItem
 
             if (replaceItem != null) {
-                mediaUploader.cancelUpload(replaceItem.localId)
+                mediaUploader.cancelUploadScope(replaceItem.localId)
                 mediaValue.map {
                     if (it.localId == replaceItem.localId) mediaItem else it
                 }
@@ -158,7 +159,7 @@ class ComposeViewModel @Inject constructor(
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
                         is UploadEvent.FinishedEvent ->
-                            item.copy(uploadPercent = -1)
+                            item.copy(id = event.mediaId, uploadPercent = -1)
                         is UploadEvent.ErrorEvent -> {
                             media.update { mediaValue -> mediaValue.filter { it.localId != mediaItem.localId } }
                             uploadError.emit(event.error)
@@ -182,7 +183,7 @@ class ComposeViewModel @Inject constructor(
     private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?, focus: Attachment.Focus?) {
         media.update { mediaValue ->
             val mediaItem = QueuedMedia(
-                localId = (mediaValue.maxOfOrNull { it.localId } ?: 0) + 1,
+                localId = mediaUploader.getNewLocalMediaId(),
                 uri = uri,
                 type = type,
                 mediaSize = 0,
@@ -196,7 +197,7 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
-        mediaUploader.cancelUpload(item.localId)
+        mediaUploader.cancelUploadScope(item.localId)
         media.update { mediaValue -> mediaValue.filter { it.localId != item.localId } }
     }
 
@@ -235,7 +236,7 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun stopUploads() {
-        mediaUploader.cancelUpload(*media.value.map { it.localId }.toIntArray())
+        mediaUploader.cancelUploadScope(*media.value.map { it.localId }.toIntArray())
     }
 
     fun shouldShowSaveDraftDialog(): Boolean {
@@ -286,27 +287,22 @@ class ComposeViewModel @Inject constructor(
             api.deleteScheduledStatus(scheduledTootId!!)
         }
 
-        val localMediaIds: MutableList<Int> = mutableListOf()
-        val mediaUris: MutableList<Uri> = mutableListOf()
-        val mediaDescriptions: MutableList<String> = mutableListOf()
-        val mediaFocus: MutableList<Attachment.Focus?> = mutableListOf()
-        val mediaProcessed: MutableList<Boolean> = mutableListOf()
-        media.value.forEach { item ->
-            localMediaIds.add(item.localId)
-            mediaUris.add(item.uri)
-            mediaDescriptions.add(item.description ?: "")
-            mediaFocus.add(item.focus)
-            mediaProcessed.add(false)
+        val attachedMedia = media.value.map { item ->
+            MediaToSend(
+                localId = item.localId,
+                id = item.id,
+                uri = item.uri.toString(),
+                description = item.description,
+                focus = item.focus,
+                processed = false
+            )
         }
         val tootToSend = StatusToSend(
             text = content,
             warningText = spoilerText,
             visibility = statusVisibility.value.serverString(),
-            sensitive = mediaUris.isNotEmpty() && (markMediaAsSensitive.value || showContentWarning.value),
-            localMediaIds = localMediaIds,
-            mediaUris = mediaUris.map { it.toString() },
-            mediaDescriptions = mediaDescriptions,
-            mediaFocus = mediaFocus,
+            sensitive = attachedMedia.isNotEmpty() && (markMediaAsSensitive.value || showContentWarning.value),
+            media = attachedMedia,
             scheduledAt = scheduledAt.value,
             inReplyToId = inReplyToId,
             poll = poll.value,
@@ -316,7 +312,6 @@ class ComposeViewModel @Inject constructor(
             draftId = draftId,
             idempotencyKey = randomAlphanumericString(16),
             retries = 0,
-            mediaProcessed = mediaProcessed,
             language = postLanguage,
         )
 

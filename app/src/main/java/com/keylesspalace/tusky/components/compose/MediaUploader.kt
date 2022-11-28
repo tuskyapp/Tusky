@@ -40,12 +40,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -61,10 +59,12 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
+sealed interface FinalUploadEvent
+
 sealed class UploadEvent {
     data class ProgressEvent(val percentage: Int) : UploadEvent()
-    data class FinishedEvent(val localId: Int, val mediaId: String) : UploadEvent()
-    data class ErrorEvent(val error: Throwable) : UploadEvent()
+    data class FinishedEvent(val mediaId: String) : UploadEvent(), FinalUploadEvent
+    data class ErrorEvent(val error: Throwable) : UploadEvent(), FinalUploadEvent
 }
 
 data class UploadData(
@@ -99,18 +99,26 @@ class MediaUploader @Inject constructor(
 
     private val uploads = mutableMapOf<Int, UploadData>()
 
-    suspend fun waitForUploadsToComplete(uploadIds: List<Int>): List<String> {
-        val filteredUploadFlows: List<Flow<UploadEvent.FinishedEvent>> = uploads
-            .filter { uploadData -> uploadIds.contains(uploadData.key) }
-            .map { uploadData ->
-                uploadData.value.flow.filterIsInstance()
-            }
-        return combine(filteredUploadFlows) { uploads ->
-            uploads.map { it.mediaId }
-        }
-            .first()
+    private var mostRecentId: Int = 0
+
+    fun getNewLocalMediaId(): Int {
+        return mostRecentId++
     }
 
+    suspend fun getMediaUploadState(localId: Int): FinalUploadEvent {
+        return uploads[localId]?.flow
+            ?.filterIsInstance<FinalUploadEvent>()
+            ?.first()
+            ?: UploadEvent.ErrorEvent(IllegalStateException("media upload with id $localId not found"))
+    }
+
+    /**
+     * Uploads media.
+     * @param media the media to upload
+     * @param instanceInfo info about the current media to make sure the media gets resized correctly
+     * @return A Flow emitting upload events.
+     * The Flow is hot, in order to cancel upload or clear resources call [cancelUploadScope].
+     */
     @OptIn(ExperimentalCoroutinesApi::class)
     fun uploadMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Flow<UploadEvent> {
         val uploadScope = CoroutineScope(Dispatchers.IO)
@@ -131,7 +139,11 @@ class MediaUploader @Inject constructor(
         return uploadFlow
     }
 
-    fun cancelUpload(vararg localMediaIds: Int) {
+    /**
+     * Cancels the CoroutineScope of a media upload.
+     * Call this when to abort the upload or to clean up resources after upload info is no longer needed
+     */
+    fun cancelUploadScope(vararg localMediaIds: Int) {
         localMediaIds.forEach { localId ->
             uploads[localId]?.scope?.cancel()
         }
@@ -234,7 +246,6 @@ class MediaUploader @Inject constructor(
     private val contentResolver = context.contentResolver
 
     private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
-        delay(10000)
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
             val map = MimeTypeMap.getSingleton()
@@ -276,7 +287,7 @@ class MediaUploader @Inject constructor(
             }
 
             mediaUploadApi.uploadMedia(body, description, focus).fold({ result ->
-                send(UploadEvent.FinishedEvent(media.localId, result.id))
+                send(UploadEvent.FinishedEvent(result.id))
             }, { throwable ->
                 val errorMessage = throwable.getServerErrorMessage()
                 if (errorMessage == null) {
