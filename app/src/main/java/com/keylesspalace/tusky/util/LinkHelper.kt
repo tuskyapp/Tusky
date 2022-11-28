@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
+import java.net.URI
+import java.net.URISyntaxException
 
 fun getDomain(urlString: String?): String {
     val host = urlString?.toUri()?.host
@@ -268,6 +270,46 @@ private fun openLinkInCustomTab(uri: Uri, context: Context) {
         Log.w(TAG, "Activity was not found for intent $customTabsIntent")
         openLinkInBrowser(uri, context)
     }
+}
+
+// https://mastodon.foo.bar/@User
+// https://mastodon.foo.bar/@User/43456787654678
+// https://pleroma.foo.bar/users/User
+// https://pleroma.foo.bar/users/9qTHT2ANWUdXzENqC0
+// https://pleroma.foo.bar/notice/9sBHWIlwwGZi5QGlHc
+// https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
+// https://friendica.foo.bar/profile/user
+// https://friendica.foo.bar/display/d4643c42-3ae0-4b73-b8b0-c725f5819207
+// https://misskey.foo.bar/notes/83w6r388br (always lowercase)
+// https://pixelfed.social/p/connyduck/391263492998670833
+// https://pixelfed.social/connyduck
+// https://gts.foo.bar/@goblin/statuses/01GH9XANCJ0TA8Y95VE9H3Y0Q2
+fun looksLikeMastodonUrl(urlString: String): Boolean {
+    val uri: URI
+    try {
+        uri = URI(urlString)
+    } catch (e: URISyntaxException) {
+        return false
+    }
+
+    if (uri.query != null ||
+        uri.fragment != null ||
+        uri.path == null
+    ) {
+        return false
+    }
+
+    val path = uri.path
+    return path.matches("^/@[^/]+$".toRegex()) ||
+        path.matches("^/@[^/]+/\\d+$".toRegex()) ||
+        path.matches("^/users/\\w+$".toRegex()) ||
+        path.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
+        path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
+        path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
+        path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
+        path.matches("^/profile/\\w+$".toRegex()) ||
+        path.matches("^/p/\\w+/\\d+$".toRegex()) ||
+        path.matches("^/\\w+$".toRegex())
 }
 
 private const val TAG = "LinkHelper"
