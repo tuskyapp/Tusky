@@ -192,6 +192,9 @@ AND timelineUserId = :accountId
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) < LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId < serverId)) ORDER BY LENGTH(serverId) ASC, serverId ASC LIMIT 1")
     abstract suspend fun getIdAbove(accountId: Long, serverId: String): String?
 
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    abstract suspend fun getIdBelow(accountId: Long, serverId: String): String?
+
     /**
      * Returns the id of the next placeholder after [serverId]
      */
