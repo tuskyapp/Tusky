@@ -1219,7 +1219,8 @@ class ComposeActivity :
         val uploadPercent: Int = 0,
         val id: String? = null,
         val description: String? = null,
-        val focus: Attachment.Focus? = null
+        val focus: Attachment.Focus? = null,
+        val processed: Boolean?
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;

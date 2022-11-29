@@ -134,7 +134,8 @@ class ComposeViewModel @Inject constructor(
                 type = type,
                 mediaSize = mediaSize,
                 description = description,
-                focus = focus
+                focus = focus,
+                processed = null
             )
             stashMediaItem = mediaItem
 
@@ -159,7 +160,7 @@ class ComposeViewModel @Inject constructor(
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
                         is UploadEvent.FinishedEvent ->
-                            item.copy(id = event.mediaId, uploadPercent = -1)
+                            item.copy(id = event.mediaId, uploadPercent = -1, processed = event.processed)
                         is UploadEvent.ErrorEvent -> {
                             media.update { mediaValue -> mediaValue.filter { it.localId != mediaItem.localId } }
                             uploadError.emit(event.error)
@@ -190,7 +191,8 @@ class ComposeViewModel @Inject constructor(
                 uploadPercent = -1,
                 id = id,
                 description = description,
-                focus = focus
+                focus = focus,
+                processed = true
             )
             mediaValue + mediaItem
         }
@@ -294,7 +296,7 @@ class ComposeViewModel @Inject constructor(
                 uri = item.uri.toString(),
                 description = item.description,
                 focus = item.focus,
-                processed = false
+                processed = item.processed == true
             )
         }
         val tootToSend = StatusToSend(

@@ -23,7 +23,6 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
@@ -51,6 +50,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import retrofit2.HttpException
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -63,7 +63,7 @@ sealed interface FinalUploadEvent
 
 sealed class UploadEvent {
     data class ProgressEvent(val percentage: Int) : UploadEvent()
-    data class FinishedEvent(val mediaId: String) : UploadEvent(), FinalUploadEvent
+    data class FinishedEvent(val mediaId: String, val processed: Boolean) : UploadEvent(), FinalUploadEvent
     data class ErrorEvent(val error: Throwable) : UploadEvent(), FinalUploadEvent
 }
 
@@ -286,16 +286,20 @@ class MediaUploader @Inject constructor(
                 null
             }
 
-            mediaUploadApi.uploadMedia(body, description, focus).fold({ result ->
-                send(UploadEvent.FinishedEvent(result.id))
-            }, { throwable ->
-                val errorMessage = throwable.getServerErrorMessage()
+            val uploadResponse = mediaUploadApi.uploadMedia(body, description, focus)
+            val responseBody = uploadResponse.body()
+            if (uploadResponse.isSuccessful && responseBody != null) {
+                send(UploadEvent.FinishedEvent(responseBody.id, uploadResponse.code() == 200))
+            } else {
+                val error = HttpException(uploadResponse)
+                val errorMessage = error.getServerErrorMessage()
                 if (errorMessage == null) {
-                    throw throwable
+                    throw error
                 } else {
                     throw UploadServerError(errorMessage)
                 }
-            })
+            }
+
             awaitClose()
         }
     }

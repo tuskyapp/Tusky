@@ -140,7 +140,7 @@ class SendStatusService : Service(), Injectable {
             val media = statusToSend.media.map { mediaItem ->
                 if (mediaItem.id == null) {
                     when (val uploadState = mediaUploader.getMediaUploadState(mediaItem.localId)) {
-                        is UploadEvent.FinishedEvent -> mediaItem.copy(id = uploadState.mediaId)
+                        is UploadEvent.FinishedEvent -> mediaItem.copy(id = uploadState.mediaId, processed = uploadState.processed)
                         is UploadEvent.ErrorEvent -> {
                             Log.w(TAG, "failed uploading media", uploadState.error)
                             failSending(statusId)
