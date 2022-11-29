@@ -144,6 +144,7 @@ class SendStatusService : Service(), Injectable {
                         is UploadEvent.ErrorEvent -> {
                             Log.w(TAG, "failed uploading media", uploadState.error)
                             failSending(statusId)
+                            stopSelfWhenDone()
                             return@launch
                         }
                     }

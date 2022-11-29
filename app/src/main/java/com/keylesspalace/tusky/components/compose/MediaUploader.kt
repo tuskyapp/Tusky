@@ -145,7 +145,7 @@ class MediaUploader @Inject constructor(
      */
     fun cancelUploadScope(vararg localMediaIds: Int) {
         localMediaIds.forEach { localId ->
-            uploads[localId]?.scope?.cancel()
+            uploads.remove(localId)?.scope?.cancel()
         }
     }
 
