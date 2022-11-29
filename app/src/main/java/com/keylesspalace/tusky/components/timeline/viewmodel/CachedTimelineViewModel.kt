@@ -165,14 +165,12 @@ class CachedTimelineViewModel @Inject constructor(
                         activeAccount.id
                     )
                 )
-
                 val response = db.withTransaction {
                     val idAbovePlaceholder = timelineDao.getIdAbove(activeAccount.id, placeholderId)
-                    val nextPlaceholderId =
-                        timelineDao.getNextPlaceholderIdAfter(activeAccount.id, placeholderId)
+                    val idBelowPlaceHolder = timelineDao.getIdBelow(activeAccount.id, placeholderId)
                     api.homeTimeline(
                         maxId = idAbovePlaceholder,
-                        sinceId = nextPlaceholderId,
+                        minId = idBelowPlaceHolder,
                         limit = LOAD_AT_ONCE
                     )
                 }
@@ -217,12 +215,12 @@ class CachedTimelineViewModel @Inject constructor(
                     /* In case we loaded a whole page and there was no overlap with existing statuses,
                        we insert a placeholder because there might be even more unknown statuses */
                     if (overlappedStatuses == 0 && statuses.size == LOAD_AT_ONCE) {
-                        /* This overrides the last of the newly loaded statuses with a placeholder
+                        /* This overrides the first of the newly loaded statuses with a placeholder
                            to guarantee the placeholder has an id that exists on the server as not all
                            servers handle client generated ids as expected */
                         timelineDao.insertStatus(
                             Placeholder(
-                                statuses.last().id,
+                                statuses.first().id,
                                 loading = false
                             ).toEntity(activeAccount.id)
                         )
