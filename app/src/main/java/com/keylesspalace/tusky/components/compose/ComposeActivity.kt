@@ -134,8 +134,6 @@ class ComposeActivity :
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
-    // this only exists when a status is trying to be sent, but uploads are still occurring
-    private var finishingUploadDialog: ProgressDialog? = null
     private var photoUploadUri: Uri? = null
 
     @VisibleForTesting
@@ -994,16 +992,9 @@ class ComposeActivity :
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true)
         } else if (characterCount <= maximumTootCharacters) {
-            if (viewModel.media.value.isNotEmpty()) {
-                finishingUploadDialog = ProgressDialog.show(
-                    this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true
-                )
-            }
 
             lifecycleScope.launch {
                 viewModel.sendStatus(contentText, spoilerText)
-                finishingUploadDialog?.dismiss()
                 deleteDraftAndFinish()
             }
         } else {
@@ -1170,11 +1161,16 @@ class ComposeActivity :
             AlertDialog.Builder(this)
                 .setMessage(warning)
                 .setPositiveButton(R.string.action_save) { _, _ ->
+                    viewModel.stopUploads()
                     saveDraftAndFinish(contentText, contentWarning)
                 }
-                .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
+                .setNegativeButton(R.string.action_delete) { _, _ ->
+                    viewModel.stopUploads()
+                    deleteDraftAndFinish()
+                }
                 .show()
         } else {
+            viewModel.stopUploads()
             finishWithoutSlideOutAnimation()
         }
     }

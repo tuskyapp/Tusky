@@ -86,7 +86,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         warningText = spoiler,
                         visibility = visibility.serverString(),
                         sensitive = false,
-                        mediaIds = emptyList(),
+                        localMediaIds = emptyList(),
                         mediaUris = emptyList(),
                         mediaDescriptions = emptyList(),
                         mediaFocus = emptyList(),
