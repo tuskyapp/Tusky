@@ -354,7 +354,7 @@
     <plurals name="max_tab_number_reached">
         <item quantity="one">bylo dosaženo maxima %1$d panelu</item>
         <item quantity="few">bylo dosaženo maxima %1$d panelů</item>
-        <item quantity="other"></item>
+        <item quantity="other">bylo dosaženo maxima %1$d panelů</item>
     </plurals>
     <string name="description_post_media">Média %s</string>
     <string name="description_post_cw">Varování o obsahu: %s</string>
@@ -507,7 +507,7 @@
         <item quantity="other">Nemůžete nahrát více než %1$d mediálních příloh.</item>
     </plurals>
     <string name="delete_scheduled_post_warning">Smazat tento naplánovaný příspěvek\?</string>
-    <string name="notification_subscription_description">Upozornění na nový toot někoho, koho sledujete.</string>
+    <string name="notification_subscription_description">Upozornění na nový příspěvek někoho, koho sledujete.</string>
     <string name="instance_rule_info">Přihlášením souhlasíte s pravidly serveru %s.</string>
     <string name="instance_rule_title">Pravidla serveru %s</string>
     <string name="wellbeing_mode_notice">Některé informace, které mohou ovlivnit Vaši duševní pohodu, mohou být skryty. To zahrnuje:
@@ -567,7 +567,7 @@
     <string name="duration_no_change">(Beze změny)</string>
     <string name="no_announcements">Nejsou zde žádná oznámení.</string>
     <string name="pref_title_show_self_username">Zobrazit uživatelské jméno v panelech nástrojů</string>
-    <string name="account_note_hint">Váše soukromá poznámka o tomto účtu.</string>
+    <string name="account_note_hint">Vaše soukromá poznámka o tomto účtu</string>
     <string name="account_note_saved">Uloženo!</string>
     <string name="pref_title_wellbeing_mode">Pohoda</string>
     <string name="review_notifications">Zkontrolovat oznámení</string>
@@ -583,6 +583,6 @@
     <string name="action_dismiss">Zavřít</string>
     <string name="action_details">Podrobnosti</string>
     <string name="dialog_delete_conversation_warning">Smazat tuto konverzaci\?</string>
-    <string name="pref_title_notification_filter_follow_requests">Požádáno o sledování</string>
+    <string name="pref_title_notification_filter_follow_requests">požádáno o sledování</string>
     <string name="pref_title_animate_custom_emojis">Animovat vlastní emotikony</string>
 </resources>
