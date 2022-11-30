@@ -270,6 +270,7 @@
     <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
     <string name="pref_title_http_proxy_server">HTTP proxy server</string>
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+    <string name="pref_title_http_proxy_port_message">Port should be between %d and %d</string>
 
     <string name="pref_default_post_privacy">Default post privacy</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive</string>

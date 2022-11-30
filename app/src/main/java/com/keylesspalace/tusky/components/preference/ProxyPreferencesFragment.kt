@@ -16,12 +16,17 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
+import android.widget.Toast
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.editTextPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.switchPreference
+import com.keylesspalace.tusky.util.MAX_PROXY_PORT
+import com.keylesspalace.tusky.util.MIN_PROXY_PORT
+import com.keylesspalace.tusky.util.isValidProxyPort
 import kotlin.system.exitProcess
 
 class ProxyPreferencesFragment : PreferenceFragmentCompat() {
@@ -44,8 +49,23 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
             }
 
             editTextPreference {
+                val portMessage = getString(
+                    R.string.pref_title_http_proxy_port_message,
+                    MIN_PROXY_PORT,
+                    MAX_PROXY_PORT
+                )
+                this.dialogMessage = portMessage
                 setTitle(R.string.pref_title_http_proxy_port)
                 key = PrefKeys.HTTP_PROXY_PORT
+                onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                    isValidProxyPort(newValue).also { isValid ->
+                        if (!isValid) Toast.makeText(
+                            context,
+                            portMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
                 isIconSpaceReserved = false
                 setSummaryProvider { text }
             }
