@@ -105,6 +105,9 @@ class TimelineFragment :
     private var isSwipeToRefreshEnabled = true
     private var hideFab = false
 
+    /** Adapter position of the placeholder that was mostly clicked to "Load more" */
+    private var loadMorePosition: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -202,6 +205,7 @@ class TimelineFragment :
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                Log.d(TAG, "onItemRangeInserted($positionStart, $itemCount)")
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
@@ -210,6 +214,15 @@ class TimelineFragment :
                             } else binding.recyclerView.scrollToPosition(0)
                         }
                     }
+                }
+
+                // If this insert was because the user clicked "Load more" (i.e., the
+                // insert position is the same as the position of the "Load more"
+                // placeholder) then scroll so the user is at the earliest of the new
+                // statuses.
+                if (loadMorePosition != null && loadMorePosition == positionStart) {
+                    binding.recyclerView.scrollToPosition(positionStart + itemCount)
+                    loadMorePosition = null
                 }
             }
         })
@@ -348,6 +361,7 @@ class TimelineFragment :
 
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+        loadMorePosition = position
         viewModel.loadMore(placeholder.id)
     }
 
