@@ -354,7 +354,7 @@
     <plurals name="max_tab_number_reached">
         <item quantity="one">bylo dosaženo maxima %1$d panelu</item>
         <item quantity="few">bylo dosaženo maxima %1$d panelů</item>
-        <item quantity="other">bylo dosaženo maxima %1$d panelů</item>
+        <item quantity="other"></item>
     </plurals>
     <string name="description_post_media">Média %s</string>
     <string name="description_post_cw">Varování o obsahu: %s</string>
@@ -493,12 +493,12 @@
     <string name="error_image_edit_failed">Obrázek se nepodařilo upravit.</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s osoba</item>
-        <item quantity="few">%s lidí</item>
+        <item quantity="few">%s lidi</item>
         <item quantity="other">%s lidí</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">zbývá %d hodina</item>
-        <item quantity="few">zbývá %d hodiny</item>
+        <item quantity="few">zbývají %d hodiny</item>
         <item quantity="other">zbývá %d hodin</item>
     </plurals>
     <plurals name="error_upload_max_media_reached">
@@ -508,24 +508,28 @@
     </plurals>
     <string name="delete_scheduled_post_warning">Smazat tento naplánovaný příspěvek\?</string>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="notification_subscription_description">Oznámení, když někdo, ke komu jste přihlášen/a, zveřejnil nový příspěvek</string>
 =======
     <string name="notification_subscription_description">Upozornění na nový příspěvek někoho, koho sledujete.</string>
 >>>>>>> 657cc7d5... Translated using Weblate (Czech)
+=======
+    <string name="notification_subscription_description">Upozornění na nový toot někoho, koho sledujete.</string>
+>>>>>>> 1625e298... Translated using Weblate (Czech)
     <string name="instance_rule_info">Přihlášením souhlasíte s pravidly serveru %s.</string>
     <string name="instance_rule_title">Pravidla serveru %s</string>
-    <string name="wellbeing_mode_notice">Některé informace, které by mohly ovlivnit vaši duševní pohodu, budou skryty. To zahrnuje:
+    <string name="wellbeing_mode_notice">Některé informace, které mohou ovlivnit Vaši duševní pohodu, mohou být skryty. To zahrnuje:
 \n
-\n - Upozornění na Oblíbená/Boostnutí/Sledování
-\n - Počty Oblíbení/Boostnutí příspěvků
-\n - Statistiky Sledujících/Příspěvků na profilech
+\n - Upozornění na boosty, oblíbené a sledování
+\n - Počty boostů a oblíbení u příspěvků
+\n - Statistiky sledujících a příspěvků na profilech
 \n
-\n Push oznámení nebudou ovlivněna, ale předvolby oznámení můžete zkontrolovat ručně.</string>
+\nPush oznámení nebudou ovlivněna, ale můžete si zkontrolovat jejich nastavení manuálně.</string>
     <string name="dialog_push_notification_migration_other_accounts">Znovu jste se přihlásili ke svému aktuálnímu účtu, abyste aplikaci Tusky udělili oprávnění k odběru push. Stále však máte další účty, které tímto způsobem migrovány nebyly. Přepněte se na ně a znovu se přihlaste na jednom po druhém, abyste povolili podporu oznámení UnifiedPush.</string>
     <string name="compose_save_draft_loses_media">Uložit koncept\? (Přílohy budou znovu nahrány, když obnovíte koncept.)</string>
     <string name="set_focus_description">Klepnutím nebo přetažením kruhu vyberte ohnisko, které bude vždy viditelné v miniaturách.</string>
     <string name="pref_title_confirm_favourites">Před oblíbením zobrazit dialog pro potvrzení</string>
-    <string name="pref_title_hide_top_toolbar">Skrýt název horního panelu nástrojů</string>
+    <string name="pref_title_hide_top_toolbar">Skrýt nadpis horního panelu nástrojů</string>
     <string name="wellbeing_hide_stats_profile">Skrýt kvantitativní statistiky profilů</string>
     <string name="dialog_delete_list_warning">Opravdu chcete smazat seznam %s\?</string>
     <string name="follow_requests_info">I když váš účet není uzamčen, zaměstnanci %1$s si myslí, že byste mohli chtít zkontrolovat žádosti o sledování z těchto účtů ručně.</string>
@@ -571,7 +575,7 @@
     <string name="duration_no_change">(Beze změny)</string>
     <string name="no_announcements">Nejsou zde žádná oznámení.</string>
     <string name="pref_title_show_self_username">Zobrazit uživatelské jméno v panelech nástrojů</string>
-    <string name="account_note_hint">Vaše soukromá poznámka o tomto účtu</string>
+    <string name="account_note_hint">Váše soukromá poznámka o tomto účtu.</string>
     <string name="account_note_saved">Uloženo!</string>
     <string name="pref_title_wellbeing_mode">Pohoda</string>
     <string name="review_notifications">Zkontrolovat oznámení</string>
@@ -583,10 +587,10 @@
     <string name="error_unfollowing_hashtag_format">Chyba při rušení sledování #%s</string>
     <string name="notification_update_format">%s upravil/a svůj příspěvek</string>
     <string name="action_unbookmark">Odebrat záložku</string>
-    <string name="action_delete_conversation">Odstranit konverzaci</string>
+    <string name="action_delete_conversation">Smazat konverzaci</string>
     <string name="action_dismiss">Zavřít</string>
     <string name="action_details">Podrobnosti</string>
     <string name="dialog_delete_conversation_warning">Smazat tuto konverzaci\?</string>
-    <string name="pref_title_notification_filter_follow_requests">požádáno o sledování</string>
+    <string name="pref_title_notification_filter_follow_requests">Požádáno o sledování</string>
     <string name="pref_title_animate_custom_emojis">Animovat vlastní emotikony</string>
 </resources>
