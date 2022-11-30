@@ -35,14 +35,22 @@ import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.shareIn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import java.io.File
@@ -51,11 +59,18 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Date
 import javax.inject.Inject
+import javax.inject.Singleton
 
 sealed class UploadEvent {
     data class ProgressEvent(val percentage: Int) : UploadEvent()
-    data class FinishedEvent(val mediaId: String) : UploadEvent()
+    data class FinishedEvent(val localId: Int, val mediaId: String) : UploadEvent()
+    data class ErrorEvent(val error: Throwable) : UploadEvent()
 }
+
+data class UploadData(
+    val flow: Flow<UploadEvent>,
+    val scope: CoroutineScope
+)
 
 fun createNewImageFile(context: Context, suffix: String = ".jpg"): File {
     // Create an image file name
@@ -76,14 +91,30 @@ class MediaTypeException : Exception()
 class CouldNotOpenFileException : Exception()
 class UploadServerError(val errorMessage: String) : Exception()
 
+@Singleton
 class MediaUploader @Inject constructor(
     private val context: Context,
     private val mediaUploadApi: MediaUploadApi
 ) {
 
+    private val uploads = mutableMapOf<Int, UploadData>()
+
+    suspend fun waitForUploadsToComplete(uploadIds: List<Int>): List<String> {
+        val filteredUploadFlows: List<Flow<UploadEvent.FinishedEvent>> = uploads
+            .filter { uploadData -> uploadIds.contains(uploadData.key) }
+            .map { uploadData ->
+                uploadData.value.flow.filterIsInstance()
+            }
+        return combine(filteredUploadFlows) { uploads ->
+            uploads.map { it.mediaId }
+        }
+            .first()
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun uploadMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Flow<UploadEvent> {
-        return flow {
+        val uploadScope = CoroutineScope(Dispatchers.IO)
+        val uploadFlow = flow {
             if (shouldResizeMedia(media, instanceInfo)) {
                 emit(downsize(media, instanceInfo))
             } else {
@@ -91,7 +122,19 @@ class MediaUploader @Inject constructor(
             }
         }
             .flatMapLatest { upload(it) }
-            .flowOn(Dispatchers.IO)
+            .catch { exception ->
+                emit(UploadEvent.ErrorEvent(exception))
+            }
+            .shareIn(uploadScope, SharingStarted.Lazily, 1)
+
+        uploads[media.localId] = UploadData(uploadFlow, uploadScope)
+        return uploadFlow
+    }
+
+    fun cancelUpload(vararg localMediaIds: Int) {
+        localMediaIds.forEach { localId ->
+            uploads[localId]?.scope?.cancel()
+        }
     }
 
     fun prepareMedia(inUri: Uri, instanceInfo: InstanceInfo): PreparedMedia {
@@ -191,6 +234,7 @@ class MediaUploader @Inject constructor(
     private val contentResolver = context.contentResolver
 
     private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
+        delay(10000)
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
             val map = MimeTypeMap.getSingleton()
@@ -232,7 +276,7 @@ class MediaUploader @Inject constructor(
             }
 
             mediaUploadApi.uploadMedia(body, description, focus).fold({ result ->
-                send(UploadEvent.FinishedEvent(result.id))
+                send(UploadEvent.FinishedEvent(media.localId, result.id))
             }, { throwable ->
                 val errorMessage = throwable.getServerErrorMessage()
                 if (errorMessage == null) {

@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
+import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
@@ -54,6 +55,8 @@ class SendStatusService : Service(), Injectable {
     lateinit var eventHub: EventHub
     @Inject
     lateinit var draftHelper: DraftHelper
+    @Inject
+    lateinit var mediaUploader: MediaUploader
 
     private val supervisorJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + supervisorJob)
@@ -131,13 +134,25 @@ class SendStatusService : Service(), Injectable {
         statusToSend.retries++
 
         sendJobs[statusId] = serviceScope.launch {
+
+            // first, wait for media uploads to finish
+            val mediaIds = try {
+                mediaUploader.waitForUploadsToComplete(statusToSend.localMediaIds)
+            } catch (e: Exception) {
+                Log.w(TAG, "failed uploading media", e)
+                failSending(statusId)
+                return@launch
+            }
+            Log.w(TAG, "finished upload")
+
+            // then wait until server finished processing the media
             try {
                 var mediaCheckRetries = 0
                 while (statusToSend.mediaProcessed.any { !it }) {
                     delay(1000L * mediaCheckRetries)
                     statusToSend.mediaProcessed.forEachIndexed { index, processed ->
                         if (!processed) {
-                            when (mastodonApi.getMedia(statusToSend.mediaIds[index]).code()) {
+                            when (mastodonApi.getMedia(mediaIds[index]).code()) {
                                 200 -> statusToSend.mediaProcessed[index] = true // success
                                 206 -> { } // media is still being processed, continue checking
                                 else -> { // some kind of server error, retrying probably doesn't make sense
@@ -156,13 +171,14 @@ class SendStatusService : Service(), Injectable {
                 return@launch
             }
 
+            // finally, send the new status
             val newStatus = NewStatus(
                 statusToSend.text,
                 statusToSend.warningText,
                 statusToSend.inReplyToId,
                 statusToSend.visibility,
                 statusToSend.sensitive,
-                statusToSend.mediaIds,
+                mediaIds,
                 statusToSend.scheduledAt,
                 statusToSend.poll,
                 statusToSend.language,
@@ -179,6 +195,8 @@ class SendStatusService : Service(), Injectable {
                 if (statusToSend.draftId != 0) {
                     draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
                 }
+
+                mediaUploader.cancelUpload(*statusToSend.localMediaIds.toIntArray())
 
                 val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
 
@@ -225,6 +243,8 @@ class SendStatusService : Service(), Injectable {
         val failedStatus = statusesToSend.remove(statusId)
         if (failedStatus != null) {
 
+            mediaUploader.cancelUpload(*failedStatus.localMediaIds.toIntArray())
+
             saveStatusToDrafts(failedStatus)
 
             val notification = buildDraftNotification(
@@ -242,6 +262,9 @@ class SendStatusService : Service(), Injectable {
     private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
+
+            mediaUploader.cancelUpload(*statusToCancel.localMediaIds.toIntArray())
+
             val sendJob = sendJobs.remove(statusId)
             sendJob?.cancel()
 
@@ -372,7 +395,7 @@ data class StatusToSend(
     val warningText: String,
     val visibility: String,
     val sensitive: Boolean,
-    val mediaIds: List<String>,
+    val localMediaIds: List<Int>,
     val mediaUris: List<String>,
     val mediaDescriptions: List<String>,
     val mediaFocus: List<Attachment.Focus?>,
