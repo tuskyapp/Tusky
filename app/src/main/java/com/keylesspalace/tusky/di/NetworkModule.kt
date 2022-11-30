@@ -27,6 +27,9 @@ import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
+import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
+import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
+import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_SERVER
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
@@ -64,9 +67,9 @@ class NetworkModule {
         context: Context,
         preferences: SharedPreferences
     ): OkHttpClient {
-        val httpProxyEnabled = preferences.getBoolean("httpProxyEnabled", false)
-        val httpServer = preferences.getNonNullString("httpProxyServer", "")
-        val httpPort = preferences.getNonNullString("httpProxyPort", "-1").toIntOrNull() ?: -1
+        val httpProxyEnabled = preferences.getBoolean(HTTP_PROXY_ENABLED, false)
+        val httpServer = preferences.getNonNullString(HTTP_PROXY_SERVER, "")
+        val httpPort = preferences.getNonNullString(HTTP_PROXY_PORT, "-1").toIntOrNull() ?: -1
         val cacheSize = 25 * 1024 * 1024L // 25 MiB
         val builder = OkHttpClient.Builder()
             .addInterceptor { chain ->
