@@ -20,7 +20,7 @@
     <string name="title_notifications">Hysbysiadau</string>
     <string name="title_public_local">Lleol</string>
     <string name="title_public_federated">Ffedereiddwyd</string>
-    <string name="title_view_thread">Edau</string>
+    <string name="title_view_thread">Neges</string>
     <string name="title_posts">Negeseuon</string>
     <string name="title_posts_with_replies">Gydag ymatebion</string>
     <string name="title_follows">Dilyniadau</string>
@@ -32,7 +32,7 @@
     <string name="title_edit_profile">Golygu\'ch proffil</string>
     <string name="title_drafts">Drafftiau</string>
     <string name="title_licenses">Trwyddedau</string>
-    <string name="post_boosted_format">%s wedi\'u hybu</string>
+    <string name="post_boosted_format">Wedi\'i hybu gan %s</string>
     <string name="post_sensitive_media_title">Cynnwys sensitif</string>
     <string name="post_media_hidden_title">Cyfryngau wedi\'u cudd</string>
     <string name="post_sensitive_media_directions">Cliciwch i weld</string>
@@ -41,9 +41,9 @@
     <string name="post_content_show_more">Chwyddo</string>
     <string name="post_content_show_less">Lleihau</string>
     <string name="footer_empty">Dim byd yma. Tynnwch lawr i adnewyddu!</string>
-    <string name="notification_reblog_format">%s wedi hybu\'ch post</string>
-    <string name="notification_favourite_format">%s wedi hoffi\'ch post</string>
-    <string name="notification_follow_format">%s wedi\'ch dilyn chi</string>
+    <string name="notification_reblog_format">Mae %s wedi hybu\'ch post</string>
+    <string name="notification_favourite_format">Mae %s wedi hoffi\'ch post</string>
+    <string name="notification_follow_format">Mae %s wedi\'ch dilyn chi</string>
     <string name="report_username_format">Adrodd @%s</string>
     <string name="report_comment_hint">Sylwadau ychwanegol?</string>
     <string name="action_quick_reply">Ateb Cyflym</string>
@@ -309,7 +309,7 @@
     <string name="action_mute_conversation">Tewi sgwrs</string>
     <string name="notifications_apply_filter">Hidlo</string>
     <string name="notification_poll_description">Hysbysiadau am bolau sydd wedi cwblhau</string>
-    <string name="account_date_joined">Ymunwyd %1$s</string>
+    <string name="account_date_joined">Ymunodd %1$s</string>
     <string name="no_scheduled_posts">Does gennych ddim negeseuon arfaethedig.</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="notification_clear_text">Ydych chi\'n siŵr eich bod chi am glirio\'ch holl hysbysiadau yn barhaol\?</string>
