@@ -669,7 +669,12 @@ interface MastodonApi {
     suspend fun tag(@Path("name") name: String): NetworkResult<HashTag>
 
     @GET("api/v1/followed_tags")
-    suspend fun followedTags(): NetworkResult<List<HashTag>>
+    suspend fun followedTags(
+        @Query("min_id") minId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("max_id") maxId: String? = null,
+        @Query("limit") limit: Int? = null,
+    ): Response<List<HashTag>>
 
     @POST("api/v1/tags/{name}/follow")
     suspend fun followTag(@Path("name") name: String): NetworkResult<HashTag>
