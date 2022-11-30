@@ -507,15 +507,7 @@
         <item quantity="other">Nemůžete nahrát více než %1$d mediálních příloh.</item>
     </plurals>
     <string name="delete_scheduled_post_warning">Smazat tento naplánovaný příspěvek\?</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <string name="notification_subscription_description">Oznámení, když někdo, ke komu jste přihlášen/a, zveřejnil nový příspěvek</string>
-=======
-    <string name="notification_subscription_description">Upozornění na nový příspěvek někoho, koho sledujete.</string>
->>>>>>> 657cc7d5... Translated using Weblate (Czech)
-=======
     <string name="notification_subscription_description">Upozornění na nový toot někoho, koho sledujete.</string>
->>>>>>> 1625e298... Translated using Weblate (Czech)
     <string name="instance_rule_info">Přihlášením souhlasíte s pravidly serveru %s.</string>
     <string name="instance_rule_title">Pravidla serveru %s</string>
     <string name="wellbeing_mode_notice">Některé informace, které mohou ovlivnit Vaši duševní pohodu, mohou být skryty. To zahrnuje:
