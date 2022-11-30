@@ -15,7 +15,7 @@
     <string name="error_media_upload_permission">Berechtigung für Zugriff auf Mediendateien benötigt.</string>
     <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
     <string name="error_media_upload_image_or_video">Bilder und Videos können nicht an den gleichen Beitrag angehängt werden.</string>
-    <string name="error_media_upload_sending">Das Hochgeladen ist gescheitert.</string>
+    <string name="error_media_upload_sending">Das Hochladen ist gescheitert.</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Beitrags.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
