@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.report.adapter
 
 import android.text.Spanned
 import android.text.TextUtils
+import android.text.format.DateFormat
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
@@ -47,12 +48,12 @@ class StatusViewHolder(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val viewState: StatusViewState,
     private val adapterHandler: AdapterHandler,
-    private val getStatusForPosition: (Int) -> StatusViewData.Concrete?
+    private val getStatusForPosition: (Int) -> StatusViewData.Concrete?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
     private val statusViewHelper = StatusViewHelper(itemView)
-    private val absoluteTimeFormatter = AbsoluteTimeFormatter()
+    private val absoluteTimeFormatter = AbsoluteTimeFormatter(is24HourFormat = DateFormat.is24HourFormat(itemView.context))
 
     private val previewListener = object : StatusViewHelper.MediaPreviewListener {
         override fun onViewMedia(v: View?, idx: Int) {
@@ -139,7 +140,7 @@ class StatusViewHolder(
         mentions: List<Status.Mention>,
         tags: List<HashTag>?,
         emojis: List<Emoji>,
-        listener: LinkListener
+        listener: LinkListener,
     ) {
         if (expanded) {
             val emojifiedText = content.emojify(emojis, binding.statusContent, statusDisplayOptions.animateEmojis)
