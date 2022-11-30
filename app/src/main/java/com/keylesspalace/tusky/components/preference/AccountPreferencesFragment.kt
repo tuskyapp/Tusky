@@ -182,14 +182,13 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 listPreference {
                     val locales = getLocaleList(getInitialLanguage(null, accountManager.activeAccount))
                     setTitle(R.string.pref_default_post_language)
-                    entries = locales.map { it.getTuskyDisplayName(context) }
-                        // Explicitly add "System default" to the start of the list
-                        .toMutableList().apply {
-                            add(0, context.getString(R.string.system_default))
-                        }.toTypedArray()
-                    entryValues = locales.map { it.language }.toMutableList().apply {
-                        add(0, "")
-                    }.toTypedArray()
+                    // Explicitly add "System default" to the start of the list
+                    entries = (
+                        listOf(context.getString(R.string.system_default)) + locales.map {
+                            it.getTuskyDisplayName(context)
+                        }
+                        ).toTypedArray()
+                    entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
                     icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
                     value = accountManager.activeAccount?.defaultPostLanguage ?: ""
