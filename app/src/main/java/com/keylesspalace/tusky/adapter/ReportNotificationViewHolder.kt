@@ -16,10 +16,6 @@
 package com.keylesspalace.tusky.adapter
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
