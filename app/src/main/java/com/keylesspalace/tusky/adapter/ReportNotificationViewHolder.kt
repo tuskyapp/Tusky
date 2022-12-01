@@ -47,7 +47,7 @@ class ReportNotificationViewHolder(
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
         binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, TimestampUtils.getRelativeTimeSpanString(itemView.context, report.createdAt.time, Date().time), report.status_ids?.size ?: 0)
-        binding.notificationCategory.text = report.category
+        binding.notificationCategory.text = getTranslatedCategory(itemView.context, report.category)
 
         // Fancy avatar inset
         val padding = Utils.dpToPx(binding.notificationReporteeAvatar.context, 12)
@@ -84,13 +84,12 @@ class ReportNotificationViewHolder(
         itemView.setOnClickListener { listener.onViewReport(reportId) }
     }
 
-    private fun getIconWithColor(
-        context: Context,
-        @DrawableRes drawable: Int,
-        @ColorRes color: Int
-    ): Drawable? {
-        val icon = ContextCompat.getDrawable(context, drawable)
-        icon?.setColorFilter(context.getColor(color), PorterDuff.Mode.SRC_ATOP)
-        return icon
+    private fun getTranslatedCategory(context: Context, rawCategory: String): String {
+        return when (rawCategory) {
+            "violation" -> context.getString(R.string.report_category_violation)
+            "spam" -> context.getString(R.string.report_category_spam)
+            "other" -> context.getString(R.string.report_category_other)
+            else -> rawCategory
+        }
     }
 }

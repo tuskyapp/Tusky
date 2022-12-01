@@ -682,5 +682,8 @@
 
     <string name="instance_rule_info">By logging in you agree to the rules of %s.</string>
     <string name="instance_rule_title">%s rules</string>
+    <string name="report_category_violation">Rule violation</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Other</string>
 
 </resources>
