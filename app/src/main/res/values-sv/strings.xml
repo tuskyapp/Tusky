@@ -483,11 +483,11 @@
         <item quantity="one">Du kan inte ladda upp fler än %1$d mediebilaga.</item>
         <item quantity="other">Du kan inte ladda upp fler än %1$d mediebilagor.</item>
     </plurals>
-    <string name="delete_scheduled_post_warning">Radera detta schemalagda inlägg\?</string>
+    <string name="delete_scheduled_post_warning">Radera detta schemalagda inlägg?</string>
     <string name="instance_rule_info">Genom att logga in accepterar du reglerna på %1$s.</string>
     <string name="instance_rule_title">%1$s regler</string>
     <string name="error_unfollowing_hashtag_format">Kunde inte avfölja #%1$s</string>
-    <string name="dialog_delete_conversation_warning">Radera denna konversation\?</string>
+    <string name="dialog_delete_conversation_warning">Radera denna konversation?</string>
     <string name="pref_show_self_username_always">Alltid</string>
     <string name="set_focus_description">Tryck eller dra cirkeln för att välja fokuspunkten som alltid kommer synas i miniatyrbilder.</string>
     <string name="label_duration">Varaktighet</string>
@@ -509,7 +509,7 @@
     <string name="duration_no_change">(Ingen ändring)</string>
     <string name="pref_title_show_self_username">Visa användarnamn i verktygsrader</string>
     <string name="pref_title_confirm_favourites">Visa bekräftelse före favoritmarkering</string>
-    <string name="dialog_delete_list_warning">Vill du verkligen radera listan %1$s\?</string>
+    <string name="dialog_delete_list_warning">Vill du verkligen radera listan %1$s?</string>
     <string name="drafts_post_failed_to_send">Det här inlägget kunde inte skickas!</string>
     <string name="drafts_failed_loading_reply">Kunde inte ladda information om svar</string>
     <string name="draft_deleted">Utkast raderat</string>
@@ -538,7 +538,7 @@
     <string name="error_loading_account_details">Kunde inte ladda kontodetaljer</string>
     <string name="title_login">Logga in</string>
     <string name="error_could_not_load_login_page">Kunde inte ladda inloggningssidan.</string>
-    <string name="compose_save_draft_loses_media">Spara utkast\? (Bilagor kommer att laddas upp igen när du återställer utkastet.)</string>
+    <string name="compose_save_draft_loses_media">Spara utkast? (Bilagor kommer att laddas upp igen när du återställer utkastet.)</string>
     <string name="failed_to_pin">Kunde inte fästa</string>
     <string name="failed_to_unpin">Kunde inte lossa</string>
     <string name="action_add_reaction">lägg till reaktion</string>
@@ -547,7 +547,7 @@
     <string name="failed_to_add_to_list">Kunde inte lägga till kontot till listan</string>
     <string name="failed_to_remove_from_list">Kunde inte ta bort kontot från listan</string>
     <string name="no_lists">Du har inga listor.</string>
-    <string name="action_unfollow_hashtag_format">Sluta följa #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Sluta följa #%1$s?</string>
     <string name="status_created_at_now">nu</string>
     <string name="notification_report_format">Ny rapport för %1$s</string>
     <string name="notification_header_report_format">%1$s rapporterade %2$s</string>
