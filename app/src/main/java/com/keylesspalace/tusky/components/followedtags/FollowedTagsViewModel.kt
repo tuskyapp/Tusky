@@ -14,7 +14,7 @@ import javax.inject.Inject
 class FollowedTagsViewModel @Inject constructor (
     api: MastodonApi
 ) : ViewModel(), Injectable {
-    val tags: MutableList<HashTag> = emptyList<HashTag>().toMutableList()
+    val tags: MutableList<HashTag> = mutableListOf()
     var nextKey: String? = null
     var currentSource: FollowedTagsPagingSource? = null
 
