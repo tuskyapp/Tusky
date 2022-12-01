@@ -47,6 +47,7 @@ fun Notification.toViewData(
         this.type,
         this.id,
         this.account,
-        this.status?.toViewData(isShowingContent, isExpanded, isCollapsed)
+        this.status?.toViewData(isShowingContent, isExpanded, isCollapsed),
+        this.report,
     )
 }

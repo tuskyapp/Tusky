@@ -80,6 +80,7 @@ import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.Either;
 import com.keylesspalace.tusky.util.HttpHeaderLink;
+import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
@@ -711,6 +712,8 @@ public class NotificationsFragment extends SFragment implements
                 return getString(R.string.notification_sign_up_name);
             case UPDATE:
                 return getString(R.string.notification_update_name);
+            case REPORT:
+                return getString(R.string.notification_report_name);
             default:
                 return "Unknown";
         }
@@ -798,6 +801,11 @@ public class NotificationsFragment extends SFragment implements
             }
         }
         Log.w(TAG, "Didn't find a notification for ID: " + notificationId);
+    }
+
+    @Override
+    public void onViewReport(String reportId) {
+        LinkHelper.openLink(getContext(), String.format("https://%s/admin/reports/%s", accountManager.getActiveAccount().getDomain(), reportId));
     }
 
     private void onPreferenceChanged(String key) {
