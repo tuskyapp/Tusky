@@ -481,6 +481,11 @@ interface MastodonApi {
     @GET("/api/v1/lists")
     suspend fun getLists(): NetworkResult<List<MastoList>>
 
+    @GET("/api/v1/accounts/{id}/lists")
+    suspend fun getListsIncludesAccount(
+        @Path("id") accountId: String
+    ): NetworkResult<List<MastoList>>
+
     @FormUrlEncoded
     @POST("api/v1/lists")
     suspend fun createList(
