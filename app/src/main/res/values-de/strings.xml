@@ -543,6 +543,7 @@
     <string name="tips_push_notification_migration">Melde alle Konten neu an, um die Unterstützung für Push-Benachrichtigungen zu aktivieren.</string>
     <string name="account_date_joined">%1$s beigetreten</string>
     <string name="status_count_one_plus">1+</string>
+    <string name="status_created_at_now">Jetzt</string>
     <string name="error_loading_account_details">Fehler beim Laden der Kontodetails</string>
     <string name="action_edit_image">Bild bearbeiten</string>
     <string name="action_details">Details</string>

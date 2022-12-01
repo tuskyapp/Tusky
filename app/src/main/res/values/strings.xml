@@ -360,6 +360,7 @@
     <string name="post_media_audio">Audio</string>
     <string name="post_media_attachments">Attachments</string>
     <string name="status_count_one_plus">1+</string>
+    <string name="status_created_at_now">now</string>
 
     <string name="state_follow_requested">Follow requested</string>
 

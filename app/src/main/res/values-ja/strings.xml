@@ -232,6 +232,7 @@
     <string name="post_media_video">動画</string>
     <string name="state_follow_requested">フォローリクエスト中</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
+    <string name="status_created_at_now">現在</string>
     <string name="abbreviated_in_years">%d年後</string>
     <string name="abbreviated_in_days">%d日後</string>
     <string name="abbreviated_in_hours">%d時間後</string>
