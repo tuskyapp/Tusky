@@ -54,11 +54,6 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected int getMediaPreviewHeight(Context context) {
-        return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
-    }
-
-    @Override
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
