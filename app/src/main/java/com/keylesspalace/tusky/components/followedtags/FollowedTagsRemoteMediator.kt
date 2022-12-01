@@ -19,11 +19,11 @@ class FollowedTagsRemoteMediator(
         loadType: LoadType,
         state: PagingState<String, String>
     ): MediatorResult {
-        val response = request(loadType)
-            ?: return MediatorResult.Success(endOfPaginationReached = true)
-
         return try {
-            applyResponse(response)
+            val response = request(loadType)
+                ?: return MediatorResult.Success(endOfPaginationReached = true)
+
+            return applyResponse(response)
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }
