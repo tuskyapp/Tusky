@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Vylepšená hlavní obrazovka - karty lze nyní přesunout do spodní části.
+- Při ztlumení uživatele se nyní můžete také rozhodnout, zda chcete ztlumit jeho oznámení
+- Nyní můžete sledovat libovolný počet hashtagů na jedné kartě hashtagů
+- Vylepšený způsob zobrazování popisů médií, takže funguje i u superdlouhých popisů
+
+Úplný seznam změn: https://github.com/tuskyapp/Tusky/releases

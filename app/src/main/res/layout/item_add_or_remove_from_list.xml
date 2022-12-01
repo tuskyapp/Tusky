@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/listNameView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="8dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:drawableStartCompat="@drawable/ic_list"
+        app:drawableTint="?android:attr/textColorSecondary"
+        tools:text="Example list" />
+
+    <ImageButton
+        android:id="@+id/addButton"
+        style="@style/TuskyImageButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_add_to_list"
+        android:padding="4dp"
+        android:src="@drawable/ic_plus_24dp" />
+
+    <ImageButton
+        android:id="@+id/removeButton"
+        style="@style/TuskyImageButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_remove_from_list"
+        android:padding="4dp"
+        android:src="@drawable/ic_clear_24dp"
+        android:visibility="gone" />
+
+</LinearLayout>

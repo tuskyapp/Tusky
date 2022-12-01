@@ -471,7 +471,7 @@
     <string name="wellbeing_hide_stats_posts">Приховати кількісну статистику дописів</string>
     <string name="limit_notifications">Обмеження сповіщень стрічки</string>
     <string name="review_notifications">Переглянути сповіщення</string>
-    <string name="account_note_hint">Ваша особиста примітка щодо цього облікового запису</string>
+    <string name="account_note_hint">Ваша особиста примітка про цей обліковий запис</string>
     <string name="pref_title_wellbeing_mode">Добробут</string>
     <string name="pref_title_hide_top_toolbar">Сховати заголовок верхньої панелі інструментів</string>
     <string name="pref_title_confirm_reblogs">Запитувати підтвердження перед просуванням</string>

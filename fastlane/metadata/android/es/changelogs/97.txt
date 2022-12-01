@@ -1,0 +1,9 @@
+Tusky versión 20.0
+
+- Nuevo icono de la aplicación, de Dzuk  https://dzuk.zone/ 
+- Ahora se pueden seguir etiquetas. Clica en una etiqueta y después en el icono de la barra.
+- Soporte para Android 13
+- Se puede seleccionar el idioma en el que se escribe una publicación
+- La pestaña de multimedia en los perfiles ahora respeta el contenido sensible y carga mejor.
+- Ahora es posible fijar el foco de una imagen antes de publicarla
+- Nueva opción para mostrar el nombre de usuario completo en la barra

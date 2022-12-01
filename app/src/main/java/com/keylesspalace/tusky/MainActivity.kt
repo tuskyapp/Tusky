@@ -612,7 +612,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
 
-        val enableSwipeForTabs = preferences.getBoolean("enableSwipeForTabs", true)
+        val enableSwipeForTabs = preferences.getBoolean(PrefKeys.ENABLE_SWIPE_FOR_TABS, true)
         binding.viewPager.isUserInputEnabled = enableSwipeForTabs
 
         onTabSelectedListener?.let {

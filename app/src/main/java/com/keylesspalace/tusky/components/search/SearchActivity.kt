@@ -22,12 +22,14 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.search.adapter.SearchPagerAdapter
 import com.keylesspalace.tusky.databinding.ActivitySearchBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -44,6 +46,8 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private val binding by viewBinding(ActivitySearchBinding::inflate)
 
+    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -59,6 +63,9 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun setupPages() {
         binding.pages.adapter = SearchPagerAdapter(this)
+
+        val enableSwipeForTabs = preferences.getBoolean(PrefKeys.ENABLE_SWIPE_FOR_TABS, true)
+        binding.pages.isUserInputEnabled = enableSwipeForTabs
 
         TabLayoutMediator(binding.tabs, binding.pages) {
             tab, position ->
