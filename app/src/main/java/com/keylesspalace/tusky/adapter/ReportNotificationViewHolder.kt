@@ -41,9 +41,8 @@ class ReportNotificationViewHolder(
     fun setupWithReport(reporter: TimelineAccount, report: Report, animateAvatar: Boolean, animateEmojis: Boolean) {
         val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, animateEmojis)
         val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, animateEmojis)
-        val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)?.apply {
-            setColorFilter(itemView.context.getColor(R.color.tusky_blue), PorterDuff.Mode.SRC_ATOP)
-        }
+        val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
+
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
         binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, TimestampUtils.getRelativeTimeSpanString(itemView.context, report.createdAt.time, Date().time), report.status_ids?.size ?: 0)
