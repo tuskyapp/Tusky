@@ -24,6 +24,7 @@
     <string name="error_sender_account_gone">Error sending post.</string>
     <string name="error_following_hashtag_format">Error following #%s</string>
     <string name="error_unfollowing_hashtag_format">Error unfollowing #%s</string>
+    <string name="error_following_hashtags_unsupported">This instance does not support following hashtags.</string>
 
     <string name="title_login">Login</string>
     <string name="title_home">Home</string>
@@ -50,6 +51,7 @@
     <string name="title_scheduled_posts">Scheduled posts</string>
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
+    <string name="title_followed_hashtags">Followed Hashtags</string>
 
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s boosted</string>
@@ -176,6 +178,7 @@
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
     <string name="confirmation_domain_unmuted">%s unhidden</string>
+    <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
     <string name="post_sent">Sent!</string>
     <string name="post_sent_long">Reply sent successfully.</string>
@@ -676,5 +679,6 @@
 
     <string name="instance_rule_info">By logging in you agree to the rules of %s.</string>
     <string name="instance_rule_title">%s rules</string>
+    <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
 
 </resources>

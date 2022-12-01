@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
@@ -86,6 +87,20 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
+                    true
+                }
+            }
+
+            preference {
+                setTitle(R.string.title_followed_hashtags)
+                setIcon(R.drawable.ic_hashtag)
+                setOnPreferenceClickListener {
+                    val intent = Intent(context, FollowedTagsActivity::class.java)
                     activity?.startActivity(intent)
                     activity?.overridePendingTransition(
                         R.anim.slide_from_right,

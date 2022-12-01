@@ -10,6 +10,7 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
+import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
@@ -125,6 +126,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoginWebViewViewModel::class)
     internal abstract fun loginWebViewViewModel(viewModel: LoginWebViewViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FollowedTagsViewModel::class)
+    internal abstract fun followedTagsViewModel(viewModel: FollowedTagsViewModel): ViewModel
 
     // Add more ViewModels here
 }

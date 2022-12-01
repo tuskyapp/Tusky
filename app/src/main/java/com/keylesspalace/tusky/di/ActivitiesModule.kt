@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
+import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.login.LoginWebViewActivity
@@ -102,6 +103,9 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract fun contributesFiltersActivity(): FiltersActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesFollowedTagsActivity(): FollowedTagsActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesReportActivity(): ReportActivity
