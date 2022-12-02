@@ -167,4 +167,9 @@
         <item name="materialDrawerDrawCircularShadow">false</item>
     </style>
 
+    <style name="ShapeAppearance.Avatar" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12.5%</item>
+    </style>
+
 </resources>
