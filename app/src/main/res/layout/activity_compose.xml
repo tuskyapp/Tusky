@@ -60,20 +60,21 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/mediaWarningButton"
+            android:id="@+id/descriptionMissingWarningButton"
             style="@style/TuskyImageButton"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:contentDescription="@string/hint_media_description_missing"
             android:padding="8dp"
-            app:srcCompat="@drawable/ic_media_warning_24dp"
-            app:tint="?android:attr/textColorHighlight"
+            app:srcCompat="@drawable/ic_missing_description_24dp"
+            app:tint="@color/tusky_orange_light"
             app:tooltipText="@string/hint_media_description_missing"
             android:visibility="invisible" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/composeMainScrollView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/compose_activity_scrollview_height"
         android:layout_marginTop="?attr/actionBarSize"
