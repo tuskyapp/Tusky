@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.adapter;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -31,11 +30,6 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
         infoDivider = view.findViewById(R.id.status_info_divider);
-    }
-
-    @Override
-    protected int getMediaPreviewHeight(Context context) {
-        return context.getResources().getDimensionPixelSize(R.dimen.status_detail_media_preview_height);
     }
 
     @Override

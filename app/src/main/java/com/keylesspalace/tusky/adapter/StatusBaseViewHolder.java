@@ -1,5 +1,7 @@
 package com.keylesspalace.tusky.adapter;
 
+import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
+
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
+import androidx.core.view.ViewKt;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +56,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
+import com.keylesspalace.tusky.view.MediaPreviewLayout;
 import com.keylesspalace.tusky.viewdata.PollOptionViewData;
 import com.keylesspalace.tusky.viewdata.PollViewData;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
@@ -66,12 +70,11 @@ import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
 import kotlin.collections.CollectionsKt;
 
-import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
-
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {
         public static final String KEY_CREATED = "created";
     }
+
     private TextView displayName;
     private TextView username;
     private ImageButton replyButton;
@@ -81,8 +84,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private SparkButton bookmarkButton;
     private ImageButton moreButton;
     private ConstraintLayout mediaContainer;
-    protected MediaPreviewImageView[] mediaPreviews;
-    private ImageView[] mediaOverlays;
+    protected MediaPreviewLayout mediaPreview;
     private TextView sensitiveMediaWarning;
     private View sensitiveMediaShow;
     private TextView mediaDescriptionIndicator;
@@ -133,19 +135,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         mediaContainer = itemView.findViewById(R.id.status_media_preview_container);
         mediaContainer.setClipToOutline(true);
+        mediaPreview = itemView.findViewById(R.id.status_media_preview);
 
-        mediaPreviews = new MediaPreviewImageView[]{
-                itemView.findViewById(R.id.status_media_preview_0),
-                itemView.findViewById(R.id.status_media_preview_1),
-                itemView.findViewById(R.id.status_media_preview_2),
-                itemView.findViewById(R.id.status_media_preview_3)
-        };
-        mediaOverlays = new ImageView[]{
-                itemView.findViewById(R.id.status_media_overlay_0),
-                itemView.findViewById(R.id.status_media_overlay_1),
-                itemView.findViewById(R.id.status_media_overlay_2),
-                itemView.findViewById(R.id.status_media_overlay_3)
-        };
         sensitiveMediaWarning = itemView.findViewById(R.id.status_sensitive_media_warning);
         sensitiveMediaShow = itemView.findViewById(R.id.status_sensitive_media_button);
         mediaDescriptionIndicator = itemView.findViewById(R.id.status_media_description_indicator);
@@ -182,8 +173,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
     }
-
-    protected abstract int getMediaPreviewHeight(Context context);
 
     protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
         CharSequence emojifiedName = CustomEmojiHelper.emojify(
@@ -422,65 +411,52 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         Drawable placeholder = blurhash != null ? decodeBlurHash(blurhash) : mediaPreviewUnloaded;
 
-        if (TextUtils.isEmpty(previewUrl)) {
-            imageView.removeFocalPoint();
-
-            Glide.with(imageView)
-                    .load(placeholder)
-                    .centerInside()
-                    .into(imageView);
-
-        } else {
-            Focus focus = meta != null ? meta.getFocus() : null;
-
-            if (focus != null) { // If there is a focal point for this attachment:
-                imageView.setFocalPoint(focus);
-
-                Glide.with(imageView)
-                        .load(previewUrl)
-                        .placeholder(placeholder)
-                        .centerInside()
-                        .addListener(imageView)
-                        .into(imageView);
-            } else {
+        ViewKt.doOnLayout(imageView, view -> {
+            if (TextUtils.isEmpty(previewUrl)) {
                 imageView.removeFocalPoint();
 
                 Glide.with(imageView)
-                        .load(previewUrl)
-                        .placeholder(placeholder)
+                        .load(placeholder)
                         .centerInside()
                         .into(imageView);
+
+            } else {
+                Focus focus = meta != null ? meta.getFocus() : null;
+
+                if (focus != null) { // If there is a focal point for this attachment:
+                    imageView.setFocalPoint(focus);
+
+                    Glide.with(imageView)
+                            .load(previewUrl)
+                            .placeholder(placeholder)
+                            .centerInside()
+                            .addListener(imageView)
+                            .into(imageView);
+                } else {
+                    imageView.removeFocalPoint();
+
+                    Glide.with(imageView)
+                            .load(previewUrl)
+                            .placeholder(placeholder)
+                            .centerInside()
+                            .into(imageView);
+                }
             }
-        }
+            return null;
+        });
     }
 
     protected void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
                                     final StatusActionListener listener, boolean showingContent,
                                     boolean useBlurhash) {
-        Context context = itemView.getContext();
-        final int n = Math.min(attachments.size(), Status.MAX_MEDIA_ATTACHMENTS);
 
-
-        final int mediaPreviewHeight = getMediaPreviewHeight(context);
-
-        if (n <= 2) {
-            mediaPreviews[0].getLayoutParams().height = mediaPreviewHeight * 2;
-            mediaPreviews[1].getLayoutParams().height = mediaPreviewHeight * 2;
-        } else {
-            mediaPreviews[0].getLayoutParams().height = mediaPreviewHeight;
-            mediaPreviews[1].getLayoutParams().height = mediaPreviewHeight;
-            mediaPreviews[2].getLayoutParams().height = mediaPreviewHeight;
-            mediaPreviews[3].getLayoutParams().height = mediaPreviewHeight;
-        }
+        mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
         boolean withDescription = false;
-        for (int i = 0; i < n; i++) {
+        mediaPreview.forEachIndexed((i, imageView) -> {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
             String description = attachment.getDescription();
-            MediaPreviewImageView imageView = mediaPreviews[i];
-
-            imageView.setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(description)) {
                 imageView.setContentDescription(imageView.getContext()
@@ -499,44 +475,40 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             final Attachment.Type type = attachment.getType();
             if (showingContent && (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV)) {
-                mediaOverlays[i].setVisibility(View.VISIBLE);
+                imageView.setForeground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.play_indicator_overlay));
             } else {
-                mediaOverlays[i].setVisibility(View.GONE);
+                imageView.setForeground(null);
             }
 
             setAttachmentClickListener(imageView, listener, i, attachment, true);
-        }
 
-        mediaDescriptionIndicator.setVisibility(withDescription ? View.VISIBLE : View.GONE);
+            mediaDescriptionIndicator.setVisibility(withDescription ? View.VISIBLE : View.GONE);
 
-        if (sensitive) {
-            sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
-        } else {
-            sensitiveMediaWarning.setText(R.string.post_media_hidden_title);
-        }
-
-        sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
-        sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
-        sensitiveMediaShow.setOnClickListener(v -> {
-            if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
-                listener.onContentHiddenChange(false, getBindingAdapterPosition());
+            if (sensitive) {
+                sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
+            } else {
+                sensitiveMediaWarning.setText(R.string.post_media_hidden_title);
             }
-            v.setVisibility(View.GONE);
-            sensitiveMediaWarning.setVisibility(View.VISIBLE);
-        });
-        sensitiveMediaWarning.setOnClickListener(v -> {
-            if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
-                listener.onContentHiddenChange(true, getBindingAdapterPosition());
-            }
-            v.setVisibility(View.GONE);
-            sensitiveMediaShow.setVisibility(View.VISIBLE);
-        });
 
+            sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
+            sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
+            sensitiveMediaShow.setOnClickListener(v -> {
+                if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onContentHiddenChange(false, getBindingAdapterPosition());
+                }
+                v.setVisibility(View.GONE);
+                sensitiveMediaWarning.setVisibility(View.VISIBLE);
+            });
+            sensitiveMediaWarning.setOnClickListener(v -> {
+                if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onContentHiddenChange(true, getBindingAdapterPosition());
+                }
+                v.setVisibility(View.GONE);
+                sensitiveMediaShow.setVisibility(View.VISIBLE);
+            });
 
-        // Hide any of the placeholder previews beyond the ones set.
-        for (int i = n; i < Status.MAX_MEDIA_ATTACHMENTS; i++) {
-            mediaPreviews[i].setVisibility(View.GONE);
-        }
+            return null;
+        });
     }
 
     @DrawableRes
@@ -757,10 +729,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 setMediaLabel(attachments, sensitive, listener, status.isShowingContent());
                 // Hide all unused views.
-                mediaPreviews[0].setVisibility(View.GONE);
-                mediaPreviews[1].setVisibility(View.GONE);
-                mediaPreviews[2].setVisibility(View.GONE);
-                mediaPreviews[3].setVisibility(View.GONE);
+                mediaPreview.setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
 

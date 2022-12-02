@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.modernLanguageCode
 import java.util.Locale
 
@@ -37,8 +38,7 @@ class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : Ar
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return (super.getDropDownView(position, convertView, parent) as TextView).apply {
             setTextColor(ThemeUtils.getColor(context, android.R.attr.textColorTertiary))
-            val locale = super.getItem(position)
-            text = "${locale?.displayLanguage} (${locale?.getDisplayLanguage(locale)})"
+            text = super.getItem(position)?.getTuskyDisplayName(context)
         }
     }
 }
