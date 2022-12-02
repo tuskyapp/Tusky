@@ -453,6 +453,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
         boolean withDescription = false;
+        for (Attachment at : attachments) {
+            if (!TextUtils.isEmpty(at.getDescription())) {
+                withDescription = true;
+                break;
+            }
+        }
+        mediaDescriptionIndicator.setVisibility(withDescription ? View.VISIBLE : View.GONE);
+
         mediaPreview.forEachIndexed((i, imageView) -> {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
@@ -463,7 +471,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         .getString(R.string.action_view_media));
             } else {
                 imageView.setContentDescription(description);
-                withDescription = true;
             }
 
             loadImage(
@@ -482,7 +489,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setAttachmentClickListener(imageView, listener, i, attachment, true);
 
-            mediaDescriptionIndicator.setVisibility(withDescription ? View.VISIBLE : View.GONE);
 
             if (sensitive) {
                 sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);

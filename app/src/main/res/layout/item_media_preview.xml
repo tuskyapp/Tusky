@@ -12,37 +12,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/status_sensitive_media_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.7"
-            android:contentDescription="@null"
-            android:padding="@dimen/status_sensitive_media_button_padding"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/status_media_preview_container"
-            app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
-            app:srcCompat="@drawable/ic_eye_24dp"
-            app:tint="@color/white" />
+    <ImageView
+        android:id="@+id/status_sensitive_media_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:contentDescription="@null"
+        android:padding="@dimen/status_sensitive_media_button_padding"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/status_media_preview_container"
+        app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
+        app:srcCompat="@drawable/ic_eye_24dp"
+        app:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/status_media_description_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="?attr/status_text_small"
-            android:background="@drawable/media_warning_bg"
-            android:contentDescription="@null"
-            android:paddingLeft="5dp"
-            android:paddingTop="3dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="3dp"
-            android:layout_margin="3dp"
-            android:visibility="gone"
-            android:text="ALT"
-            app:layout_constraintEnd_toEndOf="@+id/status_media_preview_container"
-            app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_container"
-            app:tint="@color/white" />
+    <TextView
+        android:id="@+id/status_media_description_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="?attr/status_text_small"
+        android:background="@drawable/media_warning_bg"
+        android:contentDescription="@null"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
+        android:layout_margin="3dp"
+        android:visibility="gone"
+        android:text="ALT"
+        app:layout_constraintEnd_toEndOf="@+id/status_media_preview_container"
+        app:layout_constraintBottom_toBottomOf="@+id/status_media_preview_container"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/status_sensitive_media_warning"
