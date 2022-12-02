@@ -22,8 +22,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -34,6 +37,7 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,6 +56,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private var unfollowTagItem: MenuItem? = null
     private var muteTagItem: MenuItem? = null
     private var unmuteTagItem: MenuItem? = null
+
+    /** The filter muting hashtag, null if unknown or hashtag is not filtered */
     private var mutedFilter: Filter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,9 +112,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         followTagItem?.setOnMenuItemClickListener { followTag() }
                         unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
                         muteTagItem?.setOnMenuItemClickListener { muteTag() }
-                        muteTagItem?.isVisible = true
                         unmuteTagItem?.setOnMenuItemClickListener { unmuteTag() }
-                        unmuteTagItem?.isVisible = false
+                        updateMutedTagInfo()
                     },
                     {
                         Log.w(TAG, "Failed to query tag #$tag", it)
@@ -158,6 +163,34 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         }
 
         return true
+    }
+
+    /**
+     * Determine if the current hashtag is muted, and update mutedFilter and the UI state
+     * as necessary.
+     */
+    private fun updateMutedTagInfo() {
+        val tag = hashtag ?: return
+
+        muteTagItem?.isVisible = false
+        unmuteTagItem?.isVisible = false
+
+        mastodonApi.getFilters().observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+            .subscribe { filters ->
+                for (filter in filters) {
+                    if ((tag == filter.phrase) and filter.context.contains(Filter.HOME)) {
+                        Log.d(TAG, "Tag $hashtag is filtered")
+                        unmuteTagItem?.isVisible = true
+                        mutedFilter = filter
+                        return@subscribe
+                    }
+                }
+
+                Log.d(TAG, "Tag $hashtag is not filtered")
+                mutedFilter = null
+                muteTagItem?.isVisible = true
+            }
     }
 
     private fun muteTag(): Boolean {
