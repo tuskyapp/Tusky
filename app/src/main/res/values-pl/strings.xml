@@ -121,8 +121,8 @@
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
-    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o obserwację\?</string>
-    <string name="dialog_unfollow_warning">Czy chcesz przestać obserwować to konto\?</string>
+    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o obserwację?</string>
+    <string name="dialog_unfollow_warning">Czy chcesz przestać obserwować to konto?</string>
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
     <string name="visibility_private">Tylko obserwający: Widoczne tylko dla obserwujących</string>
@@ -224,7 +224,7 @@
     <string name="action_remove">Usuń</string>
     <string name="lock_account_label">Zablokuj konto</string>
     <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o obserwacje</string>
-    <string name="compose_save_draft">Czy chcesz zapisać jako szkic\?</string>
+    <string name="compose_save_draft">Czy chcesz zapisać jako szkic?</string>
     <string name="send_post_notification_title">Wysyłanie wpisu…</string>
     <string name="send_post_notification_error_title">Wystąpił błąd podczas wysyłania wpisu</string>
     <string name="send_post_notification_channel_name">Wysyłanie wpisów</string>
@@ -290,7 +290,7 @@
     <string name="confirmation_domain_unmuted">Domena %1$s nie jest już schowana</string>
     <string name="dialog_delete_post_warning">Usunąć ten wpis\?</string>
     <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis\?</string>
-    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %1$s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
+    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %1$s? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
     <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
     <string name="pref_title_timelines">Osi czasu</string>
     <string name="pref_title_timeline_filters">Filtry</string>
@@ -554,7 +554,7 @@
     <string name="action_add_or_remove_from_list">Dodaj lub usuń z listy</string>
     <string name="failed_to_add_to_list">Nie udało się dodać konta do listy</string>
     <string name="failed_to_remove_from_list">Nie udało się usunąć konta z listy</string>
-    <string name="action_unfollow_hashtag_format">Odobserwuj #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Odobserwuj #%1$s?</string>
     <string name="pref_default_post_language">Domyślny język wpisów</string>
     <string name="pref_show_self_username_never">Nigdy</string>
     <string name="pref_show_self_username_always">Zawsze</string>
@@ -566,7 +566,7 @@
     <string name="notification_report_name">Zgłoszenia</string>
     <string name="notification_report_description">Powiadomienia o zgłoszeniach moderacyjnych</string>
     <string name="action_set_focus">Wybierz punkt centralny</string>
-    <string name="compose_save_draft_loses_media">Czy chcesz zapisać jako szkic\? (Załączniki zostaną załadowane ponownie po przywróceniu szkicu.)</string>
+    <string name="compose_save_draft_loses_media">Czy chcesz zapisać jako szkic? (Załączniki zostaną załadowane ponownie po przywróceniu szkicu.)</string>
     <string name="error_following_hashtags_unsupported">Ta instancja nie wspiera obserwowania hashtagów.</string>
     <string name="title_followed_hashtags">Obserwowane hashtagi</string>
     <string name="a11y_label_loading_thread">Ładowanie wątku</string>
