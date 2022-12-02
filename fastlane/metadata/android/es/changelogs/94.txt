@@ -1,0 +1,9 @@
+Tusky versión 19.0
+
+- Soporte para Unified Push. Para activar el soporte tendrás que volver a iniciar sesión en tus cuentas.
+- Ahora se muestra el número de respuestas a una publicación en las cronologías.
+- Ahora se pueden recortar imágenes cuando se escribe una publicación.
+- Ahora se muestra la fecha en la que se crearon los perfiles.
+- Cuando se ve una lista, ahora se muestra el nombre en la barra de herramientas.
+- Correcciones de diversos errores
+- Mejoras en las traducciones

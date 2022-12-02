@@ -17,8 +17,8 @@ package com.keylesspalace.tusky.viewdata;
 
 import androidx.annotation.Nullable;
 
-import com.keylesspalace.tusky.entity.Account;
 import com.keylesspalace.tusky.entity.Notification;
+import com.keylesspalace.tusky.entity.Report;
 import com.keylesspalace.tusky.entity.TimelineAccount;
 
 import java.util.Objects;
@@ -48,13 +48,16 @@ public abstract class NotificationViewData {
         private final TimelineAccount account;
         @Nullable
         private final StatusViewData.Concrete statusViewData;
+        @Nullable
+        private final Report report;
 
         public Concrete(Notification.Type type, String id, TimelineAccount account,
-                        @Nullable StatusViewData.Concrete statusViewData) {
+                        @Nullable StatusViewData.Concrete statusViewData, @Nullable Report report) {
             this.type = type;
             this.id = id;
             this.account = account;
             this.statusViewData = statusViewData;
+            this.report = report;
         }
 
         public Notification.Type getType() {
@@ -74,6 +77,11 @@ public abstract class NotificationViewData {
             return statusViewData;
         }
 
+        @Nullable
+        public Report getReport() {
+            return report;
+        }
+
         @Override
         public long getViewDataId() {
             return id.hashCode();
@@ -87,7 +95,8 @@ public abstract class NotificationViewData {
             return type == concrete.type &&
                     Objects.equals(id, concrete.id) &&
                     account.getId().equals(concrete.account.getId()) &&
-                    (Objects.equals(statusViewData, concrete.statusViewData));
+                    (Objects.equals(statusViewData, concrete.statusViewData)) &&
+                    (Objects.equals(report, concrete.report));
         }
 
         @Override
@@ -97,7 +106,7 @@ public abstract class NotificationViewData {
         }
 
         public Concrete copyWithStatus(@Nullable StatusViewData.Concrete statusViewData) {
-            return new Concrete(type, id, account, statusViewData);
+            return new Concrete(type, id, account, statusViewData, report);
         }
     }
 

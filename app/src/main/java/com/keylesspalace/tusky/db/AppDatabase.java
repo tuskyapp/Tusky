@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 42)
+        }, version = 44)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -608,6 +608,20 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `DraftEntity` ADD COLUMN `language` TEXT");
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `language` TEXT");
             database.execSQL("ALTER TABLE `ConversationEntity` ADD COLUMN `s_language` TEXT");
+        }
+    };
+
+    public static final Migration MIGRATION_42_43 = new Migration(42, 43) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultPostLanguage` TEXT NOT NULL DEFAULT ''");
+        }
+    };
+
+    public static final Migration MIGRATION_43_44 = new Migration(43, 44) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsReports` INTEGER NOT NULL DEFAULT 1");
         }
     };
 }

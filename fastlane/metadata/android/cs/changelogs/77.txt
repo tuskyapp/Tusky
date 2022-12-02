@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- podpora poznámek k profilům (Mastodon 3.2.0)
+- podpora oznámení pro správce (Mastodon 3.1.0)
+
+- avatar vybraného účtu se nyní zobrazuje na hlavním panelu nástrojů
+- kliknutím na zobrazené jméno na časové ose se nyní otevře profilová stránka daného uživatele
+
+- mnoho oprav chyb a drobných vylepšení
+- vylepšené překlady

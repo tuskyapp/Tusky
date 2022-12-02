@@ -471,7 +471,7 @@
     <string name="wellbeing_hide_stats_posts">Приховати кількісну статистику дописів</string>
     <string name="limit_notifications">Обмеження сповіщень стрічки</string>
     <string name="review_notifications">Переглянути сповіщення</string>
-    <string name="account_note_hint">Ваша особиста примітка щодо цього облікового запису</string>
+    <string name="account_note_hint">Ваша особиста примітка про цей обліковий запис</string>
     <string name="pref_title_wellbeing_mode">Добробут</string>
     <string name="pref_title_hide_top_toolbar">Сховати заголовок верхньої панелі інструментів</string>
     <string name="pref_title_confirm_reblogs">Запитувати підтвердження перед просуванням</string>
@@ -581,4 +581,8 @@
     <string name="delete_scheduled_post_warning">Видалити цей запланований допис\?</string>
     <string name="instance_rule_info">Увійшовши, ви погоджуєтесь з правилами %s.</string>
     <string name="instance_rule_title">Правила %s</string>
+    <string name="failed_to_pin">Не вдалося прикріпити</string>
+    <string name="failed_to_unpin">Не вдалося відкріпити</string>
+    <string name="compose_save_draft_loses_media">Зберегти чернетку\? (Вкладення будуть завантажені знову, коли ви відновите чернетку.)</string>
+    <string name="action_add_reaction">додати реакцію</string>
 </resources>

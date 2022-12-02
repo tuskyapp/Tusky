@@ -1,0 +1,13 @@
+Tusky v6.0
+
+- Filtry časové osy jsme přesunuli do Předvoleb účtu a budou se synchronizovat se serverem.
+- Na hlavním stránce můžete mít vlastní hashtag jako kartu 
+- Seznamy lze upravovat
+- Zabezpečení: odstraněna podpora TLS 1.0 a TLS 1.1 a přidána podpora TLS 1.3 v systému Android 6+.
+- Vlastní emotikony jsou nabízeny při psaní
+- Nové nastavení motivu "následovat systémový motiv"
+- Vylepšená přístupnost časové osy
+- Tusky teď ignoruje neznámá oznámení a už nepadá
+- Nové nastavení: Nyní můžete v aplikaci Tusky nastavit jiný než systímový jazyk.
+- Nové překlady: čeština (!) a esperanto
+- Mnoho dalších vylepšení a oprav

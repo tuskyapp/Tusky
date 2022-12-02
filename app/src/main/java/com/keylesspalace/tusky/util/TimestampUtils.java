@@ -34,7 +34,10 @@ public class TimestampUtils {
     public static String getRelativeTimeSpanString(Context context, long then, long now) {
         long span = now - then;
         boolean future = false;
-        if (span < 0) {
+        if (Math.abs(span) < SECOND_IN_MILLIS) {
+            return context.getString(R.string.status_created_at_now);
+        }
+        else if (span < 0) {
             future = true;
             span = -span;
         }

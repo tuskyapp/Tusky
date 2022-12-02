@@ -133,6 +133,7 @@
         <activity android:name=".ListsActivity" />
         <activity android:name=".LicenseActivity" />
         <activity android:name=".FiltersActivity" />
+        <activity android:name=".components.followedtags.FollowedTagsActivity" />
         <activity
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

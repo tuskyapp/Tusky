@@ -31,14 +31,12 @@ import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.LocaleManager
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.makeIcon
 import com.keylesspalace.tusky.util.serialize
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizePx
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 import javax.inject.Inject
 
@@ -275,11 +273,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     private fun makeIcon(icon: GoogleMaterial.Icon): IconicsDrawable {
-        val context = requireContext()
-        return IconicsDrawable(context, icon).apply {
-            sizePx = iconSize
-            colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
-        }
+        return makeIcon(requireContext(), icon, iconSize)
     }
 
     override fun onResume() {

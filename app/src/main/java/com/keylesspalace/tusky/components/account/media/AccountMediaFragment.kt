@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.account.media
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
@@ -39,7 +38,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -107,21 +105,30 @@ class AccountMediaFragment :
         }
 
         adapter.addLoadStateListener { loadState ->
-            binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+            binding.statusView.hide()
+            binding.progressBar.hide()
 
-            if (loadState.refresh is LoadState.Error) {
-                binding.recyclerView.hide()
-                binding.statusView.show()
-                val errorState = loadState.refresh as LoadState.Error
-                if (errorState.error is IOException) {
-                    binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) { adapter.retry() }
-                } else {
-                    binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) { adapter.retry() }
+            if (adapter.itemCount == 0) {
+                when (loadState.refresh) {
+                    is LoadState.NotLoading -> {
+                        if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
+                            binding.statusView.show()
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                        }
+                    }
+                    is LoadState.Error -> {
+                        binding.statusView.show()
+
+                        if ((loadState.refresh as LoadState.Error).error is IOException) {
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                        } else {
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                        }
+                    }
+                    is LoadState.Loading -> {
+                        binding.progressBar.show()
+                    }
                 }
-                Log.w(TAG, "error loading account media", errorState.error)
-            } else {
-                binding.recyclerView.show()
-                binding.statusView.hide()
             }
         }
     }
