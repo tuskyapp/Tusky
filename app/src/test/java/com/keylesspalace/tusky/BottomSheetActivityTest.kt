@@ -71,6 +71,7 @@ class BottomSheetActivityTest {
         reblog = null,
         content = "omgwat",
         createdAt = Date(),
+        editedAt = null,
         emojis = emptyList(),
         reblogsCount = 0,
         favouritesCount = 0,
