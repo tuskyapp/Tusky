@@ -44,9 +44,16 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
+
+data class TimelineUiState(
+    val loadMoreActive: Boolean = false
+)
 
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
@@ -58,6 +65,9 @@ abstract class TimelineViewModel(
 ) : ViewModel() {
 
     abstract val statuses: Flow<PagingData<StatusViewData>>
+
+    protected val _uiState = MutableStateFlow(TimelineUiState())
+    val uiState: StateFlow<TimelineUiState> = _uiState.asStateFlow()
 
     var kind: Kind = Kind.HOME
         private set

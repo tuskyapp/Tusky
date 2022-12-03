@@ -105,7 +105,7 @@ class TimelineFragment :
     private var isSwipeToRefreshEnabled = true
     private var hideFab = false
 
-    /** Adapter position of the placeholder that was mostly clicked to "Load more" */
+    /** Adapter position of the placeholder that was most recently clicked to "Load more" */
     private var loadMorePosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -230,6 +230,13 @@ class TimelineFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.statuses.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collectLatest { timelineUiState ->
+                // Inform the adapter, so that any other placeholders can be disabled
+                adapter.loadMoreActive = timelineUiState.loadMoreActive
             }
         }
 

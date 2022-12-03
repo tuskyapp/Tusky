@@ -50,6 +50,7 @@ import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -157,6 +158,10 @@ class CachedTimelineViewModel @Inject constructor(
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
             try {
+                _uiState.update {
+                    it.copy(loadMoreActive = true)
+                }
+
                 val timelineDao = db.timelineDao()
 
                 val activeAccount = accountManager.activeAccount!!
@@ -230,6 +235,10 @@ class CachedTimelineViewModel @Inject constructor(
             } catch (e: Exception) {
                 ifExpected(e) {
                     loadMoreFailed(placeholderId, e)
+                }
+            } finally {
+                _uiState.update {
+                    it.copy(loadMoreActive = false)
                 }
             }
         }
