@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity">
+
+    <include
+        android:id="@+id/includedToolbar"
+        layout="@layout/toolbar_basic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/followedTagsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_followed_hashtag"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+    <com.keylesspalace.tusky.view.BackgroundMessageView
+        android:id="@+id/followedTagsMessageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+    <ProgressBar
+        android:id="@+id/followedTagsProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

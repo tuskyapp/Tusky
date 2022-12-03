@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Nová ikona aplikace od Dzuk https://dzuk.zone/
+- Nyní můžete sledovat hashtagy. Klikněte na hashtag a poté na ikonu v panelu nástrojů.
+- podpora systému Android 13
+- Nová rozbalovací nabídka v při psaní příspěvku, která umožňuje nastavit jazyk příspěvku.
+- Karta médií v profilech nyní respektuje citlivá média a načítá se plynuleji.
+- Před odesláním příspěvku je nyní možné nastavit bod střed zvětšení obrázku.
+- nová možnost zobrazení celého uživatelského jména v panelu nástrojů

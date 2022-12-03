@@ -18,6 +18,10 @@
         android:title="@string/action_block"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_add_or_remove_from_list"
+        android:title="@string/action_add_or_remove_from_list"
+        app:showAsAction="never" />
+
     <item android:id="@+id/action_mute_domain"
         android:title="@string/action_mute_domain"
         app:showAsAction="never" />

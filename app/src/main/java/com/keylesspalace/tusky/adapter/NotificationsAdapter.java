@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
+import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
@@ -80,7 +81,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_FOLLOW = 2;
     private static final int VIEW_TYPE_FOLLOW_REQUEST = 3;
     private static final int VIEW_TYPE_PLACEHOLDER = 4;
-    private static final int VIEW_TYPE_UNKNOWN = 5;
+    private static final int VIEW_TYPE_REPORT = 5;
+    private static final int VIEW_TYPE_UNKNOWN = 6;
 
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
@@ -136,6 +138,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 View view = inflater
                         .inflate(R.layout.item_status_placeholder, parent, false);
                 return new PlaceholderViewHolder(view);
+            }
+            case VIEW_TYPE_REPORT: {
+                ItemReportNotificationBinding binding = ItemReportNotificationBinding.inflate(inflater, parent, false);
+                return new ReportNotificationViewHolder(binding);
             }
             default:
             case VIEW_TYPE_UNKNOWN: {
@@ -252,6 +258,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                     }
                     break;
                 }
+                case VIEW_TYPE_REPORT: {
+                    if (payloadForHolder == null) {
+                        ReportNotificationViewHolder holder = (ReportNotificationViewHolder) viewHolder;
+                        holder.setupWithReport(concreteNotification.getAccount(), concreteNotification.getReport(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
+                        holder.setupActionListener(notificationActionListener, concreteNotification.getReport().getTargetAccount().getId(), concreteNotification.getAccount().getId(), concreteNotification.getReport().getId());
+                    }
+                }
                 default:
             }
         }
@@ -304,6 +317,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case FOLLOW_REQUEST: {
                     return VIEW_TYPE_FOLLOW_REQUEST;
                 }
+                case REPORT: {
+                    return VIEW_TYPE_REPORT;
+                }
                 default: {
                     return VIEW_TYPE_UNKNOWN;
                 }
@@ -321,6 +337,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         void onViewAccount(String id);
 
         void onViewStatusForNotificationId(String notificationId);
+
+        void onViewReport(String reportId);
 
         void onExpandedChange(boolean expanded, int position);
 

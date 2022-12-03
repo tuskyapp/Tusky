@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- podpora nových typů oznámení (Mastodon 3.5)
+- Odznak bota nyní vypadá lépe a přizpůsobuje se zvolenému tématu.
+- V zobrazení detailu příspěvku lze nyní vybrat text
+- Opraveno mnoho chyb, včetně jedné, která znemožňovala přihlášení v systému Android 6 a nižším.

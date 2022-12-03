@@ -24,6 +24,7 @@
     <string name="error_sender_account_gone">Error sending post.</string>
     <string name="error_following_hashtag_format">Error following #%s</string>
     <string name="error_unfollowing_hashtag_format">Error unfollowing #%s</string>
+    <string name="error_following_hashtags_unsupported">This instance does not support following hashtags.</string>
 
     <string name="title_login">Login</string>
     <string name="title_home">Home</string>
@@ -50,6 +51,7 @@
     <string name="title_scheduled_posts">Scheduled posts</string>
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
+    <string name="title_followed_hashtags">Followed Hashtags</string>
 
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s boosted</string>
@@ -60,6 +62,7 @@
     <string name="post_content_warning_show_less">Show Less</string>
     <string name="post_content_show_more">Expand</string>
     <string name="post_content_show_less">Collapse</string>
+    <string name="post_edited">Edited %s</string>
 
     <string name="message_empty">Nothing here.</string>
     <string name="footer_empty">Nothing here. Pull down to refresh!</string>
@@ -71,6 +74,9 @@
     <string name="notification_sign_up_format">%s signed up</string>
     <string name="notification_subscription_format">%s just posted</string>
     <string name="notification_update_format">%s edited their post</string>
+    <string name="notification_report_format">New report on %s</string>
+    <string name="notification_header_report_format">%s reported %s</string>
+    <string name="notification_summary_report_format">%s · %d posts attached</string>
 
     <string name="report_username_format">Report @%s</string>
     <string name="report_comment_hint">Additional comments?</string>
@@ -176,6 +182,7 @@
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
     <string name="confirmation_domain_unmuted">%s unhidden</string>
+    <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
     <string name="post_sent">Sent!</string>
     <string name="post_sent_long">Reply sent successfully.</string>
@@ -241,6 +248,7 @@
     <string name="pref_title_notification_filter_subscriptions">somebody I\'m subscribed to published a new post</string>
     <string name="pref_title_notification_filter_sign_ups">somebody signed up</string>
     <string name="pref_title_notification_filter_updates">a post I\'ve interacted with is edited</string>
+    <string name="pref_title_notification_filter_reports">there\'s a new report</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App Theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -273,6 +281,7 @@
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
 
     <string name="pref_default_post_privacy">Default post privacy</string>
+    <string name="pref_default_post_language">Default posting language</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive</string>
     <string name="pref_publishing">Publishing (synced with server)</string>
     <string name="pref_failed_to_sync">Failed to sync settings</string>
@@ -316,6 +325,8 @@
     <string name="notification_sign_up_description">Notifications about new users</string>
     <string name="notification_update_name">Post edits</string>
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
+    <string name="notification_report_name">Reports</string>
+    <string name="notification_report_description">Notifications about moderation reports</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -357,6 +368,7 @@
     <string name="post_media_audio">Audio</string>
     <string name="post_media_attachments">Attachments</string>
     <string name="status_count_one_plus">1+</string>
+    <string name="status_created_at_now">now</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
@@ -405,6 +417,9 @@
     <string name="hint_search_people_list">Search for people you follow</string>
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
+    <string name="action_add_or_remove_from_list">Add or remove from list</string>
+    <string name="failed_to_add_to_list">Failed to add the account to the list</string>
+    <string name="failed_to_remove_from_list">Failed to remove the account from the list</string>
 
     <string name="compose_active_account_description">Posting as %1$s</string>
 
@@ -501,6 +516,9 @@
     </string>
     <string name="description_post_media_no_description_placeholder">
         No description
+    </string>
+    <string name="description_post_edited">
+        Edited
     </string>
     <string name="description_post_reblogged">
         Reblogged
@@ -625,6 +643,7 @@
     <string name="no_drafts">You don\'t have any drafts.</string>
     <string name="no_scheduled_posts">You don\'t have any scheduled posts.</string>
     <string name="no_announcements">There are no announcements.</string>
+    <string name="no_lists">You don\'t have any lists.</string>
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
@@ -676,5 +695,12 @@
 
     <string name="instance_rule_info">By logging in you agree to the rules of %s.</string>
     <string name="instance_rule_title">%s rules</string>
+    <string name="language_display_name_format">%s (%s)</string>
+
+    <string name="report_category_violation">Rule violation</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Other</string>
+
+    <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
 
 </resources>

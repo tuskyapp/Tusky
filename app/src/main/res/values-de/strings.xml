@@ -15,7 +15,7 @@
     <string name="error_media_upload_permission">Berechtigung für Zugriff auf Mediendateien benötigt.</string>
     <string name="error_media_download_permission">Eine Berechtigung wird zum Speichern des Mediums benötigt.</string>
     <string name="error_media_upload_image_or_video">Bilder und Videos können nicht an den gleichen Beitrag angehängt werden.</string>
-    <string name="error_media_upload_sending">Das Hochgeladen ist gescheitert.</string>
+    <string name="error_media_upload_sending">Das Hochladen ist gescheitert.</string>
     <string name="error_sender_account_gone">Fehler beim Senden des Beitrags.</string>
     <string name="title_home">Start</string>
     <string name="title_notifications">Benachrichtigungen</string>
@@ -543,6 +543,7 @@
     <string name="tips_push_notification_migration">Melde alle Konten neu an, um die Unterstützung für Push-Benachrichtigungen zu aktivieren.</string>
     <string name="account_date_joined">%1$s beigetreten</string>
     <string name="status_count_one_plus">1+</string>
+    <string name="status_created_at_now">Jetzt</string>
     <string name="error_loading_account_details">Fehler beim Laden der Kontodetails</string>
     <string name="action_edit_image">Bild bearbeiten</string>
     <string name="action_details">Details</string>
