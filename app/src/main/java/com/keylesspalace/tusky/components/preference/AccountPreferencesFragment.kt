@@ -48,6 +48,10 @@ import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getLocaleList
+import com.keylesspalace.tusky.util.getTuskyDisplayName
+import com.keylesspalace.tusky.util.makeIcon
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -66,6 +70,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var eventHub: EventHub
+
+    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
@@ -169,7 +175,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
-            // TODO language
             preferenceCategory(R.string.pref_publishing) {
                 listPreference {
                     setTitle(R.string.pref_default_post_privacy)
@@ -184,6 +189,29 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
                         syncWithServer(visibility = newValue)
+                        eventHub.dispatch(PreferenceChangedEvent(key))
+                        true
+                    }
+                }
+
+                listPreference {
+                    val locales = getLocaleList(getInitialLanguage(null, accountManager.activeAccount))
+                    setTitle(R.string.pref_default_post_language)
+                    // Explicitly add "System default" to the start of the list
+                    entries = (
+                        listOf(context.getString(R.string.system_default)) + locales.map {
+                            it.getTuskyDisplayName(context)
+                        }
+                        ).toTypedArray()
+                    entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
+                    key = PrefKeys.DEFAULT_POST_LANGUAGE
+                    icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
+                    value = accountManager.activeAccount?.defaultPostLanguage ?: ""
+                    isPersistent = false // This will be entirely server-driven
+                    setSummaryProvider { entry }
+
+                    setOnPreferenceChangeListener { _, newValue ->
+                        syncWithServer(language = (newValue as String))
                         eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
@@ -317,8 +345,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null) {
-        mastodonApi.accountUpdateSource(visibility, sensitive)
+    private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null, language: String? = null) {
+        mastodonApi.accountUpdateSource(visibility, sensitive, language)
             .enqueue(object : Callback<Account> {
                 override fun onResponse(call: Call<Account>, response: Response<Account>) {
                     val account = response.body()
@@ -328,6 +356,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                             it.defaultPostPrivacy = account.source?.privacy
                                 ?: Status.Visibility.PUBLIC
                             it.defaultMediaSensitivity = account.source?.sensitive ?: false
+                            it.defaultPostLanguage = language ?: ""
                             accountManager.saveAccount(it)
                         }
                     } else {

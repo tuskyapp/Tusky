@@ -30,8 +30,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.Mockito.eq
 import org.mockito.kotlin.doReturn
@@ -71,6 +69,7 @@ class BottomSheetActivityTest {
         reblog = null,
         content = "omgwat",
         createdAt = Date(),
+        editedAt = null,
         emojis = emptyList(),
         reblogsCount = 0,
         favouritesCount = 0,
@@ -106,70 +105,6 @@ class BottomSheetActivityTest {
         }
 
         activity = FakeBottomSheetActivity(apiMock)
-    }
-
-    @RunWith(Parameterized::class)
-    class UrlMatchingTests(private val url: String, private val expectedResult: Boolean) {
-        companion object {
-            @Parameterized.Parameters(name = "match_{0}")
-            @JvmStatic
-            fun data(): Iterable<Any> {
-                return listOf(
-                    arrayOf("https://mastodon.foo.bar/@User", true),
-                    arrayOf("http://mastodon.foo.bar/@abc123", true),
-                    arrayOf("https://mastodon.foo.bar/@user/345667890345678", true),
-                    arrayOf("https://mastodon.foo.bar/@user/3", true),
-                    arrayOf("https://pleroma.foo.bar/users/meh3223", true),
-                    arrayOf("https://pleroma.foo.bar/users/meh3223_bruh", true),
-                    arrayOf("https://pleroma.foo.bar/users/2345", true),
-                    arrayOf("https://pleroma.foo.bar/notice/9", true),
-                    arrayOf("https://pleroma.foo.bar/notice/9345678", true),
-                    arrayOf("https://pleroma.foo.bar/notice/wat", true),
-                    arrayOf("https://pleroma.foo.bar/notice/9qTHT2ANWUdXzENqC0", true),
-                    arrayOf("https://pleroma.foo.bar/objects/abcdef-123-abcd-9876543", true),
-                    arrayOf("https://misskey.foo.bar/notes/mew", true),
-                    arrayOf("https://misskey.foo.bar/notes/1421564653", true),
-                    arrayOf("https://misskey.foo.bar/notes/qwer615985ddf", true),
-                    arrayOf("https://friendica.foo.bar/profile/user", true),
-                    arrayOf("https://friendica.foo.bar/profile/uSeR", true),
-                    arrayOf("https://friendica.foo.bar/profile/user_user", true),
-                    arrayOf("https://friendica.foo.bar/profile/123", true),
-                    arrayOf("https://friendica.foo.bar/display/abcdef-123-abcd-9876543", true),
-                    arrayOf("https://google.com/", false),
-                    arrayOf("https://mastodon.foo.bar/@User?foo=bar", false),
-                    arrayOf("https://mastodon.foo.bar/@User#foo", false),
-                    arrayOf("http://mastodon.foo.bar/@", false),
-                    arrayOf("http://mastodon.foo.bar/@/345678", false),
-                    arrayOf("https://mastodon.foo.bar/@user/345667890345678/", false),
-                    arrayOf("https://mastodon.foo.bar/@user/3abce", false),
-                    arrayOf("https://pleroma.foo.bar/users/", false),
-                    arrayOf("https://pleroma.foo.bar/users/meow/", false),
-                    arrayOf("https://pleroma.foo.bar/users/@meow", false),
-                    arrayOf("https://pleroma.foo.bar/user/2345", false),
-                    arrayOf("https://pleroma.foo.bar/notices/123456", false),
-                    arrayOf("https://pleroma.foo.bar/notice/@neverhappen/", false),
-                    arrayOf("https://pleroma.foo.bar/object/abcdef-123-abcd-9876543", false),
-                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543", false),
-                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543/", false),
-                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd_9876543", false),
-                    arrayOf("https://friendica.foo.bar/display/xabcdef-123-abcd-9876543", false),
-                    arrayOf("https://friendica.foo.bar/display/xabcdef-123-abcd-9876543/", false),
-                    arrayOf("https://friendica.foo.bar/display/xabcdef-123-abcd_9876543", false),
-                    arrayOf("https://friendica.foo.bar/profile/@mew", false),
-                    arrayOf("https://friendica.foo.bar/profile/@mew/", false),
-                    arrayOf("https://misskey.foo.bar/notes/@nyan", false),
-                    arrayOf("https://misskey.foo.bar/notes/NYAN123", false),
-                    arrayOf("https://misskey.foo.bar/notes/meow123/", false),
-                    arrayOf("https://pixelfed.social/p/connyduck/391263492998670833", true),
-                    arrayOf("https://pixelfed.social/connyduck", true)
-                )
-            }
-        }
-
-        @Test
-        fun test() {
-            assertEquals(expectedResult, looksLikeMastodonUrl(url))
-        }
     }
 
     @Test

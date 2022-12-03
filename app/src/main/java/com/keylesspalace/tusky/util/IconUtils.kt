@@ -16,21 +16,16 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import androidx.annotation.Px
 import com.keylesspalace.tusky.R
-import java.util.Locale
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizePx
 
-// When a language code has changed, `language` *explicitly* returns the obsolete version,
-// but `toLanguageTag()` uses the current version
-// https://developer.android.com/reference/java/util/Locale#getLanguage()
-val Locale.modernLanguageCode: String
-    get() {
-        return this.toLanguageTag().split('-', limit = 2)[0]
+fun makeIcon(context: Context, icon: GoogleMaterial.Icon, @Px iconSize: Int): IconicsDrawable {
+    return IconicsDrawable(context, icon).apply {
+        sizePx = iconSize
+        colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
     }
-
-fun Locale.getTuskyDisplayName(context: Context): String {
-    return context.getString(
-        R.string.language_display_name_format,
-        this?.displayLanguage,
-        this?.getDisplayLanguage(this)
-    )
 }

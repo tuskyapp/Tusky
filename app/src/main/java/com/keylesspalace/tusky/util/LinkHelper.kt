@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
+import java.net.URI
+import java.net.URISyntaxException
 
 fun getDomain(urlString: String?): String {
     val host = urlString?.toUri()?.host
@@ -267,6 +269,51 @@ private fun openLinkInCustomTab(uri: Uri, context: Context) {
     } catch (e: ActivityNotFoundException) {
         Log.w(TAG, "Activity was not found for intent $customTabsIntent")
         openLinkInBrowser(uri, context)
+    }
+}
+
+// https://mastodon.foo.bar/@User
+// https://mastodon.foo.bar/@User/43456787654678
+// https://pleroma.foo.bar/users/User
+// https://pleroma.foo.bar/users/9qTHT2ANWUdXzENqC0
+// https://pleroma.foo.bar/notice/9sBHWIlwwGZi5QGlHc
+// https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
+// https://friendica.foo.bar/profile/user
+// https://friendica.foo.bar/display/d4643c42-3ae0-4b73-b8b0-c725f5819207
+// https://misskey.foo.bar/notes/83w6r388br (always lowercase)
+// https://pixelfed.social/p/connyduck/391263492998670833
+// https://pixelfed.social/connyduck
+// https://gts.foo.bar/@goblin/statuses/01GH9XANCJ0TA8Y95VE9H3Y0Q2
+// https://gts.foo.bar/@goblin
+// https://foo.microblog.pub/o/5b64045effd24f48a27d7059f6cb38f5
+fun looksLikeMastodonUrl(urlString: String): Boolean {
+    val uri: URI
+    try {
+        uri = URI(urlString)
+    } catch (e: URISyntaxException) {
+        return false
+    }
+
+    if (uri.query != null ||
+        uri.fragment != null ||
+        uri.path == null
+    ) {
+        return false
+    }
+
+    return uri.path.let {
+        it.matches("^/@[^/]+$".toRegex()) ||
+            it.matches("^/@[^/]+/\\d+$".toRegex()) ||
+            it.matches("^/users/\\w+$".toRegex()) ||
+            it.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
+            it.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
+            it.matches("^/notes/[a-z0-9]+$".toRegex()) ||
+            it.matches("^/display/[-a-f0-9]+$".toRegex()) ||
+            it.matches("^/profile/\\w+$".toRegex()) ||
+            it.matches("^/p/\\w+/\\d+$".toRegex()) ||
+            it.matches("^/\\w+$".toRegex()) ||
+            it.matches("^/@[^/]+/statuses/[a-zA-Z0-9]+$".toRegex()) ||
+            it.matches("^/o/[a-f0-9]+$".toRegex())
     }
 }
 

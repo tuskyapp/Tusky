@@ -473,7 +473,7 @@ public class NotificationHelper {
 
             if (notificationManager.areNotificationsEnabled()) {
                 for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
-                    if (channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
+                    if (channel != null && channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
                         Log.d(TAG, "NotificationsEnabled");
                         return true;
                     }
@@ -546,7 +546,7 @@ public class NotificationHelper {
                 return false;
             }
             NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
-            return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
+            return channel != null && channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
         switch (type) {
