@@ -113,7 +113,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         unfollowTagItem?.setOnMenuItemClickListener { unfollowTag() }
                         muteTagItem?.setOnMenuItemClickListener { muteTag() }
                         unmuteTagItem?.setOnMenuItemClickListener { unmuteTag() }
-                        updateMutedTagInfo()
+                        updateMuteTagMenuItems()
                     },
                     {
                         Log.w(TAG, "Failed to query tag #$tag", it)
@@ -166,13 +166,13 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     /**
-     * Determine if the current hashtag is muted, and update mutedFilter and the UI state
-     * as necessary.
+     * Determine if the current hashtag is muted, and update the UI state accordingly.
      */
-    private fun updateMutedTagInfo() {
+    private fun updateMuteTagMenuItems() {
         val tag = hashtag ?: return
 
-        muteTagItem?.isVisible = false
+        muteTagItem?.isVisible = true
+        muteTagItem?.isEnabled = false
         unmuteTagItem?.isVisible = false
 
         mastodonApi.getFilters().observeOn(AndroidSchedulers.mainThread())
@@ -181,6 +181,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 for (filter in filters) {
                     if ((tag == filter.phrase) and filter.context.contains(Filter.HOME)) {
                         Log.d(TAG, "Tag $hashtag is filtered")
+                        muteTagItem?.isVisible = false
                         unmuteTagItem?.isVisible = true
                         mutedFilter = filter
                         return@subscribe
@@ -189,6 +190,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
                 Log.d(TAG, "Tag $hashtag is not filtered")
                 mutedFilter = null
+                muteTagItem?.isEnabled = true
+                muteTagItem?.isVisible = true
                 muteTagItem?.isVisible = true
             }
     }
