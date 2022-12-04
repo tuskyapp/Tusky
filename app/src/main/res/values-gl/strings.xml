@@ -257,7 +257,9 @@
     <string name="action_remove">Eliminar</string>
     <string name="action_set_caption">Escribir descrición</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Describe para persoas con problemas de visión
+        <item quantity="one">Describe para persoas con deficiencias visuais
+\n(límite %d caracter)</item>
+        <item quantity="other">Describe para persoas con deficiencias visuais
 \n(%d caracteres como máximo)</item>
     </plurals>
     <string name="error_failed_set_caption">Fallou establecemento do texto</string>
@@ -546,4 +548,15 @@
     <string name="action_set_focus">Establece foco</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
+    <string name="instance_rule_title">Normas de %s</string>
+    <string name="instance_rule_info">Ao iniciar sesión aceptas as normas de %s.</string>
+    <string name="action_add_reaction">engadir reacción</string>
+    <string name="compose_save_draft_loses_media">Gardar borrador\? (Os adxuntos serán subidos outra vez cando restablezas o borrador.)</string>
+    <string name="pref_title_show_self_username">Mostrar identificador na barra ferramentas</string>
+    <string name="delete_scheduled_post_warning">Eliminar publicación programada\?</string>
+    <string name="failed_to_pin">Fallo ao Fixar</string>
+    <string name="failed_to_unpin">Fallo ao Desafixar</string>
+    <string name="pref_show_self_username_always">Sempre</string>
+    <string name="pref_show_self_username_disambiguate">Cando hai máis dunha conta activa</string>
+    <string name="pref_show_self_username_never">Nunca</string>
 </resources>

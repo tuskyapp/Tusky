@@ -47,11 +47,9 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.os.LocaleListCompat
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -90,10 +88,13 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.afterTextChanged
+import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -264,7 +265,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupLanguageSpinner(getInitialLanguage(composeOptions?.language))
+        setupLanguageSpinner(getInitialLanguage(composeOptions?.language, accountManager.activeAccount))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -535,56 +536,19 @@ class ComposeActivity :
         )
     }
 
-    private fun mergeLocaleListCompat(list: MutableList<Locale>, localeListCompat: LocaleListCompat) {
-        for (index in 0 until localeListCompat.size()) {
-            val locale = localeListCompat[index]
-            if (locale != null && !list.contains(locale)) {
-                list.add(locale)
-            }
-        }
-    }
-
-    private fun setupLanguageSpinner(initialLanguage: String?) {
-        val locales = mutableListOf<Locale>()
-        mergeLocaleListCompat(locales, AppCompatDelegate.getApplicationLocales()) // configured app languages first
-        mergeLocaleListCompat(locales, LocaleListCompat.getDefault()) // then configured system languages
-        locales.addAll( // finally, other languages
-            // Only "base" languages, "en" but not "en_DK"
-            Locale.getAvailableLocales().filter {
-                it.country.isNullOrEmpty() &&
-                    it.script.isNullOrEmpty() &&
-                    it.variant.isNullOrEmpty()
-            }
-        )
-
-        var currentLocaleIndex = locales.indexOfFirst { it.language == initialLanguage }
-        if (currentLocaleIndex < 0) {
-            Log.e(TAG, "Error looking up language tag '$initialLanguage', falling back to english")
-            currentLocaleIndex = locales.indexOfFirst { it.language == "en" }
-        }
-
-        val context = this
+    private fun setupLanguageSpinner(initialLanguage: String) {
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).language
+                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                parent.setSelection(locales.indexOfFirst { it.language == getInitialLanguage() })
+                parent.setSelection(0)
             }
         }
         binding.composePostLanguageButton.apply {
-            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, locales)
-            setSelection(currentLocaleIndex)
-        }
-    }
-
-    private fun getInitialLanguage(language: String? = null): String {
-        return if (language.isNullOrEmpty()) {
-            // Setting the application ui preference sets the default locale
-            AppCompatDelegate.getApplicationLocales()[0]?.language ?: Locale.getDefault().language
-        } else {
-            language
+            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguage))
+            setSelection(0)
         }
     }
 

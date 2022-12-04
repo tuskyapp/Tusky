@@ -120,6 +120,7 @@ public class NotificationHelper {
     public static final String CHANNEL_SUBSCRIPTIONS = "CHANNEL_SUBSCRIPTIONS";
     public static final String CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP";
     public static final String CHANNEL_UPDATES = "CHANNEL_UPDATES";
+    public static final String CHANNEL_REPORT = "CHANNEL_REPORT";
 
     /**
      * WorkManager Tag
@@ -401,6 +402,7 @@ public class NotificationHelper {
                     CHANNEL_SUBSCRIPTIONS + account.getIdentifier(),
                     CHANNEL_SIGN_UP + account.getIdentifier(),
                     CHANNEL_UPDATES + account.getIdentifier(),
+                    CHANNEL_REPORT + account.getIdentifier(),
             };
             int[] channelNames = {
                     R.string.notification_mention_name,
@@ -412,6 +414,7 @@ public class NotificationHelper {
                     R.string.notification_subscription_name,
                     R.string.notification_sign_up_name,
                     R.string.notification_update_name,
+                    R.string.notification_report_name,
             };
             int[] channelDescriptions = {
                     R.string.notification_mention_descriptions,
@@ -423,6 +426,7 @@ public class NotificationHelper {
                     R.string.notification_subscription_description,
                     R.string.notification_sign_up_description,
                     R.string.notification_update_description,
+                    R.string.notification_report_description,
             };
 
             List<NotificationChannel> channels = new ArrayList<>(6);
@@ -469,7 +473,7 @@ public class NotificationHelper {
 
             if (notificationManager.areNotificationsEnabled()) {
                 for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
-                    if (channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
+                    if (channel != null && channel.getImportance() > NotificationManager.IMPORTANCE_NONE) {
                         Log.d(TAG, "NotificationsEnabled");
                         return true;
                     }
@@ -542,7 +546,7 @@ public class NotificationHelper {
                 return false;
             }
             NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
-            return channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
+            return channel != null && channel.getImportance() > NotificationManager.IMPORTANCE_NONE;
         }
 
         switch (type) {
@@ -564,6 +568,8 @@ public class NotificationHelper {
                 return account.getNotificationsSignUps();
             case UPDATE:
                 return account.getNotificationsUpdates();
+            case REPORT:
+                return account.getNotificationsReports();
             default:
                 return false;
         }
@@ -593,6 +599,10 @@ public class NotificationHelper {
                 return CHANNEL_POLL + account.getIdentifier();
             case SIGN_UP:
                 return CHANNEL_SIGN_UP + account.getIdentifier();
+            case UPDATE:
+                return CHANNEL_UPDATES + account.getIdentifier();
+            case REPORT:
+                return CHANNEL_REPORT + account.getIdentifier();
             default:
                 return null;
         }
@@ -678,6 +688,8 @@ public class NotificationHelper {
                 return String.format(context.getString(R.string.notification_sign_up_format), accountName);
             case UPDATE:
                 return String.format(context.getString(R.string.notification_update_format), accountName);
+            case REPORT:
+                return context.getString(R.string.notification_report_format, account.getDomain());
         }
         return null;
     }
@@ -715,6 +727,12 @@ public class NotificationHelper {
                     }
                     return builder.toString();
                 }
+            case REPORT:
+                return context.getString(
+                        R.string.notification_header_report_format,
+                        StringUtils.unicodeWrap(notification.getAccount().getName()),
+                        StringUtils.unicodeWrap(notification.getReport().getTargetAccount().getName())
+                );
         }
         return null;
     }

@@ -566,4 +566,5 @@
     <string name="action_set_focus">Define o ponto de focagem</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Erro ao deixar de seguir #%s</string>
+    <string name="action_add_reaction">adicionar reação</string>
 </resources>

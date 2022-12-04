@@ -1,0 +1,8 @@
+Tusky v14.0
+
+- upozornění na příspěvky sledovaného uživatele - klikněte na ikonu zvonku na jeho profilu! (funkce Mastodon 3.3.0)
+- redesign funkce návrhu. Teď je rychlejší, uživatelsky přívětivější a méně chybová.
+- Byl přidán nový zen režim, který umožňuje omezit některé funkce Tusky.
+- Tusky nyní umí animovat vlastní emotikony.
+
+Úplný seznam změn: https://github.com/tuskyapp/Tusky/releases

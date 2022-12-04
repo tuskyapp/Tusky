@@ -302,7 +302,7 @@
     <string name="action_unmute_desc">Dì-mhùch %s</string>
     <string name="hashtags">Tagaichean hais</string>
     <string name="description_visibility_private">Luchd-leantainn</string>
-    <string name="description_visibility_unlisted">Neo-liostaichte</string>
+    <string name="description_visibility_unlisted">Falaichte o liostaichean</string>
     <string name="description_visibility_public">Poblach</string>
     <string name="conversation_2_recipients">%1$s ’s %2$s</string>
     <string name="action_remove">Thoir air falbh</string>
@@ -581,4 +581,8 @@
     <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
     <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %s.</string>
     <string name="instance_rule_title">riaghailtean %s</string>
+    <string name="action_add_reaction">cuir freagairt ris</string>
+    <string name="failed_to_pin">Dh’fhàillig leis a’ phrìneachadh</string>
+    <string name="failed_to_unpin">Dh’fhàillig leis an dì-phrìneachadh</string>
+    <string name="compose_save_draft_loses_media">A bheil thu airson a shàbhaladh ’na dhreachd\? (Thèid na ceanglachain a luchdadh suas a-rithist nuair a dh’aisigeas tu an dreuchd.)</string>
 </resources>

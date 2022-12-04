@@ -561,4 +561,10 @@
     <string name="action_set_focus">Fókuszpont beállítása</string>
     <string name="error_following_hashtag_format">Hiba a #%s követésekor</string>
     <string name="error_unfollowing_hashtag_format">Hiba a #%s követésének befejezésekor</string>
+    <string name="action_add_reaction">reakció hozzáadása</string>
+    <string name="instance_rule_info">A bejelentkezéssel elfogadod a %s szabályait.</string>
+    <string name="instance_rule_title">%s szabályai</string>
+    <string name="compose_save_draft_loses_media">Elmentsük a vázlatot\? (A mellékleteket újra feltöltjük, amikor a vázlatot visszaállítod.)</string>
+    <string name="failed_to_pin">Nem sikerült Kitűzni</string>
+    <string name="failed_to_unpin">Nem sikerült a Kitűzés Visszavonása</string>
 </resources>

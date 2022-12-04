@@ -22,20 +22,38 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/mainToolbar"
+                style="@style/Widget.AppCompat.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationContentDescription="@string/action_open_drawer" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                style="@style/TuskyTabAppearance"
+            <LinearLayout
+                android:id="@+id/topNav"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabMaxWidth="0dp"
-                app:tabMode="fixed" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/topNavAvatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/avatar_default"
+                    app:shapeAppearance="@style/ShapeAppearance.Avatar" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/TuskyTabAppearance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabGravity="fill"
+                    app:tabMaxWidth="0dp"
+                    app:tabMode="fixed" />
+            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -55,13 +73,30 @@
             app:contentInsetStart="0dp"
             app:fabAlignmentMode="end">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/bottomTabLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:tabIndicator="@null"
-                app:tabGravity="fill"
-                app:tabMode="fixed" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/bottomNavAvatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/avatar_default"
+                    app:shapeAppearance="@style/ShapeAppearance.Avatar" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/bottomTabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:tabGravity="fill"
+                    app:tabIndicator="@null"
+                    app:tabMode="fixed" />
+
+            </LinearLayout>
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -81,8 +116,8 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

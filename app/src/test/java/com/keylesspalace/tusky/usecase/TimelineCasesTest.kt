@@ -77,6 +77,7 @@ class TimelineCasesTest {
             reblog = null,
             content = "",
             createdAt = Date(),
+            editedAt = null,
             emojis = emptyList(),
             reblogsCount = 0,
             favouritesCount = 0,

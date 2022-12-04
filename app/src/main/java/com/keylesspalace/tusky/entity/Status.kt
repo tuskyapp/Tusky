@@ -31,6 +31,7 @@ data class Status(
     val reblog: Status?,
     val content: String,
     @SerializedName("created_at") val createdAt: Date,
+    @SerializedName("edited_at") val editedAt: Date?,
     val emojis: List<Emoji>,
     @SerializedName("reblogs_count") val reblogsCount: Int,
     @SerializedName("favourites_count") val favouritesCount: Int,

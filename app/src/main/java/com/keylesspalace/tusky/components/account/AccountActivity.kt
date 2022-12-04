@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
@@ -101,6 +102,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private val binding: ActivityAccountBinding by viewBinding(ActivityAccountBinding::inflate)
 
     private lateinit var accountFieldAdapter: AccountFieldAdapter
+
+    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
@@ -241,6 +244,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.accountFragmentViewPager.setPageTransformer(MarginPageTransformer(pageMargin))
+
+        val enableSwipeForTabs = preferences.getBoolean(PrefKeys.ENABLE_SWIPE_FOR_TABS, true)
+        binding.accountFragmentViewPager.isUserInputEnabled = enableSwipeForTabs
 
         binding.accountTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -740,6 +746,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             menu.removeItem(R.id.action_report)
         }
 
+        if (!viewModel.isSelf && followState != FollowState.FOLLOWING) {
+            menu.removeItem(R.id.action_add_or_remove_from_list)
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -850,6 +860,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_mute -> {
                 toggleMute()
+                return true
+            }
+            R.id.action_add_or_remove_from_list -> {
+                ListsForAccountFragment.newInstance(viewModel.accountId).show(supportFragmentManager, null)
                 return true
             }
             R.id.action_mute_domain -> {
