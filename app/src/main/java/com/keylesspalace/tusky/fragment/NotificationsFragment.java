@@ -1043,8 +1043,8 @@ public class NotificationsFragment extends SFragment implements
             notifications.addAll(liftedNew);
         } else {
             int index = notifications.indexOf(liftedNew.get(newNotifications.size() - 1));
-            for (int i = 0; i < index; i++) {
-                notifications.remove(0);
+            if (index > 0) {
+                notifications.subList(0, index).clear();
             }
 
             int newIndex = liftedNew.indexOf(notifications.get(0));
@@ -1068,7 +1068,7 @@ public class NotificationsFragment extends SFragment implements
         int end = notifications.size();
         List<Either<Placeholder, Notification>> liftedNew = liftNotificationList(newNotifications);
         Either<Placeholder, Notification> last = notifications.get(end - 1);
-        if (last != null && liftedNew.indexOf(last) == -1) {
+        if (last != null && !liftedNew.contains(last)) {
             notifications.addAll(liftedNew);
             updateAdapter();
         }
