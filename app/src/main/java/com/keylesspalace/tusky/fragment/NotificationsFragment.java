@@ -747,12 +747,12 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onViewTag(String tag) {
+    public void onViewTag(@NonNull String tag) {
         super.viewTag(tag);
     }
 
     @Override
-    public void onViewAccount(String id) {
+    public void onViewAccount(@NonNull String id) {
         super.viewAccount(id);
     }
 
