@@ -193,28 +193,50 @@ class ViewVideoFragment : ViewMediaFragment() {
         val url = attachment.url
         isAudio = attachment.type == Attachment.Type.AUDIO
 
-        val gestureDetector: GestureDetectorCompat
-        val simpleOnGestureListener: GestureDetector.SimpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDown(event: MotionEvent): Boolean {
-                return true
-            }
-
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                if (abs(velocityY) > abs(velocityX)) {
-                    videoActionsListener.onDismiss()
+        val gestureDetector = GestureDetectorCompat(
+            requireContext(),
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(event: MotionEvent): Boolean {
                     return true
                 }
-                return false
-            }
-        }
 
-        gestureDetector = GestureDetectorCompat(requireContext(), simpleOnGestureListener)
+                override fun onFling(
+                    e1: MotionEvent,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    if (abs(velocityY) > abs(velocityX)) {
+                        videoActionsListener.onDismiss()
+                        return true
+                    }
+                    return false
+                }
+            }
+        )
+
+        var lastY = 0f
         binding.root.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                lastY = event.rawY
+            } else if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_MOVE) {
+                val diff = event.rawY - lastY
+                if (binding.videoView.translationY != 0f || abs(diff) > 40) {
+                    binding.videoView.translationY += diff
+                    val scale = (-abs(binding.videoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                    binding.videoView.scaleY = scale
+                    binding.videoView.scaleX = scale
+                    lastY = event.rawY
+                    return@setOnTouchListener true
+                }
+            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                if (abs(binding.videoView.translationY) > 180) {
+                    videoActionsListener.onDismiss()
+                } else {
+                    binding.videoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
+                }
+            }
+
             gestureDetector.onTouchEvent(event)
         }
 
