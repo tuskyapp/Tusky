@@ -210,7 +210,7 @@ public class NotificationsFragment extends SFragment implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         boolean showNotificationsFilterSetting = preferences.getBoolean("showNotificationsFilter", true);
-        //Clear notifications on filter visibility change to force refresh
+        // Clear notifications on filter visibility change to force refresh
         if (showNotificationsFilterSetting != showNotificationsFilter)
             notifications.clear();
         showNotificationsFilter = showNotificationsFilterSetting;
@@ -290,14 +290,14 @@ public class NotificationsFragment extends SFragment implements
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) binding.swipeRefreshLayout.getLayoutParams();
         if (showNotificationsFilter && !showingError) {
-            //Set content behaviour to hide filter on scroll
             binding.appBarOptions.setExpanded(true, false);
             binding.appBarOptions.setVisibility(View.VISIBLE);
+            // Set content behaviour to hide filter on scroll
             params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
         } else {
-            //Clear behaviour to hide app bar
             binding.appBarOptions.setExpanded(false, false);
             binding.appBarOptions.setVisibility(View.GONE);
+            // Clear behaviour to hide app bar
             params.setBehavior(null);
         }
     }
@@ -316,10 +316,10 @@ public class NotificationsFragment extends SFragment implements
         Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
 
-        /* This is delayed until onActivityCreated solely because MainActivity.composeButton isn't
-         * guaranteed to be set until then.
-         * Use a modified scroll listener that both loads more notificationsEnabled as it goes, and hides
-         * the compose button on down-scroll. */
+        // This is delayed until onActivityCreated solely because MainActivity.composeButton
+        // isn't guaranteed to be set until then.
+        // Use a modified scroll listener that both loads more notificationsEnabled as it
+        // goes, and hides the compose button on down-scroll.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         hideFab = preferences.getBoolean("fabHide", false);
         scrollListener = new EndlessOnScrollListener(layoutManager) {
@@ -333,9 +333,9 @@ public class NotificationsFragment extends SFragment implements
                 if (composeButton != null) {
                     if (hideFab) {
                         if (dy > 0 && composeButton.isShown()) {
-                            composeButton.hide(); // hides the button if we're scrolling down
+                            composeButton.hide(); // Hides the button if we're scrolling down
                         } else if (dy < 0 && !composeButton.isShown()) {
-                            composeButton.show(); // shows it if we are scrolling up
+                            composeButton.show(); // Shows it if we are scrolling up
                         }
                     } else if (!composeButton.isShown()) {
                         composeButton.show();
@@ -509,7 +509,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onLoadMore(int position) {
-        //check bounds before accessing list,
+        // Check bounds before accessing list,
         if (notifications.size() >= position && position > 0) {
             Notification previous = notifications.get(position - 1).asRightOrNull();
             Notification next = notifications.get(position + 1).asRightOrNull();
@@ -531,7 +531,6 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
         updateViewDataAt(position, (vd) -> vd.copyWithCollapsed(isCollapsed));
-        ;
     }
 
     private void updateStatus(String statusId, Function<Status, Status> mapper) {
@@ -606,28 +605,28 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void clearNotifications() {
-        //Cancel all ongoing requests
+        // Cancel all ongoing requests
         binding.swipeRefreshLayout.setRefreshing(false);
         resetNotificationsLoad();
 
-        //Show friend elephant
+        // Show friend elephant
         binding.statusView.setVisibility(View.VISIBLE);
         binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
         updateFilterVisibility();
 
-        //Update adapter
+        // Update adapter
         updateAdapter();
 
-        //Execute clear notifications request
+        // Execute clear notifications request
         mastodonApi.clearNotifications()
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
                 .subscribe(
                         response -> {
-                            // nothing to do
+                            // Nothing to do
                         },
                         throwable -> {
-                            //Reload notifications on failure
+                            // Reload notifications on failure
                             fullyRefreshWithProgressBar(true);
                         });
     }
@@ -637,10 +636,10 @@ public class NotificationsFragment extends SFragment implements
         bottomLoading = false;
         topLoading = false;
 
-        //Disable load more
+        // Disable load more
         bottomId = null;
 
-        //Clear exists notifications
+        // Clear exists notifications
         notifications.clear();
     }
 
@@ -831,7 +830,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void removeAllByAccountId(String accountId) {
-        // using iterator to safely remove items while iterating
+        // Using iterator to safely remove items while iterating
         Iterator<Either<Placeholder, Notification>> iterator = notifications.iterator();
         while (iterator.hasNext()) {
             Either<Placeholder, Notification> notification = iterator.next();
@@ -845,7 +844,7 @@ public class NotificationsFragment extends SFragment implements
 
     private void onLoadMore() {
         if (bottomId == null) {
-            // already loaded everything
+            // Already loaded everything
             return;
         }
 
@@ -883,8 +882,8 @@ public class NotificationsFragment extends SFragment implements
 
     private void sendFetchNotificationsRequest(String fromId, String uptoId,
                                                final FetchEnd fetchEnd, final int pos) {
-        /* If there is a fetch already ongoing, record however many fetches are requested and
-         * fulfill them after it's complete. */
+        // If there is a fetch already ongoing, record however many fetches are requested and
+        // fulfill them after it's complete.
         if (fetchEnd == FetchEnd.TOP && topLoading) {
             return;
         }
@@ -1201,7 +1200,7 @@ public class NotificationsFragment extends SFragment implements
         @Override
         public Object getChangePayload(@NonNull NotificationViewData oldItem, @NonNull NotificationViewData newItem) {
             if (oldItem.deepEquals(newItem)) {
-                //If items are equal - update timestamp only
+                //  If items are equal - update timestamp only
                 return Collections.singletonList(StatusBaseViewHolder.Key.KEY_CREATED);
             } else
                 // If items are different - update a whole view holder
