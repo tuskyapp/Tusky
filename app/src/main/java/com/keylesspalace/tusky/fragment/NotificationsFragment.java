@@ -207,7 +207,7 @@ public class NotificationsFragment extends SFragment implements
         binding = FragmentTimelineNotificationsBinding.inflate(inflater, container, false);
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         boolean showNotificationsFilterSetting = preferences.getBoolean("showNotificationsFilter", true);
         //Clear notifications on filter visibility change to force refresh
@@ -303,7 +303,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void confirmClearNotifications() {
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setMessage(R.string.notification_clear_text)
                 .setPositiveButton(android.R.string.ok, (DialogInterface dia, int which) -> clearNotifications())
                 .setNegativeButton(android.R.string.cancel, null)
@@ -796,13 +796,13 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onViewReport(String reportId) {
-        LinkHelper.openLink(getContext(), String.format("https://%s/admin/reports/%s", accountManager.getActiveAccount().getDomain(), reportId));
+        LinkHelper.openLink(requireContext(), String.format("https://%s/admin/reports/%s", accountManager.getActiveAccount().getDomain(), reportId));
     }
 
     private void onPreferenceChanged(String key) {
         switch (key) {
             case "fabHide": {
-                hideFab = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("fabHide", false);
+                hideFab = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("fabHide", false);
                 break;
             }
             case "mediaPreviewEnabled": {
@@ -815,7 +815,7 @@ public class NotificationsFragment extends SFragment implements
             }
             case "showNotificationsFilter": {
                 if (isAdded()) {
-                    showNotificationsFilter = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showNotificationsFilter", true);
+                    showNotificationsFilter = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("showNotificationsFilter", true);
                     updateFilterVisibility();
                     fullyRefreshWithProgressBar(true);
                 }
@@ -1227,7 +1227,7 @@ public class NotificationsFragment extends SFragment implements
      * Auto dispose observable on pause
      */
     private void startUpdateTimestamp() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
         if (!useAbsoluteTime) {
             Observable.interval(0, 1, TimeUnit.MINUTES)
