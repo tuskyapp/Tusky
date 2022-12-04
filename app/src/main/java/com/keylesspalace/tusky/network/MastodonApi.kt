@@ -268,7 +268,8 @@ interface MastodonApi {
     @PATCH("api/v1/accounts/update_credentials")
     fun accountUpdateSource(
         @Field("source[privacy]") privacy: String?,
-        @Field("source[sensitive]") sensitive: Boolean?
+        @Field("source[sensitive]") sensitive: Boolean?,
+        @Field("source[language]") language: String?,
     ): Call<Account>
 
     @Multipart

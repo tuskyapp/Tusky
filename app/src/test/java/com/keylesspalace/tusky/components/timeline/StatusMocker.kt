@@ -34,6 +34,7 @@ fun mockStatus(
     reblog = null,
     content = "Test",
     createdAt = fixedDate,
+    editedAt = null,
     emojis = emptyList(),
     reblogsCount = 1,
     favouritesCount = 2,

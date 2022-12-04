@@ -384,9 +384,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
 
-        binding.mainToolbar.setNavigationOnClickListener {
-            binding.mainDrawerLayout.open()
-        }
+        val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
+
+        binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)
+        binding.topNavAvatar.setOnClickListener(drawerOpenClickListener)
+        binding.bottomNavAvatar.setOnClickListener(drawerOpenClickListener)
 
         header = AccountHeaderView(this).apply {
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
@@ -576,7 +578,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
-            binding.tabLayout.hide()
+            binding.topNav.hide()
             binding.bottomTabLayout
         } else {
             binding.bottomNav.hide()
@@ -749,71 +751,117 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
-        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
+        val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
-        if (animateAvatars) {
-            glide.asDrawable()
-                .load(avatarUrl)
-                .transform(
-                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                )
-                .apply {
-                    if (showPlaceholder) {
-                        placeholder(R.drawable.avatar_default)
-                    }
-                }
-                .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+        if (hideTopToolbar) {
+            val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
 
-                    override fun onLoadStarted(placeholder: Drawable?) {
-                        if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                        }
-                    }
+            val avatarView = if (navOnBottom) {
+                binding.bottomNavAvatar.show()
+                binding.bottomNavAvatar
+            } else {
+                binding.topNavAvatar.show()
+                binding.topNavAvatar
+            }
 
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        if (resource is Animatable) {
-                            resource.start()
-                        }
-                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
-                    }
-
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                        }
-                    }
-                })
+            if (animateAvatars) {
+                Glide.with(this)
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(avatarView)
+            } else {
+                Glide.with(this)
+                    .asBitmap()
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(avatarView)
+            }
         } else {
-            glide.asBitmap()
-                .load(avatarUrl)
-                .transform(
-                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                )
-                .apply {
-                    if (showPlaceholder) {
-                        placeholder(R.drawable.avatar_default)
-                    }
-                }
-                .into(object : CustomTarget<Bitmap>(navIconSize, navIconSize) {
 
-                    override fun onLoadStarted(placeholder: Drawable?) {
-                        if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+            binding.bottomNavAvatar.hide()
+            binding.topNavAvatar.hide()
+
+            val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+
+            if (animateAvatars) {
+                glide.asDrawable()
+                    .load(avatarUrl)
+                    .transform(
+                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+                    )
+                    .apply {
+                        if (showPlaceholder) {
+                            placeholder(R.drawable.avatar_default)
                         }
                     }
+                    .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
 
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        binding.mainToolbar.navigationIcon = FixedSizeDrawable(BitmapDrawable(resources, resource), navIconSize, navIconSize)
-                    }
+                        override fun onLoadStarted(placeholder: Drawable?) {
+                            if (placeholder != null) {
+                                binding.mainToolbar.navigationIcon =
+                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            }
+                        }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        if (placeholder != null) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            if (resource is Animatable) {
+                                resource.start()
+                            }
+                            binding.mainToolbar.navigationIcon =
+                                FixedSizeDrawable(resource, navIconSize, navIconSize)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            if (placeholder != null) {
+                                binding.mainToolbar.navigationIcon =
+                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            }
+                        }
+                    })
+            } else {
+                glide.asBitmap()
+                    .load(avatarUrl)
+                    .transform(
+                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+                    )
+                    .apply {
+                        if (showPlaceholder) {
+                            placeholder(R.drawable.avatar_default)
                         }
                     }
-                })
+                    .into(object : CustomTarget<Bitmap>(navIconSize, navIconSize) {
+
+                        override fun onLoadStarted(placeholder: Drawable?) {
+                            if (placeholder != null) {
+                                binding.mainToolbar.navigationIcon =
+                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            }
+                        }
+
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(
+                                BitmapDrawable(resources, resource),
+                                navIconSize,
+                                navIconSize
+                            )
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            if (placeholder != null) {
+                                binding.mainToolbar.navigationIcon =
+                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
+                            }
+                        }
+                    })
+            }
         }
     }
 
