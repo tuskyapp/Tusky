@@ -440,6 +440,7 @@ class TimelineDaoTest {
             inReplyToAccountId = "inReplyToAccountId$statusId",
             content = "Content!$statusId",
             createdAt = createdAt,
+            editedAt = null,
             emojis = "emojis$statusId",
             reblogsCount = 1 * statusId.toInt(),
             favouritesCount = 2 * statusId.toInt(),

@@ -29,10 +29,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.looksLikeMastodonUrl
 import com.keylesspalace.tusky.util.openLink
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import java.net.URI
-import java.net.URISyntaxException
 import javax.inject.Inject
 
 /** this is the base class for all activities that open links
@@ -171,45 +170,6 @@ abstract class BottomSheetActivity : BaseActivity() {
     private fun hideQuerySheet() {
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
-}
-
-// https://mastodon.foo.bar/@User
-// https://mastodon.foo.bar/@User/43456787654678
-// https://pleroma.foo.bar/users/User
-// https://pleroma.foo.bar/users/9qTHT2ANWUdXzENqC0
-// https://pleroma.foo.bar/notice/9sBHWIlwwGZi5QGlHc
-// https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
-// https://friendica.foo.bar/profile/user
-// https://friendica.foo.bar/display/d4643c42-3ae0-4b73-b8b0-c725f5819207
-// https://misskey.foo.bar/notes/83w6r388br (always lowercase)
-// https://pixelfed.social/p/connyduck/391263492998670833
-// https://pixelfed.social/connyduck
-fun looksLikeMastodonUrl(urlString: String): Boolean {
-    val uri: URI
-    try {
-        uri = URI(urlString)
-    } catch (e: URISyntaxException) {
-        return false
-    }
-
-    if (uri.query != null ||
-        uri.fragment != null ||
-        uri.path == null
-    ) {
-        return false
-    }
-
-    val path = uri.path
-    return path.matches("^/@[^/]+$".toRegex()) ||
-        path.matches("^/@[^/]+/\\d+$".toRegex()) ||
-        path.matches("^/users/\\w+$".toRegex()) ||
-        path.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
-        path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
-        path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
-        path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
-        path.matches("^/profile/\\w+$".toRegex()) ||
-        path.matches("^/p/\\w+/\\d+$".toRegex()) ||
-        path.matches("^/\\w+$".toRegex())
 }
 
 enum class PostLookupFallbackBehavior {
