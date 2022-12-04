@@ -30,10 +30,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,6 +63,7 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.PinEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
@@ -87,7 +86,6 @@ import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ViewDataUtils;
-import com.keylesspalace.tusky.view.BackgroundMessageView;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
@@ -158,16 +156,11 @@ public class NotificationsFragment extends SFragment implements
     @Inject
     EventHub eventHub;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
-    private ProgressBar progressBar;
-    private BackgroundMessageView statusView;
-    private AppBarLayout appBarOptions;
+    private FragmentTimelineNotificationsBinding binding;
 
     private LinearLayoutManager layoutManager;
     private EndlessOnScrollListener scrollListener;
     private NotificationsAdapter adapter;
-    private Button buttonFilter;
     private boolean hideFab;
     private boolean topLoading;
     private boolean bottomLoading;
@@ -211,7 +204,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_timeline_notifications, container, false);
+        binding = FragmentTimelineNotificationsBinding.inflate(inflater, container, false);
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -223,23 +216,17 @@ public class NotificationsFragment extends SFragment implements
         showNotificationsFilter = showNotificationsFilterSetting;
 
         // Setup the SwipeRefreshLayout.
-        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
-        recyclerView = rootView.findViewById(R.id.recyclerView);
-        progressBar = rootView.findViewById(R.id.progressBar);
-        statusView = rootView.findViewById(R.id.statusView);
-        appBarOptions = rootView.findViewById(R.id.appBarOptions);
-
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue);
 
         loadNotificationsFilter();
 
         // Setup the RecyclerView.
-        recyclerView.setHasFixedSize(true);
+        binding.recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(recyclerView, this, (pos) -> {
+        binding.recyclerView.setLayoutManager(layoutManager);
+        binding.recyclerView.setAccessibilityDelegateCompat(
+                new ListStatusAccessibilityDelegate(binding.recyclerView, this, (pos) -> {
                     NotificationViewData notification = notifications.getPairedItemOrNull(pos);
                     // We support replies only for now
                     if (notification instanceof NotificationViewData.Concrete) {
@@ -249,7 +236,7 @@ public class NotificationsFragment extends SFragment implements
                     }
                 }));
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        binding.recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
                 preferences.getBoolean("animateGifAvatars", false),
@@ -268,7 +255,7 @@ public class NotificationsFragment extends SFragment implements
                 dataSource, statusDisplayOptions, this, this, this);
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
 
         topLoading = false;
         bottomLoading = false;
@@ -276,37 +263,41 @@ public class NotificationsFragment extends SFragment implements
 
         updateAdapter();
 
-        Button buttonClear = rootView.findViewById(R.id.buttonClear);
-        buttonClear.setOnClickListener(v -> confirmClearNotifications());
-        buttonFilter = rootView.findViewById(R.id.buttonFilter);
-        buttonFilter.setOnClickListener(v -> showFilterMenu());
+        binding.buttonClear.setOnClickListener(v -> confirmClearNotifications());
+        binding.buttonFilter.setOnClickListener(v -> showFilterMenu());
 
         if (notifications.isEmpty()) {
-            swipeRefreshLayout.setEnabled(false);
+            binding.swipeRefreshLayout.setEnabled(false);
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
         } else {
-            progressBar.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.GONE);
         }
 
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) binding.recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         updateFilterVisibility();
 
-        return rootView;
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private void updateFilterVisibility() {
         CoordinatorLayout.LayoutParams params =
-                (CoordinatorLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
+                (CoordinatorLayout.LayoutParams) binding.swipeRefreshLayout.getLayoutParams();
         if (showNotificationsFilter && !showingError) {
-            appBarOptions.setExpanded(true, false);
-            appBarOptions.setVisibility(View.VISIBLE);
             //Set content behaviour to hide filter on scroll
+            binding.appBarOptions.setExpanded(true, false);
+            binding.appBarOptions.setVisibility(View.VISIBLE);
             params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
         } else {
-            appBarOptions.setExpanded(false, false);
-            appBarOptions.setVisibility(View.GONE);
             //Clear behaviour to hide app bar
+            binding.appBarOptions.setExpanded(false, false);
+            binding.appBarOptions.setVisibility(View.GONE);
             params.setBehavior(null);
         }
     }
@@ -358,7 +349,7 @@ public class NotificationsFragment extends SFragment implements
             }
         };
 
-        recyclerView.addOnScrollListener(scrollListener);
+        binding.recyclerView.addOnScrollListener(scrollListener);
 
         eventHub.getEvents()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -382,7 +373,7 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRefresh() {
-        this.statusView.setVisibility(View.GONE);
+        binding.statusView.setVisibility(View.GONE);
         this.showingError = false;
         Either<Placeholder, Notification> first = CollectionsKt.firstOrNull(this.notifications);
         String topId;
@@ -616,12 +607,12 @@ public class NotificationsFragment extends SFragment implements
 
     private void clearNotifications() {
         //Cancel all ongoing requests
-        swipeRefreshLayout.setRefreshing(false);
+        binding.swipeRefreshLayout.setRefreshing(false);
         resetNotificationsLoad();
 
         //Show friend elephant
-        this.statusView.setVisibility(View.VISIBLE);
-        this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
+        binding.statusView.setVisibility(View.VISIBLE);
+        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
         updateFilterVisibility();
 
         //Update adapter
@@ -688,7 +679,7 @@ public class NotificationsFragment extends SFragment implements
         window.setFocusable(true);
         window.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         window.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        window.showAsDropDown(buttonFilter);
+        window.showAsDropDown(binding.buttonFilter);
 
     }
 
@@ -884,7 +875,7 @@ public class NotificationsFragment extends SFragment implements
 
     private void jumpToTop() {
         if (isAdded()) {
-            appBarOptions.setExpanded(true, false);
+            binding.appBarOptions.setExpanded(true, false);
             layoutManager.scrollToPosition(0);
             scrollListener.reset();
         }
@@ -969,18 +960,18 @@ public class NotificationsFragment extends SFragment implements
         }
 
         if (notifications.size() == 0 && adapter.getItemCount() == 0) {
-            this.statusView.setVisibility(View.VISIBLE);
-            this.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
+            binding.statusView.setVisibility(View.VISIBLE);
+            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null);
         }
 
         updateFilterVisibility();
-        swipeRefreshLayout.setEnabled(true);
-        swipeRefreshLayout.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
+        binding.swipeRefreshLayout.setEnabled(true);
+        binding.swipeRefreshLayout.setRefreshing(false);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     private void onFetchNotificationsFailure(Throwable throwable, FetchEnd fetchEnd, int position) {
-        swipeRefreshLayout.setRefreshing(false);
+        binding.swipeRefreshLayout.setRefreshing(false);
         if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
             Placeholder placeholder = notifications.get(position).asLeft();
             NotificationViewData placeholderVD =
@@ -988,18 +979,18 @@ public class NotificationsFragment extends SFragment implements
             notifications.setPairedItem(position, placeholderVD);
             updateAdapter();
         } else if (this.notifications.isEmpty()) {
-            this.statusView.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setEnabled(false);
+            binding.statusView.setVisibility(View.VISIBLE);
+            binding.swipeRefreshLayout.setEnabled(false);
             this.showingError = true;
             if (throwable instanceof IOException) {
-                this.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
-                    this.progressBar.setVisibility(View.VISIBLE);
+                binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, __ -> {
+                    binding.progressBar.setVisibility(View.VISIBLE);
                     this.onRefresh();
                     return Unit.INSTANCE;
                 });
             } else {
-                this.statusView.setup(R.drawable.elephant_error, R.string.error_generic, __ -> {
-                    this.progressBar.setVisibility(View.VISIBLE);
+                binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, __ -> {
+                    binding.progressBar.setVisibility(View.VISIBLE);
                     this.onRefresh();
                     return Unit.INSTANCE;
                 });
@@ -1015,7 +1006,7 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = false;
         }
 
-        progressBar.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     private void saveNewestNotificationId(List<Notification> notifications) {
@@ -1115,8 +1106,8 @@ public class NotificationsFragment extends SFragment implements
     private void fullyRefreshWithProgressBar(boolean isShow) {
         resetNotificationsLoad();
         if (isShow) {
-            progressBar.setVisibility(View.VISIBLE);
-            statusView.setVisibility(View.GONE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.statusView.setVisibility(View.GONE);
         }
         updateAdapter();
         sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1);
@@ -1155,7 +1146,7 @@ public class NotificationsFragment extends SFragment implements
                 // scroll up when new items at the top are loaded while being at the start
                 // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
                 if (position == 0 && context != null && adapter.getItemCount() != count) {
-                    recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
+                    binding.recyclerView.scrollBy(0, Utils.dpToPx(context, -30));
                 }
             }
         }
