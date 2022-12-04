@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
@@ -52,6 +53,7 @@ class EmojiAdapter(
         }
 
         emojiImageView.contentDescription = emoji.shortcode
+        TooltipCompat.setTooltipText(emojiImageView, emoji.shortcode)
     }
 }
 
