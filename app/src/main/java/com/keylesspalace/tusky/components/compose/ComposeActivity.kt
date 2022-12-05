@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -509,6 +510,8 @@ class ComposeActivity :
 
         val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).apply { colorInt = textColor; sizeDp = 18 }
         binding.addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
+
+        binding.actionPhotoTake.visible(Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null)
 
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
