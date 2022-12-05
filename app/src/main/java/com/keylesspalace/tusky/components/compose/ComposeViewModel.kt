@@ -194,7 +194,8 @@ class ComposeViewModel @Inject constructor(
                 uploadPercent = -1,
                 id = id,
                 description = description,
-                focus = focus
+                focus = focus,
+                processed = true,
             )
             mediaValue + mediaItem
         }
@@ -301,7 +302,7 @@ class ComposeViewModel @Inject constructor(
                     mediaUris.add(item.uri)
                     mediaDescriptions.add(item.description ?: "")
                     mediaFocus.add(item.focus)
-                    mediaProcessed.add(false)
+                    mediaProcessed.add(item.processed)
                 }
                 val tootToSend = StatusToSend(
                     text = content,
