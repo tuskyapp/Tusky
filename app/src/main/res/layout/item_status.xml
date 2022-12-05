@@ -8,15 +8,15 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:focusable="true"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/status_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"
+        android:layout_marginEnd="14dp"
         android:drawableStart="@drawable/ic_reblog_18dp"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
@@ -35,6 +35,7 @@
         android:id="@+id/status_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="14dp"
         android:contentDescription="@string/action_view_profile"
         android:importantForAccessibility="no"
@@ -94,6 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="14dp"
         android:importantForAccessibility="no"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
@@ -105,6 +107,7 @@
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
@@ -146,6 +149,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
         android:focusable="true"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
@@ -162,6 +166,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
         android:background="@drawable/card_frame"
         android:clipChildren="true"
         android:foreground="?attr/selectableItemBackground"
@@ -251,13 +256,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:layout_marginEnd="14dp"
         android:background="@drawable/media_preview_outline"
         android:importantForAccessibility="noHideDescendants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_card_view"
         tools:visibility="visible">
-        
+
         <include layout="@layout/item_media_preview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -267,6 +273,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginBottom="4dp"
         android:nestedScrollingEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -296,6 +303,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="14dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
@@ -305,13 +313,11 @@
     <ImageButton
         android:id="@+id/status_reply"
         style="@style/TuskyImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-14dp"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
-        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -323,16 +329,17 @@
         android:id="@+id/status_replies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
-        app:layout_constraintStart_toEndOf="@id/status_reply"
+        app:layout_constraintStart_toStartOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        android:textAlignment="viewEnd"
-        android:textSize="?attr/status_text_medium" />
+        tools:text="1+" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_inset"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_reblog"
         android:importantForAccessibility="no"
@@ -348,8 +355,8 @@
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_favourite"
         android:importantForAccessibility="no"
@@ -365,8 +372,8 @@
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_bookmark"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_bookmark"
         android:importantForAccessibility="no"
@@ -383,16 +390,14 @@
     <ImageButton
         android:id="@+id/status_more"
         style="@style/TuskyImageButton"
-        android:layout_width="24dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
         android:contentDescription="@string/action_more"
         android:importantForAccessibility="no"
-        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/status_bookmark"
         app:layout_constraintTop_toTopOf="@id/status_reply"
         app:srcCompat="@drawable/ic_more_horiz_24dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
