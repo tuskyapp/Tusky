@@ -7,38 +7,28 @@ import android.view.MotionEvent
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnLayout
-import at.connyduck.sparkbutton.helpers.Utils
 
 /**
- * Ensures the given children of the view will have a touch area of at least the given size, using
- * a [TouchDelegate].
+ * Expands the touch area of the give row of views to fill the space in-between them, using a
+ * [TouchDelegate].
  */
-@JvmOverloads
-fun ViewGroup.ensureMinTouchSize(childIds: List<Int>, minSize: Int = Utils.dpToPx(context, 48)) {
-    doOnLayout {
+fun ViewGroup.expandTouchSizeToFillRow(children: List<View>) {
+    addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
         touchDelegate = CompositeTouchDelegate(
             this,
-            childIds.map { childId ->
-                val view = findViewById<View>(childId)
-                val width = view.width
-                val height = view.height
-
+            children.mapIndexed { i, view ->
                 val rect = Rect()
                 view.getHitRect(rect)
-
-                val extraWidth = minSize - width
-                if (extraWidth > 0) {
-                    rect.left -= extraWidth / 2
-                    rect.right += extraWidth / 2
+                val left = children.getOrNull(i - 1)
+                if (left != null) {
+                    // extend half-way to previous view
+                    rect.left -= (view.left - left.right) / 2
                 }
-
-                val extraHeight = minSize - height
-                if (extraHeight > 0) {
-                    rect.top -= extraHeight / 2
-                    rect.bottom += extraHeight / 2
+                val right = children.getOrNull(i + 1)
+                if (right != null) {
+                    // extend half-way to next view
+                    rect.right += (right.left - view.right) / 2
                 }
-
                 TouchDelegate(rect, view)
             }
         )
