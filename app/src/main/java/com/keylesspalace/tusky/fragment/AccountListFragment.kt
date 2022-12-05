@@ -133,20 +133,18 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
-        if (!mute) {
-            api.unmuteAccount(id)
-        } else {
-            api.muteAccount(id, notifications)
-        }
-            .autoDispose(from(this))
-            .subscribe(
-                {
-                    onMuteSuccess(mute, id, position, notifications)
-                },
-                {
-                    onMuteFailure(mute, id, notifications)
+        lifecycleScope.launch {
+            try {
+                if (!mute) {
+                    api.unmuteAccount(id)
+                } else {
+                    api.muteAccount(id, notifications)
                 }
-            )
+                onMuteSuccess(mute, id, position, notifications)
+            } catch (_: Throwable) {
+                onMuteFailure(mute, id, notifications)
+            }
+        }
     }
 
     private fun onMuteSuccess(muted: Boolean, id: String, position: Int, notifications: Boolean) {
@@ -181,20 +179,18 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        if (!block) {
-            api.unblockAccount(id)
-        } else {
-            api.blockAccount(id)
-        }
-            .autoDispose(from(this))
-            .subscribe(
-                {
-                    onBlockSuccess(block, id, position)
-                },
-                {
-                    onBlockFailure(block, id)
+        lifecycleScope.launch {
+            try {
+                if (!block) {
+                    api.unblockAccount(id)
+                } else {
+                    api.blockAccount(id)
                 }
-            )
+                onBlockSuccess(block, id, position)
+            } catch (_: Throwable) {
+                onBlockFailure(block, id)
+            }
+        }
     }
 
     private fun onBlockSuccess(blocked: Boolean, id: String, position: Int) {

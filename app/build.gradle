@@ -140,6 +140,14 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
+    // This is required to call Kotlin suspend functions from Java code (see
+    // the *fromJava(...) wrapper functions in e.g., TimelineCases.kt for
+    // examples) and can be removed when there are no Java files in the
+    // project.
+    //
+    // Deliberately not listed in libs.versions.toml so it sticks out here.
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4'
+
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
     testImplementation libs.bundles.mockito

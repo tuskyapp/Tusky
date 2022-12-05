@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.fragment;
 
 import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -38,7 +40,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
@@ -72,9 +73,6 @@ import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import kotlin.Unit;
-
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -323,7 +321,7 @@ public abstract class SFragment extends Fragment implements Injectable {
                 this.getActivity(),
                 accountUsername,
                 (notifications, duration) -> {
-                    timelineCases.mute(accountId, notifications, duration);
+                    timelineCases.muteFromJava(accountId, notifications, duration);
                     return Unit.INSTANCE;
                 }
         );
@@ -332,7 +330,7 @@ public abstract class SFragment extends Fragment implements Injectable {
     private void onBlock(String accountId, String accountUsername) {
         new AlertDialog.Builder(requireContext())
                 .setMessage(getString(R.string.dialog_block_warning, accountUsername))
-                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.block(accountId))
+                .setPositiveButton(android.R.string.ok, (__, ___) -> timelineCases.blockFromJava(accountId))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }

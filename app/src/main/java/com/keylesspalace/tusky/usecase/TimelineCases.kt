@@ -33,7 +33,10 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -95,30 +98,37 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun mute(statusId: String, notifications: Boolean, duration: Int?) {
-        mastodonApi.muteAccount(statusId, notifications, duration)
-            .subscribe(
-                {
-                    eventHub.dispatch(MuteEvent(statusId))
-                },
-                { t ->
-                    Log.w("Failed to mute account", t)
-                }
-            )
-            .addTo(cancelDisposable)
+    suspend fun mute(statusId: String, notifications: Boolean, duration: Int?) {
+        try {
+            mastodonApi.muteAccount(statusId, notifications, duration)
+            eventHub.dispatch(MuteEvent(statusId))
+        } catch (t: Throwable) {
+            Log.w("Failed to mute account", t)
+        }
     }
 
-    fun block(statusId: String) {
-        mastodonApi.blockAccount(statusId)
-            .subscribe(
-                {
-                    eventHub.dispatch(BlockEvent(statusId))
-                },
-                { t ->
-                    Log.w("Failed to block account", t)
-                }
-            )
-            .addTo(cancelDisposable)
+    /** Wrapper to call `mute` from Java code. */
+    // TODO: Delete this when there are no Java callers.
+    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
+    fun muteFromJava(statusId: String, notifications: Boolean, duration: Int?): Job =
+        CoroutineScope(Dispatchers.IO).launch {
+            mute(statusId, notifications, duration)
+        }
+
+    suspend fun block(statusId: String) {
+        try {
+            mastodonApi.blockAccount(statusId)
+            eventHub.dispatch(BlockEvent(statusId))
+        } catch (t: Throwable) {
+            Log.w("Failed to block account", t)
+        }
+    }
+
+    /** Wrapper to call `block` from Java code. */
+    // TODO: Delete this when there are no Java callers.
+    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
+    fun blockFromJava(statusId: String): Job = CoroutineScope(Dispatchers.IO).launch {
+        block(statusId)
     }
 
     fun delete(statusId: String): Single<DeletedStatus> {

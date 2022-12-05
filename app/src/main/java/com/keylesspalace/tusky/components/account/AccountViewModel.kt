@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.components.account
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -19,6 +20,7 @@ import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.Success
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -97,37 +99,47 @@ class AccountViewModel @Inject constructor(
 
     fun changeFollowState() {
         val relationship = relationshipData.value?.data
-        if (relationship?.following == true || relationship?.requested == true) {
-            changeRelationship(RelationShipAction.UNFOLLOW)
-        } else {
-            changeRelationship(RelationShipAction.FOLLOW)
+        viewModelScope.launch {
+            if (relationship?.following == true || relationship?.requested == true) {
+                changeRelationship(RelationShipAction.UNFOLLOW)
+            } else {
+                changeRelationship(RelationShipAction.FOLLOW)
+            }
         }
     }
 
     fun changeBlockState() {
-        if (relationshipData.value?.data?.blocking == true) {
-            changeRelationship(RelationShipAction.UNBLOCK)
-        } else {
-            changeRelationship(RelationShipAction.BLOCK)
+        viewModelScope.launch {
+            if (relationshipData.value?.data?.blocking == true) {
+                changeRelationship(RelationShipAction.UNBLOCK)
+            } else {
+                changeRelationship(RelationShipAction.BLOCK)
+            }
         }
     }
 
     fun muteAccount(notifications: Boolean, duration: Int?) {
-        changeRelationship(RelationShipAction.MUTE, notifications, duration)
+        viewModelScope.launch {
+            changeRelationship(RelationShipAction.MUTE, notifications, duration)
+        }
     }
 
     fun unmuteAccount() {
-        changeRelationship(RelationShipAction.UNMUTE)
+        viewModelScope.launch {
+            changeRelationship(RelationShipAction.UNMUTE)
+        }
     }
 
     fun changeSubscribingState() {
         val relationship = relationshipData.value?.data
-        if (relationship?.notifying == true || /* Mastodon 3.3.0rc1 */
-            relationship?.subscribing == true /* Pleroma */
-        ) {
-            changeRelationship(RelationShipAction.UNSUBSCRIBE)
-        } else {
-            changeRelationship(RelationShipAction.SUBSCRIBE)
+        viewModelScope.launch {
+            if (relationship?.notifying == true || /* Mastodon 3.3.0rc1 */
+                relationship?.subscribing == true /* Pleroma */
+            ) {
+                changeRelationship(RelationShipAction.UNSUBSCRIBE)
+            } else {
+                changeRelationship(RelationShipAction.SUBSCRIBE)
+            }
         }
     }
 
@@ -171,17 +183,19 @@ class AccountViewModel @Inject constructor(
     }
 
     fun changeShowReblogsState() {
-        if (relationshipData.value?.data?.showingReblogs == true) {
-            changeRelationship(RelationShipAction.FOLLOW, false)
-        } else {
-            changeRelationship(RelationShipAction.FOLLOW, true)
+        viewModelScope.launch {
+            if (relationshipData.value?.data?.showingReblogs == true) {
+                changeRelationship(RelationShipAction.FOLLOW, false)
+            } else {
+                changeRelationship(RelationShipAction.FOLLOW, true)
+            }
         }
     }
 
     /**
      * @param parameter showReblogs if RelationShipAction.FOLLOW, notifications if MUTE
      */
-    private fun changeRelationship(relationshipAction: RelationShipAction, parameter: Boolean? = null, duration: Int? = null) {
+    private suspend fun changeRelationship(relationshipAction: RelationShipAction, parameter: Boolean? = null, duration: Int? = null) {
         val relation = relationshipData.value?.data
         val account = accountData.value?.data
         val isMastodon = relationshipData.value?.data?.notifying != null
@@ -216,40 +230,45 @@ class AccountViewModel @Inject constructor(
             relationshipData.postValue(Loading(newRelation))
         }
 
-        when (relationshipAction) {
-            RelationShipAction.FOLLOW -> mastodonApi.followAccount(accountId, showReblogs = parameter ?: true)
-            RelationShipAction.UNFOLLOW -> mastodonApi.unfollowAccount(accountId)
-            RelationShipAction.BLOCK -> mastodonApi.blockAccount(accountId)
-            RelationShipAction.UNBLOCK -> mastodonApi.unblockAccount(accountId)
-            RelationShipAction.MUTE -> mastodonApi.muteAccount(accountId, parameter ?: true, duration)
-            RelationShipAction.UNMUTE -> mastodonApi.unmuteAccount(accountId)
-            RelationShipAction.SUBSCRIBE -> {
-                if (isMastodon)
-                    mastodonApi.followAccount(accountId, notify = true)
-                else mastodonApi.subscribeAccount(accountId)
-            }
-            RelationShipAction.UNSUBSCRIBE -> {
-                if (isMastodon)
-                    mastodonApi.followAccount(accountId, notify = false)
-                else mastodonApi.unsubscribeAccount(accountId)
-            }
-        }.subscribe(
-            { relationship ->
-                relationshipData.postValue(Success(relationship))
-
-                when (relationshipAction) {
-                    RelationShipAction.UNFOLLOW -> eventHub.dispatch(UnfollowEvent(accountId))
-                    RelationShipAction.BLOCK -> eventHub.dispatch(BlockEvent(accountId))
-                    RelationShipAction.MUTE -> eventHub.dispatch(MuteEvent(accountId))
-                    else -> {
-                    }
+        try {
+            val relationship = when (relationshipAction) {
+                RelationShipAction.FOLLOW -> mastodonApi.followAccount(
+                    accountId,
+                    showReblogs = parameter ?: true
+                )
+                RelationShipAction.UNFOLLOW -> mastodonApi.unfollowAccount(accountId)
+                RelationShipAction.BLOCK -> mastodonApi.blockAccount(accountId)
+                RelationShipAction.UNBLOCK -> mastodonApi.unblockAccount(accountId)
+                RelationShipAction.MUTE -> mastodonApi.muteAccount(
+                    accountId,
+                    parameter ?: true,
+                    duration
+                )
+                RelationShipAction.UNMUTE -> mastodonApi.unmuteAccount(accountId)
+                RelationShipAction.SUBSCRIBE -> {
+                    if (isMastodon)
+                        mastodonApi.followAccount(accountId, notify = true)
+                    else mastodonApi.subscribeAccount(accountId)
                 }
-            },
-            {
-                relationshipData.postValue(Error(relation))
+                RelationShipAction.UNSUBSCRIBE -> {
+                    if (isMastodon)
+                        mastodonApi.followAccount(accountId, notify = false)
+                    else mastodonApi.unsubscribeAccount(accountId)
+                }
             }
-        )
-            .autoDispose()
+
+            relationshipData.postValue(Success(relationship))
+
+            when (relationshipAction) {
+                RelationShipAction.UNFOLLOW -> eventHub.dispatch(UnfollowEvent(accountId))
+                RelationShipAction.BLOCK -> eventHub.dispatch(BlockEvent(accountId))
+                RelationShipAction.MUTE -> eventHub.dispatch(MuteEvent(accountId))
+                else -> {
+                }
+            }
+        } catch (_: Throwable) {
+            relationshipData.postValue(Error(relation))
+        }
     }
 
     fun noteChanged(newNote: String) {
