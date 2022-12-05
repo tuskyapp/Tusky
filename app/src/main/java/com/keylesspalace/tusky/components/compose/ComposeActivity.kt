@@ -499,9 +499,7 @@ class ComposeActivity :
         binding.atButton.setOnClickListener { atButtonClicked() }
         binding.hashButton.setOnClickListener { hashButtonClicked() }
         binding.descriptionMissingWarningButton.setOnClickListener {
-            Snackbar.make(binding.composeMainScrollView, R.string.hint_media_description_missing, Snackbar.LENGTH_LONG)
-                .setAction(R.string.action_retry) {  }
-                .show()
+            Toast.makeText(this, R.string.hint_media_description_missing, Toast.LENGTH_LONG).show()
         }
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
