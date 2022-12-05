@@ -117,10 +117,10 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
                         startActivity(ComposeActivity.startIntent(context, composeOptions))
                     },
-                    {
+                    { throwable ->
                         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
 
-                        Log.w(TAG, "failed loading reply information", it)
+                        Log.w(TAG, "failed loading reply information", throwable)
 
                         if (it is HttpException && it.code() == 404) {
                             // the original status to which a reply was drafted has been deleted
