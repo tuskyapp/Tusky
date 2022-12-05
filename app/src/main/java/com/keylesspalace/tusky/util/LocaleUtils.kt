@@ -82,7 +82,7 @@ fun getLocaleList(initialLanguage: String): List<Locale> {
             it.country.isNullOrEmpty() &&
                 it.script.isNullOrEmpty() &&
                 it.variant.isNullOrEmpty()
-        }
+        }.sortedBy { it.displayName }
     )
     ensureLanguageIsFirst(locales, initialLanguage)
     return locales
