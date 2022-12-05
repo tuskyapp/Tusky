@@ -165,9 +165,9 @@ interface MastodonApi {
     ): NetworkResult<Status>
 
     @GET("api/v1/statuses/{id}")
-    fun status(
+    suspend fun status(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @GET("api/v1/statuses/{id}")
     suspend fun statusAsync(

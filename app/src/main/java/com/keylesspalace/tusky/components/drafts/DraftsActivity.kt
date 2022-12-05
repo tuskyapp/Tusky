@@ -25,8 +25,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
+import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -37,7 +36,6 @@ import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -88,13 +86,17 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
     }
 
     override fun onOpenDraft(draft: DraftEntity) {
+        if (draft.inReplyToId == null) {
+            openDraftWithoutReply(draft)
+            return
+        }
 
-        if (draft.inReplyToId != null) {
+        val context = this as Context
+
+        lifecycleScope.launch {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
             viewModel.getStatus(draft.inReplyToId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(from(this))
-                .subscribe(
+                .fold(
                     { status ->
                         val composeOptions = ComposeActivity.ComposeOptions(
                             draftId = draft.id,
@@ -113,18 +115,17 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
                         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
 
-                        startActivity(ComposeActivity.startIntent(this, composeOptions))
+                        startActivity(ComposeActivity.startIntent(context, composeOptions))
                     },
-                    { throwable ->
-
+                    {
                         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
 
-                        Log.w(TAG, "failed loading reply information", throwable)
+                        Log.w(TAG, "failed loading reply information", it)
 
-                        if (throwable is HttpException && throwable.code() == 404) {
+                        if (it is HttpException && it.code() == 404) {
                             // the original status to which a reply was drafted has been deleted
                             // let's open the ComposeActivity without reply information
-                            Toast.makeText(this, getString(R.string.drafts_post_reply_removed), Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, getString(R.string.drafts_post_reply_removed), Toast.LENGTH_LONG).show()
                             openDraftWithoutReply(draft)
                         } else {
                             Snackbar.make(binding.root, getString(R.string.drafts_failed_loading_reply), Snackbar.LENGTH_SHORT)
@@ -132,8 +133,6 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                         }
                     }
                 )
-        } else {
-            openDraftWithoutReply(draft)
         }
     }
 
