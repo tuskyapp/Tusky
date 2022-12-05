@@ -316,8 +316,6 @@
         android:layout_width="52dp"
         android:layout_height="48dp"
         android:layout_marginStart="-14dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
