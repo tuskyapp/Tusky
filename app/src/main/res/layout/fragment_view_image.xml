@@ -70,7 +70,7 @@
                     android:paddingRight="8dp"
                     android:paddingBottom="8dp"
                     android:textAlignment="center"
-                    android:textColor="#eee"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="?attr/status_text_medium"
                     tools:text="Some media description which might get quite long so that it won't easily fit in one line" />
             </androidx.core.widget.NestedScrollView>
