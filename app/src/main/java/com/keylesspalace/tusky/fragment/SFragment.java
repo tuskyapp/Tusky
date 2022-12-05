@@ -467,7 +467,6 @@ public abstract class SFragment extends Fragment implements Injectable {
         composeOptions.setContentWarning(status.getSpoilerText());
         composeOptions.setMediaAttachments(status.getAttachments());
         composeOptions.setSensitive(status.getSensitive());
-        composeOptions.setModifiedInitialState(true);
         composeOptions.setLanguage(status.getLanguage());
         composeOptions.setStatusId(status.getId());
         if (status.getPoll() != null) {
