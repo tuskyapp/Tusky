@@ -122,7 +122,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
                         Log.w(TAG, "failed loading reply information", throwable)
 
-                        if (it is HttpException && it.code() == 404) {
+                        if (throwable is HttpException && throwable.code() == 404) {
                             // the original status to which a reply was drafted has been deleted
                             // let's open the ComposeActivity without reply information
                             Toast.makeText(context, getString(R.string.drafts_post_reply_removed), Toast.LENGTH_LONG).show()
