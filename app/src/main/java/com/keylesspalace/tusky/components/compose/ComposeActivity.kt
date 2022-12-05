@@ -138,6 +138,8 @@ class ComposeActivity :
     private var finishingUploadDialog: ProgressDialog? = null
     private var photoUploadUri: Uri? = null
 
+    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
     @VisibleForTesting
     var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
     var charactersReservedPerUrl = InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL
@@ -205,7 +207,6 @@ class ComposeActivity :
             accountManager.setActiveAccount(accountId)
         }
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
@@ -216,7 +217,7 @@ class ComposeActivity :
         // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
         val activeAccount = accountManager.activeAccount ?: return
 
-        setupAvatar(preferences, activeAccount)
+        setupAvatar(activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
@@ -562,7 +563,7 @@ class ComposeActivity :
         }
     }
 
-    private fun setupAvatar(preferences: SharedPreferences, activeAccount: AccountEntity) {
+    private fun setupAvatar(activeAccount: AccountEntity) {
         val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
         val a = obtainStyledAttributes(null, actionBarSizeAttr)
         val avatarSize = a.getDimensionPixelSize(0, 1)
@@ -1148,7 +1149,8 @@ class ComposeActivity :
 
     private fun setEmojiList(emojiList: List<Emoji>?) {
         if (emojiList != null) {
-            binding.emojiView.adapter = EmojiAdapter(emojiList, this@ComposeActivity)
+            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            binding.emojiView.adapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
             enableButton(binding.composeEmojiButton, true, emojiList.isNotEmpty())
         }
     }
