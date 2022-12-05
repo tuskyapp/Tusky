@@ -169,6 +169,12 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         }
                     }
                     is ThreadUiState.Success -> {
+                        if (uiState.statuses.none { viewData -> viewData.isDetailed }) {
+                            // no detailed statuses available, e.g. because author is blocked
+                            activity?.finish()
+                            return@collect
+                        }
+
                         adapter.submitList(uiState.statuses) {
                             if (viewModel.isInitialLoad) {
                                 viewModel.isInitialLoad = false
