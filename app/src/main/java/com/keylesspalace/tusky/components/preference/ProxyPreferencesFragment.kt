@@ -16,17 +16,14 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.ProxyConfiguration
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.editTextPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.MAX_PROXY_PORT
-import com.keylesspalace.tusky.util.MIN_PROXY_PORT
-import com.keylesspalace.tusky.util.isValidProxyPort
+import com.keylesspalace.tusky.settings.validatedEditTextPreference
 import kotlin.system.exitProcess
 
 class ProxyPreferencesFragment : PreferenceFragmentCompat() {
@@ -34,40 +31,43 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
-            switchPreference {
+            val enableToggle = switchPreference {
                 setTitle(R.string.pref_title_http_proxy_enable)
                 isIconSpaceReserved = false
                 key = PrefKeys.HTTP_PROXY_ENABLED
                 setDefaultValue(false)
             }
 
-            editTextPreference {
+            val serverPref = validatedEditTextPreference(null, ProxyConfiguration::isValidHostname) {
                 setTitle(R.string.pref_title_http_proxy_server)
                 key = PrefKeys.HTTP_PROXY_SERVER
                 isIconSpaceReserved = false
                 setSummaryProvider { text }
+                isEnabled = enableToggle.isChecked
             }
 
-            editTextPreference {
-                val portMessage = getString(
-                    R.string.pref_title_http_proxy_port_message,
-                    MIN_PROXY_PORT,
-                    MAX_PROXY_PORT
-                )
-                this.dialogMessage = portMessage
+            val portErrorMessage = getString(
+                R.string.pref_title_http_proxy_port_message,
+                ProxyConfiguration.MIN_PROXY_PORT,
+                ProxyConfiguration.MAX_PROXY_PORT
+            )
+
+            val portPref = validatedEditTextPreference(portErrorMessage, ProxyConfiguration::isValidProxyPort) {
                 setTitle(R.string.pref_title_http_proxy_port)
                 key = PrefKeys.HTTP_PROXY_PORT
-                onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-                    isValidProxyPort(newValue).also { isValid ->
-                        if (!isValid) Toast.makeText(
-                            context,
-                            portMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
                 isIconSpaceReserved = false
                 setSummaryProvider { text }
+                isEnabled = enableToggle.isChecked
+            }
+
+            enableToggle.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, v ->
+                when (v) {
+                    is Boolean -> true.also {
+                        serverPref.isEnabled = v
+                        portPref.isEnabled = v
+                    }
+                    else -> false
+                }
             }
         }
     }

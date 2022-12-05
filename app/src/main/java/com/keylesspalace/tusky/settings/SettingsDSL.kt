@@ -1,8 +1,10 @@
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
+import android.widget.Button
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.annotation.StringRes
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -54,6 +56,30 @@ inline fun PreferenceParent.editTextPreference(
     builder: EditTextPreference.() -> Unit
 ): EditTextPreference {
     val pref = EditTextPreference(context)
+    builder(pref)
+    addPref(pref)
+    return pref
+}
+
+inline fun PreferenceParent.validatedEditTextPreference(
+    errorMessage: String?,
+    crossinline isValid: (a: String) -> Boolean,
+    builder: EditTextPreference.() -> Unit
+): EditTextPreference {
+    val pref = EditTextPreference(context)
+    pref.setOnBindEditTextListener { editText ->
+        editText.doAfterTextChanged { editable ->
+            requireNotNull(editable)
+            val btn = editText.rootView.findViewById<Button>(android.R.id.button1)
+            if (isValid(editable.toString())) {
+                editText.error = null
+                btn.isEnabled = true
+            } else {
+                editText.error = errorMessage
+                btn.isEnabled = false
+            }
+        }
+    }
     builder(pref)
     addPref(pref)
     return pref
