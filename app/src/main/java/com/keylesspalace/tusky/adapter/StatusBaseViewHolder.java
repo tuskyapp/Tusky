@@ -64,7 +64,6 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
