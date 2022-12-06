@@ -32,20 +32,20 @@ fun ViewGroup.expandTouchSizeToFillRow(children: List<View>) {
         touchDelegate = CompositeTouchDelegate(
             this,
             children.mapIndexed { i, view ->
-                    val rect = Rect()
-                    view.getHitRect(rect)
-                    val left = children.getOrNull(i - 1)
-                    if (left != null) {
-                        // extend half-way to previous view
-                        rect.left -= (view.left - left.right) / 2
-                    }
-                    val right = children.getOrNull(i + 1)
-                    if (right != null) {
-                        // extend half-way to next view
-                        rect.right += (right.left - view.right) / 2
-                    }
-                    TouchDelegate(rect, view)
+                val rect = Rect()
+                view.getHitRect(rect)
+                val left = children.getOrNull(i - 1)
+                if (left != null) {
+                    // extend half-way to previous view
+                    rect.left -= (view.left - left.right) / 2
                 }
+                val right = children.getOrNull(i + 1)
+                if (right != null) {
+                    // extend half-way to next view
+                    rect.right += (right.left - view.right) / 2
+                }
+                TouchDelegate(rect, view)
+            }
         )
     }
 }
