@@ -1,0 +1,8 @@
+Tusky 20.0
+- Nowa ikona aplikacji autorstwa Dzuka https://dzuk.zone/
+- Można teraz obserwować hashtagi. Kliknij na hashtag, a następnie na ikonę na pasku narzędzi.
+- Wsparcie Androida 13
+- Nowe menu w widoku kompozycji, umożliwiające ustawienie języka wpisu
+- Zakładka z multimediami w profilach szanuje teraz wrażliwe media i ładuje się płynniej.
+- Możliwe jest teraz ustawienie punktu centralnego obrazu przed opublikowaniem wpisu
+- Nowa opcja pokazywania pełnej nazwy użytkownika na pasku narzędzi

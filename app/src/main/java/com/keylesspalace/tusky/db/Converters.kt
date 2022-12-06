@@ -126,13 +126,13 @@ class Converters @Inject constructor (
     }
 
     @TypeConverter
-    fun dateToLong(date: Date): Long {
-        return date.time
+    fun dateToLong(date: Date?): Long? {
+        return date?.time
     }
 
     @TypeConverter
-    fun longToDate(date: Long): Date {
-        return Date(date)
+    fun longToDate(date: Long?): Date? {
+        return date?.let { Date(it) }
     }
 
     @TypeConverter

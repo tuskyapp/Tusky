@@ -535,7 +535,7 @@
     <string name="error_failed_set_focus">Không thể chọn tâm điểm</string>
     <string name="action_set_focus">Chọn tâm điểm</string>
     <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
-    <string name="pref_title_show_self_username">Hiện tên người dùng trên thanh công cụ</string>
+    <string name="pref_title_show_self_username">Hiện URL của tôi trên tab</string>
     <string name="pref_show_self_username_always">Luôn luôn</string>
     <string name="pref_show_self_username_disambiguate">Khi đăng nhập nhiều tài khoản</string>
     <string name="pref_show_self_username_never">Không bao giờ</string>
@@ -546,4 +546,28 @@
     <string name="failed_to_unpin">Không thể bỏ ghim</string>
     <string name="failed_to_pin">Không thể ghim</string>
     <string name="action_add_reaction">biểu cảm</string>
+    <string name="notification_report_description">Thông báo báo cáo kiểm duyệt</string>
+    <string name="action_add_or_remove_from_list">Thêm hoặc xoá khỏi danh sách</string>
+    <string name="failed_to_add_to_list">Không thể thêm người vào danh sách</string>
+    <string name="failed_to_remove_from_list">Không thể xoá người khỏi danh sách</string>
+    <string name="action_unfollow_hashtag_format">Bỏ theo dõi #%s\?</string>
+    <string name="status_created_at_now">mới</string>
+    <string name="notification_report_format">Báo cáo mới trên %s</string>
+    <string name="notification_header_report_format">%s báo cáo %s</string>
+    <string name="notification_summary_report_format">%s · %d tút đính kèm</string>
+    <string name="confirmation_hashtag_unfollowed">#%s đã được bỏ theo dõi</string>
+    <string name="pref_title_notification_filter_reports">có một báo cáo mới</string>
+    <string name="notification_report_name">Báo cáo</string>
+    <string name="no_lists">Chưa có danh sách nào.</string>
+    <string name="report_category_violation">Vi phạm quy tắc máy chủ</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Khác</string>
+    <string name="error_following_hashtags_unsupported">Máy chủ này không hỗ trợ theo dõi hashtag.</string>
+    <string name="title_followed_hashtags">Hashtag Theo Dõi</string>
+    <string name="post_edited">Đã sửa %s</string>
+    <string name="description_post_edited">Đã sửa</string>
+    <string name="pref_default_post_language">Ngôn ngữ đăng mặc định</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="error_muting_hashtag_format">Lỗi khi ẩn #%s</string>
+    <string name="error_unmuting_hashtag_format">Lỗi khi bỏ ẩn #%s</string>
 </resources>
