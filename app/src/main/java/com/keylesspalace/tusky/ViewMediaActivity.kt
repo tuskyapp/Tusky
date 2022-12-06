@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.databinding.ActivityViewMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
+import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
@@ -68,7 +69,7 @@ import java.util.Locale
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
-class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
+class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener, ViewVideoFragment.VideoActionsListener {
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 

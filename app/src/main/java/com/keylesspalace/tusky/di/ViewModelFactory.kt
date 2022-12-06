@@ -5,6 +5,7 @@ package com.keylesspalace.tusky.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.keylesspalace.tusky.components.account.AccountViewModel
+import com.keylesspalace.tusky.components.account.list.ListsForAccountViewModel
 import com.keylesspalace.tusky.components.account.media.AccountMediaViewModel
 import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
@@ -131,6 +132,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FollowedTagsViewModel::class)
     internal abstract fun followedTagsViewModel(viewModel: FollowedTagsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListsForAccountViewModel::class)
+    internal abstract fun listsForAccountViewModel(viewModel: ListsForAccountViewModel): ViewModel
 
     // Add more ViewModels here
 }

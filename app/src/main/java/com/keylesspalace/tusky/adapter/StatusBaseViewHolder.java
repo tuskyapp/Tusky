@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
+import com.keylesspalace.tusky.util.TouchDelegateHelper;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.view.MediaPreviewLayout;
 import com.keylesspalace.tusky.viewdata.PollOptionViewData;
@@ -63,6 +64,7 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -172,6 +174,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
 
         mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
+
+        TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, Arrays.asList(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
     }
 
     protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
@@ -309,19 +313,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setCreatedAt(Date createdAt, StatusDisplayOptions statusDisplayOptions) {
+    protected void setCreatedAt(Date createdAt, Date editedAt, StatusDisplayOptions statusDisplayOptions) {
+        String timestampText;
         if (statusDisplayOptions.useAbsoluteTime()) {
-            timestampInfo.setText(absoluteTimeFormatter.format(createdAt, true));
+            timestampText = absoluteTimeFormatter.format(createdAt, true);
         } else {
             if (createdAt == null) {
-                timestampInfo.setText("?m");
+                timestampText = "?m";
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
                 String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
-                timestampInfo.setText(readout);
+                timestampText = readout;
             }
         }
+
+        if (editedAt != null) {
+            timestampText = timestampInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
+        }
+        timestampInfo.setText(timestampText);
     }
 
     private CharSequence getCreatedAtDescription(Date createdAt,
@@ -712,7 +722,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(status.getUsername());
-            setCreatedAt(actionable.getCreatedAt(), statusDisplayOptions);
+            setCreatedAt(actionable.getCreatedAt(), actionable.getEditedAt(), statusDisplayOptions);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
@@ -764,7 +774,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (payloads instanceof List)
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setCreatedAt(status.getActionable().getCreatedAt(), statusDisplayOptions);
+                        setCreatedAt(status.getActionable().getCreatedAt(), status.getActionable().getEditedAt(), statusDisplayOptions);
                     }
                 }
 
@@ -790,6 +800,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 getContentWarningDescription(context, status),
                 (TextUtils.isEmpty(status.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
                 getCreatedAtDescription(actionable.getCreatedAt(), statusDisplayOptions),
+                actionable.getEditedAt() != null ? context.getString(R.string.description_post_edited) : "",
                 getReblogDescription(context, status),
                 status.getUsername(),
                 actionable.getReblogged() ? context.getString(R.string.description_post_reblogged) : "",
