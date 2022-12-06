@@ -238,14 +238,13 @@ class ComposeActivity :
         binding.composeMediaPreviewBar.adapter = mediaAdapter
         binding.composeMediaPreviewBar.itemAnimator = null
 
-        setupButtons()
-        subscribeToUpdates(mediaAdapter)
-
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
         val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
-
         viewModel.setup(composeOptions)
+
+        setupButtons()
+        subscribeToUpdates(mediaAdapter)
 
         if (accountManager.shouldDisplaySelfUsername(this)) {
             binding.composeUsernameView.text = getString(
@@ -708,20 +707,25 @@ class ComposeActivity :
     }
 
     private fun updateScheduleButton() {
-        @ColorInt val color = if (binding.composeScheduleView.time == null) {
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+        if (viewModel.editing) {
+            // Can't reschedule a published status
+            enableButton(binding.composeScheduleButton, clickable = false, colorActive = false)
         } else {
-            getColor(R.color.tusky_blue)
+            @ColorInt val color = if (binding.composeScheduleView.time == null) {
+                ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            } else {
+                getColor(R.color.tusky_blue)
+            }
+            binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         }
-        binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
 
-    private fun enableButtons(enable: Boolean) {
+    private fun enableButtons(enable: Boolean, editing: Boolean) {
         binding.composeAddMediaButton.isClickable = enable
-        binding.composeToggleVisibilityButton.isClickable = enable
+        binding.composeToggleVisibilityButton.isClickable = enable && !editing
         binding.composeEmojiButton.isClickable = enable
         binding.composeHideMediaButton.isClickable = enable
-        binding.composeScheduleButton.isClickable = enable
+        binding.composeScheduleButton.isClickable = enable && !editing
         binding.composeTootButton.isEnabled = enable
     }
 
@@ -737,6 +741,10 @@ class ComposeActivity :
             else -> R.drawable.ic_lock_open_24dp
         }
         binding.composeToggleVisibilityButton.setImageResource(iconRes)
+        if (viewModel.editing) {
+            // Can't update visibility on published status
+            enableButton(binding.composeToggleVisibilityButton, clickable = false, colorActive = false)
+        }
     }
 
     private fun showComposeOptions() {
@@ -938,7 +946,7 @@ class ComposeActivity :
     }
 
     private fun sendStatus() {
-        enableButtons(false)
+        enableButtons(false, viewModel.editing)
         val contentText = binding.composeEditField.text.toString()
         var spoilerText = ""
         if (viewModel.showContentWarning.value) {
@@ -947,7 +955,7 @@ class ComposeActivity :
         val characterCount = calculateTextLength()
         if ((characterCount <= 0 || contentText.isBlank()) && viewModel.media.value.isEmpty()) {
             binding.composeEditField.error = getString(R.string.error_empty)
-            enableButtons(true)
+            enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
             if (viewModel.media.value.isNotEmpty()) {
                 finishingUploadDialog = ProgressDialog.show(
@@ -963,7 +971,7 @@ class ComposeActivity :
             }
         } else {
             binding.composeEditField.error = getString(R.string.error_compose_character_limit)
-            enableButtons(true)
+            enableButtons(true, viewModel.editing)
         }
     }
 

@@ -502,6 +502,9 @@ class ComposeViewModel @Inject constructor(
         scheduledAt.value = newScheduledAt
     }
 
+    val editing: Boolean
+        get() = !originalStatusId.isNullOrEmpty()
+
     private companion object {
         const val TAG = "ComposeViewModel"
     }
