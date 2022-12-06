@@ -195,6 +195,7 @@
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
     <string name="hint_search">Search…</string>
+    <string name="hint_media_description_missing">Media should have a description.</string>
 
     <string name="search_no_results">No results</string>
 

@@ -188,7 +188,7 @@ class ComposeActivity :
             Log.w("ComposeActivity", "Edit image cancelled by user")
         } else {
             Log.w("ComposeActivity", "Edit image failed: " + result.error)
-            displayTransientError(R.string.error_image_edit_failed)
+            displayTransientMessage(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
     }
@@ -470,9 +470,9 @@ class ComposeActivity :
         lifecycleScope.launch {
             viewModel.uploadError.collect { throwable ->
                 if (throwable is UploadServerError) {
-                    displayTransientError(throwable.errorMessage)
+                    displayTransientMessage(throwable.errorMessage)
                 } else {
-                    displayTransientError(R.string.error_media_upload_sending)
+                    displayTransientMessage(R.string.error_media_upload_sending)
                 }
             }
         }
@@ -500,6 +500,9 @@ class ComposeActivity :
         binding.composeScheduleView.setListener(this)
         binding.atButton.setOnClickListener { atButtonClicked() }
         binding.hashButton.setOnClickListener { hashButtonClicked() }
+        binding.descriptionMissingWarningButton.setOnClickListener {
+            displayTransientMessage(R.string.hint_media_description_missing)
+        }
 
         val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
 
@@ -656,15 +659,15 @@ class ComposeActivity :
         super.onSaveInstanceState(outState)
     }
 
-    private fun displayTransientError(errorMessage: String) {
-        val bar = Snackbar.make(binding.activityCompose, errorMessage, Snackbar.LENGTH_LONG)
+    private fun displayTransientMessage(message: String) {
+        val bar = Snackbar.make(binding.activityCompose, message, Snackbar.LENGTH_LONG)
         // necessary so snackbar is shown over everything
         bar.view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
         bar.setAnchorView(R.id.composeBottomBar)
         bar.show()
     }
-    private fun displayTransientError(@StringRes stringId: Int) {
-        displayTransientError(getString(stringId))
+    private fun displayTransientMessage(@StringRes stringId: Int) {
+        displayTransientMessage(getString(stringId))
     }
 
     private fun toggleHideMedia() {
@@ -674,6 +677,7 @@ class ComposeActivity :
     private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
         if (viewModel.media.value.isEmpty()) {
             binding.composeHideMediaButton.hide()
+            binding.descriptionMissingWarningButton.hide()
         } else {
             binding.composeHideMediaButton.show()
             @ColorInt val color = if (contentWarningShown) {
@@ -691,6 +695,15 @@ class ComposeActivity :
                 }
             }
             binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+
+            var oneMediaWithoutDescription = false
+            for (media in viewModel.media.value) {
+                if (media.description == null || media.description.isEmpty()) {
+                    oneMediaWithoutDescription = true
+                    break
+                }
+            }
+            binding.descriptionMissingWarningButton.visibility = if (oneMediaWithoutDescription) View.VISIBLE else View.GONE
         }
     }
 
@@ -760,7 +773,7 @@ class ComposeActivity :
         binding.emojiView.adapter?.let {
             if (it.itemCount == 0) {
                 val errorMessage = getString(R.string.error_no_custom_emojis, accountManager.activeAccount!!.domain)
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                displayTransientMessage(errorMessage)
             } else {
                 if (emojiBehavior.state == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
                     emojiBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -980,7 +993,7 @@ class ComposeActivity :
         val photoFile: File = try {
             createNewImageFile(this)
         } catch (ex: IOException) {
-            displayTransientError(R.string.error_media_upload_opening)
+            displayTransientMessage(R.string.error_media_upload_opening)
             return
         }
 
@@ -1050,7 +1063,7 @@ class ComposeActivity :
                     is VideoOrImageException -> getString(R.string.error_media_upload_image_or_video)
                     else -> getString(R.string.error_media_upload_opening)
                 }
-                displayTransientError(errorString)
+                displayTransientMessage(errorString)
             }
         }
     }
