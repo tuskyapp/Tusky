@@ -9,14 +9,14 @@
     <string name="error_authorization_unknown">Tanımlanamayan bir yetkilendirme hatası oluştu.</string>
     <string name="error_authorization_denied">Yetkilendirme reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
-    <string name="error_compose_character_limit">Durum çok uzun!</string>
+    <string name="error_compose_character_limit">Post çok uzun!</string>
     <string name="error_media_upload_type">Bu tür bir dosya yüklenemez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>
     <string name="error_media_download_permission">Medya kaydetme izni gerekli.</string>
     <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı duruma eklenemez.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
-    <string name="error_sender_account_gone">Toot gönderilirken hata oluştu.</string>
+    <string name="error_sender_account_gone">Post gönderirken hata.</string>
     <string name="title_home">Ana sayfa</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
@@ -473,4 +473,10 @@
     <string name="pref_title_hide_top_toolbar">Üst araç çubuğunun başlığını gizle</string>
     <string name="action_delete_conversation">Konuşmayı sil</string>
     <string name="title_announcements">Duyurular</string>
+    <string name="error_multimedia_size_limit">Video ve ses dosyaları %s boyutunu aşamaz</string>
+    <string name="error_image_edit_failed">Görüntü düzenlemedi</string>
+    <string name="error_following_hashtag_format">#%s takip edilirken hata</string>
+    <string name="title_login">Giriş</string>
+    <string name="error_loading_account_details">Hesap detayları alınırken hata</string>
+    <string name="error_could_not_load_login_page">Giriş ekranı yüklenemedi</string>
 </resources>
