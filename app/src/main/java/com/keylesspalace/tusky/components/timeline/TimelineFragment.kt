@@ -136,7 +136,6 @@ class TimelineFragment :
     // The user can then scroll up to read the new statuses.
     private var statusIdBelowLoadMore: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -255,7 +254,7 @@ class TimelineFragment :
                     var position = loadMorePosition!!
 
                     var status: StatusViewData?
-                    while (adapter.peek(position).let { status = it; it != null}) {
+                    while (adapter.peek(position).let { status = it; it != null }) {
                         if (status?.id == statusIdBelowLoadMore) {
                             val lastVisiblePosition = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                             if (position > lastVisiblePosition) {
