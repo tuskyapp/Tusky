@@ -27,12 +27,11 @@ import android.view.ViewGroup
  * Expands the touch area of the give row of views to fill the space in-between them, using a
  * [TouchDelegate].
  */
-fun ViewGroup.expandTouchSizeToFillRow(children: List<View?>) {
+fun ViewGroup.expandTouchSizeToFillRow(children: List<View>) {
     addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
         touchDelegate = CompositeTouchDelegate(
             this,
-            children.filterNotNull()
-                .mapIndexed { i, view ->
+            children.mapIndexed { i, view ->
                     val rect = Rect()
                     view.getHitRect(rect)
                     val left = children.getOrNull(i - 1)

@@ -173,7 +173,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
 
-        TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, Arrays.asList(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
+        TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, CollectionsKt.listOfNotNull(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
     }
 
     protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
