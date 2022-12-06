@@ -90,6 +90,10 @@ android {
     kotlinOptions {
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
 }
 
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
