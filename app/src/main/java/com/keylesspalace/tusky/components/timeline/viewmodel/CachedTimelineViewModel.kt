@@ -173,10 +173,11 @@ class CachedTimelineViewModel @Inject constructor(
                 )
                 val response = db.withTransaction {
                     val idAbovePlaceholder = timelineDao.getIdAbove(activeAccount.id, placeholderId)
-                    val idBelowPlaceHolder = timelineDao.getIdBelow(activeAccount.id, placeholderId)
+                    val nextPlaceholderId =
+                        timelineDao.getNextPlaceholderIdAfter(activeAccount.id, placeholderId)
                     api.homeTimeline(
                         maxId = idAbovePlaceholder,
-                        minId = idBelowPlaceHolder,
+                        sinceId = nextPlaceholderId,
                         limit = LOAD_AT_ONCE
                     )
                 }
