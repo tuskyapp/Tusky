@@ -72,7 +72,7 @@
     <string name="action_view_favourites">Ffefrynnau</string>
     <string name="action_view_mutes">Defnyddwyr wedi\'u tewi</string>
     <string name="action_view_blocks">Defnyddwyr wedi\'u rhwystro</string>
-    <string name="action_view_follow_requests">Dilyn ceisiadau</string>
+    <string name="action_view_follow_requests">Ceisiadau i\'ch dilyn</string>
     <string name="action_view_media">Cyfryngau</string>
     <string name="action_open_in_web">Agor mewn porwr</string>
     <string name="action_add_media">Ychwanegu cyfryngau</string>
@@ -293,7 +293,7 @@
     <string name="action_links">Cysylltiadau</string>
     <string name="title_links_dialog">Cysylltiadau</string>
     <string name="action_open_reblogged_by">Dangos hybiadau</string>
-    <string name="notification_follow_request_name">Dilyn ceisiadau</string>
+    <string name="notification_follow_request_name">Ceisiadau i\'ch dilyn</string>
     <string name="action_bookmark">Nod tudalen</string>
     <string name="action_edit">Golygu</string>
     <string name="edit_poll">Golygu</string>
