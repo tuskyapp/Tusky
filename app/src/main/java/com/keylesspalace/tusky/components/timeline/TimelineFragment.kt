@@ -63,6 +63,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collectLatest
@@ -107,6 +108,34 @@ class TimelineFragment :
 
     /** Adapter position of the placeholder that was most recently clicked to "Load more" */
     private var loadMorePosition: Int? = null
+
+    /** ID of the status immediately below the most recent "Load more" placeholder click */
+    // The Paging library assumes that the user will be scrolling down a list of items,
+    // and if new items are loaded but not visible then it's reasonable to scroll to the top
+    // of the inserted items. It does not seem to be possible to disable that behaviour.
+    //
+    // That behaviour does not work here -- when a "Load more" event is triggered this would
+    // cause the list to scroll to the top of the new statuses, and the user then needs to
+    // scroll down to the bottom of the new statuses to find the oldest one, and then start
+    // scrolling back up.
+    //
+    // The desired behaviour is that the user's position in the recyclerview is retained, they
+    // can click "Load more", and then scroll up as normal to read the newly-added statuses.
+    //
+    // To do this:
+    //
+    // 1. When "Load more" is clicked (onLoadMore()):
+    //    a. Remember the adapter position of the "Load more" item in loadMorePosition
+    //    b. Remember the ID of the status immediately below the "Load more" item in
+    //       statusIdBelowLoadMore
+    // 2. After the new items have been inserted, search the adapter for the position of the
+    //    status with id == statusIdBelowLoadMore.
+    // 3. If this position is still visible on screen then do nothing, otherwise, scroll the view
+    //    so that the status is visible.
+    //
+    // The user can then scroll up to read the new statuses.
+    private var statusIdBelowLoadMore: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -205,7 +234,6 @@ class TimelineFragment :
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                Log.d(TAG, "onItemRangeInserted($positionStart, $itemCount)")
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
@@ -216,12 +244,27 @@ class TimelineFragment :
                     }
                 }
 
-                // If this insert was because the user clicked "Load more" (i.e., the
-                // insert position is the same as the position of the "Load more"
-                // placeholder) then scroll so the user is at the earliest of the new
-                // statuses.
-                if (loadMorePosition != null && loadMorePosition == positionStart) {
-                    binding.recyclerView.scrollToPosition(positionStart + itemCount)
+                // If this insert was because the user clicked "Load more" then ensure the status
+                // below that "Load more" placeholder is still visible.
+                //
+                // Note: The positionStart parameter to onItemRangeInserted() does not always
+                // match the adapter position where data was inserted (which is why loadMorePosition
+                // is tracked manually, see this bug report for another example:
+                // https://github.com/android/architecture-components-samples/issues/726).
+                if (loadMorePosition != null && statusIdBelowLoadMore != null) {
+                    var position = loadMorePosition!!
+
+                    var status: StatusViewData?
+                    while (adapter.peek(position).let { status = it; it != null}) {
+                        if (status?.id == statusIdBelowLoadMore) {
+                            val lastVisiblePosition = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                            if (position > lastVisiblePosition) {
+                                binding.recyclerView.scrollToPosition(position)
+                            }
+                            break
+                        }
+                        position++
+                    }
                     loadMorePosition = null
                 }
             }
@@ -369,6 +412,7 @@ class TimelineFragment :
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
+        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
         viewModel.loadMore(placeholder.id)
     }
 
