@@ -16,12 +16,12 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.ProxyConfiguration
 import com.keylesspalace.tusky.settings.makePreferenceScreen
+import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.settings.validatedEditTextPreference
 import kotlin.system.exitProcess
@@ -31,42 +31,35 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
-            val enableToggle = switchPreference {
+            switchPreference {
                 setTitle(R.string.pref_title_http_proxy_enable)
                 isIconSpaceReserved = false
                 key = PrefKeys.HTTP_PROXY_ENABLED
                 setDefaultValue(false)
             }
 
-            val serverPref = validatedEditTextPreference(null, ProxyConfiguration::isValidHostname) {
-                setTitle(R.string.pref_title_http_proxy_server)
-                key = PrefKeys.HTTP_PROXY_SERVER
-                isIconSpaceReserved = false
-                setSummaryProvider { text }
-                isEnabled = enableToggle.isChecked
-            }
+            preferenceCategory { category ->
+                category.dependency = PrefKeys.HTTP_PROXY_ENABLED
+                category.isIconSpaceReserved = false
 
-            val portErrorMessage = getString(
-                R.string.pref_title_http_proxy_port_message,
-                ProxyConfiguration.MIN_PROXY_PORT,
-                ProxyConfiguration.MAX_PROXY_PORT
-            )
+                validatedEditTextPreference(null, ProxyConfiguration::isValidHostname) {
+                    setTitle(R.string.pref_title_http_proxy_server)
+                    key = PrefKeys.HTTP_PROXY_SERVER
+                    isIconSpaceReserved = false
+                    setSummaryProvider { text }
+                }
 
-            val portPref = validatedEditTextPreference(portErrorMessage, ProxyConfiguration::isValidProxyPort) {
-                setTitle(R.string.pref_title_http_proxy_port)
-                key = PrefKeys.HTTP_PROXY_PORT
-                isIconSpaceReserved = false
-                setSummaryProvider { text }
-                isEnabled = enableToggle.isChecked
-            }
+                val portErrorMessage = getString(
+                    R.string.pref_title_http_proxy_port_message,
+                    ProxyConfiguration.MIN_PROXY_PORT,
+                    ProxyConfiguration.MAX_PROXY_PORT
+                )
 
-            enableToggle.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, v ->
-                when (v) {
-                    is Boolean -> true.also {
-                        serverPref.isEnabled = v
-                        portPref.isEnabled = v
-                    }
-                    else -> false
+                validatedEditTextPreference(portErrorMessage, ProxyConfiguration::isValidProxyPort) {
+                    setTitle(R.string.pref_title_http_proxy_port)
+                    key = PrefKeys.HTTP_PROXY_PORT
+                    isIconSpaceReserved = false
+                    setSummaryProvider { text }
                 }
             }
         }
