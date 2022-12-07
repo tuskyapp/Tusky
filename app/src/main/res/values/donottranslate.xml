@@ -243,4 +243,14 @@
         <item>259200</item>
         <item>604800</item>
     </integer-array>
+
+    <string-array name="reading_order_names">
+        <item>@string/pref_reading_order_oldest_first</item>
+        <item>@string/pref_reading_order_newest_first</item>
+    </string-array>
+
+    <string-array name="reading_order_values">
+        <item>oldest_first</item>
+        <item>newest_first</item>
+    </string-array>
 </resources>

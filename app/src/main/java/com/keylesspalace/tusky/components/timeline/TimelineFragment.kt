@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
@@ -136,6 +137,8 @@ class TimelineFragment :
     // The user can then scroll up to read the new statuses.
     private var statusIdBelowLoadMore: String? = null
 
+    private lateinit var readingOrder: ReadingOrder
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -165,6 +168,11 @@ class TimelineFragment :
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        readingOrder = when (preferences.getString(PrefKeys.READING_ORDER, "oldest_first")) {
+            "newest_first" -> ReadingOrder.NEWEST_FIRST
+            else -> ReadingOrder.OLDEST_FIRST
+        }
+
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
@@ -244,13 +252,14 @@ class TimelineFragment :
                 }
 
                 // If this insert was because the user clicked "Load more" then ensure the status
-                // below that "Load more" placeholder is still visible.
+                // below that "Load more" placeholder is still visible (if the user reads oldest
+                // to newest).
                 //
                 // Note: The positionStart parameter to onItemRangeInserted() does not always
                 // match the adapter position where data was inserted (which is why loadMorePosition
                 // is tracked manually, see this bug report for another example:
                 // https://github.com/android/architecture-components-samples/issues/726).
-                if (loadMorePosition != null && statusIdBelowLoadMore != null) {
+                if (loadMorePosition != null && statusIdBelowLoadMore != null && readingOrder == ReadingOrder.OLDEST_FIRST) {
                     var position = loadMorePosition!!
 
                     var status: StatusViewData?
