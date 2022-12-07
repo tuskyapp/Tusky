@@ -86,12 +86,12 @@ inline fun PreferenceParent.checkBoxPreference(
 }
 
 inline fun PreferenceParent.preferenceCategory(
-    @StringRes title: Int,
+    @StringRes title: Int? = null,
     builder: PreferenceParent.(PreferenceCategory) -> Unit
 ) {
     val category = PreferenceCategory(context)
     addPref(category)
-    category.setTitle(title)
+    title?.run(category::setTitle)
     val newParent = PreferenceParent(context) { category.addPreference(it) }
     builder(newParent, category)
 }
