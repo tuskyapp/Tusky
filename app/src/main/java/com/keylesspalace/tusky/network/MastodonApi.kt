@@ -82,7 +82,7 @@ interface MastodonApi {
     suspend fun getInstance(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<Instance>
 
     @GET("api/v1/filters")
-    fun getFilters(): Single<List<Filter>>
+    suspend fun getFilters(): NetworkResult<List<Filter>>
 
     @GET("api/v1/timelines/home")
     @Throws(Exception::class)

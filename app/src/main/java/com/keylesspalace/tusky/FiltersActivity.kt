@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
@@ -19,7 +20,6 @@ import com.keylesspalace.tusky.view.getSecondsForDurationIndex
 import com.keylesspalace.tusky.view.setupEditDialogForFilter
 import com.keylesspalace.tusky.view.showAddFilterDialog
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.await
 import java.io.IOException
 import javax.inject.Inject
 
@@ -150,12 +150,10 @@ class FiltersActivity : BaseActivity() {
         binding.filterProgressBar.show()
 
         lifecycleScope.launch {
-            val newFilters = try {
-                api.getFilters().await()
-            } catch (t: Exception) {
+            val newFilters = api.getFilters().getOrElse {
                 binding.filterProgressBar.hide()
                 binding.filterMessageView.show()
-                if (t is IOException) {
+                if (it is IOException) {
                     binding.filterMessageView.setup(
                         R.drawable.elephant_offline,
                         R.string.error_network
