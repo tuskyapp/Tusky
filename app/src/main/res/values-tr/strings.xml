@@ -2,7 +2,7 @@
 <resources>
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantınızı kontrol edin ve tekrar deneyin!</string>
-    <string name="error_empty">Bu alan boş bırakılmaz.</string>
+    <string name="error_empty">Bu alan boş bırakılamaz.</string>
     <string name="error_invalid_domain">Geçersiz alan adı girildi</string>
     <string name="error_failed_app_registration">Bu sunucuda kimlik doğrulama başarısız oldu.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
@@ -202,7 +202,7 @@
     <plurals name="notification_title_summary">
         <item quantity="other">%d yeni etkileşim</item>
     </plurals>
-    <string name="description_account_locked">Kitli Hesap</string>
+    <string name="description_account_locked">Kilitli Hesap</string>
     <string name="about_title_activity">Hakkında</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky özgür ve açık kaynak bir yazılımdır. GNU Genel Kamu Lisansı sürüm 3 altında lisanslanmıştır. Lisansı buradan görüntüleyebilirsiniz: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
