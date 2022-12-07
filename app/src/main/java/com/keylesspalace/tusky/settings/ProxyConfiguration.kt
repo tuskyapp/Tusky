@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.entity
+package com.keylesspalace.tusky.settings
 
 import java.net.IDN
 
