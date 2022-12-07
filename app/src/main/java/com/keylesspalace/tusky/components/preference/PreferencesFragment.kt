@@ -54,8 +54,18 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest. Default behaviour. */
         OLDEST_FIRST,
+
         /** User scrolls down, reading statuses newest to oldest */
-        NEWEST_FIRST,
+        NEWEST_FIRST;
+
+        companion object {
+            fun from(s: String): ReadingOrder {
+                return when (s) {
+                    "newest_first" -> ReadingOrder.NEWEST_FIRST
+                    else -> ReadingOrder.OLDEST_FIRST
+                }
+            }
+        }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
