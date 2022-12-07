@@ -64,7 +64,6 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -173,7 +172,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
 
-        TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, Arrays.asList(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
+        TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, CollectionsKt.listOfNotNull(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
     }
 
     protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
