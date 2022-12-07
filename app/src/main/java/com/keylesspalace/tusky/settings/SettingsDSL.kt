@@ -52,15 +52,6 @@ inline fun PreferenceParent.switchPreference(
     return pref
 }
 
-inline fun PreferenceParent.editTextPreference(
-    builder: EditTextPreference.() -> Unit
-): EditTextPreference {
-    val pref = EditTextPreference(context)
-    builder(pref)
-    addPref(pref)
-    return pref
-}
-
 inline fun PreferenceParent.validatedEditTextPreference(
     errorMessage: String?,
     crossinline isValid: (a: String) -> Boolean,
