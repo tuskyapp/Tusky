@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
@@ -182,6 +183,11 @@ interface MastodonApi {
     suspend fun statusAsync(
         @Path("id") statusId: String
     ): NetworkResult<Status>
+
+    @GET("api/v1/statuses/{id}/source")
+    suspend fun statusSource(
+        @Path("id") statusId: String
+    ): NetworkResult<StatusSource>
 
     @GET("api/v1/statuses/{id}/context")
     suspend fun statusContext(

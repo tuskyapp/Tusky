@@ -33,13 +33,16 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import at.connyduck.calladapter.networkresult.fold
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
@@ -62,6 +65,7 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
 
@@ -493,20 +497,30 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun editStatus(id: String, position: Int, status: Status) {
-        val intent = ComposeActivity.startIntent(
-            requireContext(),
-            ComposeOptions(
-                content = status.getEditableText() ?: "",
-                inReplyToId = status.inReplyToId,
-                visibility = status.visibility,
-                contentWarning = status.spoilerText,
-                mediaAttachments = status.attachments,
-                sensitive = status.sensitive,
-                poll = status.poll?.toNewPoll(status.createdAt),
-                language = status.language,
-                statusId = status.id,
+        lifecycleScope.launch {
+            mastodonApi.statusSource(id).fold(
+                { source ->
+                    val composeOptions = ComposeOptions(
+                        content = source.text,
+                        inReplyToId = status.inReplyToId,
+                        visibility = status.visibility,
+                        contentWarning = source.spoilerText,
+                        mediaAttachments = status.attachments,
+                        sensitive = status.sensitive,
+                        language = status.language,
+                        statusId = source.id,
+                        poll = status.poll?.toNewPoll(status.createdAt),
+                    )
+                    startActivity(ComposeActivity.startIntent(requireContext(), composeOptions))
+                },
+                {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.error_status_source_load),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             )
-        )
-        startActivity(intent)
+        }
     }
 }

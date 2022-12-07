@@ -34,6 +34,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import autodispose2.AutoDispose
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.snackbar.Snackbar
@@ -59,6 +61,7 @@ import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 import java.util.LinkedHashSet
 import javax.inject.Inject
@@ -421,18 +424,31 @@ abstract class SFragment : Fragment(), Injectable {
     }
 
     private fun editStatus(id: String, position: Int, status: Status) {
-        val composeOptions = ComposeOptions(
-            content = status.getEditableText(),
-            inReplyToId = status.inReplyToId,
-            visibility = status.visibility,
-            contentWarning = status.spoilerText,
-            mediaAttachments = status.attachments,
-            sensitive = status.sensitive,
-            language = status.language,
-            statusId = status.id,
-            poll = status.poll?.toNewPoll(status.createdAt),
-        )
-        startActivity(startIntent(requireContext(), composeOptions))
+        lifecycleScope.launch {
+            mastodonApi.statusSource(id).fold(
+                { source ->
+                    val composeOptions = ComposeOptions(
+                        content = source.text,
+                        inReplyToId = status.inReplyToId,
+                        visibility = status.visibility,
+                        contentWarning = source.spoilerText,
+                        mediaAttachments = status.attachments,
+                        sensitive = status.sensitive,
+                        language = status.language,
+                        statusId = source.id,
+                        poll = status.poll?.toNewPoll(status.createdAt),
+                    )
+                    startActivity(startIntent(requireContext(), composeOptions))
+                },
+                {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.error_status_source_load),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            )
+        }
     }
 
     private fun showOpenAsDialog(statusUrl: String?, dialogTitle: CharSequence?) {
