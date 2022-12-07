@@ -75,7 +75,7 @@ import javax.inject.Inject
 abstract class SFragment : Fragment(), Injectable {
     protected abstract fun removeItem(position: Int)
     protected abstract fun onReblog(reblog: Boolean, position: Int)
-    private var bottomSheetActivity: BottomSheetActivity? = null
+    private lateinit var bottomSheetActivity: BottomSheetActivity
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -102,19 +102,19 @@ abstract class SFragment : Fragment(), Injectable {
 
     protected fun openReblog(status: Status?) {
         if (status == null) return
-        bottomSheetActivity?.viewAccount(status.account.id)
+        bottomSheetActivity.viewAccount(status.account.id)
     }
 
     protected fun viewThread(statusId: String?, statusUrl: String?) {
-        bottomSheetActivity?.viewThread(statusId!!, statusUrl)
+        bottomSheetActivity.viewThread(statusId!!, statusUrl)
     }
 
     protected fun viewAccount(accountId: String?) {
-        bottomSheetActivity?.viewAccount(accountId!!)
+        bottomSheetActivity.viewAccount(accountId!!)
     }
 
     open fun onViewUrl(url: String) {
-        bottomSheetActivity?.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER)
+        bottomSheetActivity.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER)
     }
 
     protected fun reply(status: Status) {
@@ -125,7 +125,7 @@ abstract class SFragment : Fragment(), Injectable {
         if (activeAccount != null) {
             loggedInUsername = activeAccount.username
         }
-        val mentionedUsernames: MutableSet<String?> = LinkedHashSet(
+        val mentionedUsernames = LinkedHashSet(
             listOf(account.username) + actionableStatus.mentions.map { it.username }
         ).apply { remove(loggedInUsername) }
 
@@ -133,7 +133,7 @@ abstract class SFragment : Fragment(), Injectable {
             inReplyToId = status.actionableId,
             replyVisibility = actionableStatus.visibility,
             contentWarning = actionableStatus.spoilerText,
-            mentionedUsernames = mentionedUsernames.map { it!! }.toSet(),
+            mentionedUsernames = mentionedUsernames,
             replyingStatusAuthor = account.localUsername,
             replyingStatusContent = actionableStatus.content.parseAsMastodonHtml().toString(),
             language = actionableStatus.language,
@@ -164,13 +164,11 @@ abstract class SFragment : Fragment(), Injectable {
                     menu.add(0, R.id.pin, 1, getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action))
                 }
                 Status.Visibility.PRIVATE -> {
-                    var reblogged = status.reblog?.reblogged ?: status.reblogged
+                    val reblogged = status.reblog?.reblogged ?: status.reblogged
                     menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
                     menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
                 }
-                else -> {
-                    // TODO: anything?
-                }
+                else -> {}
             }
         } else {
             popup.inflate(R.menu.status_more)
@@ -274,7 +272,7 @@ abstract class SFragment : Fragment(), Injectable {
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_edit -> {
-                    editStatus(id, position, status)
+                    editStatus(id, status)
                     return@setOnMenuItemClickListener true
                 }
                 R.id.pin -> {
@@ -354,11 +352,11 @@ abstract class SFragment : Fragment(), Injectable {
         startActivity(newHashtagIntent(requireContext(), tag))
     }
 
-    protected fun openReportPage(accountId: String, accountUsername: String, statusId: String) {
+    private fun openReportPage(accountId: String, accountUsername: String, statusId: String) {
         startActivity(getIntent(requireContext(), accountId, accountUsername, statusId))
     }
 
-    protected fun showConfirmDeleteDialog(id: String, position: Int) {
+    private fun showConfirmDeleteDialog(id: String, position: Int) {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_delete_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
@@ -386,7 +384,7 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_redraft_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases!!.delete(id)
+                timelineCases.delete(id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .to(
                         AutoDispose.autoDisposable(
@@ -423,7 +421,7 @@ abstract class SFragment : Fragment(), Injectable {
             .show()
     }
 
-    private fun editStatus(id: String, position: Int, status: Status) {
+    private fun editStatus(id: String, status: Status) {
         lifecycleScope.launch {
             mastodonApi.statusSource(id).fold(
                 { source ->
@@ -506,7 +504,7 @@ abstract class SFragment : Fragment(), Injectable {
         private const val TAG = "SFragment"
         private fun accountIsInMentions(account: AccountEntity?, mentions: List<Status.Mention>): Boolean {
             return mentions.any { mention ->
-                account?.username == mention.username && account?.domain == Uri.parse(mention.url)?.host
+                account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
             }
         }
     }
