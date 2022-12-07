@@ -460,14 +460,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
-        boolean withDescription = false;
-        for (Attachment at : attachments) {
-            if (!TextUtils.isEmpty(at.getDescription())) {
-                withDescription = true;
-                break;
-            }
-        }
-
         mediaPreview.forEachIndexed((i, imageView, descriptionIndicator) -> {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
@@ -495,7 +487,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
 
             setAttachmentClickListener(imageView, listener, i, attachment, true);
-
 
             if (sensitive) {
                 sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
