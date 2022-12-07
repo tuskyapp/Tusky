@@ -180,16 +180,16 @@ interface MastodonApi {
     ): NetworkResult<StatusContext>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
-    fun statusRebloggedBy(
+    suspend fun statusRebloggedBy(
         @Path("id") statusId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/statuses/{id}/favourited_by")
-    fun statusFavouritedBy(
+    suspend fun statusFavouritedBy(
         @Path("id") statusId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
     fun deleteStatus(
@@ -331,16 +331,16 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/accounts/{id}/followers")
-    fun accountFollowers(
+    suspend fun accountFollowers(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/accounts/{id}/following")
-    fun accountFollowing(
+    suspend fun accountFollowing(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
@@ -394,14 +394,14 @@ interface MastodonApi {
     ): Single<Relationship>
 
     @GET("api/v1/blocks")
-    fun blocks(
+    suspend fun blocks(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/mutes")
-    fun mutes(
+    suspend fun mutes(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/domain_blocks")
     fun domainBlocks(
@@ -436,9 +436,9 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/follow_requests")
-    fun followRequests(
+    suspend fun followRequests(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @POST("api/v1/follow_requests/{id}/authorize")
     fun authorizeFollowRequest(
