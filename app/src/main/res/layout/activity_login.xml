@@ -62,6 +62,15 @@
                     android:gravity="center"
                     android:text="@string/action_login" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/browserLoginButton"
+                    style="@style/TuskyButton"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/action_browser_login" />
+
                 <TextView
                     android:id="@+id/whatsAnInstanceTextView"
                     android:layout_width="250dp"

@@ -97,6 +97,7 @@
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
     <string name="action_login">Log in with Mastodon</string>
+    <string name="action_browser_login">Login in Browser</string>
     <string name="action_logout">Log out</string>
     <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
     <string name="action_follow">Follow</string>
