@@ -457,6 +457,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                     final StatusActionListener listener, boolean showingContent,
                                     boolean useBlurhash) {
 
+        mediaPreview.setVisibility(View.VISIBLE);
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
         mediaPreview.forEachIndexed((i, imageView) -> {
