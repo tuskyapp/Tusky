@@ -337,12 +337,11 @@ class ViewThreadViewModel @Inject constructor(
 
     private fun loadFilters() {
         viewModelScope.launch {
-            val filters = try {
-                api.getFilters().await()
-            } catch (t: Exception) {
-                Log.w(TAG, "Failed to fetch filters", t)
+            val filters = api.getFilters().getOrElse {
+                Log.w(TAG, "Failed to fetch filters", it)
                 return@launch
             }
+
             filterModel.initWithFilters(
                 filters.filter { filter ->
                     filter.context.contains(Filter.THREAD)

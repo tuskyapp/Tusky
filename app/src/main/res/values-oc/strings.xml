@@ -8,18 +8,18 @@
     <string name="error_authorization_unknown">S\'es produch una error d\'autoritzacion pas identificada.</string>
     <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
     <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
-    <string name="error_compose_character_limit">L\'estatut es tròp long !</string>
+    <string name="error_compose_character_limit">La publicacion es tròp longa !</string>
     <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
     <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
     <string name="error_media_upload_permission">Cal permís de lectura del mèdia.</string>
     <string name="error_media_download_permission">Cal pemís d\'escritura dins lo mèdia.</string>
-    <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins lo meteis estatut.</string>
-    <string name="error_media_upload_sending">Fracàs en mandar.</string>
-    <string name="error_sender_account_gone">Error en enviar lo tut.</string>
+    <string name="error_media_upload_image_or_video">Se pòt pas ajustar imatges e una vidèo dins la meteissa publicacion.</string>
+    <string name="error_media_upload_sending">Fracàs en mandant.</string>
+    <string name="error_sender_account_gone">Error en enviant la publicacion.</string>
     <string name="title_home">Acuèlh</string>
     <string name="title_notifications">Notificacions</string>
     <string name="title_public_federated">Federacion</string>
-    <string name="title_view_thread">Tut</string>
+    <string name="title_view_thread">Fil</string>
     <string name="title_posts">Pòstes</string>
     <string name="title_posts_with_replies">Amb responsas</string>
     <string name="title_follows">Abonament</string>
@@ -40,8 +40,8 @@
     <string name="post_content_show_more">Desplegar</string>
     <string name="post_content_show_less">Replegar</string>
     <string name="footer_empty">I a pas res aquí. Davalatz per actualizar !</string>
-    <string name="notification_reblog_format">%s a partajat vòstre tut</string>
-    <string name="notification_favourite_format">%s a aimat vòstre tut</string>
+    <string name="notification_reblog_format">%s a partejat vòstra publicacion</string>
+    <string name="notification_favourite_format">%s a aimat vòstra publicacion</string>
     <string name="notification_follow_format">%s vos sèc</string>
     <string name="report_username_format">Denonciar @%s</string>
     <string name="report_comment_hint">Cap comentari addicional ?</string>
@@ -60,7 +60,7 @@
     <string name="action_unblock">Quitar de blocar</string>
     <string name="action_hide_reblogs">Rescondre los partatges</string>
     <string name="action_show_reblogs">Mostrar los retuts</string>
-    <string name="action_report">Denonciar</string>
+    <string name="action_report">Senhalar</string>
     <string name="action_delete">Escafar</string>
     <string name="action_send">TUT</string>
     <string name="action_send_public">TUT !</string>
@@ -90,7 +90,7 @@
     <string name="action_reject">Regetar</string>
     <string name="action_search">Cercar</string>
     <string name="action_access_drafts">Borrolhons</string>
-    <string name="action_toggle_visibility">Visibilitat del tut</string>
+    <string name="action_toggle_visibility">Visibilitat de la publicacion</string>
     <string name="action_content_warning">Avis de contengut</string>
     <string name="action_emoji_keyboard">Clavièr Emoji</string>
     <string name="download_image">Telecargament %1$s</string>
@@ -142,7 +142,7 @@
     <string name="pref_title_notification_filter_follows">òm me sèc</string>
     <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
     <string name="pref_title_notification_filter_favourites">òm met mos tuts en favorit</string>
-    <string name="pref_title_appearance_settings">Aparença</string>
+    <string name="pref_title_appearance_settings">Aparéncia</string>
     <string name="pref_title_app_theme">Tèma de l’app</string>
     <string name="app_them_dark">Escur</string>
     <string name="app_theme_light">Luminós</string>
@@ -176,7 +176,7 @@
     <string name="notification_follow_name">Seguidors nòus</string>
     <string name="notification_follow_description">Notificacions de nòus seguidors</string>
     <string name="notification_boost_name">Retuts</string>
-    <string name="notification_boost_description">Notificacions de compartiment de vòstres tuts</string>
+    <string name="notification_boost_description">Notificacions de compartiment de vòstras publicacions</string>
     <string name="notification_favourite_name">Preferits</string>
     <string name="notification_favourite_description">Notificacions s’agradan vòstres tuts</string>
     <string name="notification_mention_format">%s vos mencionan</string>
@@ -189,9 +189,7 @@
     </plurals>
     <string name="description_account_locked">Compte blocat</string>
     <string name="about_title_activity">A prepaus</string>
-    <string name="about_tusky_license">Tusky es programa gratuït, liure e de còdi dobèrt.
-        Es publicat jols tèrms de la licéncia publica generala GNU version 3.
-        Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
+    <string name="about_tusky_license">Tusky es programa gratuit, liure e de còdi dobèrt. Es publicat jols tèrmes de la licéncia publica generala GNU version 3. Podètz trobar les licéncia aquí : https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -226,7 +224,7 @@
     <string name="add_account_description">Apondre un nòu compte Mastodon</string>
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
-    <string name="compose_active_account_description">Publicar amb lo compte %1$s</string>
+    <string name="compose_active_account_description">Publicar coma %1$s</string>
     <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
     <string name="action_set_caption">Apondre una legenda</string>
     <string name="action_remove">Levar</string>
@@ -268,7 +266,7 @@
     <string name="label_remote_account">Las informacions çai-jos son pas lo rebat del perfil complèt de l’utilizaire. Tocatz per dobrir lo perfil complèt dins lo navigador.</string>
     <string name="unpin_action">Tirar del perfil</string>
     <string name="pin_action">Penjar</string>
-    <string name="error_network">Una error ret se’s prochuda ! Mercés de verificar la connexion e tornar ensajar !</string>
+    <string name="error_network">Una error ret s’es producha ! Mercés de verificar la connexion e tornar ensajar !</string>
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>
@@ -323,6 +321,8 @@
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one">Descriure pels mal vesents
+\n(%d caractèr maximum)</item>
         <item quantity="other">Descriure pels mal vesents
 \n(%d caractèrs maximum)</item>
     </plurals>
@@ -350,13 +350,13 @@
     <string name="description_post_media_no_description_placeholder">Cap de descripcion</string>
     <string name="description_post_reblogged">Repartajat</string>
     <string name="description_post_favourited">Mes en favorit</string>
-    <string name="description_visibility_public">Public</string>
+    <string name="description_visibility_public">Publica</string>
     <string name="description_visibility_unlisted">Pas listada</string>
     <string name="description_visibility_private">Seguidors</string>
     <string name="description_visibility_direct">Dirècte</string>
     <string name="hint_list_name">Nom de la lista</string>
     <string name="edit_hashtag_hint">Etiquetas sens #</string>
-    <string name="compose_shortcut_long_label">Escriure un tut</string>
+    <string name="compose_shortcut_long_label">Escriure una publicacion</string>
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="action_delete_and_redraft">Suprimir e reformular</string>
     <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut \?</string>
@@ -418,8 +418,8 @@
     <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
-    <string name="pref_title_alway_open_spoiler">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
-    <string name="title_accounts">Totjorn desplegar los tuts marcats amb un avertiment de contengut</string>
+    <string name="pref_title_alway_open_spoiler">Totjorn desplegar las publicacions marcadas amb un avertiment de contengut</string>
+    <string name="title_accounts">Comptes</string>
     <string name="failed_search">Fracàs de la recèrca</string>
     <string name="action_add_poll">Ajustar un sondatge</string>
     <string name="create_poll_title">Sondatge</string>
@@ -457,7 +457,7 @@
     <string name="action_unmute_desc">Amagar pas mai a %s</string>
     <string name="notification_follow_request_format">%s a demandat a vos seguir</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar los apercebuts dels ligams</string>
-    <string name="notification_subscription_description">Notificacions quand qualqu’un que seguissètz publica un tut novèl</string>
+    <string name="notification_subscription_description">Notificacions quand qualqu’un que seguissètz publica una publicacion novèla</string>
     <string name="dialog_delete_conversation_warning">Suprimir aquesta conversacion \?</string>
     <string name="notification_subscription_format">%s ven de publicar</string>
     <string name="action_unsubscribe_account">Quitar de seguir</string>
@@ -479,14 +479,14 @@
     <string name="add_hashtag_title">Apondre hashtag</string>
     <string name="post_media_attachments">Pèças juntas</string>
     <string name="post_media_audio">Àudio</string>
-    <string name="notification_subscription_name">Tuts novèls</string>
+    <string name="notification_subscription_name">Publicacions novèlas</string>
     <string name="notification_follow_request_description">Notificacions de demandas de seguiment</string>
     <string name="pref_main_nav_position_option_bottom">Enbàs</string>
     <string name="pref_main_nav_position_option_top">Ennaut</string>
     <string name="pref_main_nav_position">Posicion de navigacion principala</string>
     <string name="pref_title_animate_custom_emojis">Emoji animats personalizats</string>
     <string name="pref_title_gradient_for_media">Afichar un degradat colorat pels mèdias amagats</string>
-    <string name="pref_title_notification_filter_subscriptions">qualqu’un que seguissi a publicat un tut novèl</string>
+    <string name="pref_title_notification_filter_subscriptions">qualqu’un que seguissi a publicat una publicacion novèla</string>
     <string name="pref_title_notification_filter_follow_requests">abonament demandat</string>
     <string name="dialog_mute_warning">Amagar @%s \?</string>
     <string name="dialog_block_warning">Blocar @%s \?</string>
@@ -505,4 +505,86 @@
     <string name="limit_notifications">Limitar las notificacions de la cronologia</string>
     <string name="pref_title_hide_top_toolbar">Amagar lo títol ennaut de la barra</string>
     <string name="pref_title_confirm_reblogs">Afichar una fenèstra de confirmacion abans de partejar</string>
+    <string name="action_unbookmark">Tirar dels marcapaginas</string>
+    <string name="action_add_reaction">apondre una reaccion</string>
+    <string name="notification_sign_up_name">Comptes novèls</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="failed_to_pin">Fracàs en penjant</string>
+    <string name="failed_to_unpin">Fracàs en despenjant</string>
+    <string name="description_post_language">Lenga de la publicacion</string>
+    <string name="title_login">Se desconnectar</string>
+    <string name="pref_show_self_username_always">Totjorn</string>
+    <string name="pref_show_self_username_never">Jamai</string>
+    <string name="notification_update_name">Publicacions modificadas</string>
+    <string name="status_count_one_plus">&gt;1</string>
+    <string name="duration_14_days">14 jorns</string>
+    <string name="duration_30_days">30 jorns</string>
+    <string name="error_following_hashtag_format">Error en seguissent #%s</string>
+    <string name="error_unfollowing_hashtag_format">Error en quitant de seguir #%s</string>
+    <string name="notification_sign_up_format">%s a creat un compte</string>
+    <string name="notification_update_format">%s a modificat sa publicacion</string>
+    <string name="action_dismiss">Ignorar</string>
+    <string name="action_details">Detalhs</string>
+    <string name="action_edit_image">Modificar l’imatge</string>
+    <string name="instance_rule_title">%s règlas</string>
+    <string name="tusky_compose_post_quicksetting_label">Compausar una publicacion</string>
+    <string name="account_date_joined">Arribada del %1$s</string>
+    <string name="saving_draft">Enregistrament del borrolhon…</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="error_image_edit_failed">Se podiá pas modificar l’imatge.</string>
+    <string name="pref_title_wellbeing_mode">Benestar</string>
+    <string name="duration_no_change">(Cap de modificacion)</string>
+    <string name="error_loading_account_details">Fracàs del cargament dels detalhs del compte</string>
+    <string name="error_could_not_load_login_page">Cargament impossible de la pagina de connexion.</string>
+    <string name="duration_60_days">60 jorns</string>
+    <string name="duration_90_days">90 jorns</string>
+    <string name="duration_180_days">180 jorns</string>
+    <string name="duration_365_days">365 jorns</string>
+    <string name="error_multimedia_size_limit">Los fichièrs video e àudio pòdon pas despassar %s.</string>
+    <string name="action_add_or_remove_from_list">Apondre o suprimir de la lista</string>
+    <string name="set_focus_description">Tocatz o lisatz lo cercle per causir lo punt focal que deu aparéisser sus las miniaturas.</string>
+    <string name="no_lists">Avètz pas cap de lista.</string>
+    <string name="pref_title_show_self_username">Mostrar lo nom d’utilizaire dins la barra d’aisinas</string>
+    <string name="pref_show_self_username_disambiguate">Quand mai d’un compte es connectat</string>
+    <string name="action_set_focus">Posicionar lo punt focal</string>
+    <string name="title_migration_relogin">Se tornar connectar per recebre las notificacions instantanèas</string>
+    <string name="pref_title_confirm_favourites">Demandar confirmacion abans d’apondre en favorit</string>
+    <string name="error_following_hashtags_unsupported">Aquesta instància pren pas en carga l’abonament a las etiquetas.</string>
+    <string name="title_followed_hashtags">Etiquetas seguidas</string>
+    <string name="confirmation_hashtag_unfollowed">#%s pas mai seguit</string>
+    <string name="pref_title_notification_filter_sign_ups">un compte novèl creat</string>
+    <string name="pref_title_notification_filter_updates">una publicacion ont ai agut una reaccion es modificada</string>
+    <string name="delete_scheduled_post_warning">Suprimir la publicacion programada \?</string>
+    <string name="drafts_post_reply_removed">La publicacion a la quala respondiá lo borrolhon foguèt suprimida</string>
+    <string name="instance_rule_info">En vos connectant acceptatz las règlas de %s.</string>
+    <string name="action_unfollow_hashtag_format">Quitar de seguir #%s \?</string>
+    <string name="status_created_at_now">ara</string>
+    <string name="notification_report_format">Senhalament novèl sus %s</string>
+    <string name="notification_header_report_format">%s a senhalat %s</string>
+    <string name="pref_title_notification_filter_reports">i a un senhalament novèl</string>
+    <string name="notification_report_name">Senhalaments</string>
+    <string name="report_category_violation">Violacion de las règlas</string>
+    <string name="report_category_other">Autre</string>
+    <string name="failed_to_add_to_list">Fracàs de l’apondon del compte a la lista</string>
+    <string name="failed_to_remove_from_list">Fracàs de la supression del compte de la lista</string>
+    <string name="error_failed_set_focus">Fracàs de la definicion del punt focal</string>
+    <string name="notification_sign_up_description">Notificacions quand qualqu’un crèa un compte novèl</string>
+    <string name="notification_report_description">Notificacions a prepaus dels senhalament a la moderacion</string>
+    <string name="notification_update_description">Notificacions quand una publicacion ont avètz reagit es modificada</string>
+    <string name="tips_push_notification_migration">Reconnectatz-vos a vòstres comptes per activar las notificacions instantanèas.</string>
+    <string name="follow_requests_info">Malgrat que vòstre compte siá pas verrolhat, l\'equipa de %1$s a pensat que volriatz validar manualament las demandas de d\'abonament provenent d\'aqueles comptes.</string>
+    <string name="dialog_push_notification_migration">Per tal de recebre las notificacions per UnifiedPush, Tusky deu demandar a vòstre servidor Mastodon la permission de s\'inscriure a las notificacions. Aquò necessita una reconnexion de vòstres comptes per tal de cambiar los dreches OAuth acordats a Tusky. En utilizant l\'opcion de reconnexion aicí o dins las preferéncias de compte, vòstres borrolhons e l\'escondon seràn preservats.</string>
+    <string name="pref_title_enable_swipe_for_tabs">Activar lo limpament per se desplaçar demest los onglets</string>
+    <string name="dialog_push_notification_migration_other_accounts">Tusky pòt ara recebre las notificacions instantanèas d\'aquel compte. Pasmens, d\'autres de vòstres comptes an pas encara accèsses a las notificacions instantanèas. Basculatz sus cadun de vòstres comptes e reconnectatz-los per tal de recebre las notificacions amb UnifiedPush.</string>
+    <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon \? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
+    <string name="pref_default_post_language">Lenga de publicacion per defaut</string>
+    <string name="report_category_spam">Messatge indesirable</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="wellbeing_mode_notice">D\'unas informacions susceptiblas d\'afectar vòstre benestar mental seràn amagadas. S\'agís :
+\n
+\n - de notificacions de favorits, de partatge e de seguiment
+\n - del nombre dels favorits/partatges de las publicacions
+\n - de las estatisticas suls perfils
+\n
+\n Las notificacions « push » seràn pas afectadas, mas podètz reveire vòstras preferéncias de notificacion manualament.</string>
 </resources>

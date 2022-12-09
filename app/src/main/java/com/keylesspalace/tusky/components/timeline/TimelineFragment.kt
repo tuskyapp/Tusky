@@ -47,7 +47,6 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewM
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Status
@@ -86,9 +85,6 @@ class TimelineFragment :
 
     @Inject
     lateinit var eventHub: EventHub
-
-    @Inject
-    lateinit var accountManager: AccountManager
 
     private val viewModel: TimelineViewModel by lazy {
         if (kind == TimelineViewModel.Kind.HOME) {

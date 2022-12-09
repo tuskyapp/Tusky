@@ -4,7 +4,7 @@
         android:topLeftRadius="6dp"
         android:topRightRadius="6dp" />
     <stroke
-        android:color="?attr/colorBackgroundAccent"
+        android:color="?attr/colorOutline"
         android:width="1dp" />
-    <solid android:color="#B3000000" />
+    <solid android:color="?attr/colorSurface" />
 </shape>

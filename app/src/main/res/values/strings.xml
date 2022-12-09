@@ -27,6 +27,7 @@
     <string name="error_following_hashtags_unsupported">This instance does not support following hashtags.</string>
     <string name="error_muting_hashtag_format">Error muting #%s</string>
     <string name="error_unmuting_hashtag_format">Error unmuting #%s</string>
+    <string name="error_status_source_load">Failed to load the status source from the server.</string>
 
     <string name="title_login">Login</string>
     <string name="title_home">Home</string>
@@ -195,6 +196,7 @@
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
     <string name="hint_search">Search…</string>
+    <string name="hint_media_description_missing">Media should have a description.</string>
 
     <string name="search_no_results">No results</string>
 
@@ -281,6 +283,7 @@
     <string name="pref_title_http_proxy_enable">Enable HTTP proxy</string>
     <string name="pref_title_http_proxy_server">HTTP proxy server</string>
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
+    <string name="pref_title_http_proxy_port_message">Port should be between %d and %d</string>
 
     <string name="pref_default_post_privacy">Default post privacy</string>
     <string name="pref_default_post_language">Default posting language</string>

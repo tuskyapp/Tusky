@@ -566,4 +566,22 @@
     <string name="error_loading_account_details">شکست در بار کردن جزییات حساب</string>
     <string name="set_focus_description">ضربه زده یا دایره را کشیده تا نقطهٔ کانونی‌ای که همواره باید در بندانگشتی‌ها نمایان باشد را برگزینید.</string>
     <string name="compose_save_draft_loses_media">ذخیرهٔ پیش‌نویس؟ (پیوست‌ها هنگام بازگردانی پیش‌نویس، دوباره بارگذاری خواهند شد)</string>
+    <string name="action_add_or_remove_from_list">افزودن یا برداشتن از سیاهه</string>
+    <string name="failed_to_add_to_list">شکست در افزودن حساب به سیاهه</string>
+    <string name="failed_to_remove_from_list">شکست در برداشتن حساب از سیاهه</string>
+    <string name="no_lists">هیچ سیاهه‌ای ندارید.</string>
+    <string name="notification_report_format">گزارش جدید روی %s</string>
+    <string name="notification_header_report_format">%s، %s را گزارش داد</string>
+    <string name="notification_summary_report_format">%s · %d فرسته پیوسته</string>
+    <string name="error_following_hashtags_unsupported">این نمونه از پی‌گیری برچسب‌ها پشتیبانی نمی‌کند.</string>
+    <string name="title_followed_hashtags">برچسب‌های دنبالی</string>
+    <string name="confirmation_hashtag_unfollowed">پی‌گیری #%s لغو شد</string>
+    <string name="pref_title_notification_filter_reports">گزارشی جدید موجود است</string>
+    <string name="notification_report_name">گزارش‌ها</string>
+    <string name="notification_report_description">آگاهی‌ها دربارهٔ گزارش‌های مدیریتی</string>
+    <string name="report_category_violation">نقض قانون</string>
+    <string name="report_category_spam">هرزنامه</string>
+    <string name="report_category_other">دیگر</string>
+    <string name="action_unfollow_hashtag_format">لغو پی‌گیری #%s؟</string>
+    <string name="status_created_at_now">اکنون</string>
 </resources>

@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
@@ -82,7 +83,7 @@ interface MastodonApi {
     suspend fun getInstance(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<Instance>
 
     @GET("api/v1/filters")
-    fun getFilters(): Single<List<Filter>>
+    suspend fun getFilters(): NetworkResult<List<Filter>>
 
     @GET("api/v1/timelines/home")
     @Throws(Exception::class)
@@ -165,14 +166,28 @@ interface MastodonApi {
     ): NetworkResult<Status>
 
     @GET("api/v1/statuses/{id}")
-    fun status(
+    suspend fun status(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
+
+    @PUT("api/v1/statuses/{id}")
+    suspend fun editStatus(
+        @Path("id") statusId: String,
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Header("Idempotency-Key") idempotencyKey: String,
+        @Body editedStatus: NewStatus,
+    ): NetworkResult<Status>
 
     @GET("api/v1/statuses/{id}")
     suspend fun statusAsync(
         @Path("id") statusId: String
     ): NetworkResult<Status>
+
+    @GET("api/v1/statuses/{id}/source")
+    suspend fun statusSource(
+        @Path("id") statusId: String
+    ): NetworkResult<StatusSource>
 
     @GET("api/v1/statuses/{id}/context")
     suspend fun statusContext(
@@ -180,16 +195,16 @@ interface MastodonApi {
     ): NetworkResult<StatusContext>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
-    fun statusRebloggedBy(
+    suspend fun statusRebloggedBy(
         @Path("id") statusId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/statuses/{id}/favourited_by")
-    fun statusFavouritedBy(
+    suspend fun statusFavouritedBy(
         @Path("id") statusId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
     fun deleteStatus(
@@ -331,16 +346,16 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/accounts/{id}/followers")
-    fun accountFollowers(
+    suspend fun accountFollowers(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/accounts/{id}/following")
-    fun accountFollowing(
+    suspend fun accountFollowing(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
@@ -394,14 +409,14 @@ interface MastodonApi {
     ): Single<Relationship>
 
     @GET("api/v1/blocks")
-    fun blocks(
+    suspend fun blocks(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/mutes")
-    fun mutes(
+    suspend fun mutes(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @GET("api/v1/domain_blocks")
     fun domainBlocks(
@@ -436,9 +451,9 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/follow_requests")
-    fun followRequests(
+    suspend fun followRequests(
         @Query("max_id") maxId: String?
-    ): Single<Response<List<TimelineAccount>>>
+    ): Response<List<TimelineAccount>>
 
     @POST("api/v1/follow_requests/{id}/authorize")
     fun authorizeFollowRequest(

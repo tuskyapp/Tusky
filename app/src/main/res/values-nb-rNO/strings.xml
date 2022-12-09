@@ -106,7 +106,7 @@
     <string name="action_add_tab">Legg til fane</string>
     <string name="action_links">Lenker</string>
     <string name="action_mentions">Nevnelser</string>
-    <string name="action_hashtags">Stikkord</string>
+    <string name="action_hashtags">Emneknagger</string>
     <string name="action_open_reblogger">Åpne deler</string>
     <string name="action_open_reblogged_by">Vis delinger</string>
     <string name="action_open_faved_by">Vis favoritter</string>
@@ -140,14 +140,14 @@
     <string name="label_header">Overskrift</string>
     <string name="link_whats_an_instance">Hva er en instans\?</string>
     <string name="login_connection">Kobler til…</string>
-    <string name="dialog_whats_an_instance">Addressen eller domenet til enhver instans kan legges til her, f. eks. mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">mer!</a> 
-\n 
-\nHvis du ikke har en konto kan du gi navnet på instansen du vil bli medlem av, og lage en konto der. 
-\n 
-\nEn instans er en plass der du har kontoen din, men du kan lett kommunisere med og følge andre personer på andre instanser, som om du var på den samme nettsiden. 
-\n 
+    <string name="dialog_whats_an_instance">Addressen eller domenet til enhver instans kan legges til her, f. eks. mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">mer!</a>
+\n
+\nHvis du ikke har en konto kan du oppgi navnet på instansen du vil bli medlem av, og lage en konto der.
+\n
+\nEn instans der hvor du har kontoen din, men du kan lett kommunisere med og følge andre personer på andre instanser, som om du var på den samme nettsiden.
+\n
 \nDu kan finne mer info på <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="dialog_title_finishing_media_upload">Opplasting av Media er ferdig</string>
+    <string name="dialog_title_finishing_media_upload">Opplasting av media er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
     <string name="dialog_download_image">Last ned</string>
     <string name="dialog_message_cancel_follow_request">Trekk tilbake følgeforespørselen\?</string>
@@ -173,7 +173,7 @@
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filtere</string>
     <string name="pref_title_browser_settings">Nettleser</string>
-    <string name="pref_title_custom_tabs">Bruke Chrome-tilpassede faner</string>
+    <string name="pref_title_custom_tabs">Bruk Chrome-tilpassede faner</string>
     <string name="pref_title_hide_follow_button">Skjul skriv-knappen ved scrolling</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Tidslinjefiltrering</string>
@@ -250,7 +250,7 @@
     <string name="hint_search_people_list">Søk etter personer du følger</string>
     <string name="action_add_to_list">Legg til konto i listen</string>
     <string name="action_remove_from_list">Fjern konto fra listen</string>
-    <string name="pref_default_post_privacy">Standardinstilling for innlegg</string>
+    <string name="pref_default_post_privacy">Standardinnstilling for innlegg</string>
     <string name="notification_mention_name">Nye nevnelser</string>
     <string name="notification_mention_descriptions">Varsler om nye nevnelser</string>
     <string name="about_tusky_license">Tusky er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -559,4 +559,26 @@
     <string name="failed_to_pin">Klarte ikke å feste</string>
     <string name="failed_to_unpin">Klarte ikke å løsne</string>
     <string name="action_add_reaction">Legg til reaksjon</string>
+    <string name="action_add_or_remove_from_list">Legg til eller fjern fra liste</string>
+    <string name="failed_to_add_to_list">Klarte ikke å legge til kontoen til listen</string>
+    <string name="failed_to_remove_from_list">Klarte ikke å fjerne kontoen fra listen</string>
+    <string name="pref_default_post_language">Standardspråk på innlegg</string>
+    <string name="no_lists">Du har ingen lister.</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="status_created_at_now">nå</string>
+    <string name="post_edited">Redigert %s</string>
+    <string name="notification_summary_report_format">%s · %d innlegg vedlagt</string>
+    <string name="notification_report_format">Ny rapport på %s</string>
+    <string name="notification_header_report_format">%s rapporterte %s</string>
+    <string name="notification_report_description">Varsler om moderasjonsrapporter</string>
+    <string name="pref_title_notification_filter_reports">det er en ny rapport</string>
+    <string name="notification_report_name">Rapporter</string>
+    <string name="description_post_edited">Redigert</string>
+    <string name="error_following_hashtags_unsupported">Denne instansen støtter ikke følging av emneknagger.</string>
+    <string name="title_followed_hashtags">Fulgte Emneknagger</string>
+    <string name="report_category_violation">Regelbrudd</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Annet</string>
+    <string name="action_unfollow_hashtag_format">Slutte å følge #%s\?</string>
+    <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%s</string>
 </resources>

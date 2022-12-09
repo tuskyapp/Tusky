@@ -137,7 +137,7 @@ data class Status(
         )
     }
 
-    private fun getEditableText(): String {
+    fun getEditableText(): String {
         val contentSpanned = content.parseAsMastodonHtml()
         val builder = SpannableStringBuilder(content.parseAsMastodonHtml())
         for (span in contentSpanned.getSpans(0, content.length, URLSpan::class.java)) {
@@ -146,7 +146,9 @@ data class Status(
                 if (url == url1) {
                     val start = builder.getSpanStart(span)
                     val end = builder.getSpanEnd(span)
-                    builder.replace(start, end, "@$username")
+                    if (start >= 0 && end >= 0) {
+                        builder.replace(start, end, "@$username")
+                    }
                     break
                 }
             }

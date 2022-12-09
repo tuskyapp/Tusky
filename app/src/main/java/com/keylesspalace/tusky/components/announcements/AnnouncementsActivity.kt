@@ -122,7 +122,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         }
 
         viewModel.emojis.observe(this) {
-            picker.adapter = EmojiAdapter(it, this)
+            picker.adapter = EmojiAdapter(it, this, animateEmojis)
         }
 
         viewModel.load()

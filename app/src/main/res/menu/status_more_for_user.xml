@@ -30,6 +30,9 @@
         android:id="@+id/status_mute_conversation"
         android:title="@string/action_mute_conversation" />
     <item
+        android:id="@+id/status_edit"
+        android:title="@string/action_edit" />
+    <item
         android:id="@+id/status_delete"
         android:title="@string/action_delete" />
     <item
