@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingStart="16dp"
     android:paddingBottom="10dp">
 
     <TextView
@@ -47,7 +46,7 @@
         android:textSize="?attr/status_text_large"
         android:textStyle="normal|bold"
         app:layout_constraintBottom_toTopOf="@id/usernameTextView"
-        app:layout_constraintEnd_toStartOf="@id/acceptButton"
+        app:layout_constraintEnd_toStartOf="@id/rejectButton"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar"
         tools:text="Display name" />
@@ -62,16 +61,32 @@
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/avatar"
-        app:layout_constraintEnd_toStartOf="@id/acceptButton"
+        app:layout_constraintEnd_toStartOf="@id/rejectButton"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/displayNameTextView"
         tools:text="\@username" />
 
     <ImageButton
+        android:id="@+id/rejectButton"
+        style="@style/TuskyImageButton"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_reject"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintEnd_toStartOf="@id/acceptButton"
+        app:layout_constraintStart_toEndOf="@id/displayNameTextView"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:srcCompat="@drawable/ic_reject_24dp" />
+
+    <ImageButton
         android:id="@+id/acceptButton"
         style="@style/TuskyImageButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="4dp"
@@ -79,24 +94,7 @@
         android:contentDescription="@string/action_accept"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/avatar"
-        app:layout_constraintEnd_toStartOf="@id/rejectButton"
-        app:layout_constraintStart_toEndOf="@id/displayNameTextView"
-        app:layout_constraintTop_toTopOf="@id/avatar"
-        app:srcCompat="@drawable/ic_check_24dp" />
-
-    <ImageButton
-        android:id="@+id/rejectButton"
-        style="@style/TuskyImageButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/action_reject"
-        android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/avatar"
-        app:srcCompat="@drawable/ic_reject_24dp" />
-
+        app:srcCompat="@drawable/ic_check_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

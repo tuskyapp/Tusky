@@ -559,4 +559,24 @@
     <string name="pref_show_self_username_always">Sempre</string>
     <string name="pref_show_self_username_disambiguate">Cando hai máis dunha conta activa</string>
     <string name="pref_show_self_username_never">Nunca</string>
+    <string name="notification_report_description">Notificacións sobre temas de moderación</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="action_add_or_remove_from_list">Engadir ou quitar da lista</string>
+    <string name="failed_to_add_to_list">Fallou a adición da conta á lista</string>
+    <string name="failed_to_remove_from_list">Fallou a eliminación da conta da lista</string>
+    <string name="action_unfollow_hashtag_format">Non seguir #%s\?</string>
+    <string name="pref_default_post_language">Idioma de publicación por defecto</string>
+    <string name="notification_report_name">Denuncias</string>
+    <string name="no_lists">Non tes listas.</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="report_category_violation">Faltar a unha norma</string>
+    <string name="report_category_other">Outra</string>
+    <string name="error_following_hashtags_unsupported">Esta instancia non ten soporte para seguimento de cancelos.</string>
+    <string name="title_followed_hashtags">Cancelos seguidos</string>
+    <string name="status_created_at_now">agora</string>
+    <string name="notification_report_format">Nova denuncia en %s</string>
+    <string name="notification_header_report_format">%s denunciou a %s</string>
+    <string name="notification_summary_report_format">%s · %d publicacións fixadas</string>
+    <string name="confirmation_hashtag_unfollowed">Xa non segues #%s</string>
+    <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
 </resources>

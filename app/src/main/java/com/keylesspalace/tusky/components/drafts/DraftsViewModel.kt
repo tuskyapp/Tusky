@@ -20,12 +20,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,7 +60,7 @@ class DraftsViewModel @Inject constructor(
         }
     }
 
-    fun getStatus(statusId: String): Single<Status> {
+    suspend fun getStatus(statusId: String): NetworkResult<Status> {
         return api.status(statusId)
     }
 

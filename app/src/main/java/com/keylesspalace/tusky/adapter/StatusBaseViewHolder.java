@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
+import com.keylesspalace.tusky.util.TouchDelegateHelper;
 import com.keylesspalace.tusky.view.MediaPreviewImageView;
 import com.keylesspalace.tusky.view.MediaPreviewLayout;
 import com.keylesspalace.tusky.viewdata.PollOptionViewData;
@@ -170,6 +171,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
 
         mediaPreviewUnloaded = new ColorDrawable(ThemeUtils.getColor(itemView.getContext(), R.attr.colorBackgroundAccent));
+
+        TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, CollectionsKt.listOfNotNull(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
     }
 
     protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
@@ -454,6 +457,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                     final StatusActionListener listener, boolean showingContent,
                                     boolean useBlurhash) {
 
+        mediaPreview.setVisibility(View.VISIBLE);
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
         mediaPreview.forEachIndexed((i, imageView) -> {
