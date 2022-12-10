@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
@@ -280,10 +281,8 @@ abstract class TimelineViewModel(
 
     private fun reloadFilters() {
         viewModelScope.launch {
-            val filters = try {
-                api.getFilters().await()
-            } catch (t: Exception) {
-                Log.e(TAG, "Failed to fetch filters", t)
+            val filters = api.getFilters().getOrElse {
+                Log.e(TAG, "Failed to fetch filters", it)
                 return@launch
             }
             filterModel.initWithFilters(

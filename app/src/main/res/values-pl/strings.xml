@@ -23,25 +23,25 @@
     <string name="title_view_thread">Wątek</string>
     <string name="title_posts">Wpisy</string>
     <string name="title_posts_with_replies">Z odpowiedziami</string>
-    <string name="title_follows">Śledzeni</string>
-    <string name="title_followers">Śledzący</string>
+    <string name="title_follows">Obserwowanych</string>
+    <string name="title_followers">Obserwujących</string>
     <string name="title_favourites">Ulubione</string>
     <string name="title_mutes">Wyciszeni użytkownicy</string>
     <string name="title_blocks">Zablokowani użytkownicy</string>
-    <string name="title_follow_requests">Prośby o możliwość śledzenia</string>
+    <string name="title_follow_requests">Prośby o obserwację</string>
     <string name="title_edit_profile">Edytuj profil</string>
     <string name="title_drafts">Szkice</string>
     <string name="title_licenses">Licencje</string>
-    <string name="post_boosted_format">%s podbite</string>
+    <string name="post_boosted_format">%s podbił/a</string>
     <string name="post_sensitive_media_title">Treści wrażliwe</string>
     <string name="post_media_hidden_title">Ukryto multimedia</string>
     <string name="post_sensitive_media_directions">Naciśnij, aby wyświetlić</string>
     <string name="post_content_warning_show_more">Pokaż więcej</string>
     <string name="post_content_warning_show_less">Pokaż mniej</string>
     <string name="footer_empty">Pusto tutaj. Pociągnij, aby odświeżyć!</string>
-    <string name="notification_reblog_format">%s podbił(-a) Twój wpis</string>
-    <string name="notification_favourite_format">%s dodał Twój post do ulubionych</string>
-    <string name="notification_follow_format">%s zaczął Cię śledzić</string>
+    <string name="notification_reblog_format">%s podbił/a Twój wpis</string>
+    <string name="notification_favourite_format">%s dodał/a Twój post do ulubionych</string>
+    <string name="notification_follow_format">%s zaczął/-ęła Cię obserwować</string>
     <string name="report_username_format">Zgłoś @%s</string>
     <string name="report_comment_hint">Dodatkowe komentarze?</string>
     <string name="action_quick_reply">Szybka odpowiedź</string>
@@ -53,8 +53,8 @@
     <string name="action_login">Zaloguj się Kontem Mastodon</string>
     <string name="action_logout">Wyloguj się</string>
     <string name="action_logout_confirm">Czy na pewno chcesz wylogować się z konta %1$s?</string>
-    <string name="action_follow">Śledź</string>
-    <string name="action_unfollow">Przestań śledzić</string>
+    <string name="action_follow">Obserwuj</string>
+    <string name="action_unfollow">Odobserwuj</string>
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
@@ -70,8 +70,8 @@
     <string name="action_view_favourites">Ulubione</string>
     <string name="action_view_mutes">Wyciszeni użytkownicy</string>
     <string name="action_view_blocks">Zablokowani użytkownicy</string>
-    <string name="action_view_follow_requests">Prośby o możliwość śledzenia</string>
-    <string name="action_view_media">Zawartość multimedialna</string>
+    <string name="action_view_follow_requests">Prośby o obserwację</string>
+    <string name="action_view_media">Multimedia</string>
     <string name="action_open_in_web">Otwórz w przeglądarce</string>
     <string name="action_add_media">Dodaj treści multimedialne</string>
     <string name="action_photo_take">Wykonaj zdjęcie</string>
@@ -79,7 +79,7 @@
     <string name="action_mute">Wycisz</string>
     <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="action_mention">Wspomnij</string>
-    <string name="action_hide_media">Ukryj zawartość multimedialną</string>
+    <string name="action_hide_media">Ukryj multimedia</string>
     <string name="action_open_drawer">Otwórz szufladkę</string>
     <string name="action_save">Zapisz</string>
     <string name="action_edit_profile">Edytuj profil</string>
@@ -113,21 +113,21 @@
     <string name="label_header">Nagłówek</string>
     <string name="link_whats_an_instance">Czym jest instancja?</string>
     <string name="login_connection">Łączenie…</string>
-    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a> 
+    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a>
 \n
 \nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować.
 \n
-\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz komunikując się z innymi serwerami, działa tak, jakby były jednym portalem.
+\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie.
 \n
 \nWięcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
-    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o możliwość śledzenia?</string>
-    <string name="dialog_unfollow_warning">Czy chcesz przestać śledzić to konto?</string>
+    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o obserwację\?</string>
+    <string name="dialog_unfollow_warning">Czy chcesz przestać obserwować to konto\?</string>
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
-    <string name="visibility_private">Tylko śledzeni: Wyświetlaj tylko śledzonym</string>
+    <string name="visibility_private">Tylko obserwający: Widoczne tylko dla obserwujących</string>
     <string name="visibility_direct">Bezpośrednio: Widoczne tylko dla wspomnianych</string>
     <string name="pref_title_edit_notification_settings">Powiadomienia</string>
     <string name="pref_title_notifications_enabled">Powiadomienia</string>
@@ -137,7 +137,7 @@
     <string name="pref_title_notification_alert_light">Powiadamiaj diodą</string>
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
     <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
-    <string name="pref_title_notification_filter_follows">zaczęto mnie śledzić</string>
+    <string name="pref_title_notification_filter_follows">zaczęto mnie obserwować</string>
     <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
     <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
@@ -148,7 +148,7 @@
     <string name="app_theme_auto">Zmieniaj automatycznie po zachodzie słońca</string>
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
-    <string name="pref_title_hide_follow_button">Ukryj przycisk śledzenia podczas przewijania</string>
+    <string name="pref_title_hide_follow_button">Ukryj przycisk nowego wpisu podczas przewijania</string>
     <string name="pref_title_post_filter">Filtrowanie osi czasu</string>
     <string name="pref_title_post_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokaż podbicia</string>
@@ -162,7 +162,7 @@
     <string name="pref_publishing">Publikowanie</string>
     <string name="post_privacy_public">Publiczne</string>
     <string name="post_privacy_unlisted">Niewypisane</string>
-    <string name="post_privacy_followers_only">Tylko dla śledzonych</string>
+    <string name="post_privacy_followers_only">Tylko dla obserwujących</string>
     <string name="pref_post_text_size">Rozmiar tekstu wpisów</string>
     <string name="post_text_size_smallest">Najmniejszy</string>
     <string name="post_text_size_small">Mały</string>
@@ -171,8 +171,8 @@
     <string name="post_text_size_largest">Ogromny</string>
     <string name="notification_mention_name">Nowe wspomnienia</string>
     <string name="notification_mention_descriptions">Powiadomienia o nowych wspomnieniach</string>
-    <string name="notification_follow_name">Nowi śledzący</string>
-    <string name="notification_follow_description">Powiadomienia o nowych śledzących</string>
+    <string name="notification_follow_name">Nowi obserwujący</string>
+    <string name="notification_follow_description">Powiadomienia o nowych obserwujących</string>
     <string name="notification_boost_name">Podbicia</string>
     <string name="notification_boost_description">Powiadomienia o podbiciu wpisów</string>
     <string name="notification_favourite_name">Ulubione</string>
@@ -207,7 +207,7 @@
     <string name="post_share_link">Udostępnij link do postu</string>
     <string name="post_media_images">Obrazy</string>
     <string name="post_media_video">Wideo</string>
-    <string name="state_follow_requested">Wysłano prośbę o możliwość śledzenia</string>
+    <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="abbreviated_in_years">w %d lata</string>
     <string name="abbreviated_in_days">w %d dni</string>
@@ -219,7 +219,7 @@
     <string name="abbreviated_hours_ago">%d godz. temu</string>
     <string name="abbreviated_minutes_ago">%d min. temu</string>
     <string name="abbreviated_seconds_ago">%ds temu</string>
-    <string name="follows_you">Śledzi Cię</string>
+    <string name="follows_you">Obserwuje Cię</string>
     <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj wrażliwą zawartość</string>
     <string name="title_media">Zawartość multimedialna</string>
     <string name="replying_to">Odpowiadasz na wpis autorstwa @%s</string>
@@ -233,8 +233,8 @@
     <string name="action_set_caption">Ustaw podpis</string>
     <string name="action_remove">Usuń</string>
     <string name="lock_account_label">Zablokuj konto</string>
-    <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o śledzenie</string>
-    <string name="compose_save_draft">Czy chcesz zapisać szkic?</string>
+    <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o obserwacje</string>
+    <string name="compose_save_draft">Czy chcesz zapisać jako szkic\?</string>
     <string name="send_post_notification_title">Wysyłanie wpisu…</string>
     <string name="send_post_notification_error_title">Wystąpił błąd podczas wysyłania wpisu</string>
     <string name="send_post_notification_channel_name">Wysyłanie wpisów</string>
@@ -300,7 +300,7 @@
     <string name="confirmation_domain_unmuted">Domena %s nie jest już schowana</string>
     <string name="dialog_delete_post_warning">Usunąć ten wpis\?</string>
     <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis\?</string>
-    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny nie będą usunięci.</string>
+    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
     <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
     <string name="pref_title_notification_filter_poll">głosowania zostały zakończone</string>
     <string name="pref_title_timelines">Osi czasu</string>
@@ -332,11 +332,17 @@
     <string name="action_rename_list">Zmień nazwę listy</string>
     <string name="action_delete_list">Usuń listę</string>
     <string name="action_edit_list">Edytuj listę</string>
-    <string name="hint_search_people_list">Szukaj osób, które śledzisz</string>
+    <string name="hint_search_people_list">Szukaj osób, których obserwujesz</string>
     <string name="action_add_to_list">Dodaj konto do listy</string>
     <string name="action_remove_from_list">Usuń konto z listy</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Wprowadź opis dla niewidomych i niedowidzących
+        <item quantity="one">Wprowadź opis dla niewidomych i niedowidzących 
+\n(maksymalna długość: %d)</item>
+        <item quantity="few">Wprowadź opis dla niewidomych i niedowidzących 
+\n(maksymalna długość: %d)</item>
+        <item quantity="many">Wprowadź opis dla niewidomych i niedowidzących 
+\n(maksymalna długość: %d)</item>
+        <item quantity="other">Wprowadź opis dla niewidomych i niedowidzących 
 \n(maksymalna długość: %d)</item>
     </plurals>
     <string name="caption_notoemoji">Aktualny zestaw emoji Google</string>
@@ -376,7 +382,7 @@
     <string name="description_post_favourited">Polubiony</string>
     <string name="description_visibility_public">Publiczny</string>
     <string name="description_visibility_unlisted">Niewidoczne</string>
-    <string name="description_visibility_private">Śledzący</string>
+    <string name="description_visibility_private">Obserwujący</string>
     <string name="description_visibility_direct">Bezpośrednio</string>
     <string name="description_poll">Głosowanie z opcjami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Nazwa listy</string>
@@ -465,7 +471,7 @@
     <string name="no_drafts">Nie masz żadnych szkiców.</string>
     <string name="no_scheduled_posts">Nie masz żadnych zaplanowanych wpisów.</string>
     <string name="warning_scheduling_interval">Mastodon umożliwia wysłanie minimalnie 5 minut od zaplanowania.</string>
-    <string name="notification_follow_request_name">Prośby o możliwość śledzenia</string>
+    <string name="notification_follow_request_name">Prośby o obserwację</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
     <string name="add_hashtag_title">Dodaj hashtag</string>
     <string name="dialog_mute_warning">Wyciszyć @%s\?</string>
@@ -507,17 +513,17 @@
 \n - liczba polubień/podbić wpisu
 \n - statystyki obserwujących/postów na profilach
 \n
-\nNie będzie to miało wpływu na powiadomienia typu push, ale możesz zmienić ustawienia powiadomień ręcznie.</string>
+\nNie będzie to miało wpływu na powiadomienia, ale możesz zmienić ustawienia powiadomień ręcznie.</string>
     <string name="pref_title_enable_swipe_for_tabs">Włącz gest przesuwania by przełączać między zakładkami</string>
     <string name="post_media_attachments">Załączniki</string>
     <string name="notification_follow_request_description">Powiadomienia o prośbach o obserwowanie</string>
-    <string name="pref_title_notification_filter_subscriptions">ktoś zasubskrybowany opublikował nowy wpis</string>
+    <string name="pref_title_notification_filter_subscriptions">ktoś, kogo zasubskrybowałem/am opublikował nowy wpis</string>
     <string name="pref_title_notification_filter_follow_requests">Wysłano prośbę o obserwowanie</string>
     <string name="title_announcements">Ogłoszenia</string>
     <string name="pref_title_wellbeing_mode">Zdrowie</string>
     <string name="action_unsubscribe_account">Anuluj subskrypcję</string>
     <string name="action_subscribe_account">Zasubskrybuj</string>
-    <string name="follow_requests_info">Mimo tego, że twoje konto nie jest zablokowane, administracja %1$s uznała, że możesz chcieć ręcznie przejrzeć te prośby o możliwość śledzenia od tych kont.</string>
+    <string name="follow_requests_info">Mimo tego, że twoje konto nie jest zablokowane, administracja %1$s uznała, że możesz chcieć ręcznie przejrzeć te prośby o obserwację od tych kont.</string>
     <string name="drafts_post_reply_removed">Wpis dla którego naszkicowałeś/aś odpowiedź został usunięty</string>
     <string name="draft_deleted">Usunięto szkic</string>
     <string name="wellbeing_hide_stats_profile">Ukryj ilościowe statystyki na profilach</string>
@@ -534,7 +540,7 @@
     <string name="action_unmute_notifications_desc">Wyłącz wyciszenie powiadomień od %s</string>
     <string name="action_delete_conversation">Usuń konwersację</string>
     <string name="notification_subscription_format">%s opublikował/a post</string>
-    <string name="notification_follow_request_format">%s poprosił(a) o możliwość śledzenia Cię</string>
+    <string name="notification_follow_request_format">%s poprosił/a o możliwość obserwowania Cię</string>
     <string name="action_unbookmark">Usuń z zakładek</string>
     <string name="pref_title_confirm_favourites">Pytaj o potwierdzenie przed dodaniem do ulubionych</string>
     <string name="duration_14_days">14 dni</string>
@@ -545,13 +551,13 @@
     <string name="duration_365_days">365 dni</string>
     <string name="tusky_compose_post_quicksetting_label">Utwórz wpis</string>
     <string name="title_login">Login</string>
-    <string name="notification_sign_up_format">%s zarejestrował(a) się</string>
+    <string name="notification_sign_up_format">%s zarejestrował/a się</string>
     <string name="notification_sign_up_name">Rejestracje</string>
     <string name="notification_sign_up_description">Powiadomienia o nowych użytkownikach</string>
     <string name="notification_update_description">Powiadomienia o edycji wpisów z którymi dokonałeś/aś interakcji</string>
     <string name="pref_title_notification_filter_sign_ups">ktoś zarejestrował się</string>
     <string name="pref_title_notification_filter_updates">wpis, z którym dokonałem/am interakcji został edytowany</string>
-    <string name="notification_update_format">%s edytował(a) swój wpis</string>
+    <string name="notification_update_format">%s edytował/a swój wpis</string>
     <string name="notification_update_name">Edycje wpisów</string>
     <string name="saving_draft">Zapisywanie szkicu…</string>
     <string name="error_could_not_load_login_page">Nie można załadować strony logowania.</string>
@@ -572,5 +578,26 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="duration_no_change">(bez zmian)</string>
     <string name="error_following_hashtag_format">Wystąpił błąd podczas obserwowania #%s</string>
-    <string name="error_unfollowing_hashtag_format">Wystąpił błąd podczas usuwania obserwacji #%s</string>
+    <string name="error_unfollowing_hashtag_format">Wystąpił błąd podczas odobserwowywania #%s</string>
+    <string name="set_focus_description">Naciśnij lub przeciągnij kółko, aby wybrać punkt centralny, który będzie zawsze widoczny w miniaturkach.</string>
+    <string name="action_add_or_remove_from_list">Dodaj lub usuń z listy</string>
+    <string name="failed_to_add_to_list">Nie udało się dodać konta do listy</string>
+    <string name="failed_to_remove_from_list">Nie udało się usunąć konta z listy</string>
+    <string name="action_unfollow_hashtag_format">Odobserwuj #%s\?</string>
+    <string name="pref_default_post_language">Domyślny język wpisów</string>
+    <string name="pref_show_self_username_never">Nigdy</string>
+    <string name="pref_show_self_username_always">Zawsze</string>
+    <string name="pref_show_self_username_disambiguate">Gdy wiele kont jest zalogowanych</string>
+    <string name="status_created_at_now">teraz</string>
+    <string name="error_failed_set_focus">Nie udało się ustawić punktu centralnego</string>
+    <string name="action_add_reaction">dodaj reakcję</string>
+    <string name="notification_header_report_format">%s zgłosił/a %s</string>
+    <string name="confirmation_hashtag_unfollowed">Odobserwowano #%s</string>
+    <string name="pref_title_notification_filter_reports">jest nowe zgłoszenie</string>
+    <string name="notification_report_name">Zgłoszenia</string>
+    <string name="notification_report_description">Powiadomienia o zgłoszeniach moderacyjnych</string>
+    <string name="action_set_focus">Wybierz punkt centralny</string>
+    <string name="compose_save_draft_loses_media">Czy chcesz zapisać jako szkic\? (Załączniki zostaną załadowane ponownie po przywróceniu szkicu.)</string>
+    <string name="error_following_hashtags_unsupported">Ta instancja nie wspiera obserwowania hashtagów.</string>
+    <string name="title_followed_hashtags">Obserwowane hashtagi</string>
 </resources>

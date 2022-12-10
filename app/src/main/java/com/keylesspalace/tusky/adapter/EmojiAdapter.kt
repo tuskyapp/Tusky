@@ -27,7 +27,8 @@ import java.util.Locale
 
 class EmojiAdapter(
     emojiList: List<Emoji>,
-    private val onEmojiSelectedListener: OnEmojiSelectedListener
+    private val onEmojiSelectedListener: OnEmojiSelectedListener,
+    private val animate: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
     private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
@@ -44,9 +45,16 @@ class EmojiAdapter(
         val emoji = emojiList[position]
         val emojiImageView = holder.binding.root
 
-        Glide.with(emojiImageView)
-            .load(emoji.url)
-            .into(emojiImageView)
+        if (animate) {
+            Glide.with(emojiImageView)
+                .load(emoji.url)
+                .into(emojiImageView)
+        } else {
+            Glide.with(emojiImageView)
+                .asBitmap()
+                .load(emoji.url)
+                .into(emojiImageView)
+        }
 
         emojiImageView.setOnClickListener {
             onEmojiSelectedListener.onEmojiSelected(emoji.shortcode)

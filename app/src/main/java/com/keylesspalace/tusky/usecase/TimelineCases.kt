@@ -33,10 +33,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -107,14 +103,6 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    /** Wrapper to call `mute` from Java code. */
-    // TODO: Delete this when there are no Java callers.
-    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
-    fun muteFromJava(statusId: String, notifications: Boolean, duration: Int?): Job =
-        CoroutineScope(Dispatchers.IO).launch {
-            mute(statusId, notifications, duration)
-        }
-
     suspend fun block(statusId: String) {
         try {
             mastodonApi.blockAccount(statusId)
@@ -122,13 +110,6 @@ class TimelineCases @Inject constructor(
         } catch (t: Throwable) {
             Log.w("Failed to block account", t)
         }
-    }
-
-    /** Wrapper to call `block` from Java code. */
-    // TODO: Delete this when there are no Java callers.
-    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
-    fun blockFromJava(statusId: String): Job = CoroutineScope(Dispatchers.IO).launch {
-        block(statusId)
     }
 
     fun delete(statusId: String): Single<DeletedStatus> {

@@ -72,7 +72,7 @@
     <string name="action_view_favourites">Ffefrynnau</string>
     <string name="action_view_mutes">Defnyddwyr wedi\'u tewi</string>
     <string name="action_view_blocks">Defnyddwyr wedi\'u rhwystro</string>
-    <string name="action_view_follow_requests">Dilyn ceisiadau</string>
+    <string name="action_view_follow_requests">Ceisiadau i\'ch dilyn</string>
     <string name="action_view_media">Cyfryngau</string>
     <string name="action_open_in_web">Agor mewn porwr</string>
     <string name="action_add_media">Ychwanegu cyfryngau</string>
@@ -293,7 +293,7 @@
     <string name="action_links">Cysylltiadau</string>
     <string name="title_links_dialog">Cysylltiadau</string>
     <string name="action_open_reblogged_by">Dangos hybiadau</string>
-    <string name="notification_follow_request_name">Dilyn ceisiadau</string>
+    <string name="notification_follow_request_name">Ceisiadau i\'ch dilyn</string>
     <string name="action_bookmark">Nod tudalen</string>
     <string name="action_edit">Golygu</string>
     <string name="edit_poll">Golygu</string>
@@ -469,4 +469,5 @@
     <string name="tips_push_notification_migration">Ailfewngofnodwch i\'ch cyfrifon er mwyn galluogi hysbysiadau i\'ch ffôn.</string>
     <string name="dialog_push_notification_migration">Er mwyn derbyn hysbysiadau i\'ch ffôn drwy UnifiedPush, mae angen caniatâd ar Tusky i danysgrifio i hysbysiadau ar eich gweinydd Mastodon. Bydd rhaid i chi fewngofnodi eto i newid y sgôp OAuth a roddir i Tusky. Bydd defnyddio\'r opsiwn ailfewngofnodi yma neu yn \'Dewisiadau\'ch cyfrif\' yn cadw\'ch holl ddrafftiau a\'ch storfa leol.</string>
     <string name="mute_domain_warning">Ydych chi\'n sicr yr hoffech chi rwystro %s i gyd\? Welwch chi ddim cynnwys o\'r parth hwnnw mewn unrhyw llinellau amser cyhoeddus nac ychwaith yn eich hysbysiadau. Ceir gwared ar eich dilynwyr o\'r parth hwnnw.</string>
+    <string name="duration_indefinite">Anfeidrol</string>
 </resources>

@@ -100,7 +100,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         idempotencyKey = randomAlphanumericString(16),
                         retries = 0,
                         mediaProcessed = mutableListOf(),
-                        null,
+                        language = null,
+                        statusId = null,
                     )
                 )
 

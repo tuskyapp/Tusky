@@ -62,8 +62,8 @@
     <string name="action_edit_own_profile">Змінити</string>
     <string name="action_save">Зберегти</string>
     <string name="action_mention">Згадати</string>
-    <string name="action_mute_domain">Заглушити %s</string>
-    <string name="action_mute">Заглушити</string>
+    <string name="action_mute_domain">Приховати %s</string>
+    <string name="action_mute">Приховати</string>
     <string name="action_share">Поділитися</string>
     <string name="action_photo_take">Сфотографувати</string>
     <string name="action_add_poll">Додати опитування</string>
@@ -105,8 +105,8 @@
     <string name="hint_content_warning">Попередження про вміст</string>
     <string name="edit_poll">Змінити</string>
     <string name="compose_shortcut_short_label">Написати</string>
-    <string name="action_unmute_conversation">Скасувати приглушення розмови</string>
-    <string name="action_mute_conversation">Заглушити розмову</string>
+    <string name="action_unmute_conversation">Не приховувати розмову</string>
+    <string name="action_mute_conversation">Приховати розмову</string>
     <string name="title_scheduled_posts">Заплановані дописи</string>
     <string name="description_visibility_private">Підписники</string>
     <string name="action_compose_shortcut">Написати</string>
@@ -116,25 +116,25 @@
     <string name="title_blocks">Заблоковані користувачі</string>
     <string name="notification_favourite_name">Вподобане</string>
     <string name="notification_follow_request_name">Запити на підписку</string>
-    <string name="action_unmute_desc">Не глушити %s</string>
-    <string name="action_unmute">Не глушити</string>
+    <string name="action_unmute_desc">Не приховувати %s</string>
+    <string name="action_unmute">Не приховувати</string>
     <string name="action_view_domain_mutes">Приховані домени</string>
-    <string name="action_view_mutes">Заглушені користувачі</string>
-    <string name="action_send_public">ДМУХНУТИ!</string>
-    <string name="action_send">ДМУХНУТИ</string>
-    <string name="action_show_reblogs">Показати просування</string>
-    <string name="action_hide_reblogs">Приховати просування</string>
+    <string name="action_view_mutes">Приховувані користувачі</string>
+    <string name="action_send_public">ПОШИРИТИ!</string>
+    <string name="action_send">ПОШИРИТИ</string>
+    <string name="action_show_reblogs">Показати поширення</string>
+    <string name="action_hide_reblogs">Сховати поширення</string>
     <string name="action_more">Розгорнути</string>
-    <string name="action_unreblog">Прибрати просування</string>
-    <string name="action_reblog">Просунути</string>
+    <string name="action_unreblog">Скасувати поширення</string>
+    <string name="action_reblog">Поширити</string>
     <string name="notification_favourite_format">%s вподобує ваш допис</string>
-    <string name="notification_reblog_format">%s просуває ваш допис</string>
+    <string name="notification_reblog_format">%s поширює ваш допис</string>
     <string name="post_content_show_less">Згорнути</string>
     <string name="post_content_show_more">Розгорнути</string>
     <string name="post_sensitive_media_title">Делікатний вміст</string>
-    <string name="post_boosted_format">%s просуває</string>
+    <string name="post_boosted_format">%s поширює</string>
     <string name="title_domain_mutes">Приховані домени</string>
-    <string name="title_mutes">Заглушені користувачі</string>
+    <string name="title_mutes">Приховувані користувачі</string>
     <string name="title_posts">Дописи</string>
     <string name="title_view_thread">Тред</string>
     <string name="title_tab_preferences">Вкладки</string>
@@ -144,16 +144,16 @@
     <string name="error_authorization_unknown">Сталася помилка невпізнання авторизації.</string>
     <string name="error_failed_app_registration">Помилка автентифікації цього сервера.</string>
     <string name="error_invalid_domain">Введено недійсний домен</string>
-    <string name="action_open_reblogged_by">Показати просування</string>
-    <string name="pref_title_show_boosts">Показати просування</string>
+    <string name="action_open_reblogged_by">Показати поширення</string>
+    <string name="pref_title_show_boosts">Показати поширення</string>
     <string name="pref_title_post_tabs">Вкладки</string>
-    <string name="action_unmute_domain">Не глушити %s</string>
+    <string name="action_unmute_domain">Не приховувати %s</string>
     <string name="action_toggle_visibility">Видимість дописів</string>
     <string name="wellbeing_mode_notice">Деякі відомості, які можуть вплинути на ваше психічний стан, буде приховано. Це включає:
 \n
-\n - Вподобання/Просування/Сповіщення про підписки
-\n - Вподобання/Кількість просувань дописів
-\n - Статистика підписників/Публікацій у профілях
+\n - Уподобання/Поширення/Сповіщення про підписки
+\n - Уподобання/Кількість поширень дописів
+\n - Статистика підписників/поширень у профілях
 \n
 \n На push-сповіщення це не вплине, але ви можете переглянути налаштування сповіщень вручну.</string>
     <string name="description_post_favourited">Уподобано</string>
@@ -167,8 +167,8 @@
     <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
     <string name="pref_title_notification_filter_favourites">мої дописи вподобано</string>
     <string name="action_hide_media">Сховати медіа</string>
-    <string name="action_mute_notifications_desc">Заглушити сповіщення від %s</string>
-    <string name="action_unmute_notifications_desc">Не глушити сповіщення від %s</string>
+    <string name="action_mute_notifications_desc">Приховати сповіщення від %s</string>
+    <string name="action_unmute_notifications_desc">Не приховувати сповіщення від %s</string>
     <string name="notification_subscription_format">%s щойно опубліковано</string>
     <string name="title_announcements">Оголошення</string>
     <string name="action_open_drawer">Відкрити меню</string>
@@ -261,7 +261,7 @@
     <string name="description_post_media_no_description_placeholder">Без опису</string>
     <string name="description_post_cw">Попередження про вміст: %s</string>
     <string name="description_post_media">Медіа: %s</string>
-    <string name="title_reblogged_by">Просунули</string>
+    <string name="title_reblogged_by">Поширює</string>
     <string name="profile_metadata_content_label">Вміст</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -349,8 +349,8 @@
     <string name="notification_subscription_name">Нові дописи</string>
     <string name="notification_poll_description">Сповіщати про завершення опитувань</string>
     <string name="notification_poll_name">Опитування</string>
-    <string name="notification_boost_description">Сповіщати про просування кимось допису</string>
-    <string name="notification_boost_name">Просування</string>
+    <string name="notification_boost_description">Сповіщати про поширення ваших дописів</string>
+    <string name="notification_boost_name">Поширення</string>
     <string name="notification_follow_request_description">Сповіщати про нові запити на підписки</string>
     <string name="notification_follow_description">Сповіщати про нових підписників</string>
     <string name="notification_follow_name">Нові підписники</string>
@@ -401,7 +401,7 @@
     <string name="pref_title_appearance_settings">Вигляд</string>
     <string name="pref_title_notification_filter_subscriptions">хтось, на кого мене підписано, публікує новий допис</string>
     <string name="pref_title_notification_filter_poll">опитування завершено</string>
-    <string name="pref_title_notification_filter_reblogs">мої дописи просунуто</string>
+    <string name="pref_title_notification_filter_reblogs">мої дописи поширено</string>
     <string name="pref_title_notification_filter_follow_requests">отримано запит на підписку</string>
     <string name="pref_title_notification_filter_follows">хтось підписується</string>
     <string name="pref_title_notification_filter_mentions">мене згадано</string>
@@ -415,7 +415,7 @@
     <string name="visibility_unlisted">Приховано: Не показувати у загальних стрічках</string>
     <string name="visibility_public">Публічно: Опублікувати у загальних стрічках</string>
     <string name="dialog_mute_hide_notifications">Сховати сповіщення</string>
-    <string name="dialog_mute_warning">Заглушити @%s\?</string>
+    <string name="dialog_mute_warning">Приховати @%s\?</string>
     <string name="dialog_block_warning">Заблокувати @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">Сховати весь домен</string>
     <string name="mute_domain_warning">Ви впевнені, що хочете заблокувати все з %s\? Ви не побачите вміст із цього домену в жодних загальнодоступних стрічках або у своїх сповіщеннях. Ваших підписників з цього домену буде видалено.</string>
@@ -441,7 +441,7 @@
     <string name="hint_display_name">Показуване ім\'я</string>
     <string name="post_sent_long">Відповідь надіслано.</string>
     <string name="confirmation_domain_unmuted">%s показано</string>
-    <string name="confirmation_unmuted">Глушіння користувача прибрано</string>
+    <string name="confirmation_unmuted">Приховування користувача скасовано</string>
     <string name="confirmation_unblocked">Користувача розблоковано</string>
     <string name="send_media_to">Поділитися медіа з…</string>
     <string name="send_post_content_to">Поділитися дописом з…</string>
@@ -452,7 +452,7 @@
     <string name="hashtags">Хештеги</string>
     <string name="action_hashtags">Хештеги</string>
     <string name="title_hashtags_dialog">Хештеги</string>
-    <string name="action_open_reblogger">Відкрити автора просування</string>
+    <string name="action_open_reblogger">Відкрити автора поширення</string>
     <string name="action_add_tab">Додати вкладку</string>
     <string name="action_schedule_post">Запланувати допис</string>
     <string name="action_emoji_keyboard">Клавіотура емодзі</string>
@@ -474,7 +474,7 @@
     <string name="account_note_hint">Ваша особиста примітка про цей обліковий запис</string>
     <string name="pref_title_wellbeing_mode">Добробут</string>
     <string name="pref_title_hide_top_toolbar">Сховати заголовок верхньої панелі інструментів</string>
-    <string name="pref_title_confirm_reblogs">Запитувати підтвердження перед просуванням</string>
+    <string name="pref_title_confirm_reblogs">Запитувати підтвердження перед поширенням</string>
     <string name="pref_title_show_cards_in_timelines">Показувати попередній перегляд посилань у стрічках</string>
     <string name="warning_scheduling_interval">Найкоротший час планування Mastodon становить 5 хвилин.</string>
     <string name="no_announcements">Оголошень немає.</string>
@@ -502,7 +502,7 @@
     <string name="description_poll">Опитування з варіантами: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visibility_direct">Безпосередньо</string>
     <string name="description_post_bookmarked">Додано до закладок</string>
-    <string name="description_post_reblogged">Просунуто</string>
+    <string name="description_post_reblogged">Поширено</string>
     <plurals name="max_tab_number_reached">
         <item quantity="one">досягнено обмеження %1$d вкладку</item>
         <item quantity="few">досягнено обмеження %1$d вкладки</item>
@@ -510,10 +510,10 @@
         <item quantity="other">досягнено обмеження %1$d вкладок</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> просування</item>
-        <item quantity="few"><b>%s</b> просування</item>
-        <item quantity="many"><b>%s</b> просувань</item>
-        <item quantity="other"><b>%s</b> просувань</item>
+        <item quantity="one"><b>%s</b> поширення</item>
+        <item quantity="few"><b>%s</b> поширення</item>
+        <item quantity="many"><b>%s</b> поширень</item>
+        <item quantity="other"><b>%s</b> поширень</item>
     </plurals>
     <string name="pin_action">Прикріпити</string>
     <string name="unpin_action">Відкріпити</string>
@@ -524,8 +524,8 @@
     <string name="profile_metadata_label">Метадані профілю</string>
     <string name="license_apache_2">Ліцензовано ліцензією Apache (копія знизу)</string>
     <string name="license_description">Tusky містить код та засоби з таких проєктів з відкритим кодом:</string>
-    <string name="unreblog_private">Відкликати просування</string>
-    <string name="reblog_private">Просунути початковій аудиторії</string>
+    <string name="unreblog_private">Скасувати поширення</string>
+    <string name="reblog_private">Поширити початковій аудиторії</string>
     <string name="account_moved_description">%1$s переміщено до:</string>
     <string name="download_failed">Не вдалося завантажити</string>
     <string name="caption_notoemoji">Поточний набір емодзі Google</string>
@@ -585,4 +585,28 @@
     <string name="failed_to_unpin">Не вдалося відкріпити</string>
     <string name="compose_save_draft_loses_media">Зберегти чернетку\? (Вкладення будуть завантажені знову, коли ви відновите чернетку.)</string>
     <string name="action_add_reaction">додати реакцію</string>
+    <string name="notification_report_format">Нова скарга %s</string>
+    <string name="report_category_violation">Порушення правил</string>
+    <string name="action_add_or_remove_from_list">Додати або вилучити зі списку</string>
+    <string name="failed_to_add_to_list">Не вдалося додати обліковий запис до списку</string>
+    <string name="failed_to_remove_from_list">Не вдалося вилучити обліковий запис зі списку</string>
+    <string name="action_unfollow_hashtag_format">Не слідкувати за #%s\?</string>
+    <string name="status_created_at_now">зараз</string>
+    <string name="notification_header_report_format">%s скаржиться %s</string>
+    <string name="notification_summary_report_format">%s · %d прикріплених дописів</string>
+    <string name="confirmation_hashtag_unfollowed">#%s не відстежується</string>
+    <string name="pref_title_notification_filter_reports">з\'явилася нова скарга</string>
+    <string name="notification_report_name">Скарги</string>
+    <string name="notification_report_description">Сповіщення про звіти про модерацію</string>
+    <string name="no_lists">У вас немає списків.</string>
+    <string name="report_category_spam">Спам</string>
+    <string name="report_category_other">Інше</string>
+    <string name="error_following_hashtags_unsupported">Цей сервер не підтримує слідкування за хештегами.</string>
+    <string name="title_followed_hashtags">Відстежувані хештеги</string>
+    <string name="pref_default_post_language">Типова мова дописів</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="post_edited">Змінено %s</string>
+    <string name="description_post_edited">Змінено</string>
+    <string name="error_muting_hashtag_format">Помилка приховування #%s</string>
+    <string name="error_unmuting_hashtag_format">Помилка увімкнення сповіщень #%s</string>
 </resources>
