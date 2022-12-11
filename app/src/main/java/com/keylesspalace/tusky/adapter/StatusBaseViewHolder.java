@@ -464,13 +464,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
             String description = attachment.getDescription();
+            boolean hasDescription = !TextUtils.isEmpty(description);
 
-            if (TextUtils.isEmpty(description)) {
-                imageView.setContentDescription(imageView.getContext().getString(R.string.action_view_media));
-            } else {
+            if (hasDescription) {
                 imageView.setContentDescription(description);
-                descriptionIndicator.setVisibility(View.VISIBLE);
+            } else {
+                imageView.setContentDescription(imageView.getContext().getString(R.string.action_view_media));
             }
+            descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
 
             loadImage(
                     imageView,
