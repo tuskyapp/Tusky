@@ -99,7 +99,7 @@ class TimelineCases @Inject constructor(
             mastodonApi.muteAccount(statusId, notifications, duration)
             eventHub.dispatch(MuteEvent(statusId))
         } catch (t: Throwable) {
-            Log.w("Failed to mute account", t)
+            Log.w(TAG,"Failed to mute account", t)
         }
     }
 
@@ -108,7 +108,7 @@ class TimelineCases @Inject constructor(
             mastodonApi.blockAccount(statusId)
             eventHub.dispatch(BlockEvent(statusId))
         } catch (t: Throwable) {
-            Log.w("Failed to block account", t)
+            Log.w(TAG,"Failed to block account", t)
         }
     }
 
@@ -143,6 +143,10 @@ class TimelineCases @Inject constructor(
 
     private fun <T : Any> convertError(e: Throwable): Single<T> {
         return Single.error(TimelineError(e.getServerErrorMessage()))
+    }
+
+    companion object {
+        private const val TAG = "TimelineCases"
     }
 }
 
