@@ -99,7 +99,7 @@ class TimelineCases @Inject constructor(
             mastodonApi.muteAccount(statusId, notifications, duration)
             eventHub.dispatch(MuteEvent(statusId))
         } catch (t: Throwable) {
-            Log.w(TAG,"Failed to mute account", t)
+            Log.w(TAG, "Failed to mute account", t)
         }
     }
 
@@ -108,7 +108,7 @@ class TimelineCases @Inject constructor(
             mastodonApi.blockAccount(statusId)
             eventHub.dispatch(BlockEvent(statusId))
         } catch (t: Throwable) {
-            Log.w(TAG,"Failed to block account", t)
+            Log.w(TAG, "Failed to block account", t)
         }
     }
 
@@ -123,7 +123,7 @@ class TimelineCases @Inject constructor(
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
             .doOnError { e ->
-                Log.w("Failed to change pin state", e)
+                Log.w(TAG, "Failed to change pin state", e)
             }
             .onErrorResumeNext(::convertError)
             .doAfterSuccess {
