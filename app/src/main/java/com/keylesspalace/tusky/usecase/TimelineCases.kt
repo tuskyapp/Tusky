@@ -121,7 +121,7 @@ class TimelineCases @Inject constructor(
                 eventHub.dispatch(StatusDeletedEvent(statusId))
             },
             {
-                Log.w("TimelineCases", "Failed to delete status", it)
+                Log.w(TAG, "Failed to delete status", it)
             }
         )
         return result
