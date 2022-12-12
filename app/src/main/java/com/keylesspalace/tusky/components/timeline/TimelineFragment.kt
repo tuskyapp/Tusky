@@ -237,7 +237,9 @@ class TimelineFragment :
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
-                            if (isSwipeToRefreshEnabled) {
+                            // Swiping and prefer oldest-first? Stay at the same position.
+                            // Otherwise jump to the top.
+                            if (isSwipeToRefreshEnabled && readingOrder == ReadingOrder.OLDEST_FIRST) {
                                 binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
                             } else binding.recyclerView.scrollToPosition(0)
                         }
