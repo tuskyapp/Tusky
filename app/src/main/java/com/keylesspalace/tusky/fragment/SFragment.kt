@@ -409,7 +409,7 @@ abstract class SFragment : Fragment(), Injectable {
                             )
                             startActivity(startIntent(requireContext(), composeOptions))
                         },
-                         { error: Throwable? ->
+                        { error: Throwable? ->
                             Log.w("SFragment", "error deleting status", error)
                             Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT)
                                 .show()
