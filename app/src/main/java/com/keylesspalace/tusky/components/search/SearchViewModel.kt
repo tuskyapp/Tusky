@@ -21,6 +21,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -114,13 +115,12 @@ class SearchViewModel @Inject constructor(
     }
 
     fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        timelineCases.reblog(statusViewData.id, reblog)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
+        viewModelScope.launch {
+            timelineCases.reblog(statusViewData.id, reblog).fold(
                 { setRebloggedForStatus(statusViewData, reblog) },
                 { t -> Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t) }
             )
-            .autoDispose()
+        }
     }
 
     private fun setRebloggedForStatus(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
@@ -152,18 +152,16 @@ class SearchViewModel @Inject constructor(
 
     fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
         updateStatus(statusViewData.status.copy(favourited = isFavorited))
-        timelineCases.favourite(statusViewData.id, isFavorited)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.favourite(statusViewData.id, isFavorited)
+        }
     }
 
     fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
         updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
-        timelineCases.bookmark(statusViewData.id, isBookmarked)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.bookmark(statusViewData.id, isBookmarked)
+        }
     }
 
     fun muteAccount(accountId: String, notifications: Boolean, duration: Int?) {
