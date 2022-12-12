@@ -320,7 +320,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
-                String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                String readout = TimestampUtils.INSTANCE.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
                 timestampText = readout;
             }
         }
@@ -995,7 +995,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (statusDisplayOptions.useAbsoluteTime()) {
                 pollDurationInfo = context.getString(R.string.poll_info_time_absolute, absoluteTimeFormatter.format(poll.getExpiresAt(), false));
             } else {
-                pollDurationInfo = TimestampUtils.formatPollDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), timestamp);
+                pollDurationInfo = TimestampUtils.INSTANCE.formatPollDuration(pollDescription.getContext(), poll.getExpiresAt().getTime(), timestamp);
             }
         }
 
