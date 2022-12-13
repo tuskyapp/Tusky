@@ -190,10 +190,9 @@ class SearchViewModel @Inject constructor(
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
         updateStatus(statusViewData.status.copy(muted = mute))
-        timelineCases.muteConversation(statusViewData.id, mute)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.muteConversation(statusViewData.id, mute)
+        }
     }
 
     private fun updateStatusViewData(newStatusViewData: StatusViewData.Concrete) {

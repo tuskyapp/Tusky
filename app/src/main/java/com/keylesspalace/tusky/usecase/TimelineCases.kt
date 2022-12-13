@@ -116,15 +116,16 @@ class TimelineCases @Inject constructor(
     fun bookmarkFromJava(statusId: String, bookmark: Boolean): CompletableFuture<NetworkResult<Status>> =
         CoroutineScope(Dispatchers.IO).future { bookmark(statusId, bookmark) }
 
-    fun muteConversation(statusId: String, mute: Boolean): Single<Status> {
-        val call = if (mute) {
+    suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> {
+        val result = if (mute) {
             mastodonApi.muteConversation(statusId)
         } else {
             mastodonApi.unmuteConversation(statusId)
         }
-        return call.doAfterSuccess {
+        if (result.isSuccess) {
             eventHub.dispatch(MuteConversationEvent(statusId, mute))
         }
+        return result
     }
 
     suspend fun mute(statusId: String, notifications: Boolean, duration: Int?) {

@@ -160,7 +160,7 @@ class ConversationsViewModel @Inject constructor(
                 timelineCases.muteConversation(
                     conversation.lastStatus.id,
                     !(conversation.lastStatus.status.muted ?: false)
-                ).await()
+                )
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,

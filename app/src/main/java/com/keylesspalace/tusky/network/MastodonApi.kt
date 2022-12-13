@@ -252,14 +252,14 @@ interface MastodonApi {
     ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/mute")
-    fun muteConversation(
+    suspend fun muteConversation(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unmute")
-    fun unmuteConversation(
+    suspend fun unmuteConversation(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @GET("api/v1/scheduled_statuses")
     fun scheduledStatuses(
