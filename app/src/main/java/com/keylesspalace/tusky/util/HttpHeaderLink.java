@@ -10,6 +10,7 @@
 package com.keylesspalace.tusky.util;
 
 import android.net.Uri;
+
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class HttpHeaderLink {
             if (result.end == -1) {
                 return -1;
             } else {
-                i = result.end;
+                i = result.end - 1;
             }
         }
         return -1;
