@@ -274,6 +274,7 @@
         android:layout_marginEnd="14dp"
         android:drawablePadding="4dp"
         android:importantForAccessibility="no"
+        android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintLeft_toLeftOf="parent"

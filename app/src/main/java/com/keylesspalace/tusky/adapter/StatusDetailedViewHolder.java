@@ -2,13 +2,18 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.DynamicDrawableSpan;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -16,6 +21,7 @@ import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.NoUnderlineURLSpan;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
@@ -37,17 +43,69 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setCreatedAt(Date createdAt, Date editedAt, StatusDisplayOptions statusDisplayOptions) {
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+    protected void setMetaData(Status status, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+
+        Status.Visibility visibility = status.getVisibility();
         Context context = timestampInfo.getContext();
-        List<String> list = new ArrayList<>();
+
+        Drawable visibilityIcon = getVisibilityIcon(visibility);
+        CharSequence visibilityString = getVisibilityDescription(context, visibility);
+
+        SpannableStringBuilder sb = new SpannableStringBuilder(visibilityString);
+
+        if (visibilityIcon != null) {
+            ImageSpan visibilityIconSpan = new ImageSpan(visibilityIcon, DynamicDrawableSpan.ALIGN_BASELINE);
+            sb.setSpan(visibilityIconSpan, 0, visibilityString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+        String metadataJoiner = context.getString(R.string.metadata_joiner);
+
+        Date createdAt = status.getCreatedAt();
         if (createdAt != null) {
-            list.add(dateFormat.format(createdAt));
+
+            sb.append(" ");
+            sb.append(dateFormat.format(createdAt));
         }
+
+        Date editedAt = status.getEditedAt();
+
         if (editedAt != null) {
-            list.add(context.getString(R.string.post_edited, dateFormat.format(editedAt)));
+            String editedAtString = context.getString(R.string.post_edited, dateFormat.format(editedAt));
+
+            sb.append(metadataJoiner);
+            int spanStart = sb.length();
+            int spanEnd = spanStart + editedAtString.length();
+
+            sb.append(editedAtString);
+
+            NoUnderlineURLSpan editedClickSpan = new NoUnderlineURLSpan("") {
+                @Override
+                public void onClick(@NonNull View view) {
+                    listener.onShowEdits(getBindingAdapterPosition());
+                }
+            };
+
+            sb.setSpan(editedClickSpan, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        timestampInfo.setText(TextUtils.join(context.getString(R.string.timestamp_joiner), list));
+
+        Status.Application app = status.getApplication();
+
+        if (app != null) {
+
+            sb.append(metadataJoiner);
+
+            if (app.getWebsite() != null) {
+                CharSequence text = LinkHelper.createClickableText(app.getName(), app.getWebsite());
+                sb.append(text);
+            } else {
+                sb.append(app.getName());
+            }
+        }
+
+        timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
+        timestampInfo.setText(sb);
+
     }
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
@@ -85,21 +143,6 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
         });
     }
 
-    private void setApplication(@Nullable Status.Application app) {
-        if (app != null) {
-
-            timestampInfo.append("  •  ");
-
-            if (app.getWebsite() != null) {
-                CharSequence text = LinkHelper.createClickableText(app.getName(), app.getWebsite());
-                timestampInfo.append(text);
-                timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
-            } else {
-                timestampInfo.append(app.getName());
-            }
-        }
-    }
-
     @Override
     public void setupWithStatus(@NonNull final StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
@@ -121,17 +164,13 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
             } else {
                 hideQuantitativeStats();
             }
-
-            setApplication(actionable.getApplication());
-
-            setStatusVisibility(actionable.getVisibility());
         }
     }
 
-    private void setStatusVisibility(Status.Visibility visibility) {
+    private @Nullable Drawable getVisibilityIcon(@Nullable Status.Visibility visibility) {
 
         if (visibility == null) {
-            return;
+            return null;
         }
 
         int visibilityIcon;
@@ -149,13 +188,13 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 visibilityIcon = R.drawable.ic_email_24dp;
                 break;
             default:
-                return;
+                return null;
         }
 
         final Drawable visibilityDrawable = this.timestampInfo.getContext()
                 .getDrawable(visibilityIcon);
         if (visibilityDrawable == null) {
-            return;
+            return null;
         }
 
         final int size = (int) this.timestampInfo.getTextSize();
@@ -166,12 +205,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 size
         );
         visibilityDrawable.setTint(this.timestampInfo.getCurrentTextColor());
-        this.timestampInfo.setCompoundDrawables(
-                visibilityDrawable,
-                null,
-                null,
-                null
-        );
+
+        return visibilityDrawable;
     }
 
     private void hideQuantitativeStats() {

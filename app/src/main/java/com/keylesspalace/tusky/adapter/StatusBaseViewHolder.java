@@ -310,7 +310,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setCreatedAt(Date createdAt, Date editedAt, StatusDisplayOptions statusDisplayOptions) {
+    protected void setMetaData(Status status, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+        Date createdAt = status.getCreatedAt();
+        Date editedAt = status.getEditedAt();
+
         String timestampText;
         if (statusDisplayOptions.useAbsoluteTime()) {
             timestampText = absoluteTimeFormatter.format(createdAt, true);
@@ -710,7 +713,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(status.getUsername());
-            setCreatedAt(actionable.getCreatedAt(), actionable.getEditedAt(), statusDisplayOptions);
+            setMetaData(actionable, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
@@ -762,7 +765,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (payloads instanceof List)
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setCreatedAt(status.getActionable().getCreatedAt(), status.getActionable().getEditedAt(), statusDisplayOptions);
+                        setMetaData(status.getActionable(), statusDisplayOptions, listener);
                     }
                 }
 
@@ -844,7 +847,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
+    protected static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
 
         if (visibility == null) {
             return "";
