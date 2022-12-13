@@ -171,7 +171,9 @@ class SearchViewModel @Inject constructor(
     }
 
     fun pinAccount(status: Status, isPin: Boolean) {
-        timelineCases.pin(status.id, isPin)
+        viewModelScope.launch {
+            timelineCases.pin(status.id, isPin)
+        }
     }
 
     fun blockAccount(accountId: String) {

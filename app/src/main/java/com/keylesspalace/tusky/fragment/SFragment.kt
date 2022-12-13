@@ -274,18 +274,15 @@ abstract class SFragment : Fragment(), Injectable {
                     return@setOnMenuItemClickListener true
                 }
                 R.id.pin -> {
-                    timelineCases.pin(status.id, !status.isPinned())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnError { e: Throwable ->
-                            val message = e.message ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
-                            Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-                        }
-                        .to(
-                            AutoDispose.autoDisposable(
-                                AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                            )
-                        )
-                        .subscribe()
+                    lifecycleScope.launch {
+                        val throwable =
+                            timelineCases.pin(status.id, !status.isPinned()).exceptionOrNull()
+                        throwable ?: return@launch
+
+                        val message = throwable.message
+                            ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
+                        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+                    }
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute_conversation -> {

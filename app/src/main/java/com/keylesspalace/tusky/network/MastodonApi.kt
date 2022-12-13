@@ -242,14 +242,14 @@ interface MastodonApi {
     ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/pin")
-    fun pinStatus(
+    suspend fun pinStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unpin")
-    fun unpinStatus(
+    suspend fun unpinStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/mute")
     fun muteConversation(

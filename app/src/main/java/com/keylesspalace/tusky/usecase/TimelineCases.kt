@@ -158,16 +158,21 @@ class TimelineCases @Inject constructor(
         return result
     }
 
-    fun pin(statusId: String, pin: Boolean): Single<Status> {
-        // Replace with extension method if we use RxKotlin
-        return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
-            .doOnError { e ->
-                Log.w(TAG, "Failed to change pin state", e)
-            }
-            .onErrorResumeNext(::convertError)
-            .doAfterSuccess {
+    suspend fun pin(statusId: String, pin: Boolean): NetworkResult<Status> {
+        val result = if (pin) {
+            mastodonApi.pinStatus(statusId)
+        } else {
+            mastodonApi.unpinStatus(statusId)
+        }
+        result.fold(
+            {
                 eventHub.dispatch(PinEvent(statusId, pin))
+            },
+            {
+                Log.w(TAG, "Failed to change pin state", it)
             }
+        )
+        return result
     }
 
     fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
