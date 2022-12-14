@@ -1,12 +1,17 @@
 package com.keylesspalace.tusky.usecase
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +26,6 @@ import java.util.Date
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class TimelineCasesTest {
-
     private lateinit var api: MastodonApi
     private lateinit var eventHub: EventHub
     private lateinit var timelineCases: TimelineCases
@@ -30,30 +34,38 @@ class TimelineCasesTest {
 
     @Before
     fun setup() {
-
         api = mock()
         eventHub = EventHub()
         timelineCases = TimelineCases(api, eventHub)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `pin success emits PinEvent`() {
+        // Given
         api.stub {
-            onBlocking { pinStatus(statusId) } doReturn Single.just(mockStatus(pinned = true))
+            onBlocking { pinStatus(statusId) } doReturn NetworkResult.success(
+                mockStatus(pinned = true)
+            )
         }
 
         val events = eventHub.events.test()
-        timelineCases.pin(statusId, true)
-            .test()
-            .assertComplete()
 
+        // When
+        runTest {
+            timelineCases.pin(statusId, true)
+        }
+
+        // Then
         events.assertValue(PinEvent(statusId, true))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `pin failure with server error throws TimelineError with server message`() {
+        // Given
         api.stub {
-            onBlocking { pinStatus(statusId) } doReturn Single.error(
+            onBlocking { pinStatus(statusId) } doReturn NetworkResult.failure(
                 HttpException(
                     Response.error<Status>(
                         422,
@@ -62,9 +74,19 @@ class TimelineCasesTest {
                 )
             )
         }
-        timelineCases.pin(statusId, true)
-            .test()
-            .assertError { it.message == "Validation Failed: You have already pinned the maximum number of toots" }
+
+        runTest {
+            // When
+            val throwable = timelineCases.pin(statusId, true).exceptionOrNull()
+
+            // Then
+            assertNotNull(throwable)
+            assertTrue(throwable is HttpException)
+            assertEquals(
+                "{\"error\":\"Validation Failed: You have already pinned the maximum number of toots\"}",
+                (throwable as HttpException).response()?.errorBody()?.string()
+            )
+        }
     }
 
     private fun mockStatus(pinned: Boolean = false): Status {
@@ -96,7 +118,7 @@ class TimelineCasesTest {
             muted = false,
             poll = null,
             card = null,
-            language = null,
+            language = null
         )
     }
 }
