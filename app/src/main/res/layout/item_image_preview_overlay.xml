@@ -28,7 +28,7 @@
         android:paddingBottom="3dp"
         android:layout_margin="3dp"
         android:visibility="gone"
-        android:text="ALT"
+        android:text="@string/post_media_alt"
         app:layout_constraintEnd_toEndOf="@+id/preview_image_view"
         app:layout_constraintBottom_toBottomOf="@+id/preview_image_view"
         app:tint="@color/white" />
