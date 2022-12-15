@@ -22,11 +22,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
-import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -37,7 +34,6 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -175,25 +171,30 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         muteTagItem?.isEnabled = false
         unmuteTagItem?.isVisible = false
 
-        mastodonApi.getFilters().observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe { filters ->
-                for (filter in filters) {
-                    if ((tag == filter.phrase) and filter.context.contains(Filter.HOME)) {
-                        Log.d(TAG, "Tag $hashtag is filtered")
-                        muteTagItem?.isVisible = false
-                        unmuteTagItem?.isVisible = true
-                        mutedFilter = filter
-                        return@subscribe
+        lifecycleScope.launch {
+            mastodonApi.getFilters().fold(
+                { filters ->
+                    for (filter in filters) {
+                        if ((tag == filter.phrase) and filter.context.contains(Filter.HOME)) {
+                            Log.d(TAG, "Tag $hashtag is filtered")
+                            muteTagItem?.isVisible = false
+                            unmuteTagItem?.isVisible = true
+                            mutedFilter = filter
+                            return@fold
+                        }
                     }
-                }
 
-                Log.d(TAG, "Tag $hashtag is not filtered")
-                mutedFilter = null
-                muteTagItem?.isEnabled = true
-                muteTagItem?.isVisible = true
-                muteTagItem?.isVisible = true
-            }
+                    Log.d(TAG, "Tag $hashtag is not filtered")
+                    mutedFilter = null
+                    muteTagItem?.isEnabled = true
+                    muteTagItem?.isVisible = true
+                    muteTagItem?.isVisible = true
+                },
+                { throwable ->
+                    Log.e(TAG, "Error getting filters: $throwable")
+                }
+            )
+        }
     }
 
     private fun muteTag(): Boolean {

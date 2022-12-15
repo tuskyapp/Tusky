@@ -73,6 +73,7 @@ class ComposeViewModel @Inject constructor(
     private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
+    private var originalStatusId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
     private var contentWarningStateChanged: Boolean = false
@@ -193,7 +194,8 @@ class ComposeViewModel @Inject constructor(
                 uploadPercent = -1,
                 id = id,
                 description = description,
-                focus = focus
+                focus = focus,
+                processed = true,
             )
             mediaValue + mediaItem
         }
@@ -270,6 +272,7 @@ class ComposeViewModel @Inject constructor(
             failedToSend = false,
             scheduledAt = scheduledAt.value,
             language = postLanguage,
+            statusId = originalStatusId,
         )
     }
 
@@ -299,7 +302,7 @@ class ComposeViewModel @Inject constructor(
                     mediaUris.add(item.uri)
                     mediaDescriptions.add(item.description ?: "")
                     mediaFocus.add(item.focus)
-                    mediaProcessed.add(false)
+                    mediaProcessed.add(item.processed)
                 }
                 val tootToSend = StatusToSend(
                     text = content,
@@ -321,6 +324,7 @@ class ComposeViewModel @Inject constructor(
                     retries = 0,
                     mediaProcessed = mediaProcessed,
                     language = postLanguage,
+                    statusId = originalStatusId,
                 )
 
                 serviceClient.sendToot(tootToSend)
@@ -452,6 +456,7 @@ class ComposeViewModel @Inject constructor(
 
         draftId = composeOptions?.draftId ?: 0
         scheduledTootId = composeOptions?.scheduledTootId
+        originalStatusId = composeOptions?.statusId
         startingText = composeOptions?.content
         postLanguage = composeOptions?.language
 
@@ -496,6 +501,9 @@ class ComposeViewModel @Inject constructor(
 
         scheduledAt.value = newScheduledAt
     }
+
+    val editing: Boolean
+        get() = !originalStatusId.isNullOrEmpty()
 
     private companion object {
         const val TAG = "ComposeViewModel"

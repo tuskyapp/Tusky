@@ -20,6 +20,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -53,10 +54,9 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
-import java.util.HashMap
 import javax.inject.Inject
 
 class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountActionListener, Injectable {
@@ -255,7 +255,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         followRequestsAdapter.removeItem(position)
     }
 
-    private fun getFetchCallByListType(fromId: String?): Single<Response<List<TimelineAccount>>> {
+    private suspend fun getFetchCallByListType(fromId: String?): Response<List<TimelineAccount>> {
         return when (type) {
             Type.FOLLOWS -> {
                 val accountId = requireId(type, id)
@@ -293,24 +293,27 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             binding.recyclerView.post { adapter.setBottomLoading(true) }
         }
 
-        getFetchCallByListType(fromId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                { response ->
-                    val accountList = response.body()
-
-                    if (response.isSuccessful && accountList != null) {
-                        val linkHeader = response.headers()["Link"]
-                        onFetchAccountsSuccess(accountList, linkHeader)
-                    } else {
-                        onFetchAccountsFailure(Exception(response.message()))
-                    }
-                },
-                { throwable ->
-                    onFetchAccountsFailure(throwable)
+        lifecycleScope.launch {
+            try {
+                val response = getFetchCallByListType(fromId)
+                if (!response.isSuccessful) {
+                    onFetchAccountsFailure(Exception(response.message()))
+                    return@launch
                 }
-            )
+
+                val accountList = response.body()
+
+                if (accountList == null) {
+                    onFetchAccountsFailure(Exception(response.message()))
+                    return@launch
+                }
+
+                val linkHeader = response.headers()["Link"]
+                onFetchAccountsSuccess(accountList, linkHeader)
+            } catch (throwable: Throwable) {
+                onFetchAccountsFailure(throwable)
+            }
+        }
     }
 
     private fun onFetchAccountsSuccess(accounts: List<TimelineAccount>, linkHeader: String?) {

@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -193,10 +192,6 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
                 getChildAt(index).findViewById(R.id.preview_media_description_indicator) as TextView
             )
         }
-    }
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
     }
 }
 
