@@ -411,14 +411,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
     }
 
-    private void loadImage(MediaPreviewImageView imageView,
+    private void loadImage(View wrapper,
+                           MediaPreviewImageView imageView,
                            @Nullable String previewUrl,
                            @Nullable MetaData meta,
                            @Nullable String blurhash) {
 
         Drawable placeholder = blurhash != null ? decodeBlurHash(blurhash) : mediaPreviewUnloaded;
 
-        ViewKt.doOnLayout(imageView, view -> {
+        ViewKt.doOnLayout(wrapper, view -> {
             if (TextUtils.isEmpty(previewUrl)) {
                 imageView.removeFocalPoint();
 
@@ -460,7 +461,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaPreview.setVisibility(View.VISIBLE);
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
-        mediaPreview.forEachIndexed((i, imageView, descriptionIndicator) -> {
+        mediaPreview.forEachIndexed((i, wrapper, imageView, descriptionIndicator) -> {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
             String description = attachment.getDescription();
@@ -474,6 +475,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
 
             loadImage(
+                    wrapper,
                     imageView,
                     showingContent ? previewUrl : null,
                     attachment.getMeta(),
