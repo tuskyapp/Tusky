@@ -310,7 +310,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setMetaData(Status status, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+
+        Status status = statusViewData.getActionable();
         Date createdAt = status.getCreatedAt();
         Date editedAt = status.getEditedAt();
 
@@ -713,7 +715,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(status.getUsername());
-            setMetaData(actionable, statusDisplayOptions, listener);
+            setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
@@ -765,7 +767,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (payloads instanceof List)
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setMetaData(status.getActionable(), statusDisplayOptions, listener);
+                        setMetaData(status, statusDisplayOptions, listener);
                     }
                 }
 

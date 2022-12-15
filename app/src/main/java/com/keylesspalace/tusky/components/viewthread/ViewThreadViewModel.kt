@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -105,6 +106,10 @@ class ViewThreadViewModel @Inject constructor(
             val status = statusResult.getOrElse { exception ->
                 _uiState.value = ThreadUiState.Error(exception)
                 return@launch
+            }
+
+            if (status.editedAt != null) {
+                loadStatusEdits(status.id)
             }
 
             contextResult.fold({ statusContext ->
@@ -231,6 +236,18 @@ class ViewThreadViewModel @Inject constructor(
     fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
         updateStatusViewData(status.id) { viewData ->
             viewData.copy(isCollapsed = isCollapsed)
+        }
+    }
+
+    private fun loadStatusEdits(statusId: String) {
+        viewModelScope.launch {
+            api.statusEdits(statusId).fold({ statusEdits ->
+                updateStatusViewData(statusId) { status ->
+                    status.copy(statusEdits = statusEdits)
+                }
+            }, { throwable ->
+                _errors.emit(throwable)
+            })
         }
     }
 
@@ -364,13 +381,17 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun Status.toViewData(detailed: Boolean = false): StatusViewData.Concrete {
+    private fun Status.toViewData(
+        detailed: Boolean = false,
+        statusEdits: List<StatusEdit>? = null
+    ): StatusViewData.Concrete {
         val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statuses?.find { it.id == this.id }
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
             isCollapsed = oldStatus?.isCollapsed ?: !detailed,
-            isDetailed = oldStatus?.isDetailed ?: detailed
+            isDetailed = oldStatus?.isDetailed ?: detailed,
+            statusEdits = statusEdits
         )
     }
 

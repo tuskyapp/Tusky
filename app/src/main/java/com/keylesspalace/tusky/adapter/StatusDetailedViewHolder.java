@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -26,9 +24,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private final TextView reblogs;
@@ -43,7 +39,9 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setMetaData(Status status, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+
+        Status status = statusViewData.getActionable();
 
         Status.Visibility visibility = status.getVisibility();
         Context context = timestampInfo.getContext();
@@ -79,14 +77,16 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             sb.append(editedAtString);
 
-            NoUnderlineURLSpan editedClickSpan = new NoUnderlineURLSpan("") {
-                @Override
-                public void onClick(@NonNull View view) {
-                    listener.onShowEdits(getBindingAdapterPosition());
-                }
-            };
+            if (statusViewData.getStatusEdits() != null && !statusViewData.getStatusEdits().isEmpty()) {
+                NoUnderlineURLSpan editedClickSpan = new NoUnderlineURLSpan("") {
+                    @Override
+                    public void onClick(@NonNull View view) {
+                        listener.onShowEdits(getBindingAdapterPosition());
+                    }
+                };
 
-            sb.setSpan(editedClickSpan, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                sb.setSpan(editedClickSpan, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
 
         Status.Application app = status.getApplication();

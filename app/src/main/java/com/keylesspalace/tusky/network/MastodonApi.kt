@@ -194,6 +194,11 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): NetworkResult<StatusContext>
 
+    @GET("api/v1/statuses/{id}/history")
+    suspend fun statusEdits(
+        @Path("id") statusId: String
+    ): NetworkResult<List<StatusEdit>>
+
     @GET("api/v1/statuses/{id}/reblogged_by")
     suspend fun statusRebloggedBy(
         @Path("id") statusId: String,
