@@ -416,14 +416,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
     }
 
-    private void loadImage(MediaPreviewImageView imageView,
+    private void loadImage(View wrapper,
+                           MediaPreviewImageView imageView,
                            @Nullable String previewUrl,
                            @Nullable MetaData meta,
                            @Nullable String blurhash) {
 
         Drawable placeholder = blurhash != null ? decodeBlurHash(blurhash) : mediaPreviewUnloaded;
 
-        ViewKt.doOnLayout(imageView, view -> {
+        ViewKt.doOnLayout(wrapper, view -> {
             if (TextUtils.isEmpty(previewUrl)) {
                 imageView.removeFocalPoint();
 
@@ -438,7 +439,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (focus != null) { // If there is a focal point for this attachment:
                     imageView.setFocalPoint(focus);
 
-                    Glide.with(imageView)
+                    Glide.with(imageView.getContext())
                             .load(previewUrl)
                             .placeholder(placeholder)
                             .centerInside()
@@ -465,19 +466,21 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaPreview.setVisibility(View.VISIBLE);
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
-        mediaPreview.forEachIndexed((i, imageView) -> {
+        mediaPreview.forEachIndexed((i, wrapper, imageView, descriptionIndicator) -> {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
             String description = attachment.getDescription();
+            boolean hasDescription = !TextUtils.isEmpty(description);
 
-            if (TextUtils.isEmpty(description)) {
-                imageView.setContentDescription(imageView.getContext()
-                        .getString(R.string.action_view_media));
-            } else {
+            if (hasDescription) {
                 imageView.setContentDescription(description);
+            } else {
+                imageView.setContentDescription(imageView.getContext().getString(R.string.action_view_media));
             }
+            descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
 
             loadImage(
+                    wrapper,
                     imageView,
                     showingContent ? previewUrl : null,
                     attachment.getMeta(),
@@ -507,6 +510,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
                 v.setVisibility(View.GONE);
                 sensitiveMediaWarning.setVisibility(View.VISIBLE);
+                descriptionIndicator.setVisibility(View.GONE);
             });
             sensitiveMediaWarning.setOnClickListener(v -> {
                 if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
@@ -514,6 +518,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
                 v.setVisibility(View.GONE);
                 sensitiveMediaShow.setVisibility(View.VISIBLE);
+                descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
             });
 
             return null;
