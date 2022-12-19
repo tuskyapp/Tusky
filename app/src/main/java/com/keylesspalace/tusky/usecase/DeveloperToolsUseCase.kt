@@ -30,8 +30,10 @@ class DeveloperToolsUseCase @Inject constructor(
             val minId = ids[8]
             val placeHolderId = ids[9]
 
-            Log.d("TAG",
-                "createLoadMoreGap: creating gap between $minId .. $maxId (new placeholder: $placeHolderId")
+            Log.d(
+                "TAG",
+                "createLoadMoreGap: creating gap between $minId .. $maxId (new placeholder: $placeHolderId"
+            )
 
             timelineDao.deleteRange(accountId, minId, maxId)
             timelineDao.convertStatustoPlaceholder(placeHolderId)

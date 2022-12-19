@@ -591,7 +591,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         lifecycleScope.launch {
                             accountManager.activeAccount?.let {
                                 developerToolsUseCase.createLoadMoreGap(
-                                    it.id)
+                                    it.id
+                                )
                             }
                         }
                     }
