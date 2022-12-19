@@ -466,6 +466,10 @@ class TimelineFragment :
                     adapter.notifyItemRangeChanged(0, adapter.itemCount)
                 }
             }
+            PrefKeys.READING_ORDER -> {
+                readingOrder = ReadingOrder.from(
+                    sharedPreferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!)
+            }
         }
     }
 
