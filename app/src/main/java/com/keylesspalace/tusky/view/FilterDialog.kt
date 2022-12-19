@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import java.util.Date
 
 fun showAddFilterDialog(activity: FiltersActivity) {
@@ -30,7 +30,7 @@ fun showAddFilterDialog(activity: FiltersActivity) {
         .show()
 }
 
-fun setupEditDialogForFilter(activity: FiltersActivity, filter: Filter, itemIndex: Int) {
+fun setupEditDialogForFilter(activity: FiltersActivity, filter: FilterV1, itemIndex: Int) {
     val binding = DialogFilterBinding.inflate(activity.layoutInflater)
     binding.phraseEditText.setText(filter.phrase)
     binding.phraseWholeWord.isChecked = filter.wholeWord

@@ -36,7 +36,7 @@ class ThreadAdapter(
         return when (viewType) {
             VIEW_TYPE_STATUS -> {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_status, parent, false)
+                    .inflate(R.layout.item_status_wrapper, parent, false)
                 StatusViewHolder(view)
             }
             VIEW_TYPE_STATUS_DETAILED -> {

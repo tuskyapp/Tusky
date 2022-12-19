@@ -39,7 +39,7 @@ import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigra
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceHandler
@@ -266,7 +266,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_public_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.PUBLIC, R.string.pref_title_public_filter_keywords)
+                        launchFilterActivity(FilterV1.PUBLIC, R.string.pref_title_public_filter_keywords)
                         true
                     }
                 }
@@ -274,7 +274,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.title_notifications)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.NOTIFICATIONS, R.string.title_notifications)
+                        launchFilterActivity(FilterV1.NOTIFICATIONS, R.string.title_notifications)
                         true
                     }
                 }
@@ -282,7 +282,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.title_home)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.HOME, R.string.title_home)
+                        launchFilterActivity(FilterV1.HOME, R.string.title_home)
                         true
                     }
                 }
@@ -290,7 +290,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_thread_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.THREAD, R.string.pref_title_thread_filter_keywords)
+                        launchFilterActivity(FilterV1.THREAD, R.string.pref_title_thread_filter_keywords)
                         true
                     }
                 }
@@ -298,7 +298,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.title_accounts)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.ACCOUNT, R.string.title_accounts)
+                        launchFilterActivity(FilterV1.ACCOUNT, R.string.title_accounts)
                         true
                     }
                 }

@@ -11,7 +11,7 @@ import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -33,7 +33,7 @@ class FiltersActivity : BaseActivity() {
     private val binding by viewBinding(ActivityFiltersBinding::inflate)
 
     private lateinit var context: String
-    private lateinit var filters: MutableList<Filter>
+    private lateinit var filters: MutableList<FilterV1>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,7 @@ class FiltersActivity : BaseActivity() {
 
     fun updateFilter(id: String, phrase: String, filterContext: List<String>, irreversible: Boolean, wholeWord: Boolean, expiresInSeconds: Int?, itemIndex: Int) {
         lifecycleScope.launch {
-            api.updateFilter(id, phrase, filterContext, irreversible, wholeWord, expiresInSeconds).fold(
+            api.updateFilterV1(id, phrase, filterContext, irreversible, wholeWord, expiresInSeconds).fold(
                 { updatedFilter ->
                     if (updatedFilter.context.contains(context)) {
                         filters[itemIndex] = updatedFilter
@@ -78,7 +78,7 @@ class FiltersActivity : BaseActivity() {
         if (filter.context.size == 1) {
             lifecycleScope.launch {
                 // This is the only context for this filter; delete it
-                api.deleteFilter(filters[itemIndex].id).fold(
+                api.deleteFilterV1(filters[itemIndex].id).fold(
                     {
                         filters.removeAt(itemIndex)
                         refreshFilterDisplay()
@@ -92,7 +92,7 @@ class FiltersActivity : BaseActivity() {
         } else {
             // Keep the filter, but remove it from this context
             val oldFilter = filters[itemIndex]
-            val newFilter = Filter(
+            val newFilter = FilterV1(
                 oldFilter.id, oldFilter.phrase, oldFilter.context.filter { c -> c != context },
                 oldFilter.expiresAt, oldFilter.irreversible, oldFilter.wholeWord
             )
@@ -105,7 +105,7 @@ class FiltersActivity : BaseActivity() {
 
     fun createFilter(phrase: String, wholeWord: Boolean, expiresInSeconds: Int? = null) {
         lifecycleScope.launch {
-            api.createFilter(phrase, listOf(context), false, wholeWord, expiresInSeconds).fold(
+            api.createFilterV1(phrase, listOf(context), false, wholeWord, expiresInSeconds).fold(
                 { filter ->
                     filters.add(filter)
                     refreshFilterDisplay()
@@ -150,7 +150,7 @@ class FiltersActivity : BaseActivity() {
         binding.filterProgressBar.show()
 
         lifecycleScope.launch {
-            val newFilters = api.getFilters().getOrElse {
+            val newFilters = api.getFiltersV1().getOrElse {
                 binding.filterProgressBar.hide()
                 binding.filterMessageView.show()
                 if (it is IOException) {

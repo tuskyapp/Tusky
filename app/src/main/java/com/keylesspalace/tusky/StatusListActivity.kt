@@ -30,7 +30,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -54,7 +54,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private var unmuteTagItem: MenuItem? = null
 
     /** The filter muting hashtag, null if unknown or hashtag is not filtered */
-    private var mutedFilter: Filter? = null
+    private var mutedFilter: FilterV1? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("StatusListActivity", "onCreate")
@@ -172,10 +172,10 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         unmuteTagItem?.isVisible = false
 
         lifecycleScope.launch {
-            mastodonApi.getFilters().fold(
+            mastodonApi.getFiltersV1().fold(
                 { filters ->
                     for (filter in filters) {
-                        if ((tag == filter.phrase) and filter.context.contains(Filter.HOME)) {
+                        if ((tag == filter.phrase) and filter.context.contains(FilterV1.HOME)) {
                             Log.d(TAG, "Tag $hashtag is filtered")
                             muteTagItem?.isVisible = false
                             unmuteTagItem?.isVisible = true
@@ -201,9 +201,9 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         val tag = hashtag ?: return true
 
         lifecycleScope.launch {
-            mastodonApi.createFilter(
+            mastodonApi.createFilterV1(
                 tag,
-                listOf(Filter.HOME),
+                listOf(FilterV1.HOME),
                 irreversible = false,
                 wholeWord = true,
                 expiresInSeconds = null
@@ -228,7 +228,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         val filter = mutedFilter ?: return true
 
         lifecycleScope.launch {
-            mastodonApi.deleteFilter(filter.id).fold(
+            mastodonApi.deleteFilterV1(filter.id).fold(
                 {
                     muteTagItem?.isVisible = true
                     unmuteTagItem?.isVisible = false

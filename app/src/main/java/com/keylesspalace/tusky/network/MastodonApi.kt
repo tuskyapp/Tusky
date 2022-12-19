@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
@@ -85,6 +86,9 @@ interface MastodonApi {
     suspend fun getInstance(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<Instance>
 
     @GET("api/v1/filters")
+    suspend fun getFiltersV1(): NetworkResult<List<FilterV1>>
+
+    @GET("api/v2/filters")
     suspend fun getFilters(): NetworkResult<List<Filter>>
 
     @GET("api/v1/timelines/home")
@@ -572,27 +576,27 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/filters")
-    suspend fun createFilter(
+    suspend fun createFilterV1(
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
         @Field("expires_in") expiresInSeconds: Int?
-    ): NetworkResult<Filter>
+    ): NetworkResult<FilterV1>
 
     @FormUrlEncoded
     @PUT("api/v1/filters/{id}")
-    suspend fun updateFilter(
+    suspend fun updateFilterV1(
         @Path("id") id: String,
         @Field("phrase") phrase: String,
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
         @Field("expires_in") expiresInSeconds: Int?
-    ): NetworkResult<Filter>
+    ): NetworkResult<FilterV1>
 
     @DELETE("api/v1/filters/{id}")
-    suspend fun deleteFilter(
+    suspend fun deleteFilterV1(
         @Path("id") id: String
     ): NetworkResult<ResponseBody>
 

@@ -49,7 +49,7 @@ class TimelinePagingAdapter(
         return when (viewType) {
             VIEW_TYPE_STATUS -> {
                 val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_status, viewGroup, false)
+                    .inflate(R.layout.item_status_wrapper, viewGroup, false)
                 StatusViewHolder(view)
             }
             VIEW_TYPE_PLACEHOLDER -> {
@@ -59,7 +59,7 @@ class TimelinePagingAdapter(
             }
             else -> {
                 val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_status, viewGroup, false)
+                    .inflate(R.layout.item_status_wrapper, viewGroup, false)
                 StatusViewHolder(view)
             }
         }
