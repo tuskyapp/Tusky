@@ -279,13 +279,6 @@ class TimelineFragment :
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collectLatest { timelineUiState ->
-                // Inform the adapter, so that any other placeholders can be disabled
-                adapter.loadMoreActive = timelineUiState.loadMoreActive
-            }
-        }
-
         if (actionButtonPresent()) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             hideFab = preferences.getBoolean("fabHide", false)

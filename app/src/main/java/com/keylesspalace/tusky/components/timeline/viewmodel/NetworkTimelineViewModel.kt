@@ -44,7 +44,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import retrofit2.Response
@@ -140,10 +139,6 @@ class NetworkTimelineViewModel @Inject constructor(
     override fun loadMore(placeholderId: String) {
         viewModelScope.launch {
             try {
-                _uiState.update {
-                    it.copy(loadMoreActive = true)
-                }
-
                 val placeholderIndex =
                     statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
                 statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
@@ -208,10 +203,6 @@ class NetworkTimelineViewModel @Inject constructor(
             } catch (e: Exception) {
                 ifExpected(e) {
                     loadMoreFailed(placeholderId, e)
-                }
-            } finally {
-                _uiState.update {
-                    it.copy(loadMoreActive = false)
                 }
             }
         }

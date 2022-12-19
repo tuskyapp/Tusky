@@ -41,13 +41,6 @@ class TimelinePagingAdapter(
             )
         }
 
-    /** True if there is an active "Load more" process from clicking a placeholder */
-    var loadMoreActive = false
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -93,7 +86,6 @@ class TimelinePagingAdapter(
         if (status is StatusViewData.Placeholder) {
             val holder = viewHolder as PlaceholderViewHolder
             holder.setup(statusListener, status.isLoading)
-            holder.itemView.isEnabled = !loadMoreActive
         } else if (status is StatusViewData.Concrete) {
             val holder = viewHolder as StatusViewHolder
             holder.setupWithStatus(
