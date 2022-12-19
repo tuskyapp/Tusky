@@ -200,4 +200,12 @@ AND timelineUserId = :accountId
 
     @Query("SELECT COUNT(*) FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
     abstract suspend fun getStatusCount(accountId: Long): Int
+
+    /** Developer tools: Find N most recent status IDs */
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count")
+    abstract suspend fun getMostRecentNStatusIds(accountId: Long, count: Int): List<String>
+
+    /** Developer tools: Convert a status to a placeholder */
+    @Query("UPDATE TimelineStatusEntity SET authorServerId = NULL WHERE serverId = :serverId")
+    abstract suspend fun convertStatustoPlaceholder(serverId: String)
 }
