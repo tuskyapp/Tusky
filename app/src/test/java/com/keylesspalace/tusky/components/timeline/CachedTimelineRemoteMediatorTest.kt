@@ -78,7 +78,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
+                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
             db = db,
             gson = Gson()
@@ -98,7 +98,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
+                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
             db = db,
             gson = Gson()
