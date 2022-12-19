@@ -583,7 +583,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             .setTitle("Developer Tools")
             .setItems(
                 arrayOf("Create \"Load more\" gap")
-            ) { dialog, which ->
+            ) { _, which ->
                 Log.d(TAG, "Developer tools: $which")
                 when (which) {
                     0 -> {
