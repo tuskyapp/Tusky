@@ -1101,7 +1101,6 @@ class ComposeActivity :
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        Log.d(TAG, event.toString())
         if (event.action == KeyEvent.ACTION_DOWN) {
             if (event.isCtrlPressed) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
