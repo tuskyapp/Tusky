@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="72dp">
 
-    <Button
+<!--
+The attributes are set to get a specific behaviour:
+
+1. When the button is clicked, the icon should appear in the middle of the button,
+   with android:layout_width="wrap_content".
+
+   If this was "match_parent" the button would be the width of the FrameLayout, and
+   the icon would appear to the left.
+
+2. The user should be able to click anywhere in the layout to start loading more
+   items.
+
+   Because the button is not full width because of #1, set android:clickable="false"
+   on the button and "true" on the parent so button clicks propagate to the parent
+   (which hosts the click listener in PlaceholderViewHolder).
+
+   For a11y, the parent sets android:focusable="true".
+
+3. The user gets feedback that the button has been clicked with a circular progress
+   spinner, there's no need for the ripple effect, so disable it (by setting it to
+   the transparent colour).
+-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_load_more"
-        style="@style/TuskyButton.TextButton"
-        android:layout_width="match_parent"
+        style="@style/TuskyButton.TextButton.Icon"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:clickable="false"
+        app:iconGravity="textStart"
+        app:rippleColor="@android:color/transparent"
         android:text="@string/load_more_placeholder_text"
         android:textStyle="bold"
         android:textSize="?attr/status_text_large" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible" />
 </FrameLayout>

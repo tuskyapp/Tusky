@@ -126,6 +126,12 @@
         <item name="android:letterSpacing">0</item>
     </style>
 
+    <style name="TuskyButton.TextButton.Icon">
+        <!-- Buttons with icons need additional padding -->
+        <item name="android:paddingLeft">@dimen/m3_btn_icon_btn_padding_left</item>
+        <item name="android:paddingRight">@dimen/m3_btn_icon_btn_padding_right</item>
+    </style>
+
     <style name="TuskyTextInput" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/text_input_layout_box_stroke_color</item>
         <item name="android:textColorHint">?android:attr/textColorTertiary</item>
