@@ -468,7 +468,8 @@ class TimelineFragment :
             }
             PrefKeys.READING_ORDER -> {
                 readingOrder = ReadingOrder.from(
-                    sharedPreferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!)
+                    sharedPreferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!
+                )
             }
         }
     }
