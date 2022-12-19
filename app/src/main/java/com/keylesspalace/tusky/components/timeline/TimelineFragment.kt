@@ -111,13 +111,9 @@ class TimelineFragment :
     // and if new items are loaded but not visible then it's reasonable to scroll to the top
     // of the inserted items. It does not seem to be possible to disable that behaviour.
     //
-    // That behaviour does not work here -- when a "Load more" event is triggered this would
-    // cause the list to scroll to the top of the new statuses, and the user then needs to
-    // scroll down to the bottom of the new statuses to find the oldest one, and then start
-    // scrolling back up.
-    //
-    // The desired behaviour is that the user's position in the recyclerview is retained, they
-    // can click "Load more", and then scroll up as normal to read the newly-added statuses.
+    // That behaviour should depend on the user's preferred reading order. If they prefer to
+    // read oldest first then the list should be scrolled to the bottom of the freshly
+    // inserted statuses.
     //
     // To do this:
     //
@@ -133,6 +129,7 @@ class TimelineFragment :
     // The user can then scroll up to read the new statuses.
     private var statusIdBelowLoadMore: String? = null
 
+    /** The user's preferred reading order */
     private lateinit var readingOrder: ReadingOrder
 
     override fun onCreate(savedInstanceState: Bundle?) {
