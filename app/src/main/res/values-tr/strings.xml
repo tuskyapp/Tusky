@@ -3,20 +3,20 @@
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantınızı kontrol edin ve tekrar deneyin!</string>
     <string name="error_empty">Bu alan boş bırakılmaz.</string>
-    <string name="error_invalid_domain">Geçersiz alan adı girildi</string>
+    <string name="error_invalid_domain">Girilen alan alanı geçersiz</string>
     <string name="error_failed_app_registration">Bu sunucuda kimlik doğrulama başarısız oldu.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
     <string name="error_authorization_unknown">Tanımlanamayan bir yetkilendirme hatası oluştu.</string>
     <string name="error_authorization_denied">Yetkilendirme reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
-    <string name="error_compose_character_limit">Yayın çok uzun!</string>
+    <string name="error_compose_character_limit">Gönderi çok uzun!</string>
     <string name="error_media_upload_type">Bu tür bir dosya yüklenemez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>
     <string name="error_media_download_permission">Medya kaydetme izni gerekli.</string>
-    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı duruma yayınlanamaz.</string>
+    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı gönderide yayınlanamaz.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
-    <string name="error_sender_account_gone">Yayın gönderirken hata.</string>
+    <string name="error_sender_account_gone">Gönderi gönderilirken hata.</string>
     <string name="title_home">Ana sayfa</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
@@ -65,7 +65,7 @@
     <string name="action_unfollow">Takibi bırak</string>
     <string name="action_block">Engelle</string>
     <string name="action_unblock">Engeli kaldır</string>
-    <string name="action_hide_reblogs">Yinelemeleri gizle</string>
+    <string name="action_hide_reblogs">Boostları gizle</string>
     <string name="action_show_reblogs">Yinelemeleri göster</string>
     <string name="action_report">Bildir</string>
     <string name="action_delete">Sil</string>
@@ -106,8 +106,8 @@
     <string name="action_copy_link">Bağlantıyı kopyala</string>
     <string name="action_open_as">Farklı aç %s</string>
     <string name="action_share_as">Olarak paylaş …</string>
-    <string name="send_post_link_to">Yayının adresini paylaş…</string>
-    <string name="send_post_content_to">Yayını paylaş…</string>
+    <string name="send_post_link_to">Gönderi adresini paylaş…</string>
+    <string name="send_post_content_to">Gönderiyi paylaş…</string>
     <string name="send_media_to">Medyayı paylaş…</string>
     <string name="confirmation_reported">Gönderildi!</string>
     <string name="confirmation_unblocked">Kullanıcının engeli kaldırıldı</string>
@@ -170,10 +170,10 @@
     <string name="pref_title_show_replies">Yanıtları göster</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini indir</string>
     <string name="pref_title_proxy_settings">Vekil</string>
-    <string name="pref_title_http_proxy_settings">HTTP Proxy</string>
-    <string name="pref_title_http_proxy_enable">HTTP proxy etkinleştir</string>
-    <string name="pref_title_http_proxy_server">HTTP proxy sunucusu</string>
-    <string name="pref_title_http_proxy_port">HTTP ağ vekili portu</string>
+    <string name="pref_title_http_proxy_settings">HTTP vekil sunucu</string>
+    <string name="pref_title_http_proxy_enable">HTTP vekil sunucu etkinleştir</string>
+    <string name="pref_title_http_proxy_server">HTTP vekil sunucusu</string>
+    <string name="pref_title_http_proxy_port">HTTP vekil sunucu portu</string>
     <string name="pref_default_post_privacy">Varsayılan gönderi gizliliği</string>
     <string name="pref_default_media_sensitivity">Medyayı her zaman hassas olarak işaretle</string>
     <string name="pref_publishing">Yayınlama (sunucuyla eşitlenir)</string>
@@ -254,11 +254,11 @@
     <string name="lock_account_label">Hesabı Kilitle</string>
     <string name="lock_account_label_description">Takipçileri elle onaylamanız gerekir</string>
     <string name="compose_save_draft">Taslaklara kaydedilsin mi\?</string>
-    <string name="send_post_notification_title">Yayın gönderiliyor…</string>
-    <string name="send_post_notification_error_title">Yayın gönderilirken hata oluştu</string>
-    <string name="send_post_notification_channel_name">Yayın Gönderiliyor</string>
+    <string name="send_post_notification_title">Gönderi gönderiliyor…</string>
+    <string name="send_post_notification_error_title">Gönderi gönderilirken hata oluştu</string>
+    <string name="send_post_notification_channel_name">Gönderiler Gönderiliyor</string>
     <string name="send_post_notification_cancel_title">Gönderme iptal edildi</string>
-    <string name="send_post_notification_saved_content">Yayının bir kopyası taslaklara kaydedildi</string>
+    <string name="send_post_notification_saved_content">Gönderinin bir kopyası taslaklara kaydedildi</string>
     <string name="action_compose_shortcut">Oluştur</string>
     <string name="error_no_custom_emojis">%s örneğinizin herhangi bir özel ifadesi yok</string>
     <string name="emoji_style">İfade stili</string>
@@ -266,7 +266,7 @@
     <string name="download_fonts">Önce bu ifade paketini indirmeniz gerekecek</string>
     <string name="performing_lookup_title">Araştırılıyor…</string>
     <string name="expand_collapse_all_posts">Tüm durumları Genişlet/Küçült</string>
-    <string name="action_open_post">Yayını aç</string>
+    <string name="action_open_post">Gönderiyi aç</string>
     <string name="restart_required">Uygulamayı yeniden başlatmanız lazım</string>
     <string name="restart_emoji">Bu değişiklikleri uygulamak için Tusky\'yi yeniden başlatmanız gerekecek</string>
     <string name="later">Sonra</string>
@@ -357,7 +357,7 @@
     <string name="description_visibility_direct">Doğrudan</string>
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
-    <string name="edit_hashtag_hint">Etiket olmadan #</string>
+    <string name="edit_hashtag_hint"># Olmadan etiket</string>
     <string name="notifications_clear">Temizle</string>
     <string name="notifications_apply_filter">Filtrele</string>
     <string name="filter_apply">Uygula</string>
@@ -368,7 +368,7 @@
     <string name="poll_info_format"> <!-- 15 oy • 1 saat kaldı --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s oy</item>
-        <item quantity="other">%s oy</item>
+        <item quantity="other">%s oylar</item>
     </plurals>
     <string name="poll_info_closed">kapandı</string>
     <string name="poll_vote">Oy</string>
@@ -413,7 +413,7 @@
     <string name="action_view_bookmarks">Yer imleri</string>
     <string name="action_add_poll">Anket ekle</string>
     <string name="action_access_scheduled_posts">Zamanlanmış yayınlar</string>
-    <string name="action_schedule_post">Yayınını zamanla</string>
+    <string name="action_schedule_post">Gönderi zamanını ayarla</string>
     <string name="action_reset_schedule">Sıfırla</string>
     <string name="dialog_redraft_post_warning">Bu durumu silip yeniden düzenlemek istiyor musunuz\?</string>
     <string name="pref_title_bot_overlay">Botlar için işaret göster</string>
@@ -447,12 +447,12 @@
     <string name="no_scheduled_posts">Zamanlanmış yayınınız yok.</string>
     <string name="reblog_private">Kendi kitlenize yükseltin</string>
     <string name="hashtags">Etiketler</string>
-    <string name="pref_title_confirm_reblogs">Desteklemeden önce onay iletişim kutusunu göster</string>
+    <string name="pref_title_confirm_reblogs">Boost etmeden önce onay iletişim kutusunu göster</string>
     <string name="pref_title_show_cards_in_timelines">Bağlantı önizlemelerini zaman çizelgesinde göster</string>
     <string name="pref_title_enable_swipe_for_tabs">Sekmeler arasında geçiş yapmak için kaydırma hareketini etkinleştir</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s kişi</item>
-        <item quantity="other">%s kişi</item>
+        <item quantity="other">%s kişiler</item>
     </plurals>
     <string name="add_hashtag_title">Hashtag ekle</string>
     <string name="notification_follow_request_description">Takip istekleri ile ilgili bildirimler</string>
@@ -479,13 +479,13 @@
     <string name="title_announcements">Duyurular</string>
     <string name="error_multimedia_size_limit">Video ve ses dosyaları %s MB boyutunu aşamaz.</string>
     <string name="error_image_edit_failed">Görüntü düzenlemedi.</string>
-    <string name="error_following_hashtag_format">takip edilirken hata #%s</string>
+    <string name="error_following_hashtag_format">#%s\'i izleyen hata</string>
     <string name="title_login">Giriş</string>
     <string name="error_loading_account_details">Hesap detayları alınırken hata</string>
     <string name="error_could_not_load_login_page">Giriş ekranı yüklenemedi.</string>
-    <string name="error_muting_hashtag_format">Kapanma hatası #%s</string>
+    <string name="error_muting_hashtag_format">Sessize alma hatası #%s</string>
     <string name="action_unfollow_hashtag_format">Takibi bırak #%s\?</string>
-    <string name="pref_title_wellbeing_mode">İyilik</string>
+    <string name="pref_title_wellbeing_mode">Huzur</string>
     <string name="account_note_saved">Kaydedildi!</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Diğer</string>
@@ -497,7 +497,7 @@
     <string name="pref_title_notification_filter_reports">yeni bir rapor</string>
     <string name="pref_title_animate_custom_emojis">Özel ayarlanmış emojileri oynat</string>
     <string name="notification_header_report_format">%s rapor edilmiş %s</string>
-    <string name="notification_summary_report_format">%s · %d ekli iletiler</string>
+    <string name="notification_summary_report_format">%s · %d ekli gönderiler</string>
     <string name="post_edited">Düzenleme %s</string>
     <string name="account_note_hint">Bu hesap hakkındaki özel notun</string>
     <string name="title_migration_relogin">Anlık bildirimler için yeniden giriş yapın</string>
@@ -543,11 +543,11 @@
     <string name="dialog_delete_list_warning">%s listesini gerçekten silmek istiyor musunuz\?</string>
     <string name="wellbeing_hide_stats_profile">Profillerdeki niceliksel istatistikleri gizle</string>
     <string name="tusky_compose_post_quicksetting_label">Yayın Oluştur</string>
-    <string name="saving_draft">Taslağı kaydetme…</string>
+    <string name="saving_draft">Taslağı kaydediyor…</string>
     <string name="error_failed_set_focus">Odak noktası ayarlanamadı</string>
     <string name="action_set_focus">Odak noktasını ayarla</string>
     <string name="action_edit_image">Görseli düzenle</string>
-    <string name="account_date_joined">Katıldı %1$s</string>
+    <string name="account_date_joined">%1$s katıldı</string>
     <string name="hint_media_description_missing">Medyanın bir açıklaması olmalı.</string>
     <string name="dialog_delete_conversation_warning">Bu görüşmeyi sil\?</string>
     <string name="pref_title_notification_filter_subscriptions">abone olduğum birisi yeni bir gönderi yayınladı</string>
@@ -558,7 +558,7 @@
     <string name="failed_to_pin">Sabitleme Başarısız</string>
     <string name="failed_to_unpin">Açılamadı</string>
     <string name="drafts_post_failed_to_send">Bu yayın gönderilemedi!</string>
-    <string name="limit_notifications">Zaman çizelgesi bildirimlerini sınırla</string>
+    <string name="limit_notifications">Zaman akışı bildirimlerini sınırla</string>
     <string name="wellbeing_hide_stats_posts">Yayınların niceliksel istatistikleri gizle</string>
     <string name="status_created_at_now">şimdi</string>
     <string name="drafts_post_reply_removed">Yanıt yazdığınız yayın kaldırıldı</string>
@@ -583,7 +583,7 @@
     <string name="description_post_edited">Düzenlendi</string>
     <string name="action_unsubscribe_account">Abonelikten Çık</string>
     <string name="dialog_push_notification_migration_other_accounts">Tusky\'ye bildirim aboneliği izni vermek için mevcut hesabınıza yeniden giriş yaptınız. Ancak, yine de bu şekilde geçirilmemiş başka hesaplarınız var. UnifiedPush bildirimleri desteğini etkinleştirmek için bunlara geçin ve tek tek yeniden giriş yapın.</string>
-    <string name="error_following_hashtags_unsupported">Bu örnek, aşağıdaki etiketleri desteklemez.</string>
+    <string name="error_following_hashtags_unsupported">Bu sunucu aşağıdaki etiketleri desteklemez.</string>
     <string name="notification_subscription_format">%s az önce paylaşım yaptı</string>
     <string name="notification_update_format">%s gönderilerini düzenledi</string>
     <string name="draft_deleted">Taslak Silindi</string>
@@ -591,6 +591,7 @@
     <string name="status_count_one_plus">1+</string>
     <string name="label_duration">Süre</string>
     <string name="tips_push_notification_migration">Push bildirim desteğini etkinleştirmek için tüm hesaplara yeniden giriş yapın.</string>
-    <string name="error_status_source_load">Yayın kaynak sunucudan yüklenemedi.</string>
+    <string name="error_status_source_load">Sunucudan kaynak durumu yüklenemedi.</string>
     <string name="pref_title_http_proxy_port_message">Bağlantı noktası %d ile %d arasında olmalıdır</string>
+    <string name="post_media_alt">Alternatif metin</string>
 </resources>
