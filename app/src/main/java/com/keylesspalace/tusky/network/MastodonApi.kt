@@ -601,6 +601,36 @@ interface MastodonApi {
     ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
+    @POST("api/v2/filters")
+    suspend fun createFilter(
+        @Field("title") title: String,
+        @Field("context[]") context: List<String>,
+        @Field("filter_action") filterAction: String,
+        @Field("expires_in") expiresInSeconds: Int?,
+        @Field("keywords_attributes[][keyword]") keywords: List<String>,
+        @Field("keywords_attributes[][whole_word]") wholeWords: List<Boolean>,
+    ): NetworkResult<Filter>
+
+    @FormUrlEncoded
+    @PUT("api/v2/filters/{id}")
+    suspend fun updateFilter(
+        @Path("id") id: String,
+        @Field("title") title: String? = null,
+        @Field("context[]") context: List<String>? = null,
+        @Field("filter_action") filterAction: String? = null,
+        @Field("expires_in") expiresInSeconds: Int? = null,
+        @Field("keywords_attributes[][keyword]") keywords: List<String>? = null,
+        @Field("keywords_attributes[][whole_word]") wholeWords: List<Boolean>? = null,
+        @Field("keywords_attributes[][id]") ids: List<String>? = null,
+        @Field("keywords_attributes[][_destroy]") destroy: List<Boolean>? = null,
+    ): NetworkResult<Filter>
+
+    @DELETE("api/v2/filters/{id}")
+    suspend fun deleteFilter(
+        @Path("id") id: String
+    ): NetworkResult<ResponseBody>
+
+    @FormUrlEncoded
     @POST("api/v1/polls/{id}/votes")
     fun voteInPoll(
         @Path("id") id: String,
