@@ -77,4 +77,10 @@
     <string name="notification_header_report_format">%s скардзіцца на %s</string>
     <string name="notification_summary_report_format">%s · %d допісаў дадана</string>
     <string name="report_username_format">Скардзіцца на @%s</string>
+    <string name="action_quick_reply">Хуткі адказ</string>
+    <string name="action_reply">Адказаць</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="action_reblog">Пашырыць</string>
+    <string name="action_unreblog">Скасаваць пашырэнне</string>
+    <string name="action_favourite">Упадабаць</string>
 </resources>
