@@ -10,4 +10,20 @@
     <string name="error_network">Здарылася сеткавая памылка! Калі ласка, праверце злучэнне і паспрабуйце зноў!</string>
     <string name="error_authorization_unknown">Адбылася невядомая памылка праверкі сапраўднасці.</string>
     <string name="error_retrieving_oauth_token">Токен уваходу не атрыманы.</string>
+    <string name="error_compose_character_limit">Допіс занадта доўгі!</string>
+    <string name="error_multimedia_size_limit">Памер відэа- ды аўдыяфайлаў не можа перавышаць %s Мб.</string>
+    <string name="error_media_upload_type">Немагчыма загрузіць файл гэтага тыпу.</string>
+    <string name="error_media_upload_opening">Немагчыма адкрыць гэты файл.</string>
+    <string name="error_media_download_permission">Патрабуецца дазвол на захаванне медыя.</string>
+    <string name="error_media_upload_image_or_video">Немагчыма адначасова прымацаваць выяву ды відэа да допісу.</string>
+    <string name="error_media_upload_sending">Не атрымалася загрузіць.</string>
+    <string name="error_unfollowing_hashtag_format">Памылка адпіскі ад #%s</string>
+    <string name="error_following_hashtags_unsupported">Гэты сервер не падтрымлівае падпіску на хэштэгі.</string>
+    <string name="error_muting_hashtag_format">Памылка ігнаравання #%s</string>
+    <string name="error_could_not_load_login_page">Немагчыма загрузіць старонку ўваходу.</string>
+    <string name="error_image_edit_failed">Немагчыма рэдагаваць выяву.</string>
+    <string name="error_media_upload_permission">Патрабуецца дазвол на чытанне медыя.</string>
+    <string name="error_sender_account_gone">Памылка дасылання допісу.</string>
+    <string name="error_following_hashtag_format">Памылка падпіскі на #%s</string>
+    <string name="error_unmuting_hashtag_format">Памылка адмены ігнаравання #%s</string>
 </resources>
