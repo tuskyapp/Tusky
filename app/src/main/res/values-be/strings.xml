@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="error_empty">Не можа быць пустым.</string>
+    <string name="error_invalid_domain">Вы ўвялі недапушчальны дамен</string>
+    <string name="error_failed_app_registration">Памылка праверкі сапраўднасці на гэтым серверы.</string>
+    <string name="error_no_web_browser_found">Браўзер не знойдзены.</string>
+    <string name="error_authorization_denied">Аўтарызацыя была адхілена.</string>
+    <string name="error_loading_account_details">Дэталі уліковага запісу не атрыманы</string>
+    <string name="error_generic">Здарылася памылка.</string>
+    <string name="error_network">Здарылася сеткавая памылка! Калі ласка, праверце злучэнне і паспрабуйце зноў!</string>
+    <string name="error_authorization_unknown">Адбылася невядомая памылка праверкі сапраўднасці.</string>
+    <string name="error_retrieving_oauth_token">Токен уваходу не атрыманы.</string>
+</resources>
