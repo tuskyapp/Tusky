@@ -161,7 +161,7 @@ class TimelineFragment :
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!)
+        readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
@@ -468,7 +468,7 @@ class TimelineFragment :
             }
             PrefKeys.READING_ORDER -> {
                 readingOrder = ReadingOrder.from(
-                    sharedPreferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!
+                    sharedPreferences.getString(PrefKeys.READING_ORDER, null)
                 )
             }
         }

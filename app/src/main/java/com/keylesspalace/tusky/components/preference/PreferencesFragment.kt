@@ -59,10 +59,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
         NEWEST_FIRST;
 
         companion object {
-            fun from(s: String): ReadingOrder {
-                return when (s) {
-                    "newest_first" -> ReadingOrder.NEWEST_FIRST
-                    else -> ReadingOrder.OLDEST_FIRST
+            fun from(s: String?): ReadingOrder {
+                s ?: return OLDEST_FIRST
+
+                return try {
+                    valueOf(s.uppercase())
+                } catch (_: Throwable) {
+                    OLDEST_FIRST
                 }
             }
         }
@@ -108,7 +111,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 listPreference {
-                    setDefaultValue("oldest_first")
+                    setDefaultValue(ReadingOrder.OLDEST_FIRST.name)
                     setEntries(R.array.reading_order_names)
                     setEntryValues(R.array.reading_order_values)
                     key = PrefKeys.READING_ORDER

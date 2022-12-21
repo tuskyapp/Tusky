@@ -250,7 +250,7 @@
     </string-array>
 
     <string-array name="reading_order_values">
-        <item>oldest_first</item>
-        <item>newest_first</item>
+        <item>OLDEST_FIRST</item>
+        <item>NEWEST_FIRST</item>
     </string-array>
 </resources>

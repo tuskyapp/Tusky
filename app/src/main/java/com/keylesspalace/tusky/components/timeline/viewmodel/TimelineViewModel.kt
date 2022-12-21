@@ -90,9 +90,7 @@ abstract class TimelineViewModel(
             filterRemoveReblogs =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
         }
-        readingOrder = ReadingOrder.from(
-            sharedPreferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!
-        )
+        readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
         this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
@@ -219,9 +217,7 @@ abstract class TimelineViewModel(
                     accountManager.activeAccount!!.alwaysShowSensitiveMedia
             }
             PrefKeys.READING_ORDER -> {
-                readingOrder = ReadingOrder.from(
-                    sharedPreferences.getString(PrefKeys.READING_ORDER, "oldest_first")!!
-                )
+                readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
             }
         }
     }
