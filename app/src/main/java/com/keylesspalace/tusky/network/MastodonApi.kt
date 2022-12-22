@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Single

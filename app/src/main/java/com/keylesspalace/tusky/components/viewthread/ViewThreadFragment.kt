@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.viewthread.edits.showViewEditsDialog
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -323,6 +324,15 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val status = adapter.currentList[position]
         viewModel.voteInPoll(choices, status)
+    }
+
+    override fun onShowEdits(position: Int) {
+        val status = adapter.currentList[position]
+        if (status.statusEdits.isNullOrEmpty()) {
+            return
+        }
+
+        requireContext().showViewEditsDialog(status.statusEdits, this)
     }
 
     companion object {
