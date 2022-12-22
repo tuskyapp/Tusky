@@ -208,7 +208,7 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         super.onResume()
         requireActivity().setTitle(R.string.pref_title_edit_notification_settings)
     }
-    
+
     companion object {
         fun newInstance(): NotificationPreferencesFragment {
             return NotificationPreferencesFragment()
