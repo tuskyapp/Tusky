@@ -323,6 +323,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setTitle(R.string.action_view_account_preferences)
+    }
+
     private fun openNotificationPrefs() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val intent = Intent()
