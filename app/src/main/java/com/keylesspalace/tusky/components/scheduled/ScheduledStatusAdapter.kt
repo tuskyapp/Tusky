@@ -54,7 +54,6 @@ class ScheduledStatusAdapter(
             holder.binding.delete.isEnabled = true
             holder.binding.text.text = item.params.text
             holder.binding.edit.setOnClickListener { v: View ->
-                v.isEnabled = false
                 listener.edit(item)
             }
             holder.binding.delete.setOnClickListener {
