@@ -17,6 +17,8 @@ fun Context.showViewEditsDialog(
     listener: LinkListener
 ) {
 
+    val sortedEdits = edits.sortedBy { edit -> edit.createdAt }.reversed()
+
     val recyclerView = RecyclerView(this)
 
     val preferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -25,7 +27,7 @@ fun Context.showViewEditsDialog(
     val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
     val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
 
-    recyclerView.adapter = ViewEditsAdapter(edits, animateAvatars, animateEmojis, useBlurhash, listener)
+    recyclerView.adapter = ViewEditsAdapter(sortedEdits, animateAvatars, animateEmojis, useBlurhash, listener)
     recyclerView.layoutManager = LinearLayoutManager(this)
     recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
 

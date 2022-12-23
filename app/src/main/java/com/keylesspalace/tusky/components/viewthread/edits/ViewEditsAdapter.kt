@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
 
 class ViewEditsAdapter(
@@ -61,7 +62,7 @@ class ViewEditsAdapter(
 
         loadAvatar(edit.account.avatar, binding.statusEditAvatar, avatarRadius, animateAvatar)
 
-        val infoStringRes = if (position == 0) {
+        val infoStringRes = if (position == edits.size - 1) {
             R.string.status_created_info
         } else {
             R.string.status_edit_info
@@ -69,7 +70,11 @@ class ViewEditsAdapter(
 
         val timestamp = absoluteTimeFormatter.format(edit.createdAt, false)
 
-        binding.statusEditInfo.text = context.getString(infoStringRes, edit.account.name, timestamp)
+        binding.statusEditInfo.text = context.getString(
+            infoStringRes,
+            edit.account.name,
+            timestamp
+        ).emojify(edit.account.emojis, binding.statusEditInfo, animateEmoji)
 
         if (edit.spoilerText.isEmpty()) {
             binding.statusEditContentWarningDescription.hide()
@@ -92,7 +97,10 @@ class ViewEditsAdapter(
             binding.statusEditPollDescription.hide()
         } else {
             binding.statusEditPollOptions.show()
-            binding.statusEditPollDescription.show()
+
+            // not used for now since not reported by the api
+            // https://github.com/mastodon/mastodon/issues/22571
+            // binding.statusEditPollDescription.show()
 
             val pollAdapter = PollAdapter()
             binding.statusEditPollOptions.adapter = pollAdapter
@@ -113,7 +121,6 @@ class ViewEditsAdapter(
                 enabled = false
             )
 
-            // not reported by the api
            /*binding.statusEditContentWarningDescription.text = context.getString(
                 R.string.poll_info_time_absolute,
                 absoluteTimeFormatter.format(edit.poll.expiresAt, false)
@@ -122,11 +129,12 @@ class ViewEditsAdapter(
 
         if (edit.mediaAttachments.isEmpty()) {
             binding.statusEditMediaPreview.hide()
+            binding.statusEditMediaSensitivity.hide()
         } else {
             binding.statusEditMediaPreview.show()
             binding.statusEditMediaPreview.aspectRatios = edit.mediaAttachments.aspectRatios()
 
-            binding.statusEditMediaPreview.forEachIndexed { index, wrapper, imageView, descriptionIndicator ->
+            binding.statusEditMediaPreview.forEachIndexed { index, _, imageView, descriptionIndicator ->
 
                 val attachment = edit.mediaAttachments[index]
                 val hasDescription = !attachment.description.isNullOrBlank()
@@ -174,6 +182,7 @@ class ViewEditsAdapter(
                     }
                 }
             }
+            binding.statusEditMediaSensitivity.visible(edit.sensitive)
         }
     }
 
