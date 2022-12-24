@@ -23,9 +23,10 @@ class AccountViewHolder(
     ) {
         accountId = account.id
 
-        val format = binding.accountUsername.context.getString(R.string.post_username_format)
-        val formattedUsername = String.format(format, account.username)
-        binding.accountUsername.text = formattedUsername
+        binding.accountUsername.text = binding.accountUsername.context.getString(
+            R.string.post_username_format,
+            account.username
+        )
 
         val emojifiedName = account.name.emojify(
             account.emojis,
