@@ -62,7 +62,7 @@ class ConversationsViewModel @Inject constructor(
     fun favourite(favourite: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
-                timelineCases.favourite(conversation.lastStatus.id, favourite).await()
+                timelineCases.favourite(conversation.lastStatus.id, favourite)
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
@@ -79,7 +79,7 @@ class ConversationsViewModel @Inject constructor(
     fun bookmark(bookmark: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
-                timelineCases.bookmark(conversation.lastStatus.id, bookmark).await()
+                timelineCases.bookmark(conversation.lastStatus.id, bookmark)
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
@@ -160,7 +160,7 @@ class ConversationsViewModel @Inject constructor(
                 timelineCases.muteConversation(
                     conversation.lastStatus.id,
                     !(conversation.lastStatus.status.muted ?: false)
-                ).await()
+                )
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,

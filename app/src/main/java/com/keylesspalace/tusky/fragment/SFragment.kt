@@ -33,11 +33,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.AutoDispose
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -60,10 +57,7 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
-import java.util.LinkedHashSet
 import javax.inject.Inject
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
@@ -276,30 +270,21 @@ abstract class SFragment : Fragment(), Injectable {
                     return@setOnMenuItemClickListener true
                 }
                 R.id.pin -> {
-                    timelineCases.pin(status.id, !status.isPinned())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnError { e: Throwable ->
-                            val message = e.message ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
-                            Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-                        }
-                        .to(
-                            AutoDispose.autoDisposable(
-                                AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                            )
-                        )
-                        .subscribe()
+                    lifecycleScope.launch {
+                        val throwable =
+                            timelineCases.pin(status.id, !status.isPinned()).exceptionOrNull()
+                        throwable ?: return@launch
+
+                        val message = throwable.message
+                            ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
+                        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+                    }
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute_conversation -> {
-                    timelineCases.muteConversation(status.id, status.muted != true)
-                        .onErrorReturnItem(status)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .to(
-                            AutoDispose.autoDisposable(
-                                AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                            )
-                        )
-                        .subscribe()
+                    lifecycleScope.launch {
+                        timelineCases.muteConversation(status.id, status.muted != true)
+                    }
                     return@setOnMenuItemClickListener true
                 }
             }
@@ -311,7 +296,9 @@ abstract class SFragment : Fragment(), Injectable {
     private fun onMute(accountId: String, accountUsername: String) {
 
         showMuteAccountDialog(this.requireActivity(), accountUsername) { notifications: Boolean?, duration: Int? ->
-            timelineCases.mute(accountId, notifications == true, duration)
+            lifecycleScope.launch {
+                timelineCases.mute(accountId, notifications == true, duration)
+            }
         }
     }
 
@@ -319,7 +306,9 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireContext())
             .setMessage(getString(R.string.dialog_block_warning, accountUsername))
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases.block(accountId)
+                lifecycleScope.launch {
+                    timelineCases.block(accountId)
+                }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -360,18 +349,19 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_delete_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases.delete(id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .to(
-                        AutoDispose.autoDisposable(
-                            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                        )
-                    )
-                    .subscribe({ }) { error: Throwable? ->
-                        Log.w("SFragment", "error deleting status", error)
+                lifecycleScope.launch {
+                    val result = timelineCases.delete(id).exceptionOrNull()
+                    if (result != null) {
+                        Log.w("SFragment", "error deleting status", result)
                         Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
                     }
-                removeItem(position)
+                    // XXX: Removes the item even if there was an error. This is probably not
+                    // correct (see similar code in showConfirmEditDialog() which only
+                    // removes the item if the timelineCases.delete() call succeeded.
+                    //
+                    // Either way, this logic should be in the view model.
+                    removeItem(position)
+                }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -384,14 +374,8 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_redraft_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases.delete(id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .to(
-                        AutoDispose.autoDisposable(
-                            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                        )
-                    )
-                    .subscribe(
+                lifecycleScope.launch {
+                    timelineCases.delete(id).fold(
                         { deletedStatus ->
                             removeItem(position)
                             val sourceStatus = if (deletedStatus.isEmpty()) {
@@ -411,11 +395,14 @@ abstract class SFragment : Fragment(), Injectable {
                                 poll = sourceStatus.poll?.toNewPoll(sourceStatus.createdAt),
                             )
                             startActivity(startIntent(requireContext(), composeOptions))
+                        },
+                        { error: Throwable? ->
+                            Log.w("SFragment", "error deleting status", error)
+                            Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT)
+                                .show()
                         }
-                    ) { error: Throwable? ->
-                        Log.w("SFragment", "error deleting status", error)
-                        Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
-                    }
+                    )
+                }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
