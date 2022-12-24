@@ -1123,23 +1123,69 @@ class ComposeActivity :
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
         if (viewModel.didChange(contentText, contentWarning)) {
-
-            val warning = if (!viewModel.media.value.isEmpty()) {
-                R.string.compose_save_draft_loses_media
-            } else {
-                R.string.compose_save_draft
-            }
-
-            AlertDialog.Builder(this)
-                .setMessage(warning)
-                .setPositiveButton(R.string.action_save) { _, _ ->
-                    saveDraftAndFinish(contentText, contentWarning)
-                }
-                .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
-                .show()
+            when (viewModel.composeKind) {
+                ComposeKind.NEW -> getSaveAsDraftOrDiscardDialog(contentText, contentWarning)
+                ComposeKind.EDIT_DRAFT -> getUpdateDraftOrDiscardDialog(contentText, contentWarning)
+                ComposeKind.EDIT_POSTED -> getContinueEditingOrDiscardDialog()
+                ComposeKind.EDIT_SCHEDULED -> getContinueEditingOrDiscardDialog()
+            }.show()
         } else {
             finishWithoutSlideOutAnimation()
         }
+    }
+
+    /**
+     * User is editing a new post, and can either save the changes as a draft or discard them.
+     */
+    private fun getSaveAsDraftOrDiscardDialog(contentText: String, contentWarning: String): AlertDialog.Builder {
+        val warning = if (viewModel.media.value.isNotEmpty()) {
+            R.string.compose_save_draft_loses_media
+        } else {
+            R.string.compose_save_draft
+        }
+
+        return AlertDialog.Builder(this)
+            .setMessage(warning)
+            .setPositiveButton(R.string.action_save) { _, _ ->
+                saveDraftAndFinish(contentText, contentWarning)
+            }
+            .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
+    }
+
+    /**
+     * User is editing an existing draft, and can either update the draft with the new changes or
+     * discard them.
+     */
+    private fun getUpdateDraftOrDiscardDialog(contentText: String, contentWarning: String): AlertDialog.Builder {
+        val warning = if (viewModel.media.value.isNotEmpty()) {
+            R.string.compose_save_draft_loses_media
+        } else {
+            R.string.compose_save_draft
+        }
+
+        return AlertDialog.Builder(this)
+            .setMessage(warning)
+            .setPositiveButton(R.string.action_save) { _, _ ->
+                saveDraftAndFinish(contentText, contentWarning)
+            }
+            .setNegativeButton(R.string.action_discard) { _, _ ->
+                finishWithoutSlideOutAnimation()
+            }
+    }
+
+    /**
+     * User is editing a post (scheduled, or posted), and can either go back to editing, or
+     * discard the changes.
+     */
+    private fun getContinueEditingOrDiscardDialog(): AlertDialog.Builder {
+        return AlertDialog.Builder(this)
+            .setMessage(R.string.compose_unsaved_changes)
+            .setPositiveButton(R.string.action_continue_edit) { _, _ ->
+                // Do nothing, dialog will dismiss, user can continue editing
+            }
+            .setNegativeButton(R.string.action_discard) { _, _ ->
+                finishWithoutSlideOutAnimation()
+            }
     }
 
     private fun deleteDraftAndFinish() {
@@ -1217,6 +1263,24 @@ class ComposeActivity :
         }
     }
 
+    /**
+     * Status' kind. This particularly affects how the status is handled if the user
+     * backs out of the edit.
+     */
+    enum class ComposeKind {
+        /** Status is new */
+        NEW,
+
+        /** Editing a posted status */
+        EDIT_POSTED,
+
+        /** Editing a status started as an existing draft */
+        EDIT_DRAFT,
+
+        /** Editing an an existing scheduled status */
+        EDIT_SCHEDULED
+    }
+
     @Parcelize
     data class ComposeOptions(
         // Let's keep fields var until all consumers are Kotlin
@@ -1240,6 +1304,7 @@ class ComposeActivity :
         var modifiedInitialState: Boolean? = null,
         var language: String? = null,
         var statusId: String? = null,
+        var kind: ComposeKind? = null
     ) : Parcelable
 
     companion object {

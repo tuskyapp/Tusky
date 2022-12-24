@@ -109,6 +109,8 @@
     <string name="action_delete">Delete</string>
     <string name="action_delete_conversation">Delete conversation</string>
     <string name="action_delete_and_redraft">Delete and re-draft</string>
+    <string name="action_discard">Discard changes</string>
+    <string name="action_continue_edit">Continue editing</string>
     <string name="action_send">TOOT</string>
     <string name="action_send_public">TOOT!</string>
     <string name="action_retry">Retry</string>
@@ -443,6 +445,7 @@
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
     <string name="compose_save_draft">Save draft?</string>
     <string name="compose_save_draft_loses_media">Save draft? (Attachments will be uploaded again when you restore the draft.)</string>
+    <string name="compose_unsaved_changes">You have unsaved changes.</string>
     <string name="send_post_notification_title">Sending post…</string>
     <string name="send_post_notification_error_title">Error sending post</string>
     <string name="send_post_notification_channel_name">Sending Posts</string>

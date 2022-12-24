@@ -812,7 +812,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         loadedAccount?.let {
             val intent = ComposeActivity.startIntent(
                 this,
-                ComposeActivity.ComposeOptions(mentionedUsernames = setOf(it.username))
+                ComposeActivity.ComposeOptions(
+                    mentionedUsernames = setOf(it.username),
+                    kind = ComposeActivity.ComposeKind.NEW
+                )
             )
             startActivity(intent)
         }
