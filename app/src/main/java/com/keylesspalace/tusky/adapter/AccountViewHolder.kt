@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountBinding
@@ -9,6 +8,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.visible
 
 class AccountViewHolder(
     private val binding: ItemAccountBinding
@@ -39,12 +39,7 @@ class AccountViewHolder(
             .getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.accountAvatar, avatarRadius, animateAvatar)
 
-        if (showBotOverlay && account.bot) {
-            binding.accountAvatarInset.visibility = View.VISIBLE
-            binding.accountAvatarInset.setImageResource(R.drawable.bot_badge)
-        } else {
-            binding.accountAvatarInset.visibility = View.GONE
-        }
+        binding.accountBotBadge.visible(showBotOverlay && account.bot)
     }
 
     fun setupActionListener(listener: AccountActionListener) {
