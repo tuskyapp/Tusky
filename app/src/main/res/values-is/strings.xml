@@ -27,7 +27,7 @@
     <string name="error_media_upload_permission">Krafist er heimilda til að lesa gögn.</string>
     <string name="error_media_download_permission">Krafist er heimilda til að geyma gögn.</string>
     <string name="error_media_upload_image_or_video">Ekki er hægt að hengja bæði myndir og myndskeið við sömu færslu.</string>
-    <string name="error_media_upload_sending">Sendingin mistókst.</string>
+    <string name="error_media_upload_sending">Innsendingin mistókst.</string>
     <string name="error_sender_account_gone">Villa við að senda færslu.</string>
     <string name="title_home">Heim</string>
     <string name="title_notifications">Tilkynningar</string>
@@ -583,4 +583,7 @@
     <string name="report_category_other">Annað</string>
     <string name="error_muting_hashtag_format">Villa við að þagga niður í #%s</string>
     <string name="error_unmuting_hashtag_format">Villa við að hætta að þagga niður í #%s</string>
+    <string name="hint_media_description_missing">Myndefni ætti að vera með lýsingu.</string>
+    <string name="pref_title_http_proxy_port_message">Gáttin ætti að vera á milli %d og %d</string>
+    <string name="error_status_source_load">Mistókst að hlaða inn uppruna stöðufærslu af netþjóninum.</string>
 </resources>
