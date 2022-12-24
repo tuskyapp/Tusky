@@ -13,7 +13,7 @@ import com.keylesspalace.tusky.util.visible
 class AccountViewHolder(
     private val binding: ItemAccountBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    private var accountId: String? = null
+    private lateinit var accountId: String
 
     fun setupWithAccount(
         account: TimelineAccount,
@@ -49,7 +49,7 @@ class AccountViewHolder(
     fun setupLinkListener(listener: LinkListener) {
         itemView.setOnClickListener {
             listener.onViewAccount(
-                accountId!!
+                accountId
             )
         }
     }
