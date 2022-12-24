@@ -99,47 +99,37 @@ class AccountViewModel @Inject constructor(
 
     fun changeFollowState() {
         val relationship = relationshipData.value?.data
-        viewModelScope.launch {
-            if (relationship?.following == true || relationship?.requested == true) {
-                changeRelationship(RelationShipAction.UNFOLLOW)
-            } else {
-                changeRelationship(RelationShipAction.FOLLOW)
-            }
+        if (relationship?.following == true || relationship?.requested == true) {
+            changeRelationship(RelationShipAction.UNFOLLOW)
+        } else {
+            changeRelationship(RelationShipAction.FOLLOW)
         }
     }
 
     fun changeBlockState() {
-        viewModelScope.launch {
-            if (relationshipData.value?.data?.blocking == true) {
-                changeRelationship(RelationShipAction.UNBLOCK)
-            } else {
-                changeRelationship(RelationShipAction.BLOCK)
-            }
+        if (relationshipData.value?.data?.blocking == true) {
+            changeRelationship(RelationShipAction.UNBLOCK)
+        } else {
+            changeRelationship(RelationShipAction.BLOCK)
         }
     }
 
     fun muteAccount(notifications: Boolean, duration: Int?) {
-        viewModelScope.launch {
-            changeRelationship(RelationShipAction.MUTE, notifications, duration)
-        }
+        changeRelationship(RelationShipAction.MUTE, notifications, duration)
     }
 
     fun unmuteAccount() {
-        viewModelScope.launch {
-            changeRelationship(RelationShipAction.UNMUTE)
-        }
+        changeRelationship(RelationShipAction.UNMUTE)
     }
 
     fun changeSubscribingState() {
         val relationship = relationshipData.value?.data
-        viewModelScope.launch {
-            if (relationship?.notifying == true || /* Mastodon 3.3.0rc1 */
-                relationship?.subscribing == true /* Pleroma */
-            ) {
-                changeRelationship(RelationShipAction.UNSUBSCRIBE)
-            } else {
-                changeRelationship(RelationShipAction.SUBSCRIBE)
-            }
+        if (relationship?.notifying == true || /* Mastodon 3.3.0rc1 */
+            relationship?.subscribing == true /* Pleroma */
+        ) {
+            changeRelationship(RelationShipAction.UNSUBSCRIBE)
+        } else {
+            changeRelationship(RelationShipAction.SUBSCRIBE)
         }
     }
 
@@ -183,19 +173,21 @@ class AccountViewModel @Inject constructor(
     }
 
     fun changeShowReblogsState() {
-        viewModelScope.launch {
-            if (relationshipData.value?.data?.showingReblogs == true) {
-                changeRelationship(RelationShipAction.FOLLOW, false)
-            } else {
-                changeRelationship(RelationShipAction.FOLLOW, true)
-            }
+        if (relationshipData.value?.data?.showingReblogs == true) {
+            changeRelationship(RelationShipAction.FOLLOW, false)
+        } else {
+            changeRelationship(RelationShipAction.FOLLOW, true)
         }
     }
 
     /**
      * @param parameter showReblogs if RelationShipAction.FOLLOW, notifications if MUTE
      */
-    private suspend fun changeRelationship(relationshipAction: RelationShipAction, parameter: Boolean? = null, duration: Int? = null) {
+    private fun changeRelationship(
+        relationshipAction: RelationShipAction,
+        parameter: Boolean? = null,
+        duration: Int? = null
+    ) = viewModelScope.launch {
         val relation = relationshipData.value?.data
         val account = accountData.value?.data
         val isMastodon = relationshipData.value?.data?.notifying != null
