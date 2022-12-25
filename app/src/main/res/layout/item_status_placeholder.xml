@@ -19,8 +19,12 @@ The attributes are set to get a specific behaviour:
    For a11y, the parent sets android:focusable="true".
 
 3. The user gets feedback that the button has been clicked with a circular progress
-   spinner, there's no need for the ripple effect, so disable it (by setting it to
-   the transparent colour).
+   spinner, there's no need for the ripple effect, so disable it, by setting both
+   the background and rippleColor to transparent.
+
+   In theory you only need to set app:rippleColor. In testing, that works as
+   expected in the emulator (at API level 30), but did not work on a physical
+   device (Pixel 4a). It was necessary to set the background color as well.
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,6 +42,7 @@ The attributes are set to get a specific behaviour:
         android:layout_gravity="center_horizontal"
         android:clickable="false"
         app:iconGravity="textStart"
+        android:background="@android:color/transparent"
         app:rippleColor="@android:color/transparent"
         android:text="@string/load_more_placeholder_text"
         android:textStyle="bold"
