@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.text.Html
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -324,7 +325,7 @@ abstract class SFragment : Fragment(), Injectable {
             val handler = Handler(Looper.getMainLooper())
             handler.post {
                 AlertDialog.Builder(requireContext())
-                        .setMessage(translated)
+                        .setMessage(Html.fromHtml(translated))
                         .setNegativeButton(android.R.string.cancel, null)
                         .show()
             }
