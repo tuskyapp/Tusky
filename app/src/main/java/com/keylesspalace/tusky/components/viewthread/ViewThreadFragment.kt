@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.annotation.CheckResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -48,6 +49,9 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
@@ -139,24 +143,52 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
+        var initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
+        var threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
+                Log.d(TAG, "Collected uiState: $uiState")
+
                 when (uiState) {
                     is ThreadUiState.Loading -> {
                         updateRevealButton(RevealButtonState.NO_BUTTON)
+
                         binding.recyclerView.hide()
                         binding.statusView.hide()
-                        binding.progressBar.show()
+
+                        initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
+                        initialProgressBar.start()
+                    }
+                    is ThreadUiState.LoadingThread -> {
+                        if (uiState.statusViewDatum == null) {
+                            // no detailed statuses available, e.g. because author is blocked
+                            activity?.finish()
+                            return@collect
+                        }
+
+                        initialProgressBar.cancel()
+                        threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
+                        threadProgressBar.start()
+
+                        adapter.submitList(listOf(uiState.statusViewDatum))
+
+                        updateRevealButton(uiState.revealButton)
+                        binding.swipeRefreshLayout.isRefreshing = false
+
+                        binding.recyclerView.show()
+                        binding.statusView.hide()
                     }
                     is ThreadUiState.Error -> {
                         Log.w(TAG, "failed to load status", uiState.throwable)
+                        initialProgressBar.cancel()
+                        threadProgressBar.cancel()
 
                         updateRevealButton(RevealButtonState.NO_BUTTON)
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.hide()
                         binding.statusView.show()
-                        binding.progressBar.hide()
 
                         if (uiState.throwable is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -169,28 +201,23 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         }
                     }
                     is ThreadUiState.Success -> {
-                        if (uiState.statuses.none { viewData -> viewData.isDetailed }) {
-                            // no detailed statuses available, e.g. because author is blocked
-                            activity?.finish()
-                            return@collect
-                        }
+                        threadProgressBar.cancel()
 
-                        adapter.submitList(uiState.statuses) {
-                            if (viewModel.isInitialLoad) {
-                                viewModel.isInitialLoad = false
-                                val detailedPosition = adapter.currentList.indexOfFirst { viewData ->
-                                    viewData.isDetailed
-                                }
-                                binding.recyclerView.scrollToPosition(detailedPosition)
+                        adapter.submitList(uiState.statusViewData) {
+                            val detailedPosition = adapter.currentList.indexOfFirst { viewData ->
+                                viewData.isDetailed
                             }
+                            binding.recyclerView.scrollToPosition(detailedPosition)
                         }
 
                         updateRevealButton(uiState.revealButton)
-                        binding.swipeRefreshLayout.isRefreshing = uiState.refreshing
+                        binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.show()
                         binding.statusView.hide()
-                        binding.progressBar.hide()
+                    }
+                    is ThreadUiState.Refreshing -> {
+                        threadProgressBar.cancel()
                     }
                 }
             }
@@ -208,6 +235,28 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         }
 
         viewModel.loadThread(thisThreadsStatusId)
+    }
+
+    /**
+     * Create a job to implement a delayed-visible progress bar.
+     *
+     * Delaying the visibility of the progress bar can improve user perception of UI speed because
+     * fewer UI elements are appearing and disappearing.
+     *
+     * When started the job will wait `delayMs` then show `view`. If the job is cancelled at
+     * any time `view` is hidden.
+     */
+    @CheckResult()
+    private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
+        start = CoroutineStart.LAZY
+    ) {
+        try {
+            delay(delayMs)
+            view.show()
+            awaitCancellation()
+        } finally {
+            view.hide()
+        }
     }
 
     private fun updateRevealButton(state: RevealButtonState) {

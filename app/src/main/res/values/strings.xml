@@ -708,5 +708,5 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
-
+    <string name="a11y_label_loading_thread">Loading thread</string>
 </resources>

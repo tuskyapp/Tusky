@@ -1,8 +1,11 @@
 package com.keylesspalace.tusky.components.viewthread
 
 import android.os.Looper.getMainLooper
+import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
@@ -11,12 +14,15 @@ import com.keylesspalace.tusky.components.timeline.mockStatus
 import com.keylesspalace.tusky.components.timeline.mockStatusViewData
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -35,6 +41,7 @@ class ViewThreadViewModelTest {
     private lateinit var api: MastodonApi
     private lateinit var eventHub: EventHub
     private lateinit var viewModel: ViewThreadViewModel
+    private lateinit var db: AppDatabase
 
     private val threadId = "1234"
 
@@ -56,7 +63,19 @@ class ViewThreadViewModelTest {
                 isActive = true
             )
         }
-        viewModel = ViewThreadViewModel(api, filterModel, timelineCases, eventHub, accountManager)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+            .addTypeConverter(Converters(Gson()))
+            .allowMainThreadQueries()
+            .build()
+
+        val gson = Gson()
+        viewModel = ViewThreadViewModel(api, filterModel, timelineCases, eventHub, accountManager, db, gson)
+    }
+
+    @After
+    fun closeDb() {
+        db.close()
     }
 
     @Test
@@ -68,13 +87,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -93,11 +111,10 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true)
                     ),
                     revealButton = RevealButtonState.NO_BUTTON,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -153,13 +170,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test", isExpanded = true),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isExpanded = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test", isExpanded = true)
                     ),
                     revealButton = RevealButtonState.HIDE,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -177,13 +193,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test", favourited = false),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -201,13 +216,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", reblogged = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -225,13 +239,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test", bookmarked = false)
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -249,12 +262,11 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -275,13 +287,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isExpanded = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -302,13 +313,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isCollapsed = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
@@ -329,13 +339,12 @@ class ViewThreadViewModelTest {
         runBlocking {
             assertEquals(
                 ThreadUiState.Success(
-                    statuses = listOf(
+                    statusViewData = listOf(
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isShowingContent = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
                     revealButton = RevealButtonState.REVEAL,
-                    refreshing = false
                 ),
                 viewModel.uiState.first()
             )
