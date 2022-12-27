@@ -53,4 +53,5 @@
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="title_posts_with_replies">With replies</string>
     <string name="title_posts_pinned">Pinned</string>
+    <string name="translate_noot">Translate</string>
 </resources>

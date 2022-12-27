@@ -613,4 +613,5 @@
     <string name="pref_title_http_proxy_port_message">Порт повинен бути між %d і %d</string>
     <string name="error_status_source_load">Не вдалося завантажити джерело стану з сервера.</string>
     <string name="post_media_alt">ALT</string>
+    <string name="translate_noot">Translate</string>
 </resources>

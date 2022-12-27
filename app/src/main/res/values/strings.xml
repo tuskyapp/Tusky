@@ -708,5 +708,6 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
+    <string name="translate_noot">Translate</string>
 
 </resources>

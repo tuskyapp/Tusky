@@ -25,6 +25,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -56,8 +58,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -65,6 +66,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 import java.util.LinkedHashSet
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -85,6 +87,9 @@ abstract class SFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var timelineCases: TimelineCases
+
+    @Inject
+    lateinit var gTranslator: GoogleTranslator
 
     override fun startActivity(intent: Intent) {
         super.startActivity(intent)
@@ -255,6 +260,10 @@ abstract class SFragment : Fragment(), Injectable {
                     openReportPage(accountId, accountUsername, id)
                     return@setOnMenuItemClickListener true
                 }
+                R.id.status_translate -> {
+                    translateNoot(status)
+                    return@setOnMenuItemClickListener true
+                }
                 R.id.status_unreblog_private -> {
                     onReblog(false, position)
                     return@setOnMenuItemClickListener true
@@ -306,6 +315,29 @@ abstract class SFragment : Fragment(), Injectable {
             false
         }
         popup.show()
+    }
+
+    private fun translateNoot(status: Status) {
+        thread {
+            val translated = gTranslator.translate(status.content)
+
+            val handler = Handler(Looper.getMainLooper())
+            handler.post {
+                AlertDialog.Builder(requireContext())
+                        .setMessage(translated)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+            }
+
+//            println(translated)
+//            if (this is ViewThreadFragment){
+//                this.viewBinding {
+//                    it.rootView.status
+//                }
+//            }
+//            status.setContent(translated)
+
+        }
     }
 
     private fun onMute(accountId: String, accountUsername: String) {
