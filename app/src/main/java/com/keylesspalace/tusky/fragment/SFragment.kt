@@ -59,7 +59,9 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.GoogleTranslator
+import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -325,19 +327,10 @@ abstract class SFragment : Fragment(), Injectable {
             val handler = Handler(Looper.getMainLooper())
             handler.post {
                 AlertDialog.Builder(requireContext())
-                        .setMessage(Html.fromHtml(translated))
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show()
+                    .setMessage(Html.fromHtml(translated))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
             }
-
-//            println(translated)
-//            if (this is ViewThreadFragment){
-//                this.viewBinding {
-//                    it.rootView.status
-//                }
-//            }
-//            status.setContent(translated)
-
         }
     }
 

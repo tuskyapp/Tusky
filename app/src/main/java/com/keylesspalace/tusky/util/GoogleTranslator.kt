@@ -15,11 +15,11 @@ class GoogleTranslator @Inject constructor(private val httpClient: OkHttpClient)
     fun translate(query: String, from: String = "auto", to: String = "en"): String {
         var result = query
         val httpUrl = url.toHttpUrl().newBuilder()
-                .addQueryParameter("sl", from)
-                .addQueryParameter("tl", to)
-                .addQueryParameter("dj", "1")
-                .addQueryParameter("q", query)
-                .build()
+            .addQueryParameter("sl", from)
+            .addQueryParameter("tl", to)
+            .addQueryParameter("dj", "1")
+            .addQueryParameter("q", query)
+            .build()
 
         val request = Request.Builder().url(httpUrl).build()
         val call = httpClient.newCall(request)
