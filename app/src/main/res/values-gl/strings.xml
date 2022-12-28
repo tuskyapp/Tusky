@@ -579,4 +579,12 @@
     <string name="notification_summary_report_format">%s · %d publicacións fixadas</string>
     <string name="confirmation_hashtag_unfollowed">Xa non segues #%s</string>
     <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
+    <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
+    <string name="pref_title_http_proxy_port_message">O porto debe estar entre %d e %d</string>
+    <string name="error_muting_hashtag_format">Erro ao acalar #%s</string>
+    <string name="error_unmuting_hashtag_format">Erro ao reactivar #%s</string>
+    <string name="description_post_edited">Editado</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="post_edited">Editado %s</string>
+    <string name="error_status_source_load">Fallou a carga da fonte do estado desde o servidor.</string>
 </resources>
