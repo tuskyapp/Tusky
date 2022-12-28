@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Új App ikon, készítő Dzuk https://dzuk.zone/
+- A hashtagek már követhetőek. Kattints egy hashtagre aztán az ikonra az eszköztáron.
+- Android 13 támogatás
+- Új lenyíló a szerkesztőnézetben a bejegyzés nyelvének beállításához
+- A profil médiás füle már figyelembeveszi az érzékeny médiát is és finomabban töltődik be.
+- Már lehetséges egy kép fókuszpontját elküldés előtt beállítani
+- Új lehetőség a teljes felhasználói neved mutatására az eszköztáron
