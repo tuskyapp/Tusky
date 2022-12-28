@@ -42,6 +42,7 @@ data class DraftEntity(
     val failedToSend: Boolean,
     val scheduledAt: String?,
     val language: String?,
+    val statusId: String?,
 )
 
 /**

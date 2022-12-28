@@ -71,6 +71,7 @@ class ComposeViewModel @Inject constructor(
     private var scheduledTootId: String? = null
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
+    private var originalStatusId: String? = null
     private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
 
     private var contentWarningStateChanged: Boolean = false
@@ -135,7 +136,7 @@ class ComposeViewModel @Inject constructor(
                 mediaSize = mediaSize,
                 description = description,
                 focus = focus,
-                processed = null
+                state = QueuedMedia.State.UPLOADING
             )
             stashMediaItem = mediaItem
 
@@ -160,7 +161,11 @@ class ComposeViewModel @Inject constructor(
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
                         is UploadEvent.FinishedEvent ->
-                            item.copy(id = event.mediaId, uploadPercent = -1, processed = event.processed)
+                            item.copy(
+                                id = event.mediaId,
+                                uploadPercent = -1,
+                                state = if (event.processed) { QueuedMedia.State.PROCESSED } else { QueuedMedia.State.UNPROCESSED }
+                            )
                         is UploadEvent.ErrorEvent -> {
                             media.update { mediaValue -> mediaValue.filter { it.localId != mediaItem.localId } }
                             uploadError.emit(event.error)
@@ -192,7 +197,7 @@ class ComposeViewModel @Inject constructor(
                 id = id,
                 description = description,
                 focus = focus,
-                processed = true
+                state = QueuedMedia.State.PUBLISHED
             )
             mediaValue + mediaItem
         }
@@ -273,6 +278,7 @@ class ComposeViewModel @Inject constructor(
             failedToSend = false,
             scheduledAt = scheduledAt.value,
             language = postLanguage,
+            statusId = originalStatusId,
         )
     }
 
@@ -296,7 +302,7 @@ class ComposeViewModel @Inject constructor(
                 uri = item.uri.toString(),
                 description = item.description,
                 focus = item.focus,
-                processed = item.processed == true
+                processed = item.state == QueuedMedia.State.PROCESSED || item.state == QueuedMedia.State.PUBLISHED
             )
         }
         val tootToSend = StatusToSend(
@@ -315,6 +321,7 @@ class ComposeViewModel @Inject constructor(
             idempotencyKey = randomAlphanumericString(16),
             retries = 0,
             language = postLanguage,
+            statusId = originalStatusId
         )
 
         serviceClient.sendToot(tootToSend)
@@ -444,6 +451,7 @@ class ComposeViewModel @Inject constructor(
 
         draftId = composeOptions?.draftId ?: 0
         scheduledTootId = composeOptions?.scheduledTootId
+        originalStatusId = composeOptions?.statusId
         startingText = composeOptions?.content
         postLanguage = composeOptions?.language
 
@@ -488,6 +496,9 @@ class ComposeViewModel @Inject constructor(
 
         scheduledAt.value = newScheduledAt
     }
+
+    val editing: Boolean
+        get() = !originalStatusId.isNullOrEmpty()
 
     private companion object {
         const val TAG = "ComposeViewModel"

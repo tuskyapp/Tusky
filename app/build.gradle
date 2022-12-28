@@ -22,6 +22,7 @@ android {
     compileSdkVersion 33
     defaultConfig {
         applicationId APP_ID
+        namespace "com.keylesspalace.tusky"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 97
@@ -89,6 +90,10 @@ android {
     }
     kotlinOptions {
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
     }
 }
 

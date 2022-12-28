@@ -1,11 +1,12 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.keylesspalace.tusky.R
 import kotlin.math.roundToInt
 
@@ -27,7 +28,9 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
             attachImageViews()
         }
 
-    private val imageViewCache = Array(4) { MediaPreviewImageView(context) }
+    private val imageViewCache = Array(4) {
+        LayoutInflater.from(context).inflate(R.layout.item_image_preview_overlay, this, false)
+    }
 
     private var measuredOrientation = LinearLayout.VERTICAL
 
@@ -181,14 +184,16 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
         }
     }
 
-    inline fun forEachIndexed(action: (Int, MediaPreviewImageView) -> Unit) {
+    inline fun forEachIndexed(action: (Int, View, MediaPreviewImageView, TextView) -> Unit) {
         for (index in 0 until childCount) {
-            action(index, getChildAt(index) as MediaPreviewImageView)
+            val wrapper = getChildAt(index)
+            action(
+                index,
+                wrapper,
+                wrapper.findViewById(R.id.preview_image_view) as MediaPreviewImageView,
+                wrapper.findViewById(R.id.preview_media_description_indicator) as TextView
+            )
         }
-    }
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
     }
 }
 

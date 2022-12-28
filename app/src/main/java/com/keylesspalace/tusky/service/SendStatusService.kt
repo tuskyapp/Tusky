@@ -192,12 +192,24 @@ class SendStatusService : Service(), Injectable {
                 language = statusToSend.language,
             )
 
-            mastodonApi.createStatus(
-                "Bearer " + account.accessToken,
-                account.domain,
-                statusToSend.idempotencyKey,
-                newStatus
-            ).fold({ sentStatus ->
+            val sendResult = if (statusToSend.statusId == null) {
+                mastodonApi.createStatus(
+                    "Bearer " + account.accessToken,
+                    account.domain,
+                    statusToSend.idempotencyKey,
+                    newStatus
+                )
+            } else {
+                mastodonApi.editStatus(
+                    statusToSend.statusId,
+                    "Bearer " + account.accessToken,
+                    account.domain,
+                    statusToSend.idempotencyKey,
+                    newStatus
+                )
+            }
+
+            sendResult.fold({ sentStatus ->
                 statusesToSend.remove(statusId)
                 // If the status was loaded from a draft, delete the draft and associated media files.
                 if (statusToSend.draftId != 0) {
@@ -309,6 +321,7 @@ class SendStatusService : Service(), Injectable {
             failedToSend = true,
             scheduledAt = status.scheduledAt,
             language = status.language,
+            statusId = status.statusId,
         )
     }
 
@@ -414,6 +427,7 @@ data class StatusToSend(
     val idempotencyKey: String,
     var retries: Int,
     val language: String?,
+    val statusId: String?,
 ) : Parcelable
 
 @Parcelize

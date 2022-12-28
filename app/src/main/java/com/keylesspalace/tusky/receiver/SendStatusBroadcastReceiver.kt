@@ -96,7 +96,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         draftId = -1,
                         idempotencyKey = randomAlphanumericString(16),
                         retries = 0,
-                        null,
+                        language = null,
+                        statusId = null,
                     )
                 )
 

@@ -48,10 +48,13 @@ class MediaPreviewAdapter(
         val addFocusId = 2
         val editImageId = 3
         val removeId = 4
-        popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
-        if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) {
-            popup.menu.add(0, addFocusId, 0, R.string.action_set_focus)
-            popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
+        if (item.state != ComposeActivity.QueuedMedia.State.PUBLISHED) {
+            // Already-published items can't have their metadata edited
+            popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
+            if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) {
+                popup.menu.add(0, addFocusId, 0, R.string.action_set_focus)
+                popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
+            }
         }
         popup.menu.add(0, removeId, 0, R.string.action_remove)
         popup.setOnMenuItemClickListener { menuItem ->

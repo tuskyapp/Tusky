@@ -40,6 +40,7 @@
     <string name="post_boosted_format">%s teilte</string>
     <string name="post_sensitive_media_title">Heikle Inhalte</string>
     <string name="post_media_hidden_title">Medien versteckt</string>
+    <string name="post_media_alt">ALT</string>
     <string name="post_sensitive_media_directions">Zum Anzeigen tippen</string>
     <string name="post_content_warning_show_more">Zeige mehr</string>
     <string name="post_content_warning_show_less">Zeige weniger</string>
@@ -131,6 +132,7 @@
     <string name="hint_display_name">Anzeigename</string>
     <string name="hint_note">Über mich</string>
     <string name="hint_search">Suchen …</string>
+    <string name="hint_media_description_missing">Medien sollten Beschreibungen haben.</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="label_quick_reply">Antworten …</string>
     <string name="label_avatar">Profilbild</string>
@@ -570,4 +572,20 @@
     <string name="error_failed_set_focus">Setzen des Fokuspunktes fehlgeschlagen</string>
     <string name="action_set_focus">Fokuspunkt setzen</string>
     <string name="action_add_reaction">Reaktion hinzufügen</string>
+    <string name="failed_to_remove_from_list">Entfernen des Kontos von der Liste fehlgeschlagen</string>
+    <string name="action_add_or_remove_from_list">Hinzufügen zu/Enfernen von Liste</string>
+    <string name="failed_to_add_to_list">Hinzufügen des Kontos zur Liste fehlgeschlagen</string>
+    <string name="no_lists">Du hast gar keine Listen.</string>
+    <string name="notification_summary_report_format">%s · %d Beiträge angehängt</string>
+    <string name="notification_header_report_format">%s hat %s gemeldet</string>
+    <string name="confirmation_hashtag_unfollowed">#%s entfolgt</string>
+    <string name="pref_default_post_language">Standard-Beitragssprache</string>
+    <string name="report_category_violation">Regelverstoß</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Sonstiges</string>
+    <string name="error_following_hashtags_unsupported">Diese Instanz unterstützt das Folgen von Hashtags nicht.</string>
+    <string name="title_followed_hashtags">Gefolgte Hashtags</string>
+    <string name="action_unfollow_hashtag_format">#%s entfolgen\?</string>
+    <string name="description_post_edited">Bearbeitet</string>
 </resources>
