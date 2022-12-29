@@ -492,7 +492,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 if (createdAt != null) {
                     long then = createdAt.getTime();
                     long now = new Date().getTime();
-                    readout = TimestampUtils.INSTANCE.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                    readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
                     readoutAloud = android.text.format.DateUtils.getRelativeTimeSpanString(then, now,
                             android.text.format.DateUtils.SECOND_IN_MILLIS,
                             android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE);

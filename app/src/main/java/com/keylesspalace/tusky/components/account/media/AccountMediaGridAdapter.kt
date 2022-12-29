@@ -11,11 +11,11 @@ import androidx.core.view.setPadding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.getFormattedDescription
 import com.keylesspalace.tusky.util.hide
@@ -40,7 +40,7 @@ class AccountMediaGridAdapter(
     }
 ) {
 
-    private val baseItemBackgroundColor = ThemeUtils.getColor(context, R.attr.colorSurface)
+    private val baseItemBackgroundColor = MaterialColors.getColor(context, R.attr.colorSurface, Color.BLACK)
     private val videoIndicator = AppCompatResources.getDrawable(context, R.drawable.ic_play_indicator)
     private val mediaHiddenDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_hide_media_24dp)
 

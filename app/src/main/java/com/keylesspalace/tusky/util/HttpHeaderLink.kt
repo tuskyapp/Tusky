@@ -7,38 +7,27 @@
  * You should have received a copy of the CC0 Public Domain Dedication along with this software.
  * If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
-
 package com.keylesspalace.tusky.util
 
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
+import androidx.core.net.toUri
 
 /**
  * Represents one link and its parameters from the link header of an HTTP message.
  *
  * @see [RFC5988](https://tools.ietf.org/html/rfc5988)
  */
-class HttpHeaderLink private constructor(uri: String) {
-    data class Parameter(var name: String? = null, var value: String? = null)
+class HttpHeaderLink @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE) constructor(
+    uri: String
+) {
+    data class Parameter(val name: String, val value: String?)
 
     private val parameters: MutableList<Parameter> = ArrayList()
 
-    var uri: Uri
+    val uri: Uri = uri.toUri()
 
-    init {
-        this.uri = Uri.parse(uri)
-    }
-
-    private class ValueResult {
-        var value: String? = null
-            set(value) {
-                value ?: return
-                val v = value.trim()
-                if (v.isNotEmpty()) {
-                    field = v
-                }
-            }
-        var end: Int = -1
-    }
+    private data class ValueResult(val value: String, val end: Int = -1)
 
     companion object {
         private fun findEndOfQuotedString(line: String, start: Int): Int {
@@ -56,25 +45,19 @@ class HttpHeaderLink private constructor(uri: String) {
         }
 
         private fun parseValue(line: String, start: Int): ValueResult {
-            val result = ValueResult()
             val foundIndex = line.indexOfAny(charArrayOf(';', ',', '"'), start, false)
             if (foundIndex == -1) {
-                result.value = line.substring(start)
-                return result
+                return ValueResult(line.substring(start).trim())
             }
             val c = line[foundIndex]
             return if (c == ';' || c == ',') {
-                result.end = foundIndex
-                result.value = line.substring(start, foundIndex)
-                result
+                ValueResult(line.substring(start, foundIndex).trim(), foundIndex)
             } else {
                 var quoteEnd = findEndOfQuotedString(line, foundIndex + 1)
                 if (quoteEnd == -1) {
                     quoteEnd = line.length
                 }
-                result.end = quoteEnd
-                result.value = line.substring(foundIndex + 1, quoteEnd)
-                result
+                ValueResult(line.substring(foundIndex + 1, quoteEnd).trim(), quoteEnd)
             }
         }
 
@@ -87,12 +70,11 @@ class HttpHeaderLink private constructor(uri: String) {
                 } else if (line[foundIndex] == ',') {
                     return foundIndex
                 }
-                val parameter = Parameter()
-                parameter.name =
-                    line.substring(line.indexOf(';', i) + 1, foundIndex).trim()
-                link.parameters.add(parameter)
+                val name = line.substring(line.indexOf(';', i) + 1, foundIndex).trim()
                 val result = parseValue(line, foundIndex)
-                parameter.value = result.value
+                val value = result.value
+                val parameter = Parameter(name, value)
+                link.parameters.add(parameter)
                 i = if (result.end == -1) {
                     return -1
                 } else {
@@ -107,15 +89,15 @@ class HttpHeaderLink private constructor(uri: String) {
          * @return all links found in the header
          */
         fun parse(line: String?): List<HttpHeaderLink> {
-            val linkList: MutableList<HttpHeaderLink> = ArrayList()
-            line ?: return linkList
+            val links: MutableList<HttpHeaderLink> = mutableListOf()
+            line ?: return links
 
             var i = 0
             while (i < line.length) {
                 val uriEnd = line.indexOf('>', i)
                 val uri = line.substring(line.indexOf('<', i) + 1, uriEnd)
                 val link = HttpHeaderLink(uri)
-                linkList.add(link)
+                links.add(link)
                 val parseEnd = parseParameters(line, uriEnd, link)
                 i = if (parseEnd == -1) {
                     break
@@ -125,7 +107,7 @@ class HttpHeaderLink private constructor(uri: String) {
                 i++
             }
 
-            return linkList
+            return links
         }
 
         /**
@@ -137,14 +119,11 @@ class HttpHeaderLink private constructor(uri: String) {
             links: List<HttpHeaderLink>,
             relationType: String
         ): HttpHeaderLink? {
-            for (link in links) {
-                for (parameter in link.parameters) {
-                    if (parameter.name == "rel" && parameter.value == relationType) {
-                        return link
-                    }
+            return links.find { link ->
+                link.parameters.any { parameter ->
+                    parameter.name == "rel" && parameter.value == relationType
                 }
             }
-            return null
         }
     }
 }

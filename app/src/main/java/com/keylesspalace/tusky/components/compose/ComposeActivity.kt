@@ -63,6 +63,7 @@ import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -86,8 +87,8 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.PickMediaFiles
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.getInitialLanguage
 import com.keylesspalace.tusky.util.getLocaleList
@@ -97,6 +98,7 @@ import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -208,7 +210,7 @@ class ComposeActivity :
             accountManager.setActiveAccount(accountId)
         }
 
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
@@ -343,7 +345,7 @@ class ComposeActivity :
             binding.composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
             val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).apply { sizeDp = 12 }
 
-            ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
+            setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
             binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
 
             binding.composeReplyView.setOnClickListener {
@@ -356,7 +358,7 @@ class ComposeActivity :
                     binding.composeReplyContentView.show()
                     val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).apply { sizeDp = 12 }
 
-                    ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
+                    setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
                     binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
                 }
             }
@@ -503,7 +505,7 @@ class ComposeActivity :
             displayTransientMessage(R.string.hint_media_description_missing)
         }
 
-        val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+        val textColor = MaterialColors.getColor(binding.root, android.R.attr.textColorTertiary)
 
         val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).apply { colorInt = textColor; sizeDp = 18 }
         binding.actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
@@ -690,7 +692,7 @@ class ComposeActivity :
                     getColor(R.color.tusky_blue)
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-                    ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                    MaterialColors.getColor(binding.composeHideMediaButton, android.R.attr.textColorTertiary)
                 }
             }
             binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
@@ -712,7 +714,7 @@ class ComposeActivity :
             enableButton(binding.composeScheduleButton, clickable = false, colorActive = false)
         } else {
             @ColorInt val color = if (binding.composeScheduleView.time == null) {
-                ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                MaterialColors.getColor(binding.composeScheduleButton, android.R.attr.textColorTertiary)
             } else {
                 getColor(R.color.tusky_blue)
             }
@@ -908,7 +910,7 @@ class ComposeActivity :
         val textColor = if (remainingLength < 0) {
             getColor(R.color.tusky_red)
         } else {
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            MaterialColors.getColor(binding.composeCharactersLeftView, android.R.attr.textColorTertiary)
         }
         binding.composeCharactersLeftView.setTextColor(textColor)
     }
@@ -956,22 +958,26 @@ class ComposeActivity :
         if ((characterCount <= 0 || contentText.isBlank()) && viewModel.media.value.isEmpty()) {
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true, viewModel.editing)
-        } else if (characterCount <= maximumTootCharacters) {
-            if (viewModel.media.value.isNotEmpty()) {
-                finishingUploadDialog = ProgressDialog.show(
-                    this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true
-                )
-            }
+            return
+        }
 
-            lifecycleScope.launch {
-                viewModel.sendStatus(contentText, spoilerText)
-                finishingUploadDialog?.dismiss()
-                deleteDraftAndFinish()
-            }
-        } else {
+        if (characterCount > maximumTootCharacters) {
             binding.composeEditField.error = getString(R.string.error_compose_character_limit)
             enableButtons(true, viewModel.editing)
+            return
+        }
+
+        if (viewModel.media.value.isNotEmpty()) {
+            finishingUploadDialog = ProgressDialog.show(
+                this, getString(R.string.dialog_title_finishing_media_upload),
+                getString(R.string.dialog_message_uploading_media), true, true
+            )
+        }
+
+        lifecycleScope.launch {
+            viewModel.sendStatus(contentText, spoilerText)
+            finishingUploadDialog?.dismiss()
+            deleteDraftAndFinish()
         }
     }
 
@@ -1016,7 +1022,7 @@ class ComposeActivity :
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
-        ThemeUtils.setDrawableTint(
+        setDrawableTint(
             this, button.drawable,
             if (colorActive) android.R.attr.textColorTertiary
             else R.attr.textColorDisabled
@@ -1025,8 +1031,8 @@ class ComposeActivity :
 
     private fun enablePollButton(enable: Boolean) {
         binding.addPollTextActionTextView.isEnabled = enable
-        val textColor = ThemeUtils.getColor(
-            this,
+        val textColor = MaterialColors.getColor(
+            binding.addPollTextActionTextView,
             if (enable) android.R.attr.textColorTertiary
             else R.attr.textColorDisabled
         )
@@ -1086,7 +1092,7 @@ class ComposeActivity :
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            MaterialColors.getColor(binding.composeContentWarningButton, android.R.attr.textColorTertiary)
         }
         binding.composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -1101,7 +1107,6 @@ class ComposeActivity :
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        Log.d(TAG, event.toString())
         if (event.action == KeyEvent.ACTION_DOWN) {
             if (event.isCtrlPressed) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {

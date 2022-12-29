@@ -38,11 +38,7 @@ class PairedList<T, V> (private val mapper: Function<T, out V>) : AbstractMutabl
     }
 
     fun getPairedItemOrNull(index: Int): V? {
-        return if (index >= 0 && index < synced.size) {
-            synced[index]
-        } else {
-            null
-        }
+        return synced.getOrNull(index)
     }
 
     fun setPairedItem(index: Int, element: V) {

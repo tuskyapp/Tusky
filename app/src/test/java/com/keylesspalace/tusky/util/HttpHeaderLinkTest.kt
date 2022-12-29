@@ -5,8 +5,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import kotlin.reflect.full.primaryConstructor
-import kotlin.reflect.jvm.isAccessible
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
@@ -15,58 +13,54 @@ class HttpHeaderLinkTest {
 
     @Test
     fun shouldParseValidLinks() {
-        // Constructor is private, so call through reflection
-        val constructor = HttpHeaderLink::class.primaryConstructor!!
-        constructor.isAccessible = true
-
         val testData = arrayOf(
             // Examples from https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link
             TestData(
                 "Single URL",
                 "<https://example.com>",
-                listOf(constructor.call("https://example.com"))
+                listOf(HttpHeaderLink("https://example.com"))
             ),
             TestData(
                 "Single URL with parameters",
                 "<https://example.com>; rel=\"preconnect\"",
-                listOf(constructor.call("https://example.com"))
+                listOf(HttpHeaderLink("https://example.com"))
             ),
             TestData(
                 "Single encoded URL with parameters",
                 "<https://example.com/%E8%8B%97%E6%9D%A1>; rel=\"preconnect\"",
-                listOf(constructor.call("https://example.com/%E8%8B%97%E6%9D%A1"))
+                listOf(HttpHeaderLink("https://example.com/%E8%8B%97%E6%9D%A1"))
             ),
             TestData(
                 "Multiple URLs, separated by commas",
                 "<https://one.example.com>; rel=\"preconnect\", <https://two.example.com>; rel=\"preconnect\", <https://three.example.com>; rel=\"preconnect\"",
                 listOf(
-                    constructor.call("https://one.example.com"),
-                    constructor.call("https://two.example.com"),
-                    constructor.call("https://three.example.com")
+                    HttpHeaderLink("https://one.example.com"),
+                    HttpHeaderLink("https://two.example.com"),
+                    HttpHeaderLink("https://three.example.com")
                 )
             ),
             // Examples from https://httpwg.org/specs/rfc8288.html#rfc.section.3.5
             TestData(
                 "Single URL, multiple parameters",
                 "<http://example.com/TheBook/chapter2>; rel=\"previous\"; title=\"previous chapter\"",
-                listOf(constructor.call("http://example.com/TheBook/chapter2"))
+                listOf(HttpHeaderLink("http://example.com/TheBook/chapter2"))
             ),
             TestData(
                 "Root resource",
                 "</>; rel=\"http://example.net/foo\"",
-                listOf(constructor.call("/"))
+                listOf(HttpHeaderLink("/"))
             ),
             TestData(
                 "Terms and anchor",
                 "</terms>; rel=\"copyright\"; anchor=\"#foo\"",
-                listOf(constructor.call("/terms"))
+                listOf(HttpHeaderLink("/terms"))
             ),
             TestData(
                 "Multiple URLs with parameter encoding",
                 "</TheBook/chapter2>; rel=\"previous\"; title*=UTF-8'de'letztes%20Kapitel, </TheBook/chapter4>; rel=\"next\"; title*=UTF-8'de'n%c3%a4chstes%20Kapitel",
                 listOf(
-                    constructor.call("/TheBook/chapter2"),
-                    constructor.call("/TheBook/chapter4")
+                    HttpHeaderLink("/TheBook/chapter2"),
+                    HttpHeaderLink("/TheBook/chapter4")
                 )
             )
         )

@@ -12,63 +12,56 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+@file:JvmName("ThemeUtils")
+
 package com.keylesspalace.tusky.util
 
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.util.TypedValue
 import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.color.MaterialColors
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
  */
-object ThemeUtils {
-    private const val THEME_NIGHT = "night"
-    private const val THEME_DAY = "day"
-    private const val THEME_BLACK = "black"
-    private const val THEME_AUTO = "auto"
-    private const val THEME_SYSTEM = "auto_system"
-    const val APP_THEME_DEFAULT = THEME_NIGHT
 
-    @ColorInt
-    fun getColor(context: Context, @AttrRes attribute: Int): Int {
-        val value = TypedValue()
-        return if (context.theme.resolveAttribute(attribute, value, true)) {
-            value.data
-        } else {
-            Color.BLACK
-        }
-    }
+private const val THEME_NIGHT = "night"
+private const val THEME_DAY = "day"
+private const val THEME_BLACK = "black"
+private const val THEME_AUTO = "auto"
+private const val THEME_SYSTEM = "auto_system"
+const val APP_THEME_DEFAULT = THEME_NIGHT
 
-    fun getDimension(context: Context, @AttrRes attribute: Int): Int {
-        val array = context.obtainStyledAttributes(intArrayOf(attribute))
-        val dimen = array.getDimensionPixelSize(0, -1)
-        array.recycle()
-        return dimen
-    }
+fun getDimension(context: Context, @AttrRes attribute: Int): Int {
+    val array = context.obtainStyledAttributes(intArrayOf(attribute))
+    val dimen = array.getDimensionPixelSize(0, -1)
+    array.recycle()
+    return dimen
+}
 
-    fun setDrawableTint(context: Context, drawable: Drawable, @AttrRes attribute: Int) {
-        drawable.setColorFilter(getColor(context, attribute), PorterDuff.Mode.SRC_IN)
-    }
+fun setDrawableTint(context: Context, drawable: Drawable, @AttrRes attribute: Int) {
+    drawable.setColorFilter(
+        MaterialColors.getColor(context, attribute, Color.BLACK),
+        PorterDuff.Mode.SRC_IN
+    )
+}
 
-    fun setAppNightMode(flavor: String?) {
-        when (flavor) {
-            THEME_NIGHT, THEME_BLACK -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES
-            )
-            THEME_DAY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            THEME_AUTO -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_AUTO_TIME
-            )
-            THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            )
-            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
+fun setAppNightMode(flavor: String?) {
+    when (flavor) {
+        THEME_NIGHT, THEME_BLACK -> AppCompatDelegate.setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_YES
+        )
+        THEME_DAY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        THEME_AUTO -> AppCompatDelegate.setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_AUTO_TIME
+        )
+        THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        )
+        else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 }
