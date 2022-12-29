@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -45,7 +46,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
         Status status = statusViewData.getActionable();
 
         Status.Visibility visibility = status.getVisibility();
-        Context context = timestampInfo.getContext();
+        Context context = metaInfo.getContext();
 
         Drawable visibilityIcon = getVisibilityIcon(visibility);
         CharSequence visibilityString = getVisibilityDescription(context, visibility);
@@ -107,9 +108,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
             }
         }
 
-        timestampInfo.setMovementMethod(LinkMovementMethod.getInstance());
-        timestampInfo.setText(sb);
-
+        metaInfo.setMovementMethod(LinkMovementMethod.getInstance());
+        metaInfo.setText(sb);
     }
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
@@ -195,20 +195,21 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 return null;
         }
 
-        final Drawable visibilityDrawable = this.timestampInfo.getContext()
-                .getDrawable(visibilityIcon);
+        final Drawable visibilityDrawable = AppCompatResources.getDrawable(
+                this.metaInfo.getContext(), visibilityIcon
+        );
         if (visibilityDrawable == null) {
             return null;
         }
 
-        final int size = (int) this.timestampInfo.getTextSize();
+        final int size = (int) this.metaInfo.getTextSize();
         visibilityDrawable.setBounds(
                 0,
                 0,
                 size,
                 size
         );
-        visibilityDrawable.setTint(this.timestampInfo.getCurrentTextColor());
+        visibilityDrawable.setTint(this.metaInfo.getCurrentTextColor());
 
         return visibilityDrawable;
     }

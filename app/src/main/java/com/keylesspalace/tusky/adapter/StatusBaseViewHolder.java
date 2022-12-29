@@ -94,7 +94,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView avatarInset;
 
     public ImageView avatar;
-    public TextView timestampInfo;
+    public TextView metaInfo;
     public TextView content;
     public TextView contentWarningDescription;
 
@@ -123,7 +123,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
-        timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
+        metaInfo = itemView.findViewById(R.id.status_meta_info);
         content = itemView.findViewById(R.id.status_content);
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
@@ -325,15 +325,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
-                String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                String readout = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
                 timestampText = readout;
             }
         }
 
         if (editedAt != null) {
-            timestampText = timestampInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
+            timestampText = metaInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
         }
-        timestampInfo.setText(timestampText);
+        metaInfo.setText(timestampText);
     }
 
     private CharSequence getCreatedAtDescription(Date createdAt,
@@ -1143,7 +1143,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatarInset.setVisibility(visibility);
         displayName.setVisibility(visibility);
         username.setVisibility(visibility);
-        timestampInfo.setVisibility(visibility);
+        metaInfo.setVisibility(visibility);
         contentWarningDescription.setVisibility(visibility);
         contentWarningButton.setVisibility(visibility);
         content.setVisibility(visibility);
