@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -868,7 +866,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 }
                 return true
             }
-            R.id.action_share_account_handle -> {
+            R.id.action_share_account_username -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
                     val domain = getDomain(loadedAccount?.url)
@@ -878,27 +876,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, username)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_handle_to)))
-                }
-                return true
-            }
-            R.id.action_copy_account_link -> {
-                // If the account isn't loaded yet, eat the input.
-                if (loadedAccount != null) {
-                    val url = loadedAccount!!.url
-                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    clipboard.setPrimaryClip(ClipData.newPlainText(null, url))
-                }
-                return true
-            }
-            R.id.action_copy_account_handle -> {
-                // If the account isn't loaded yet, eat the input.
-                if (loadedAccount != null) {
-                    val domain = getDomain(loadedAccount?.url)
-                    val localUsername = loadedAccount!!.username
-                    val username = "@$localUsername@$domain"
-                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    clipboard.setPrimaryClip(ClipData.newPlainText(null, username))
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_username_to)))
                 }
                 return true
             }
