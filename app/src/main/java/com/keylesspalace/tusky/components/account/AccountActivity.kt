@@ -858,7 +858,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_share_account_link -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.url != null) {
+                if (loadedAccount != null) {
                     val url = loadedAccount!!.url
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
@@ -870,8 +870,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_share_account_handle -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.username != null) {
-                    val username = "@" + loadedAccount!!.username
+                if (loadedAccount != null) {
+                    val domain = getDomain(loadedAccount?.url)
+                    val localUsername = loadedAccount!!.username
+                    val username = "@$localUsername@$domain"
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, username)
@@ -882,7 +884,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_copy_account_link -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.url != null) {
+                if (loadedAccount != null) {
                     val url = loadedAccount!!.url
                     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, url))
@@ -891,8 +893,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_copy_account_handle -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.username != null) {
-                    val username = "@" + loadedAccount!!.username
+                if (loadedAccount != null) {
+                    val domain = getDomain(loadedAccount?.url)
+                    val localUsername = loadedAccount!!.username
+                    val username = "@$localUsername@$domain"
                     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, username))
                 }
