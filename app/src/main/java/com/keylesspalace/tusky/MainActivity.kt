@@ -30,6 +30,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -40,6 +42,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -127,7 +130,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector {
+class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, MenuProvider {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -224,6 +227,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
+        setSupportActionBar(binding.mainToolbar)
 
         glide = Glide.with(this)
 
@@ -237,17 +241,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
-        binding.mainToolbar.menu.add(R.string.action_search).apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
-                sizeDp = 20
-                colorInt = ThemeUtils.getColor(this@MainActivity, android.R.attr.textColorPrimary)
-            }
-            setOnMenuItemClickListener {
-                startActivity(SearchActivity.getIntent(this@MainActivity))
-                true
-            }
-        }
+        addMenuProvider(this)
 
         setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
 
@@ -305,6 +299,26 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 1
             )
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.main_activity, menu)
+        menu.findItem(R.id.action_search)?.apply {
+            icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = ThemeUtils.getColor(this@MainActivity, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> {
+                startActivity(SearchActivity.getIntent(this@MainActivity))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -627,7 +641,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
                 }
 
-                binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+                supportActionBar?.title = tabs[tab.position].title(this@MainActivity)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -643,7 +657,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
-        binding.mainToolbar.title = tabs[activeTabPosition].title(this@MainActivity)
+        supportActionBar?.title = tabs[activeTabPosition].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
             (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }

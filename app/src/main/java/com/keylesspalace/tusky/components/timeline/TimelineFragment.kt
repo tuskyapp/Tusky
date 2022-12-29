@@ -18,10 +18,15 @@ package com.keylesspalace.tusky.components.timeline
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -58,10 +63,15 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collectLatest
@@ -76,7 +86,8 @@ class TimelineFragment :
     StatusActionListener,
     Injectable,
     ReselectableFragment,
-    RefreshableFragment {
+    RefreshableFragment,
+    MenuProvider {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -161,6 +172,9 @@ class TimelineFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         setupSwipeRefreshLayout()
         setupRecyclerView()
 
@@ -251,6 +265,27 @@ class TimelineFragment :
                     }
                 }
             }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.timeline_fragment, menu)
+        menu.findItem(R.id.action_refresh)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                sizeDp = 20
+                colorInt = ThemeUtils.getColor(requireContext(), android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshContent()
+                true
+            }
+            else -> false
+        }
     }
 
     private fun setupSwipeRefreshLayout() {
