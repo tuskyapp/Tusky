@@ -31,7 +31,7 @@
     <string name="title_edit_profile">Modificar lo perfil</string>
     <string name="title_drafts">Borrolhons</string>
     <string name="title_licenses">Licéncias</string>
-    <string name="post_boosted_format">%s partejat</string>
+    <string name="post_boosted_format">%s a partejat</string>
     <string name="post_sensitive_media_title">Contengut sensible</string>
     <string name="post_media_hidden_title">Mèdia amagat</string>
     <string name="post_sensitive_media_directions">Clicar per mostrar</string>
@@ -587,4 +587,12 @@
 \n - de las estatisticas suls perfils
 \n
 \n Las notificacions « push » seràn pas afectadas, mas podètz reveire vòstras preferéncias de notificacion manualament.</string>
+    <string name="hint_media_description_missing">Los mèdias devon aver una descripcion.</string>
+    <string name="pref_title_http_proxy_port_message">Lo pòrt deu èsser entre %d e %d</string>
+    <string name="error_muting_hashtag_format">Fracàs en silenciant #%s</string>
+    <string name="error_unmuting_hashtag_format">Fracàs en quitant de silenciar #%s</string>
+    <string name="notification_summary_report_format">%s · %d publicacions juntadas</string>
+    <string name="post_edited">%s modificat</string>
+    <string name="description_post_edited">Modificada</string>
+    <string name="error_status_source_load">Fracàs del cargament de l’estatut a partir del servidor.</string>
 </resources>
