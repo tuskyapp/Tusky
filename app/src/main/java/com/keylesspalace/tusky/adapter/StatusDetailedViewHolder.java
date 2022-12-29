@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -52,7 +53,10 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
         SpannableStringBuilder sb = new SpannableStringBuilder(visibilityString);
 
         if (visibilityIcon != null) {
-            ImageSpan visibilityIconSpan = new ImageSpan(visibilityIcon, DynamicDrawableSpan.ALIGN_BASELINE);
+            ImageSpan visibilityIconSpan = new ImageSpan(
+                    visibilityIcon,
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? DynamicDrawableSpan.ALIGN_CENTER : DynamicDrawableSpan.ALIGN_BASELINE
+            );
             sb.setSpan(visibilityIconSpan, 0, visibilityString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
@@ -150,8 +154,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                 @Nullable Object payloads) {
         // We never collapse statuses in the detail view
         StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
-            status.copyWithCollapsed(false) :
-            status;
+                status.copyWithCollapsed(false) :
+                status;
 
         super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads);
         setupCard(uncollapsedStatus, CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
