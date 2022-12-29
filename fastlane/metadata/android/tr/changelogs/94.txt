@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Birleşik Besleme için Destek. Desteği etkinleştirmek için hesaplarınıza yeniden giriş yapmanız gerekir.
+- Bir gönderiye verilen yanıtların sayısı artık zaman akışında belirtilmiştir.
+- Görüntüler artık bir gönderi oluştururken kırpılabilir.
+- Profiller artık oluşturuldukları tarihi gösterir.
+- Bir listeyi görüntülerken başlık artık araç çubuğunda görüntülenir.
+- Birçok hata düzeltmesi
+- Çeviri iyileştirmeleri

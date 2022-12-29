@@ -20,7 +20,7 @@
         android:contentDescription="@null"
         android:padding="@dimen/status_sensitive_media_button_padding"
         android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
+        app:layout_constraintStart_toStartOf="@+id/status_media_preview_container"
         app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
         app:srcCompat="@drawable/ic_eye_24dp"
         app:tint="@color/white" />

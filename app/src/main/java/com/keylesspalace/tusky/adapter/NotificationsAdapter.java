@@ -253,7 +253,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_FOLLOW_REQUEST: {
                     if (payloadForHolder == null) {
                         FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-                        holder.setupWithAccount(concreteNotification.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
+                        holder.setupWithAccount(concreteNotification.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis(), statusDisplayOptions.showBotOverlay());
                         holder.setupActionListener(accountActionListener, concreteNotification.getAccount().getId());
                     }
                     break;

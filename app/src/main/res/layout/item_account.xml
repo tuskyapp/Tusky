@@ -21,12 +21,13 @@
         tools:src="@drawable/avatar_default" />
 
     <ImageView
-        android:id="@+id/account_avatar_inset"
+        android:id="@+id/account_bot_badge"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
         android:visibility="gone"
+        android:src="@drawable/bot_badge"
         app:layout_constraintBottom_toBottomOf="@id/account_avatar"
         app:layout_constraintEnd_toEndOf="@id/account_avatar"
         tools:src="#000"

@@ -154,52 +154,46 @@ class ReportViewModel @Inject constructor(
 
     fun toggleMute() {
         val alreadyMuted = muteStateMutable.value?.data == true
-        if (alreadyMuted) {
-            mastodonApi.unmuteAccount(accountId)
-        } else {
-            mastodonApi.muteAccount(accountId)
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { relationship ->
-                    val muting = relationship.muting
-                    muteStateMutable.value = Success(muting)
-                    if (muting) {
-                        eventHub.dispatch(MuteEvent(accountId))
-                    }
-                },
-                { error ->
-                    muteStateMutable.value = Error(false, error.message)
+        viewModelScope.launch {
+            try {
+                val relationship = if (alreadyMuted) {
+                    mastodonApi.unmuteAccount(accountId)
+                } else {
+                    mastodonApi.muteAccount(accountId)
                 }
-            ).autoDispose()
+
+                val muting = relationship.muting
+                muteStateMutable.value = Success(muting)
+                if (muting) {
+                    eventHub.dispatch(MuteEvent(accountId))
+                }
+            } catch (t: Throwable) {
+                muteStateMutable.value = Error(false, t.message)
+            }
+        }
 
         muteStateMutable.value = Loading()
     }
 
     fun toggleBlock() {
         val alreadyBlocked = blockStateMutable.value?.data == true
-        if (alreadyBlocked) {
-            mastodonApi.unblockAccount(accountId)
-        } else {
-            mastodonApi.blockAccount(accountId)
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { relationship ->
-                    val blocking = relationship.blocking
-                    blockStateMutable.value = Success(blocking)
-                    if (blocking) {
-                        eventHub.dispatch(BlockEvent(accountId))
-                    }
-                },
-                { error ->
-                    blockStateMutable.value = Error(false, error.message)
+        viewModelScope.launch {
+            try {
+                val relationship = if (alreadyBlocked) {
+                    mastodonApi.unblockAccount(accountId)
+                } else {
+                    mastodonApi.blockAccount(accountId)
                 }
-            )
-            .autoDispose()
 
+                val blocking = relationship.blocking
+                blockStateMutable.value = Success(blocking)
+                if (blocking) {
+                    eventHub.dispatch(BlockEvent(accountId))
+                }
+            } catch (t: Throwable) {
+                blockStateMutable.value = Error(false, t.message)
+            }
+        }
         blockStateMutable.value = Loading()
     }
 

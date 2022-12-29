@@ -30,7 +30,8 @@ class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
         return SearchAccountsAdapter(
             this,
             preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
         )
     }
 

@@ -26,7 +26,8 @@ import com.keylesspalace.tusky.util.removeDuplicates
 abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructor(
     var accountActionListener: AccountActionListener,
     protected val animateAvatar: Boolean,
-    protected val animateEmojis: Boolean
+    protected val animateEmojis: Boolean,
+    protected val showBotOverlay: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
     var accountList = mutableListOf<TimelineAccount>()
     private var bottomLoading: Boolean = false
