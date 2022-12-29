@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -853,6 +855,48 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         }
                     )
                 }
+            }
+            R.id.action_share_account_link -> {
+                // If the account isn't loaded yet, eat the input.
+                if (loadedAccount?.url != null) {
+                    val url = loadedAccount!!.url
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, url)
+                    sendIntent.type = "text/plain"
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_link_to)))
+                }
+                return true
+            }
+            R.id.action_share_account_handle -> {
+                // If the account isn't loaded yet, eat the input.
+                if (loadedAccount?.username != null) {
+                    val username = "@" + loadedAccount!!.username
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, username)
+                    sendIntent.type = "text/plain"
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_handle_to)))
+                }
+                return true
+            }
+            R.id.action_copy_account_link -> {
+                // If the account isn't loaded yet, eat the input.
+                if (loadedAccount?.url != null) {
+                    val url = loadedAccount!!.url
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null, url))
+                }
+                return true
+            }
+            R.id.action_copy_account_handle -> {
+                // If the account isn't loaded yet, eat the input.
+                if (loadedAccount?.username != null) {
+                    val username = "@" + loadedAccount!!.username
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null, username))
+                }
+                return true
             }
             R.id.action_block -> {
                 toggleBlock()

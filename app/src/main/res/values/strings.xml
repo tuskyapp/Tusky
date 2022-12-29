@@ -102,6 +102,10 @@
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
     <string name="action_unblock">Unblock</string>
+    <string name="action_share_account_link">Share link to account</string>
+    <string name="action_share_account_handle">Share handle of account</string>
+    <string name="action_copy_account_link">Copy link to account</string>
+    <string name="action_copy_account_handle">Copy handle of account</string>
     <string name="action_hide_reblogs">Hide boosts</string>
     <string name="action_show_reblogs">Show boosts</string>
     <string name="action_report">Report</string>
@@ -180,6 +184,8 @@
 
     <string name="send_post_link_to">Share post URL to…</string>
     <string name="send_post_content_to">Share post to…</string>
+    <string name="send_account_link_to">Share account URL to…</string>
+    <string name="send_account_handle_to">Share account handle to…</string>
     <string name="send_media_to">Share media to…</string>
 
     <string name="confirmation_reported">Sent!</string>

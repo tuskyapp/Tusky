@@ -10,6 +10,27 @@
         android:title="@string/action_open_as"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_account_share"
+        android:title="@string/action_share">
+        <menu>
+            <item
+                android:id="@+id/action_share_account_link"
+                android:title="@string/action_share_account_link" />
+            <item
+                android:id="@+id/action_share_account_handle"
+                android:title="@string/action_share_account_handle" />
+        </menu>
+    </item>
+
+    <item android:id="@+id/action_copy_account_link"
+        android:title="@string/action_copy_account_link"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_copy_account_handle"
+        android:title="@string/action_copy_account_handle"
+        app:showAsAction="never" />
+
     <item android:id="@+id/action_mute"
         android:title="@string/action_mute"
         app:showAsAction="never" />
