@@ -22,6 +22,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
+import com.keylesspalace.tusky.components.compose.MediaUploader
+import com.keylesspalace.tusky.components.compose.UploadEvent
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
@@ -54,6 +56,8 @@ class SendStatusService : Service(), Injectable {
     lateinit var eventHub: EventHub
     @Inject
     lateinit var draftHelper: DraftHelper
+    @Inject
+    lateinit var mediaUploader: MediaUploader
 
     private val supervisorJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + supervisorJob)
@@ -131,14 +135,33 @@ class SendStatusService : Service(), Injectable {
         statusToSend.retries++
 
         sendJobs[statusId] = serviceScope.launch {
+
+            // first, wait for media uploads to finish
+            val media = statusToSend.media.map { mediaItem ->
+                if (mediaItem.id == null) {
+                    when (val uploadState = mediaUploader.getMediaUploadState(mediaItem.localId)) {
+                        is UploadEvent.FinishedEvent -> mediaItem.copy(id = uploadState.mediaId, processed = uploadState.processed)
+                        is UploadEvent.ErrorEvent -> {
+                            Log.w(TAG, "failed uploading media", uploadState.error)
+                            failSending(statusId)
+                            stopSelfWhenDone()
+                            return@launch
+                        }
+                    }
+                } else {
+                    mediaItem
+                }
+            }
+
+            // then wait until server finished processing the media
             try {
                 var mediaCheckRetries = 0
-                while (statusToSend.mediaProcessed.any { !it }) {
+                while (media.any { mediaItem -> !mediaItem.processed }) {
                     delay(1000L * mediaCheckRetries)
-                    statusToSend.mediaProcessed.forEachIndexed { index, processed ->
-                        if (!processed) {
-                            when (mastodonApi.getMedia(statusToSend.mediaIds[index]).code()) {
-                                200 -> statusToSend.mediaProcessed[index] = true // success
+                    media.forEach { mediaItem ->
+                        if (!mediaItem.processed) {
+                            when (mastodonApi.getMedia(mediaItem.id!!).code()) {
+                                200 -> mediaItem.processed = true // success
                                 206 -> { } // media is still being processed, continue checking
                                 else -> { // some kind of server error, retrying probably doesn't make sense
                                     failSending(statusId)
@@ -156,16 +179,17 @@ class SendStatusService : Service(), Injectable {
                 return@launch
             }
 
+            // finally, send the new status
             val newStatus = NewStatus(
-                statusToSend.text,
-                statusToSend.warningText,
-                statusToSend.inReplyToId,
-                statusToSend.visibility,
-                statusToSend.sensitive,
-                statusToSend.mediaIds,
-                statusToSend.scheduledAt,
-                statusToSend.poll,
-                statusToSend.language,
+                status = statusToSend.text,
+                warningText = statusToSend.warningText,
+                inReplyToId = statusToSend.inReplyToId,
+                visibility = statusToSend.visibility,
+                sensitive = statusToSend.sensitive,
+                mediaIds = media.map { it.id!! },
+                scheduledAt = statusToSend.scheduledAt,
+                poll = statusToSend.poll,
+                language = statusToSend.language,
             )
 
             val sendResult = if (statusToSend.statusId == null) {
@@ -191,6 +215,8 @@ class SendStatusService : Service(), Injectable {
                 if (statusToSend.draftId != 0) {
                     draftHelper.deleteDraftAndAttachments(statusToSend.draftId)
                 }
+
+                mediaUploader.cancelUploadScope(*statusToSend.media.map { it.localId }.toIntArray())
 
                 val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
 
@@ -237,6 +263,8 @@ class SendStatusService : Service(), Injectable {
         val failedStatus = statusesToSend.remove(statusId)
         if (failedStatus != null) {
 
+            mediaUploader.cancelUploadScope(*failedStatus.media.map { it.localId }.toIntArray())
+
             saveStatusToDrafts(failedStatus)
 
             val notification = buildDraftNotification(
@@ -254,6 +282,9 @@ class SendStatusService : Service(), Injectable {
     private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
+
+            mediaUploader.cancelUploadScope(*statusToCancel.media.map { it.localId }.toIntArray())
+
             val sendJob = sendJobs.remove(statusId)
             sendJob?.cancel()
 
@@ -283,9 +314,9 @@ class SendStatusService : Service(), Injectable {
             contentWarning = status.warningText,
             sensitive = status.sensitive,
             visibility = Status.Visibility.byString(status.visibility),
-            mediaUris = status.mediaUris,
-            mediaDescriptions = status.mediaDescriptions,
-            mediaFocus = status.mediaFocus,
+            mediaUris = status.media.map { it.uri },
+            mediaDescriptions = status.media.map { it.description },
+            mediaFocus = status.media.map { it.focus },
             poll = status.poll,
             failedToSend = true,
             scheduledAt = status.scheduledAt,
@@ -358,17 +389,17 @@ class SendStatusService : Service(), Injectable {
             val intent = Intent(context, SendStatusService::class.java)
             intent.putExtra(KEY_STATUS, statusToSend)
 
-            if (statusToSend.mediaUris.isNotEmpty()) {
+            if (statusToSend.media.isNotEmpty()) {
                 // forward uri permissions
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 val uriClip = ClipData(
                     ClipDescription("Status Media", arrayOf("image/*", "video/*")),
-                    ClipData.Item(statusToSend.mediaUris[0])
+                    ClipData.Item(statusToSend.media[0].uri)
                 )
-                statusToSend.mediaUris
+                statusToSend.media
                     .drop(1)
-                    .forEach { mediaUri ->
-                        uriClip.addItem(ClipData.Item(mediaUri))
+                    .forEach { mediaItem ->
+                        uriClip.addItem(ClipData.Item(mediaItem.uri))
                     }
 
                 intent.clipData = uriClip
@@ -385,10 +416,7 @@ data class StatusToSend(
     val warningText: String,
     val visibility: String,
     val sensitive: Boolean,
-    val mediaIds: List<String>,
-    val mediaUris: List<String>,
-    val mediaDescriptions: List<String>,
-    val mediaFocus: List<Attachment.Focus?>,
+    val media: List<MediaToSend>,
     val scheduledAt: String?,
     val inReplyToId: String?,
     val poll: NewPoll?,
@@ -398,7 +426,16 @@ data class StatusToSend(
     val draftId: Int,
     val idempotencyKey: String,
     var retries: Int,
-    val mediaProcessed: MutableList<Boolean>,
     val language: String?,
     val statusId: String?,
+) : Parcelable
+
+@Parcelize
+data class MediaToSend(
+    val localId: Int,
+    val id: String?, // null if media is not yet completely uploaded
+    val uri: String,
+    val description: String?,
+    val focus: Attachment.Focus?,
+    var processed: Boolean
 ) : Parcelable
