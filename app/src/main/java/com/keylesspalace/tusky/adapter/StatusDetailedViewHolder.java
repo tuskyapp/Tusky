@@ -33,6 +33,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private final TextView favourites;
     private final View infoDivider;
 
+    private static final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+
     public StatusDetailedViewHolder(View view) {
         super(view);
         reblogs = view.findViewById(R.id.status_reblogs);
@@ -61,7 +63,6 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
             sb.setSpan(visibilityIconSpan, 0, visibilityString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
         String metadataJoiner = context.getString(R.string.metadata_joiner);
 
         Date createdAt = status.getCreatedAt();
