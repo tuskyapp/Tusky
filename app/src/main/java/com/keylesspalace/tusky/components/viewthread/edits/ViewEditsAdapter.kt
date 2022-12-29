@@ -120,11 +120,6 @@ class ViewEditsAdapter(
                 animateEmojis = animateEmoji,
                 enabled = false
             )
-
-           /*binding.statusEditContentWarningDescription.text = context.getString(
-                R.string.poll_info_time_absolute,
-                absoluteTimeFormatter.format(edit.poll.expiresAt, false)
-            ) */
         }
 
         if (edit.mediaAttachments.isEmpty()) {
