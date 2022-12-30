@@ -215,8 +215,8 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun didChange(content: String?, contentWarning: String?): Boolean {
-        val textChanged = (content ?: "") != (startingText ?: "")
-        val contentWarningChanged = (contentWarning ?: "") != (startingContentWarning ?: "")
+        val textChanged = content.orEmpty() != startingText.orEmpty()
+        val contentWarningChanged = contentWarning.orEmpty() != startingContentWarning
         val mediaChanged = media.value.isNotEmpty()
         val pollChanged = poll.value != null
         val didScheduledTimeChange = hasScheduledTimeChanged
