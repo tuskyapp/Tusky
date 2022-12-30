@@ -82,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
         int style = textStyle(preferences.getString("statusTextSize", "medium"));
-        getTheme().applyStyle(style, false);
+        getTheme().applyStyle(style, true);
 
         if(requiresLogin()) {
             redirectIfNotLoggedIn();
