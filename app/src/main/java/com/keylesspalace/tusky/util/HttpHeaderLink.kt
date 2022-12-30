@@ -1,11 +1,17 @@
-/* Written in 2017 by Andrew Dawson
+/* Copyright 2022 Tusky Contributors
  *
- * To the extent possible under law, the author(s) have dedicated all copyright and related and
- * neighboring rights to this software to the public domain worldwide. This software is distributed
- * without any warranty.
+ * This file is a part of Tusky.
  *
- * You should have received a copy of the CC0 Public Domain Dedication along with this software.
- * If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>.
  */
 package com.keylesspalace.tusky.util
 
