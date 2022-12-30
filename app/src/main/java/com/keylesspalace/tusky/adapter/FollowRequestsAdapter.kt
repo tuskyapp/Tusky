@@ -23,8 +23,9 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 class FollowRequestsAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
-    animateEmojis: Boolean
-) : AccountAdapter<FollowRequestViewHolder>(accountActionListener, animateAvatar, animateEmojis) {
+    animateEmojis: Boolean,
+    showBotOverlay: Boolean
+) : AccountAdapter<FollowRequestViewHolder>(accountActionListener, animateAvatar, animateEmojis, showBotOverlay) {
     override fun createAccountViewHolder(parent: ViewGroup): FollowRequestViewHolder {
         val binding = ItemFollowRequestBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -33,7 +34,7 @@ class FollowRequestsAdapter(
     }
 
     override fun onBindAccountViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
-        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis, showBotOverlay)
         viewHolder.setupActionListener(accountActionListener, accountList[position].id)
     }
 }
