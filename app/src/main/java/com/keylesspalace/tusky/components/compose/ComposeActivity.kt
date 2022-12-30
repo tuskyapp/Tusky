@@ -135,8 +135,6 @@ class ComposeActivity :
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
-    // this only exists when a status is trying to be sent, but uploads are still occurring
-    private var finishingUploadDialog: ProgressDialog? = null
     private var photoUploadUri: Uri? = null
 
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
@@ -957,16 +955,9 @@ class ComposeActivity :
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
-            if (viewModel.media.value.isNotEmpty()) {
-                finishingUploadDialog = ProgressDialog.show(
-                    this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true
-                )
-            }
 
             lifecycleScope.launch {
                 viewModel.sendStatus(contentText, spoilerText)
-                finishingUploadDialog?.dismiss()
                 deleteDraftAndFinish()
             }
         } else {
@@ -1130,6 +1121,7 @@ class ComposeActivity :
                 ComposeKind.EDIT_SCHEDULED -> getContinueEditingOrDiscardDialog()
             }.show()
         } else {
+            viewModel.stopUploads()
             finishWithoutSlideOutAnimation()
         }
     }
@@ -1147,9 +1139,13 @@ class ComposeActivity :
         return AlertDialog.Builder(this)
             .setMessage(warning)
             .setPositiveButton(R.string.action_save) { _, _ ->
+                viewModel.stopUploads()
                 saveDraftAndFinish(contentText, contentWarning)
             }
-            .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
+            .setNegativeButton(R.string.action_delete) { _, _ ->
+                viewModel.stopUploads()
+                deleteDraftAndFinish()
+            }
     }
 
     /**
@@ -1166,9 +1162,11 @@ class ComposeActivity :
         return AlertDialog.Builder(this)
             .setMessage(warning)
             .setPositiveButton(R.string.action_save) { _, _ ->
+                viewModel.stopUploads()
                 saveDraftAndFinish(contentText, contentWarning)
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
+                viewModel.stopUploads()
                 finishWithoutSlideOutAnimation()
             }
     }
@@ -1184,6 +1182,7 @@ class ComposeActivity :
                 // Do nothing, dialog will dismiss, user can continue editing
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
+                viewModel.stopUploads()
                 finishWithoutSlideOutAnimation()
             }
     }
@@ -1234,10 +1233,13 @@ class ComposeActivity :
         val id: String? = null,
         val description: String? = null,
         val focus: Attachment.Focus? = null,
-        val processed: Boolean = false,
+        val state: State
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;
+        }
+        enum class State {
+            UPLOADING, UNPROCESSED, PROCESSED, PUBLISHED
         }
     }
 

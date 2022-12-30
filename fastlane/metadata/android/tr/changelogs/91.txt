@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Yeni Mastodon 3.5 bildirim tipleri için destek
+- Bot rozeti artık daha iyi görünüyor ve seçilen temaya göre ayarlanıyor
+- Metin artık gönderi ayrıntısı görünümünde seçilebilir
+- Android 6 ve daha düşük sürümlerde oturum açmayı engelleyen bir hata da dahil olmak üzere birçok hata düzeltildi

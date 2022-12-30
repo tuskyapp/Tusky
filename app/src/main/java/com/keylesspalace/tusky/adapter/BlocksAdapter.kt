@@ -31,11 +31,13 @@ import com.keylesspalace.tusky.util.loadAvatar
 class BlocksAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
-    animateEmojis: Boolean
+    animateEmojis: Boolean,
+    showBotOverlay: Boolean,
 ) : AccountAdapter<BlocksAdapter.BlockedUserViewHolder>(
     accountActionListener,
     animateAvatar,
-    animateEmojis
+    animateEmojis,
+    showBotOverlay
 ) {
     override fun createAccountViewHolder(parent: ViewGroup): BlockedUserViewHolder {
         val view = LayoutInflater.from(parent.context)
