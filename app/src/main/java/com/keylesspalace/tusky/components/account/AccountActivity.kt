@@ -318,7 +318,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     supportActionBar?.setDisplayShowTitleEnabled(false)
                 }
 
-                if (hideFab && !viewModel.isSelf && !blocking) {
+                if (hideFab && !blocking) {
                     if (verticalOffset > oldOffset) {
                         binding.accountFloatingActionButton.show()
                     }
@@ -665,7 +665,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             binding.accountFollowButton.show()
             updateFollowButton()
 
-            if (blocking || viewModel.isSelf) {
+            if (blocking) {
                 binding.accountFloatingActionButton.hide()
                 binding.accountMuteButton.hide()
                 binding.accountSubscribeButton.hide()
@@ -810,10 +810,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun mention() {
         loadedAccount?.let {
-            val intent = ComposeActivity.startIntent(
-                this,
+            val options = if (viewModel.isSelf) {
+                ComposeActivity.ComposeOptions()
+            } else {
                 ComposeActivity.ComposeOptions(mentionedUsernames = setOf(it.username))
-            )
+            }
+            val intent = ComposeActivity.startIntent(this, options)
             startActivity(intent)
         }
     }
@@ -885,7 +887,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     override fun getActionButton(): FloatingActionButton? {
-        return if (!viewModel.isSelf && !blocking) {
+        return if (!blocking) {
             binding.accountFloatingActionButton
         } else null
     }

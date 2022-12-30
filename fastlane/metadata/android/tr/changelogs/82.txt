@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Takip istekleri artık her zaman ana menüde gösterilmektedir.
+- Bir gönderiyi anlamak için zaman seçici, artık uygulamanın geri kalanıyla tutarlı bir tasarıma sahip
+Tam değişiklik günlüğü: https://github.com/tuskyapp/Tusky/releases

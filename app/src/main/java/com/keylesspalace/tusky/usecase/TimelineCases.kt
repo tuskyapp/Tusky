@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
 /**
@@ -95,30 +94,22 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun mute(statusId: String, notifications: Boolean, duration: Int?) {
-        mastodonApi.muteAccount(statusId, notifications, duration)
-            .subscribe(
-                {
-                    eventHub.dispatch(MuteEvent(statusId))
-                },
-                { t ->
-                    Log.w("Failed to mute account", t)
-                }
-            )
-            .addTo(cancelDisposable)
+    suspend fun mute(statusId: String, notifications: Boolean, duration: Int?) {
+        try {
+            mastodonApi.muteAccount(statusId, notifications, duration)
+            eventHub.dispatch(MuteEvent(statusId))
+        } catch (t: Throwable) {
+            Log.w(TAG, "Failed to mute account", t)
+        }
     }
 
-    fun block(statusId: String) {
-        mastodonApi.blockAccount(statusId)
-            .subscribe(
-                {
-                    eventHub.dispatch(BlockEvent(statusId))
-                },
-                { t ->
-                    Log.w("Failed to block account", t)
-                }
-            )
-            .addTo(cancelDisposable)
+    suspend fun block(statusId: String) {
+        try {
+            mastodonApi.blockAccount(statusId)
+            eventHub.dispatch(BlockEvent(statusId))
+        } catch (t: Throwable) {
+            Log.w(TAG, "Failed to block account", t)
+        }
     }
 
     fun delete(statusId: String): Single<DeletedStatus> {
@@ -132,7 +123,7 @@ class TimelineCases @Inject constructor(
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
             .doOnError { e ->
-                Log.w("Failed to change pin state", e)
+                Log.w(TAG, "Failed to change pin state", e)
             }
             .onErrorResumeNext(::convertError)
             .doAfterSuccess {
@@ -152,6 +143,10 @@ class TimelineCases @Inject constructor(
 
     private fun <T : Any> convertError(e: Throwable): Single<T> {
         return Single.error(TimelineError(e.getServerErrorMessage()))
+    }
+
+    companion object {
+        private const val TAG = "TimelineCases"
     }
 }
 
