@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.viewdata
 import android.os.Build
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.replaceCrashingCharacters
 import com.keylesspalace.tusky.util.shouldTrimStatus
@@ -42,8 +41,7 @@ sealed class StatusViewData {
          * @return Whether the post is collapsed or fully expanded.
          */
         val isCollapsed: Boolean,
-        val isDetailed: Boolean = false,
-        val statusEdits: List<StatusEdit>? = null
+        val isDetailed: Boolean = false
     ) : StatusViewData() {
         override val id: String
             get() = status.id

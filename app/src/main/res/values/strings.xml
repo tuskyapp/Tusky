@@ -55,6 +55,7 @@
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
     <string name="title_followed_hashtags">Followed Hashtags</string>
+    <string name="title_edits">Edits</string>
 
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s boosted</string>

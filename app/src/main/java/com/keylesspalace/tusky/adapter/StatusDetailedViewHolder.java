@@ -83,7 +83,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             sb.append(editedAtString);
 
-            if (statusViewData.getStatusEdits() != null && !statusViewData.getStatusEdits().isEmpty()) {
+            if (statusViewData.getStatus().getEditedAt() != null) {
                 NoUnderlineURLSpan editedClickSpan = new NoUnderlineURLSpan("") {
                     @Override
                     public void onClick(@NonNull View view) {

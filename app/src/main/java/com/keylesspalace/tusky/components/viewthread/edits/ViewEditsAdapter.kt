@@ -32,8 +32,8 @@ import com.keylesspalace.tusky.viewdata.toViewData
 
 class ViewEditsAdapter(
     private val edits: List<StatusEdit>,
-    private val animateAvatar: Boolean,
-    private val animateEmoji: Boolean,
+    private val animateAvatars: Boolean,
+    private val animateEmojis: Boolean,
     private val useBlurhash: Boolean,
     private val listener: LinkListener
 ) : RecyclerView.Adapter<BindingHolder<ItemStatusEditBinding>>() {
@@ -60,7 +60,7 @@ class ViewEditsAdapter(
         val avatarRadius: Int = context.resources
             .getDimensionPixelSize(R.dimen.avatar_radius_48dp)
 
-        loadAvatar(edit.account.avatar, binding.statusEditAvatar, avatarRadius, animateAvatar)
+        loadAvatar(edit.account.avatar, binding.statusEditAvatar, avatarRadius, animateAvatars)
 
         val infoStringRes = if (position == edits.size - 1) {
             R.string.status_created_info
@@ -74,7 +74,7 @@ class ViewEditsAdapter(
             infoStringRes,
             edit.account.name,
             timestamp
-        ).emojify(edit.account.emojis, binding.statusEditInfo, animateEmoji)
+        ).emojify(edit.account.emojis, binding.statusEditInfo, animateEmojis)
 
         if (edit.spoilerText.isEmpty()) {
             binding.statusEditContentWarningDescription.hide()
@@ -85,11 +85,11 @@ class ViewEditsAdapter(
             binding.statusEditContentWarningDescription.text = edit.spoilerText.emojify(
                 edit.emojis,
                 binding.statusEditContentWarningDescription,
-                animateEmoji
+                animateEmojis
             )
         }
 
-        val emojifiedText = edit.content.parseAsMastodonHtml().emojify(edit.emojis, binding.statusEditContent, animateEmoji)
+        val emojifiedText = edit.content.parseAsMastodonHtml().emojify(edit.emojis, binding.statusEditContent, animateEmojis)
         setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
 
         if (edit.poll == null) {
@@ -117,7 +117,7 @@ class ViewEditsAdapter(
                     SINGLE
                 },
                 resultClickListener = null,
-                animateEmojis = animateEmoji,
+                animateEmojis = animateEmojis,
                 enabled = false
             )
         }

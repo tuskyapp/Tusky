@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.util
 
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
@@ -27,16 +26,14 @@ fun Status.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean,
-    isDetailed: Boolean = false,
-    statusEdits: List<StatusEdit>? = null
+    isDetailed: Boolean = false
 ): StatusViewData.Concrete {
     return StatusViewData.Concrete(
         status = this,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
-        isDetailed = isDetailed,
-        statusEdits = statusEdits
+        isDetailed = isDetailed
     )
 }
 
