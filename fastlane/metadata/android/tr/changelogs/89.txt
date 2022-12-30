@@ -1,0 +1,7 @@
+Tusky v17.0
+
+-Olarak aç..." artık birden fazla hesap kullanırken hesap profilleri menüsünde de mevcut
+- Giriş artık uygulama içindeki bir web görünümünde gerçekleştiriliyor
+- Android 12 desteği 
+- yeni Mastodon örnek yapılandırma API'sı desteği
+- ve diğer birçok küçük düzeltme ve iyileştirme

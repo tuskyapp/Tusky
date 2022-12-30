@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- profil notları için destek (Mastodon 3.2.0 özelliği)
+- yönetici duyuruları için destek (Mastodon 3.1.0 özelliği)
+
+- seçtiğiniz hesabın görseli artık ana araç çubuğunda gösterilecek
+- bir zaman çizelgesindeki görünen isme tıkladığınızda artık o kullanıcının profil sayfasını açacaktır
+
+- bir sürü hata düzeltmesi ve küçük iyileştirmeler
+- geliştirilmiş çeviriler
