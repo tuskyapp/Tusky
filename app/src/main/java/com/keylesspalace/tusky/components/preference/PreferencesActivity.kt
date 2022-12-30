@@ -106,16 +106,16 @@ class PreferencesActivity :
         )
         fragment.arguments = args
         fragment.setTargetFragment(caller, 0)
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
+        supportFragmentManager.commit {
+            setCustomAnimations(
                 R.anim.slide_from_right,
                 R.anim.slide_to_left,
                 R.anim.slide_from_left,
                 R.anim.slide_to_right
             )
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+            replace(R.id.fragment_container, fragment)
+            addToBackStack(null)
+        }
         return true
     }
 
