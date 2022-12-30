@@ -3,20 +3,20 @@
     <string name="error_generic">Bir hata oluştu.</string>
     <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantınızı kontrol edin ve tekrar deneyin!</string>
     <string name="error_empty">Bu alan boş bırakılmaz.</string>
-    <string name="error_invalid_domain">Geçersiz alan adı girildi</string>
+    <string name="error_invalid_domain">Girilen alan alanı geçersiz</string>
     <string name="error_failed_app_registration">Bu sunucuda kimlik doğrulama başarısız oldu.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
     <string name="error_authorization_unknown">Tanımlanamayan bir yetkilendirme hatası oluştu.</string>
     <string name="error_authorization_denied">Yetkilendirme reddedildi.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu.</string>
-    <string name="error_compose_character_limit">Yayın çok uzun!</string>
+    <string name="error_compose_character_limit">Gönderi çok uzun!</string>
     <string name="error_media_upload_type">Bu tür bir dosya yüklenemez.</string>
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>
     <string name="error_media_download_permission">Medya kaydetme izni gerekli.</string>
-    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı duruma eklenemez.</string>
+    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı gönderide yayınlanamaz.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
-    <string name="error_sender_account_gone">Yayın gönderirken hata.</string>
+    <string name="error_sender_account_gone">Gönderi gönderilirken hata.</string>
     <string name="title_home">Ana sayfa</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
@@ -37,8 +37,8 @@
     <string name="title_drafts">Taslaklar</string>
     <string name="title_licenses">Lisanslar</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s yineledi</string>
-    <string name="post_sensitive_media_title">Hasas medya</string>
+    <string name="post_boosted_format">%s yeniden paylaştı</string>
+    <string name="post_sensitive_media_title">Hassas medya</string>
     <string name="post_media_hidden_title">Gizlenmiş medya</string>
     <string name="post_sensitive_media_directions">Görüntülemek için dokunun</string>
     <string name="post_content_warning_show_more">Daha fazla göster</string>
@@ -47,8 +47,8 @@
     <string name="post_content_show_less">Daralt</string>
     <string name="message_empty">Burada hiçbir şey yok.</string>
     <string name="footer_empty">Burada henüz hiç birşey yok. Yenilemek için aşağıya çekin!</string>
-    <string name="notification_reblog_format">%s tootunuzu yineledi</string>
-    <string name="notification_favourite_format">%s tootunuzu favorilerine ekledi</string>
+    <string name="notification_reblog_format">%s gönderinizi paylaştı</string>
+    <string name="notification_favourite_format">%s gönderinizi favorilerine ekledi</string>
     <string name="notification_follow_format">%s seni takip etti</string>
     <string name="report_username_format">\@%s Bildir</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
@@ -65,7 +65,7 @@
     <string name="action_unfollow">Takibi bırak</string>
     <string name="action_block">Engelle</string>
     <string name="action_unblock">Engeli kaldır</string>
-    <string name="action_hide_reblogs">Yinelemeleri gizle</string>
+    <string name="action_hide_reblogs">Boostları gizle</string>
     <string name="action_show_reblogs">Yinelemeleri göster</string>
     <string name="action_report">Bildir</string>
     <string name="action_delete">Sil</string>
@@ -98,7 +98,7 @@
     <string name="action_reject">Reddet</string>
     <string name="action_search">Ara</string>
     <string name="action_access_drafts">Taslaklar</string>
-    <string name="action_toggle_visibility">Toot görünürlüğü</string>
+    <string name="action_toggle_visibility">Gönderi görünürlüğü</string>
     <string name="action_content_warning">İçerik uyarısı</string>
     <string name="action_emoji_keyboard">İfade klavyesi</string>
     <string name="action_add_tab">Sekme ekle</string>
@@ -106,8 +106,8 @@
     <string name="action_copy_link">Bağlantıyı kopyala</string>
     <string name="action_open_as">Farklı aç %s</string>
     <string name="action_share_as">Olarak paylaş …</string>
-    <string name="send_post_link_to">Durumun adresini paylaş…</string>
-    <string name="send_post_content_to">Tootu paylaş…</string>
+    <string name="send_post_link_to">Gönderi adresini paylaş…</string>
+    <string name="send_post_content_to">Gönderiyi paylaş…</string>
     <string name="send_media_to">Medyayı paylaş…</string>
     <string name="confirmation_reported">Gönderildi!</string>
     <string name="confirmation_unblocked">Kullanıcının engeli kaldırıldı</string>
@@ -126,7 +126,7 @@
     <string name="label_header">Başlık</string>
     <string name="link_whats_an_instance">Sunucu nedir\?</string>
     <string name="login_connection">Bağlantı kuruluyor…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.de ve <a href="https://instances.social">daha fazlası</a> gibi herhangi bir sunucunun adresi buraya girilebilir!
+    <string name="dialog_whats_an_instance">Mastodon gibi herhangi bir örneğin adresi veya etki alanı buraya girilebilirsiniz. örneğin: cosahedron.website, social.tchncs.de, vb. <a href="https://instances.social">daha fazlası!</a>
 \n
 \nHenüz hesabınız yoksa, katılmak istediğiniz sunucunun adını girebilir ve orada bir hesap oluşturabilirsiniz.
 \n
@@ -137,7 +137,7 @@
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
     <string name="dialog_message_cancel_follow_request">Takip isteğini iptal et\?</string>
-    <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musun\?</string>
+    <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musunuz\?</string>
     <string name="dialog_delete_post_warning">Bu durumu silmek istiyor musunuz\?</string>
     <string name="visibility_public">Kamu: Herkese açık ve sosyal çizelgelerinde çıkar</string>
     <string name="visibility_unlisted">Listelenmemiş: Genel zaman çizelgelerinde gösterme</string>
@@ -170,10 +170,10 @@
     <string name="pref_title_show_replies">Yanıtları göster</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini indir</string>
     <string name="pref_title_proxy_settings">Vekil</string>
-    <string name="pref_title_http_proxy_settings">HTTP Proxy</string>
-    <string name="pref_title_http_proxy_enable">HTTP proxy etkinleştir</string>
-    <string name="pref_title_http_proxy_server">HTTP proxy sunucusu</string>
-    <string name="pref_title_http_proxy_port">HTTP ağ vekili portu</string>
+    <string name="pref_title_http_proxy_settings">HTTP vekil sunucu</string>
+    <string name="pref_title_http_proxy_enable">HTTP vekil sunucu etkinleştir</string>
+    <string name="pref_title_http_proxy_server">HTTP vekil sunucusu</string>
+    <string name="pref_title_http_proxy_port">HTTP vekil sunucu portu</string>
     <string name="pref_default_post_privacy">Varsayılan gönderi gizliliği</string>
     <string name="pref_default_media_sensitivity">Medyayı her zaman hassas olarak işaretle</string>
     <string name="pref_publishing">Yayınlama (sunucuyla eşitlenir)</string>
@@ -181,7 +181,7 @@
     <string name="post_privacy_public">Herkese açık</string>
     <string name="post_privacy_unlisted">Liste dışı</string>
     <string name="post_privacy_followers_only">Sadece takipçiler</string>
-    <string name="pref_post_text_size">Durum metin boyutu</string>
+    <string name="pref_post_text_size">Yayın metin boyutu</string>
     <string name="post_text_size_smallest">Çok küçük</string>
     <string name="post_text_size_small">Küçük</string>
     <string name="post_text_size_medium">Orta</string>
@@ -192,17 +192,18 @@
     <string name="notification_follow_name">Yeni Takipçiler</string>
     <string name="notification_follow_description">Yeni takipçiler hakkında bildirim</string>
     <string name="notification_boost_name">Yükseltilenler</string>
-    <string name="notification_boost_description">Tootların yükseltildiğinde bildirimler</string>
+    <string name="notification_boost_description">Yayınların desteklendiğinde bildirimler</string>
     <string name="notification_favourite_name">Favoriler</string>
-    <string name="notification_favourite_description">Tootların favori olarak işaretlendiğinde</string>
+    <string name="notification_favourite_description">Yayınların favori olarak işaretlendiğinde</string>
     <string name="notification_mention_format">%s senden bahsetti</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s ve %4$d diğer</string>
     <string name="notification_summary_medium">%1$s, %2$s ve %3$s</string>
     <string name="notification_summary_small">%1$s ve %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d yeni etkileşim</item>
+        <item quantity="one">%d yeni etkileşim</item>
+        <item quantity="other">%d yeni etkileşimler</item>
     </plurals>
-    <string name="description_account_locked">Kitli Hesap</string>
+    <string name="description_account_locked">Kilitli Hesap</string>
     <string name="about_title_activity">Hakkında</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_tusky_license">Tusky özgür ve açık kaynak bir yazılımdır. GNU Genel Kamu Lisansı sürüm 3 altında lisanslanmıştır. Lisansı buradan görüntüleyebilirsiniz: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -241,9 +242,11 @@
     <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
     <string name="action_lists">Listeler</string>
     <string name="title_lists">Listeler</string>
-    <string name="compose_active_account_description">%1$s hesabıyla gönderiliyor</string>
+    <string name="compose_active_account_description">hesabıyla gönderiliyor %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Görsel engelli için tanımla
+        <item quantity="one">Görsel engelli için tanımla
+\n(%d karakter limiti)</item>
+        <item quantity="other">Görsel engelliler için tanımla
 \n(%d karakter limiti)</item>
     </plurals>
     <string name="action_set_caption">Başlık belirle</string>
@@ -251,11 +254,11 @@
     <string name="lock_account_label">Hesabı Kilitle</string>
     <string name="lock_account_label_description">Takipçileri elle onaylamanız gerekir</string>
     <string name="compose_save_draft">Taslaklara kaydedilsin mi\?</string>
-    <string name="send_post_notification_title">Toot gönderiliyor…</string>
-    <string name="send_post_notification_error_title">Toot gönderilirken hata oluştu</string>
-    <string name="send_post_notification_channel_name">Toot Gönderiliyor</string>
+    <string name="send_post_notification_title">Gönderi gönderiliyor…</string>
+    <string name="send_post_notification_error_title">Gönderi gönderilirken hata oluştu</string>
+    <string name="send_post_notification_channel_name">Gönderiler Gönderiliyor</string>
     <string name="send_post_notification_cancel_title">Gönderme iptal edildi</string>
-    <string name="send_post_notification_saved_content">Tootun bir kopyası taslaklara kaydedildi</string>
+    <string name="send_post_notification_saved_content">Gönderinin bir kopyası taslaklara kaydedildi</string>
     <string name="action_compose_shortcut">Oluştur</string>
     <string name="error_no_custom_emojis">%s örneğinizin herhangi bir özel ifadesi yok</string>
     <string name="emoji_style">İfade stili</string>
@@ -263,7 +266,7 @@
     <string name="download_fonts">Önce bu ifade paketini indirmeniz gerekecek</string>
     <string name="performing_lookup_title">Araştırılıyor…</string>
     <string name="expand_collapse_all_posts">Tüm durumları Genişlet/Küçült</string>
-    <string name="action_open_post">Durumu aç</string>
+    <string name="action_open_post">Gönderiyi aç</string>
     <string name="restart_required">Uygulamayı yeniden başlatmanız lazım</string>
     <string name="restart_emoji">Bu değişiklikleri uygulamak için Tusky\'yi yeniden başlatmanız gerekecek</string>
     <string name="later">Sonra</string>
@@ -300,7 +303,8 @@
     <string name="conversation_2_recipients">%1$s ve %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ve %3$d daha fazlası</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="other">%1$d maksimum sekme sayısına ulaşıldı</item>
+        <item quantity="one">azami %1$d sekme sayısına ulaşıldı</item>
+        <item quantity="other">azami %1$d sekmeler sayısına ulaşıldı</item>
     </plurals>
     <string name="title_domain_mutes">Gizli alan adları</string>
     <string name="action_unreblog">Yinelemekten vazgeç</string>
@@ -342,7 +346,7 @@
     <string name="action_add_to_list">Listeye hesap ekle</string>
     <string name="action_remove_from_list">Hesabı listeden kaldır</string>
     <string name="caption_notoemoji">Google\'ın mevcut ifade paketi</string>
-    <string name="description_post_media">Medya: %s</string>
+    <string name="description_post_media">Ortam: %s</string>
     <string name="description_post_cw">İçerik uyarısı: %s</string>
     <string name="description_post_media_no_description_placeholder">Açıklama yok</string>
     <string name="description_post_reblogged">Yeniden blogladı</string>
@@ -350,21 +354,21 @@
     <string name="description_visibility_public">Herkese açık</string>
     <string name="description_visibility_unlisted">Liste dışı</string>
     <string name="description_visibility_private">Takipçiler</string>
-    <string name="description_visibility_direct">Direkt</string>
+    <string name="description_visibility_direct">Doğrudan</string>
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
-    <string name="edit_hashtag_hint">Etiket olmadan #</string>
+    <string name="edit_hashtag_hint"># Olmadan etiket</string>
     <string name="notifications_clear">Temizle</string>
     <string name="notifications_apply_filter">Filtrele</string>
     <string name="filter_apply">Uygula</string>
-    <string name="compose_shortcut_long_label">Toot Oluştur</string>
+    <string name="compose_shortcut_long_label">Yayın Oluştur</string>
     <string name="compose_shortcut_short_label">Oluştur</string>
     <string name="notification_clear_text">Tüm bildirimleri kalıcı olarak silmek istediğinizden emin misiniz\?</string>
     <string name="compose_preview_image_description">%s görüntüsü için eylemler</string>
     <string name="poll_info_format"> <!-- 15 oy • 1 saat kaldı --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s oy</item>
-        <item quantity="other">%s oy</item>
+        <item quantity="other">%s oylar</item>
     </plurals>
     <string name="poll_info_closed">kapandı</string>
     <string name="poll_vote">Oy</string>
@@ -392,7 +396,7 @@
     <string name="report_sent_success">\@%s başarıyla bildirildi</string>
     <string name="hint_additional_info">Ek Yorumlar</string>
     <string name="report_remote_instance">%s adresine ilet</string>
-    <string name="failed_fetch_posts">Durumlar getirilemedi</string>
+    <string name="failed_fetch_posts">Yayınlar getirilemedi</string>
     <string name="report_description_1">Bildirim sunucu yöneticinize gönderilecektir. Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
     <string name="pref_title_show_notifications_filter">Bildirim filtresini göster</string>
@@ -402,14 +406,14 @@
     <string name="title_mentions_dialog">Bahsedenler</string>
     <string name="action_open_media_n">#%d medyayı aç</string>
     <string name="title_bookmarks">Yer imleri</string>
-    <string name="title_scheduled_posts">Zamanlanmış tootlar</string>
+    <string name="title_scheduled_posts">Zamanlanmış yayınlar</string>
     <string name="action_bookmark">Yer imi</string>
     <string name="action_edit">Düzenle</string>
     <string name="action_delete_and_redraft">Sil ve düzenle</string>
     <string name="action_view_bookmarks">Yer imleri</string>
     <string name="action_add_poll">Anket ekle</string>
-    <string name="action_access_scheduled_posts">Zamanlanmış tootlar</string>
-    <string name="action_schedule_post">Tootu zamanla</string>
+    <string name="action_access_scheduled_posts">Zamanlanmış yayınlar</string>
+    <string name="action_schedule_post">Gönderi zamanını ayarla</string>
     <string name="action_reset_schedule">Sıfırla</string>
     <string name="dialog_redraft_post_warning">Bu durumu silip yeniden düzenlemek istiyor musunuz\?</string>
     <string name="pref_title_bot_overlay">Botlar için işaret göster</string>
@@ -440,7 +444,7 @@
     <string name="poll_new_choice_hint">Seçenek %d</string>
     <string name="post_lookup_error_format">%s gönderisi aranırken hata oluştu</string>
     <string name="no_drafts">Hiç taslağınız yok.</string>
-    <string name="no_scheduled_posts">Zamanlanmış durumunuz yok.</string>
+    <string name="no_scheduled_posts">Zamanlanmış yayınınız yok.</string>
     <string name="reblog_private">Kendi kitlenize yükseltin</string>
     <string name="hashtags">Etiketler</string>
     <string name="pref_title_confirm_reblogs">Boost etmeden önce onay iletişim kutusunu göster</string>
@@ -448,7 +452,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Sekmeler arasında geçiş yapmak için kaydırma hareketini etkinleştir</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s kişi</item>
-        <item quantity="other">%s kişi</item>
+        <item quantity="other">%s kişiler</item>
     </plurals>
     <string name="add_hashtag_title">Hashtag ekle</string>
     <string name="notification_follow_request_description">Takip istekleri ile ilgili bildirimler</string>
@@ -473,16 +477,16 @@
     <string name="pref_title_hide_top_toolbar">Üst araç çubuğunun başlığını gizle</string>
     <string name="action_delete_conversation">Konuşmayı sil</string>
     <string name="title_announcements">Duyurular</string>
-    <string name="error_multimedia_size_limit">Video ve ses dosyaları %s MB boyutunu aşamaz</string>
+    <string name="error_multimedia_size_limit">Video ve ses dosyaları %s MB boyutunu aşamaz.</string>
     <string name="error_image_edit_failed">Görüntü düzenlemedi.</string>
-    <string name="error_following_hashtag_format">#%s takip edilirken hata</string>
+    <string name="error_following_hashtag_format">#%s\'i izleyen hata</string>
     <string name="title_login">Giriş</string>
     <string name="error_loading_account_details">Hesap detayları alınırken hata</string>
     <string name="error_could_not_load_login_page">Giriş ekranı yüklenemedi.</string>
-    <string name="error_muting_hashtag_format">Kapama hatası #%s</string>
+    <string name="error_muting_hashtag_format">Sessize alma hatası #%s</string>
     <string name="action_unfollow_hashtag_format">Takibi bırak #%s\?</string>
-    <string name="pref_title_wellbeing_mode">İyilik</string>
-    <string name="account_note_saved">Kaydet!</string>
+    <string name="pref_title_wellbeing_mode">Huzur</string>
+    <string name="account_note_saved">Kaydedildi!</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Diğer</string>
     <string name="pref_show_self_username_always">Daima</string>
@@ -491,13 +495,103 @@
     <string name="pref_title_confirm_favourites">Favorilerden önce onay iletişim kutusunu göster</string>
     <string name="error_unmuting_hashtag_format">Sesi açma hatası #%s</string>
     <string name="pref_title_notification_filter_reports">yeni bir rapor</string>
-    <string name="pref_title_animate_custom_emojis">Özel emojileri canlandır</string>
+    <string name="pref_title_animate_custom_emojis">Özel ayarlanmış emojileri oynat</string>
     <string name="notification_header_report_format">%s rapor edilmiş %s</string>
-    <string name="notification_summary_report_format">%s · %d ekli iletiler</string>
+    <string name="notification_summary_report_format">%s · %d ekli gönderiler</string>
     <string name="post_edited">Düzenleme %s</string>
-    <string name="account_note_hint">Bu hesap ile ilgili özel notunuz</string>
+    <string name="account_note_hint">Bu hesap hakkındaki özel notun</string>
     <string name="title_migration_relogin">Anlık bildirimler için yeniden giriş yapın</string>
     <string name="title_followed_hashtags">Takip Edilen Etiketler</string>
     <string name="notification_sign_up_format">%s kaydol</string>
     <string name="action_unbookmark">Yerimini kaldır</string>
+    <string name="drafts_failed_loading_reply">Yanıt bilgisi yüklenemedi</string>
+    <plurals name="error_upload_max_media_reached">
+        <item quantity="one">adetten fazla %1$d medya eki yükleyemezsiniz.</item>
+        <item quantity="other">adetten fazla %1$d medya ekleri yükleyemezsiniz.</item>
+    </plurals>
+    <string name="delete_scheduled_post_warning">Bu zamanlanmış yayını sil\?</string>
+    <string name="pref_title_notification_filter_updates">etkileşimde bulunduğun bir gönderi düzenlendi</string>
+    <string name="instance_rule_info">Giriş yaparak aşağıdaki kuralları kabul etmiş sayılırsınız %s.</string>
+    <string name="instance_rule_title">%s kural</string>
+    <string name="set_focus_description">Küçük görsellerde her zaman görülebilecek odak noktasını seçmek için daireye dokunun veya sürükleyin.</string>
+    <string name="action_add_or_remove_from_list">Listeden ekle veya kaldır</string>
+    <string name="failed_to_add_to_list">Hesap listeye eklenemedi</string>
+    <string name="failed_to_remove_from_list">Hesap listeden kaldırılamadı</string>
+    <string name="no_announcements">Hiç duyuru yok.</string>
+    <string name="no_lists">Listen yok.</string>
+    <string name="duration_30_days">30 gün</string>
+    <string name="compose_save_draft_loses_media">Taslağı kurtarmak mı\? (Taslağı geri yüklediğinizde ekler yeniden yüklenir.)</string>
+    <string name="pref_title_show_self_username">Kullanıcı adını araç çubuklarında göster</string>
+    <string name="duration_180_days">180 gün</string>
+    <string name="duration_60_days">60 gün</string>
+    <string name="duration_90_days">90 gün</string>
+    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="pref_default_post_language">Varsayılan gönderme dili</string>
+    <string name="notification_report_name">Raporlar</string>
+    <string name="notification_report_description">Denetleme raporlarıyla ilgili bildirimler</string>
+    <string name="duration_no_change">(değişiklik yok)</string>
+    <string name="duration_14_days">14 gün</string>
+    <string name="duration_365_days">365 gün</string>
+    <string name="review_notifications">Bildirimleri Gözden Geçir</string>
+    <string name="wellbeing_mode_notice">Akıl sağlığını etkileyen bazı bilgiler gizlenecek. Bunlar:
+\n
+\n - Favori/Boost/Takip bildirimleri
+\n - Favori/Boost sayacı
+\n - Takipçi/Gönderi istatistikleri
+\n
+\n Push-notifications (ne olmalı\?) will not be affected, ama manuel olarak tercihlerinizi gözden geçirebilirsiniz.</string>
+    <string name="dialog_delete_list_warning">%s listesini gerçekten silmek istiyor musunuz\?</string>
+    <string name="wellbeing_hide_stats_profile">Profillerdeki niceliksel istatistikleri gizle</string>
+    <string name="tusky_compose_post_quicksetting_label">Yayın Oluştur</string>
+    <string name="saving_draft">Taslağı kaydediyor…</string>
+    <string name="error_failed_set_focus">Odak noktası ayarlanamadı</string>
+    <string name="action_set_focus">Odak noktasını ayarla</string>
+    <string name="action_edit_image">Görseli düzenle</string>
+    <string name="account_date_joined">%1$s katıldı</string>
+    <string name="hint_media_description_missing">Medyanın bir açıklaması olmalı.</string>
+    <string name="dialog_delete_conversation_warning">Bu görüşmeyi sil\?</string>
+    <string name="pref_title_notification_filter_subscriptions">abone olduğum birisi yeni bir gönderi yayınladı</string>
+    <string name="pref_title_notification_filter_sign_ups">birisi kaydolmuş</string>
+    <string name="post_media_audio">Ses</string>
+    <string name="post_media_attachments">Ekler</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="failed_to_pin">Sabitleme Başarısız</string>
+    <string name="failed_to_unpin">Açılamadı</string>
+    <string name="drafts_post_failed_to_send">Bu yayın gönderilemedi!</string>
+    <string name="limit_notifications">Zaman akışı bildirimlerini sınırla</string>
+    <string name="wellbeing_hide_stats_posts">Yayınların niceliksel istatistikleri gizle</string>
+    <string name="status_created_at_now">şimdi</string>
+    <string name="drafts_post_reply_removed">Yanıt yazdığınız yayın kaldırıldı</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="report_category_violation">Kural ihlali</string>
+    <string name="description_post_language">Gönderi dili</string>
+    <string name="dialog_push_notification_migration">UnifiedPush aracılığıyla push bildirimlerini kullanmak için Tusky\'nin Mastodon sunucunuzdaki bildirimlere abone olma iznine ihtiyacı vardır. Bu, Tusky\'ye verilen OAuth kapsamlarını değiştirmek için yeniden oturum açmayı gerektirir.Burada veya Hesap Tercihlerinde yeniden giriş seçeneğini kullanmak, tüm yerel taslaklarınızı ve önbelleğinizi koruyacaktır.</string>
+    <string name="confirmation_hashtag_unfollowed">#%s takip edilmeyenler</string>
+    <string name="action_subscribe_account">Abone Ol</string>
+    <string name="follow_requests_info">Hesabınız kilitli olmasa da, %1$s kadro bu hesaplardan gelen takip isteklerini elle gözden geçirmek isteyebileceğinizi düşündü.</string>
+    <string name="notification_report_format">Hakkında yeni rapor %s</string>
+    <string name="action_add_reaction">tepki ekle</string>
+    <string name="action_dismiss">Reddet</string>
+    <string name="action_details">Ayrıntılar</string>
+    <string name="notification_subscription_name">Yeni yayınlar</string>
+    <string name="notification_subscription_description">abone olduğunuz birisi yeni gönderi yayınladığında gelen bildirimler</string>
+    <string name="notification_sign_up_name">Kayıt Ol</string>
+    <string name="notification_sign_up_description">Yeni kullanıcılar hakkında bildirimler</string>
+    <string name="notification_update_name">Düzenlemeleri yayınla</string>
+    <string name="notification_update_description">Etkileşimde bulunduğunuz gönderiler düzenlendiğinde bildirimler</string>
+    <string name="duration_indefinite">Tanımsız</string>
+    <string name="description_post_edited">Düzenlendi</string>
+    <string name="action_unsubscribe_account">Abonelikten Çık</string>
+    <string name="dialog_push_notification_migration_other_accounts">Tusky\'ye bildirim aboneliği izni vermek için mevcut hesabınıza yeniden giriş yaptınız. Ancak, yine de bu şekilde geçirilmemiş başka hesaplarınız var. UnifiedPush bildirimleri desteğini etkinleştirmek için bunlara geçin ve tek tek yeniden giriş yapın.</string>
+    <string name="error_following_hashtags_unsupported">Bu sunucu aşağıdaki etiketleri desteklemez.</string>
+    <string name="notification_subscription_format">%s az önce paylaşım yaptı</string>
+    <string name="notification_update_format">%s gönderilerini düzenledi</string>
+    <string name="draft_deleted">Taslak Silindi</string>
+    <string name="error_unfollowing_hashtag_format">Takip etmeyi bırakırken Hata #%s</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="label_duration">Süre</string>
+    <string name="tips_push_notification_migration">Push bildirim desteğini etkinleştirmek için tüm hesaplara yeniden giriş yapın.</string>
+    <string name="error_status_source_load">Sunucudan kaynak durumu yüklenemedi.</string>
+    <string name="pref_title_http_proxy_port_message">Bağlantı noktası %d ile %d arasında olmalıdır</string>
+    <string name="post_media_alt">Alternatif metin</string>
 </resources>

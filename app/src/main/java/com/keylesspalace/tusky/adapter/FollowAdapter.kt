@@ -16,23 +16,37 @@ package com.keylesspalace.tusky.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemAccountBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 
 /** Displays either a follows or following list.  */
 class FollowAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
-    animateEmojis: Boolean
-) : AccountAdapter<AccountViewHolder>(accountActionListener, animateAvatar, animateEmojis) {
+    animateEmojis: Boolean,
+    showBotOverlay: Boolean
+) : AccountAdapter<AccountViewHolder>(
+    accountActionListener,
+    animateAvatar,
+    animateEmojis,
+    showBotOverlay
+) {
     override fun createAccountViewHolder(parent: ViewGroup): AccountViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_account, parent, false)
-        return AccountViewHolder(view)
+        val binding = ItemAccountBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AccountViewHolder(binding)
     }
 
     override fun onBindAccountViewHolder(viewHolder: AccountViewHolder, position: Int) {
-        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis)
+        viewHolder.setupWithAccount(
+            accountList[position],
+            animateAvatar,
+            animateEmojis,
+            showBotOverlay
+        )
         viewHolder.setupActionListener(accountActionListener)
     }
 }

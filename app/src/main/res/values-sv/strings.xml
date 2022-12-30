@@ -48,7 +48,7 @@
     <string name="message_empty">Ingenting här.</string>
     <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
     <string name="notification_reblog_format">%s puffade ditt inlägg</string>
-    <string name="notification_favourite_format">%s favoriserade ditt inlägg</string>
+    <string name="notification_favourite_format">%s favoritmarkerade ditt inlägg</string>
     <string name="notification_follow_format">%s följer dig</string>
     <string name="report_username_format">Rapportera @%s</string>
     <string name="report_comment_hint">Ytterligare kommentarer?</string>
@@ -166,7 +166,7 @@
     <string name="pref_title_notification_filter_mentions">omnämnd</string>
     <string name="pref_title_notification_filter_follows">nya följare</string>
     <string name="pref_title_notification_filter_reblogs">mina inlägg är knuffade</string>
-    <string name="pref_title_notification_filter_favourites">mina inlägg är favoriserade</string>
+    <string name="pref_title_notification_filter_favourites">mina inlägg är favoritmarkerade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">Tema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
@@ -337,7 +337,7 @@
         <item quantity="other"><b>%s</b> Knuffar</item>
     </plurals>
     <string name="title_reblogged_by">Knuffad av</string>
-    <string name="title_favourited_by">Favoriserad av</string>
+    <string name="title_favourited_by">Favoritmarkerad av</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s och %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
@@ -351,8 +351,7 @@
     </string>
     <string name="description_post_reblogged">        Knuffad
     </string>
-    <string name="description_post_favourited">        Favoriserad
-    </string>
+    <string name="description_post_favourited">Favoritmarkerat</string>
     <string name="description_visibility_public">        Publik
     </string>
     <string name="description_visibility_unlisted">        Olistad
@@ -600,4 +599,8 @@
     <string name="post_edited">Redigerade %s</string>
     <string name="error_muting_hashtag_format">Kunde inte tysta #%s, fel uppstod</string>
     <string name="error_unmuting_hashtag_format">Kunde inte avtysta #%s, fel uppstod</string>
+    <string name="hint_media_description_missing">Media bör ha en beskrivning.</string>
+    <string name="pref_title_http_proxy_port_message">Portnummer bör vara mellan %d och %d</string>
+    <string name="error_status_source_load">Kunde inte ladda status från servern.</string>
+    <string name="post_media_alt">ALT</string>
 </resources>
