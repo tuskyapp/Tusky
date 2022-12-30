@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -26,6 +28,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
@@ -406,6 +409,19 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val usernameFormatted = getString(R.string.post_username_format, account.username)
         binding.accountUsernameTextView.text = usernameFormatted
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
+
+        // Long press on username to copy it to clipboard
+        for (view in listOf(binding.accountUsernameTextView, binding.accountDisplayNameTextView)) {
+            view.setOnLongClickListener {
+                if (loadedAccount != null) {
+                    val fullUsername = loadedAccount!!.fullUsername
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
+                    Toast.makeText(this, getString(R.string.account_username_copied), Toast.LENGTH_LONG).show()
+                }
+                true
+            }
+        }
 
         val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
@@ -869,12 +885,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             R.id.action_share_account_username -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
-                    val domain = getDomain(loadedAccount?.url)
-                    val localUsername = loadedAccount!!.username
-                    val username = "@$localUsername@$domain"
+                    val fullUsername = loadedAccount!!.fullUsername
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, username)
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, fullUsername)
                     sendIntent.type = "text/plain"
                     startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_username_to)))
                 }

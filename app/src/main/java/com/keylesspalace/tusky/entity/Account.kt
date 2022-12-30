@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.util.getDomain
 import java.util.Date
 
 data class Account(
@@ -44,6 +45,13 @@ data class Account(
         get() = if (displayName.isNullOrEmpty()) {
             localUsername
         } else displayName
+
+    val fullUsername: String
+        get() {
+            val domain = getDomain(this.url)
+            val localUsername = this.username
+            return "@$localUsername@$domain"
+        }
 
     fun isRemote(): Boolean = this.username != this.localUsername
 }
