@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity.Companion.newHashtagIntent
 import com.keylesspalace.tusky.ViewMediaActivity.Companion.newIntent
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.startIntent
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity.Companion.getIntent
@@ -135,6 +136,7 @@ abstract class SFragment : Fragment(), Injectable {
             replyingStatusAuthor = account.localUsername,
             replyingStatusContent = actionableStatus.content.parseAsMastodonHtml().toString(),
             language = actionableStatus.language,
+            kind = ComposeActivity.ComposeKind.NEW
         )
 
         val intent = startIntent(requireContext(), composeOptions)
@@ -411,6 +413,7 @@ abstract class SFragment : Fragment(), Injectable {
                                 modifiedInitialState = true,
                                 language = sourceStatus.language,
                                 poll = sourceStatus.poll?.toNewPoll(sourceStatus.createdAt),
+                                kind = ComposeActivity.ComposeKind.NEW
                             )
                             startActivity(startIntent(requireContext(), composeOptions))
                         }
@@ -437,6 +440,7 @@ abstract class SFragment : Fragment(), Injectable {
                         language = status.language,
                         statusId = source.id,
                         poll = status.poll?.toNewPoll(status.createdAt),
+                        kind = ComposeActivity.ComposeKind.EDIT_POSTED
                     )
                     startActivity(startIntent(requireContext(), composeOptions))
                 },

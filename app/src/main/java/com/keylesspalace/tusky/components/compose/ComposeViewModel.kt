@@ -95,6 +95,8 @@ class ComposeViewModel @Inject constructor(
     val media: MutableStateFlow<List<QueuedMedia>> = MutableStateFlow(emptyList())
     val uploadError = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
+    lateinit var composeKind: ComposeActivity.ComposeKind
+
     // Used in ComposeActivity to pass state to result function when cropImage contract inflight
     var cropImageItemOld: QueuedMedia? = null
 
@@ -213,15 +215,8 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun didChange(content: String?, contentWarning: String?): Boolean {
-
-        val textChanged = !(
-            content.isNullOrEmpty() ||
-                startingText?.startsWith(content.toString()) ?: false
-            )
-
-        val contentWarningChanged = showContentWarning.value &&
-            !contentWarning.isNullOrEmpty() &&
-            !startingContentWarning.startsWith(contentWarning.toString())
+        val textChanged = content.orEmpty() != startingText.orEmpty()
+        val contentWarningChanged = contentWarning.orEmpty() != startingContentWarning
         val mediaChanged = media.value.isNotEmpty()
         val pollChanged = poll.value != null
         val didScheduledTimeChange = hasScheduledTimeChanged
@@ -410,6 +405,8 @@ class ComposeViewModel @Inject constructor(
         if (setupComplete) {
             return
         }
+
+        composeKind = composeOptions?.kind ?: ComposeActivity.ComposeKind.NEW
 
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
