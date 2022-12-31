@@ -73,7 +73,7 @@ LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.
 LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
 WHERE s.serverId = :statusId OR s.reblogServerId = :statusId"""
     )
-    abstract fun getStatus(statusId: String): TimelineStatusWithAccount?
+    abstract suspend fun getStatus(statusId: String): TimelineStatusWithAccount?
 
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
