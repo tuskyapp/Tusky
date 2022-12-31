@@ -206,14 +206,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timeline_filters) {
                 preference {
                     setTitle(R.string.pref_title_post_tabs)
-                    setOnPreferenceClickListener {
-                        activity?.let { activity ->
-                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
-                            activity.startActivity(intent)
-                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                        }
-                        true
-                    }
+                    fragment = "com.keylesspalace.tusky.components.preference.TabFilterPreferencesFragment"
                 }
             }
 
@@ -259,14 +252,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_proxy_settings) {
                 httpProxyPref = preference {
                     setTitle(R.string.pref_title_http_proxy_settings)
-                    setOnPreferenceClickListener {
-                        activity?.let { activity ->
-                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
-                            activity.startActivity(intent)
-                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                        }
-                        true
-                    }
+                    fragment = "com.keylesspalace.tusky.components.preference.ProxyPreferencesFragment"
                 }
             }
         }
@@ -278,6 +264,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     override fun onResume() {
         super.onResume()
+        requireActivity().setTitle(R.string.action_view_preferences)
         updateHttpProxySummary()
     }
 

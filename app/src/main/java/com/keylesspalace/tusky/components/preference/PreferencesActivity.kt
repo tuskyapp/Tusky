@@ -23,6 +23,8 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
@@ -41,6 +43,7 @@ import javax.inject.Inject
 class PreferencesActivity :
     BaseActivity(),
     SharedPreferences.OnSharedPreferenceChangeListener,
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
     HasAndroidInjector {
 
     @Inject
@@ -82,8 +85,6 @@ class PreferencesActivity :
                 GENERAL_PREFERENCES -> PreferencesFragment.newInstance()
                 ACCOUNT_PREFERENCES -> AccountPreferencesFragment.newInstance()
                 NOTIFICATION_PREFERENCES -> NotificationPreferencesFragment.newInstance()
-                TAB_FILTER_PREFERENCES -> TabFilterPreferencesFragment.newInstance()
-                PROXY_PREFERENCES -> ProxyPreferencesFragment.newInstance()
                 else -> throw IllegalArgumentException("preferenceType not known")
             }
 
@@ -91,16 +92,32 @@ class PreferencesActivity :
             replace(R.id.fragment_container, fragment, fragmentTag)
         }
 
-        when (preferenceType) {
-            GENERAL_PREFERENCES -> setTitle(R.string.action_view_preferences)
-            ACCOUNT_PREFERENCES -> setTitle(R.string.action_view_account_preferences)
-            NOTIFICATION_PREFERENCES -> setTitle(R.string.pref_title_edit_notification_settings)
-            TAB_FILTER_PREFERENCES -> setTitle(R.string.pref_title_post_tabs)
-            PROXY_PREFERENCES -> setTitle(R.string.pref_title_http_proxy_settings)
-        }
-
         onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
         restartActivitiesOnBackPressedCallback.isEnabled = savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
+    }
+
+    override fun onPreferenceStartFragment(
+        caller: PreferenceFragmentCompat,
+        pref: Preference
+    ): Boolean {
+        val args = pref.extras
+        val fragment = supportFragmentManager.fragmentFactory.instantiate(
+            classLoader,
+            pref.fragment!!
+        )
+        fragment.arguments = args
+        fragment.setTargetFragment(caller, 0)
+        supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
+            replace(R.id.fragment_container, fragment)
+            addToBackStack(null)
+        }
+        return true
     }
 
     override fun onResume() {
@@ -159,8 +176,6 @@ class PreferencesActivity :
         const val GENERAL_PREFERENCES = 0
         const val ACCOUNT_PREFERENCES = 1
         const val NOTIFICATION_PREFERENCES = 2
-        const val TAB_FILTER_PREFERENCES = 3
-        const val PROXY_PREFERENCES = 4
         private const val EXTRA_PREFERENCE_TYPE = "EXTRA_PREFERENCE_TYPE"
         private const val EXTRA_RESTART_ON_BACK = "restart"
 

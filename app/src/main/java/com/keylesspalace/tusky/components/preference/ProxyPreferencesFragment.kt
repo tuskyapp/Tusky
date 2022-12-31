@@ -65,6 +65,11 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setTitle(R.string.pref_title_http_proxy_settings)
+    }
+
     override fun onPause() {
         super.onPause()
         if (pendingRestart) {
