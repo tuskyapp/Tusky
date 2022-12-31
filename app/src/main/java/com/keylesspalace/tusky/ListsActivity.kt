@@ -38,12 +38,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
@@ -244,8 +244,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             return LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
                 .let(this::ListViewHolder)
                 .apply {
+                    val iconColor = MaterialColors.getColor(nameTextView, android.R.attr.textColorTertiary)
                     val context = nameTextView.context
-                    val iconColor = ThemeUtils.getColor(context, android.R.attr.textColorTertiary)
                     val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply { sizeDp = 20; colorInt = iconColor }
 
                     nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)

@@ -16,11 +16,13 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.BaseActivity
@@ -47,7 +49,6 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.getInitialLanguage
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getTuskyDisplayName
@@ -80,7 +81,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setTitle(R.string.pref_title_edit_notification_settings)
                 icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).apply {
                     sizeRes = R.dimen.preference_icon_size
-                    colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
+                    colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
                 }
                 setOnPreferenceClickListener {
                     openNotificationPrefs()
@@ -135,7 +136,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setTitle(R.string.action_view_blocks)
                 icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).apply {
                     sizeRes = R.dimen.preference_icon_size
-                    colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
+                    colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
                 }
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
@@ -321,6 +322,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setTitle(R.string.action_view_account_preferences)
     }
 
     private fun openNotificationPrefs() {

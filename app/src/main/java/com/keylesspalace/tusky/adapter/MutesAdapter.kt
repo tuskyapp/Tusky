@@ -13,7 +13,6 @@ import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
-import java.util.HashMap
 
 /**
  * Displays a list of muted accounts with mute/unmute account and mute/unmute notifications
@@ -22,11 +21,13 @@ import java.util.HashMap
 class MutesAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
-    animateEmojis: Boolean
+    animateEmojis: Boolean,
+    showBotOverlay: Boolean
 ) : AccountAdapter<MutesAdapter.MutedUserViewHolder>(
     accountActionListener,
     animateAvatar,
-    animateEmojis
+    animateEmojis,
+    showBotOverlay
 ) {
     private val mutingNotificationsMap = HashMap<String, Boolean>()
 

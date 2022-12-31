@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity.Companion.newHashtagIntent
 import com.keylesspalace.tusky.ViewMediaActivity.Companion.newIntent
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.startIntent
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity.Companion.getIntent
@@ -62,8 +63,6 @@ import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
-import java.util.LinkedHashSet
 import javax.inject.Inject
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
@@ -137,6 +136,7 @@ abstract class SFragment : Fragment(), Injectable {
             replyingStatusAuthor = account.localUsername,
             replyingStatusContent = actionableStatus.content.parseAsMastodonHtml().toString(),
             language = actionableStatus.language,
+            kind = ComposeActivity.ComposeKind.NEW
         )
 
         val intent = startIntent(requireContext(), composeOptions)
@@ -311,7 +311,9 @@ abstract class SFragment : Fragment(), Injectable {
     private fun onMute(accountId: String, accountUsername: String) {
 
         showMuteAccountDialog(this.requireActivity(), accountUsername) { notifications: Boolean?, duration: Int? ->
-            timelineCases.mute(accountId, notifications == true, duration)
+            lifecycleScope.launch {
+                timelineCases.mute(accountId, notifications == true, duration)
+            }
         }
     }
 
@@ -319,7 +321,9 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireContext())
             .setMessage(getString(R.string.dialog_block_warning, accountUsername))
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases.block(accountId)
+                lifecycleScope.launch {
+                    timelineCases.block(accountId)
+                }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -409,6 +413,7 @@ abstract class SFragment : Fragment(), Injectable {
                                 modifiedInitialState = true,
                                 language = sourceStatus.language,
                                 poll = sourceStatus.poll?.toNewPoll(sourceStatus.createdAt),
+                                kind = ComposeActivity.ComposeKind.NEW
                             )
                             startActivity(startIntent(requireContext(), composeOptions))
                         }
@@ -435,6 +440,7 @@ abstract class SFragment : Fragment(), Injectable {
                         language = status.language,
                         statusId = source.id,
                         poll = status.poll?.toNewPoll(status.createdAt),
+                        kind = ComposeActivity.ComposeKind.EDIT_POSTED
                     )
                     startActivity(startIntent(requireContext(), composeOptions))
                 },

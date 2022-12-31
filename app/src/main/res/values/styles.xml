@@ -41,6 +41,13 @@
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
 
     <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Provide default text sizes. These are overwritten in BaseActivity, but
+             if they are missing then the Android Studio layout preview crashes
+             with java.lang.reflect.InvocationTargetException -->
+        <item name="status_text_small">14sp</item>
+        <item name="status_text_medium">16sp</item>
+        <item name="status_text_large">18sp</item>
+
         <item name="colorPrimary">@color/tusky_blue</item>
         <item name="colorOnPrimary">@color/white</item>
 

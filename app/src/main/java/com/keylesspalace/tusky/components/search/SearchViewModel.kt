@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -169,7 +170,9 @@ class SearchViewModel @Inject constructor(
     }
 
     fun muteAccount(accountId: String, notifications: Boolean, duration: Int?) {
-        timelineCases.mute(accountId, notifications, duration)
+        viewModelScope.launch {
+            timelineCases.mute(accountId, notifications, duration)
+        }
     }
 
     fun pinAccount(status: Status, isPin: Boolean) {
@@ -177,7 +180,9 @@ class SearchViewModel @Inject constructor(
     }
 
     fun blockAccount(accountId: String) {
-        timelineCases.block(accountId)
+        viewModelScope.launch {
+            timelineCases.block(accountId)
+        }
     }
 
     fun deleteStatus(id: String): Single<DeletedStatus> {

@@ -95,17 +95,18 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
         val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val showBotOverlay = pm.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
 
         adapter = when (type) {
-            Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis)
-            Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis)
+            Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
+            Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.FOLLOW_REQUESTS -> {
                 val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true)
-                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis)
+                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
-            else -> FollowAdapter(this, animateAvatar, animateEmojis)
+            else -> FollowAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
         }
         if (binding.recyclerView.adapter == null) {
             binding.recyclerView.adapter = adapter
@@ -133,20 +134,18 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
-        if (!mute) {
-            api.unmuteAccount(id)
-        } else {
-            api.muteAccount(id, notifications)
-        }
-            .autoDispose(from(this))
-            .subscribe(
-                {
-                    onMuteSuccess(mute, id, position, notifications)
-                },
-                {
-                    onMuteFailure(mute, id, notifications)
+        lifecycleScope.launch {
+            try {
+                if (!mute) {
+                    api.unmuteAccount(id)
+                } else {
+                    api.muteAccount(id, notifications)
                 }
-            )
+                onMuteSuccess(mute, id, position, notifications)
+            } catch (_: Throwable) {
+                onMuteFailure(mute, id, notifications)
+            }
+        }
     }
 
     private fun onMuteSuccess(muted: Boolean, id: String, position: Int, notifications: Boolean) {
@@ -181,20 +180,18 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        if (!block) {
-            api.unblockAccount(id)
-        } else {
-            api.blockAccount(id)
-        }
-            .autoDispose(from(this))
-            .subscribe(
-                {
-                    onBlockSuccess(block, id, position)
-                },
-                {
-                    onBlockFailure(block, id)
+        lifecycleScope.launch {
+            try {
+                if (!block) {
+                    api.unblockAccount(id)
+                } else {
+                    api.blockAccount(id)
                 }
-            )
+                onBlockSuccess(block, id, position)
+            } catch (_: Throwable) {
+                onBlockFailure(block, id)
+            }
+        }
     }
 
     private fun onBlockSuccess(blocked: Boolean, id: String, position: Int) {

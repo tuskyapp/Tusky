@@ -223,6 +223,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 replyingStatusAuthor = actionableStatus.account.localUsername,
                 replyingStatusContent = status.content.toString(),
                 language = actionableStatus.language,
+                kind = ComposeActivity.ComposeKind.NEW
             )
         )
         bottomSheetActivity?.startActivityWithSlideInAnimation(intent)
@@ -481,6 +482,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                         sensitive = redraftStatus.sensitive,
                                         poll = redraftStatus.poll?.toNewPoll(status.createdAt),
                                         language = redraftStatus.language,
+                                        kind = ComposeActivity.ComposeKind.NEW
                                     )
                                 )
                                 startActivity(intent)
@@ -510,6 +512,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         language = status.language,
                         statusId = source.id,
                         poll = status.poll?.toNewPoll(status.createdAt),
+                        kind = ComposeActivity.ComposeKind.EDIT_POSTED,
                     )
                     startActivity(ComposeActivity.startIntent(requireContext(), composeOptions))
                 },

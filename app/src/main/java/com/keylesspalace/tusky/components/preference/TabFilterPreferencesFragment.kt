@@ -46,6 +46,11 @@ class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setTitle(R.string.pref_title_post_tabs)
+    }
+
     companion object {
         fun newInstance(): TabFilterPreferencesFragment {
             return TabFilterPreferencesFragment()
