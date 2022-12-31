@@ -915,11 +915,11 @@ public class NotificationsFragment extends SFragment implements
 
     private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
                                              FetchEnd fetchEnd, int pos) {
-        List<HttpHeaderLink> links = HttpHeaderLink.parse(linkHeader);
-        HttpHeaderLink next = HttpHeaderLink.findByRelationType(links, "next");
+        List<HttpHeaderLink> links = HttpHeaderLink.Companion.parse(linkHeader);
+        HttpHeaderLink next = HttpHeaderLink.Companion.findByRelationType(links, "next");
         String fromId = null;
         if (next != null) {
-            fromId = next.uri.getQueryParameter("max_id");
+            fromId = next.getUri().getQueryParameter("max_id");
         }
 
         switch (fetchEnd) {

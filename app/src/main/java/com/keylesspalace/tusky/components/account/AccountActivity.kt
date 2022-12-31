@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -70,7 +71,6 @@ import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
@@ -172,9 +172,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
+        toolbarColor = MaterialColors.getColor(this, R.attr.colorSurface, Color.BLACK)
         statusBarColorTransparent = getColor(R.color.transparent_statusbar_background)
-        statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
+        statusBarColorOpaque = MaterialColors.getColor(this, R.attr.colorPrimaryDark, Color.BLACK)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }

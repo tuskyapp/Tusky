@@ -19,6 +19,7 @@ package com.keylesspalace.tusky.util
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -33,6 +34,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
@@ -251,9 +253,9 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
  * @param context context
  */
 private fun openLinkInCustomTab(uri: Uri, context: Context) {
-    val toolbarColor = ThemeUtils.getColor(context, R.attr.colorSurface)
-    val navigationbarColor = ThemeUtils.getColor(context, android.R.attr.navigationBarColor)
-    val navigationbarDividerColor = ThemeUtils.getColor(context, R.attr.dividerColor)
+    val toolbarColor = MaterialColors.getColor(context, R.attr.colorSurface, Color.BLACK)
+    val navigationbarColor = MaterialColors.getColor(context, android.R.attr.navigationBarColor, Color.BLACK)
+    val navigationbarDividerColor = MaterialColors.getColor(context, R.attr.dividerColor, Color.BLACK)
     val colorSchemeParams = CustomTabColorSchemeParams.Builder()
         .setToolbarColor(toolbarColor)
         .setNavigationBarColor(navigationbarColor)

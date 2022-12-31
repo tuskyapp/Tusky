@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
 import com.keylesspalace.tusky.components.login.LoginActivity;
@@ -77,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         /* set the taskdescription programmatically, the theme would turn it blue */
         String appName = getString(R.string.app_name);
         Bitmap appIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        int recentsBackgroundColor = ThemeUtils.getColor(this, R.attr.colorSurface);
+        int recentsBackgroundColor = MaterialColors.getColor(this, R.attr.colorSurface, Color.BLACK);
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
