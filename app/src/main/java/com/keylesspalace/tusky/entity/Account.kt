@@ -49,7 +49,7 @@ data class Account(
     val fullUsername: String
         get() {
             val domain = getDomain(this.url)
-            val localUsername = this.username
+            val localUsername = this.localUsername
             return "@$localUsername@$domain"
         }
 

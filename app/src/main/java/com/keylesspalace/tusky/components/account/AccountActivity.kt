@@ -28,7 +28,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
@@ -417,7 +416,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     val fullUsername = loadedAccount!!.fullUsername
                     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
-                    Toast.makeText(this, getString(R.string.account_username_copied), Toast.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, getString(R.string.account_username_copied), Snackbar.LENGTH_SHORT)
+                        .show()
                 }
                 true
             }
