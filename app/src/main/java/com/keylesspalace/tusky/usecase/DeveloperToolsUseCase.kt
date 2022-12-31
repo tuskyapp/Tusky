@@ -41,6 +41,6 @@ class DeveloperToolsUseCase @Inject constructor(
     }
 
     companion object {
-        const val TAG = "DeveloperToolsUserCase"
+        const val TAG = "DeveloperToolsUseCase"
     }
 }
