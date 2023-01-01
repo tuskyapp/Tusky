@@ -26,18 +26,19 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 /**
  * Placeholder for different timelines.
  *
- * Displays a "Load more" button for a particular status ID.
+ * Displays a "Load more" button for a particular status ID, or a
+ * circular progress wheel if the status' page is being loaded.
  *
- * If loading for the placeholder is already active the user cannot interact
- * with this, so disable interaction and show the "loading" progress spinner.
- *
- * Otherwise, the user can interact with this to load more statuses, so enable
- * interaction, set the button contents, and set up the click handler.
+ * The user can only have one "Load more" operation in progress at
+ * a time (determined by the adapter), so the contents of the view
+ * and the enabled state is driven by that.
  */
 class PlaceholderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val loadMoreButton: MaterialButton = itemView.findViewById(R.id.button_load_more)
-    private val spec = CircularProgressIndicatorSpec(itemView.context, null)
-    private val drawable = IndeterminateDrawable.createCircularDrawable(itemView.context, spec)
+    private val drawable = IndeterminateDrawable.createCircularDrawable(
+        itemView.context,
+        CircularProgressIndicatorSpec(itemView.context, null)
+    )
 
     fun setup(listener: StatusActionListener, loading: Boolean) {
         Log.d("PlaceholderViewHolder", "setup(), $loading")
