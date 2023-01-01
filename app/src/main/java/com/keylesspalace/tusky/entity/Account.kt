@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.util.getDomain
 import java.util.Date
 
 data class Account(
