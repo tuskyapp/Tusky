@@ -28,7 +28,7 @@ class MutesAdapter(
     private val mutingNotificationsMap = HashMap<String, Boolean>()
 
     override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemMutedUserBinding> {
-        val binding = ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)
     }
 
@@ -41,14 +41,17 @@ class MutesAdapter(
 
         val emojifiedName = account.name.emojify(account.emojis, binding.mutedUserDisplayName, animateEmojis)
         binding.mutedUserDisplayName.text = emojifiedName
-        val formattedUsername = context.getString(R.string.post_username_format, account.username)
 
+        val formattedUsername = context.getString(R.string.post_username_format, account.username)
         binding.mutedUserUsername.text = formattedUsername
+
         val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.mutedUserAvatar, avatarRadius, animateAvatar)
+
         val unmuteString = context.getString(R.string.action_unmute_desc, formattedUsername)
         binding.mutedUserUnmute.contentDescription = unmuteString
         ViewCompat.setTooltipText(binding.mutedUserUnmute, unmuteString)
+
         val notifications = if (mutingNotifications == null) {
             binding.mutedUserMuteNotifications.isEnabled = false
             true
