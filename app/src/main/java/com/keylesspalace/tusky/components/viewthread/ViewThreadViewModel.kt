@@ -107,8 +107,10 @@ class ViewThreadViewModel @Inject constructor(
 
             val detailedStatus = if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
-                val viewDatum = timelineStatus.toViewData(gson) as StatusViewData.Concrete
-                viewDatum.copy(isDetailed = true)
+                timelineStatus.toViewData(
+                    gson,
+                    isDetailed = true
+                ) as StatusViewData.Concrete
             } else {
                 Log.d(TAG, "Loaded status from network")
                 val statusCall = async { api.statusAsync(id) }
@@ -398,13 +400,13 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun Status.toViewData(detailed: Boolean = false): StatusViewData.Concrete {
+    private fun Status.toViewData(isDetailed: Boolean = false): StatusViewData.Concrete {
         val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find { it.id == this.id }
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
-            isCollapsed = oldStatus?.isCollapsed ?: !detailed,
-            isDetailed = oldStatus?.isDetailed ?: detailed
+            isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
+            isDetailed = oldStatus?.isDetailed ?: isDetailed
         )
     }
 
