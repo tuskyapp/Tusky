@@ -413,7 +413,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         for (view in listOf(binding.accountUsernameTextView, binding.accountDisplayNameTextView)) {
             view.setOnLongClickListener {
                 if (loadedAccount != null) {
-                    val fullUsername = loadedAccount!!.fullUsername
+                    val fullUsername = getFullUsername(loadedAccount!!)
                     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
                     Snackbar.make(binding.root, getString(R.string.account_username_copied), Snackbar.LENGTH_SHORT)
@@ -885,7 +885,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             R.id.action_share_account_username -> {
                 // If the account isn't loaded yet, eat the input.
                 if (loadedAccount != null) {
-                    val fullUsername = loadedAccount!!.fullUsername
+                    val fullUsername = getFullUsername(loadedAccount!!)
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, fullUsername)
@@ -928,6 +928,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         return if (!viewModel.isSelf && !blocking) {
             binding.accountFloatingActionButton
         } else null
+    }
+
+    private fun getFullUsername(account: Account): String {
+        val test = accountManager.activeAccount
+        if (account.isRemote()) {
+            return "@" + account.username
+        } else {
+            val localUsername = account.localUsername
+            val domain = accountManager.activeAccount!!.domain
+            return "@$localUsername@$domain"
+        }
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

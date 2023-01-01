@@ -46,13 +46,6 @@ data class Account(
             localUsername
         } else displayName
 
-    val fullUsername: String
-        get() {
-            val domain = getDomain(this.url)
-            val localUsername = this.localUsername
-            return "@$localUsername@$domain"
-        }
-
     fun isRemote(): Boolean = this.username != this.localUsername
 }
 
