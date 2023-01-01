@@ -102,7 +102,7 @@
     <string name="confirmation_reported">Anfonwyd!</string>
     <string name="confirmation_unblocked">Dadrwystrwyd y defnyddiwr</string>
     <string name="confirmation_unmuted">Dad-dawyd defnyddiwr</string>
-    <string name="hint_domain">Pa weinydd\?</string>
+    <string name="hint_domain">Pa weinydd?</string>
     <string name="hint_compose">Beth sy\'n digwydd?</string>
     <string name="hint_content_warning">Rhybudd cynnwys</string>
     <string name="hint_display_name">Enw dangos</string>
@@ -112,7 +112,7 @@
     <string name="label_quick_reply">Ymateb…</string>
     <string name="label_avatar">Llun proffil</string>
     <string name="label_header">Pennyn</string>
-    <string name="link_whats_an_instance">Beth yw gweinydd\?</string>
+    <string name="link_whats_an_instance">Beth yw gweinydd?</string>
     <string name="login_connection">Yn cysylltu…</string>
     <string name="dialog_whats_an_instance">Gallwch chi roi cyfeiriad neu barth o unrhyw weinydd yma, fel mastodon.social, twt.cymru, social.tchncs.de, a <a href="https://instances.social">rhagor!</a> \u0020 
 \n \u0020 
@@ -126,7 +126,7 @@
     <string name="dialog_download_image">Lawrlwytho</string>
     <string name="dialog_message_cancel_follow_request">Dirymu\'r cais i\'ch dilyn?</string>
     <string name="dialog_unfollow_warning">Dad-ddilyn y cyfrif hwn?</string>
-    <string name="dialog_delete_post_warning">Dileu\'r neges hon\?</string>
+    <string name="dialog_delete_post_warning">Dileu\'r neges hon?</string>
     <string name="visibility_public">Cyhoeddus: Postio i ffrydiau cyhoeddus</string>
     <string name="visibility_unlisted">Heb restru: Peidio â dangos ar ffrydiau cyhoeddus</string>
     <string name="visibility_private">Dilynwyr yn unig: Postio at ddilynwyr yn unig</string>
@@ -297,7 +297,7 @@
     <string name="account_date_joined">Ymunodd %1$s</string>
     <string name="no_scheduled_posts">Does gennych chi ddim negeseuon wedi\'u hamserlennu.</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
-    <string name="notification_clear_text">Ydych chi\'n siŵr eich bod chi am glirio\'ch holl hysbysiadau yn barhaol\?</string>
+    <string name="notification_clear_text">Ydych chi\'n siŵr eich bod chi am glirio\'ch holl hysbysiadau yn barhaol?</string>
     <string name="error_multimedia_size_limit">Nid yw ffeiliau fideo a sain yn gallu bod yn fwy na %1$s MB.</string>
     <string name="error_following_hashtag_format">Gwall wrth ddilyn #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Gwall wrth ddad-ddilyn #%1$s</string>
@@ -352,7 +352,7 @@
     <string name="action_share_as">Rhannu fel …</string>
     <string name="downloading_media">Yn lawrlwytho cyfryngau</string>
     <string name="download_media">Lawrlwytho cyfryngau</string>
-    <string name="dialog_redraft_post_warning">Dileu ac ailddrafftio\'r neges hon\?</string>
+    <string name="dialog_redraft_post_warning">Dileu ac ailddrafftio\'r neges hon?</string>
     <string name="dialog_delete_conversation_warning">Dileu\'r sgwrs hon\?</string>
     <string name="pref_title_language">Iaith</string>
     <string name="pref_title_bot_overlay">Dangos dangosydd botiau</string>
@@ -717,7 +717,7 @@
     <string name="error_media_playback">Methodd chwarae: %1$s</string>
     <string name="dialog_delete_filter_positive_action">Dileu</string>
     <string name="dialog_delete_filter_text">Dileu\'r hidlydd \'%1$s\'?</string>
-    <string name="dialog_save_profile_changes_message">Hoffech chi gadw\'r newidiadau i\'ch proffil\?</string>
+    <string name="dialog_save_profile_changes_message">Hoffech chi gadw\'r newidiadau i\'ch proffil?</string>
     <string name="label_image">Delwedd</string>
     <string name="app_theme_system_black">Defnyddio Cynllun y System (du)</string>
     <string name="help_empty_conversations">Dyma\'ch <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM). \u0020 
