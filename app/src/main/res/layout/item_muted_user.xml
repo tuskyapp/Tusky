@@ -60,8 +60,9 @@
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/muted_user_avatar"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_clear_24dp"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:text="@string/mute_notifications_switch"
