@@ -15,7 +15,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:contentDescription="@string/action_view_profile"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
@@ -24,7 +23,7 @@
         android:id="@+id/muted_user_display_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="24dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
@@ -56,28 +55,25 @@
         style="@style/TuskyImageButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
-        app:layout_constraintEnd_toStartOf="@id/muted_user_mute_notifications"
-        app:layout_constraintTop_toTopOf="@id/muted_user_avatar"
-        app:srcCompat="@drawable/ic_unmute_24dp" />
-
-    <ImageButton
-        android:id="@+id/muted_user_mute_notifications"
-        style="@style/TuskyImageButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/muted_user_avatar"
-        app:srcCompat="@drawable/ic_notifications_24dp" />
+        app:srcCompat="@drawable/ic_clear_24dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:text="@string/mute_notifications_switch"
+        android:id="@+id/muted_user_mute_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:textColor="?android:textColorTertiary"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:switchPadding="4dp"
+        app:layout_constraintStart_toStartOf="@id/muted_user_display_name"
+        app:layout_constraintTop_toBottomOf="@id/muted_user_username" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

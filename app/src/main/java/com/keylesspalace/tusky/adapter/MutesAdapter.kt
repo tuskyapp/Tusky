@@ -52,23 +52,14 @@ class MutesAdapter(
         binding.mutedUserUnmute.contentDescription = unmuteString
         ViewCompat.setTooltipText(binding.mutedUserUnmute, unmuteString)
 
-        val notifications = if (mutingNotifications == null) {
+        binding.mutedUserMuteNotifications.setOnCheckedChangeListener(null)
+
+        binding.mutedUserMuteNotifications.isChecked = if (mutingNotifications == null) {
             binding.mutedUserMuteNotifications.isEnabled = false
             true
         } else {
             binding.mutedUserMuteNotifications.isEnabled = true
             mutingNotifications
-        }
-        if (notifications) {
-            binding.mutedUserMuteNotifications.setImageResource(R.drawable.ic_notifications_24dp)
-            val unmuteNotificationsString = context.getString(R.string.action_unmute_notifications_desc, formattedUsername)
-            binding.mutedUserMuteNotifications.contentDescription = unmuteNotificationsString
-            ViewCompat.setTooltipText(binding.mutedUserMuteNotifications, unmuteNotificationsString)
-        } else {
-            binding.mutedUserMuteNotifications.setImageResource(R.drawable.ic_notifications_off_24dp)
-            val muteNotificationsString = context.getString(R.string.action_mute_notifications_desc, formattedUsername)
-            binding.mutedUserMuteNotifications.contentDescription = muteNotificationsString
-            ViewCompat.setTooltipText(binding.mutedUserMuteNotifications, muteNotificationsString)
         }
 
         binding.mutedUserUnmute.setOnClickListener {
@@ -79,12 +70,12 @@ class MutesAdapter(
                 false
             )
         }
-        binding.mutedUserMuteNotifications.setOnClickListener {
+        binding.mutedUserMuteNotifications.setOnCheckedChangeListener { _, isChecked ->
             accountActionListener.onMute(
                 true,
                 account.id,
                 viewHolder.bindingAdapterPosition,
-                !notifications
+                isChecked
             )
         }
         binding.root.setOnClickListener { accountActionListener.onViewAccount(account.id) }
