@@ -412,8 +412,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         // Long press on username to copy it to clipboard
         for (view in listOf(binding.accountUsernameTextView, binding.accountDisplayNameTextView)) {
             view.setOnLongClickListener {
-                if (loadedAccount != null) {
-                    val fullUsername = getFullUsername(loadedAccount!!)
+                loadedAccount?.let { loadedAccount ->
+                    val fullUsername = getFullUsername(loadedAccount)
                     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
                     Snackbar.make(binding.root, getString(R.string.account_username_copied), Snackbar.LENGTH_SHORT)
@@ -728,9 +728,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 getString(R.string.action_mute)
             }
 
-            if (loadedAccount != null) {
+            loadedAccount?.let { loadedAccount ->
                 val muteDomain = menu.findItem(R.id.action_mute_domain)
-                domain = getDomain(loadedAccount?.url)
+                domain = getDomain(loadedAccount.url)
                 if (domain.isEmpty()) {
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
@@ -853,18 +853,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.url != null) {
-                    openLink(loadedAccount!!.url)
+                loadedAccount?.let { loadedAccount ->
+                    openLink(loadedAccount.url)
                 }
                 return true
             }
             R.id.action_open_as -> {
-                if (loadedAccount != null) {
+                loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
                         item.title, false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
-                                openAsAccount(loadedAccount!!.url, account)
+                                openAsAccount(loadedAccount.url, account)
                             }
                         }
                     )
@@ -872,8 +872,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_share_account_link -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount != null) {
-                    val url = loadedAccount!!.url
+                loadedAccount?.let { loadedAccount ->
+                    val url = loadedAccount.url
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, url)
@@ -884,8 +884,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
             R.id.action_share_account_username -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount != null) {
-                    val fullUsername = getFullUsername(loadedAccount!!)
+                loadedAccount?.let { loadedAccount ->
+                    val fullUsername = getFullUsername(loadedAccount)
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, fullUsername)
@@ -915,8 +915,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_report -> {
-                if (loadedAccount != null) {
-                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount!!.username))
+                loadedAccount?.let { loadedAccount ->
+                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount.username))
                 }
                 return true
             }
@@ -931,7 +931,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private fun getFullUsername(account: Account): String {
-        val test = accountManager.activeAccount
         if (account.isRemote()) {
             return "@" + account.username
         } else {
