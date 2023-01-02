@@ -156,8 +156,6 @@
     <string name="action_mute_conversation">Petear negearre</string>
     <string name="action_unmute_domain">%s net mear negearre</string>
     <string name="action_mute_domain">%s negearre</string>
-    <string name="action_mute_notifications_desc">Notifikaasjes fan %s negearre</string>
-    <string name="action_unmute_notifications_desc">Notifikaasjes fan %s net mear negearre</string>
     <string name="action_unmute_desc">%s net mear negearre</string>
     <string name="action_unmute">Net mear negearre</string>
     <string name="action_mute">Negearre</string>

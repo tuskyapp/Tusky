@@ -466,8 +466,6 @@
     <string name="action_mute_conversation">隐藏会话</string>
     <string name="action_unmute_domain">取消隐藏 %s</string>
     <string name="action_mute_domain">隐藏 %s</string>
-    <string name="action_mute_notifications_desc">隐藏来自 %s 的通知</string>
-    <string name="action_unmute_notifications_desc">取消隐藏来自 %s 的通知</string>
     <string name="action_unmute_desc">取消隐藏 %s</string>
     <string name="notification_follow_request_format">%s 请求关注你</string>
     <string name="pref_main_nav_position">导航栏位置</string>

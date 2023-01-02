@@ -196,7 +196,6 @@
     <string name="action_more">Enemmän</string>
     <string name="notification_mention_format">%s on maininnut sinut</string>
     <string name="error_media_upload_opening">Tiedoston lataaminen epäonnistui.</string>
-    <string name="action_unmute_notifications_desc">Poista ilmoitusten mykistys tililtä %s</string>
     <string name="notification_reblog_format">%s jakoi julkaisusi</string>
     <string name="error_compose_character_limit">Julkaisusi on liian pitkä!</string>
     <string name="action_unmute_conversation">Poista keskustelun mykistys</string>
@@ -265,7 +264,6 @@
     <string name="notification_update_format">%s muokkasi julkaisua</string>
     <string name="notification_update_name">Julkaisujen muokkaukset</string>
     <string name="title_migration_relogin">Kirjaudu uudestaan sisään ottaaksesi vastaan push-ilmoituksia</string>
-    <string name="action_mute_notifications_desc">Mykistä ilmoitukset tililtä %s</string>
     <string name="action_details">Yksityiskohdat</string>
     <string name="error_image_edit_failed">Kuvaa ei voitu muokata.</string>
     <string name="description_visibility_unlisted">Listaamaton</string>

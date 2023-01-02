@@ -509,8 +509,6 @@
     <string name="pref_main_nav_position_option_top">الأعلى</string>
     <string name="action_unmute_domain">إلغاء كتم %s</string>
     <string name="dialog_mute_hide_notifications">أخفِ الإشعارات</string>
-    <string name="action_mute_notifications_desc">اكتم إشعارات %s</string>
-    <string name="action_unmute_notifications_desc">إلغاء كتم إشعارات %s</string>
     <string name="action_unmute_desc">إلغاء كتم %s</string>
     <string name="pref_title_hide_top_toolbar">إخفاء عنوان شريط الأدوات العلوي</string>
     <string name="title_announcements">الاعلانات</string>

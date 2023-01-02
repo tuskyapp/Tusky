@@ -354,7 +354,7 @@
     <plurals name="max_tab_number_reached">
         <item quantity="one">bylo dosaženo maxima %1$d panelu</item>
         <item quantity="few">bylo dosaženo maxima %1$d panelů</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="description_post_media">Média %s</string>
     <string name="description_post_cw">Varování o obsahu: %s</string>
@@ -475,8 +475,6 @@
     <string name="dialog_block_warning">Zablokovat @%s\?</string>
     <string name="pref_main_nav_position_option_top">Nahoře</string>
     <string name="action_unmute_domain">Zrušit skrytí domény %s</string>
-    <string name="action_mute_notifications_desc">Skrýt oznámení od %s</string>
-    <string name="action_unmute_notifications_desc">Zrušit skrytí oznámení od %s</string>
     <string name="action_unmute_desc">Zrušit skrytí %s</string>
     <string name="dialog_mute_warning">Skrýt @%s\?</string>
     <string name="notification_follow_request_format">%s požádal/a aby vás mohl/a sledovat</string>

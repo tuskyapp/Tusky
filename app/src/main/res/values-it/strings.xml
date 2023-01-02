@@ -491,7 +491,6 @@
     <string name="pref_main_nav_position">Posizione barra di navigazione principale</string>
     <string name="pref_title_gradient_for_media">Mostra gradienti colorati per i media nascosti</string>
     <string name="dialog_mute_hide_notifications">Nascondi notifiche</string>
-    <string name="action_mute_notifications_desc">Disattiva le notifiche da %s</string>
     <string name="action_unmute_notifications_desc">Riattiva le notifiche da %s</string>
     <string name="title_announcements">Annunci</string>
     <string name="pref_title_notification_filter_follow_requests">mi viene richiesto di seguirmi</string>

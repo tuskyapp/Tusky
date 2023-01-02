@@ -313,7 +313,6 @@
     <string name="error_following_hashtag_format">Gwall wrth ddilyn #%s</string>
     <string name="error_unfollowing_hashtag_format">Gwall wrth ddad-ddilyn #%s</string>
     <string name="action_unmute_domain">Dad-dewi %s</string>
-    <string name="action_unmute_notifications_desc">Dad-dewi hysbysiadau gan %s</string>
     <string name="notification_subscription_format">Mae %s newydd bostio</string>
     <string name="action_delete_conversation">Dileu\'r sgwrs</string>
     <string name="action_view_bookmarks">Nodau tudalen</string>
@@ -339,7 +338,6 @@
     <string name="notification_update_format">Golygodd %s ei neges</string>
     <string name="filter_apply">Hidlo</string>
     <string name="pref_title_notification_filter_follow_requests">cais i ddilyn</string>
-    <string name="action_mute_notifications_desc">Tewi hysbysiadau gan %s</string>
     <string name="notifications_clear">Clirio</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
     <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi post newydd</string>

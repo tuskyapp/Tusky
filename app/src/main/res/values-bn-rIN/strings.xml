@@ -431,8 +431,6 @@
     <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
     <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
     <string name="action_unmute_domain">আনমিউট %s</string>
-    <string name="action_mute_notifications_desc">%s থেকে বিজ্ঞপ্তি বন্ধ করো</string>
-    <string name="action_unmute_notifications_desc">%s থেকে বিজ্ঞপ্তি বন্ধ করো</string>
     <string name="action_unmute_desc">আনমিউট %s</string>
     <string name="notification_follow_request_name">অনুরোধ অনুসরণ করুন</string>
     <string name="pref_title_confirm_reblogs">বুস্ট করার আগে নিশ্চিত করো</string>
