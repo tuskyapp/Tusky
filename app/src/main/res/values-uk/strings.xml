@@ -613,4 +613,7 @@
     <string name="pref_title_http_proxy_port_message">Порт повинен бути між %d і %d</string>
     <string name="error_status_source_load">Не вдалося завантажити джерело стану з сервера.</string>
     <string name="post_media_alt">ALT</string>
+    <string name="action_discard">Відкинути зміни</string>
+    <string name="compose_unsaved_changes">У вас є незбережені зміни.</string>
+    <string name="action_continue_edit">Продовжити редагування</string>
 </resources>
