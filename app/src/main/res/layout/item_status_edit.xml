@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp">
+
+    <ImageView
+        android:id="@+id/status_edit_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:contentDescription="@string/action_view_profile"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/avatar_default" />
+
+    <TextView
+        android:id="@+id/status_edit_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_edit_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="\@Tusky edited 18th December 2022" />
+
+    <TextView
+        android:id="@+id/status_edit_content_warning_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        android:hyphenationFrequency="full"
+        android:importantForAccessibility="no"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_avatar"
+        tools:text="content warning which is very long and it doesn't fit"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/status_edit_content_warning_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="4dp"
+        android:background="?android:textColorPrimary"
+        android:importantForAccessibility="no"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_content_warning_description" />
+
+    <TextView
+        android:id="@+id/status_edit_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="true"
+        android:hyphenationFrequency="full"
+        android:importantForAccessibility="no"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_content_warning_separator"
+        tools:text="This is an edited status" />
+
+    <com.keylesspalace.tusky.view.MediaPreviewLayout
+        android:id="@+id/status_edit_media_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/media_preview_outline"
+        android:importantForAccessibility="noHideDescendants"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_content" />
+
+    <TextView
+        android:id="@+id/status_edit_media_sensitivity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/post_sensitive_media_title"
+        android:textColor="?android:attr/textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_media_preview" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/status_edit_poll_options"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="4dp"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_media_sensitivity" />
+
+    <!-- hidden because as of Mastodon 4.0.2 we don't get this info via the api -->
+    <TextView
+        android:id="@+id/status_edit_poll_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="14dp"
+        android:textSize="?attr/status_text_medium"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_edit_poll_options"
+        tools:text="ends at 12:30" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

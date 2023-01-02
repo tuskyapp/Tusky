@@ -469,8 +469,6 @@
     <string name="pref_title_notification_filter_follow_requests">jarraipen-eskaera</string>
     <string name="action_unmute_conversation">Desmututu elkarrizketa</string>
     <string name="action_unmute_domain">Desmututu %s</string>
-    <string name="action_mute_notifications_desc">Mututu %s(r)en jakinarazpenak</string>
-    <string name="action_unmute_notifications_desc">Desmututu %s(r)en jakinarazpenak</string>
     <string name="review_notifications">Jakinarazpenak berrikusi</string>
     <string name="pref_title_confirm_favourites">Erakutsi baieztapen elkarrizketa-koadroa gogokoenetara gehitu aurretik</string>
     <string name="follow_requests_info">Zure kontua blokeatuta ez badago ere, %1$s-ko langileek kontu hauetako eskaerak eskuz berrikusi nahi dituzula pentsatu dute.</string>

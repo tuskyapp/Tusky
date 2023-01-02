@@ -493,8 +493,6 @@
     <string name="pref_main_nav_position">Расположение панели навигации</string>
     <string name="action_unmute_domain">Отменить глушение %s</string>
     <string name="dialog_mute_hide_notifications">Скрыть уведомления</string>
-    <string name="action_mute_notifications_desc">Заглушить уведомления от %s</string>
-    <string name="action_unmute_notifications_desc">Получать уведомления от %s</string>
     <string name="action_unmute_desc">Разблокировать %s</string>
     <string name="account_note_saved">Сохранено!</string>
     <string name="account_note_hint">Ваша личная заметка об этой учётной записи</string>

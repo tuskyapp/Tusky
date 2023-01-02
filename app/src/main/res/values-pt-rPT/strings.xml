@@ -121,8 +121,6 @@
     <string name="action_mute">Silenciar</string>
     <string name="action_unmute">Remover silêncio</string>
     <string name="action_unmute_desc">Remover %s do silêncio</string>
-    <string name="action_unmute_notifications_desc">Remover notificações de %s do silêncio</string>
-    <string name="action_mute_notifications_desc">Silencie notificações de %s</string>
     <string name="action_mute_domain">Silenciar %s</string>
     <string name="action_unmute_domain">Remover %s do silêncio</string>
     <string name="action_mute_conversation">Silenciar conversa</string>

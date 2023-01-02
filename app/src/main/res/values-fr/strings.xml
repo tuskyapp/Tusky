@@ -473,8 +473,6 @@
     <string name="pref_main_nav_position">Position de navigation principale</string>
     <string name="action_unmute_domain">Ne plus masquer %s</string>
     <string name="dialog_mute_hide_notifications">Cacher les notifications</string>
-    <string name="action_mute_notifications_desc">Masquer les notifications de %s</string>
-    <string name="action_unmute_notifications_desc">Ne plus masquer les notifications de %s</string>
     <string name="action_unmute_desc">Ne plus masquer %s</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s personne</item>

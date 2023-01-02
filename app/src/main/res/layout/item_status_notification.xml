@@ -51,7 +51,7 @@
             android:id="@+id/status_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/status_timestamp_info"
+            android:layout_toStartOf="@+id/status_meta_info"
             android:layout_toEndOf="@id/status_display_name"
             android:ellipsize="end"
             android:maxLines="1"
@@ -60,7 +60,7 @@
             tools:text="\@Entenhausen" />
 
         <TextView
-            android:id="@+id/status_timestamp_info"
+            android:id="@+id/status_meta_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

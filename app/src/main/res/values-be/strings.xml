@@ -227,8 +227,6 @@
     <string name="action_mute">Ігнараваць</string>
     <string name="action_unmute">Адмяніць ігнараванне</string>
     <string name="action_unmute_desc">Адмяніць ігнараванне %s</string>
-    <string name="action_unmute_notifications_desc">Атрымліваць паведамленні ад %s</string>
-    <string name="action_mute_notifications_desc">Ігнараваць паведамленні ад %s</string>
     <string name="action_mute_domain">Ігнараваць %s</string>
     <string name="action_unmute_domain">Адмяніць ігнараванне %s</string>
     <string name="action_mute_conversation">Ігнараваць размову</string>

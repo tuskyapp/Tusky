@@ -369,8 +369,6 @@
     <string name="action_open_as">%s के रूप में खोलें</string>
     <string name="download_image">%1$s डाउनलोड हो रहा है</string>
     <string name="action_links">लिंक</string>
-    <string name="action_mute_notifications_desc">%s से सूचनाएं म्यूट करें</string>
-    <string name="action_unmute_notifications_desc">%s से सूचनाएं अनम्यूट करें</string>
     <string name="action_unmute_desc">अनम्यूट %s</string>
     <string name="action_view_domain_mutes">छिपे हुए डोमेन</string>
     <string name="action_view_blocks">रोके गए उपयोगकर्ता</string>

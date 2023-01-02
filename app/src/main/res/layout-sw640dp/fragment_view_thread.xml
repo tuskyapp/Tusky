@@ -14,7 +14,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/view_thread_toolbar"
             app:navigationContentDescription="@string/abc_action_bar_up_description"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/title_view_thread" />

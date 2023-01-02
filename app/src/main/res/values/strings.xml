@@ -55,6 +55,7 @@
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
     <string name="title_followed_hashtags">Followed Hashtags</string>
+    <string name="title_edits">Edits</string>
 
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s boosted</string>
@@ -133,8 +134,6 @@
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
     <string name="action_unmute_desc">Unmute %s</string>
-    <string name="action_unmute_notifications_desc">Unmute notifications from %s</string>
-    <string name="action_mute_notifications_desc">Mute notifications from %s</string>
     <string name="action_mute_domain">Mute %s</string>
     <string name="action_unmute_domain">Unmute %s</string>
     <string name="action_mute_conversation">Mute conversation</string>
@@ -711,5 +710,12 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
+    <string name="mute_notifications_switch">Mute notifications</string>
+
+    <!--@Tusky edited 19th December 2022 13:37 -->
+    <string name="status_edit_info">%1$s edited %2$s</string>
+    <!--@Tusky created 19th December 2022 13:12 -->
+    <string name="status_created_info">%1$s created %2$s</string>
+
     <string name="a11y_label_loading_thread">Loading thread</string>
 </resources>

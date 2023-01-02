@@ -480,8 +480,6 @@
     <string name="account_note_hint">你對此帳號的個人註記</string>
     <string name="pref_title_hide_top_toolbar">隱藏頂端工具列的標題</string>
     <string name="dialog_mute_hide_notifications">隱藏通知</string>
-    <string name="action_mute_notifications_desc">靜音來自 %s 的通知</string>
-    <string name="action_unmute_notifications_desc">取消靜音來自 %s 的通知</string>
     <string name="action_unmute_desc">取消靜音 %s</string>
     <string name="action_unmute_domain">取消靜音 %s</string>
     <string name="pref_main_nav_position_option_bottom">底端</string>

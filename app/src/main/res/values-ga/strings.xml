@@ -118,8 +118,6 @@
     <string name="action_open_drawer">Tarraiceán a oscailt</string>
     <string name="action_hide_media">Folaigh na meáin</string>
     <string name="action_mention">Luaigh</string>
-    <string name="action_mute_notifications_desc">Fógraí tost ó %s</string>
-    <string name="action_unmute_notifications_desc">Fógraí neamhshábháilteachta ó %s</string>
     <string name="action_unmute">Unmute</string>
     <string name="action_mute">Balbhaigh</string>
     <string name="action_share">Comhroinn</string>
