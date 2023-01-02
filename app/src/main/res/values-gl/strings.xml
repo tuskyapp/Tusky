@@ -18,8 +18,6 @@
     <string name="action_mute_conversation">Acalar conversa</string>
     <string name="action_unmute_domain">Reactivar %s</string>
     <string name="action_mute_domain">Acalar %s</string>
-    <string name="action_mute_notifications_desc">Acalar as notificacións de %s</string>
-    <string name="action_unmute_notifications_desc">Reactivar as notificacións de %s</string>
     <string name="action_unmute_desc">Reactivar %s</string>
     <string name="action_unmute">Desacalar</string>
     <string name="action_mute">Acalar</string>

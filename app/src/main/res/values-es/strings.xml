@@ -491,8 +491,6 @@
     <string name="action_unmute_domain">Dejar de silenciar a %s</string>
     <string name="action_unmute_desc">Dejar de silenciar a %s</string>
     <string name="dialog_mute_hide_notifications">Ocultar notificaciones</string>
-    <string name="action_mute_notifications_desc">Silenciar notificaciones desde %s</string>
-    <string name="action_unmute_notifications_desc">Dejar de silenciar notificaciones desde %s</string>
     <string name="pref_title_hide_top_toolbar">Ocultar el título de la barra de herramientas superior</string>
     <string name="account_note_saved">¡Guardado!</string>
     <string name="account_note_hint">Tu nota privada acerca de esta cuenta</string>
@@ -613,4 +611,7 @@
     <string name="error_status_source_load">Fallo al cargar el estado desde el servidor.</string>
     <string name="confirmation_hashtag_unfollowed">Dejaste de seguir a #%s</string>
     <string name="pref_title_notification_filter_reports">Hay una nueva denuncia</string>
+    <string name="action_discard">Descartar cambios</string>
+    <string name="action_continue_edit">Continuar editando</string>
+    <string name="compose_unsaved_changes">Tienes cambios sin guardar.</string>
 </resources>

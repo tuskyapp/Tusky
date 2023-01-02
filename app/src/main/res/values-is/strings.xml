@@ -467,8 +467,6 @@
     <string name="action_unmute_conversation">Hætta að þagga niður í samtali</string>
     <string name="action_mute_conversation">Þagga niður í samtali</string>
     <string name="action_unmute_domain">Afþagga %s</string>
-    <string name="action_mute_notifications_desc">Þagga tilkynningar frá %s</string>
-    <string name="action_unmute_notifications_desc">Afþagga tilkynningar frá %s</string>
     <string name="action_unmute_desc">Afþagga %s</string>
     <string name="notification_follow_request_format">%s bað um að fylgjast með þér</string>
     <string name="title_announcements">Tilkynningar</string>

@@ -167,8 +167,6 @@
     <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
     <string name="pref_title_notification_filter_favourites">мої дописи вподобано</string>
     <string name="action_hide_media">Сховати медіа</string>
-    <string name="action_mute_notifications_desc">Приховати сповіщення від %s</string>
-    <string name="action_unmute_notifications_desc">Не приховувати сповіщення від %s</string>
     <string name="notification_subscription_format">%s щойно опубліковано</string>
     <string name="title_announcements">Оголошення</string>
     <string name="action_open_drawer">Відкрити меню</string>
@@ -613,4 +611,7 @@
     <string name="pref_title_http_proxy_port_message">Порт повинен бути між %d і %d</string>
     <string name="error_status_source_load">Не вдалося завантажити джерело стану з сервера.</string>
     <string name="post_media_alt">ALT</string>
+    <string name="action_discard">Відкинути зміни</string>
+    <string name="compose_unsaved_changes">У вас є незбережені зміни.</string>
+    <string name="action_continue_edit">Продовжити редагування</string>
 </resources>

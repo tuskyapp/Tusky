@@ -465,8 +465,6 @@
     <string name="pref_title_gradient_for_media">نمایش گرادیان‌های رنگی برای رسانه‌های نهفته</string>
     <string name="dialog_mute_hide_notifications">نهفتن آگاهی‌ها</string>
     <string name="action_unmute_domain">ناخموشی %s</string>
-    <string name="action_mute_notifications_desc">خموشی آگاهی‌ها از %s</string>
-    <string name="action_unmute_notifications_desc">ناخموشی آگاهی‌ها از %s</string>
     <string name="action_unmute_desc">ناخموشی %s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s رأی</item>
