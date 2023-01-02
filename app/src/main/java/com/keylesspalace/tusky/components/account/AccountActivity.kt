@@ -935,6 +935,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             return "@" + account.username
         } else {
             val localUsername = account.localUsername
+            // Note: !! here will crash if this pane is ever shown to a logged-out user. With AccountActivity this is believed to be impossible.
             val domain = accountManager.activeAccount!!.domain
             return "@$localUsername@$domain"
         }
