@@ -593,4 +593,7 @@
     <string name="pref_title_http_proxy_port_message">端口应在 %d 和 %d 之间</string>
     <string name="error_status_source_load">从服务器加载状态源失败。</string>
     <string name="post_media_alt">ALT</string>
+    <string name="action_discard">放弃更改</string>
+    <string name="action_continue_edit">继续编辑</string>
+    <string name="compose_unsaved_changes">你有未保存的更改。</string>
 </resources>
