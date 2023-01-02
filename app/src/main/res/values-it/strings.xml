@@ -491,7 +491,6 @@
     <string name="pref_main_nav_position">Posizione barra di navigazione principale</string>
     <string name="pref_title_gradient_for_media">Mostra gradienti colorati per i media nascosti</string>
     <string name="dialog_mute_hide_notifications">Nascondi notifiche</string>
-    <string name="action_unmute_notifications_desc">Riattiva le notifiche da %s</string>
     <string name="title_announcements">Annunci</string>
     <string name="pref_title_notification_filter_follow_requests">mi viene richiesto di seguirmi</string>
     <string name="wellbeing_hide_stats_profile">Nascondi statistiche quantitative sui profili</string>
@@ -610,4 +609,11 @@
     <string name="confirmation_hashtag_unfollowed">Non segui più #%s</string>
     <string name="error_status_source_load">Caricamento dello status della sorgente dal server fallito.</string>
     <string name="post_edited">Modificato %s</string>
+    <string name="mute_notifications_switch">Silenzia notifiche</string>
+    <string name="title_edits">Modifiche</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="status_edit_info">%1$s ha modificato %2$s</string>
+    <string name="status_created_info">%1$s ha creato %2$s</string>
+    <string name="report_category_other">Altro</string>
+    <string name="action_unfollow_hashtag_format">Smettere di seguire #%s\?</string>
 </resources>
