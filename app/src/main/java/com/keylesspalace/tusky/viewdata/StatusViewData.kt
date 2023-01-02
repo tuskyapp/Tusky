@@ -40,7 +40,6 @@ sealed class StatusViewData {
          *
          * @return Whether the post is collapsed or fully expanded.
          */
-        /** Whether the status meets the requirement to be collapse  */
         val isCollapsed: Boolean,
         val isDetailed: Boolean = false
     ) : StatusViewData() {

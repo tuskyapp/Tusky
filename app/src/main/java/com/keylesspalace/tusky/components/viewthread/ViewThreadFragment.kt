@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -33,6 +34,7 @@ import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -104,6 +106,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressedDispatcher?.onBackPressed()
         }
+        binding.toolbar.inflateMenu(R.menu.view_thread_toolbar)
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_reveal -> {
@@ -323,6 +326,17 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val status = adapter.currentList[position]
         viewModel.voteInPoll(choices, status)
+    }
+
+    override fun onShowEdits(position: Int) {
+        val status = adapter.currentList[position]
+        val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)
+
+        parentFragmentManager.commit {
+            setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")
+            addToBackStack(null)
+        }
     }
 
     companion object {

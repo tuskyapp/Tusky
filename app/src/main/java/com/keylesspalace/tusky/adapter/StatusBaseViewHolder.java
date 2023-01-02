@@ -94,7 +94,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private ImageView avatarInset;
 
     public ImageView avatar;
-    public TextView timestampInfo;
+    public TextView metaInfo;
     public TextView content;
     public TextView contentWarningDescription;
 
@@ -123,7 +123,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
         username = itemView.findViewById(R.id.status_username);
-        timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
+        metaInfo = itemView.findViewById(R.id.status_meta_info);
         content = itemView.findViewById(R.id.status_content);
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
@@ -310,7 +310,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setCreatedAt(Date createdAt, Date editedAt, StatusDisplayOptions statusDisplayOptions) {
+    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+
+        Status status = statusViewData.getActionable();
+        Date createdAt = status.getCreatedAt();
+        Date editedAt = status.getEditedAt();
+
         String timestampText;
         if (statusDisplayOptions.useAbsoluteTime()) {
             timestampText = absoluteTimeFormatter.format(createdAt, true);
@@ -320,15 +325,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
-                String readout = TimestampUtils.getRelativeTimeSpanString(timestampInfo.getContext(), then, now);
+                String readout = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
                 timestampText = readout;
             }
         }
 
         if (editedAt != null) {
-            timestampText = timestampInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
+            timestampText = metaInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
         }
-        timestampInfo.setText(timestampText);
+        metaInfo.setText(timestampText);
     }
 
     private CharSequence getCreatedAtDescription(Date createdAt,
@@ -715,7 +720,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(status.getUsername());
-            setCreatedAt(actionable.getCreatedAt(), actionable.getEditedAt(), statusDisplayOptions);
+            setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
@@ -767,7 +772,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (payloads instanceof List)
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setCreatedAt(status.getActionable().getCreatedAt(), status.getActionable().getEditedAt(), statusDisplayOptions);
+                        setMetaData(status, statusDisplayOptions, listener);
                     }
                 }
 
@@ -849,7 +854,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
+    protected static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
 
         if (visibility == null) {
             return "";
@@ -1138,7 +1143,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatarInset.setVisibility(visibility);
         displayName.setVisibility(visibility);
         username.setVisibility(visibility);
-        timestampInfo.setVisibility(visibility);
+        metaInfo.setVisibility(visibility);
         contentWarningDescription.setVisibility(visibility);
         contentWarningButton.setVisibility(visibility);
         content.setVisibility(visibility);
