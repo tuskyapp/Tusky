@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PollAdapter
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.MULTIPLE
@@ -18,7 +19,6 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.aspectRatios
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
@@ -147,7 +147,7 @@ class ViewEditsAdapter(
                 val placeholder: Drawable = if (blurhash != null && useBlurhash) {
                     decodeBlurHash(context, blurhash)
                 } else {
-                    ColorDrawable(ThemeUtils.getColor(context, R.attr.colorBackgroundAccent))
+                    ColorDrawable(MaterialColors.getColor(imageView, R.attr.colorBackgroundAccent))
                 }
 
                 if (attachment.previewUrl.isNullOrEmpty()) {
