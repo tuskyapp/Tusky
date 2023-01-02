@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.components.viewthread
 
 import android.os.Looper.getMainLooper
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -25,6 +26,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.doReturn
@@ -44,6 +46,34 @@ class ViewThreadViewModelTest {
     private lateinit var db: AppDatabase
 
     private val threadId = "1234"
+
+    /**
+     * Execute each task synchronously.
+     *
+     * If you do not do this, and you have code like this under test:
+     *
+     * ```
+     * fun someFunc() = viewModelScope.launch {
+     *     _uiState.value = "initial value"
+     *     // ...
+     *     call_a_suspend_fun()
+     *     // ...
+     *     _uiState.value = "new value"
+     * }
+     * ```
+     *
+     * and a test like:
+     *
+     * ```
+     * someFunc()
+     * assertEquals("new value", viewModel.uiState.value)
+     * ```
+     *
+     * The test will fail, because someFunc() yields at the `call_a_suspend_func()` point,
+     * and control returns to the test before `_uiState.value` has been changed.
+     */
+    @get:Rule
+    val instantTaskRule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
