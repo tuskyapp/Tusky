@@ -134,8 +134,6 @@
     <string name="action_mute">Mute</string>
     <string name="action_unmute">Unmute</string>
     <string name="action_unmute_desc">Unmute %s</string>
-    <string name="action_unmute_notifications_desc">Unmute notifications from %s</string>
-    <string name="action_mute_notifications_desc">Mute notifications from %s</string>
     <string name="action_mute_domain">Mute %s</string>
     <string name="action_unmute_domain">Unmute %s</string>
     <string name="action_mute_conversation">Mute conversation</string>
@@ -712,6 +710,7 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
+    <string name="mute_notifications_switch">Mute notifications</string>
 
     <!--@Tusky edited 19th December 2022 13:37 -->
     <string name="status_edit_info">%1$s edited %2$s</string>
