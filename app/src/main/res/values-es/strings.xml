@@ -613,4 +613,7 @@
     <string name="error_status_source_load">Fallo al cargar el estado desde el servidor.</string>
     <string name="confirmation_hashtag_unfollowed">Dejaste de seguir a #%s</string>
     <string name="pref_title_notification_filter_reports">Hay una nueva denuncia</string>
+    <string name="action_discard">Descartar cambios</string>
+    <string name="action_continue_edit">Continuar editando</string>
+    <string name="compose_unsaved_changes">Tienes cambios sin guardar.</string>
 </resources>
