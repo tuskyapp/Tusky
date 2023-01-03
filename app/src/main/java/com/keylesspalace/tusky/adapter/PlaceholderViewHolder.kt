@@ -14,7 +14,6 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.adapter
 
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -41,8 +40,6 @@ class PlaceholderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     )
 
     fun setup(listener: StatusActionListener, loading: Boolean) {
-        Log.d("PlaceholderViewHolder", "setup(), $loading")
-
         itemView.isEnabled = !loading
         loadMoreButton.isEnabled = !loading
 
