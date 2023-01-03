@@ -34,7 +34,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federated</string>
-    <string name="title_direct_messages">Direct Messages</string>
+    <string name="title_direct_messages">Direct messages</string>
     <string name="title_tab_preferences">Tabs</string>
     <string name="title_view_thread">Thread</string>
     <string name="title_posts">Posts</string>
@@ -48,13 +48,13 @@
     <string name="title_blocks">Blocked users</string>
     <string name="title_domain_mutes">Hidden domains</string>
     <string name="title_migration_relogin">Re-login for push notifications</string>
-    <string name="title_follow_requests">Follow Requests</string>
+    <string name="title_follow_requests">Follow requests</string>
     <string name="title_edit_profile">Edit your profile</string>
     <string name="title_drafts">Drafts</string>
     <string name="title_scheduled_posts">Scheduled posts</string>
     <string name="title_announcements">Announcements</string>
     <string name="title_licenses">Licenses</string>
-    <string name="title_followed_hashtags">Followed Hashtags</string>
+    <string name="title_followed_hashtags">Followed hashtags</string>
     <string name="title_edits">Edits</string>
 
     <string name="post_username_format">\@%s</string>
@@ -96,8 +96,8 @@
     <string name="action_unbookmark">Remove bookmark</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
-    <string name="action_login">Login with Mastodon</string>
-    <string name="action_logout">Log Out</string>
+    <string name="action_login">Log in with Mastodon</string>
+    <string name="action_logout">Log out</string>
     <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
@@ -118,13 +118,13 @@
     <string name="action_close">Close</string>
     <string name="action_view_profile">Profile</string>
     <string name="action_view_preferences">Preferences</string>
-    <string name="action_view_account_preferences">Account Preferences</string>
+    <string name="action_view_account_preferences">Account preferences</string>
     <string name="action_view_favourites">Favorites</string>
     <string name="action_view_bookmarks">Bookmarks</string>
     <string name="action_view_mutes">Muted users</string>
     <string name="action_view_blocks">Blocked users</string>
     <string name="action_view_domain_mutes">Hidden domains</string>
-    <string name="action_view_follow_requests">Follow Requests</string>
+    <string name="action_view_follow_requests">Follow requests</string>
     <string name="action_view_media">Media</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="action_add_media">Add media</string>
@@ -256,7 +256,7 @@
     <string name="pref_title_notification_filter_updates">a post I\'ve interacted with is edited</string>
     <string name="pref_title_notification_filter_reports">there\'s a new report</string>
     <string name="pref_title_appearance_settings">Appearance</string>
-    <string name="pref_title_app_theme">App Theme</string>
+    <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
     <string name="pref_title_timeline_filters">Filters</string>
 
@@ -318,7 +318,7 @@
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_follow_name">New Followers</string>
     <string name="notification_follow_description">Notifications about new followers</string>
-    <string name="notification_follow_request_name">Follow Requests</string>
+    <string name="notification_follow_request_name">Follow requests</string>
     <string name="notification_follow_request_description">Notifications about follow requests</string>
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notifications when your posts get boosted</string>
@@ -695,7 +695,7 @@
     <string name="saving_draft">Saving draft…</string>
 
     <string name="tips_push_notification_migration">Re-login all accounts to enable push notification support.</string>
-    <string name="dialog_push_notification_migration">In order to use push notifications via UnifiedPush, Tusky needs permission to subscribe to notifications on your Mastodon server. This requires a re-login to change the OAuth scopes granted to Tusky. Using the re-login option here or in Account Preferences will preserve all of your local drafts and cache.</string>
+    <string name="dialog_push_notification_migration">In order to use push notifications via UnifiedPush, Tusky needs permission to subscribe to notifications on your Mastodon server. This requires a re-login to change the OAuth scopes granted to Tusky. Using the re-login option here or in "Account preferences" will preserve all of your local drafts and cache.</string>
     <string name="dialog_push_notification_migration_other_accounts">You have re-logged into your current account to grant push subscription permission to Tusky. However, you still have other accounts that have not been migrated this way. Switch to them and re-login one by one in order to enable UnifiedPush notifications support.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
 
