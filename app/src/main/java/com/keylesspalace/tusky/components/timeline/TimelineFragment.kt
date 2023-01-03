@@ -103,7 +103,10 @@ class TimelineFragment :
     private var isSwipeToRefreshEnabled = true
     private var hideFab = false
 
-    /** Adapter position of the placeholder that was most recently clicked to "Load more" */
+    /**
+     * Adapter position of the placeholder that was most recently clicked to "Load more". If null
+     * then there is no active "Load more" operation
+     */
     private var loadMorePosition: Int? = null
 
     /** ID of the status immediately below the most recent "Load more" placeholder click */
@@ -240,30 +243,8 @@ class TimelineFragment :
                         }
                     }
                 }
-
-                // If this insert was because the user clicked "Load more" then ensure the status
-                // below that "Load more" placeholder is still visible (if the user reads oldest
-                // to newest).
-                //
-                // Note: The positionStart parameter to onItemRangeInserted() does not always
-                // match the adapter position where data was inserted (which is why loadMorePosition
-                // is tracked manually, see this bug report for another example:
-                // https://github.com/android/architecture-components-samples/issues/726).
-                if (loadMorePosition != null && statusIdBelowLoadMore != null && readingOrder == ReadingOrder.OLDEST_FIRST) {
-                    var position = loadMorePosition!!
-
-                    var status: StatusViewData?
-                    while (adapter.peek(position).let { status = it; it != null }) {
-                        if (status?.id == statusIdBelowLoadMore) {
-                            val lastVisiblePosition = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                            if (position > lastVisiblePosition) {
-                                binding.recyclerView.scrollToPosition(position)
-                            }
-                            break
-                        }
-                        position++
-                    }
-                    loadMorePosition = null
+                if (readingOrder == ReadingOrder.OLDEST_FIRST) {
+                    updateReadingPositionForOldestFirst()
                 }
             }
         })
@@ -309,6 +290,33 @@ class TimelineFragment :
                     }
                 }
             }
+    }
+
+    /**
+     * Set the correct reading position in the timeline after the user clicked "Load more",
+     * assuming the reading position should be below the freshly-loaded statuses.
+     */
+    // Note: The positionStart parameter to onItemRangeInserted() does not always
+    // match the adapter position where data was inserted (which is why loadMorePosition
+    // is tracked manually, see this bug report for another example:
+    // https://github.com/android/architecture-components-samples/issues/726).
+    private fun updateReadingPositionForOldestFirst() {
+        var position = loadMorePosition ?: return
+        val statusIdBelowLoadMore = statusIdBelowLoadMore ?: return
+
+        var status: StatusViewData?
+        while (adapter.peek(position).let { status = it; it != null }) {
+            if (status?.id == statusIdBelowLoadMore) {
+                val lastVisiblePosition =
+                    (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (position > lastVisiblePosition) {
+                    binding.recyclerView.scrollToPosition(position)
+                }
+                break
+            }
+            position++
+        }
+        loadMorePosition = null
     }
 
     private fun setupSwipeRefreshLayout() {
