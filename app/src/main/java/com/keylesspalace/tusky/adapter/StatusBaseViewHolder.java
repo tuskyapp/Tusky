@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.adapter;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -119,6 +120,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private final Drawable mediaPreviewUnloaded;
 
+    private int timeStampColor;
+    private int timeStampColorLighter;
+
     protected StatusBaseViewHolder(View itemView) {
         super(itemView);
         displayName = itemView.findViewById(R.id.status_display_name);
@@ -172,8 +176,21 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         mediaPreviewUnloaded = new ColorDrawable(MaterialColors.getColor(itemView, R.attr.colorBackgroundAccent));
 
+        Context context = itemView.getContext();
+        timeStampColor = context.getResources().getColor(R.color.tusky_blue_light, context.getTheme());
+        timeStampColorLighter = getLighter(timeStampColor);
+
         TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, CollectionsKt.listOfNotNull(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
     }
+
+    private int getLighter(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[1] *= 0.5;
+        hsv[2] *= 1.3;
+
+        return Color.HSVToColor(hsv);
+}
 
     protected void setDisplayName(String name, List<Emoji> customEmojis, StatusDisplayOptions statusDisplayOptions) {
         CharSequence emojifiedName = CustomEmojiHelper.emojify(
@@ -317,14 +334,16 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Date editedAt = status.getEditedAt();
 
         String timestampText;
+
+        long then = createdAt.getTime();
+        long now = System.currentTimeMillis();
+
         if (statusDisplayOptions.useAbsoluteTime()) {
             timestampText = absoluteTimeFormatter.format(createdAt, true);
         } else {
             if (createdAt == null) {
                 timestampText = "?m";
             } else {
-                long then = createdAt.getTime();
-                long now = System.currentTimeMillis();
                 String readout = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
                 timestampText = readout;
             }
@@ -334,6 +353,22 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             timestampText = metaInfo.getContext().getString(R.string.post_timestamp_with_edited_indicator, timestampText);
         }
         metaInfo.setText(timestampText);
+
+        metaInfo.setBackgroundColor(getTimeBasedColor(now - then));
+    }
+
+    /**
+     * @return a color that is darker the older a post is
+     */
+    private int getTimeBasedColor(long millisecondAge) {
+        double hours = millisecondAge / (60.0*60*1000);
+        if (hours > 8) {
+            return timeStampColor;
+        } else if (hours > 2) {
+            return timeStampColorLighter;
+        }
+
+        return Color.TRANSPARENT;
     }
 
     private CharSequence getCreatedAtDescription(Date createdAt,
