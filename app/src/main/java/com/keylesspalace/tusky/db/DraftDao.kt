@@ -31,8 +31,8 @@ interface DraftDao {
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId ORDER BY id ASC")
     fun draftsPagingSource(accountId: Long): PagingSource<Int, DraftEntity>
 
-    @Query ("SELECT COUNT(*) FROM DraftEntity where accountId = :accountId and failedToSendNew=true")
-    fun draftsNeedUserAlert(accountId: Long) : LiveData<Int>
+    @Query("SELECT COUNT(*) FROM DraftEntity where accountId = :accountId and failedToSendNew=true")
+    fun draftsNeedUserAlert(accountId: Long): LiveData<Int>
 
     @Query("UPDATE DraftEntity SET failedToSendNew=false where accountId = :accountId and failedToSendNew=true")
     suspend fun draftsClearNeedUserAlert(accountId: Long)
