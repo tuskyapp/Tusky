@@ -124,7 +124,7 @@ class ViewThreadViewModel @Inject constructor(
 
             _uiState.value = ThreadUiState.LoadingThread(
                 statusViewDatum = detailedStatus,
-                revealButton = detailedStatus.getRevealButtonState(),
+                revealButton = detailedStatus.getRevealButtonState()
             )
 
             val contextResult = contextCall.await()
@@ -132,12 +132,27 @@ class ViewThreadViewModel @Inject constructor(
             contextResult.fold({ statusContext ->
                 val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
                 val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
-                val statuses = ancestors + detailedStatus + descendants
+                var statuses = ancestors + detailedStatus + descendants
 
                 _uiState.value = ThreadUiState.Success(
                     statusViewData = statuses,
-                    revealButton = statuses.getRevealButtonState(),
+                    revealButton = statuses.getRevealButtonState()
                 )
+
+                // If the detailedStatus was loaded from the database it might be out-of-date
+                // compared to the remote one. Now the user has a working UI do a background fetch
+                // for the status, and update the UI if the remote copy has changed.
+                //
+                // Ignore errors, the user still has a functioning UI if the fetch failed.
+                if (timelineStatus != null) {
+                    val viewData = api.status(id).getOrNull()?.toViewData() ?: return@fold
+                    if (viewData == detailedStatus) { return@fold }
+                    statuses = ancestors + viewData + descendants
+                    _uiState.value = ThreadUiState.Success(
+                        statusViewData = ancestors + viewData + descendants,
+                        revealButton = statuses.getRevealButtonState()
+                    )
+                }
             }, { throwable ->
                 _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
