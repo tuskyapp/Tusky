@@ -25,6 +25,7 @@ import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -171,17 +172,17 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             accountDao.insertOrReplace(it)
 
             // Now that account is known, need to create routing for media-upload failures
-            val accountId = account.id.toLong()
+            val dbId = it.id
             // Remove old observer if we just switched accounts
             draftsNeedUserAlertCurrent?.let {
                 draftsNeedUserAlert.removeSource(it)
             }
             // Add new observer
-            val draftsNeedUserAlertCurrent = draftDao.draftsNeedUserAlert(accountId)
+            val draftsNeedUserAlertCurrent = draftDao.draftsNeedUserAlert(dbId)
             this.draftsNeedUserAlertCurrent = draftsNeedUserAlertCurrent
             draftsNeedUserAlert.addSource(draftsNeedUserAlertCurrent, { count ->
-                // TODO
-                Log.d(TAG, "draftsNeedUserAlert: account id " + accountId + " has " + count + " bad drafts")
+                Log.d(TAG, "draftsNeedUserAlert: account id " + dbId + " has " + count + " notification-worthy drafts")
+                draftsNeedUserAlert.value = count
             })
         }
     }
@@ -265,5 +266,15 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             return false
 
         return accounts.size > 1 // "disambiguate"
+    }
+
+    /**
+     * Clear drafts alert for current user
+     * Caller's responsibility to ensure there is a current user
+     */
+    fun clearDraftsAlert() {
+        runBlocking {
+            draftDao.draftsClearNeedUserAlert(activeAccount!!.id)
+        }
     }
 }
