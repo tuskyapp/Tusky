@@ -17,6 +17,10 @@ package com.keylesspalace.tusky.db
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
@@ -41,6 +45,11 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     var accounts: MutableList<AccountEntity> = mutableListOf()
         private set
     private val accountDao: AccountDao = db.accountDao()
+
+    // For tracking when a media upload fails in the service
+    private val draftDao: DraftDao = db.draftDao()
+    private var draftsNeedUserAlertCurrent: LiveData<Int>? = null
+    public val draftsNeedUserAlert = MediatorLiveData<Int>()
 
     init {
         accounts = accountDao.loadAll().toMutableList()
@@ -160,6 +169,20 @@ class AccountManager @Inject constructor(db: AppDatabase) {
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)
+
+            // Now that account is known, need to create routing for media-upload failures
+            val accountId = account.id.toLong()
+            // Remove old observer if we just switched accounts
+            draftsNeedUserAlertCurrent?.let {
+                draftsNeedUserAlert.removeSource(it)
+            }
+            // Add new observer
+            val draftsNeedUserAlertCurrent = draftDao.draftsNeedUserAlert(accountId)
+            this.draftsNeedUserAlertCurrent = draftsNeedUserAlertCurrent
+            draftsNeedUserAlert.addSource(draftsNeedUserAlertCurrent, { count ->
+                // TODO
+                Log.d(TAG, "draftsNeedUserAlert: account id " + accountId + " has " + count + " bad drafts")
+            })
         }
     }
 

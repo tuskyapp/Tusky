@@ -123,6 +123,7 @@ class DraftHelper @Inject constructor(
             attachments = attachments,
             poll = poll,
             failedToSend = failedToSend,
+            failedToSendNew = failedToSend,
             scheduledAt = scheduledAt,
             language = language,
             statusId = statusId,
