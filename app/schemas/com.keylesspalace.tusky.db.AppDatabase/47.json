@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 46,
-    "identityHash": "3cdfad61c4cf7e1ad5c70783e60e6845",
+    "version": 47,
+    "identityHash": "496e1f2135a296e49eef88551ecbdd2c",
     "entities": [
       {
         "tableName": "DraftEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `inReplyToId` TEXT, `content` TEXT, `contentWarning` TEXT, `sensitive` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT NOT NULL, `poll` TEXT, `failedToSend` INTEGER NOT NULL, `scheduledAt` TEXT, `language` TEXT, `statusId` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountId` INTEGER NOT NULL, `inReplyToId` TEXT, `content` TEXT, `contentWarning` TEXT, `sensitive` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT NOT NULL, `poll` TEXT, `failedToSend` INTEGER NOT NULL, `failedToSendNew` INTEGER NOT NULL, `scheduledAt` TEXT, `language` TEXT, `statusId` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -65,6 +65,12 @@
           {
             "fieldPath": "failedToSend",
             "columnName": "failedToSend",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "failedToSendNew",
+            "columnName": "failedToSendNew",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -977,7 +983,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3cdfad61c4cf7e1ad5c70783e60e6845')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '496e1f2135a296e49eef88551ecbdd2c')"
     ]
   }
 }
