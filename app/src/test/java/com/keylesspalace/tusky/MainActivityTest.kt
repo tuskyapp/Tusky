@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Intent
+import androidx.lifecycle.MediatorLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.viewpager2.widget.ViewPager2
@@ -120,6 +121,7 @@ class MainActivityTest {
         activity.eventHub = EventHub()
         activity.accountManager = mock {
             on { activeAccount } doReturn accountEntity
+            on { draftsNeedUserAlert } doReturn MediatorLiveData<Int>()
         }
         activity.mastodonApi = mock {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
