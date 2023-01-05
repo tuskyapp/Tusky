@@ -72,6 +72,9 @@ android {
             returnDefaultValues = true
             includeAndroidResources = true
         }
+        unitTests.all {
+            systemProperty 'robolectric.logging.enabled', 'true'
+        }        
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
