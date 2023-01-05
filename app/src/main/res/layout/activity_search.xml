@@ -28,8 +28,7 @@
             android:layout_height="wrap_content"
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@style/TuskyTabAppearance" />
+            app:tabMode="fixed" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

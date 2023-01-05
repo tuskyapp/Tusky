@@ -19,13 +19,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +38,6 @@ import autodispose2.autoDispose
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
-import com.keylesspalace.tusky.adapter.ListSelectionAdapter
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
@@ -50,7 +49,7 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -264,23 +263,26 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showSelectListDialog() {
-        val adapter = ListSelectionAdapter(this)
-        lifecycleScope.launch {
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
+        val lists = runBlocking {
             mastodonApi.getLists().fold(
                 { lists ->
-                    adapter.addAll(lists)
+                    return@runBlocking lists
                 },
                 { throwable ->
                     Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                    return@runBlocking emptyList()
                 }
             )
         }
 
+        adapter.addAll(lists.map { it.title })
+
         AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
             .setAdapter(adapter) { _, position ->
-                val list = adapter.getItem(position)
-                val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
+                val item = lists[position]
+                val newTab = createTabDataFromId(LIST, listOf(item.id, item.title))
                 currentTabs.add(newTab)
                 currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                 updateAvailableTabs()
