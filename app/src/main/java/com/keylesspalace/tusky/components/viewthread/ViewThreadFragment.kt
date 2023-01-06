@@ -151,8 +151,6 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
-                Log.d(TAG, "Collected uiState: $uiState")
-
                 when (uiState) {
                     is ThreadUiState.Loading -> {
                         updateRevealButton(RevealButtonState.NO_BUTTON)
@@ -207,10 +205,8 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         threadProgressBar.cancel()
 
                         adapter.submitList(uiState.statusViewData) {
-                            val detailedPosition = adapter.currentList.indexOfFirst { viewData ->
-                                viewData.isDetailed
-                            }
-                            binding.recyclerView.scrollToPosition(detailedPosition)
+                            // Ensure the top of the status is visible
+                            (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(uiState.detailedStatusPosition, 0)
                         }
 
                         updateRevealButton(uiState.revealButton)

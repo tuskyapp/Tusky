@@ -105,7 +105,7 @@ class ViewThreadViewModel @Inject constructor(
             val contextCall = async { api.statusContext(id) }
             val timelineStatus = db.timelineDao().getStatus(id)
 
-            val detailedStatus = if (timelineStatus != null) {
+            var detailedStatus = if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
                 timelineStatus.toViewData(
                     gson,
@@ -113,13 +113,11 @@ class ViewThreadViewModel @Inject constructor(
                 ) as StatusViewData.Concrete
             } else {
                 Log.d(TAG, "Loaded status from network")
-                val statusCall = async { api.statusAsync(id) }
-                val statusResult = statusCall.await()
-                val result = statusResult.getOrElse { exception ->
+                val result = api.status(id).getOrElse { exception ->
                     _uiState.value = ThreadUiState.Error(exception)
                     return@launch
                 }
-                result.toViewData(true)
+                result.toViewData(isDetailed = true)
             }
 
             _uiState.value = ThreadUiState.LoadingThread(
@@ -127,36 +125,32 @@ class ViewThreadViewModel @Inject constructor(
                 revealButton = detailedStatus.getRevealButtonState()
             )
 
+            // If the detailedStatus was loaded from the database it might be out-of-date
+            // compared to the remote one. Now the user has a working UI do a background fetch
+            // for the status. Ignore errors, the user still has a functioning UI if the fetch
+            // failed.
+            if (timelineStatus != null) {
+                val viewData = api.status(id).getOrNull()?.toViewData(isDetailed = true)
+                if (viewData != null) { detailedStatus = viewData }
+            }
+
             val contextResult = contextCall.await()
 
             contextResult.fold({ statusContext ->
                 val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
                 val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
-                var statuses = ancestors + detailedStatus + descendants
+                val statuses = ancestors + detailedStatus + descendants
 
                 _uiState.value = ThreadUiState.Success(
                     statusViewData = statuses,
+                    detailedStatusPosition = ancestors.size,
                     revealButton = statuses.getRevealButtonState()
                 )
-
-                // If the detailedStatus was loaded from the database it might be out-of-date
-                // compared to the remote one. Now the user has a working UI do a background fetch
-                // for the status, and update the UI if the remote copy has changed.
-                //
-                // Ignore errors, the user still has a functioning UI if the fetch failed.
-                if (timelineStatus != null) {
-                    val viewData = api.status(id).getOrNull()?.toViewData() ?: return@fold
-                    if (viewData == detailedStatus) { return@fold }
-                    statuses = ancestors + viewData + descendants
-                    _uiState.value = ThreadUiState.Success(
-                        statusViewData = ancestors + viewData + descendants,
-                        revealButton = statuses.getRevealButtonState()
-                    )
-                }
             }, { throwable ->
                 _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
                     statusViewData = listOf(detailedStatus),
+                    detailedStatusPosition = 0,
                     revealButton = RevealButtonState.NO_BUTTON,
                 )
             })
@@ -480,7 +474,8 @@ sealed interface ThreadUiState {
     /** Successfully loaded the full thread */
     data class Success(
         val statusViewData: List<StatusViewData.Concrete>,
-        val revealButton: RevealButtonState
+        val revealButton: RevealButtonState,
+        val detailedStatusPosition: Int
     ) : ThreadUiState
 
     /** Refreshing the thread with a swipe */
