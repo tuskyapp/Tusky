@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.viewthread
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -62,6 +63,7 @@ class ThreadAdapter(
     }
 
     companion object {
+        private const val TAG = "ThreadAdapter"
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_STATUS_DETAILED = 1
 

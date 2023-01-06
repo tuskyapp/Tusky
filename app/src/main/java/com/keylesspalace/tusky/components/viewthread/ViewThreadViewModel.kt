@@ -107,10 +107,20 @@ class ViewThreadViewModel @Inject constructor(
 
             var detailedStatus = if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
-                timelineStatus.toViewData(
+                val viewData = timelineStatus.toViewData(
                     gson,
                     isDetailed = true
                 ) as StatusViewData.Concrete
+
+                // Return the correct status, depending on which one matched. If you do not do
+                // this the status IDs will be different between the status that's displayed with
+                // ThreadUiState.LoadingThread and ThreadUiState.Success, even though the apparent
+                // status content is the same. Then the status flickers as it is drawn twice.
+                if (viewData.actionableId == id) {
+                    viewData.actionable.toViewData(isDetailed = true)
+                } else {
+                    viewData
+                }
             } else {
                 Log.d(TAG, "Loaded status from network")
                 val result = api.status(id).getOrElse { exception ->
