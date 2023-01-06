@@ -122,7 +122,8 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
-                    revealButton = RevealButtonState.REVEAL,
+                    detailedStatusPosition = 1,
+                    revealButton = RevealButtonState.REVEAL
                 ),
                 viewModel.uiState.first()
             )
@@ -132,7 +133,7 @@ class ViewThreadViewModelTest {
     @Test
     fun `should emit status even if context fails to load`() {
         api.stub {
-            onBlocking { statusAsync(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1"))
+            onBlocking { status(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1"))
             onBlocking { statusContext(threadId) } doReturn NetworkResult.failure(IOException())
         }
 
@@ -144,6 +145,7 @@ class ViewThreadViewModelTest {
                     statusViewData = listOf(
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true)
                     ),
+                    detailedStatusPosition = 0,
                     revealButton = RevealButtonState.NO_BUTTON,
                 ),
                 viewModel.uiState.first()
@@ -154,7 +156,7 @@ class ViewThreadViewModelTest {
     @Test
     fun `should emit error when status and context fail to load`() {
         api.stub {
-            onBlocking { statusAsync(threadId) } doReturn NetworkResult.failure(IOException())
+            onBlocking { status(threadId) } doReturn NetworkResult.failure(IOException())
             onBlocking { statusContext(threadId) } doReturn NetworkResult.failure(IOException())
         }
 
@@ -171,7 +173,7 @@ class ViewThreadViewModelTest {
     @Test
     fun `should emit error when status fails to load`() {
         api.stub {
-            onBlocking { statusAsync(threadId) } doReturn NetworkResult.failure(IOException())
+            onBlocking { status(threadId) } doReturn NetworkResult.failure(IOException())
             onBlocking { statusContext(threadId) } doReturn NetworkResult.success(
                 StatusContext(
                     ancestors = listOf(mockStatus(id = "1")),
@@ -205,6 +207,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isExpanded = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test", isExpanded = true)
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.HIDE,
                 ),
                 viewModel.uiState.first()
@@ -228,6 +231,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -251,6 +255,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", reblogged = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -274,6 +279,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test", bookmarked = false)
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -296,6 +302,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "1", spoilerText = "Test"),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test")
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -322,6 +329,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isExpanded = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -348,6 +356,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isCollapsed = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -374,6 +383,7 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", isShowingContent = true),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
                     ),
+                    detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL,
                 ),
                 viewModel.uiState.first()
@@ -383,7 +393,7 @@ class ViewThreadViewModelTest {
 
     private fun mockSuccessResponses() {
         api.stub {
-            onBlocking { statusAsync(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1", spoilerText = "Test"))
+            onBlocking { status(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1", spoilerText = "Test"))
             onBlocking { statusContext(threadId) } doReturn NetworkResult.success(
                 StatusContext(
                     ancestors = listOf(mockStatus(id = "1", spoilerText = "Test")),
