@@ -1,4 +1,4 @@
-/* Copyright 2023 Tusky Contributors
+/* Copyright 2021 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -24,11 +24,13 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.TagViewHolder
+import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 class TrendingPagingAdapter(
     private var statusDisplayOptions: StatusDisplayOptions,
+    private val trendingListener: LinkListener,
 ) : ListAdapter<TrendingViewData, RecyclerView.ViewHolder>(TrendingDifferCallback) {
 
     var mediaPreviewEnabled: Boolean
@@ -94,7 +96,7 @@ class TrendingPagingAdapter(
                 .maxOrNull() ?: 1
 
             val holder = viewHolder as TagViewHolder
-            holder.setup(trending, maxTrendingValue)
+            holder.setup(trending, maxTrendingValue, trendingListener)
         }
     }
 

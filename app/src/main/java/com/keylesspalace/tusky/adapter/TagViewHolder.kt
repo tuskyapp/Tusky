@@ -20,6 +20,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.TrendingTagHistory
+import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.view.GraphView
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
@@ -37,12 +38,17 @@ class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun setup(
         tagViewData: TrendingViewData.Tag,
         maxTrendingValue: Int,
+        trendingListener: LinkListener,
     ) {
         setGraph(tagViewData.tag.history, maxTrendingValue)
         setTag(tagViewData.tag.name)
 
         val totalAccounts = tagViewData.tag.history.sumOf { it.accounts.toIntOrNull() ?: 0 }
         setTextWithAccounts(totalAccounts)
+
+        itemView.setOnClickListener {
+            trendingListener.onViewTag(tagViewData.tag.name)
+        }
     }
 
     private fun setGraph(history: List<TrendingTagHistory>, maxTrendingValue: Int) {

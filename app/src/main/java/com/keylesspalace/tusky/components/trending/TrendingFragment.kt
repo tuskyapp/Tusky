@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.trending
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,7 +35,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
+import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
@@ -43,6 +47,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -58,9 +63,12 @@ import javax.inject.Inject
 class TrendingFragment :
     Fragment(),
     OnRefreshListener,
+    LinkListener,
     Injectable,
     ReselectableFragment,
     RefreshableFragment {
+
+    private lateinit var bottomSheetActivity: BottomSheetActivity
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -81,6 +89,15 @@ class TrendingFragment :
 
     private var isSwipeToRefreshEnabled = true
     private var hideFab = false
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        bottomSheetActivity = if (context is BottomSheetActivity) {
+            context
+        } else {
+            throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +127,7 @@ class TrendingFragment :
         )
         adapter = TrendingPagingAdapter(
             statusDisplayOptions,
+            this,
         )
     }
 
@@ -218,6 +236,18 @@ class TrendingFragment :
             viewModel.invalidate()
             clearLoadingState()
         }
+    }
+
+    override fun onViewUrl(url: String) {
+        bottomSheetActivity.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER)
+    }
+
+    override fun onViewTag(tag: String) {
+        startActivity(StatusListActivity.newHashtagIntent(requireContext(), tag))
+    }
+
+    override fun onViewAccount(id: String) {
+        bottomSheetActivity.viewAccount(id)
     }
 
     private fun clearLoadingState() {
