@@ -100,8 +100,8 @@
     <string name="action_logout">Log Out</string>
     <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
     <string name="action_post_failed">Upload failed</string>
-    <string name="action_post_failed_detail">A post failed to upload and has been saved to drafts.</string>
-    <string name="action_post_failed_detail_plural">%1$d posts failed to upload and have been saved to drafts.</string>
+    <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.</string>
+    <string name="action_post_failed_detail_plural">Your posts failed to upload and have been saved to drafts.</string>
     <string name="action_post_failed_show_drafts">Show drafts</string>
     <string name="action_post_failed_do_nothing">Dismiss</string>
     <string name="action_follow">Follow</string>

@@ -176,7 +176,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         if (count == 1)
                             getString(R.string.action_post_failed_detail)
                         else
-                            getString(R.string.action_post_failed_detail_plural, count)
+                            getString(R.string.action_post_failed_detail_plural)
                     )
                     .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
                         accountManager.clearDraftsAlert() // User looked at drafts
