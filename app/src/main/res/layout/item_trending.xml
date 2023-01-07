@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true">
+
+    <com.keylesspalace.tusky.view.GraphView
+        android:id="@+id/graph"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/action_view_profile"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        app:fillColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lineColor="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:ellipsize="end"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/graph"
+        app:layout_constraintTop_toTopOf="@id/graph"
+        tools:text="#itishashtagtuesday" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        android:hyphenationFrequency="full"
+        android:importantForAccessibility="no"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tag"
+        app:layout_constraintTop_toBottomOf="@id/tag"
+        tools:text="123456789 people are talking about this subject" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
