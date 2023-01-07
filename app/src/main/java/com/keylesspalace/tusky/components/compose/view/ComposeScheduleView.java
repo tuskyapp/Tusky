@@ -18,8 +18,7 @@ package com.keylesspalace.tusky.components.compose.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +32,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.databinding.ViewComposeScheduleBinding;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -48,48 +48,41 @@ public class ComposeScheduleView extends ConstraintLayout {
         void onTimeSet(String time);
     }
 
+    private ViewComposeScheduleBinding binding;
+
     private OnTimeSetListener listener;
 
     private DateFormat dateFormat;
     private DateFormat timeFormat;
     private SimpleDateFormat iso8601;
-
-    private Button resetScheduleButton;
-    private TextView scheduledDateTimeView;
-    private TextView invalidScheduleWarningView;
-
     private Calendar scheduleDateTime;
     public static int MINIMUM_SCHEDULED_SECONDS = 330; // Minimum is 5 minutes, pad 30 seconds for posting
 
     public ComposeScheduleView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public ComposeScheduleView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public ComposeScheduleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
-        inflate(getContext(), R.layout.view_compose_schedule, this);
+    private void init(Context context) {
+        binding = ViewComposeScheduleBinding.inflate((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
 
         dateFormat = SimpleDateFormat.getDateInstance();
         timeFormat = SimpleDateFormat.getTimeInstance();
         iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        resetScheduleButton = findViewById(R.id.resetScheduleButton);
-        scheduledDateTimeView = findViewById(R.id.scheduledDateTime);
-        invalidScheduleWarningView = findViewById(R.id.invalidScheduleWarning);
-
-        scheduledDateTimeView.setOnClickListener(v -> openPickDateDialog());
-        invalidScheduleWarningView.setText(R.string.warning_scheduling_interval);
+        binding.scheduledDateTime.setOnClickListener(v -> openPickDateDialog());
+        binding.invalidScheduleWarning.setText(R.string.warning_scheduling_interval);
 
         scheduleDateTime = null;
 
@@ -104,11 +97,11 @@ public class ComposeScheduleView extends ConstraintLayout {
 
     private void setScheduledDateTime() {
         if (scheduleDateTime == null) {
-            scheduledDateTimeView.setText("");
-            invalidScheduleWarningView.setVisibility(GONE);
+            binding.scheduledDateTime.setText("");
+            binding.invalidScheduleWarning.setVisibility(GONE);
         } else {
             Date scheduled = scheduleDateTime.getTime();
-            scheduledDateTimeView.setText(String.format("%s %s",
+            binding.scheduledDateTime.setText(String.format("%s %s",
                     dateFormat.format(scheduled),
                     timeFormat.format(scheduled)));
             verifyScheduledTime(scheduled);
@@ -121,15 +114,15 @@ public class ComposeScheduleView extends ConstraintLayout {
             return;
         }
 
-        final int size = scheduledDateTimeView.getLineHeight();
+        final int size = binding.scheduledDateTime.getLineHeight();
 
         icon.setBounds(0, 0, size, size);
 
-        scheduledDateTimeView.setCompoundDrawables(null, null, icon, null);
+        binding.scheduledDateTime.setCompoundDrawables(null, null, icon, null);
     }
 
     public void setResetOnClickListener(OnClickListener listener) {
-        resetScheduleButton.setOnClickListener(listener);
+        binding.resetScheduleButton.setOnClickListener(listener);
     }
 
     public void resetSchedule() {
@@ -202,7 +195,7 @@ public class ComposeScheduleView extends ConstraintLayout {
         } else {
             valid = true;
         }
-        invalidScheduleWarningView.setVisibility(valid ? GONE : VISIBLE);
+        binding.invalidScheduleWarning.setVisibility(valid ? GONE : VISIBLE);
         return valid;
     }
 
