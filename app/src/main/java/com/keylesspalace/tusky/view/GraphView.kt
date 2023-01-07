@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.R
 import kotlin.math.max
 import kotlin.random.Random
 
-
 class GraphView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -128,17 +127,17 @@ class GraphView @JvmOverloads constructor(
         linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = lineColor
 
-            style = Paint.Style.STROKE;
-            strokeJoin = Paint.Join.MITER;
-            strokeCap = Paint.Cap.SQUARE;
+            style = Paint.Style.STROKE
+            strokeJoin = Paint.Join.MITER
+            strokeCap = Paint.Cap.SQUARE
         }
 
         fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = fillColor
 
-            style = Paint.Style.FILL;
-            strokeJoin = Paint.Join.MITER;
-            strokeCap = Paint.Cap.SQUARE;
+            style = Paint.Style.FILL
+            strokeJoin = Paint.Join.MITER
+            strokeCap = Paint.Cap.SQUARE
         }
 
         graphPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {

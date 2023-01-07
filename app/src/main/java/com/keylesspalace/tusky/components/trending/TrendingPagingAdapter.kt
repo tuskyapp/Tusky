@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.TagViewHolder
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -51,12 +50,6 @@ class TrendingPagingAdapter(
                 val view = LayoutInflater.from(viewGroup.context)
                     .inflate(R.layout.item_trending, viewGroup, false)
                 TagViewHolder(view)
-            }
-
-            VIEW_TYPE_PLACEHOLDER -> {
-                val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_trending_placeholder, viewGroup, false)
-                PlaceholderViewHolder(view)
             }
 
             else -> {
@@ -110,7 +103,6 @@ class TrendingPagingAdapter(
 
     companion object {
         private const val VIEW_TYPE_TAG = 0
-        private const val VIEW_TYPE_PLACEHOLDER = 2
 
         val TrendingDifferCallback = object : DiffUtil.ItemCallback<TrendingViewData>() {
             override fun areItemsTheSame(

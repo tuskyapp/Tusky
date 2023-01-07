@@ -49,6 +49,8 @@ class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.setOnClickListener {
             trendingListener.onViewTag(tagViewData.tag.name)
         }
+
+        setAccessibility(totalAccounts, tagViewData.tag.name)
     }
 
     private fun setGraph(history: List<TrendingTagHistory>, maxTrendingValue: Int) {
@@ -64,5 +66,10 @@ class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun setTextWithAccounts(totalAccounts: Int) {
         textView.text = itemView.context.getString(R.string.talking_about_tag, totalAccounts)
+    }
+
+    private fun setAccessibility(totalAccounts: Int, tag: String) {
+        itemView.contentDescription =
+            itemView.context.getString(R.string.accessibility_talking_about_tag, totalAccounts, tag)
     }
 }

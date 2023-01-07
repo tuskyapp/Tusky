@@ -207,18 +207,6 @@ class TrendingFragment :
     }
 
     private fun setupRecyclerView() {
-//        binding.recyclerView.setAccessibilityDelegateCompat(
-//            ListStatusAccessibilityDelegate(
-//                binding.recyclerView,
-//                LoggingStatusActionListener()
-//            ) { pos ->
-//                if (pos in 0 until adapter.itemCount) {
-//                    adapter.peek(pos)
-//                } else {
-//                    null
-//                }
-//            }
-//        )
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
