@@ -89,6 +89,9 @@ fun ViewPager2.reduceSwipeSensitivity() {
     val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
     touchSlopField.isAccessible = true
     val touchSlop = touchSlopField.get(recyclerView) as Int
-    val scaleFactor = 2
+    // 4 seems to be a sweet-spot. 2-3 still causes a horizontal swipe right if the user drags
+    // down-left at ~ 45 degree angle. Experimentally, 4 requires the swipe to be +/- ~ 10 degrees
+    // from horizontal to register as a horizontal and not a vertical swipe.
+    val scaleFactor = 4
     touchSlopField.set(recyclerView, touchSlop * scaleFactor)
 }
