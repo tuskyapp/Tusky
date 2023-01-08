@@ -21,6 +21,7 @@
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         app:fillColor="?attr/colorPrimary"
+        app:graphColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
