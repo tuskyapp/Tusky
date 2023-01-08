@@ -19,6 +19,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Instance
 
 @Entity
 @TypeConverters(Converters::class)
@@ -63,4 +64,27 @@ data class InstanceInfoEntity(
     val maxFields: Int?,
     val maxFieldNameLength: Int?,
     val maxFieldValueLength: Int?
-)
+) {
+
+    companion object {
+        fun from(instance: Instance, instanceName: String): InstanceInfoEntity {
+            return InstanceInfoEntity(
+                instance = instanceName,
+                maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
+                maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
+                maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
+                minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
+                maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
+                charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
+                version = instance.version,
+                videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit ?: instance.uploadLimit,
+                imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit ?: instance.uploadLimit,
+                imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
+                maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
+                maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
+                maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
+                maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
+            )
+        }
+    }
+}

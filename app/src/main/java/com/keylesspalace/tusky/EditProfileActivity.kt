@@ -38,7 +38,7 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
-import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo.Companion.DEFAULT_MAX_ACCOUNT_FIELDS
 import com.keylesspalace.tusky.databinding.ActivityEditProfileBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -72,7 +72,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private val accountFieldEditAdapter = AccountFieldEditAdapter()
 
-    private var maxAccountFields = InstanceInfoRepository.DEFAULT_MAX_ACCOUNT_FIELDS
+    private var maxAccountFields = DEFAULT_MAX_ACCOUNT_FIELDS
 
     private enum class PickType {
         AVATAR,

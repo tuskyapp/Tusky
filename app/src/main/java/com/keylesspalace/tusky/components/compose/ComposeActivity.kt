@@ -76,7 +76,9 @@ import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
-import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo.Companion.DEFAULT_CHARACTERS_RESERVED_PER_URL
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo.Companion.DEFAULT_CHARACTER_LIMIT
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo.Companion.DEFAULT_MAX_MEDIA_ATTACHMENTS
 import com.keylesspalace.tusky.databinding.ActivityComposeBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftAttachment
@@ -142,14 +144,14 @@ class ComposeActivity :
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     @VisibleForTesting
-    var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
-    var charactersReservedPerUrl = InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL
+    var maximumTootCharacters = DEFAULT_CHARACTER_LIMIT
+    var charactersReservedPerUrl = DEFAULT_CHARACTERS_RESERVED_PER_URL
 
     private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(ActivityComposeBinding::inflate)
 
-    private var maxUploadMediaNumber = InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS
+    private var maxUploadMediaNumber = DEFAULT_MAX_MEDIA_ATTACHMENTS
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {

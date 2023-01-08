@@ -18,16 +18,17 @@ package com.keylesspalace.tusky.components.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
-import com.keylesspalace.tusky.network.MastodonApi
+import at.connyduck.calladapter.networkresult.getOrElse
+import com.keylesspalace.tusky.network.MastodonApiV1
+import com.keylesspalace.tusky.network.MastodonApiV2
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginWebViewViewModel @Inject constructor(
-    private val api: MastodonApi
+    private val api2: MastodonApiV2,
+    private val api1: MastodonApiV1
 ) : ViewModel() {
-
     val instanceRules: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
 
     private var domain: String? = null
@@ -36,12 +37,25 @@ class LoginWebViewViewModel @Inject constructor(
         if (this.domain == null) {
             this.domain = domain
             viewModelScope.launch {
-                api.getInstance(domain).fold({ instance ->
-                    instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
-                }, { throwable ->
-                    Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
-                })
+                val info = api2.instance().getOrElse {
+                    Log.w(TAG, "api2.instance() failed", it)
+                    null
+                } ?: api1.instance().getOrElse {
+                    Log.w(TAG, "api1.instance() failed", it)
+                    null
+                }
+
+                if (info == null) {
+                    Log.w("LoginWebViewViewModel", "failed to load instance info")
+                    return@launch
+                }
+
+                instanceRules.value = info.rules?.map { rule -> rule.text }.orEmpty()
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "LoginWebViewModel"
     }
 }

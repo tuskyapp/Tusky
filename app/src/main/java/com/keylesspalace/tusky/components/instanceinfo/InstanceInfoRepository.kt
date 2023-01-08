@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.instanceinfo
 
 import android.util.Log
-import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.db.AccountManager
@@ -25,12 +24,16 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.network.MastodonApiV1
+import com.keylesspalace.tusky.network.MastodonApiV2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
+    private val api1: MastodonApiV1,
+    private val api2: MastodonApiV2,
     db: AppDatabase,
     accountManager: AccountManager
 ) {
@@ -53,74 +56,39 @@ class InstanceInfoRepository @Inject constructor(
     }
 
     /**
-     * Returns information about the instance.
-     * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
-     * Never throws, returns defaults of vanilla Mastodon in case of error.
+     * Return information about the instance.
+     *
+     * Returns the first success of, in order:
+     * - /api/v2/instance
+     * - /api/v1/instance
+     * - locally cached information
+     * - defaults for a vanilla Mastodon server
      */
     suspend fun getInstanceInfo(): InstanceInfo = withContext(Dispatchers.IO) {
-        api.getInstance()
-            .fold(
-                { instance ->
-                    val instanceEntity = InstanceInfoEntity(
-                        instance = instanceName,
-                        maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
-                        maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
-                        maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
-                        minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
-                        maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
-                        charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
-                        version = instance.version,
-                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit ?: instance.uploadLimit,
-                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit ?: instance.uploadLimit,
-                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
-                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
-                        maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
-                        maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
-                    )
-                    dao.upsert(instanceEntity)
-                    instanceEntity
-                },
-                { throwable ->
-                    Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
-                    dao.getInstanceInfo(instanceName)
-                }
-            ).let { instanceInfo: InstanceInfoEntity? ->
-                InstanceInfo(
-                    maxChars = instanceInfo?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
-                    pollMaxOptions = instanceInfo?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
-                    pollMaxLength = instanceInfo?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
-                    pollMinDuration = instanceInfo?.minPollDuration ?: DEFAULT_MIN_POLL_DURATION,
-                    pollMaxDuration = instanceInfo?.maxPollDuration ?: DEFAULT_MAX_POLL_DURATION,
-                    charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
-                    videoSizeLimit = instanceInfo?.videoSizeLimit ?: DEFAULT_VIDEO_SIZE_LIMIT,
-                    imageSizeLimit = instanceInfo?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
-                    imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT,
-                    maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
-                    maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
-                    maxFieldNameLength = instanceInfo?.maxFieldNameLength,
-                    maxFieldValueLength = instanceInfo?.maxFieldValueLength
-                )
-            }
+        val instance = api2.instance().getOrElse {
+            Log.w(TAG, "api2.instance() failed", it)
+            null
+        } ?: api1.instance().getOrElse {
+            Log.w(TAG, "api1.instance() failed", it)
+            null
+        }
+
+        if (instance != null) {
+            val instanceInfoEntity = InstanceInfoEntity.from(instance, instanceName)
+            dao.upsert(instanceInfoEntity)
+            return@withContext InstanceInfo.from(instanceInfoEntity)
+        }
+
+        val instanceInfoEntity = dao.getInstanceInfo(instanceName)
+        if (instanceInfoEntity != null) {
+            return@withContext InstanceInfo.from(instanceInfoEntity)
+        }
+
+        Log.w(TAG, "no cached instance info, falling back to default")
+        return@withContext InstanceInfo.default()
     }
 
     companion object {
         private const val TAG = "InstanceInfoRepo"
-
-        const val DEFAULT_CHARACTER_LIMIT = 500
-        private const val DEFAULT_MAX_OPTION_COUNT = 4
-        private const val DEFAULT_MAX_OPTION_LENGTH = 50
-        private const val DEFAULT_MIN_POLL_DURATION = 300
-        private const val DEFAULT_MAX_POLL_DURATION = 604800
-
-        private const val DEFAULT_VIDEO_SIZE_LIMIT = 41943040 // 40MiB
-        private const val DEFAULT_IMAGE_SIZE_LIMIT = 10485760 // 10MiB
-        private const val DEFAULT_IMAGE_MATRIX_LIMIT = 16777216 // 4096^2 Pixels
-
-        // Mastodon only counts URLs as this long in terms of status character limits
-        const val DEFAULT_CHARACTERS_RESERVED_PER_URL = 23
-
-        const val DEFAULT_MAX_MEDIA_ATTACHMENTS = 4
-        const val DEFAULT_MAX_ACCOUNT_FIELDS = 4
     }
 }
