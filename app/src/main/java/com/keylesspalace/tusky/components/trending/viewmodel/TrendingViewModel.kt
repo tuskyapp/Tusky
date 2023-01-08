@@ -22,16 +22,24 @@ import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.usecase.TrendingCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import okio.IOException
 import javax.inject.Inject
 
 class TrendingViewModel @Inject constructor(
     private val trendingCases: TrendingCases,
-    protected val accountManager: AccountManager,
+    private val accountManager: AccountManager,
 ) : ViewModel() {
+    enum class LoadingState {
+        INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+    }
 
-    val tags: MutableStateFlow<List<TrendingViewData.Tag>> = MutableStateFlow(emptyList())
+    data class State(val trendingViewData: List<TrendingViewData>, val loadingState: LoadingState)
+
+    val state: Flow<State> get() = _state
+    private val _state = MutableStateFlow(State(listOf(), LoadingState.INITIAL))
 
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoilers = false
@@ -51,9 +59,17 @@ class TrendingViewModel @Inject constructor(
 
     /** Triggered when currently displayed data must be reloaded. */
     suspend fun invalidate() {
-        val trending = trendingTags()
-        val viewData = trending.map { it.toViewData() }
-        tags.emit(viewData)
+        _state.value = State(listOf(), LoadingState.LOADING)
+
+        try {
+            val trending = trendingTags()
+            val viewData = trending.map { it.toViewData() }
+            _state.value = State(viewData, LoadingState.LOADED)
+        } catch (e: IOException) {
+            _state.value = State(listOf(), LoadingState.ERROR_NETWORK)
+        } catch (e: Exception) {
+            _state.value = State(listOf(), LoadingState.ERROR_OTHER)
+        }
     }
 
     companion object {

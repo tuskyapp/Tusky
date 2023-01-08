@@ -29,9 +29,13 @@ class TrendingCases @Inject constructor(
     private val mastodonApi: MastodonApi,
 ) {
     suspend fun trendingTags(): List<TrendingTag> {
-        val tags = withContext(Dispatchers.IO) {
-            mastodonApi.trendingTags().getOrNull() ?: emptyList()
+        val call = withContext(Dispatchers.IO) {
+            mastodonApi.trendingTags()
         }
+
+        call.exceptionOrNull()?.also { throw it }
+
+        val tags = call.getOrNull() ?: listOf()
 
         Log.v(TAG, "Trending tags: ${tags.map { it.name }}")
 

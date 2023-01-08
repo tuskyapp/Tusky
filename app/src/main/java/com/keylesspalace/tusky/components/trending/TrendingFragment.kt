@@ -54,7 +54,9 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.viewdata.TrendingViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -182,9 +184,8 @@ class TrendingFragment :
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.tags.collectLatest { viewData ->
-                adapter.submitList(viewData)
-                clearLoadingState()
+            viewModel.state.collectLatest { trendingState ->
+                processViewState(trendingState)
             }
         }
 
@@ -218,11 +219,8 @@ class TrendingFragment :
     }
 
     override fun onRefresh() {
-        binding.statusView.hide()
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.invalidate()
-            clearLoadingState()
         }
     }
 
@@ -238,10 +236,69 @@ class TrendingFragment :
         bottomSheetActivity.viewAccount(id)
     }
 
+    private fun processViewState(trendingState: TrendingViewModel.State) {
+        when (trendingState.loadingState) {
+            TrendingViewModel.LoadingState.INITIAL -> clearLoadingState()
+            TrendingViewModel.LoadingState.LOADING -> applyLoadingState()
+            TrendingViewModel.LoadingState.LOADED -> applyLoadedState(trendingState.trendingViewData)
+            TrendingViewModel.LoadingState.ERROR_NETWORK -> networkError()
+            TrendingViewModel.LoadingState.ERROR_OTHER -> otherError()
+        }
+    }
+
+    private fun applyLoadedState(viewData: List<TrendingViewData>) {
+        clearLoadingState()
+        adapter.submitList(viewData)
+        Log.v("TESTTEST", "list: ${viewData.map { it.asTagOrNull()?.tag?.name }}")
+
+        if (viewData.isEmpty()) {
+            binding.recyclerView.hide()
+            binding.messageView.show()
+            binding.messageView.setup(
+                R.drawable.elephant_friend_empty, R.string.message_empty,
+                null
+            )
+        } else {
+            binding.recyclerView.show()
+            binding.messageView.hide()
+        }
+        binding.progressBar.hide()
+    }
+
+    private fun applyLoadingState() {
+        binding.recyclerView.hide()
+        binding.messageView.hide()
+        binding.progressBar.show()
+    }
+
     private fun clearLoadingState() {
         binding.swipeRefreshLayout.isRefreshing = false
-        binding.statusView.hide()
         binding.progressBar.hide()
+        binding.messageView.hide()
+    }
+
+    private fun networkError() {
+        binding.recyclerView.hide()
+        binding.messageView.show()
+        binding.progressBar.hide()
+
+        binding.swipeRefreshLayout.isRefreshing = false
+        binding.messageView.setup(
+            R.drawable.elephant_offline,
+            R.string.error_network,
+        ) { refreshContent() }
+    }
+
+    private fun otherError() {
+        binding.recyclerView.hide()
+        binding.messageView.show()
+        binding.progressBar.hide()
+
+        binding.swipeRefreshLayout.isRefreshing = false
+        binding.messageView.setup(
+            R.drawable.elephant_error,
+            R.string.error_generic,
+        ) { refreshContent() }
     }
 
     private fun onPreferenceChanged(key: String) {
