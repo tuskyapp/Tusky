@@ -76,7 +76,6 @@ interface MastodonApi {
         const val PLACEHOLDER_DOMAIN = "dummy.placeholder"
     }
 
-
     @GET("/api/v1/custom_emojis")
     suspend fun getCustomEmojis(): NetworkResult<List<Emoji>>
 
