@@ -1012,7 +1012,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             val newIndex = liftedNew.indexOf(notifications[0])
             if (newIndex == -1) {
                 if (index == -1 && liftedNew.size >= LOAD_AT_ONCE) {
-                    liftedNew.add(Left<Placeholder, Notification>(newPlaceholder()))
+                    liftedNew.add(Left(newPlaceholder()))
                 }
                 notifications.addAll(0, liftedNew)
             } else {
@@ -1052,7 +1052,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         // If we fetched at least as much it means that there are more posts to load and we should
         // insert new placeholder
         if (newNotifications.size >= LOAD_AT_ONCE) {
-            liftedNew.add(Left<Placeholder, Notification>(newPlaceholder()))
+            liftedNew.add(Left(newPlaceholder()))
         }
         notifications.addAll(pos, liftedNew)
         updateAdapter()
