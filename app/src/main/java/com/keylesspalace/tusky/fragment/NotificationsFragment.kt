@@ -324,12 +324,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         binding.statusView.visibility = View.GONE
         showingError = false
         val first = notifications.firstOrNull()
-        val topId: String?
-        topId = if (first != null && first.isRight()) {
-            first.asRight().id
-        } else {
-            null
-        }
+        val topId = first?.asRightOrNull()?.id
         sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1)
     }
 
