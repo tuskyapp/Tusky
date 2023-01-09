@@ -534,9 +534,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         }
         val someViewData =
             notifications.getPairedItem(position) as? NotificationViewData.Concrete ?: return
-        val oldViewData = someViewData
-        val oldStatusViewData = oldViewData.statusViewData ?: return
-        val newViewData = oldViewData.copyWithStatus(mapper.apply(oldStatusViewData))
+        val oldStatusViewData = someViewData.statusViewData ?: return
+        val newViewData = someViewData.copyWithStatus(mapper.apply(oldStatusViewData))
         notifications.setPairedItem(position, newViewData)
         updateAdapter()
     }
