@@ -164,14 +164,14 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val statusDisplayOptions = StatusDisplayOptions(
-            preferences.getBoolean("animateGifAvatars", false),
+            preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             accountManager.activeAccount!!.mediaPreviewEnabled,
-            preferences.getBoolean("absoluteTimeView", false),
-            preferences.getBoolean("showBotOverlay", true),
-            preferences.getBoolean("useBlurhash", true),
+            preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
+            preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
+            preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
             CardViewMode.NONE,
-            preferences.getBoolean("confirmReblogs", true),
-            preferences.getBoolean("confirmFavourites", false),
+            preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
+            preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
@@ -275,7 +275,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         // isn't guaranteed to be set until then.
         // Use a modified scroll listener that both loads more notificationsEnabled as it
         // goes, and hides the compose button on down-scroll.
-        hideFab = preferences.getBoolean("fabHide", false)
+        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(view, dx, dy)
