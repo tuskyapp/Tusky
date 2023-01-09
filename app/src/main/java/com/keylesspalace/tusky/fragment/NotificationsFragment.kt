@@ -309,18 +309,13 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 )
             )
             .subscribe { event: Event? ->
-                if (event is FavoriteEvent) {
-                    setFavouriteForStatus(event.statusId, event.favourite)
-                } else if (event is BookmarkEvent) {
-                    setBookmarkForStatus(event.statusId, event.bookmark)
-                } else if (event is ReblogEvent) {
-                    setReblogForStatus(event.statusId, event.reblog)
-                } else if (event is PinEvent) {
-                    setPinForStatus(event.statusId, event.pinned)
-                } else if (event is BlockEvent) {
-                    removeAllByAccountId(event.accountId)
-                } else if (event is PreferenceChangedEvent) {
-                    onPreferenceChanged(event.preferenceKey)
+                when (event) {
+                    is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
+                    is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
+                    is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
+                    is PinEvent -> setPinForStatus(event.statusId, event.pinned)
+                    is BlockEvent -> removeAllByAccountId(event.accountId)
+                    is PreferenceChangedEvent -> onPreferenceChanged(event.preferenceKey)
                 }
             }
     }
