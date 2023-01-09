@@ -97,8 +97,14 @@ import java.util.Objects
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListener,
-    NotificationActionListener, AccountActionListener, Injectable, ReselectableFragment {
+class NotificationsFragment :
+    SFragment(),
+    OnRefreshListener,
+    StatusActionListener,
+    NotificationActionListener,
+    AccountActionListener,
+    Injectable,
+    ReselectableFragment {
 
     @Inject
     lateinit var eventHub: EventHub
@@ -178,12 +184,17 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
         adapter = NotificationsAdapter(
             accountManager.activeAccount!!.accountId,
-            dataSource, statusDisplayOptions, this, this, this
+            dataSource,
+            statusDisplayOptions,
+            this,
+            this,
+            this
         )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_timeline_notifications, container, false)
@@ -335,13 +346,15 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .subscribe(
                 {
                     setReblogForStatus(
-                        status.id, reblog
+                        status.id,
+                        reblog
                     )
                 }
             ) { t: Throwable? ->
                 Log.d(
                     javaClass.simpleName,
-                    "Failed to reblog status: " + status.id, t
+                    "Failed to reblog status: " + status.id,
+                    t
                 )
             }
     }
@@ -358,13 +371,15 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .subscribe(
                 {
                     setFavouriteForStatus(
-                        status.id, favourite
+                        status.id,
+                        favourite
                     )
                 }
             ) { t: Throwable? ->
                 Log.d(
                     javaClass.simpleName,
-                    "Failed to favourite status: " + status.id, t
+                    "Failed to favourite status: " + status.id,
+                    t
                 )
             }
     }
@@ -381,13 +396,15 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .subscribe(
                 {
                     setBookmarkForStatus(
-                        status.id, bookmark
+                        status.id,
+                        bookmark
                     )
                 }
             ) { t: Throwable? ->
                 Log.d(
                     javaClass.simpleName,
-                    "Failed to bookmark status: " + status.id, t
+                    "Failed to bookmark status: " + status.id,
+                    t
                 )
             }
     }
@@ -407,7 +424,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             ) { t: Throwable? ->
                 Log.d(
                     TAG,
-                    "Failed to vote in poll: " + status.id, t
+                    "Failed to vote in poll: " + status.id,
+                    t
                 )
             }
     }
@@ -476,12 +494,18 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        updateViewDataAt(position) { vd: StatusViewData.Concrete -> vd.copyWithCollapsed(isCollapsed) }
+        updateViewDataAt(position) { vd: StatusViewData.Concrete ->
+            vd.copyWithCollapsed(
+                isCollapsed
+            )
+        }
     }
 
     private fun updateStatus(statusId: String, mapper: Function<Status?, Status>) {
-        val index =
-            notifications.indexOfFirst { s: Either<Placeholder?, Notification> -> s.asRightOrNull()?.status?.id == statusId }
+        val index = notifications.indexOfFirst {
+                s: Either<Placeholder?, Notification> ->
+            s.asRightOrNull()?.status?.id == statusId
+        }
         if (index == -1) return
 
         // We have quite some graph here:
@@ -820,8 +844,10 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun sendFetchNotificationsRequest(
-        fromId: String?, uptoId: String?,
-        fetchEnd: FetchEnd, pos: Int
+        fromId: String?,
+        uptoId: String?,
+        fetchEnd: FetchEnd,
+        pos: Int
     ) {
         // If there is a fetch already ongoing, record however many fetches are requested and
         // fulfill them after it's complete.
@@ -863,8 +889,10 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun onFetchNotificationsSuccess(
-        notifications: List<Notification>, linkHeader: String?,
-        fetchEnd: FetchEnd, pos: Int
+        notifications: List<Notification>,
+        linkHeader: String?,
+        fetchEnd: FetchEnd,
+        pos: Int
     ) {
         val links = parse(linkHeader)
         val next = findByRelationType(links, "next")
@@ -1043,7 +1071,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     private val notificationLifter: (Notification) -> Right<Placeholder, Notification> =
         { value: Notification -> Right(value) }
 
-    private fun liftNotificationList(list: List<Notification>): List<Either<Placeholder, Notification>> {
+    private fun liftNotificationList(list: List<Notification>):
+        List<Either<Placeholder, Notification>> {
         return list.map(notificationLifter)
     }
 
@@ -1176,8 +1205,9 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                     return if (oldItem.deepEquals(newItem)) {
                         //  If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                    } else  // If items are different - update a whole view holder
+                    } else { // If items are different - update a whole view holder
                         null
+                    }
                 }
             }
     }
