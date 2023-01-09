@@ -955,7 +955,6 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 ) { _: View? ->
                     binding.progressBar.visibility = View.VISIBLE
                     onRefresh()
-                    Unit
                 }
             } else {
                 binding.statusView.setup(
@@ -964,7 +963,6 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 ) { _: View? ->
                     binding.progressBar.visibility = View.VISIBLE
                     onRefresh()
-                    Unit
                 }
             }
             updateFilterVisibility()
