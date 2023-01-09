@@ -663,16 +663,11 @@ class NotificationsAdapter(
                 statusViewData!!.actionable.tags,
                 listener
             )
-            val emojifiedContentWarning: CharSequence
-            emojifiedContentWarning = if (statusViewData!!.spoilerText != null) {
-                statusViewData!!.spoilerText.emojify(
-                    statusViewData!!.actionable.emojis,
-                    contentWarningDescriptionTextView,
-                    statusDisplayOptions.animateEmojis
-                )
-            } else {
-                ""
-            }
+            val emojifiedContentWarning: CharSequence = statusViewData!!.spoilerText.emojify(
+                statusViewData!!.actionable.emojis,
+                contentWarningDescriptionTextView,
+                statusDisplayOptions.animateEmojis
+            )
             contentWarningDescriptionTextView.text = emojifiedContentWarning
         }
     }
