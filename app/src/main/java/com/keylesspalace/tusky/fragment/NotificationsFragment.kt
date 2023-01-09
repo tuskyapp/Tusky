@@ -77,7 +77,6 @@ import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.parse
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PairedList
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.StatusProvider
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.isEmpty
 import com.keylesspalace.tusky.util.isLessThan
@@ -238,16 +237,16 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(
                 binding.recyclerView,
-                this,
-                StatusProvider { pos: Int ->
-                    val notification = notifications.getPairedItemOrNull(pos)
-                    // We support replies only for now
-                    if (notification is NotificationViewData.Concrete) {
-                        notification.statusViewData
-                    } else {
-                        null
-                    }
-                })
+                this
+            ) { pos: Int ->
+                val notification = notifications.getPairedItemOrNull(pos)
+                // We support replies only for now
+                if (notification is NotificationViewData.Concrete) {
+                    notification.statusViewData
+                } else {
+                    null
+                }
+            }
         )
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
