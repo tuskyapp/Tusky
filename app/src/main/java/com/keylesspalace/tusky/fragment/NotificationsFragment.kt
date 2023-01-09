@@ -899,7 +899,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         if (fetchEnd == FetchEnd.BOTTOM) {
             bottomLoading = false
         }
-        if (notifications.size == 0 && adapter.itemCount == 0) {
+        if (notifications.isEmpty() && adapter.itemCount == 0) {
             binding.statusView.visibility = View.VISIBLE
             binding.statusView.setup(
                 R.drawable.elephant_friend_empty,
