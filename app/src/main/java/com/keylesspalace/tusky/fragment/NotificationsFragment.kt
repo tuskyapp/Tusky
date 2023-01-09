@@ -148,7 +148,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         PairedList<Either<Placeholder, Notification>, NotificationViewData> { input ->
             if (input.isRight()) {
                 val notification = input.asRight()
-                    .rewriteToStatusTypeIfNeeded(accountManager!!.activeAccount!!.accountId)
+                    .rewriteToStatusTypeIfNeeded(accountManager.activeAccount!!.accountId)
                 val sensitiveStatus =
                     notification.status != null && notification.status.actionableStatus.sensitive
                 notification.toViewData(
@@ -180,7 +180,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         )
 
         adapter = NotificationsAdapter(
-            accountManager!!.activeAccount!!.accountId,
+            accountManager.activeAccount!!.accountId,
             dataSource, statusDisplayOptions, this, this, this
         )
     }
@@ -193,15 +193,15 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun updateFilterVisibility() {
-        val params = binding!!.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
+        val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
         if (showNotificationsFilter && !showingError) {
-            binding!!.appBarOptions.setExpanded(true, false)
-            binding!!.appBarOptions.visibility = View.VISIBLE
+            binding.appBarOptions.setExpanded(true, false)
+            binding.appBarOptions.visibility = View.VISIBLE
             // Set content behaviour to hide filter on scroll
             params.behavior = ScrollingViewBehavior()
         } else {
-            binding!!.appBarOptions.setExpanded(false, false)
-            binding!!.appBarOptions.visibility = View.GONE
+            binding.appBarOptions.setExpanded(false, false)
+            binding.appBarOptions.visibility = View.GONE
             // Clear behaviour to hide app bar
             params.behavior = null
         }
@@ -227,17 +227,17 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         showNotificationsFilter = showNotificationsFilterSetting
 
         // Setup the SwipeRefreshLayout.
-        binding!!.swipeRefreshLayout.setOnRefreshListener(this)
-        binding!!.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
         loadNotificationsFilter()
 
         // Setup the RecyclerView.
-        binding!!.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
-        binding!!.recyclerView.layoutManager = layoutManager
-        binding!!.recyclerView.setAccessibilityDelegateCompat(
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(
-                binding!!.recyclerView,
+                binding.recyclerView,
                 this,
                 StatusProvider { pos: Int ->
                     val notification = notifications.getPairedItemOrNull(pos)
@@ -249,28 +249,28 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                     }
                 })
         )
-        binding!!.recyclerView.addItemDecoration(
+        binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
                 context,
                 DividerItemDecoration.VERTICAL
             )
         )
-        alwaysShowSensitiveMedia = accountManager!!.activeAccount!!.alwaysShowSensitiveMedia
-        alwaysOpenSpoiler = accountManager!!.activeAccount!!.alwaysOpenSpoiler
-        binding!!.recyclerView.adapter = adapter
+        alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
+        alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
+        binding.recyclerView.adapter = adapter
         topLoading = false
         bottomLoading = false
         bottomId = null
         updateAdapter()
-        binding!!.buttonClear.setOnClickListener { v: View? -> confirmClearNotifications() }
-        binding!!.buttonFilter.setOnClickListener { v: View? -> showFilterMenu() }
+        binding.buttonClear.setOnClickListener { v: View? -> confirmClearNotifications() }
+        binding.buttonFilter.setOnClickListener { v: View? -> showFilterMenu() }
         if (notifications.isEmpty()) {
-            binding!!.swipeRefreshLayout.isEnabled = false
+            binding.swipeRefreshLayout.isEnabled = false
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
         } else {
-            binding!!.progressBar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }
-        (binding!!.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
         updateFilterVisibility()
 
@@ -301,8 +301,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 this@NotificationsFragment.onLoadMore()
             }
         }
-        binding!!.recyclerView.addOnScrollListener(scrollListener)
-        eventHub!!.events
+        binding.recyclerView.addOnScrollListener(scrollListener)
+        eventHub.events
             .observeOn(AndroidSchedulers.mainThread())
             .to(
                 AutoDispose.autoDisposable(
@@ -330,7 +330,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     override fun onRefresh() {
-        binding!!.statusView.visibility = View.GONE
+        binding.statusView.visibility = View.GONE
         showingError = false
         val first = notifications.firstOrNull()
         val topId: String?
@@ -562,12 +562,12 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
     private fun clearNotifications() {
         // Cancel all ongoing requests
-        binding!!.swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
         resetNotificationsLoad()
 
         // Show friend elephant
-        binding!!.statusView.visibility = View.VISIBLE
-        binding!!.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+        binding.statusView.visibility = View.VISIBLE
+        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
         updateFilterVisibility()
 
         // Update adapter
@@ -635,7 +635,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         window.isFocusable = true
         window.width = ViewGroup.LayoutParams.WRAP_CONTENT
         window.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        window.showAsDropDown(binding!!.buttonFilter)
+        window.showAsDropDown(binding.buttonFilter)
     }
 
     private fun getNotificationText(type: Notification.Type): String {
@@ -673,7 +673,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun loadNotificationsFilter() {
-        val account = accountManager!!.activeAccount
+        val account = accountManager.activeAccount
         if (account != null) {
             notificationFilter.clear()
             notificationFilter.addAll(
@@ -685,10 +685,10 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun saveNotificationsFilter() {
-        val account = accountManager!!.activeAccount
+        val account = accountManager.activeAccount
         if (account != null) {
             account.notificationsFilter = serialize(notificationFilter)
-            accountManager!!.saveAccount(account)
+            accountManager.saveAccount(account)
         }
     }
 
@@ -754,7 +754,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         requireContext().openLink(
             String.format(
                 "https://%s/admin/reports/%s",
-                accountManager!!.activeAccount!!.domain,
+                accountManager.activeAccount!!.domain,
                 reportId
             )
         )
@@ -767,9 +767,9 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                     .getBoolean("fabHide", false)
             }
             "mediaPreviewEnabled" -> {
-                val enabled = accountManager!!.activeAccount!!.mediaPreviewEnabled
-                if (enabled != adapter!!.isMediaPreviewEnabled) {
-                    adapter!!.isMediaPreviewEnabled = enabled
+                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
+                if (enabled != adapter.isMediaPreviewEnabled) {
+                    adapter.isMediaPreviewEnabled = enabled
                     fullyRefresh()
                 }
             }
@@ -834,9 +834,9 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
     private fun jumpToTop() {
         if (isAdded) {
-            binding!!.appBarOptions.setExpanded(true, false)
+            binding.appBarOptions.setExpanded(true, false)
             layoutManager!!.scrollToPosition(0)
-            scrollListener!!.reset()
+            scrollListener.reset()
         }
     }
 
@@ -907,7 +907,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                     this.notifications.removeAt(this.notifications.size - 1)
                     updateAdapter()
                 }
-                if (adapter!!.itemCount > 1) {
+                if (adapter.itemCount > 1) {
                     addItems(notifications, fromId)
                 } else {
                     update(notifications, fromId)
@@ -921,18 +921,18 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         if (fetchEnd == FetchEnd.BOTTOM) {
             bottomLoading = false
         }
-        if (notifications.size == 0 && adapter!!.itemCount == 0) {
-            binding!!.statusView.visibility = View.VISIBLE
-            binding!!.statusView.setup(
+        if (notifications.size == 0 && adapter.itemCount == 0) {
+            binding.statusView.visibility = View.VISIBLE
+            binding.statusView.setup(
                 R.drawable.elephant_friend_empty,
                 R.string.message_empty,
                 null
             )
         }
         updateFilterVisibility()
-        binding!!.swipeRefreshLayout.isEnabled = true
-        binding!!.swipeRefreshLayout.isRefreshing = false
-        binding!!.progressBar.visibility = View.GONE
+        binding.swipeRefreshLayout.isEnabled = true
+        binding.swipeRefreshLayout.isRefreshing = false
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun onFetchNotificationsFailure(
@@ -940,7 +940,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         fetchEnd: FetchEnd,
         position: Int
     ) {
-        binding!!.swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
         if (fetchEnd == FetchEnd.MIDDLE && !notifications[position].isRight()) {
             val placeholder = notifications[position].asLeft()
             val placeholderVD: NotificationViewData =
@@ -948,24 +948,24 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             notifications.setPairedItem(position, placeholderVD)
             updateAdapter()
         } else if (notifications.isEmpty()) {
-            binding!!.statusView.visibility = View.VISIBLE
-            binding!!.swipeRefreshLayout.isEnabled = false
+            binding.statusView.visibility = View.VISIBLE
+            binding.swipeRefreshLayout.isEnabled = false
             showingError = true
             if (throwable is IOException) {
-                binding!!.statusView.setup(
+                binding.statusView.setup(
                     R.drawable.elephant_offline,
                     R.string.error_network
                 ) { _: View? ->
-                    binding!!.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                     onRefresh()
                     Unit
                 }
             } else {
-                binding!!.statusView.setup(
+                binding.statusView.setup(
                     R.drawable.elephant_error,
                     R.string.error_generic
                 ) { _: View? ->
-                    binding!!.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                     onRefresh()
                     Unit
                 }
@@ -979,11 +979,11 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         if (fetchEnd == FetchEnd.BOTTOM) {
             bottomLoading = false
         }
-        binding!!.progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun saveNewestNotificationId(notifications: List<Notification?>) {
-        val account = accountManager!!.activeAccount
+        val account = accountManager.activeAccount
         if (account != null) {
             var lastNotificationId = account.lastNotificationId
             for (noti in notifications) {
@@ -994,7 +994,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             if (account.lastNotificationId != lastNotificationId) {
                 Log.d(TAG, "saving newest noti id: $lastNotificationId")
                 account.lastNotificationId = lastNotificationId
-                accountManager!!.saveAccount(account)
+                accountManager.saveAccount(account)
             }
         }
     }
@@ -1011,7 +1011,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         if (notifications.isEmpty()) {
             notifications.addAll(liftedNew)
         } else {
-            val index = notifications.indexOf(liftedNew[newNotifications!!.size - 1])
+            val index = notifications.indexOf(liftedNew[newNotifications.size - 1])
             if (index > 0) {
                 notifications.subList(0, index).clear()
             }
@@ -1074,8 +1074,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     private fun fullyRefreshWithProgressBar(isShow: Boolean) {
         resetNotificationsLoad()
         if (isShow) {
-            binding!!.progressBar.visibility = View.VISIBLE
-            binding!!.statusView.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+            binding.statusView.visibility = View.GONE
         }
         updateAdapter()
         sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1)
@@ -1092,26 +1092,26 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {
             if (isAdded) {
-                adapter!!.notifyItemRangeInserted(position, count)
+                adapter.notifyItemRangeInserted(position, count)
                 val context = context
                 // scroll up when new items at the top are loaded while being at the start
                 // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
-                if (position == 0 && context != null && adapter!!.itemCount != count) {
-                    binding!!.recyclerView.scrollBy(0, Utils.dpToPx(context, -30))
+                if (position == 0 && context != null && adapter.itemCount != count) {
+                    binding.recyclerView.scrollBy(0, Utils.dpToPx(context, -30))
                 }
             }
         }
 
         override fun onRemoved(position: Int, count: Int) {
-            adapter!!.notifyItemRangeRemoved(position, count)
+            adapter.notifyItemRangeRemoved(position, count)
         }
 
         override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapter!!.notifyItemMoved(fromPosition, toPosition)
+            adapter.notifyItemMoved(fromPosition, toPosition)
         }
 
         override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapter!!.notifyItemRangeChanged(position, count, payload)
+            adapter.notifyItemRangeChanged(position, count, payload)
         }
     }
     private val differ = AsyncListDiffer(
@@ -1131,7 +1131,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
     override fun onResume() {
         super.onResume()
-        val rawAccountNotificationFilter = accountManager!!.activeAccount!!.notificationsFilter
+        val rawAccountNotificationFilter = accountManager.activeAccount!!.notificationsFilter
         val accountNotificationFilter = deserialize(rawAccountNotificationFilter)
         if (notificationFilter != accountNotificationFilter) {
             loadNotificationsFilter()
