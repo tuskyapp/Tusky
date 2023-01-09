@@ -295,32 +295,21 @@ class NotificationsAdapter(
         }
 
     override fun getItemViewType(position: Int): Int {
-        val notification = dataSource.getItemAt(position)
-        return if (notification is NotificationViewData.Concrete) {
-            when (notification.type) {
-                Notification.Type.MENTION, Notification.Type.POLL -> {
-                    VIEW_TYPE_STATUS
-                }
-                Notification.Type.STATUS, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.UPDATE -> {
-                    VIEW_TYPE_STATUS_NOTIFICATION
-                }
-                Notification.Type.FOLLOW, Notification.Type.SIGN_UP -> {
-                    VIEW_TYPE_FOLLOW
-                }
-                Notification.Type.FOLLOW_REQUEST -> {
-                    VIEW_TYPE_FOLLOW_REQUEST
-                }
-                Notification.Type.REPORT -> {
-                    VIEW_TYPE_REPORT
-                }
-                else -> {
-                    VIEW_TYPE_UNKNOWN
+        return when (val notification = dataSource.getItemAt(position)) {
+            is NotificationViewData.Concrete -> {
+                when (notification.type) {
+                    Notification.Type.MENTION, Notification.Type.POLL -> VIEW_TYPE_STATUS
+                    Notification.Type.STATUS, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.UPDATE -> {
+                        VIEW_TYPE_STATUS_NOTIFICATION
+                    }
+                    Notification.Type.FOLLOW, Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
+                    Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
+                    Notification.Type.REPORT -> VIEW_TYPE_REPORT
+                    else -> VIEW_TYPE_UNKNOWN
                 }
             }
-        } else if (notification is NotificationViewData.Placeholder) {
-            VIEW_TYPE_PLACEHOLDER
-        } else {
-            throw AssertionError("Unknown notification type")
+            is NotificationViewData.Placeholder -> VIEW_TYPE_PLACEHOLDER
+            else -> throw AssertionError("Unknown notification type")
         }
     }
 
