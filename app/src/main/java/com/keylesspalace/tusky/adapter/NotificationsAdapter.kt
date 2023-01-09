@@ -340,7 +340,7 @@ class NotificationsAdapter(
         fun onNotificationContentCollapsedChange(isCollapsed: Boolean, position: Int)
     }
 
-    private class FollowViewHolder internal constructor(
+    private class FollowViewHolder(
         itemView: View,
         statusDisplayOptions: StatusDisplayOptions
     ) : RecyclerView.ViewHolder(itemView) {
@@ -388,7 +388,7 @@ class NotificationsAdapter(
         }
     }
 
-    private class StatusNotificationViewHolder internal constructor(
+    private class StatusNotificationViewHolder(
         itemView: View,
         statusDisplayOptions: StatusDisplayOptions,
         absoluteTimeFormatter: AbsoluteTimeFormatter
@@ -444,7 +444,7 @@ class NotificationsAdapter(
                 itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_24dp)
         }
 
-        internal fun showNotificationContent(show: Boolean) {
+        fun showNotificationContent(show: Boolean) {
             statusNameBar.visibility = if (show) View.VISIBLE else View.GONE
             contentWarningDescriptionTextView.visibility =
                 if (show) View.VISIBLE else View.GONE
@@ -455,13 +455,13 @@ class NotificationsAdapter(
             notificationAvatar.visibility = if (show) View.VISIBLE else View.GONE
         }
 
-        internal fun setDisplayName(name: String?, emojis: List<Emoji>?) {
+        fun setDisplayName(name: String?, emojis: List<Emoji>?) {
             val emojifiedName =
                 name!!.emojify(emojis, displayName, statusDisplayOptions.animateEmojis)
             displayName.text = emojifiedName
         }
 
-        internal fun setUsername(name: String) {
+        fun setUsername(name: String) {
             val context = username.context
             val format = context.getString(R.string.post_username_format)
             val usernameText = String.format(format, name)
