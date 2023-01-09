@@ -440,7 +440,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             AlertDialog.Builder(it)
                 .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    viewModel.deleteStatus(id)
+                    viewModel.deleteStatusAsync(id)
                     removeItem(position)
                 }
                 .setNegativeButton(android.R.string.cancel, null)
@@ -454,7 +454,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     lifecycleScope.launch {
-                        viewModel.deleteStatus(id).fold(
+                        viewModel.deleteStatusAsync(id).await().fold(
                             { deletedStatus ->
                                 removeItem(position)
 

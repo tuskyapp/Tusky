@@ -32,8 +32,9 @@ import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -182,9 +183,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteStatus(id: String): NetworkResult<DeletedStatus> {
-        return runBlocking {
-            return@runBlocking timelineCases.delete(id)
+    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> {
+        return viewModelScope.async {
+            timelineCases.delete(id)
         }
     }
 
