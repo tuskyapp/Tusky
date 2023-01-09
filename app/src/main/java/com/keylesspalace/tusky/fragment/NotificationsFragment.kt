@@ -594,8 +594,9 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         for (type in notificationsList) {
             list.add(getNotificationText(type))
         }
+        val context = requireContext()
         val adapter =
-            ArrayAdapter(context!!, android.R.layout.simple_list_item_multiple_choice, list)
+            ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, list)
         val window = PopupWindow(context)
         val view = LayoutInflater.from(context)
             .inflate(R.layout.notifications_filter, view as ViewGroup?, false)
