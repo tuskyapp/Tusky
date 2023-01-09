@@ -439,7 +439,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val notification = notifications[position].asRightOrNull()
-        if (notification == null || notification.status == null) return
+        if (notification?.status == null) return
         val status = notification.status
         super.viewMedia(attachmentIndex, list(status), view)
     }
@@ -1030,7 +1030,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         val end = notifications.size
         val liftedNew = liftNotificationList(newNotifications)
         val last = notifications[end - 1]
-        if (last != null && !liftedNew.contains(last)) {
+        if (!liftedNew.contains(last)) {
             notifications.addAll(liftedNew)
             updateAdapter()
         }
