@@ -482,8 +482,6 @@
     <string name="action_unmute_desc">Ta bort tystad %s</string>
     <string name="pref_title_hide_top_toolbar">Dölj titeln i övre verktygsfältet</string>
     <string name="dialog_mute_hide_notifications">Dölj aviseringar</string>
-    <string name="action_mute_notifications_desc">Tysta aviseringar från %s</string>
-    <string name="action_unmute_notifications_desc">Aktivera aviseringar från %s</string>
     <string name="account_note_saved">Sparat!</string>
     <string name="account_note_hint">Din privata notering om detta kontot</string>
     <string name="no_announcements">Det finns inga meddelanden.</string>

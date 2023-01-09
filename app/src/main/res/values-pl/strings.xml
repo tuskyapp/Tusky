@@ -489,7 +489,6 @@
     <string name="pref_title_gradient_for_media">Pokazuj kolorowe gradienty dla ukrytej zawartości multimedialnej</string>
     <string name="dialog_mute_hide_notifications">Ukryj powiadomienia</string>
     <string name="action_unmute_domain">Cofnij wyciszenie %s</string>
-    <string name="action_mute_notifications_desc">Wycisz powiadomienia od %s</string>
     <string name="action_unmute_desc">Cofnij wyciszenie %s</string>
     <string name="pref_title_hide_top_toolbar">Ukryj tytuł górnego paska narzędzi</string>
     <string name="pref_main_nav_position_option_bottom">Dół</string>
@@ -537,7 +536,6 @@
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
     <string name="pref_title_animate_custom_emojis">Animuj niestandardowe emoji</string>
     <string name="dialog_delete_conversation_warning">Usunąć tą konwersację\?</string>
-    <string name="action_unmute_notifications_desc">Wyłącz wyciszenie powiadomień od %s</string>
     <string name="action_delete_conversation">Usuń konwersację</string>
     <string name="notification_subscription_format">%s opublikował/a post</string>
     <string name="notification_follow_request_format">%s poprosił/a o możliwość obserwowania Cię</string>

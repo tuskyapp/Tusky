@@ -452,8 +452,6 @@
     <string name="warning_scheduling_interval">L’interval minimum de planificacion sus Mastodon e de 5 minutas.</string>
     <string name="notification_follow_request_name">Demandas d’abonament</string>
     <string name="hashtags">Etiquetas</string>
-    <string name="action_mute_notifications_desc">Desactivar las notificacions per %s</string>
-    <string name="action_unmute_notifications_desc">Activar las notificacions per %s</string>
     <string name="action_unmute_desc">Amagar pas mai a %s</string>
     <string name="notification_follow_request_format">%s a demandat a vos seguir</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar los apercebuts dels ligams</string>

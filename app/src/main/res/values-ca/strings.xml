@@ -453,8 +453,6 @@
     <string name="pref_title_gradient_for_media">Mostra els degradats de colors per als mitjans ocults</string>
     <string name="dialog_mute_hide_notifications">Amagar notificacions</string>
     <string name="action_unmute_domain">Deixar de silenciar %s</string>
-    <string name="action_mute_notifications_desc">Desactivar les notificacions per %s</string>
-    <string name="action_unmute_notifications_desc">Activar les notificacions per %s</string>
     <string name="action_unmute_desc">Deixar de silenciar %s</string>
     <string name="review_notifications">Revisió d\'avisos</string>
     <string name="account_note_saved">S\'ha desat!</string>

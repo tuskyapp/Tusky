@@ -52,7 +52,6 @@
     <string name="abbreviated_days_ago">දව. %d</string>
     <string name="action_logout">නික්මෙන්න</string>
     <string name="filter_edit_dialog_title">පෙරහන සංස්කරණය</string>
-    <string name="action_mute_notifications_desc">%s වෙතින් දැනුම්දීම් නිහඬ කරන්න</string>
     <string name="notification_summary_medium">%1$s, %2$s, සහ %3$s</string>
     <string name="caption_twemoji">මාස්ටඩන් හි සම්මත ඉමෝජි කට්ටලය</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>

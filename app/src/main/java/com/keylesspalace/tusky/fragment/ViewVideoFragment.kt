@@ -66,19 +66,21 @@ class ViewVideoFragment : ViewMediaFragment() {
         videoActionsListener = context as VideoActionsListener
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        // Start/pause/resume video playback as fragment is shown/hidden
-        super.setUserVisibleHint(isVisibleToUser)
-        if (_binding == null) {
-            return
-        }
+    override fun onResume() {
+        super.onResume()
 
-        if (isVisibleToUser) {
+        if (_binding != null) {
             if (mediaActivity.isToolbarVisible) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             }
             binding.videoView.start()
-        } else {
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (_binding != null) {
             handler.removeCallbacks(hideToolbar)
             binding.videoView.pause()
             mediaController.hide()
@@ -161,9 +163,6 @@ class ViewVideoFragment : ViewMediaFragment() {
 
             binding.progressBar.hide()
             mp.isLooping = true
-            if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
-                binding.videoView.start()
-            }
         }
 
         if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {

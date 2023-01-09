@@ -23,6 +23,7 @@ import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.chip.Chip
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
@@ -30,8 +31,8 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceBinding
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 
 interface ItemInteractionListener {
@@ -101,7 +102,7 @@ class TabAdapter(
                 listener.onTabRemoved(holder.bindingAdapterPosition)
             }
             binding.removeButton.isEnabled = removeButtonEnabled
-            ThemeUtils.setDrawableTint(
+            setDrawableTint(
                 holder.itemView.context,
                 binding.removeButton.drawable,
                 (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)
@@ -120,7 +121,7 @@ class TabAdapter(
                     val chip = binding.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                         ?: Chip(context).apply {
                             binding.chipGroup.addView(this, binding.chipGroup.size - 1)
-                            chipIconTint = ColorStateList.valueOf(ThemeUtils.getColor(context, android.R.attr.textColorPrimary))
+                            chipIconTint = ColorStateList.valueOf(MaterialColors.getColor(this, android.R.attr.textColorPrimary))
                         }
 
                     chip.text = arg

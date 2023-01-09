@@ -31,8 +31,8 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusViewHelper
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
-import com.keylesspalace.tusky.util.TimestampUtils
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setClickableMentions
 import com.keylesspalace.tusky.util.setClickableText
@@ -161,7 +161,7 @@ class StatusViewHolder(
             binding.timestampInfo.text = if (createdAt != null) {
                 val then = createdAt.time
                 val now = System.currentTimeMillis()
-                TimestampUtils.getRelativeTimeSpanString(binding.timestampInfo.context, then, now)
+                getRelativeTimeSpanString(binding.timestampInfo.context, then, now)
             } else {
                 // unknown minutes~
                 "?m"

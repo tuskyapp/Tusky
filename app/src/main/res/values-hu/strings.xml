@@ -471,9 +471,7 @@
     <string name="action_unmute_conversation">Beszélgetés némításának feloldása</string>
     <string name="action_mute_conversation">Beszélgetés némítása</string>
     <string name="action_unmute_domain">%s némításának feloldása</string>
-    <string name="action_mute_notifications_desc">Értesítések némítása tőle %s</string>
     <string name="action_unmute_desc">%s némításának feloldása</string>
-    <string name="action_unmute_notifications_desc">Értesítések némításának feloldása tőle %s</string>
     <string name="notification_follow_request_format">%s kéri, hogy követhessen</string>
     <string name="pref_title_hide_top_toolbar">Felső eszköztár címének elrejtése</string>
     <string name="account_note_saved">Elmentve!</string>

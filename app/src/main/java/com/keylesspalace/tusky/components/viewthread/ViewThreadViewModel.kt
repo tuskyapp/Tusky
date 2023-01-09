@@ -364,7 +364,9 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun Status.toViewData(detailed: Boolean = false): StatusViewData.Concrete {
+    private fun Status.toViewData(
+        detailed: Boolean = false
+    ): StatusViewData.Concrete {
         val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statuses?.find { it.id == this.id }
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),

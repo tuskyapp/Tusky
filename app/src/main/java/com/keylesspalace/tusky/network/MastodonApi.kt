@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Single
@@ -193,6 +194,11 @@ interface MastodonApi {
     suspend fun statusContext(
         @Path("id") statusId: String
     ): NetworkResult<StatusContext>
+
+    @GET("api/v1/statuses/{id}/history")
+    suspend fun statusEdits(
+        @Path("id") statusId: String
+    ): NetworkResult<List<StatusEdit>>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
     suspend fun statusRebloggedBy(

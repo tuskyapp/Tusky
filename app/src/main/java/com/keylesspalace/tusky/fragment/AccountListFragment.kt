@@ -394,7 +394,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
         fun newInstance(type: Type, id: String? = null, accountLocked: Boolean = false): AccountListFragment {
             return AccountListFragment().apply {
-                arguments = Bundle(2).apply {
+                arguments = Bundle(3).apply {
                     putSerializable(ARG_TYPE, type)
                     putString(ARG_ID, id)
                     putBoolean(ARG_ACCOUNT_LOCKED, accountLocked)
