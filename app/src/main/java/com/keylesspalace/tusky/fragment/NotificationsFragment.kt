@@ -271,10 +271,6 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             false
         updateFilterVisibility()
 
-        // This is delayed until onActivityCreated solely because MainActivity.composeButton
-        // isn't guaranteed to be set until then.
-        // Use a modified scroll listener that both loads more notificationsEnabled as it
-        // goes, and hides the compose button on down-scroll.
         hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -298,6 +294,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             }
         }
         binding.recyclerView.addOnScrollListener(scrollListener)
+
         eventHub.events
             .observeOn(AndroidSchedulers.mainThread())
             .to(
