@@ -487,7 +487,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
     private fun updateStatus(statusId: String, mapper: Function<Status?, Status>) {
         val index =
-            notifications.indexOfFirst { s: Either<Placeholder?, Notification> -> s.isRight() && s.asRight().status != null && s.asRight().status!!.id == statusId }
+            notifications.indexOfFirst { s: Either<Placeholder?, Notification> -> s.asRightOrNull()?.status?.id == statusId }
         if (index == -1) return
 
         // We have quite some graph here:
@@ -527,7 +527,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 Locale.getDefault(),
                 "Tried to access out of bounds status position: %d of %d",
                 position,
-                notifications.size - 1
+                notifications.lastIndex
             )
             Log.e(TAG, message)
             return
@@ -799,13 +799,12 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         // This is required to allow full-timeline reloads of collapsible statuses when the settings
         // change.
         if (notifications.size > 0) {
-            val last = notifications[notifications.size - 1]
-            if (last.isRight()) {
+            if (notifications.last().isRight()) {
                 val placeholder = newPlaceholder()
                 notifications.add(Left(placeholder))
                 val viewData: NotificationViewData =
                     NotificationViewData.Placeholder(placeholder.id, true)
-                notifications.setPairedItem(notifications.size - 1, viewData)
+                notifications.setPairedItem(notifications.lastIndex, viewData)
                 updateAdapter()
             }
         }
@@ -887,10 +886,9 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 replacePlaceholderWithNotifications(notifications, pos)
             }
             FetchEnd.BOTTOM -> {
-                if (!this.notifications.isEmpty()
-                    && !this.notifications[this.notifications.size - 1].isRight()
+                if (this.notifications.isNotEmpty() && this.notifications.last().isLeft()
                 ) {
-                    this.notifications.removeAt(this.notifications.size - 1)
+                    this.notifications.removeLast()
                     updateAdapter()
                 }
                 if (adapter.itemCount > 1) {
@@ -927,7 +925,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         position: Int
     ) {
         binding.swipeRefreshLayout.isRefreshing = false
-        if (fetchEnd == FetchEnd.MIDDLE && !notifications[position].isRight()) {
+        if (fetchEnd == FetchEnd.MIDDLE && notifications[position].isLeft()) {
             val placeholder = notifications[position].asLeft()
             val placeholderVD: NotificationViewData =
                 NotificationViewData.Placeholder(placeholder.id, false)
@@ -995,7 +993,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         if (notifications.isEmpty()) {
             notifications.addAll(liftedNew)
         } else {
-            val index = notifications.indexOf(liftedNew[newNotifications.size - 1])
+            val index = notifications.indexOf(liftedNew.last())
             if (index > 0) {
                 notifications.subList(0, index).clear()
             }
