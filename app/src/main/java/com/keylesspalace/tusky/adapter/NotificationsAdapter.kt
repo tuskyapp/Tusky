@@ -281,16 +281,16 @@ class NotificationsAdapter(
         get() = statusDisplayOptions.mediaPreviewEnabled
         set(mediaPreviewEnabled) {
             statusDisplayOptions = statusDisplayOptions.copy(
-                statusDisplayOptions.animateAvatars,
-                mediaPreviewEnabled,
-                statusDisplayOptions.useAbsoluteTime,
-                statusDisplayOptions.showBotOverlay,
-                statusDisplayOptions.useBlurhash,
-                CardViewMode.NONE,
-                statusDisplayOptions.confirmReblogs,
-                statusDisplayOptions.confirmFavourites,
-                statusDisplayOptions.hideStats,
-                statusDisplayOptions.animateEmojis
+                animateAvatars = statusDisplayOptions.animateAvatars,
+                mediaPreviewEnabled = mediaPreviewEnabled,
+                useAbsoluteTime = statusDisplayOptions.useAbsoluteTime,
+                showBotOverlay = statusDisplayOptions.showBotOverlay,
+                useBlurhash = statusDisplayOptions.useBlurhash,
+                cardViewMode = CardViewMode.NONE,
+                confirmReblogs = statusDisplayOptions.confirmReblogs,
+                confirmFavourites = statusDisplayOptions.confirmFavourites,
+                hideStats = statusDisplayOptions.hideStats,
+                animateEmojis = statusDisplayOptions.animateEmojis
             )
         }
 
