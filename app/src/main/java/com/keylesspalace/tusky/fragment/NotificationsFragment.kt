@@ -61,7 +61,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -91,7 +90,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import okhttp3.ResponseBody
 import retrofit2.Response
 import java.io.IOException
 import java.util.Locale
@@ -209,7 +207,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     private fun confirmClearNotifications() {
         AlertDialog.Builder(requireContext())
             .setMessage(R.string.notification_clear_text)
-            .setPositiveButton(android.R.string.ok) { dia: DialogInterface?, which: Int -> clearNotifications() }
+            .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int -> clearNotifications() }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
@@ -261,8 +259,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         bottomLoading = false
         bottomId = null
         updateAdapter()
-        binding.buttonClear.setOnClickListener { v: View? -> confirmClearNotifications() }
-        binding.buttonFilter.setOnClickListener { v: View? -> showFilterMenu() }
+        binding.buttonClear.setOnClickListener { confirmClearNotifications() }
+        binding.buttonFilter.setOnClickListener { showFilterMenu() }
         if (notifications.isEmpty()) {
             binding.swipeRefreshLayout.isEnabled = false
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
@@ -351,7 +349,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .observeOn(AndroidSchedulers.mainThread())
             .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(
-                { newStatus: Status? ->
+                {
                     setReblogForStatus(
                         status.id, reblog
                     )
@@ -374,7 +372,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .observeOn(AndroidSchedulers.mainThread())
             .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(
-                { newStatus: Status? ->
+                {
                     setFavouriteForStatus(
                         status.id, favourite
                     )
@@ -397,7 +395,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .observeOn(AndroidSchedulers.mainThread())
             .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(
-                { newStatus: Status? ->
+                {
                     setBookmarkForStatus(
                         status.id, bookmark
                     )
@@ -582,8 +580,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 )
             )
             .subscribe(
-                { response: ResponseBody? -> }
-            ) { throwable: Throwable? ->
+                { }
+            ) {
                 // Reload notifications on failure
                 fullyRefreshWithProgressBar(true)
             }
@@ -614,7 +612,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .inflate(R.layout.notifications_filter, view as ViewGroup?, false)
         val listView = view.findViewById<ListView>(R.id.listView)
         view.findViewById<View>(R.id.buttonApply)
-            .setOnClickListener { v: View? ->
+            .setOnClickListener {
                 val checkedItems = listView.checkedItemPositions
                 val excludes: MutableSet<Notification.Type> = HashSet()
                 for (i in notificationsList.indices) {
@@ -720,15 +718,16 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 )
             )
             .subscribe(
-                { relationship: Relationship? -> fullyRefreshWithProgressBar(true) }
-            ) { error: Throwable? ->
+                { fullyRefreshWithProgressBar(true) }
+            ) {
                 Log.e(
                     TAG,
                     String.format(
                         "Failed to %s account id %s",
                         if (accept) "accept" else "reject",
                         id
-                    )
+                    ),
+                    it
                 )
             }
     }
@@ -952,7 +951,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 binding.statusView.setup(
                     R.drawable.elephant_offline,
                     R.string.error_network
-                ) { _: View? ->
+                ) {
                     binding.progressBar.visibility = View.VISIBLE
                     onRefresh()
                 }
@@ -960,7 +959,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 binding.statusView.setup(
                     R.drawable.elephant_error,
                     R.string.error_generic
-                ) { _: View? ->
+                ) {
                     binding.progressBar.visibility = View.VISIBLE
                     onRefresh()
                 }
@@ -1154,7 +1153,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                         )
                     )
                 )
-                .subscribe { interval: Long? -> updateAdapter() }
+                .subscribe { updateAdapter() }
         }
     }
 
