@@ -148,7 +148,7 @@ class NotificationsAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val payloadForHolder = if (payloads != null && !payloads.isEmpty()) payloads[0] else null
+        val payloadForHolder = if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
         if (position < dataSource.itemCount) {
             val notification = dataSource.getItemAt(position)
             if (notification is NotificationViewData.Placeholder) {
