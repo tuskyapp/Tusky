@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -407,6 +409,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountUsernameTextView.text = usernameFormatted
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
 
+        // Long press on username to copy it to clipboard
+        for (view in listOf(binding.accountUsernameTextView, binding.accountDisplayNameTextView)) {
+            view.setOnLongClickListener {
+                loadedAccount?.let { loadedAccount ->
+                    val fullUsername = getFullUsername(loadedAccount)
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
+                    Snackbar.make(binding.root, getString(R.string.account_username_copied), Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                true
+            }
+        }
+
         val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
@@ -712,9 +728,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 getString(R.string.action_mute)
             }
 
-            if (loadedAccount != null) {
+            loadedAccount?.let { loadedAccount ->
                 val muteDomain = menu.findItem(R.id.action_mute_domain)
-                domain = getDomain(loadedAccount?.url)
+                domain = getDomain(loadedAccount.url)
                 if (domain.isEmpty()) {
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
@@ -842,22 +858,46 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.url != null) {
-                    openLink(loadedAccount!!.url)
+                loadedAccount?.let { loadedAccount ->
+                    openLink(loadedAccount.url)
                 }
                 return true
             }
             R.id.action_open_as -> {
-                if (loadedAccount != null) {
+                loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
                         item.title, false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
-                                openAsAccount(loadedAccount!!.url, account)
+                                openAsAccount(loadedAccount.url, account)
                             }
                         }
                     )
                 }
+            }
+            R.id.action_share_account_link -> {
+                // If the account isn't loaded yet, eat the input.
+                loadedAccount?.let { loadedAccount ->
+                    val url = loadedAccount.url
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, url)
+                    sendIntent.type = "text/plain"
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_link_to)))
+                }
+                return true
+            }
+            R.id.action_share_account_username -> {
+                // If the account isn't loaded yet, eat the input.
+                loadedAccount?.let { loadedAccount ->
+                    val fullUsername = getFullUsername(loadedAccount)
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, fullUsername)
+                    sendIntent.type = "text/plain"
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_username_to)))
+                }
+                return true
             }
             R.id.action_block -> {
                 toggleBlock()
@@ -880,8 +920,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_report -> {
-                if (loadedAccount != null) {
-                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount!!.username))
+                loadedAccount?.let { loadedAccount ->
+                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount.username))
                 }
                 return true
             }
@@ -893,6 +933,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         return if (!blocking) {
             binding.accountFloatingActionButton
         } else null
+    }
+
+    private fun getFullUsername(account: Account): String {
+        if (account.isRemote()) {
+            return "@" + account.username
+        } else {
+            val localUsername = account.localUsername
+            // Note: !! here will crash if this pane is ever shown to a logged-out user. With AccountActivity this is believed to be impossible.
+            val domain = accountManager.activeAccount!!.domain
+            return "@$localUsername@$domain"
+        }
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
