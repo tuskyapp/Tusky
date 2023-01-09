@@ -255,9 +255,6 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         binding.recyclerView.adapter = adapter
-        topLoading = false
-        bottomLoading = false
-        bottomId = null
         updateAdapter()
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
         binding.buttonFilter.setOnClickListener { showFilterMenu() }
