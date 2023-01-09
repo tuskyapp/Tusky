@@ -384,7 +384,7 @@ class NotificationsAdapter(
         }
 
         fun setupButtons(listener: NotificationActionListener, accountId: String) {
-            itemView.setOnClickListener { v: View? -> listener.onViewAccount(accountId) }
+            itemView.setOnClickListener { listener.onViewAccount(accountId) }
         }
     }
 
@@ -564,7 +564,7 @@ class NotificationsAdapter(
                 } else {
                     contentWarningButton.setText(R.string.post_content_warning_show_more)
                 }
-                contentWarningButton.setOnClickListener { view: View? ->
+                contentWarningButton.setOnClickListener {
                     if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
                         notificationActionListener!!.onExpandedChange(
                             !statusViewData!!.isExpanded,
@@ -644,7 +644,7 @@ class NotificationsAdapter(
             val content = statusViewData!!.content
             val emojis = statusViewData!!.actionable.emojis
             if (statusViewData!!.isCollapsible && (statusViewData!!.isExpanded || !hasSpoiler)) {
-                contentCollapseButton.setOnClickListener { view: View? ->
+                contentCollapseButton.setOnClickListener {
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
                         notificationActionListener!!.onNotificationContentCollapsedChange(
