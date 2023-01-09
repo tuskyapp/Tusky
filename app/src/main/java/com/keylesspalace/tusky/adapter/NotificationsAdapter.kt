@@ -396,9 +396,9 @@ class NotificationsAdapter(
                 : Button
         private val statusDisplayOptions: StatusDisplayOptions
         private val absoluteTimeFormatter: AbsoluteTimeFormatter
-        private var accountId: String? = null
-        private var notificationId: String? = null
-        private var notificationActionListener: NotificationActionListener? = null
+        private lateinit var accountId: String
+        private lateinit var notificationId: String
+        private lateinit var notificationActionListener: NotificationActionListener
         private var statusViewData: StatusViewData.Concrete? = null
         private val avatarRadius48dp: Int
         private val avatarRadius36dp: Int
@@ -555,7 +555,7 @@ class NotificationsAdapter(
                 }
                 contentWarningButton.setOnClickListener {
                     if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
-                        notificationActionListener!!.onExpandedChange(
+                        notificationActionListener.onExpandedChange(
                             !statusViewData!!.isExpanded,
                             bindingAdapterPosition
                         )
@@ -568,8 +568,8 @@ class NotificationsAdapter(
         }
 
         fun setupButtons(
-            listener: NotificationActionListener?, accountId: String?,
-            notificationId: String?
+            listener: NotificationActionListener, accountId: String,
+            notificationId: String
         ) {
             notificationActionListener = listener
             this.accountId = accountId
@@ -613,12 +613,8 @@ class NotificationsAdapter(
 
         override fun onClick(v: View) {
             when (v.id) {
-                R.id.notification_container, R.id.notification_content -> if (notificationActionListener != null) notificationActionListener!!.onViewStatusForNotificationId(
-                    notificationId!!
-                )
-                R.id.notification_top_text -> if (notificationActionListener != null) notificationActionListener!!.onViewAccount(
-                    accountId!!
-                )
+                R.id.notification_container, R.id.notification_content -> notificationActionListener.onViewStatusForNotificationId(notificationId)
+                R.id.notification_top_text -> notificationActionListener.onViewAccount(accountId)
             }
         }
 
@@ -635,8 +631,8 @@ class NotificationsAdapter(
             if (statusViewData!!.isCollapsible && (statusViewData!!.isExpanded || !hasSpoiler)) {
                 contentCollapseButton.setOnClickListener {
                     val position = bindingAdapterPosition
-                    if (position != RecyclerView.NO_POSITION && notificationActionListener != null) {
-                        notificationActionListener!!.onNotificationContentCollapsedChange(
+                    if (position != RecyclerView.NO_POSITION) {
+                        notificationActionListener.onNotificationContentCollapsedChange(
                             !statusViewData!!.isCollapsed,
                             position
                         )
