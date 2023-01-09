@@ -1125,9 +1125,8 @@ class NotificationsFragment :
     )
     private val dataSource: AdapterDataSource<NotificationViewData> =
         object : AdapterDataSource<NotificationViewData> {
-            override fun getItemCount(): Int {
-                return differ.currentList.size
-            }
+            override val itemCount: Int
+                get() = differ.currentList.size
 
             override fun getItemAt(pos: Int): NotificationViewData {
                 return differ.currentList[pos]

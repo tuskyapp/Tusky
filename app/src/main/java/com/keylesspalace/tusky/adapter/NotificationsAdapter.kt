@@ -66,7 +66,7 @@ class NotificationsAdapter(
     private val statusListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
     private val accountActionListener: AccountActionListener
-) : RecyclerView.Adapter<Any?>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface AdapterDataSource<T> {
         val itemCount: Int
         fun getItemAt(pos: Int): T
@@ -325,9 +325,9 @@ class NotificationsAdapter(
     }
 
     interface NotificationActionListener {
-        fun onViewAccount(id: String?)
-        fun onViewStatusForNotificationId(notificationId: String?)
-        fun onViewReport(reportId: String?)
+        fun onViewAccount(id: String)
+        fun onViewStatusForNotificationId(notificationId: String)
+        fun onViewReport(reportId: String)
         fun onExpandedChange(expanded: Boolean, position: Int)
 
         /**
@@ -383,7 +383,7 @@ class NotificationsAdapter(
             )
         }
 
-        fun setupButtons(listener: NotificationActionListener, accountId: String?) {
+        fun setupButtons(listener: NotificationActionListener, accountId: String) {
             itemView.setOnClickListener { v: View? -> listener.onViewAccount(accountId) }
         }
     }
@@ -444,7 +444,7 @@ class NotificationsAdapter(
                 itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_24dp)
         }
 
-        private fun showNotificationContent(show: Boolean) {
+        internal fun showNotificationContent(show: Boolean) {
             statusNameBar.visibility = if (show) View.VISIBLE else View.GONE
             contentWarningDescriptionTextView.visibility =
                 if (show) View.VISIBLE else View.GONE
@@ -455,13 +455,13 @@ class NotificationsAdapter(
             notificationAvatar.visibility = if (show) View.VISIBLE else View.GONE
         }
 
-        private fun setDisplayName(name: String?, emojis: List<Emoji>?) {
+        internal fun setDisplayName(name: String?, emojis: List<Emoji>?) {
             val emojifiedName =
                 name!!.emojify(emojis, displayName, statusDisplayOptions.animateEmojis)
             displayName.text = emojifiedName
         }
 
-        private fun setUsername(name: String) {
+        internal fun setUsername(name: String) {
             val context = username.context
             val format = context.getString(R.string.post_username_format)
             val usernameText = String.format(format, name)
@@ -625,10 +625,10 @@ class NotificationsAdapter(
         override fun onClick(v: View) {
             when (v.id) {
                 R.id.notification_container, R.id.notification_content -> if (notificationActionListener != null) notificationActionListener!!.onViewStatusForNotificationId(
-                    notificationId
+                    notificationId!!
                 )
                 R.id.notification_top_text -> if (notificationActionListener != null) notificationActionListener!!.onViewAccount(
-                    accountId
+                    accountId!!
                 )
             }
         }
