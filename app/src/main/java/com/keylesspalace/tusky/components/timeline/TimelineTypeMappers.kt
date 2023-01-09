@@ -149,7 +149,7 @@ fun Status.toEntity(
     )
 }
 
-fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
+fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
     if (this.status.authorServerId == null) {
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
@@ -261,6 +261,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
         status = status,
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
-        isCollapsed = this.status.contentCollapsed
+        isCollapsed = this.status.contentCollapsed,
+        isDetailed = isDetailed
     )
 }

@@ -82,14 +82,14 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                     EditsUiState.Loading -> {
                         binding.recyclerView.hide()
                         binding.statusView.hide()
-                        binding.progressBar.show()
+                        binding.initialProgressBar.show()
                     }
                     is EditsUiState.Error -> {
                         Log.w(TAG, "failed to load edits", uiState.throwable)
 
                         binding.recyclerView.hide()
                         binding.statusView.show()
-                        binding.progressBar.hide()
+                        binding.initialProgressBar.hide()
 
                         if (uiState.throwable is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -104,7 +104,7 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                     is EditsUiState.Success -> {
                         binding.recyclerView.show()
                         binding.statusView.hide()
-                        binding.progressBar.hide()
+                        binding.initialProgressBar.hide()
 
                         binding.recyclerView.adapter = ViewEditsAdapter(
                             edits = uiState.edits,
