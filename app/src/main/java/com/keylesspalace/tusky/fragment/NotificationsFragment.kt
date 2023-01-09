@@ -15,6 +15,7 @@
 package com.keylesspalace.tusky.fragment
 
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,7 +27,6 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.arch.core.util.Function
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.util.Pair
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.AsyncDifferConfig
@@ -57,7 +57,6 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
@@ -77,7 +76,6 @@ import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.findByRelationType
 import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.parse
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PairedList
-import com.keylesspalace.tusky.util.PairedList.add
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusProvider
 import com.keylesspalace.tusky.util.deserialize
@@ -86,6 +84,7 @@ import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.toViewData
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -100,10 +99,19 @@ import java.util.Locale
 import java.util.Objects
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.jvm.functions.Function1
 
 class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListener,
     NotificationActionListener, AccountActionListener, Injectable, ReselectableFragment {
+
+    @Inject
+    lateinit var eventHub: EventHub
+
+    private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
+
+    private lateinit var adapter: NotificationsAdapter
+
+    private lateinit var preferences: SharedPreferences
+
     private var maxPlaceholderId = 0
     private val notificationFilter: MutableSet<Notification.Type> = HashSet()
     private val disposables = CompositeDisposable()
@@ -124,17 +132,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         }
     }
 
-    @JvmField
-    @Inject
-    override var accountManager: AccountManager? = null
-
-    @JvmField
-    @Inject
-    var eventHub: EventHub? = null
-    private var binding: FragmentTimelineNotificationsBinding? = null
     private var layoutManager: LinearLayoutManager? = null
-    private var scrollListener: EndlessOnScrollListener? = null
-    private var adapter: NotificationsAdapter? = null
+    private lateinit var scrollListener: EndlessOnScrollListener
     private var hideFab = false
     private var topLoading = false
     private var bottomLoading = false
@@ -162,50 +161,14 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             }
         }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentTimelineNotificationsBinding.inflate(inflater, container, false)
-        val context = inflater.context // from inflater to silence warning
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val showNotificationsFilterSetting = preferences.getBoolean("showNotificationsFilter", true)
-        // Clear notifications on filter visibility change to force refresh
-        if (showNotificationsFilterSetting != showNotificationsFilter) notifications.clear()
-        showNotificationsFilter = showNotificationsFilterSetting
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        // Setup the SwipeRefreshLayout.
-        binding!!.swipeRefreshLayout.setOnRefreshListener(this)
-        binding!!.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        loadNotificationsFilter()
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        // Setup the RecyclerView.
-        binding!!.recyclerView.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        binding!!.recyclerView.layoutManager = layoutManager
-        binding!!.recyclerView.setAccessibilityDelegateCompat(
-            ListStatusAccessibilityDelegate(
-                binding!!.recyclerView,
-                this,
-                label@ StatusProvider { pos: Int ->
-                    val notification = notifications.getPairedItemOrNull(pos)
-                    // We support replies only for now
-                    if (notification is NotificationViewData.Concrete) {
-                        return@label notification.statusViewData
-                    } else {
-                        return@label null
-                    }
-                })
-        )
-        binding!!.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
         val statusDisplayOptions = StatusDisplayOptions(
             preferences.getBoolean("animateGifAvatars", false),
-            accountManager!!.activeAccount!!.mediaPreviewEnabled,
+            accountManager.activeAccount!!.mediaPreviewEnabled,
             preferences.getBoolean("absoluteTimeView", false),
             preferences.getBoolean("showBotOverlay", true),
             preferences.getBoolean("useBlurhash", true),
@@ -215,34 +178,18 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
+
         adapter = NotificationsAdapter(
             accountManager!!.activeAccount!!.accountId,
             dataSource, statusDisplayOptions, this, this, this
         )
-        alwaysShowSensitiveMedia = accountManager!!.activeAccount!!.alwaysShowSensitiveMedia
-        alwaysOpenSpoiler = accountManager!!.activeAccount!!.alwaysOpenSpoiler
-        binding!!.recyclerView.adapter = adapter
-        topLoading = false
-        bottomLoading = false
-        bottomId = null
-        updateAdapter()
-        binding!!.buttonClear.setOnClickListener { v: View? -> confirmClearNotifications() }
-        binding!!.buttonFilter.setOnClickListener { v: View? -> showFilterMenu() }
-        if (notifications.isEmpty()) {
-            binding!!.swipeRefreshLayout.isEnabled = false
-            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
-        } else {
-            binding!!.progressBar.visibility = View.GONE
-        }
-        (binding!!.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
-            false
-        updateFilterVisibility()
-        return binding!!.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_timeline_notifications, container, false)
     }
 
     private fun updateFilterVisibility() {
@@ -268,15 +215,69 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             .show()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val activity = activity ?: throw AssertionError("Activity is null")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val showNotificationsFilterSetting = preferences.getBoolean(
+            PrefKeys.SHOW_NOTIFICATIONS_FILTER,
+            true
+        )
+        // Clear notifications on filter visibility change to force refresh
+        if (showNotificationsFilterSetting != showNotificationsFilter) notifications.clear()
+        showNotificationsFilter = showNotificationsFilterSetting
+
+        // Setup the SwipeRefreshLayout.
+        binding!!.swipeRefreshLayout.setOnRefreshListener(this)
+        binding!!.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+        loadNotificationsFilter()
+
+        // Setup the RecyclerView.
+        binding!!.recyclerView.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(context)
+        binding!!.recyclerView.layoutManager = layoutManager
+        binding!!.recyclerView.setAccessibilityDelegateCompat(
+            ListStatusAccessibilityDelegate(
+                binding!!.recyclerView,
+                this,
+                StatusProvider { pos: Int ->
+                    val notification = notifications.getPairedItemOrNull(pos)
+                    // We support replies only for now
+                    if (notification is NotificationViewData.Concrete) {
+                        notification.statusViewData
+                    } else {
+                        null
+                    }
+                })
+        )
+        binding!!.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        alwaysShowSensitiveMedia = accountManager!!.activeAccount!!.alwaysShowSensitiveMedia
+        alwaysOpenSpoiler = accountManager!!.activeAccount!!.alwaysOpenSpoiler
+        binding!!.recyclerView.adapter = adapter
+        topLoading = false
+        bottomLoading = false
+        bottomId = null
+        updateAdapter()
+        binding!!.buttonClear.setOnClickListener { v: View? -> confirmClearNotifications() }
+        binding!!.buttonFilter.setOnClickListener { v: View? -> showFilterMenu() }
+        if (notifications.isEmpty()) {
+            binding!!.swipeRefreshLayout.isEnabled = false
+            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
+        } else {
+            binding!!.progressBar.visibility = View.GONE
+        }
+        (binding!!.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
+            false
+        updateFilterVisibility()
 
         // This is delayed until onActivityCreated solely because MainActivity.composeButton
         // isn't guaranteed to be set until then.
         // Use a modified scroll listener that both loads more notificationsEnabled as it
         // goes, and hides the compose button on down-scroll.
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
         hideFab = preferences.getBoolean("fabHide", false)
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -525,7 +526,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         val newNotification = notifications[index].asRight()
             .copyWithStatus(newStatus)
         val newStatusViewData =
-            Objects.requireNonNull(oldViewData.statusViewData).copyWithStatus(newStatus)
+            Objects.requireNonNull(oldViewData.statusViewData)?.copyWithStatus(newStatus)
         val newViewData = oldViewData.copyWithStatus(newStatusViewData)
         notifications[index] = Right(newNotification)
         notifications.setPairedItem(index, newViewData)
@@ -864,13 +865,13 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             if (showNotificationsFilter) notificationFilter else null
         )
             .observeOn(AndroidSchedulers.mainThread())
-            .to<SingleSubscribeProxy<Response<List<Notification?>>>>(
+            .to<SingleSubscribeProxy<Response<List<Notification>>>>(
                 AutoDispose.autoDisposable(
                     AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
                 )
             )
             .subscribe(
-                { response: Response<List<Notification?>> ->
+                { response: Response<List<Notification>> ->
                     if (response.isSuccessful) {
                         val linkHeader = response.headers()["Link"]
                         onFetchNotificationsSuccess(response.body()!!, linkHeader, fetchEnd, pos)
@@ -883,7 +884,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun onFetchNotificationsSuccess(
-        notifications: List<Notification?>, linkHeader: String?,
+        notifications: List<Notification>, linkHeader: String?,
         fetchEnd: FetchEnd, pos: Int
     ) {
         val links = parse(linkHeader)
@@ -954,7 +955,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 binding!!.statusView.setup(
                     R.drawable.elephant_offline,
                     R.string.error_network
-                ) { __: View? ->
+                ) { _: View? ->
                     binding!!.progressBar.visibility = View.VISIBLE
                     onRefresh()
                     Unit
@@ -963,7 +964,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
                 binding!!.statusView.setup(
                     R.drawable.elephant_error,
                     R.string.error_generic
-                ) { __: View? ->
+                ) { _: View? ->
                     binding!!.progressBar.visibility = View.VISIBLE
                     onRefresh()
                     Unit
@@ -998,7 +999,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         }
     }
 
-    private fun update(newNotifications: List<Notification?>?, fromId: String?) {
+    private fun update(newNotifications: List<Notification>, fromId: String?) {
         if (isEmpty(newNotifications)) {
             updateAdapter()
             return
@@ -1006,7 +1007,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         if (fromId != null) {
             bottomId = fromId
         }
-        val liftedNew = liftNotificationList(newNotifications)
+        val liftedNew = liftNotificationList(newNotifications).toMutableList()
         if (notifications.isEmpty()) {
             notifications.addAll(liftedNew)
         } else {
@@ -1027,7 +1028,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         updateAdapter()
     }
 
-    private fun addItems(newNotifications: List<Notification?>, fromId: String?) {
+    private fun addItems(newNotifications: List<Notification>, fromId: String?) {
         bottomId = fromId
         if (isEmpty(newNotifications)) {
             return
@@ -1042,7 +1043,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
     }
 
     private fun replacePlaceholderWithNotifications(
-        newNotifications: List<Notification?>,
+        newNotifications: List<Notification>,
         pos: Int
     ) {
         // Remove placeholder
@@ -1051,7 +1052,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
             updateAdapter()
             return
         }
-        val liftedNew = liftNotificationList(newNotifications)
+        val liftedNew = liftNotificationList(newNotifications).toMutableList()
 
         // If we fetched less posts than in the limit, it means that the hole is not filled
         // If we fetched at least as much it means that there are more posts to load and we should
@@ -1063,11 +1064,11 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         updateAdapter()
     }
 
-    private val notificationLifter: Function1<Notification?, Either<Placeholder, Notification>> =
-        { value: R? -> Right(value) }
+    private val notificationLifter: (Notification) -> Right<Placeholder, Notification> =
+        { value: Notification -> Right(value) }
 
-    private fun liftNotificationList(list: List<Notification?>?): List<Either<Placeholder, Notification>> {
-        return list!!.map(notificationLifter)
+    private fun liftNotificationList(list: List<Notification>): List<Either<Placeholder, Notification>> {
+        return list.map(notificationLifter)
     }
 
     private fun fullyRefreshWithProgressBar(isShow: Boolean) {
@@ -1082,16 +1083,6 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
 
     private fun fullyRefresh() {
         fullyRefreshWithProgressBar(false)
-    }
-
-    private fun findReplyPosition(statusId: String): Pair<Int, Notification>? {
-        for (i in notifications.indices) {
-            val notification = notifications[i].asRightOrNull()
-            if ((notification != null && notification.status != null && notification.type === Notification.Type.MENTION && (statusId == notification.status.id || notification.status.reblog) != null && statusId) == notification.status.reblog.id) {
-                return Pair(i, notification)
-            }
-        }
-        return null
     }
 
     private fun updateAdapter() {
@@ -1128,7 +1119,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         AsyncDifferConfig.Builder(diffCallback).build()
     )
     private val dataSource: AdapterDataSource<NotificationViewData> =
-        object : AdapterDataSource<NotificationViewData?> {
+        object : AdapterDataSource<NotificationViewData> {
             override fun getItemCount(): Int {
                 return differ.currentList.size
             }
