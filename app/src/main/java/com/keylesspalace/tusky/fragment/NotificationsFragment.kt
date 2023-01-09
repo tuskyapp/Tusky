@@ -281,9 +281,8 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(view, dx, dy)
-                val activity = getActivity() as ActionButtonActivity?
-                val composeButton = activity!!.actionButton
-                if (composeButton != null) {
+                val actionButton = (requireActivity() as ActionButtonActivity).actionButton
+                actionButton?.let { composeButton ->
                     if (hideFab) {
                         if (dy > 0 && composeButton.isShown) {
                             composeButton.hide() // Hides the button if we're scrolling down
