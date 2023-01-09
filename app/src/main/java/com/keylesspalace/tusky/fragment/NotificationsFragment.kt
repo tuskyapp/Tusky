@@ -523,8 +523,7 @@ class NotificationsFragment : SFragment(), OnRefreshListener, StatusActionListen
         val newStatus = mapper.apply(oldStatus)
         val newNotification = notifications[index].asRight()
             .copyWithStatus(newStatus)
-        val newStatusViewData =
-            Objects.requireNonNull(oldViewData.statusViewData)?.copyWithStatus(newStatus)
+        val newStatusViewData = oldViewData.statusViewData!!.copyWithStatus(newStatus)
         val newViewData = oldViewData.copyWithStatus(newStatusViewData)
         notifications[index] = Right(newNotification)
         notifications.setPairedItem(index, newViewData)
