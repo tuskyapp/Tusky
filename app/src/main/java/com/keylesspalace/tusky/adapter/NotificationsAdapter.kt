@@ -217,8 +217,12 @@ class NotificationsAdapter(
                         )
                     } else {
                         if (payloadForHolder is List<*>) for (item in payloadForHolder) {
-                            if (StatusBaseViewHolder.Key.KEY_CREATED == item && statusViewData != null) {
-                                holder.setCreatedAt(statusViewData.status.actionableStatus.createdAt)
+                            if (StatusBaseViewHolder.Key.KEY_CREATED == item &&
+                                statusViewData != null
+                            ) {
+                                holder.setCreatedAt(
+                                    statusViewData.status.actionableStatus.createdAt
+                                )
                             }
                         }
                     }
@@ -299,7 +303,8 @@ class NotificationsAdapter(
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
                     Notification.Type.MENTION, Notification.Type.POLL -> VIEW_TYPE_STATUS
-                    Notification.Type.STATUS, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.UPDATE -> {
+                    Notification.Type.STATUS, Notification.Type.FAVOURITE, Notification.Type.REBLOG,
+                    Notification.Type.UPDATE -> {
                         VIEW_TYPE_STATUS_NOTIFICATION
                     }
                     Notification.Type.FOLLOW, Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
@@ -350,7 +355,13 @@ class NotificationsAdapter(
         fun setMessage(account: TimelineAccount, isSignUp: Boolean) {
             val context = message.context
             val format =
-                context.getString(if (isSignUp) R.string.notification_sign_up_format else R.string.notification_follow_format)
+                context.getString(
+                    if (isSignUp) {
+                        R.string.notification_sign_up_format
+                    } else {
+                        R.string.notification_follow_format
+                    }
+                )
             val wrappedDisplayName = account.name.unicodeWrap()
             val wholeMessage = String.format(format, wrappedDisplayName)
             val emojifiedMessage =
@@ -367,7 +378,9 @@ class NotificationsAdapter(
             val avatarRadius = avatar.context.resources
                 .getDimensionPixelSize(R.dimen.avatar_radius_42dp)
             loadAvatar(
-                account.avatar, avatar, avatarRadius,
+                account.avatar,
+                avatar,
+                avatarRadius,
                 statusDisplayOptions.animateAvatars
             )
         }
@@ -392,8 +405,7 @@ class NotificationsAdapter(
         private val notificationAvatar: ImageView
         private val contentWarningDescriptionTextView: TextView
         private val contentWarningButton: Button
-        private val contentCollapseButton // TODO: This code SHOULD be based on StatusBaseViewHolder
-                : Button
+        private val contentCollapseButton: Button
         private val statusDisplayOptions: StatusDisplayOptions
         private val absoluteTimeFormatter: AbsoluteTimeFormatter
         private lateinit var accountId: String
@@ -471,7 +483,8 @@ class NotificationsAdapter(
                     val now = Date().time
                     readout = getRelativeTimeSpanString(timestampInfo.context, then, now)
                     readoutAloud = DateUtils.getRelativeTimeSpanString(
-                        then, now,
+                        then,
+                        now,
                         DateUtils.SECOND_IN_MILLIS,
                         DateUtils.FORMAT_ABBREV_RELATIVE
                     )
@@ -568,7 +581,8 @@ class NotificationsAdapter(
         }
 
         fun setupButtons(
-            listener: NotificationActionListener, accountId: String,
+            listener: NotificationActionListener,
+            accountId: String,
             notificationId: String
         ) {
             notificationActionListener = listener
@@ -580,7 +594,9 @@ class NotificationsAdapter(
             statusAvatar.setPaddingRelative(0, 0, 0, 0)
             loadAvatar(
                 statusAvatarUrl,
-                statusAvatar, avatarRadius48dp, statusDisplayOptions.animateAvatars
+                statusAvatar,
+                avatarRadius48dp,
+                statusDisplayOptions.animateAvatars
             )
             if (statusDisplayOptions.showBotOverlay && isBot) {
                 notificationAvatar.visibility = View.VISIBLE
@@ -602,18 +618,23 @@ class NotificationsAdapter(
             statusAvatar.setPaddingRelative(0, 0, padding, padding)
             loadAvatar(
                 statusAvatarUrl,
-                statusAvatar, avatarRadius36dp, statusDisplayOptions.animateAvatars
+                statusAvatar,
+                avatarRadius36dp,
+                statusDisplayOptions.animateAvatars
             )
             notificationAvatar.visibility = View.VISIBLE
             loadAvatar(
-                notificationAvatarUrl, notificationAvatar,
-                avatarRadius24dp, statusDisplayOptions.animateAvatars
+                notificationAvatarUrl,
+                notificationAvatar,
+                avatarRadius24dp,
+                statusDisplayOptions.animateAvatars
             )
         }
 
         override fun onClick(v: View) {
             when (v.id) {
-                R.id.notification_container, R.id.notification_content -> notificationActionListener.onViewStatusForNotificationId(notificationId)
+                R.id.notification_container, R.id.notification_content ->
+                    notificationActionListener.onViewStatusForNotificationId(notificationId)
                 R.id.notification_top_text -> notificationActionListener.onViewAccount(accountId)
             }
         }
