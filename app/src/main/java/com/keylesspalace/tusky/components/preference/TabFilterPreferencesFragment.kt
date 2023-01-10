@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -23,6 +24,7 @@ import com.keylesspalace.tusky.settings.checkBoxPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
 
+@Keep // Accessed by name in PreferencesFragment
 class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
