@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.usecase
 
 import android.util.Log
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -33,6 +35,10 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.future.future
+import java.util.concurrent.CompletableFuture
 import javax.inject.Inject
 
 /**
@@ -50,38 +56,65 @@ class TimelineCases @Inject constructor(
      */
     private val cancelDisposable = CompositeDisposable()
 
-    fun reblog(statusId: String, reblog: Boolean): Single<Status> {
+    suspend fun reblog(statusId: String, reblog: Boolean): NetworkResult<Status> {
         val call = if (reblog) {
             mastodonApi.reblogStatus(statusId)
         } else {
             mastodonApi.unreblogStatus(statusId)
         }
-        return call.doAfterSuccess {
+
+        if (call.isSuccess) {
             eventHub.dispatch(ReblogEvent(statusId, reblog))
         }
+
+        return call
     }
 
-    fun favourite(statusId: String, favourite: Boolean): Single<Status> {
+    /** Wrapper to call `reblog` from Java code. */
+    // TODO: Delete this when there are no Java callers.
+    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
+    fun reblogFromJava(statusId: String, reblog: Boolean): CompletableFuture<NetworkResult<Status>> =
+        CoroutineScope(Dispatchers.IO).future { reblog(statusId, reblog) }
+
+    suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {
         val call = if (favourite) {
             mastodonApi.favouriteStatus(statusId)
         } else {
             mastodonApi.unfavouriteStatus(statusId)
         }
-        return call.doAfterSuccess {
+
+        if (call.isSuccess) {
             eventHub.dispatch(FavoriteEvent(statusId, favourite))
         }
+
+        return call
     }
 
-    fun bookmark(statusId: String, bookmark: Boolean): Single<Status> {
+    /** Wrapper to call `reblog` from Java code. */
+    // TODO: Delete this when there are no Java callers.
+    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
+    fun favouriteFromJava(statusId: String, favourite: Boolean): CompletableFuture<NetworkResult<Status>> =
+        CoroutineScope(Dispatchers.IO).future { favourite(statusId, favourite) }
+
+    suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> {
         val call = if (bookmark) {
             mastodonApi.bookmarkStatus(statusId)
         } else {
             mastodonApi.unbookmarkStatus(statusId)
         }
-        return call.doAfterSuccess {
+
+        if (call.isSuccess) {
             eventHub.dispatch(BookmarkEvent(statusId, bookmark))
         }
+
+        return call
     }
+
+    /** Wrapper to call `reblog` from Java code. */
+    // TODO: Delete this when there are no Java callers.
+    // TODO: Delete org.jetbrains.kotlinx:kotlinx-coroutines-jdk8 from build.gradle too
+    fun bookmarkFromJava(statusId: String, bookmark: Boolean): CompletableFuture<NetworkResult<Status>> =
+        CoroutineScope(Dispatchers.IO).future { bookmark(statusId, bookmark) }
 
     fun muteConversation(statusId: String, mute: Boolean): Single<Status> {
         val call = if (mute) {
@@ -112,11 +145,17 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun delete(statusId: String): Single<DeletedStatus> {
-        return mastodonApi.deleteStatus(statusId)
-            .doAfterSuccess {
+    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> {
+        val result = mastodonApi.deleteStatus(statusId)
+        result.fold(
+            {
                 eventHub.dispatch(StatusDeletedEvent(statusId))
+            },
+            {
+                Log.w(TAG, "Failed to delete status", it)
             }
+        )
+        return result
     }
 
     fun pin(statusId: String, pin: Boolean): Single<Status> {

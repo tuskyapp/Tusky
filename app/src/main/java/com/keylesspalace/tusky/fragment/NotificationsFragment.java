@@ -100,10 +100,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import at.connyduck.calladapter.networkresult.NetworkResult;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -395,14 +397,18 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
         Objects.requireNonNull(status, "Reblog on notification without status");
-        timelineCases.reblog(status.getId(), reblog)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to reblog status: " + status.getId(), t)
-                );
+
+        CompletableFuture<NetworkResult<Status>> future = timelineCases.reblogFromJava(status.getId(), reblog);
+        try {
+            NetworkResult<Status> result = future.get();
+            if (result.isFailure()) {
+                throw result.exceptionOrNull();
+            }
+            setReblogForStatus(status.getId(), reblog);
+        } catch (Throwable t) {
+            Log.d(getClass().getSimpleName(),
+                    "Failed to reblog status: " + status.getId(), t);
+        }
     }
 
     private void setReblogForStatus(String statusId, boolean reblog) {
@@ -414,14 +420,17 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
 
-        timelineCases.favourite(status.getId(), favourite)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to favourite status: " + status.getId(), t)
-                );
+        CompletableFuture<NetworkResult<Status>> future = timelineCases.favouriteFromJava(status.getId(), favourite);
+        try {
+            NetworkResult<Status> result = future.get();
+            if (result.isFailure()) {
+                throw result.exceptionOrNull();
+            }
+            setFavouriteForStatus(status.getId(), favourite);
+        } catch (Throwable t) {
+            Log.d(getClass().getSimpleName(),
+                    "Failed to favourite status: " + status.getId(), t);
+        }
     }
 
     private void setFavouriteForStatus(String statusId, boolean favourite) {
@@ -433,14 +442,17 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus();
 
-        timelineCases.bookmark(status.getActionableId(), bookmark)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to bookmark status: " + status.getId(), t)
-                );
+        CompletableFuture<NetworkResult<Status>> future = timelineCases.bookmarkFromJava(status.getActionableId(), bookmark);
+        try {
+            NetworkResult<Status> result = future.get();
+            if (result.isFailure()) {
+                throw result.exceptionOrNull();
+            }
+            setBookmarkForStatus(status.getId(), bookmark);
+        } catch (Throwable t) {
+            Log.d(getClass().getSimpleName(),
+                    "Failed to bookmark status: " + status.getId(), t);
+        }
     }
 
     private void setBookmarkForStatus(String statusId, boolean bookmark) {

@@ -213,39 +213,39 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    fun deleteStatus(
+    suspend fun deleteStatus(
         @Path("id") statusId: String
-    ): Single<DeletedStatus>
+    ): NetworkResult<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
-    fun reblogStatus(
+    suspend fun reblogStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unreblog")
-    fun unreblogStatus(
+    suspend fun unreblogStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/favourite")
-    fun favouriteStatus(
+    suspend fun favouriteStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unfavourite")
-    fun unfavouriteStatus(
+    suspend fun unfavouriteStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/bookmark")
-    fun bookmarkStatus(
+    suspend fun bookmarkStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unbookmark")
-    fun unbookmarkStatus(
+    suspend fun unbookmarkStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/pin")
     fun pinStatus(

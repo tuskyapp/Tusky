@@ -185,7 +185,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.reblog(status.actionableId, reblog).await()
+            timelineCases.reblog(status.actionableId, reblog)
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
@@ -195,7 +195,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.favourite(status.actionableId, favorite).await()
+            timelineCases.favourite(status.actionableId, favorite)
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
@@ -205,7 +205,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.bookmark(status.actionableId, bookmark).await()
+            timelineCases.bookmark(status.actionableId, bookmark)
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to favourite status " + status.actionableId, t)

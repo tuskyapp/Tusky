@@ -20,6 +20,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -31,8 +33,8 @@ import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -99,17 +101,13 @@ class SearchViewModel @Inject constructor(
     }
 
     fun removeItem(statusViewData: StatusViewData.Concrete) {
-        timelineCases.delete(statusViewData.id)
-            .subscribe(
-                {
-                    if (loadedStatuses.remove(statusViewData))
-                        statusesPagingSourceFactory.invalidate()
-                },
-                { err ->
-                    Log.d(TAG, "Failed to delete status", err)
+        viewModelScope.launch {
+            if (timelineCases.delete(statusViewData.id).isSuccess) {
+                if (loadedStatuses.remove(statusViewData)) {
+                    statusesPagingSourceFactory.invalidate()
                 }
-            )
-            .autoDispose()
+            }
+        }
     }
 
     fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {
@@ -117,13 +115,12 @@ class SearchViewModel @Inject constructor(
     }
 
     fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        timelineCases.reblog(statusViewData.id, reblog)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
+        viewModelScope.launch {
+            timelineCases.reblog(statusViewData.id, reblog).fold(
                 { setRebloggedForStatus(statusViewData, reblog) },
                 { t -> Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t) }
             )
-            .autoDispose()
+        }
     }
 
     private fun setRebloggedForStatus(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
@@ -155,18 +152,16 @@ class SearchViewModel @Inject constructor(
 
     fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
         updateStatus(statusViewData.status.copy(favourited = isFavorited))
-        timelineCases.favourite(statusViewData.id, isFavorited)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.favourite(statusViewData.id, isFavorited)
+        }
     }
 
     fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
         updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
-        timelineCases.bookmark(statusViewData.id, isBookmarked)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.bookmark(statusViewData.id, isBookmarked)
+        }
     }
 
     fun muteAccount(accountId: String, notifications: Boolean, duration: Int?) {
@@ -185,8 +180,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteStatus(id: String): Single<DeletedStatus> {
-        return timelineCases.delete(id)
+    fun deleteStatus(id: String): NetworkResult<DeletedStatus> {
+        return runBlocking {
+            return@runBlocking timelineCases.delete(id)
+        }
     }
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
