@@ -29,18 +29,39 @@ data class Notification(
     val report: Report?,
 ) {
 
+    /** From https://docs.joinmastodon.org/entities/Notification/#type */
     @JsonAdapter(NotificationTypeAdapter::class)
     enum class Type(val presentation: String) {
         UNKNOWN("unknown"),
+
+        /** Someone mentioned you */
         MENTION("mention"),
+
+        /** Someone boosted one of your statuses */
         REBLOG("reblog"),
+
+        /** Someone favourited one of your statuses */
         FAVOURITE("favourite"),
+
+        /** Someone followed you */
         FOLLOW("follow"),
+
+        /** Someone requested to follow you */
         FOLLOW_REQUEST("follow_request"),
+
+        /** A poll you have voted in or created has ended */
         POLL("poll"),
+
+        /** Someone you enabled notifications for has posted a status */
         STATUS("status"),
+
+        /** Someone signed up (optionally sent to admins) */
         SIGN_UP("admin.sign_up"),
+
+        /** A status you interacted with has been updated */
         UPDATE("update"),
+
+        /** A new report has been filed */
         REPORT("admin.report"),
         ;
 

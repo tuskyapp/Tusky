@@ -46,7 +46,6 @@ import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.NotificationsAdapter.AdapterDataSource
-import com.keylesspalace.tusky.adapter.NotificationsAdapter.NotificationActionListener
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -56,6 +55,7 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.components.notifications.NotificationActionListener
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
@@ -120,7 +120,7 @@ class NotificationsFragment :
     @Inject
     lateinit var eventHub: EventHub
 
-    //private lateinit var adapter: NotificationsAdapter
+    // private lateinit var adapter: NotificationsAdapter
     private lateinit var adapter: NotificationsPagingAdapter
 
     private lateinit var preferences: SharedPreferences
@@ -189,10 +189,17 @@ class NotificationsFragment :
             preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        adapter = NotificationsPagingAdapter(notificationDiffCallback)
+        adapter = NotificationsPagingAdapter(
+            notificationDiffCallback,
+            statusActionListener = this,
+            notificationActionListener = this,
+            statusDisplayOptions = statusDisplayOptions
+        )
 
 //        adapter = NotificationsAdapter(
 //            notificationDiffCallback,
@@ -525,8 +532,7 @@ class NotificationsFragment :
     }
 
     private fun updateStatus(statusId: String, mapper: Function<Status?, Status>) {
-        val index = notifications.indexOfFirst {
-                s: Either<Placeholder?, Notification> ->
+        val index = notifications.indexOfFirst { s: Either<Placeholder?, Notification> ->
             s.asRightOrNull()?.status?.id == statusId
         }
         if (index == -1) return
@@ -763,18 +769,8 @@ class NotificationsFragment :
             }
     }
 
-    override fun onViewStatusForNotificationId(notificationId: String) {
-        for (either in notifications) {
-            val notification = either.asRightOrNull()
-            if (notification != null && notification.id == notificationId) {
-                val status = notification.status
-                if (status != null) {
-                    super.viewThread(status.actionableId, status.actionableStatus.url)
-                    return
-                }
-            }
-        }
-        Log.w(TAG, "Didn't find a notification for ID: $notificationId")
+    override fun onViewThreadForStatus(status: Status) {
+        super.viewThread(status.actionableId, status.actionableStatus.url)
     }
 
     override fun onViewReport(reportId: String) {
@@ -1114,7 +1110,7 @@ class NotificationsFragment :
     }
 
     private fun updateAdapter() {
-        //differ.submitList(notifications.pairedCopy)
+        // differ.submitList(notifications.pairedCopy)
     }
 
     private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {

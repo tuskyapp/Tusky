@@ -88,7 +88,9 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
         adapter = ThreadAdapter(statusDisplayOptions, this)
     }

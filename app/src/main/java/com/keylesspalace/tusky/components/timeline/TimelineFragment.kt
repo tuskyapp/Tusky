@@ -144,7 +144,9 @@ class TimelineFragment :
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
         adapter = TimelinePagingAdapter(
             statusDisplayOptions,
