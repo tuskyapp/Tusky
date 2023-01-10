@@ -57,7 +57,7 @@
     <string name="post_sensitive_media_title">Далікатнае змесціва</string>
     <string name="post_media_hidden_title">Медыя схаванае</string>
     <string name="post_content_show_more">Разгарнуць</string>
-    <string name="report_comment_hint">Дадатковыя каментарыі\?</string>
+    <string name="report_comment_hint">Дадатковыя каментарыі?</string>
     <string name="post_sensitive_media_directions">Націсніце для прагляду</string>
     <string name="post_content_warning_show_more">Паказаць больш</string>
     <string name="post_content_warning_show_less">Паказаць менш</string>
@@ -111,8 +111,8 @@
     <string name="send_post_link_to">Падзяліцца URL допісу з…</string>
     <string name="confirmation_reported">Даслана!</string>
     <string name="confirmation_unblocked">Карыстальнік разблакаваны</string>
-    <string name="hint_domain">Які сервер\?</string>
-    <string name="hint_compose">Што адбываецца\?</string>
+    <string name="hint_domain">Які сервер?</string>
+    <string name="hint_compose">Што адбываецца?</string>
     <string name="hint_content_warning">Папярэджанне пра змесціва</string>
     <string name="hint_display_name">Бачнае імя</string>
     <string name="dialog_title_finishing_media_upload">Заканчваецца запампоўка медыя</string>
@@ -188,7 +188,7 @@
     <string name="action_compose">Напісаць</string>
     <string name="action_login">Увайсці з Tusky</string>
     <string name="action_logout">Выхад</string>
-    <string name="action_logout_confirm">Вы ўпэўнены, што жадаеце выйсці з уліковага запісу %1$s\? У выніку будуць выдалены ўсе лакальныя даныя уліковага запісу разам з чарнавікамі і наладамі.</string>
+    <string name="action_logout_confirm">Вы ўпэўнены, што жадаеце выйсці з уліковага запісу %1$s? У выніку будуць выдалены ўсе лакальныя даныя уліковага запісу разам з чарнавікамі і наладамі.</string>
     <string name="action_follow">Падпісацца</string>
     <string name="action_unfollow">Адпісацца</string>
     <string name="action_block">Заблакаваць</string>
@@ -251,18 +251,18 @@
     <string name="label_quick_reply">Адказаць…</string>
     <string name="label_avatar">Аватар</string>
     <string name="label_header">Загаловак</string>
-    <string name="link_whats_an_instance">Што такое сервер\?</string>
+    <string name="link_whats_an_instance">Што такое сервер?</string>
     <string name="login_connection">Злучэнне…</string>
     <string name="dialog_message_uploading_media">Запампоўваецца…</string>
     <string name="dialog_download_image">Спампаваць</string>
-    <string name="dialog_message_cancel_follow_request">Адклікаць запыт на падпіску\?</string>
-    <string name="dialog_unfollow_warning">Адпісацца ад гэтага ўліковага запісу\?</string>
-    <string name="dialog_delete_post_warning">Выдаліць гэты допіс\?</string>
-    <string name="dialog_redraft_post_warning">Выдаліць і перапісаць гэты допіс\?</string>
-    <string name="dialog_delete_conversation_warning">Выдаліць гэтую размову\?</string>
-    <string name="mute_domain_warning">Вы ўпэўнены, што жадаеце заблакаваць усё з %1$s\? Вы не пабачыце допісы з гэтага дамена ва ўсіх агульнадаступных стужках або ў сваіх апавяшчэннях. Вашыя падпісчыкі з гэтага дамену будуць выдаленыя.</string>
+    <string name="dialog_message_cancel_follow_request">Адклікаць запыт на падпіску?</string>
+    <string name="dialog_unfollow_warning">Адпісацца ад гэтага ўліковага запісу?</string>
+    <string name="dialog_delete_post_warning">Выдаліць гэты допіс?</string>
+    <string name="dialog_redraft_post_warning">Выдаліць і перапісаць гэты допіс?</string>
+    <string name="dialog_delete_conversation_warning">Выдаліць гэтую размову?</string>
+    <string name="mute_domain_warning">Вы ўпэўнены, што жадаеце заблакаваць усё з %1$s? Вы не пабачыце допісы з гэтага дамена ва ўсіх агульнадаступных стужках або ў сваіх апавяшчэннях. Вашыя падпісчыкі з гэтага дамену будуць выдаленыя.</string>
     <string name="mute_domain_warning_dialog_ok">Схаваць дамен цалкам</string>
-    <string name="dialog_block_warning">Заблакаваць @%1$s\?</string>
+    <string name="dialog_block_warning">Заблакаваць @%1$s?</string>
     <string name="dialog_mute_warning">Ігнараваць %1$s\?</string>
     <string name="dialog_mute_hide_notifications">Схаваць апавяшчэнні</string>
     <string name="visibility_direct">Асабіста: Дасылаць толькі для згаданых карыстальнікаў</string>
@@ -395,7 +395,7 @@
     <string name="filter_add_description">Фільтраваць фразу</string>
     <string name="action_remove">Выдаліць</string>
     <string name="lock_account_label">Заблакаваць уліковы запіс</string>
-    <string name="compose_save_draft">Захаваць чарнавік\?</string>
+    <string name="compose_save_draft">Захаваць чарнавік?</string>
     <string name="send_post_notification_title">Дасыланне допісу…</string>
     <string name="send_post_notification_error_title">Памылка пры дасыланні допісу</string>
     <string name="lock_account_label_description">Вам прыйдзецца ўручную зацвярджаць падпісчыкаў</string>
@@ -498,7 +498,7 @@
     <string name="failed_report">Не атрымалася адправіць скаргу</string>
     <string name="failed_fetch_posts">Не атрымалася дастаць допісы</string>
     <string name="report_description_1">Скарга будзе даслана да мадэратара Вашага сервера. Ніжэй можна дадаць тлумачэнне, чаму Вы скардзіцеся на гэты ўліковы запіс:</string>
-    <string name="report_description_remote_instance">Гэты ўліковы запіс з іншага сервера. Даслаць ананімную копію скаргі туды таксама\?</string>
+    <string name="report_description_remote_instance">Гэты ўліковы запіс з іншага сервера. Даслаць ананімную копію скаргі туды таксама?</string>
     <string name="duration_indefinite">Бясконца</string>
     <string name="duration_5_min">5 хвілін</string>
     <string name="duration_30_min">30 хвілін</string>
@@ -559,7 +559,7 @@
     <string name="draft_deleted">Чарнавік выдалены</string>
     <string name="report_category_spam">Спам</string>
     <string name="report_category_other">Іншае</string>
-    <string name="action_unfollow_hashtag_format">Не сачыць за #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Не сачыць за #%1$s?</string>
     <string name="action_subscribe_account">Падпісацца</string>
     <string name="action_unsubscribe_account">Адпісацца</string>
     <string name="tusky_compose_post_quicksetting_label">Стварыць допіс</string>
@@ -579,14 +579,14 @@
         <item quantity="many">Вы не можаце запампаваць больш за %1$d медыя далучэнняў.</item>
         <item quantity="other">Вы не можаце запампаваць больш за %1$d медыя далучэнняў.</item>
     </plurals>
-    <string name="dialog_delete_list_warning">Вы ўпэўнены, што жадаеце выдаліць спіс %1$s\?</string>
+    <string name="dialog_delete_list_warning">Вы ўпэўнены, што жадаеце выдаліць спіс %1$s?</string>
     <string name="limit_notifications">Абмежаванне апавяшчэнняў у стужцы</string>
     <string name="wellbeing_hide_stats_posts">Схаваць колькасную статыстыку допісаў</string>
     <string name="wellbeing_hide_stats_profile">Схаваць колькасную статыстыку профіляў</string>
     <string name="report_category_violation">Парушэнне правіла</string>
     <string name="instance_rule_title">Правілы %1$s</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
-    <string name="delete_scheduled_post_warning">Выдаліць гэты запланаваны допіс\?</string>
+    <string name="delete_scheduled_post_warning">Выдаліць гэты запланаваны допіс?</string>
     <string name="instance_rule_info">Увайшоўшы, Вы пагаджаецеся з правіламі %1$s.</string>
     <string name="poll_new_choice_hint">Варыянт %1$d</string>
     <string name="drafts_post_failed_to_send">Не атрымалася даслаць гэты допіс!</string>
@@ -604,9 +604,9 @@
         <item quantity="one">Не атрымалася запампаваць ваш допіс і ён быў захаваны ў чарнавік.
 \n
 \nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допіс.</item>
-        <item quantity="other">Не атрымалася запампаваць вашы допісы і яны былі захаваны ў чарнавікі.
-\n
-\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допісы.</item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="action_post_failed_show_drafts">Паказаць чарнавікі</string>
     <string name="action_post_failed_do_nothing">Адмяніць</string>
