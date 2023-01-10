@@ -416,57 +416,56 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
     }
 
-    private void loadImage(View wrapper,
-                           MediaPreviewImageView imageView,
+    private void loadImage(MediaPreviewImageView imageView,
                            @Nullable String previewUrl,
                            @Nullable MetaData meta,
                            @Nullable String blurhash) {
 
         Drawable placeholder = blurhash != null ? decodeBlurHash(blurhash) : mediaPreviewUnloaded;
 
-        ViewKt.doOnLayout(wrapper, view -> {
-            if (TextUtils.isEmpty(previewUrl)) {
+        if (TextUtils.isEmpty(previewUrl)) {
+            imageView.removeFocalPoint();
+
+            Glide.with(imageView)
+                    .load(placeholder)
+                    .centerInside()
+                    .into(imageView);
+        } else {
+            Focus focus = meta != null ? meta.getFocus() : null;
+
+            if (focus != null) { // If there is a focal point for this attachment:
+                imageView.setFocalPoint(focus);
+
+                Glide.with(imageView.getContext())
+                        .load(previewUrl)
+                        .placeholder(placeholder)
+                        .centerInside()
+                        .addListener(imageView)
+                        .into(imageView);
+            } else {
                 imageView.removeFocalPoint();
 
                 Glide.with(imageView)
-                        .load(placeholder)
+                        .load(previewUrl)
+                        .placeholder(placeholder)
                         .centerInside()
                         .into(imageView);
-
-            } else {
-                Focus focus = meta != null ? meta.getFocus() : null;
-
-                if (focus != null) { // If there is a focal point for this attachment:
-                    imageView.setFocalPoint(focus);
-
-                    Glide.with(imageView.getContext())
-                            .load(previewUrl)
-                            .placeholder(placeholder)
-                            .centerInside()
-                            .addListener(imageView)
-                            .into(imageView);
-                } else {
-                    imageView.removeFocalPoint();
-
-                    Glide.with(imageView)
-                            .load(previewUrl)
-                            .placeholder(placeholder)
-                            .centerInside()
-                            .into(imageView);
-                }
             }
-            return null;
-        });
+        }
     }
 
-    protected void setMediaPreviews(final List<Attachment> attachments, boolean sensitive,
-                                    final StatusActionListener listener, boolean showingContent,
-                                    boolean useBlurhash) {
+    protected void setMediaPreviews(
+            final List<Attachment> attachments,
+            boolean sensitive,
+            final StatusActionListener listener,
+            boolean showingContent,
+            boolean useBlurhash
+    ) {
 
         mediaPreview.setVisibility(View.VISIBLE);
         mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
 
-        mediaPreview.forEachIndexed((i, wrapper, imageView, descriptionIndicator) -> {
+        mediaPreview.forEachIndexed((i, imageView, descriptionIndicator) -> {
             Attachment attachment = attachments.get(i);
             String previewUrl = attachment.getPreviewUrl();
             String description = attachment.getDescription();
@@ -480,7 +479,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
 
             loadImage(
-                    wrapper,
                     imageView,
                     showingContent ? previewUrl : null,
                     attachment.getMeta(),
