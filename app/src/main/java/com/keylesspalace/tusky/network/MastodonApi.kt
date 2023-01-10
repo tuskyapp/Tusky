@@ -128,6 +128,18 @@ interface MastodonApi {
         @Query("exclude_types[]") excludes: Set<Notification.Type>?
     ): Single<Response<List<Notification>>>
 
+    @GET("api/v1/notifications")
+    suspend fun notifications2(
+        /** Return results older than this ID */
+        @Query("max_id") maxId: String? = null,
+        /** Return results immediately newer than this ID */
+        @Query("min_id") minId: String? = null,
+        /** Maximum number of results to return. Defaults to 15, max is 30 */
+        @Query("limit") limit: Int? = null,
+        /** Types to excludes from the results */
+        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
+    ): Response<List<Notification>>
+
     @GET("api/v1/markers")
     fun markersWithAuth(
         @Header("Authorization") auth: String,

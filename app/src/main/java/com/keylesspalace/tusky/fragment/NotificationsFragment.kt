@@ -27,7 +27,9 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.arch.core.util.Function
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -40,11 +42,9 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.AutoDispose
-import autodispose2.SingleSubscribeProxy
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.NotificationsAdapter
 import com.keylesspalace.tusky.adapter.NotificationsAdapter.AdapterDataSource
 import com.keylesspalace.tusky.adapter.NotificationsAdapter.NotificationActionListener
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
@@ -56,8 +56,11 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
+import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
 import com.keylesspalace.tusky.entity.Poll
@@ -90,7 +93,8 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import retrofit2.Response
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.Locale
 import java.util.Objects
@@ -107,11 +111,17 @@ class NotificationsFragment :
     ReselectableFragment {
 
     @Inject
-    lateinit var eventHub: EventHub
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel: NotificationsViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
 
-    private lateinit var adapter: NotificationsAdapter
+    @Inject
+    lateinit var eventHub: EventHub
+
+    //private lateinit var adapter: NotificationsAdapter
+    private lateinit var adapter: NotificationsPagingAdapter
 
     private lateinit var preferences: SharedPreferences
 
@@ -182,14 +192,17 @@ class NotificationsFragment :
             preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         )
 
-        adapter = NotificationsAdapter(
-            accountManager.activeAccount!!.accountId,
-            dataSource,
-            statusDisplayOptions,
-            this,
-            this,
-            this
-        )
+        adapter = NotificationsPagingAdapter(notificationDiffCallback)
+
+//        adapter = NotificationsAdapter(
+//            notificationDiffCallback,
+//            accountManager.activeAccount!!.accountId,
+//            dataSource,
+//            statusDisplayOptions,
+//            this,
+//            this,
+//            this
+//        )
     }
 
     override fun onCreateView(
@@ -266,15 +279,22 @@ class NotificationsFragment :
         alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         binding.recyclerView.adapter = adapter
-        updateAdapter()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.flow.collectLatest { pagingData ->
+                Log.d(TAG, "Submitting data to adapter")
+                adapter.submitData(pagingData)
+            }
+        }
+
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
         binding.buttonFilter.setOnClickListener { showFilterMenu() }
-        if (notifications.isEmpty()) {
-            binding.swipeRefreshLayout.isEnabled = false
-            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+//        if (notifications.isEmpty()) {
+//            binding.swipeRefreshLayout.isEnabled = false
+//            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
+//        } else {
+//            binding.progressBar.visibility = View.GONE
+//        }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
         updateFilterVisibility()
@@ -301,7 +321,7 @@ class NotificationsFragment :
                 this@NotificationsFragment.onLoadMore()
             }
         }
-        binding.recyclerView.addOnScrollListener(scrollListener)
+//        binding.recyclerView.addOnScrollListener(scrollListener)
 
         eventHub.events
             .observeOn(AndroidSchedulers.mainThread())
@@ -323,6 +343,9 @@ class NotificationsFragment :
                     is PreferenceChangedEvent -> onPreferenceChanged(event.preferenceKey)
                 }
             }
+
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun onRefresh() {
@@ -330,7 +353,7 @@ class NotificationsFragment :
         showingError = false
         val first = notifications.firstOrNull()
         val topId = first?.asRightOrNull()?.id
-        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1)
+//        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1)
     }
 
     override fun onReply(position: Int) {
@@ -482,7 +505,7 @@ class NotificationsFragment :
                 Log.e(TAG, "Failed to load more, invalid placeholder position: $position")
                 return
             }
-            sendFetchNotificationsRequest(previous.id, next.id, FetchEnd.MIDDLE, position)
+            // sendFetchNotificationsRequest(previous.id, next.id, FetchEnd.MIDDLE, position)
             val placeholder = notifications[position].asLeft()
             val notificationViewData: NotificationViewData =
                 NotificationViewData.Placeholder(placeholder.id, true)
@@ -671,7 +694,7 @@ class NotificationsFragment :
         }
         if (isChanged) {
             saveNotificationsFilter()
-            fullyRefreshWithProgressBar(true)
+//            fullyRefreshWithProgressBar(true)
         }
     }
 
@@ -772,10 +795,10 @@ class NotificationsFragment :
             }
             "mediaPreviewEnabled" -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-                if (enabled != adapter.isMediaPreviewEnabled) {
-                    adapter.isMediaPreviewEnabled = enabled
-                    fullyRefresh()
-                }
+//                if (enabled != adapter.isMediaPreviewEnabled) {
+//                    adapter.isMediaPreviewEnabled = enabled
+//                    fullyRefresh()
+//                }
             }
             "showNotificationsFilter" -> {
                 if (isAdded) {
@@ -826,7 +849,7 @@ class NotificationsFragment :
                 updateAdapter()
             }
         }
-        sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1)
+        // sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1)
     }
 
     private fun newPlaceholder(): Placeholder {
@@ -863,29 +886,29 @@ class NotificationsFragment :
         if (fetchEnd == FetchEnd.BOTTOM) {
             bottomLoading = true
         }
-        val notificationCall = mastodonApi.notifications(
-            fromId,
-            uptoId,
-            LOAD_AT_ONCE,
-            if (showNotificationsFilter) notificationFilter else null
-        )
-            .observeOn(AndroidSchedulers.mainThread())
-            .to<SingleSubscribeProxy<Response<List<Notification>>>>(
-                AutoDispose.autoDisposable(
-                    AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                )
-            )
-            .subscribe(
-                { response: Response<List<Notification>> ->
-                    if (response.isSuccessful) {
-                        val linkHeader = response.headers()["Link"]
-                        onFetchNotificationsSuccess(response.body()!!, linkHeader, fetchEnd, pos)
-                    } else {
-                        onFetchNotificationsFailure(Exception(response.message()), fetchEnd, pos)
-                    }
-                }
-            ) { throwable: Throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos) }
-        disposables.add(notificationCall)
+//        val notificationCall = mastodonApi.notifications(
+//            fromId,
+//            uptoId,
+//            LOAD_AT_ONCE,
+//            if (showNotificationsFilter) notificationFilter else null
+//        )
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .to<SingleSubscribeProxy<Response<List<Notification>>>>(
+//                AutoDispose.autoDisposable(
+//                    AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
+//                )
+//            )
+//            .subscribe(
+//                { response: Response<List<Notification>> ->
+//                    if (response.isSuccessful) {
+//                        val linkHeader = response.headers()["Link"]
+//                        onFetchNotificationsSuccess(response.body()!!, linkHeader, fetchEnd, pos)
+//                    } else {
+//                        onFetchNotificationsFailure(Exception(response.message()), fetchEnd, pos)
+//                    }
+//                }
+//            ) { throwable: Throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos) }
+//        disposables.add(notificationCall)
     }
 
     private fun onFetchNotificationsSuccess(
@@ -1083,7 +1106,7 @@ class NotificationsFragment :
             binding.statusView.visibility = View.GONE
         }
         updateAdapter()
-        sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1)
+        // sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1)
     }
 
     private fun fullyRefresh() {
@@ -1091,7 +1114,7 @@ class NotificationsFragment :
     }
 
     private fun updateAdapter() {
-        differ.submitList(notifications.pairedCopy)
+        //differ.submitList(notifications.pairedCopy)
     }
 
     private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {
@@ -1205,6 +1228,32 @@ class NotificationsFragment :
                         //  If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
                     } else { // If items are different - update a whole view holder
+                        null
+                    }
+                }
+            }
+
+        private val notificationDiffCallback: DiffUtil.ItemCallback<Notification> =
+            object : DiffUtil.ItemCallback<Notification>() {
+                override fun areItemsTheSame(
+                    oldItem: Notification,
+                    newItem: Notification
+                ): Boolean {
+                    return oldItem.id == newItem.id
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: Notification,
+                    newItem: Notification
+                ): Boolean {
+                    return false
+                }
+
+                override fun getChangePayload(oldItem: Notification, newItem: Notification): Any? {
+                    // TODO: Implement deepEquals for Notification
+                    return if (oldItem == newItem) {
+                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    } else {
                         null
                     }
                 }

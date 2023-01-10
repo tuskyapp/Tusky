@@ -35,7 +35,7 @@ class PlaceholderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         loadMoreButton.isEnabled = true
         loadMoreButton.setOnClickListener { v: View? ->
             loadMoreButton.isEnabled = false
-            listener.onLoadMore(bindingAdapterPosition)
+//            listener.onLoadMore(bindingAdapterPosition)
         }
     }
 }

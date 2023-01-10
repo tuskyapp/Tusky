@@ -13,6 +13,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
+import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
@@ -143,6 +144,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ListsForAccountViewModel::class)
     internal abstract fun listsForAccountViewModel(viewModel: ListsForAccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationsViewModel::class)
+    internal abstract fun notificationsViewModel(viewModel: NotificationsViewModel): ViewModel
 
     // Add more ViewModels here
 }
