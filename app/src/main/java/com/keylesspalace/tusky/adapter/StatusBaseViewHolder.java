@@ -476,7 +476,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 imageView.setContentDescription(imageView.getContext().getString(R.string.action_view_media));
             }
-            descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
 
             loadImage(
                     imageView,
@@ -502,6 +501,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
             sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
+
+            descriptionIndicator.setVisibility(hasDescription && showingContent ? View.VISIBLE : View.GONE);
+
             sensitiveMediaShow.setOnClickListener(v -> {
                 if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onContentHiddenChange(false, getBindingAdapterPosition());
