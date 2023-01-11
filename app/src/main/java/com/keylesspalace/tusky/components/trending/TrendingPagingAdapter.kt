@@ -85,7 +85,7 @@ class TrendingPagingAdapter(
                 .flatMap { trendingViewData ->
                     trendingViewData.asTagOrNull()?.tag?.history ?: emptyList()
                 }
-                .mapNotNull { it.accounts.toIntOrNull() }
+                .mapNotNull { it.uses.toIntOrNull() }
                 .maxOrNull() ?: 1
 
             val holder = viewHolder as TagViewHolder

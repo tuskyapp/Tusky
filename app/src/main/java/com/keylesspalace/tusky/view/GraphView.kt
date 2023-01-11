@@ -19,6 +19,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.PathMeasure
 import android.graphics.Rect
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
@@ -27,7 +28,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import kotlin.math.max
-import kotlin.random.Random
+
 
 class GraphView @JvmOverloads constructor(
     context: Context,
@@ -37,14 +38,14 @@ class GraphView @JvmOverloads constructor(
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
     @get:ColorInt
     @ColorInt
-    var lineColor = 0
-
-    @get:Dimension
-    var lineThickness = 0f
+    var primaryLineColor = 0
 
     @get:ColorInt
     @ColorInt
-    var fillColor = 0
+    var secondaryLineColor = 0
+
+    @get:Dimension
+    var lineThickness = 0f
 
     @get:ColorInt
     @ColorInt
@@ -52,30 +53,38 @@ class GraphView @JvmOverloads constructor(
 
     var proportionalTrending = false
 
-    private lateinit var linePaint: Paint
-    private lateinit var fillPaint: Paint
+    private lateinit var primaryLinePaint: Paint
+    private lateinit var secondaryLinePaint: Paint
     private lateinit var graphPaint: Paint
 
     private lateinit var sizeRect: Rect
-    private var linePath: Path = Path()
-    private var fillPath: Path = Path()
+    private var primaryLinePath: Path = Path()
+    private var secondaryLinePath: Path = Path()
 
     var maxTrendingValue: Int = 300
-    var data: List<Int> = if (isInEditMode) listOf(
-        Random.nextInt(300),
-        Random.nextInt(300),
-        Random.nextInt(300),
-        Random.nextInt(300),
-        Random.nextInt(300),
-        Random.nextInt(300),
-        Random.nextInt(300),
+    var primaryLineData: List<Int> = if (isInEditMode) listOf(
+        30, 60, 70, 80, 130, 190, 80,
     ) else listOf(
         1, 1, 1, 1, 1, 1, 1,
     )
         set(value) {
             field = value.map { max(1, it) }
 
-            if (linePath.isEmpty && width > 0) {
+            if (primaryLinePath.isEmpty && width > 0) {
+                initializeVertices()
+                invalidate()
+            }
+        }
+
+    var secondaryLineData: List<Int> = if (isInEditMode) listOf(
+        10, 20, 40, 60, 100, 132, 20,
+    ) else listOf(
+        1, 1, 1, 1, 1, 1, 1,
+    )
+        set(value) {
+            field = value.map { max(1, it) }
+
+            if (secondaryLinePath.isEmpty && width > 0) {
                 initializeVertices()
                 invalidate()
             }
@@ -88,11 +97,19 @@ class GraphView @JvmOverloads constructor(
     private fun initFromXML(attr: AttributeSet?) {
         val a = context.obtainStyledAttributes(attr, R.styleable.GraphView)
 
-        lineColor = ContextCompat.getColor(
+        primaryLineColor = ContextCompat.getColor(
             context,
             a.getResourceId(
-                R.styleable.GraphView_lineColor,
-                R.color.tusky_blue_light,
+                R.styleable.GraphView_primaryLineColor,
+                R.color.tusky_blue,
+            )
+        )
+
+        secondaryLineColor = ContextCompat.getColor(
+            context,
+            a.getResourceId(
+                R.styleable.GraphView_secondaryLineColor,
+                R.color.tusky_red,
             )
         )
 
@@ -100,14 +117,6 @@ class GraphView @JvmOverloads constructor(
             a.getResourceId(
                 R.styleable.GraphView_lineThickness,
                 R.dimen.graph_line_thickness,
-            )
-        )
-
-        fillColor = ContextCompat.getColor(
-            context,
-            a.getResourceId(
-                R.styleable.GraphView_fillColor,
-                R.color.tusky_blue,
             )
         )
 
@@ -124,18 +133,20 @@ class GraphView @JvmOverloads constructor(
             proportionalTrending,
         )
 
-        linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = lineColor
+        primaryLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = primaryLineColor
+            strokeWidth = lineThickness
 
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.MITER
             strokeCap = Paint.Cap.SQUARE
         }
 
-        fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = fillColor
+        secondaryLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = secondaryLineColor
+            strokeWidth = lineThickness
 
-            style = Paint.Style.FILL
+            style = Paint.Style.STROKE
             strokeJoin = Paint.Join.MITER
             strokeCap = Paint.Cap.SQUARE
         }
@@ -150,15 +161,20 @@ class GraphView @JvmOverloads constructor(
     private fun initializeVertices() {
         sizeRect = Rect(0, 0, width, height)
 
+        initLine(primaryLineData, primaryLinePath)
+        initLine(secondaryLineData, secondaryLinePath)
+    }
+
+    private fun initLine(lineData: List<Int>, path: Path) {
         val max = if (proportionalTrending) {
             maxTrendingValue
         } else {
-            max(data.max(), 1)
+            max(primaryLineData.max(), 1)
         }
         val mainRatio = height.toFloat() / max.toFloat()
-        val pointDistance = width.toFloat() / max(data.size - 1, 1).toFloat()
+        val pointDistance = width.toFloat() / max(lineData.size - 1, 1).toFloat()
 
-        data.forEachIndexed { index, magnitude ->
+        lineData.forEachIndexed { index, magnitude ->
             val x = pointDistance * index.toFloat()
 
             val ratio = magnitude.toFloat() / max.toFloat()
@@ -166,40 +182,56 @@ class GraphView @JvmOverloads constructor(
             val y = height.toFloat() - (magnitude.toFloat() * ratio * mainRatio)
 
             if (index == 0) {
-                linePath.reset()
-                linePath.moveTo(x, y)
-                fillPath.reset()
-                fillPath.moveTo(x, y)
+                path.reset()
+                path.moveTo(x, y)
             } else {
-                linePath.lineTo(x, y)
-                fillPath.lineTo(x, y)
+                path.lineTo(x, y)
             }
         }
-
-        fillPath.lineTo(width.toFloat(), height.toFloat())
-        fillPath.lineTo(0f, height.toFloat())
-        fillPath.lineTo(0f, height.toFloat() - data.first())
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        if (linePath.isEmpty && width > 0) {
+        if (primaryLinePath.isEmpty && width > 0) {
             initializeVertices()
         }
 
         canvas?.apply {
             drawRect(sizeRect, graphPaint)
 
-            drawPath(
-                fillPath,
-                fillPaint,
+            drawLine(
+                canvas = canvas,
+                linePath = secondaryLinePath,
+                linePaint = secondaryLinePaint,
+                lineThickness = lineThickness,
             )
+            drawLine(
+                canvas = canvas,
+                linePath = primaryLinePath,
+                linePaint = primaryLinePaint,
+                lineThickness = lineThickness,
+            )
+        }
+    }
 
+    private fun drawLine(
+        canvas: Canvas,
+        linePath: Path,
+        linePaint: Paint,
+        lineThickness: Float,
+    ) {
+        canvas.apply {
             drawPath(
                 linePath,
                 linePaint,
             )
+
+            val pm = PathMeasure(linePath, false)
+            val coord = floatArrayOf(0f, 0f)
+            pm.getPosTan(pm.length * 1f, coord, null)
+
+            drawCircle(coord[0], coord[1], lineThickness * 2f, linePaint)
         }
     }
 }

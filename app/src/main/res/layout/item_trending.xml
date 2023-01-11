@@ -17,15 +17,15 @@
         android:layout_marginStart="14dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/action_view_profile"
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
-        app:fillColor="?attr/colorPrimary"
         app:graphColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lineColor="?attr/colorPrimary" />
+        app:lineThickness="3dp"
+        app:primaryLineColor="@color/tusky_blue"
+        app:secondaryLineColor="@color/tusky_red" />
 
     <TextView
         android:id="@+id/tag"

@@ -55,7 +55,10 @@ class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun setGraph(history: List<TrendingTagHistory>, maxTrendingValue: Int) {
         graphView.maxTrendingValue = maxTrendingValue
-        graphView.data = history
+        graphView.primaryLineData = history
+            .reversed()
+            .mapNotNull { it.uses.toIntOrNull() }
+        graphView.secondaryLineData = history
             .reversed()
             .mapNotNull { it.accounts.toIntOrNull() }
     }
