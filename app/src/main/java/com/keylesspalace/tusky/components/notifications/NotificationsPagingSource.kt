@@ -17,6 +17,7 @@ class NotificationsPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Notification> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
 
+        // TODO: Handle "excludes" correctly
         val response = when (params) {
             is LoadParams.Refresh -> mastodonApi.notifications2(limit = params.loadSize)
             is LoadParams.Append -> mastodonApi.notifications2(
@@ -30,9 +31,11 @@ class NotificationsPagingSource @Inject constructor(
         }
 
         if (!response.isSuccessful) {
+            // TODO: Handle reporting failures correctly
             return LoadResult.Error(Throwable(response.errorBody().toString()))
         }
 
+        // TODO: Report loading status correctly
         val links = getPageLinks(response.headers()["link"])
         return LoadResult.Page(
             data = response.body()!!,
