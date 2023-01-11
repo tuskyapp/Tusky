@@ -213,9 +213,9 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         adapter.submitList(uiState.statusViewData) {
                             if (viewModel.isInitialLoad) {
                                 viewModel.isInitialLoad = false
+
                                 // Ensure the top of the status is visible
-                                binding.recyclerView.scrollToPosition(uiState.detailedStatusPosition)
-                                //(binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(uiState.detailedStatusPosition, 0)
+                                (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(uiState.detailedStatusPosition, 0)
                             }
                         }
 
