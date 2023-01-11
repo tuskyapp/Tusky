@@ -202,11 +202,21 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         }
                     }
                     is ThreadUiState.Success -> {
+                        if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
+                            // no detailed statuses available, e.g. because author is blocked
+                            activity?.finish()
+                            return@collect
+                        }
+
                         threadProgressBar.cancel()
 
                         adapter.submitList(uiState.statusViewData) {
-                            // Ensure the top of the status is visible
-                            (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(uiState.detailedStatusPosition, 0)
+                            if (viewModel.isInitialLoad) {
+                                viewModel.isInitialLoad = false
+                                // Ensure the top of the status is visible
+                                binding.recyclerView.scrollToPosition(uiState.detailedStatusPosition)
+                                //(binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(uiState.detailedStatusPosition, 0)
+                            }
                         }
 
                         updateRevealButton(uiState.revealButton)
