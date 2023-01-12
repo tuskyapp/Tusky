@@ -1232,10 +1232,11 @@ class NotificationsFragment :
                     oldItem: NotificationViewData.Concrete,
                     newItem: NotificationViewData.Concrete
                 ): Any? {
-                    // TODO: Implement deepEquals for Notification
-                    return if (oldItem == newItem) {
+                    return if (oldItem.deepEquals(newItem)) {
+                        //  If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
                     } else {
+                        // If items are different - update a whole view holder
                         null
                     }
                 }
