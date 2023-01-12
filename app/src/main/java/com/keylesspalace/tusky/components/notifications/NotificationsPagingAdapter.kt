@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.SimpleListItem1Binding
 import com.keylesspalace.tusky.entity.Notification
@@ -64,6 +65,9 @@ interface NotificationActionListener {
 
 class NotificationsPagingAdapter(
     diffCallback: DiffUtil.ItemCallback<NotificationViewData.Concrete>,
+    /** ID of the the account that notifications are being displayed for */
+    // TODO: Inject?
+    private val accountId: String,
     private val statusActionListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
     private val statusDisplayOptions: StatusDisplayOptions
@@ -85,9 +89,14 @@ class NotificationsPagingAdapter(
         val inflater = LayoutInflater.from(parent.context)
 
         return when (NotificationViewKind.values()[viewType]) {
-//            NotificationViewKind.STATUS -> {
-//                FollowRequestViewHolder(ItemStatusBinding.inflate(inflater, parent, false))
-//            }
+            NotificationViewKind.STATUS -> {
+                StatusViewHolder(
+                    ItemStatusBinding.inflate(inflater, parent, false),
+                    statusActionListener,
+                    statusDisplayOptions,
+                    accountId
+                )
+            }
             NotificationViewKind.NOTIFICATION -> {
                 StatusNotificationViewHolder(
                     ItemStatusNotificationBinding.inflate(inflater, parent, false),

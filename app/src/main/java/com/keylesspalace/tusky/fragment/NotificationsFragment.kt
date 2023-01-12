@@ -179,6 +179,7 @@ class NotificationsFragment :
 
         adapter = NotificationsPagingAdapter(
             notificationDiffCallback,
+            accountId = accountManager.activeAccount!!.accountId,
             statusActionListener = this,
             notificationActionListener = this,
             statusDisplayOptions = viewModel.statusDisplayOptions
