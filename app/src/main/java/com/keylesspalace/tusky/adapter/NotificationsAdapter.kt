@@ -17,23 +17,16 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class NotificationsAdapter(
@@ -53,24 +46,6 @@ class NotificationsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            VIEW_TYPE_STATUS -> {
-                val view = inflater
-                    .inflate(R.layout.item_status, parent, false)
-                StatusViewHolder(view)
-            }
-            VIEW_TYPE_FOLLOW -> {
-                val view = inflater
-                    .inflate(R.layout.item_follow, parent, false)
-                FollowViewHolder(view, statusDisplayOptions)
-            }
-            VIEW_TYPE_FOLLOW_REQUEST -> {
-                val binding = ItemFollowRequestBinding.inflate(
-                    inflater,
-                    parent,
-                    false
-                )
-                FollowRequestViewHolder(binding, true)
-            }
             VIEW_TYPE_PLACEHOLDER -> {
                 val view = inflater
                     .inflate(R.layout.item_status_placeholder, parent, false)
@@ -132,58 +107,6 @@ class NotificationsAdapter(
             }
             val concreteNotification = notification as NotificationViewData.Concrete
             when (viewHolder.itemViewType) {
-                VIEW_TYPE_STATUS -> {
-                    val holder = viewHolder as StatusViewHolder
-                    val status = concreteNotification.statusViewData
-                    if (status == null) {
-                        /* in some very rare cases servers sends null status even though they should not,
-                         * we have to handle it somehow */
-                        holder.showStatusContent(false)
-                    } else {
-                        if (payloads == null) {
-                            holder.showStatusContent(true)
-                        }
-                        holder.setupWithStatus(
-                            status,
-                            statusListener,
-                            statusDisplayOptions,
-                            payloadForHolder
-                        )
-                    }
-                    if (concreteNotification.type === Notification.Type.POLL) {
-                        holder.setPollInfo(accountId == concreteNotification.account.id)
-                    } else {
-                        holder.hideStatusInfo()
-                    }
-                }
-                VIEW_TYPE_FOLLOW -> {
-                    if (payloadForHolder == null) {
-                        val holder = viewHolder as FollowViewHolder
-                        holder.setMessage(
-                            concreteNotification.account,
-                            concreteNotification.type === Notification.Type.SIGN_UP
-                        )
-                        holder.setupButtons(
-                            notificationActionListener,
-                            concreteNotification.account.id
-                        )
-                    }
-                }
-                VIEW_TYPE_FOLLOW_REQUEST -> {
-                    if (payloadForHolder == null) {
-                        val holder = viewHolder as FollowRequestViewHolder
-                        holder.setupWithAccount(
-                            concreteNotification.account,
-                            statusDisplayOptions.animateAvatars,
-                            statusDisplayOptions.animateEmojis,
-                            statusDisplayOptions.showBotOverlay
-                        )
-                        holder.setupActionListener(
-                            accountActionListener,
-                            concreteNotification.account.id
-                        )
-                    }
-                }
                 VIEW_TYPE_REPORT -> {
                     if (payloadForHolder == null) {
                         val holder = viewHolder as ReportNotificationViewHolder
@@ -261,62 +184,6 @@ class NotificationsAdapter(
          * @param position    The position of the status in the list.
          */
         fun onNotificationContentCollapsedChange(isCollapsed: Boolean, position: Int)
-    }
-
-    private class FollowViewHolder(
-        itemView: View,
-        statusDisplayOptions: StatusDisplayOptions
-    ) : RecyclerView.ViewHolder(itemView) {
-        private val message: TextView
-        private val usernameView: TextView
-        private val displayNameView: TextView
-        private val avatar: ImageView
-        private val statusDisplayOptions: StatusDisplayOptions
-
-        init {
-            message = itemView.findViewById(R.id.notification_text)
-            usernameView = itemView.findViewById(R.id.notification_username)
-            displayNameView = itemView.findViewById(R.id.notification_display_name)
-            avatar = itemView.findViewById(R.id.notification_avatar)
-            this.statusDisplayOptions = statusDisplayOptions
-        }
-
-        fun setMessage(account: TimelineAccount, isSignUp: Boolean) {
-            val context = message.context
-            val format =
-                context.getString(
-                    if (isSignUp) {
-                        R.string.notification_sign_up_format
-                    } else {
-                        R.string.notification_follow_format
-                    }
-                )
-            val wrappedDisplayName = account.name.unicodeWrap()
-            val wholeMessage = String.format(format, wrappedDisplayName)
-            val emojifiedMessage =
-                wholeMessage.emojify(account.emojis, message, statusDisplayOptions.animateEmojis)
-            message.text = emojifiedMessage
-            val username = context.getString(R.string.post_username_format, account.username)
-            usernameView.text = username
-            val emojifiedDisplayName = wrappedDisplayName.emojify(
-                account.emojis,
-                usernameView,
-                statusDisplayOptions.animateEmojis
-            )
-            displayNameView.text = emojifiedDisplayName
-            val avatarRadius = avatar.context.resources
-                .getDimensionPixelSize(R.dimen.avatar_radius_42dp)
-            loadAvatar(
-                account.avatar,
-                avatar,
-                avatarRadius,
-                statusDisplayOptions.animateAvatars
-            )
-        }
-
-        fun setupButtons(listener: NotificationActionListener, accountId: String) {
-            itemView.setOnClickListener { listener.onViewAccount(accountId) }
-        }
     }
 
     companion object {

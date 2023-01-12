@@ -21,6 +21,7 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
@@ -28,32 +29,54 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowRequestViewHolder(
     private val binding: ItemFollowRequestBinding,
+    private val accountActionListener: AccountActionListener,
+    private val animateAvatar: Boolean,
+    private val animateEmojis: Boolean,
     private val showHeader: Boolean
-) : RecyclerView.ViewHolder(binding.root) {
+) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
 
-    fun setupWithAccount(
-        account: TimelineAccount,
-        animateAvatar: Boolean,
-        animateEmojis: Boolean,
-        showBotOverlay: Boolean
-    ) {
+    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+        // TODO: This was in the original code. Why skip if there's a payload?
+        if (!payloads.isNullOrEmpty()) return
+
+        setupWithAccount(viewData.account)
+
+        setupActionListener(accountActionListener, viewData.account.id)
+    }
+
+    fun setupWithAccount(account: TimelineAccount) {
         val wrappedName = account.name.unicodeWrap()
-        val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView, animateEmojis)
+        val emojifiedName: CharSequence = wrappedName.emojify(
+            account.emojis,
+            itemView,
+            animateEmojis
+        )
         binding.displayNameTextView.text = emojifiedName
         if (showHeader) {
-            val wholeMessage: String = itemView.context.getString(R.string.notification_follow_request_format, wrappedName)
+            val wholeMessage: String = itemView.context.getString(
+                R.string.notification_follow_request_format,
+                wrappedName
+            )
             binding.notificationTextView.text = SpannableStringBuilder(wholeMessage).apply {
-                setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    wrappedName.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
             }.emojify(account.emojis, itemView, animateEmojis)
         }
         binding.notificationTextView.visible(showHeader)
         val format = itemView.context.getString(R.string.post_username_format)
         val formattedUsername = String.format(format, account.username)
         binding.usernameTextView.text = formattedUsername
-        val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+        val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(
+            R.dimen.avatar_radius_48dp
+        )
         loadAvatar(account.avatar, binding.avatar, avatarRadius, animateAvatar)
     }
 

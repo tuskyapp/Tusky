@@ -5,11 +5,15 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
+import com.keylesspalace.tusky.databinding.ItemFollowBinding
+import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.SimpleListItem1Binding
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -70,6 +74,7 @@ class NotificationsPagingAdapter(
     private val accountId: String,
     private val statusActionListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
+    private val accountActionListener: AccountActionListener,
     private val statusDisplayOptions: StatusDisplayOptions
 ) : PagingDataAdapter<NotificationViewData.Concrete, RecyclerView.ViewHolder>(diffCallback) {
 
@@ -106,11 +111,22 @@ class NotificationsPagingAdapter(
                     absoluteTimeFormatter
                 )
             }
-//            NotificationViewKind.FOLLOW -> {
-//                FollowViewHolder(ItemFollowBinding.inflate(inflater, parent, false))
-//            } NotificationViewKind.FOLLOW_REQUEST -> {
-//                FollowRequestViewHolder(ItemFollowRequestBinding.inflate(inflater, parent, false))
-//            }
+            NotificationViewKind.FOLLOW -> {
+                FollowViewHolder(
+                    ItemFollowBinding.inflate(inflater, parent, false),
+                    notificationActionListener,
+                    statusDisplayOptions
+                )
+            }
+            NotificationViewKind.FOLLOW_REQUEST -> {
+                FollowRequestViewHolder(
+                    ItemFollowRequestBinding.inflate(inflater, parent, false),
+                    accountActionListener,
+                    animateAvatar = statusDisplayOptions.animateAvatars,
+                    animateEmojis = statusDisplayOptions.animateEmojis,
+                    showHeader = false
+                )
+            }
 //            NotificationViewKind.REPORT -> {
 //                ReportViewHolder(ItemReportNotificationBinding.inflate(inflater, parent, false))
 //            }

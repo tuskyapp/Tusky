@@ -182,6 +182,7 @@ class NotificationsFragment :
             accountId = accountManager.activeAccount!!.accountId,
             statusActionListener = this,
             notificationActionListener = this,
+            accountActionListener = this,
             statusDisplayOptions = viewModel.statusDisplayOptions
         )
 
