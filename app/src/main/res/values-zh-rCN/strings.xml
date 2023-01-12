@@ -61,7 +61,7 @@
     <string name="action_more">更多</string>
     <string name="action_compose">发表嘟文</string>
     <string name="action_login">登录 Mastodon 帐号</string>
-    <string name="action_logout">退出登录</string>
+    <string name="action_logout">注销</string>
     <string name="action_logout_confirm">确定要退出帐号 %1$s 吗？</string>
     <string name="action_follow">关注</string>
     <string name="action_unfollow">取消关注</string>
@@ -594,4 +594,14 @@
     <string name="action_discard">放弃更改</string>
     <string name="action_continue_edit">继续编辑</string>
     <string name="compose_unsaved_changes">你有未保存的更改。</string>
+    <string name="status_created_info">%1$s 创建了 %2$s</string>
+    <string name="mute_notifications_switch">将通知静音</string>
+    <string name="title_edits">编辑</string>
+    <string name="status_edit_info">%1$s 编辑了 %2$s</string>
+    <string name="a11y_label_loading_thread">加载帖子</string>
+    <string name="action_share_account_link">分享账户链接</string>
+    <string name="action_share_account_username">分享账户用户名</string>
+    <string name="send_account_link_to">分享账户链接到…</string>
+    <string name="send_account_username_to">分享账户用户名到…</string>
+    <string name="account_username_copied">已复制用户名</string>
 </resources>
