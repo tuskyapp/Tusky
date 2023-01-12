@@ -450,8 +450,8 @@ class NotificationsFragment :
     }
 
     override fun onMore(view: View, position: Int) {
-        val (_, _, _, status) = notifications[position].asRight()
-        super.more(status!!, view, position)
+        val status = adapter.peek(position)?.statusViewData?.status ?: return
+        super.more(status, view, position)
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
