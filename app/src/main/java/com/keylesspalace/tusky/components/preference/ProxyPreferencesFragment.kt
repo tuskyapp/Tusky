@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
-import androidx.annotation.Keep
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -27,7 +26,6 @@ import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.settings.validatedEditTextPreference
 import kotlin.system.exitProcess
 
-@Keep // Accessed by name in PreferencesFragment
 class ProxyPreferencesFragment : PreferenceFragmentCompat() {
     private var pendingRestart = false
 
