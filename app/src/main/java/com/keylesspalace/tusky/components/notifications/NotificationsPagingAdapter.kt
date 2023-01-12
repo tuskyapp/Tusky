@@ -12,7 +12,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 /** How to present the notification in the UI */
 enum class NotificationViewKind {
@@ -63,18 +63,18 @@ interface NotificationActionListener {
 }
 
 class NotificationsPagingAdapter(
-    diffCallback: DiffUtil.ItemCallback<Notification>,
+    diffCallback: DiffUtil.ItemCallback<NotificationViewData.Concrete>,
     private val statusActionListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
     private val statusDisplayOptions: StatusDisplayOptions
-) : PagingDataAdapter<Notification, RecyclerView.ViewHolder>(diffCallback) {
+) : PagingDataAdapter<NotificationViewData.Concrete, RecyclerView.ViewHolder>(diffCallback) {
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
     /** View holders in this adapter must implement this interface */
     interface ViewHolder {
         /** Bind the data from notification and payloads to the view */
-        fun bind(notification: Notification, payloads: List<*>?)
+        fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -140,8 +140,8 @@ class NotificationsPagingAdapter(
     private class FallbackNotificationViewHolder(
         val binding: SimpleListItem1Binding
     ) : ViewHolder, RecyclerView.ViewHolder(binding.root) {
-        override fun bind(notification: Notification, payloads: List<*>?) {
-            binding.text1.text = notification.status?.content?.parseAsMastodonHtml()
+        override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+            binding.text1.text = viewData.statusViewData?.content
         }
     }
 }

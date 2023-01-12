@@ -70,7 +70,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
@@ -78,7 +77,6 @@ import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.findByRelationType
 import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.parse
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PairedList
-import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.isEmpty
 import com.keylesspalace.tusky.util.isLessThan
@@ -179,26 +177,11 @@ class NotificationsFragment :
 
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        val statusDisplayOptions = StatusDisplayOptions(
-            preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            accountManager.activeAccount!!.mediaPreviewEnabled,
-            preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
-            preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
-            preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            CardViewMode.NONE,
-            preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
-            preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
-            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
-            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
-        )
-
         adapter = NotificationsPagingAdapter(
             notificationDiffCallback,
             statusActionListener = this,
             notificationActionListener = this,
-            statusDisplayOptions = statusDisplayOptions
+            statusDisplayOptions = viewModel.statusDisplayOptions
         )
 
 //        adapter = NotificationsAdapter(
@@ -1229,23 +1212,26 @@ class NotificationsFragment :
                 }
             }
 
-        private val notificationDiffCallback: DiffUtil.ItemCallback<Notification> =
-            object : DiffUtil.ItemCallback<Notification>() {
+        private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData.Concrete> =
+            object : DiffUtil.ItemCallback<NotificationViewData.Concrete>() {
                 override fun areItemsTheSame(
-                    oldItem: Notification,
-                    newItem: Notification
+                    oldItem: NotificationViewData.Concrete,
+                    newItem: NotificationViewData.Concrete
                 ): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: Notification,
-                    newItem: Notification
+                    oldItem: NotificationViewData.Concrete,
+                    newItem: NotificationViewData.Concrete
                 ): Boolean {
                     return false
                 }
 
-                override fun getChangePayload(oldItem: Notification, newItem: Notification): Any? {
+                override fun getChangePayload(
+                    oldItem: NotificationViewData.Concrete,
+                    newItem: NotificationViewData.Concrete
+                ): Any? {
                     // TODO: Implement deepEquals for Notification
                     return if (oldItem == newItem) {
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)

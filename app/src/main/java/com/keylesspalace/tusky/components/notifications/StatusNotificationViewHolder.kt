@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -64,14 +63,8 @@ internal class StatusNotificationViewHolder(
         R.dimen.avatar_radius_24dp
     )
 
-    override fun bind(notification: Notification, payloads: List<*>?) {
-        val notificationViewData = notification.toViewData(
-            isShowingContent = statusDisplayOptions.showSensitiveMedia ||
-                !(notification.status?.actionableStatus?.sensitive ?: false),
-            isExpanded = statusDisplayOptions.openSpoiler,
-            isCollapsed = true
-        )
-        val statusViewData = notificationViewData.statusViewData
+    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+        val statusViewData = viewData.statusViewData
         if (payloads.isNullOrEmpty()) {
             // Hide null statuses. Shouldn't happen according to the spec, but some servers
             // have been seen to do this (https://github.com/tuskyapp/Tusky/issues/2252)
@@ -83,14 +76,14 @@ internal class StatusNotificationViewHolder(
                 setDisplayName(account.displayName, account.emojis)
                 setUsername(account.username)
                 setCreatedAt(createdAt)
-                if (notificationViewData.type == Notification.Type.STATUS ||
-                    notificationViewData.type == Notification.Type.UPDATE
+                if (viewData.type == Notification.Type.STATUS ||
+                    viewData.type == Notification.Type.UPDATE
                 ) {
                     setAvatar(account.avatar, account.bot)
                 } else {
                     setAvatars(
                         account.avatar,
-                        notificationViewData.account.avatar
+                        viewData.account.avatar
                     )
                 }
 
@@ -101,10 +94,10 @@ internal class StatusNotificationViewHolder(
                     notificationActionListener.onViewThreadForStatus(statusViewData.status)
                 }
                 binding.notificationTopText.setOnClickListener {
-                    notificationActionListener.onViewAccount(notificationViewData.account.id)
+                    notificationActionListener.onViewAccount(viewData.account.id)
                 }
             }
-            setMessage(notificationViewData, statusActionListener)
+            setMessage(viewData, statusActionListener)
         } else {
             for (item in payloads) {
                 if (StatusBaseViewHolder.Key.KEY_CREATED == item && statusViewData != null) {
