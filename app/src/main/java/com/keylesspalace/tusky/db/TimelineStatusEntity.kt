@@ -100,11 +100,11 @@ data class TimelineAccountEntity(
     val bot: Boolean
 )
 
-class TimelineStatusWithAccount {
+data class TimelineStatusWithAccount(
     @Embedded
-    lateinit var status: TimelineStatusEntity
+    val status: TimelineStatusEntity,
     @Embedded(prefix = "a_")
-    lateinit var account: TimelineAccountEntity
+    val account: TimelineAccountEntity? = null, // null when placeholder
     @Embedded(prefix = "rb_")
-    var reblogAccount: TimelineAccountEntity? = null
-}
+    var reblogAccount: TimelineAccountEntity? = null // null when no reblog
+)

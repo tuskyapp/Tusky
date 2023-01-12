@@ -150,7 +150,7 @@ fun Status.toEntity(
 }
 
 fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
-    if (this.status.authorServerId == null) {
+    if (this.account == null) {
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
 
