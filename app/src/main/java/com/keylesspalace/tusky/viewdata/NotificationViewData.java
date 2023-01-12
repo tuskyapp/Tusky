@@ -42,6 +42,7 @@ public abstract class NotificationViewData {
 
     public abstract boolean deepEquals(NotificationViewData other);
 
+    // TODO: As part of final cleanup, lift the Concrete subclass up and remove Placeholder
     public static final class Concrete extends NotificationViewData {
         private final Notification.Type type;
         private final String id;
