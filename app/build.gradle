@@ -88,9 +88,6 @@ android {
             enableSplit = false
         }
     }
-    kotlinOptions {
-        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-    }
     dependenciesInfo {
         includeInApk false
         includeInBundle false
