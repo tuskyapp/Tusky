@@ -95,7 +95,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.Locale
-import java.util.Objects
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -354,29 +353,22 @@ class NotificationsFragment :
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val (_, _, _, status) = notifications[position].asRight()
-        Objects.requireNonNull(status, "Reblog on notification without status")
-        timelineCases.reblog(status!!.id, reblog)
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(
-                {
-                    setReblogForStatus(
-                        status.id,
-                        reblog
-                    )
-                }
-            ) { t: Throwable? ->
-                Log.d(
-                    javaClass.simpleName,
-                    "Failed to reblog status: " + status.id,
-                    t
-                )
-            }
+        val statusViewData = adapter.peek(position)?.statusViewData ?: return
+        viewModel.reblog(reblog, statusViewData)
     }
 
-    private fun setReblogForStatus(statusId: String, reblog: Boolean) {
-        updateStatus(statusId) { s: Status? -> s!!.copyWithReblogged(reblog) }
+    private fun setReblogForStatus(statusId: String, reblogged: Boolean) {
+        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
+            notificationViewData.value?.statusViewData?.status?.id == statusId
+        } ?: return
+
+        val statusViewData = indexedViewData.value?.statusViewData ?: return
+
+        indexedViewData.value?.statusViewData = statusViewData.copy(
+            status = statusViewData.status.copy(reblogged = reblogged)
+        )
+
+        adapter.notifyItemChanged(indexedViewData.index)
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {

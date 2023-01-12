@@ -39,7 +39,7 @@ abstract class NotificationViewData {
         val type: Notification.Type,
         val id: String,
         val account: TimelineAccount,
-        val statusViewData: StatusViewData.Concrete?,
+        var statusViewData: StatusViewData.Concrete?,
         val report: Report?
     ) : NotificationViewData() {
         override val viewDataId: Long get() = id.hashCode().toLong()
