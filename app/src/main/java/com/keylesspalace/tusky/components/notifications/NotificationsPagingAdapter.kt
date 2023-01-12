@@ -6,8 +6,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
+import com.keylesspalace.tusky.adapter.ReportNotificationViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
+import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.SimpleListItem1Binding
@@ -127,9 +129,13 @@ class NotificationsPagingAdapter(
                     showHeader = false
                 )
             }
-//            NotificationViewKind.REPORT -> {
-//                ReportViewHolder(ItemReportNotificationBinding.inflate(inflater, parent, false))
-//            }
+            NotificationViewKind.REPORT -> {
+                ReportNotificationViewHolder(
+                    ItemReportNotificationBinding.inflate(inflater, parent, false),
+                    notificationActionListener,
+                    statusDisplayOptions
+                )
+            }
             else -> {
                 FallbackNotificationViewHolder(
                     SimpleListItem1Binding.inflate(inflater, parent, false)

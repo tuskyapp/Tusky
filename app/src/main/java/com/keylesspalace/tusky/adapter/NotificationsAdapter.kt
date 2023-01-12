@@ -20,7 +20,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
@@ -50,14 +49,6 @@ class NotificationsAdapter(
                 val view = inflater
                     .inflate(R.layout.item_status_placeholder, parent, false)
                 PlaceholderViewHolder(view)
-            }
-            VIEW_TYPE_REPORT -> {
-                val binding = ItemReportNotificationBinding.inflate(
-                    inflater,
-                    parent,
-                    false
-                )
-                ReportNotificationViewHolder(binding)
             }
             VIEW_TYPE_UNKNOWN -> {
                 val view = View(parent.context)
@@ -95,38 +86,6 @@ class NotificationsAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val payloadForHolder = payloads?.firstOrNull()
-        if (position < dataSource.itemCount) {
-            val notification = dataSource.getItemAt(position)
-            if (notification is NotificationViewData.Placeholder) {
-                if (payloadForHolder == null) {
-                    val holder = viewHolder as PlaceholderViewHolder
-                    holder.setup(statusListener, notification.isLoading)
-                }
-                return
-            }
-            val concreteNotification = notification as NotificationViewData.Concrete
-            when (viewHolder.itemViewType) {
-                VIEW_TYPE_REPORT -> {
-                    if (payloadForHolder == null) {
-                        val holder = viewHolder as ReportNotificationViewHolder
-                        holder.setupWithReport(
-                            concreteNotification.account,
-                            concreteNotification.report!!,
-                            statusDisplayOptions.animateAvatars,
-                            statusDisplayOptions.animateEmojis
-                        )
-                        holder.setupActionListener(
-                            notificationActionListener,
-                            concreteNotification.report!!.targetAccount.id,
-                            concreteNotification.account.id,
-                            concreteNotification.report!!.id
-                        )
-                    }
-                }
-                else -> {}
-            }
-        }
     }
 
     override fun getItemCount(): Int {
