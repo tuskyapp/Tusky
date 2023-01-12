@@ -349,7 +349,8 @@ class NotificationsFragment :
     }
 
     override fun onReply(position: Int) {
-        super.reply(notifications[position].asRight().status!!)
+        val status = adapter.peek(position)?.statusViewData?.status ?: return
+        super.reply(status)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
