@@ -145,7 +145,7 @@
     <string name="pref_title_notification_filter_reblogs">mae fy mhyst yn cael eu hybu</string>
     <string name="pref_title_notification_filter_favourites">mae fy mhyst yn cael eu ffefrynnu</string>
     <string name="pref_title_appearance_settings">Gwedd</string>
-    <string name="pref_title_app_theme">Thema ap</string>
+    <string name="pref_title_app_theme">Thema\'r ap</string>
     <string name="app_them_dark">Tywyll</string>
     <string name="app_theme_light">Golau</string>
     <string name="app_theme_black">Du</string>
@@ -280,7 +280,7 @@
     <string name="action_unreblog">Dileu hwb</string>
     <string name="action_unfavourite">Dileu ffefryn</string>
     <string name="action_delete_and_redraft">Dileu ac ailddrafftio</string>
-    <string name="action_view_account_preferences">Dewisiadau cyfrif</string>
+    <string name="action_view_account_preferences">Dewisiadau\'ch cyfrif</string>
     <string name="action_view_domain_mutes">Parthau cudd</string>
     <string name="action_mute_domain">Tewi %s</string>
     <string name="action_add_tab">Ychwanegu tab</string>
