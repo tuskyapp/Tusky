@@ -462,8 +462,7 @@ class NotificationsFragment :
     }
 
     override fun onViewThread(position: Int) {
-        val (_, _, _, status1) = notifications[position].asRight()
-        val status = status1 ?: return
+        val status = adapter.peek(position)?.statusViewData?.status ?: return
         super.viewThread(status.actionableId, status.actionableStatus.url)
     }
 
