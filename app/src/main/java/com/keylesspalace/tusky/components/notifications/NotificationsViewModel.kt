@@ -9,6 +9,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
@@ -48,6 +50,8 @@ class NotificationsViewModel @Inject constructor(
     private val accountManager: AccountManager,
     private val timelineCases: TimelineCases
 ) : ViewModel() {
+    @Inject
+    lateinit var eventHub: EventHub
 
     private val _uiState = MutableStateFlow(NotificationsUiState(foo = 1))
     val uiState: StateFlow<NotificationsUiState> = _uiState.asStateFlow()
@@ -132,6 +136,39 @@ class NotificationsViewModel @Inject constructor(
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to bookmark status " + statusViewData.actionableId, t)
+            }
+        }
+    }
+
+    // TODO: Copied from TimelineViewModel
+    fun voteInPoll(choices: List<Int>, statusViewData: StatusViewData.Concrete): Job = viewModelScope.launch {
+        val poll = statusViewData.status.actionableStatus.poll ?: run {
+            Log.w(TAG, "No poll on status ${statusViewData.id}")
+            return@launch
+        }
+
+        // TODO: This is the same functionality as the code in TimelineViewModel; the user is
+        // shown their voting choice as successful before the API call returns. But this is
+        // inconsistent with favourite, bookmark, etc. There the UI is only updated after a
+        // successful call.
+        //
+        // Suspect that button debouncing, or a third state (waiting-on-network) is needed here.
+        // Something like: If the user clicks to vote, or bookmark, etc, the request is sent and
+        // a coroutine starts and sleeps N ms. Then it changes the button to a progress spinner.
+        // When the request completes it cancels the coroutine. In the common case the button
+        // still changes effectively immediately, and in the uncommon case the user gets feedback
+        // that it failed.
+        //
+        // Also, if it failed, maybe show a badge (red exclamation mark?) on the button to
+        // make it clear that something went wrong.
+        val votedPoll = poll.votedCopy(choices)
+        eventHub.dispatch(PollVoteEvent(statusViewData.id, votedPoll))
+
+        try {
+            timelineCases.voteInPoll(statusViewData.actionableId, poll.id, choices).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to vote in poll: " + statusViewData.actionableId, t)
             }
         }
     }

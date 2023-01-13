@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
+import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
@@ -329,6 +330,7 @@ class NotificationsFragment :
                     is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
                     is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
                     is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
+                    is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
                     is PinEvent -> setPinForStatus(event.statusId, event.pinned)
                     is BlockEvent -> removeAllByAccountId(event.accountId)
                     is PreferenceChangedEvent -> onPreferenceChanged(event.preferenceKey)
@@ -410,24 +412,22 @@ class NotificationsFragment :
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val (_, _, _, status1) = notifications[position].asRight()
-        val status = status1!!.actionableStatus
-        timelineCases.voteInPoll(status.id, status.poll!!.id, choices)
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(
-                { newPoll: Poll -> setVoteForPoll(status, newPoll) }
-            ) { t: Throwable? ->
-                Log.d(
-                    TAG,
-                    "Failed to vote in poll: " + status.id,
-                    t
-                )
-            }
+        val statusViewData = adapter.peek(position)?.statusViewData ?: return
+        viewModel.voteInPoll(choices, statusViewData)
     }
 
-    private fun setVoteForPoll(status: Status, poll: Poll) {
-        updateStatus(status.id) { s: Status? -> s!!.copyWithPoll(poll) }
+    private fun setVoteForPoll(statusId: String, poll: Poll) {
+        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
+            notificationViewData.value?.statusViewData?.status?.id == statusId
+        } ?: return
+
+        val statusViewData = indexedViewData.value?.statusViewData ?: return
+
+        indexedViewData.value?.statusViewData = statusViewData.copy(
+            status = statusViewData.status.copy(poll = poll)
+        )
+
+        adapter.notifyItemChanged(indexedViewData.index)
     }
 
     override fun onMore(view: View, position: Int) {
