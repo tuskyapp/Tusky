@@ -291,6 +291,9 @@
     <string name="pref_title_http_proxy_server">HTTP proxy server</string>
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
     <string name="pref_title_http_proxy_port_message">Port should be between %d and %d</string>
+    <string name="pref_summary_http_proxy_disabled">Disabled</string>
+    <string name="pref_summary_http_proxy_missing">&lt;not set></string>
+    <string name="pref_summary_http_proxy_invalid">&lt;invalid></string>
 
     <string name="pref_default_post_privacy">Default post privacy</string>
     <string name="pref_default_post_language">Default posting language</string>
