@@ -451,15 +451,19 @@ class NotificationsFragment :
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        updateViewDataAt(position) { vd: StatusViewData.Concrete -> vd.copyWithExpanded(expanded) }
+        val notificationViewData = adapter.snapshot()[position] ?: return
+        notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(
+            isExpanded = expanded
+        )
+        adapter.notifyItemChanged(position)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        updateViewDataAt(position) { vd: StatusViewData.Concrete ->
-            vd.copyWithShowingContent(
-                isShowing
-            )
-        }
+        val notificationViewData = adapter.snapshot()[position] ?: return
+        notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(
+            isShowingContent = isShowing
+        )
+        adapter.notifyItemChanged(position)
     }
 
     private fun setPinForStatus(statusId: String, pinned: Boolean) {

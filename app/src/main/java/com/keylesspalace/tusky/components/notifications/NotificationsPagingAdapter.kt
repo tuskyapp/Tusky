@@ -57,6 +57,15 @@ interface NotificationActionListener {
     fun onViewAccount(id: String)
     fun onViewThreadForStatus(status: Status)
     fun onViewReport(reportId: String)
+
+    /**
+     * Called when the status has a content warning and the visibility of the content behind
+     * the warning is being changed.
+     *
+     * @param expanded the desired state of the content behind the content warning
+     * @param position the adapter position of the view
+     *
+     */
     fun onExpandedChange(expanded: Boolean, position: Int)
 
     /**
