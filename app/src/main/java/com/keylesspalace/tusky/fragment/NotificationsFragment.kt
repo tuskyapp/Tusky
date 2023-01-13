@@ -499,40 +499,6 @@ class NotificationsFragment :
         adapter.notifyItemChanged(position)
     }
 
-    private fun updateStatus(statusId: String, mapper: Function<Status?, Status>) {
-        val index = notifications.indexOfFirst { s: Either<Placeholder?, Notification> ->
-            s.asRightOrNull()?.status?.id == statusId
-        }
-        if (index == -1) return
-
-        // We have quite some graph here:
-        //
-        //      Notification --------> Status
-        //                                ^
-        //                                |
-        //                             StatusViewData
-        //                                ^
-        //                                |
-        //      NotificationViewData -----+
-        //
-        // So if we have "new" status we need to update all references to be sure that data is
-        // up-to-date:
-        // 1. update status
-        // 2. update notification
-        // 3. update statusViewData
-        // 4. update notificationViewData
-        val oldStatus = notifications[index].asRight().status
-        val oldViewData = notifications.getPairedItem(index) as NotificationViewData.Concrete
-        val newStatus = mapper.apply(oldStatus)
-        val newNotification = notifications[index].asRight()
-            .copyWithStatus(newStatus)
-        val newStatusViewData = oldViewData.statusViewData!!.copyWithStatus(newStatus)
-        val newViewData = oldViewData.copyWithStatus(newStatusViewData)
-        notifications[index] = Right(newNotification)
-        notifications.setPairedItem(index, newViewData)
-        updateAdapter()
-    }
-
     private fun updateViewDataAt(
         position: Int,
         mapper: Function<StatusViewData.Concrete, StatusViewData.Concrete>
