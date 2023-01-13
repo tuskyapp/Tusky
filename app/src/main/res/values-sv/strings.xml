@@ -21,7 +21,7 @@
     <string name="title_notifications">Aviseringar</string>
     <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
-    <string name="title_direct_messages">Direkta meddelanden</string>
+    <string name="title_direct_messages">Direktmeddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
     <string name="title_view_thread">Tråd</string>
     <string name="title_posts">Inlägg</string>
@@ -48,7 +48,7 @@
     <string name="message_empty">Ingenting här.</string>
     <string name="footer_empty">Inget här. Dra ner för att uppdatera!</string>
     <string name="notification_reblog_format">%s puffade ditt inlägg</string>
-    <string name="notification_favourite_format">%s favoriserade ditt inlägg</string>
+    <string name="notification_favourite_format">%s favoritmarkerade ditt inlägg</string>
     <string name="notification_follow_format">%s följer dig</string>
     <string name="report_username_format">Rapportera @%s</string>
     <string name="report_comment_hint">Ytterligare kommentarer?</string>
@@ -166,9 +166,9 @@
     <string name="pref_title_notification_filter_mentions">omnämnd</string>
     <string name="pref_title_notification_filter_follows">nya följare</string>
     <string name="pref_title_notification_filter_reblogs">mina inlägg är knuffade</string>
-    <string name="pref_title_notification_filter_favourites">mina inlägg är favoriserade</string>
+    <string name="pref_title_notification_filter_favourites">mina inlägg är favoritmarkerade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
-    <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filter</string>
     <string name="app_them_dark">Mörkt</string>
@@ -337,7 +337,7 @@
         <item quantity="other"><b>%s</b> Knuffar</item>
     </plurals>
     <string name="title_reblogged_by">Knuffad av</string>
-    <string name="title_favourited_by">Favoriserad av</string>
+    <string name="title_favourited_by">Favoritmarkerad av</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s och %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
@@ -351,8 +351,7 @@
     </string>
     <string name="description_post_reblogged">        Knuffad
     </string>
-    <string name="description_post_favourited">        Favoriserad
-    </string>
+    <string name="description_post_favourited">Favoritmarkerat</string>
     <string name="description_visibility_public">        Publik
     </string>
     <string name="description_visibility_unlisted">        Olistad
@@ -483,8 +482,6 @@
     <string name="action_unmute_desc">Ta bort tystad %s</string>
     <string name="pref_title_hide_top_toolbar">Dölj titeln i övre verktygsfältet</string>
     <string name="dialog_mute_hide_notifications">Dölj aviseringar</string>
-    <string name="action_mute_notifications_desc">Tysta aviseringar från %s</string>
-    <string name="action_unmute_notifications_desc">Aktivera aviseringar från %s</string>
     <string name="account_note_saved">Sparat!</string>
     <string name="account_note_hint">Din privata notering om detta kontot</string>
     <string name="no_announcements">Det finns inga meddelanden.</string>
@@ -600,4 +597,21 @@
     <string name="post_edited">Redigerade %s</string>
     <string name="error_muting_hashtag_format">Kunde inte tysta #%s, fel uppstod</string>
     <string name="error_unmuting_hashtag_format">Kunde inte avtysta #%s, fel uppstod</string>
+    <string name="hint_media_description_missing">Media bör ha en beskrivning.</string>
+    <string name="pref_title_http_proxy_port_message">Portnummer bör vara mellan %d och %d</string>
+    <string name="error_status_source_load">Kunde inte ladda status från servern.</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="a11y_label_loading_thread">Laddar tråd</string>
+    <string name="mute_notifications_switch">Tysta notiser</string>
+    <string name="title_edits">Redigeringar</string>
+    <string name="status_edit_info">%1$s redigerade %2$s</string>
+    <string name="action_share_account_link">Dela länk med konto</string>
+    <string name="action_share_account_username">Dela användarnamn för konto</string>
+    <string name="send_account_link_to">Dela konto-URL med…</string>
+    <string name="send_account_username_to">Dela kontots användarnamn med…</string>
+    <string name="account_username_copied">Kopierade användarnamn</string>
+    <string name="status_created_info">%1$s skapade %2$s</string>
+    <string name="action_discard">Förkasta ändringar</string>
+    <string name="action_continue_edit">Fortsätt redigera</string>
+    <string name="compose_unsaved_changes">Du har ändringar som inte sparats.</string>
 </resources>

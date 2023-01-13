@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Single
@@ -194,6 +195,11 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): NetworkResult<StatusContext>
 
+    @GET("api/v1/statuses/{id}/history")
+    suspend fun statusEdits(
+        @Path("id") statusId: String
+    ): NetworkResult<List<StatusEdit>>
+
     @GET("api/v1/statuses/{id}/reblogged_by")
     suspend fun statusRebloggedBy(
         @Path("id") statusId: String,
@@ -207,9 +213,9 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    fun deleteStatus(
+    suspend fun deleteStatus(
         @Path("id") statusId: String
-    ): Single<DeletedStatus>
+    ): NetworkResult<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
     fun reblogStatus(
@@ -359,39 +365,39 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/follow")
-    fun followAccount(
+    suspend fun followAccount(
         @Path("id") accountId: String,
         @Field("reblogs") showReblogs: Boolean? = null,
         @Field("notify") notify: Boolean? = null
-    ): Single<Relationship>
+    ): Relationship
 
     @POST("api/v1/accounts/{id}/unfollow")
-    fun unfollowAccount(
+    suspend fun unfollowAccount(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): Relationship
 
     @POST("api/v1/accounts/{id}/block")
-    fun blockAccount(
+    suspend fun blockAccount(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): Relationship
 
     @POST("api/v1/accounts/{id}/unblock")
-    fun unblockAccount(
+    suspend fun unblockAccount(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): Relationship
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/mute")
-    fun muteAccount(
+    suspend fun muteAccount(
         @Path("id") accountId: String,
         @Field("notifications") notifications: Boolean? = null,
         @Field("duration") duration: Int? = null
-    ): Single<Relationship>
+    ): Relationship
 
     @POST("api/v1/accounts/{id}/unmute")
-    fun unmuteAccount(
+    suspend fun unmuteAccount(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): Relationship
 
     @GET("api/v1/accounts/relationships")
     fun relationships(
@@ -399,14 +405,14 @@ interface MastodonApi {
     ): Single<List<Relationship>>
 
     @POST("api/v1/pleroma/accounts/{id}/subscribe")
-    fun subscribeAccount(
+    suspend fun subscribeAccount(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): Relationship
 
     @POST("api/v1/pleroma/accounts/{id}/unsubscribe")
-    fun unsubscribeAccount(
+    suspend fun unsubscribeAccount(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): Relationship
 
     @GET("api/v1/blocks")
     suspend fun blocks(

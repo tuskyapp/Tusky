@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -41,6 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -70,7 +73,6 @@ import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
@@ -172,9 +174,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = ThemeUtils.getColor(this, R.attr.colorSurface)
+        toolbarColor = MaterialColors.getColor(this, R.attr.colorSurface, Color.BLACK)
         statusBarColorTransparent = getColor(R.color.transparent_statusbar_background)
-        statusBarColorOpaque = ThemeUtils.getColor(this, R.attr.colorPrimaryDark)
+        statusBarColorOpaque = MaterialColors.getColor(this, R.attr.colorPrimaryDark, Color.BLACK)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }
@@ -318,7 +320,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     supportActionBar?.setDisplayShowTitleEnabled(false)
                 }
 
-                if (hideFab && !viewModel.isSelf && !blocking) {
+                if (hideFab && !blocking) {
                     if (verticalOffset > oldOffset) {
                         binding.accountFloatingActionButton.show()
                     }
@@ -406,6 +408,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val usernameFormatted = getString(R.string.post_username_format, account.username)
         binding.accountUsernameTextView.text = usernameFormatted
         binding.accountDisplayNameTextView.text = account.name.emojify(account.emojis, binding.accountDisplayNameTextView, animateEmojis)
+
+        // Long press on username to copy it to clipboard
+        for (view in listOf(binding.accountUsernameTextView, binding.accountDisplayNameTextView)) {
+            view.setOnLongClickListener {
+                loadedAccount?.let { loadedAccount ->
+                    val fullUsername = getFullUsername(loadedAccount)
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
+                    Snackbar.make(binding.root, getString(R.string.account_username_copied), Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                true
+            }
+        }
 
         val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
@@ -665,7 +681,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             binding.accountFollowButton.show()
             updateFollowButton()
 
-            if (blocking || viewModel.isSelf) {
+            if (blocking) {
                 binding.accountFloatingActionButton.hide()
                 binding.accountMuteButton.hide()
                 binding.accountSubscribeButton.hide()
@@ -712,9 +728,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 getString(R.string.action_mute)
             }
 
-            if (loadedAccount != null) {
+            loadedAccount?.let { loadedAccount ->
                 val muteDomain = menu.findItem(R.id.action_mute_domain)
-                domain = getDomain(loadedAccount?.url)
+                domain = getDomain(loadedAccount.url)
                 if (domain.isEmpty()) {
                     // If we can't get the domain, there's no way we can mute it anyway...
                     menu.removeItem(R.id.action_mute_domain)
@@ -810,10 +826,15 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun mention() {
         loadedAccount?.let {
-            val intent = ComposeActivity.startIntent(
-                this,
-                ComposeActivity.ComposeOptions(mentionedUsernames = setOf(it.username))
-            )
+            val options = if (viewModel.isSelf) {
+                ComposeActivity.ComposeOptions(kind = ComposeActivity.ComposeKind.NEW)
+            } else {
+                ComposeActivity.ComposeOptions(
+                    mentionedUsernames = setOf(it.username),
+                    kind = ComposeActivity.ComposeKind.NEW
+                )
+            }
+            val intent = ComposeActivity.startIntent(this, options)
             startActivity(intent)
         }
     }
@@ -837,22 +858,46 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
-                if (loadedAccount?.url != null) {
-                    openLink(loadedAccount!!.url)
+                loadedAccount?.let { loadedAccount ->
+                    openLink(loadedAccount.url)
                 }
                 return true
             }
             R.id.action_open_as -> {
-                if (loadedAccount != null) {
+                loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
                         item.title, false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
-                                openAsAccount(loadedAccount!!.url, account)
+                                openAsAccount(loadedAccount.url, account)
                             }
                         }
                     )
                 }
+            }
+            R.id.action_share_account_link -> {
+                // If the account isn't loaded yet, eat the input.
+                loadedAccount?.let { loadedAccount ->
+                    val url = loadedAccount.url
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, url)
+                    sendIntent.type = "text/plain"
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_link_to)))
+                }
+                return true
+            }
+            R.id.action_share_account_username -> {
+                // If the account isn't loaded yet, eat the input.
+                loadedAccount?.let { loadedAccount ->
+                    val fullUsername = getFullUsername(loadedAccount)
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, fullUsername)
+                    sendIntent.type = "text/plain"
+                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_username_to)))
+                }
+                return true
             }
             R.id.action_block -> {
                 toggleBlock()
@@ -875,8 +920,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
             R.id.action_report -> {
-                if (loadedAccount != null) {
-                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount!!.username))
+                loadedAccount?.let { loadedAccount ->
+                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount.username))
                 }
                 return true
             }
@@ -885,9 +930,20 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     override fun getActionButton(): FloatingActionButton? {
-        return if (!viewModel.isSelf && !blocking) {
+        return if (!blocking) {
             binding.accountFloatingActionButton
         } else null
+    }
+
+    private fun getFullUsername(account: Account): String {
+        if (account.isRemote()) {
+            return "@" + account.username
+        } else {
+            val localUsername = account.localUsername
+            // Note: !! here will crash if this pane is ever shown to a logged-out user. With AccountActivity this is believed to be impossible.
+            val domain = accountManager.activeAccount!!.domain
+            return "@$localUsername@$domain"
+        }
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

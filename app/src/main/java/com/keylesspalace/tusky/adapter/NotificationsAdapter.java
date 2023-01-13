@@ -253,7 +253,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                 case VIEW_TYPE_FOLLOW_REQUEST: {
                     if (payloadForHolder == null) {
                         FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
-                        holder.setupWithAccount(concreteNotification.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
+                        holder.setupWithAccount(concreteNotification.getAccount(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis(), statusDisplayOptions.showBotOverlay());
                         holder.setupActionListener(accountActionListener, concreteNotification.getAccount().getId());
                     }
                     break;
@@ -436,7 +436,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             statusNameBar = itemView.findViewById(R.id.status_name_bar);
             displayName = itemView.findViewById(R.id.status_display_name);
             username = itemView.findViewById(R.id.status_username);
-            timestampInfo = itemView.findViewById(R.id.status_timestamp_info);
+            timestampInfo = itemView.findViewById(R.id.status_meta_info);
             statusContent = itemView.findViewById(R.id.notification_content);
             statusAvatar = itemView.findViewById(R.id.notification_status_avatar);
             notificationAvatar = itemView.findViewById(R.id.notification_notification_avatar);

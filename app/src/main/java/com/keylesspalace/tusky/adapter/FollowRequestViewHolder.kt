@@ -34,7 +34,12 @@ class FollowRequestViewHolder(
     private val showHeader: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setupWithAccount(account: TimelineAccount, animateAvatar: Boolean, animateEmojis: Boolean) {
+    fun setupWithAccount(
+        account: TimelineAccount,
+        animateAvatar: Boolean,
+        animateEmojis: Boolean,
+        showBotOverlay: Boolean
+    ) {
         val wrappedName = account.name.unicodeWrap()
         val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView, animateEmojis)
         binding.displayNameTextView.text = emojifiedName

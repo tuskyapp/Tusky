@@ -204,7 +204,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timeline_filters) {
                 preference {
                     setTitle(R.string.pref_title_post_tabs)
-                    fragment = "com.keylesspalace.tusky.components.preference.TabFilterPreferencesFragment"
+                    fragment = TabFilterPreferencesFragment::class.qualifiedName
                 }
             }
 
@@ -250,7 +250,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_proxy_settings) {
                 preference {
                     setTitle(R.string.pref_title_http_proxy_settings)
-                    fragment = "com.keylesspalace.tusky.components.preference.ProxyPreferencesFragment"
+                    fragment = ProxyPreferencesFragment::class.qualifiedName
                     summaryProvider = ProxyPreferencesFragment.SummaryProvider
                 }
             }

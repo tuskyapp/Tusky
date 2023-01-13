@@ -36,7 +36,7 @@
     <string name="error_media_upload_sending">The upload failed.</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="error_media_upload_opening">That file could not be opened.</string>
-    <string name="title_direct_messages">Direct Messages</string>
+    <string name="title_direct_messages">Direct messages</string>
     <string name="title_followers">Followers</string>
     <string name="error_compose_character_limit">The post is too long!</string>
     <string name="error_generic">An error occurred.</string>

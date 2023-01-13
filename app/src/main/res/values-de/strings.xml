@@ -40,6 +40,7 @@
     <string name="post_boosted_format">%s teilte</string>
     <string name="post_sensitive_media_title">Heikle Inhalte</string>
     <string name="post_media_hidden_title">Medien versteckt</string>
+    <string name="post_media_alt">ALT</string>
     <string name="post_sensitive_media_directions">Zum Anzeigen tippen</string>
     <string name="post_content_warning_show_more">Zeige mehr</string>
     <string name="post_content_warning_show_less">Zeige weniger</string>
@@ -465,8 +466,6 @@
     </plurals>
     <string name="pref_main_nav_position">Hauptnavigations-Position</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
-    <string name="action_mute_notifications_desc">Benachrichtigungen stummschalten von %s</string>
-    <string name="action_unmute_notifications_desc">Benachrichtigungs-Ton einschalten von %s</string>
     <string name="action_unmute_desc">%s nicht mehr verstecken</string>
     <string name="abbreviated_seconds_ago">%d Sek.</string>
     <string name="abbreviated_hours_ago">%d St.</string>

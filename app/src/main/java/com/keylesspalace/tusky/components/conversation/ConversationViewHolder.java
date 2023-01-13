@@ -83,7 +83,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
             setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
             setUsername(account.getUsername());
-            setCreatedAt(status.getCreatedAt(), status.getEditedAt(), statusDisplayOptions);
+            setMetaData(statusViewData, statusDisplayOptions, listener);
             setIsReply(status.getInReplyToId() != null);
             setFavourited(status.getFavourited());
             setBookmarked(status.getBookmarked());
@@ -121,7 +121,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             if (payloads instanceof List) {
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setCreatedAt(status.getCreatedAt(), status.getEditedAt(), statusDisplayOptions);
+                        setMetaData(statusViewData, statusDisplayOptions, listener);
                     }
                 }
             }

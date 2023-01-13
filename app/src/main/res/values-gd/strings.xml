@@ -99,8 +99,6 @@
     <string name="account_note_hint">Nòta prìobhaideach agad mun chunntas seo</string>
     <string name="pref_title_hide_top_toolbar">Falaich tiotal a’ bhàir-inneal aig a’ bhàrr</string>
     <string name="dialog_mute_hide_notifications">Falaich na brathan</string>
-    <string name="action_mute_notifications_desc">Mùch na brathan o %s</string>
-    <string name="action_unmute_notifications_desc">Dì-mhùch na brathan o %s</string>
     <string name="pref_title_confirm_reblogs">Seall còmhradh dearbhaidh mus dèan thu brosnachadh</string>
     <string name="pref_title_show_cards_in_timelines">Seall ro-sheallaidhean air ceanglaichean sna loidhnichean-ama</string>
     <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar postaichean sgeidealaichte air Mastodon.</string>

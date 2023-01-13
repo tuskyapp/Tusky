@@ -321,6 +321,7 @@ class LinkHelperTest {
                     arrayOf("http://mastodon.foo.bar/@abc123", true),
                     arrayOf("https://mastodon.foo.bar/@user/345667890345678", true),
                     arrayOf("https://mastodon.foo.bar/@user/3", true),
+                    arrayOf("https://mastodon.foo.bar/users/User/statuses/43456787654678", true),
                     arrayOf("https://pleroma.foo.bar/users/meh3223", true),
                     arrayOf("https://pleroma.foo.bar/users/meh3223_bruh", true),
                     arrayOf("https://pleroma.foo.bar/users/2345", true),

@@ -278,7 +278,7 @@
         <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
     </plurals>
     <string name="description_post_media_no_description_placeholder">Nincs leírás</string>
-    <string name="description_visibility_public">Nyilvános    </string>
+    <string name="description_visibility_public">Nyilvános</string>
     <string name="description_visibility_private">Követők</string>
     <string name="action_unfavourite">Kedvenc eltávolítása</string>
     <string name="action_delete_and_redraft">Törlés és újrafogalmazás</string>
@@ -471,9 +471,7 @@
     <string name="action_unmute_conversation">Beszélgetés némításának feloldása</string>
     <string name="action_mute_conversation">Beszélgetés némítása</string>
     <string name="action_unmute_domain">%s némításának feloldása</string>
-    <string name="action_mute_notifications_desc">Értesítések némítása tőle %s</string>
     <string name="action_unmute_desc">%s némításának feloldása</string>
-    <string name="action_unmute_notifications_desc">Értesítések némításának feloldása tőle %s</string>
     <string name="notification_follow_request_format">%s kéri, hogy követhessen</string>
     <string name="pref_title_hide_top_toolbar">Felső eszköztár címének elrejtése</string>
     <string name="account_note_saved">Elmentve!</string>
@@ -567,4 +565,31 @@
     <string name="compose_save_draft_loses_media">Elmentsük a vázlatot\? (A mellékleteket újra feltöltjük, amikor a vázlatot visszaállítod.)</string>
     <string name="failed_to_pin">Nem sikerült Kitűzni</string>
     <string name="failed_to_unpin">Nem sikerült a Kitűzés Visszavonása</string>
+    <string name="action_add_or_remove_from_list">Hozzáadás vagy törlés a listáról</string>
+    <string name="no_lists">Nincs egy listád se.</string>
+    <string name="action_unfollow_hashtag_format">#%s követésének vége\?</string>
+    <string name="hint_media_description_missing">A médiához leírást is kell adni.</string>
+    <string name="pref_title_notification_filter_reports">van egy új bejelentés</string>
+    <string name="pref_default_post_language">Bejegyzések alapértelmezett nyelve</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="report_category_violation">Szabálysértés</string>
+    <string name="pref_title_http_proxy_port_message">A portnak %d és %d között kell lennie</string>
+    <string name="status_created_at_now">most</string>
+    <string name="description_post_edited">Szerkesztve</string>
+    <string name="error_following_hashtags_unsupported">Ez a kiszolgáló nem támogatja a hashtagek követését.</string>
+    <string name="error_muting_hashtag_format">Hiba #%s némításakor</string>
+    <string name="error_unmuting_hashtag_format">Hiba #%s némításának feloldása közben</string>
+    <string name="notification_report_format">Új bejelentés a %s-n</string>
+    <string name="notification_header_report_format">%s bejelentette %s-t</string>
+    <string name="notification_summary_report_format">%s · %d bejegyzés csatolva</string>
+    <string name="confirmation_hashtag_unfollowed">#%s kikövetve</string>
+    <string name="notification_report_name">Bejelentések</string>
+    <string name="notification_report_description">Értesítések moderációs bejelentésekről</string>
+    <string name="failed_to_add_to_list">Nem sikerült a fiókot a listához adni</string>
+    <string name="failed_to_remove_from_list">Nem sikerült a fiókot levenni a listáról</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Egyéb</string>
+    <string name="post_edited">%s szerkesztve</string>
+    <string name="error_status_source_load">Nem sikerült letölteni a kiszolgálóról az állapotforrást.</string>
+    <string name="title_followed_hashtags">Követett Hashtagek</string>
 </resources>

@@ -260,7 +260,7 @@
     <string name="compose_active_account_description">Berichten plaatsen als %1$s</string>
     <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one"></item>
+        <item quantity="one"/>
         <item quantity="other">Omschrijf dit voor mensen met een visuele beperking
 \n(tekenlimiet is %d)</item>
     </plurals>
@@ -365,7 +365,7 @@
     <string name="filter_apply">Toepassen</string>
     <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
-    <string name="pref_title_bot_overlay">Botsindicator tonen</string>
+    <string name="pref_title_bot_overlay">Toon indicator voor bots</string>
     <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -495,8 +495,6 @@
     <string name="action_unmute_conversation">Gesprek niet meer negeren</string>
     <string name="action_mute_conversation">Gesprek negeren</string>
     <string name="action_unmute_domain">%s niet meer negeren</string>
-    <string name="action_mute_notifications_desc">Meldingen van %s negeren</string>
-    <string name="action_unmute_notifications_desc">Meldingen van %s niet meer negeren</string>
     <string name="action_unmute_desc">%s niet meer negeren</string>
     <string name="notification_subscription_format">%s heeft zojuist een bericht geplaatst</string>
     <string name="notification_follow_request_format">%s verzoekt u te volgen</string>

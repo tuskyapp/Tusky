@@ -22,8 +22,9 @@ import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
+import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
-import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.setAppNightMode
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
@@ -72,8 +73,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
-        ThemeUtils.setAppNightMode(theme)
+        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
+        setAppNightMode(theme)
 
         localeManager.setLocale()
 

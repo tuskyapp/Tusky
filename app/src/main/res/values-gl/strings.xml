@@ -18,8 +18,6 @@
     <string name="action_mute_conversation">Acalar conversa</string>
     <string name="action_unmute_domain">Reactivar %s</string>
     <string name="action_mute_domain">Acalar %s</string>
-    <string name="action_mute_notifications_desc">Acalar as notificacións de %s</string>
-    <string name="action_unmute_notifications_desc">Reactivar as notificacións de %s</string>
     <string name="action_unmute_desc">Reactivar %s</string>
     <string name="action_unmute">Desacalar</string>
     <string name="action_mute">Acalar</string>
@@ -526,7 +524,7 @@
     <string name="tips_push_notification_migration">Volve a acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
-    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí ou nas Preferencias da Conta a opción de volver a acceder conservarás os borradores locais e caché.</string>
+    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí ou nas preferencias da Conta a opción de volver a acceder conservarás os borradores locais e caché.</string>
     <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve a conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
     <string name="title_migration_relogin">Volve a acceder para ter notificacións push</string>
     <string name="notification_update_format">%s editou a publicación</string>
@@ -579,4 +577,25 @@
     <string name="notification_summary_report_format">%s · %d publicacións fixadas</string>
     <string name="confirmation_hashtag_unfollowed">Xa non segues #%s</string>
     <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
+    <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
+    <string name="pref_title_http_proxy_port_message">O porto debe estar entre %d e %d</string>
+    <string name="error_muting_hashtag_format">Erro ao acalar #%s</string>
+    <string name="error_unmuting_hashtag_format">Erro ao reactivar #%s</string>
+    <string name="description_post_edited">Editado</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="post_edited">Editado %s</string>
+    <string name="error_status_source_load">Fallou a carga da fonte do estado desde o servidor.</string>
+    <string name="a11y_label_loading_thread">Cargando fío</string>
+    <string name="mute_notifications_switch">Acalar notificacións</string>
+    <string name="title_edits">Edicións</string>
+    <string name="status_edit_info">Editado por %1$s o %2$s</string>
+    <string name="status_created_info">Creado por %1$s o %2$s</string>
+    <string name="action_discard">Desbotar cambios</string>
+    <string name="action_continue_edit">Continuar a edición</string>
+    <string name="compose_unsaved_changes">Hai cambios non gardados.</string>
+    <string name="action_share_account_link">Comparte ligazón da conta</string>
+    <string name="action_share_account_username">Comparte identificador da conta</string>
+    <string name="send_account_link_to">Compartir URL da conta en…</string>
+    <string name="send_account_username_to">Compartir identificador da conta en…</string>
+    <string name="account_username_copied">Identificador copiado</string>
 </resources>

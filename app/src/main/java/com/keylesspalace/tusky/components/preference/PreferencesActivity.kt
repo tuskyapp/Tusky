@@ -33,8 +33,9 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityPreferencesBinding
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.setAppNightMode
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
@@ -106,16 +107,16 @@ class PreferencesActivity :
         )
         fragment.arguments = args
         fragment.setTargetFragment(caller, 0)
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
+        supportFragmentManager.commit {
+            setCustomAnimations(
                 R.anim.slide_from_right,
                 R.anim.slide_to_left,
                 R.anim.slide_from_left,
                 R.anim.slide_to_right
             )
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+            replace(R.id.fragment_container, fragment)
+            addToBackStack(null)
+        }
         return true
     }
 
@@ -141,9 +142,9 @@ class PreferencesActivity :
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "appTheme" -> {
-                val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+                val theme = sharedPreferences.getNonNullString("appTheme", APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
-                ThemeUtils.setAppNightMode(theme)
+                setAppNightMode(theme)
 
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()

@@ -16,6 +16,9 @@
 package com.keylesspalace.tusky.usecase
 
 import android.util.Log
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -33,7 +36,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
 /**
@@ -95,44 +97,35 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun mute(statusId: String, notifications: Boolean, duration: Int?) {
-        mastodonApi.muteAccount(statusId, notifications, duration)
-            .subscribe(
-                {
-                    eventHub.dispatch(MuteEvent(statusId))
-                },
-                { t ->
-                    Log.w("Failed to mute account", t)
-                }
-            )
-            .addTo(cancelDisposable)
+    suspend fun mute(statusId: String, notifications: Boolean, duration: Int?) {
+        try {
+            mastodonApi.muteAccount(statusId, notifications, duration)
+            eventHub.dispatch(MuteEvent(statusId))
+        } catch (t: Throwable) {
+            Log.w(TAG, "Failed to mute account", t)
+        }
     }
 
-    fun block(statusId: String) {
-        mastodonApi.blockAccount(statusId)
-            .subscribe(
-                {
-                    eventHub.dispatch(BlockEvent(statusId))
-                },
-                { t ->
-                    Log.w("Failed to block account", t)
-                }
-            )
-            .addTo(cancelDisposable)
+    suspend fun block(statusId: String) {
+        try {
+            mastodonApi.blockAccount(statusId)
+            eventHub.dispatch(BlockEvent(statusId))
+        } catch (t: Throwable) {
+            Log.w(TAG, "Failed to block account", t)
+        }
     }
 
-    fun delete(statusId: String): Single<DeletedStatus> {
+    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> {
         return mastodonApi.deleteStatus(statusId)
-            .doAfterSuccess {
-                eventHub.dispatch(StatusDeletedEvent(statusId))
-            }
+            .onSuccess { eventHub.dispatch(StatusDeletedEvent(statusId)) }
+            .onFailure { Log.w(TAG, "Failed to delete status", it) }
     }
 
     fun pin(statusId: String, pin: Boolean): Single<Status> {
         // Replace with extension method if we use RxKotlin
         return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
             .doOnError { e ->
-                Log.w("Failed to change pin state", e)
+                Log.w(TAG, "Failed to change pin state", e)
             }
             .onErrorResumeNext(::convertError)
             .doAfterSuccess {
@@ -152,6 +145,10 @@ class TimelineCases @Inject constructor(
 
     private fun <T : Any> convertError(e: Throwable): Single<T> {
         return Single.error(TimelineError(e.getServerErrorMessage()))
+    }
+
+    companion object {
+        private const val TAG = "TimelineCases"
     }
 }
 
