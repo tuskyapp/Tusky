@@ -593,4 +593,12 @@
     <string name="post_edited">%s modificat</string>
     <string name="description_post_edited">Modificada</string>
     <string name="error_status_source_load">Fracàs del cargament de l’estatut a partir del servidor.</string>
+    <string name="mute_notifications_switch">Amudir las notificacions</string>
+    <string name="status_created_info">%1$s creèt %2$s</string>
+    <string name="title_edits">Modificacions</string>
+    <string name="status_edit_info">%1$s modifiquèt %2$s</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="action_discard">Ignorar las modificacions</string>
+    <string name="action_continue_edit">Téner de modificar</string>
+    <string name="compose_unsaved_changes">Avètz de modificacions pas salvadas.</string>
 </resources>

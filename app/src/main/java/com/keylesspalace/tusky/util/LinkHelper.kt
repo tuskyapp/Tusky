@@ -276,6 +276,7 @@ private fun openLinkInCustomTab(uri: Uri, context: Context) {
 
 // https://mastodon.foo.bar/@User
 // https://mastodon.foo.bar/@User/43456787654678
+// https://mastodon.foo.bar/users/User/statuses/43456787654678
 // https://pleroma.foo.bar/users/User
 // https://pleroma.foo.bar/users/9qTHT2ANWUdXzENqC0
 // https://pleroma.foo.bar/notice/9sBHWIlwwGZi5QGlHc
@@ -306,6 +307,7 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
     return uri.path.let {
         it.matches("^/@[^/]+$".toRegex()) ||
             it.matches("^/@[^/]+/\\d+$".toRegex()) ||
+            it.matches("^/users/[^/]+/statuses/\\d+$".toRegex()) ||
             it.matches("^/users/\\w+$".toRegex()) ||
             it.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
             it.matches("^/objects/[-a-f0-9]+$".toRegex()) ||

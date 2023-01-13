@@ -213,9 +213,9 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    fun deleteStatus(
+    suspend fun deleteStatus(
         @Path("id") statusId: String
-    ): Single<DeletedStatus>
+    ): NetworkResult<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
     fun reblogStatus(

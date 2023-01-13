@@ -364,18 +364,19 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_delete_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases.delete(id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .to(
-                        AutoDispose.autoDisposable(
-                            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                        )
-                    )
-                    .subscribe({ }) { error: Throwable? ->
-                        Log.w("SFragment", "error deleting status", error)
+                lifecycleScope.launch {
+                    val result = timelineCases.delete(id).exceptionOrNull()
+                    if (result != null) {
+                        Log.w("SFragment", "error deleting status", result)
                         Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
                     }
-                removeItem(position)
+                    // XXX: Removes the item even if there was an error. This is probably not
+                    // correct (see similar code in showConfirmEditDialog() which only
+                    // removes the item if the timelineCases.delete() call succeeded.
+                    //
+                    // Either way, this logic should be in the view model.
+                    removeItem(position)
+                }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -388,14 +389,8 @@ abstract class SFragment : Fragment(), Injectable {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_redraft_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                timelineCases.delete(id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .to(
-                        AutoDispose.autoDisposable(
-                            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                        )
-                    )
-                    .subscribe(
+                lifecycleScope.launch {
+                    timelineCases.delete(id).fold(
                         { deletedStatus ->
                             removeItem(position)
                             val sourceStatus = if (deletedStatus.isEmpty()) {
@@ -416,11 +411,14 @@ abstract class SFragment : Fragment(), Injectable {
                                 kind = ComposeActivity.ComposeKind.NEW
                             )
                             startActivity(startIntent(requireContext(), composeOptions))
+                        },
+                        { error: Throwable? ->
+                            Log.w("SFragment", "error deleting status", error)
+                            Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT)
+                                .show()
                         }
-                    ) { error: Throwable? ->
-                        Log.w("SFragment", "error deleting status", error)
-                        Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
-                    }
+                    )
+                }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
