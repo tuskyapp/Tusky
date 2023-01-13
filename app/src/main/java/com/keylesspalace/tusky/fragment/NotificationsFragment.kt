@@ -492,11 +492,11 @@ class NotificationsFragment :
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        updateViewDataAt(position) { vd: StatusViewData.Concrete ->
-            vd.copyWithCollapsed(
-                isCollapsed
-            )
-        }
+        val notificationViewData = adapter.snapshot()[position] ?: return
+        notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(
+            isCollapsed = isCollapsed
+        )
+        adapter.notifyItemChanged(position)
     }
 
     private fun updateStatus(statusId: String, mapper: Function<Status?, Status>) {
