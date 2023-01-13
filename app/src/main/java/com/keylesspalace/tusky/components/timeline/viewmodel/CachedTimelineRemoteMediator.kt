@@ -153,7 +153,14 @@ class CachedTimelineRemoteMediator(
                 if (oldStatus != null) break
             }
 
-            val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
+            // The "expanded" property for Placeholders determines whether or not they are
+            // in the "loading" state, and should not be affected by the account's
+            // "alwaysOpenSpoiler" preference
+            val expanded = if (oldStatus?.isPlaceholder == true) {
+                oldStatus.expanded
+            } else {
+                oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
+            }
             val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
             val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
