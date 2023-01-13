@@ -13,9 +13,9 @@ final def gitSha = providers.exec {
 
 android {
     compileSdk 33
+    namespace "com.keylesspalace.tusky"
     defaultConfig {
         applicationId APP_ID
-        namespace "com.keylesspalace.tusky"
         minSdk 23
         targetSdk 33
         versionCode 97
@@ -129,11 +129,7 @@ dependencies {
     implementation libs.photoview
 
     implementation libs.bundles.material.drawer
-    implementation libs.material.typeface, {
-        artifact {
-            type = "aar"
-        }
-    }
+    implementation libs.material.typeface
 
     implementation libs.image.cropper
 
@@ -153,5 +149,4 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
-
 }
