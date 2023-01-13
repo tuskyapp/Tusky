@@ -91,6 +91,9 @@ class NotificationsViewModel @Inject constructor(
             }.cachedIn(viewModelScope)
     }
 
+    // TODO: Listen for eventhub events here, and update the UI model, instead of the fragment
+    // listening for events.
+
     // TODO: Copied from TimelineViewModel
     fun reblog(
         reblog: Boolean,
