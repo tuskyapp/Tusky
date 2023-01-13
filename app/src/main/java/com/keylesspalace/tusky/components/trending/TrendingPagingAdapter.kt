@@ -20,9 +20,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.adapter.TagViewHolder
+import com.keylesspalace.tusky.adapter.TrendingTagViewHolder
+import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.TrendingViewData
@@ -47,15 +47,15 @@ class TrendingPagingAdapter(
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_TAG -> {
-                val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_trending, viewGroup, false)
-                TagViewHolder(view)
+                val binding =
+                    ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
+                TrendingTagViewHolder(binding)
             }
 
             else -> {
-                val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_trending, viewGroup, false)
-                TagViewHolder(view)
+                val binding =
+                    ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
+                TrendingTagViewHolder(binding)
             }
         }
     }
@@ -79,16 +79,14 @@ class TrendingPagingAdapter(
     ) {
         val trending = getItem(position)
         if (trending is TrendingViewData.Tag) {
-            this.currentList
-
             val maxTrendingValue = currentList
                 .flatMap { trendingViewData ->
                     trendingViewData.asTagOrNull()?.tag?.history ?: emptyList()
                 }
-                .mapNotNull { it.uses.toIntOrNull() }
+                .mapNotNull { it.uses.toLongOrNull() }
                 .maxOrNull() ?: 1
 
-            val holder = viewHolder as TagViewHolder
+            val holder = viewHolder as TrendingTagViewHolder
             holder.setup(trending, maxTrendingValue, trendingListener)
         }
     }

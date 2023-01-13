@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true"
+    android:importantForAccessibility="yes">
+
+    <TextView
+        android:id="@+id/symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:text="#"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@id/usage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="14dp"
+        android:ellipsize="end"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/symbol"
+        app:layout_constraintTop_toTopOf="@id/symbol"
+        tools:text="itishashtagtuesday" />
+
+    <TextView
+        android:id="@+id/dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-thin"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:textColor="?android:textColorHint"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@id/symbol"
+        app:layout_constraintTop_toBottomOf="@id/symbol"
+        tools:text="1 jan — 7 jan" />
+
+    <TextView
+        android:id="@+id/usage"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:textColor="@color/tusky_blue"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/accounts"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dates"
+        tools:text="12 345" />
+
+    <TextView
+        android:id="@+id/usageLabel"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:text="@string/usage"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@id/usage"
+        app:layout_constraintTop_toBottomOf="@id/usage" />
+
+    <TextView
+        android:id="@+id/accounts"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:textColor="@color/tusky_red"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/usage"
+        app:layout_constraintTop_toBottomOf="@id/dates"
+        tools:text="498" />
+
+    <TextView
+        android:id="@+id/accountsLabel"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:maxLines="1"
+        android:text="@string/accounts"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="@id/accounts"
+        app:layout_constraintTop_toBottomOf="@id/accounts" />
+
+
+    <com.keylesspalace.tusky.view.GraphView
+        android:id="@+id/graph"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        android:importantForAccessibility="no"
+        app:graphColor="?android:colorBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usageLabel"
+        app:lineThickness="3dp"
+        app:primaryLineColor="@color/tusky_blue"
+        app:secondaryLineColor="@color/tusky_red" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.trending
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,7 +30,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -106,8 +107,6 @@ class TrendingFragment :
 
         val arguments = requireArguments()
 
-        viewModel.init()
-
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -131,6 +130,13 @@ class TrendingFragment :
             statusDisplayOptions,
             this,
         )
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val columnCount =
+            requireContext().resources.getInteger(R.integer.trending_column_count)
+        binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount)
     }
 
     override fun onCreateView(
@@ -184,7 +190,7 @@ class TrendingFragment :
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collectLatest { trendingState ->
+            viewModel.uiState.collectLatest { trendingState ->
                 processViewState(trendingState)
             }
         }
@@ -208,8 +214,11 @@ class TrendingFragment :
     }
 
     private fun setupRecyclerView() {
+        val columnCount =
+            requireContext().resources.getInteger(R.integer.trending_column_count)
+        binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount)
+
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
 
@@ -219,9 +228,7 @@ class TrendingFragment :
     }
 
     override fun onRefresh() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.invalidate()
-        }
+        viewModel.invalidate()
     }
 
     override fun onViewUrl(url: String) {
@@ -236,11 +243,11 @@ class TrendingFragment :
         bottomSheetActivity.viewAccount(id)
     }
 
-    private fun processViewState(trendingState: TrendingViewModel.State) {
-        when (trendingState.loadingState) {
+    private fun processViewState(uiState: TrendingViewModel.TrendingUiState) {
+        when (uiState.loadingState) {
             TrendingViewModel.LoadingState.INITIAL -> clearLoadingState()
             TrendingViewModel.LoadingState.LOADING -> applyLoadingState()
-            TrendingViewModel.LoadingState.LOADED -> applyLoadedState(trendingState.trendingViewData)
+            TrendingViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
             TrendingViewModel.LoadingState.ERROR_NETWORK -> networkError()
             TrendingViewModel.LoadingState.ERROR_OTHER -> otherError()
         }
@@ -249,7 +256,6 @@ class TrendingFragment :
     private fun applyLoadedState(viewData: List<TrendingViewData>) {
         clearLoadingState()
         adapter.submitList(viewData)
-        Log.v("TESTTEST", "list: ${viewData.map { it.asTagOrNull()?.tag?.name }}")
 
         if (viewData.isEmpty()) {
             binding.recyclerView.hide()

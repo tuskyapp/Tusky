@@ -55,39 +55,35 @@ class GraphView @JvmOverloads constructor(
 
     private lateinit var primaryLinePaint: Paint
     private lateinit var secondaryLinePaint: Paint
+    private lateinit var primaryCirclePaint: Paint
+    private lateinit var secondaryCirclePaint: Paint
     private lateinit var graphPaint: Paint
 
     private lateinit var sizeRect: Rect
     private var primaryLinePath: Path = Path()
     private var secondaryLinePath: Path = Path()
 
-    var maxTrendingValue: Int = 300
-    var primaryLineData: List<Int> = if (isInEditMode) listOf(
+    var maxTrendingValue: Long = 300
+    var primaryLineData: List<Long> = if (isInEditMode) listOf(
         30, 60, 70, 80, 130, 190, 80,
     ) else listOf(
         1, 1, 1, 1, 1, 1, 1,
     )
         set(value) {
             field = value.map { max(1, it) }
-
-            if (primaryLinePath.isEmpty && width > 0) {
-                initializeVertices()
-                invalidate()
-            }
+            primaryLinePath.reset()
+            invalidate()
         }
 
-    var secondaryLineData: List<Int> = if (isInEditMode) listOf(
+    var secondaryLineData: List<Long> = if (isInEditMode) listOf(
         10, 20, 40, 60, 100, 132, 20,
     ) else listOf(
         1, 1, 1, 1, 1, 1, 1,
     )
         set(value) {
             field = value.map { max(1, it) }
-
-            if (secondaryLinePath.isEmpty && width > 0) {
-                initializeVertices()
-                invalidate()
-            }
+            secondaryLinePath.reset()
+            invalidate()
         }
 
     init {
@@ -136,19 +132,23 @@ class GraphView @JvmOverloads constructor(
         primaryLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = primaryLineColor
             strokeWidth = lineThickness
-
             style = Paint.Style.STROKE
-            strokeJoin = Paint.Join.MITER
-            strokeCap = Paint.Cap.SQUARE
+        }
+
+        primaryCirclePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = primaryLineColor
+            style = Paint.Style.FILL
         }
 
         secondaryLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = secondaryLineColor
             strokeWidth = lineThickness
-
             style = Paint.Style.STROKE
-            strokeJoin = Paint.Join.MITER
-            strokeCap = Paint.Cap.SQUARE
+        }
+
+        secondaryCirclePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = secondaryLineColor
+            style = Paint.Style.FILL
         }
 
         graphPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -165,7 +165,7 @@ class GraphView @JvmOverloads constructor(
         initLine(secondaryLineData, secondaryLinePath)
     }
 
-    private fun initLine(lineData: List<Int>, path: Path) {
+    private fun initLine(lineData: List<Long>, path: Path) {
         val max = if (proportionalTrending) {
             maxTrendingValue
         } else {
@@ -204,12 +204,14 @@ class GraphView @JvmOverloads constructor(
                 canvas = canvas,
                 linePath = secondaryLinePath,
                 linePaint = secondaryLinePaint,
+                circlePaint = secondaryCirclePaint,
                 lineThickness = lineThickness,
             )
             drawLine(
                 canvas = canvas,
                 linePath = primaryLinePath,
                 linePaint = primaryLinePaint,
+                circlePaint = primaryCirclePaint,
                 lineThickness = lineThickness,
             )
         }
@@ -219,6 +221,7 @@ class GraphView @JvmOverloads constructor(
         canvas: Canvas,
         linePath: Path,
         linePaint: Paint,
+        circlePaint: Paint,
         lineThickness: Float,
     ) {
         canvas.apply {
@@ -231,7 +234,7 @@ class GraphView @JvmOverloads constructor(
             val coord = floatArrayOf(0f, 0f)
             pm.getPosTan(pm.length * 1f, coord, null)
 
-            drawCircle(coord[0], coord[1], lineThickness * 2f, linePaint)
+            drawCircle(coord[0], coord[1], lineThickness * 2f, circlePaint)
         }
     }
 }

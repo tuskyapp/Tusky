@@ -15,6 +15,14 @@
 
 package com.keylesspalace.tusky.entity
 
+/**
+ * Mastodon API Documentation: https://docs.joinmastodon.org/methods/trends/#tags
+ *
+ * @param name The name of the hashtag (after the #). The "caturday" in "#caturday".
+ * @param url The URL to your mastodon instance list for this hashtag.
+ * @param history A list of [TrendingTagHistory]. Each element contains metrics per day for this hashtag.
+ * @param following This is not listed in the APIs at the time of writing, but an instance is delivering it.
+ */
 data class TrendingTag(
     val name: String,
     val url: String,
@@ -22,6 +30,13 @@ data class TrendingTag(
     val following: Boolean,
 )
 
+/**
+ * Mastodon API Documentation: https://docs.joinmastodon.org/methods/trends/#tags
+ *
+ * @param day The day that this was posted in Unix Epoch Seconds.
+ * @param accounts The number of accounts that have posted with this hashtag.
+ * @param uses The number of posts with this hashtag.
+ */
 data class TrendingTagHistory(
     val day: String,
     val accounts: String,

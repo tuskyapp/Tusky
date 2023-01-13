@@ -36,39 +36,40 @@ class TrendingViewModel @Inject constructor(
         INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
 
-    data class State(val trendingViewData: List<TrendingViewData>, val loadingState: LoadingState)
+    data class TrendingUiState(
+        val trendingViewData: List<TrendingViewData>,
+        val loadingState: LoadingState
+    )
 
-    val state: Flow<State> get() = _state
-    private val _state = MutableStateFlow(State(listOf(), LoadingState.INITIAL))
+    val uiState: Flow<TrendingUiState> get() = _uiState
+    private val _uiState = MutableStateFlow(TrendingUiState(listOf(), LoadingState.INITIAL))
 
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoilers = false
 
-    fun init() {
+    init {
         this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
 
-        viewModelScope.launch {
-            invalidate()
-        }
+        invalidate()
     }
 
-    suspend fun trendingTags(): List<TrendingTag> {
+    private suspend fun trendingTags(): List<TrendingTag> {
         return trendingCases.trendingTags()
     }
 
     /** Triggered when currently displayed data must be reloaded. */
-    suspend fun invalidate() {
-        _state.value = State(listOf(), LoadingState.LOADING)
+    fun invalidate() = viewModelScope.launch {
+        _uiState.value = TrendingUiState(listOf(), LoadingState.LOADING)
 
         try {
             val trending = trendingTags()
             val viewData = trending.map { it.toViewData() }
-            _state.value = State(viewData, LoadingState.LOADED)
+            _uiState.value = TrendingUiState(viewData, LoadingState.LOADED)
         } catch (e: IOException) {
-            _state.value = State(listOf(), LoadingState.ERROR_NETWORK)
+            _uiState.value = TrendingUiState(listOf(), LoadingState.ERROR_NETWORK)
         } catch (e: Exception) {
-            _state.value = State(listOf(), LoadingState.ERROR_OTHER)
+            _uiState.value = TrendingUiState(listOf(), LoadingState.ERROR_OTHER)
         }
     }
 
