@@ -17,12 +17,6 @@ package com.keylesspalace.tusky.viewdata
 
 import com.keylesspalace.tusky.entity.TrendingTag
 
-/**
- * Created by charlag on 11/07/2017.
- *
- * Class to represent data required to display either a notification or a placeholder.
- * It is either a [TrendingViewData.Concrete] or a [TrendingViewData.Placeholder].
- */
 sealed class TrendingViewData {
     abstract val id: String
 

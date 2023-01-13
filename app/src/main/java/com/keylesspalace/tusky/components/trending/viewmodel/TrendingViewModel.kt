@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 class TrendingViewModel @Inject constructor(
     private val trendingCases: TrendingCases,
-    private val accountManager: AccountManager,
+    accountManager: AccountManager,
 ) : ViewModel() {
     enum class LoadingState {
         INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER

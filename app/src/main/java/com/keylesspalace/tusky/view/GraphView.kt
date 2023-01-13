@@ -29,7 +29,6 @@ import androidx.core.content.ContextCompat
 import com.keylesspalace.tusky.R
 import kotlin.math.max
 
-
 class GraphView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
