@@ -129,7 +129,7 @@ abstract class TimelineViewModel(
             timelineCases.bookmark(status.actionableId, bookmark).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
             }
         }
     }
