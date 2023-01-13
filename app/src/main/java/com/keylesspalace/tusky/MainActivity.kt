@@ -506,8 +506,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
                     }
                     badgeStyle = BadgeStyle().apply {
-                        textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, R.attr.colorOnPrimary))
-                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, R.attr.colorPrimary))
+                        textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
+                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, androidx.appcompat.R.attr.colorPrimary))
                     }
                 },
                 DividerDrawerItem(),
@@ -575,7 +575,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun setupTabs(selectNotificationTab: Boolean) {
         val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
-            val actionBarSize = getDimension(this, R.attr.actionBarSize)
+            val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
             binding.topNav.hide()

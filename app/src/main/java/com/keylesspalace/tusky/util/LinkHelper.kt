@@ -253,7 +253,7 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
  * @param context context
  */
 private fun openLinkInCustomTab(uri: Uri, context: Context) {
-    val toolbarColor = MaterialColors.getColor(context, R.attr.colorSurface, Color.BLACK)
+    val toolbarColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK)
     val navigationbarColor = MaterialColors.getColor(context, android.R.attr.navigationBarColor, Color.BLACK)
     val navigationbarDividerColor = MaterialColors.getColor(context, R.attr.dividerColor, Color.BLACK)
     val colorSchemeParams = CustomTabColorSchemeParams.Builder()

@@ -569,7 +569,7 @@ class ComposeActivity :
     }
 
     private fun setupAvatar(activeAccount: AccountEntity) {
-        val actionBarSizeAttr = intArrayOf(R.attr.actionBarSize)
+        val actionBarSizeAttr = intArrayOf(androidx.appcompat.R.attr.actionBarSize)
         val a = obtainStyledAttributes(null, actionBarSizeAttr)
         val avatarSize = a.getDimensionPixelSize(0, 1)
         a.recycle()
