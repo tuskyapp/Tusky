@@ -259,7 +259,7 @@ class NetworkTimelineViewModel @Inject constructor(
         limit: Int
     ): Response<List<Status>> {
         return when (kind) {
-            Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
+            Kind.HOME -> api.homeTimeline(maxId = fromId, sinceId = uptoId, limit = limit)
             Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
             Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
             Kind.TAG -> {

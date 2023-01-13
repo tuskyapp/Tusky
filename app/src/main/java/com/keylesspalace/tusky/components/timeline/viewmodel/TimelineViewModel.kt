@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
@@ -54,7 +55,7 @@ abstract class TimelineViewModel(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
-    private val sharedPreferences: SharedPreferences,
+    protected val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
 ) : ViewModel() {
 
@@ -71,6 +72,7 @@ abstract class TimelineViewModel(
     protected var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
+    protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
     fun init(
         kind: Kind,
@@ -88,6 +90,8 @@ abstract class TimelineViewModel(
             filterRemoveReblogs =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
         }
+        readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+
         this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
 
@@ -125,7 +129,7 @@ abstract class TimelineViewModel(
             timelineCases.bookmark(status.actionableId, bookmark).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
             }
         }
     }
@@ -211,6 +215,9 @@ abstract class TimelineViewModel(
                 // it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia =
                     accountManager.activeAccount!!.alwaysShowSensitiveMedia
+            }
+            PrefKeys.READING_ORDER -> {
+                readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
             }
         }
     }

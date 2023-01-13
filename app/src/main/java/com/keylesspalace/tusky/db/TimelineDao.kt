@@ -215,6 +215,13 @@ AND timelineUserId = :accountId
     abstract suspend fun getIdAbove(accountId: Long, serverId: String): String?
 
     /**
+     * Returns the ID directly below [serverId], or null if [serverId] is the ID of the bottom
+     * status
+     */
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    abstract suspend fun getIdBelow(accountId: Long, serverId: String): String?
+
+    /**
      * Returns the id of the next placeholder after [serverId]
      */
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
@@ -222,4 +229,12 @@ AND timelineUserId = :accountId
 
     @Query("SELECT COUNT(*) FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
     abstract suspend fun getStatusCount(accountId: Long): Int
+
+    /** Developer tools: Find N most recent status IDs */
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count")
+    abstract suspend fun getMostRecentNStatusIds(accountId: Long, count: Int): List<String>
+
+    /** Developer tools: Convert a status to a placeholder */
+    @Query("UPDATE TimelineStatusEntity SET authorServerId = NULL WHERE serverId = :serverId")
+    abstract suspend fun convertStatustoPlaceholder(serverId: String)
 }

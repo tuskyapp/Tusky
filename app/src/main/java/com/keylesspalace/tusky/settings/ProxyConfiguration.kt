@@ -22,7 +22,7 @@ class ProxyConfiguration private constructor(
         }
         fun isValidHostname(hostname: String): Boolean =
             IP_ADDRESS_REGEX.matches(hostname) || HOSTNAME_REGEX.matches(hostname)
-        const val MIN_PROXY_PORT = 0
+        const val MIN_PROXY_PORT = 1
         const val MAX_PROXY_PORT = 65535
     }
 }

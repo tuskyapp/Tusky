@@ -1244,7 +1244,7 @@ class ComposeActivity :
         }
     }
 
-    override fun onTimeSet(time: String) {
+    override fun onTimeSet(time: String?) {
         viewModel.updateScheduledAt(time)
         if (verifyScheduledTime()) {
             scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
