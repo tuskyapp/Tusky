@@ -37,6 +37,11 @@ data class NotificationsUiState(
 // TODO: The status functions this exposes (reblog, favourite, bookmark, etc) are very similar
 // to those in TimelineViewModel. Investigate how to de-duplicate them where practical.
 
+// TODO: Maybe view models should implement StatusActionListener? If the interface's methods
+// included the status data as well as the position there's no need to go through the hosting
+// fragment or activity to get the data. That would simplify the code slightly and save a function
+// call.
+
 class NotificationsViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val preferences: SharedPreferences,
