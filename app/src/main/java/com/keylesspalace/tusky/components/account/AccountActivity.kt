@@ -78,6 +78,7 @@ import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -235,6 +236,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         // Setup the tabs and timeline pager.
         adapter = AccountPagerAdapter(this, viewModel.accountId)
 
+        binding.accountFragmentViewPager.reduceSwipeSensitivity()
         binding.accountFragmentViewPager.adapter = adapter
         binding.accountFragmentViewPager.offscreenPageLimit = 2
 
