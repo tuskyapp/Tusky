@@ -72,6 +72,9 @@ android {
             returnDefaultValues = true
             includeAndroidResources = true
         }
+        unitTests.all {
+            systemProperty 'robolectric.logging.enabled', 'true'
+        }        
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
@@ -87,9 +90,6 @@ android {
             // bundle all languages in every apk so the dynamic language switching works
             enableSplit = false
         }
-    }
-    kotlinOptions {
-        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
     dependenciesInfo {
         includeInApk false
