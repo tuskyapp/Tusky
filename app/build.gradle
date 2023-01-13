@@ -7,18 +7,9 @@ plugins {
 
 apply from: "../instance-build.gradle"
 
-def getGitSha = {
-    def stdout = new ByteArrayOutputStream()
-    try {
-        exec {
-            commandLine 'git', 'rev-parse', '--short', 'HEAD'
-            standardOutput = stdout
-        }
-    } catch (Exception e) {
-        return "unknown"
-    }
-    return stdout.toString().trim()
-}
+final def gitSha = providers.exec {
+    commandLine('git', 'rev-parse', '--short=7', 'HEAD')
+}.standardOutput.asText.get().trim()
 
 android {
     compileSdk 33
@@ -53,7 +44,7 @@ android {
         green {
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
-            versionNameSuffix "-" + getGitSha()
+            versionNameSuffix "-" + gitSha
         }
     }
 
@@ -70,7 +61,7 @@ android {
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
-        }        
+        }
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
@@ -79,7 +70,7 @@ android {
     // Exclude unneeded files added by libraries
     packagingOptions.resources.excludes += [
             'LICENSE_OFL',
-           'LICENSE_UNICODE',
+            'LICENSE_UNICODE',
     ]
 
     bundle {
