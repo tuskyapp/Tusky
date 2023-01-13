@@ -129,7 +129,7 @@ class ViewEditsAdapter(
             binding.statusEditMediaPreview.show()
             binding.statusEditMediaPreview.aspectRatios = edit.mediaAttachments.aspectRatios()
 
-            binding.statusEditMediaPreview.forEachIndexed { index, _, imageView, descriptionIndicator ->
+            binding.statusEditMediaPreview.forEachIndexed { index, imageView, descriptionIndicator ->
 
                 val attachment = edit.mediaAttachments[index]
                 val hasDescription = !attachment.description.isNullOrBlank()

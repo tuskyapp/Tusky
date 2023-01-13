@@ -16,6 +16,8 @@
  */
 package com.keylesspalace.tusky.json
 
+import android.util.Log
+import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
@@ -42,7 +44,12 @@ class Rfc3339DateJsonAdapter : TypeAdapter<Date?>() {
                 null
             }
             else -> {
-                reader.nextString().parseIsoDate()
+                try {
+                    reader.nextString().parseIsoDate()
+                } catch (jpe: JsonParseException) {
+                    Log.w("Rfc3339DateJsonAdapter", jpe)
+                    null
+                }
             }
         }
     }

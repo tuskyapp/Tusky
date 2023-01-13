@@ -67,8 +67,8 @@
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
     <string name="action_unblock">Sblocca</string>
-    <string name="action_hide_reblogs">Nascondi boost</string>
-    <string name="action_show_reblogs">Mostra boost</string>
+    <string name="action_hide_reblogs">Nascondi ricondivisioni</string>
+    <string name="action_show_reblogs">Mostra ricondivisioni</string>
     <string name="action_report">Segnala</string>
     <string name="action_delete">Elimina</string>
     <string name="action_send">TOOT</string>
@@ -108,7 +108,7 @@
     <string name="action_mentions">Menzioni</string>
     <string name="action_hashtags">Hashtag</string>
     <string name="action_open_reblogger">Vai all\'autore della condivisione</string>
-    <string name="action_open_reblogged_by">Mostra boost</string>
+    <string name="action_open_reblogged_by">Mostra ricondivisioni</string>
     <string name="action_open_faved_by">Mostra preferiti</string>
     <string name="title_hashtags_dialog">Hashtag</string>
     <string name="title_mentions_dialog">Menzioni</string>
@@ -181,7 +181,7 @@
     <string name="pref_title_language">Lingua</string>
     <string name="pref_title_post_filter">Filtraggio della timeline</string>
     <string name="pref_title_post_tabs">Schede</string>
-    <string name="pref_title_show_boosts">Mostra boost</string>
+    <string name="pref_title_show_boosts">Mostra ricondivisioni</string>
     <string name="pref_title_show_replies">Mostra risposte</string>
     <string name="pref_title_show_media_preview">Mostra anteprime media</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -206,7 +206,7 @@
     <string name="notification_mention_descriptions">Notifiche di quando vieni menzionato da qualcuno</string>
     <string name="notification_follow_name">Nuovi seguaci</string>
     <string name="notification_follow_description">Notifiche su nuovi seguaci</string>
-    <string name="notification_boost_name">Boost</string>
+    <string name="notification_boost_name">Ricondivisioni</string>
     <string name="notification_boost_description">Notifiche sui tuoi messaggi che vengono condivisi</string>
     <string name="notification_favourite_name">Preferiti</string>
     <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come preferiti</string>
@@ -336,9 +336,9 @@
         <item quantity="other"><b>%1$s</b> Preferiti</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> boost</item>
-        <item quantity="many"><b>%s</b> boost</item>
-        <item quantity="other"><b>%s</b> boost</item>
+        <item quantity="one"><b>%s</b> ricondivisione</item>
+        <item quantity="many"><b>%s</b> ricondivisioni</item>
+        <item quantity="other"><b>%s</b> ricondivisioni</item>
     </plurals>
     <string name="title_reblogged_by">Condiviso da</string>
     <string name="title_favourited_by">Aggiunto ai preferiti da</string>
@@ -523,8 +523,8 @@
     <string name="action_delete_conversation">Elimina conversazione</string>
     <string name="wellbeing_mode_notice">Alcune informazioni che potrebbero influenzare il tuo benessere mentale saranno nascoste. Questo include:
 \n
-\n - Notifiche riguardo a Preferiti/Boost/Following
-\n - Conteggio dei Preferiti/Boost nei post
+\n - Notifiche riguardo a Preferiti/Ricondivisioni/Following
+\n - Conteggio dei Preferiti/Ricondivisioni nei post
 \n - Statistiche riguardo a Preferiti/Post nei profili
 \n
 \n Le notifiche push non saranno influenzate, ma puoi modificare le tue impostazioni delle notifiche manualmente.</string>

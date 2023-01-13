@@ -62,6 +62,7 @@ data class AccountEntity(
     var defaultMediaSensitivity: Boolean = false,
     var defaultPostLanguage: String = "",
     var alwaysShowSensitiveMedia: Boolean = false,
+    /** True if content behind a content warning is shown by default */
     var alwaysOpenSpoiler: Boolean = false,
     var mediaPreviewEnabled: Boolean = true,
     var lastNotificationId: String = "0",
