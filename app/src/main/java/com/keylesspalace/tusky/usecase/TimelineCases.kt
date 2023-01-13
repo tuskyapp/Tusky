@@ -16,6 +16,9 @@
 package com.keylesspalace.tusky.usecase
 
 import android.util.Log
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -112,11 +115,10 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun delete(statusId: String): Single<DeletedStatus> {
+    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> {
         return mastodonApi.deleteStatus(statusId)
-            .doAfterSuccess {
-                eventHub.dispatch(StatusDeletedEvent(statusId))
-            }
+            .onSuccess { eventHub.dispatch(StatusDeletedEvent(statusId)) }
+            .onFailure { Log.w(TAG, "Failed to delete status", it) }
     }
 
     fun pin(statusId: String, pin: Boolean): Single<Status> {

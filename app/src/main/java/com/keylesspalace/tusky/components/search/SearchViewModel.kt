@@ -20,6 +20,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -31,7 +32,8 @@ import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -99,17 +101,13 @@ class SearchViewModel @Inject constructor(
     }
 
     fun removeItem(statusViewData: StatusViewData.Concrete) {
-        timelineCases.delete(statusViewData.id)
-            .subscribe(
-                {
-                    if (loadedStatuses.remove(statusViewData))
-                        statusesPagingSourceFactory.invalidate()
-                },
-                { err ->
-                    Log.d(TAG, "Failed to delete status", err)
+        viewModelScope.launch {
+            if (timelineCases.delete(statusViewData.id).isSuccess) {
+                if (loadedStatuses.remove(statusViewData)) {
+                    statusesPagingSourceFactory.invalidate()
                 }
-            )
-            .autoDispose()
+            }
+        }
     }
 
     fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {
@@ -185,8 +183,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteStatus(id: String): Single<DeletedStatus> {
-        return timelineCases.delete(id)
+    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> {
+        return viewModelScope.async {
+            timelineCases.delete(id)
+        }
     }
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
