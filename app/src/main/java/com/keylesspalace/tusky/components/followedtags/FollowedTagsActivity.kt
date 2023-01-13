@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
@@ -61,6 +62,7 @@ class FollowedTagsActivity : BaseActivity(), HashtagActionListener {
         binding.followedTagsView.adapter = adapter
         binding.followedTagsView.setHasFixedSize(true)
         binding.followedTagsView.layoutManager = LinearLayoutManager(this)
+        binding.followedTagsView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         (binding.followedTagsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 

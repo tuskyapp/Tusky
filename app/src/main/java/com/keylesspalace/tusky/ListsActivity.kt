@@ -33,6 +33,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -96,6 +97,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
         binding.listsRecycler.adapter = adapter
         binding.listsRecycler.layoutManager = LinearLayoutManager(this)
+        binding.listsRecycler.addItemDecoration(
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
 
         lifecycleScope.launch {
             viewModel.state.collect(this@ListsActivity::update)
