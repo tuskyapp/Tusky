@@ -466,8 +466,9 @@ class NotificationsFragment :
         adapter.notifyItemChanged(position)
     }
 
+    // TODO: Get confirmation on whether this can deleted. The UI doesn't support pinning
     private fun setPinForStatus(statusId: String, pinned: Boolean) {
-        updateStatus(statusId) { status: Status? -> status!!.copyWithPinned(pinned) }
+        // updateStatus(statusId) { status: Status? -> status!!.copyWithPinned(pinned) }
     }
 
     override fun onLoadMore(position: Int) {
