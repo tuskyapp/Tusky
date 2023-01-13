@@ -21,12 +21,12 @@ def getGitSha = {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
     defaultConfig {
         applicationId APP_ID
         namespace "com.keylesspalace.tusky"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdk 23
+        targetSdk 33
         versionCode 97
         versionName "20.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -37,12 +37,6 @@ android {
         buildConfigField("String", "CUSTOM_LOGO_URL", "\"$CUSTOM_LOGO_URL\"")
         buildConfigField("String", "CUSTOM_INSTANCE", "\"$CUSTOM_INSTANCE\"")
         buildConfigField("String", "SUPPORT_ACCOUNT_URL", "\"$SUPPORT_ACCOUNT_URL\"")
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
     buildTypes {
         release {
@@ -63,7 +57,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         disable 'MissingTranslation'
     }
     buildFeatures {
@@ -82,11 +76,12 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
-    packagingOptions {
-        // Exclude unneeded files added by libraries
-        exclude 'LICENSE_OFL'
-        exclude 'LICENSE_UNICODE'
-    }
+    // Exclude unneeded files added by libraries
+    packagingOptions.resources.excludes += [
+            'LICENSE_OFL',
+           'LICENSE_UNICODE',
+    ]
+
     bundle {
         language {
             // bundle all languages in every apk so the dynamic language switching works
@@ -96,6 +91,12 @@ android {
     dependenciesInfo {
         includeInApk false
         includeInBundle false
+    }
+}
+
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
 }
 
