@@ -442,8 +442,6 @@
     <string name="action_unmute_conversation">会話のミュートを解除</string>
     <string name="action_mute_conversation">会話をミュート</string>
     <string name="action_unmute_domain">%sのミュートを解除</string>
-    <string name="action_mute_notifications_desc">%sさんからの通知をミュート</string>
-    <string name="action_unmute_notifications_desc">%sさんからの通知のミュートを解除</string>
     <string name="pref_title_enable_swipe_for_tabs">タブ間の切り替えにスワイプのジェスチャーを有効化</string>
     <string name="pref_title_show_cards_in_timelines">リンクのプレビューをタイムラインに表示</string>
     <string name="pref_title_confirm_reblogs">ブーストする前に確認ダイアログを表示</string>

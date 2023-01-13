@@ -428,8 +428,6 @@
     <string name="action_mute_conversation">靜音對話</string>
     <string name="action_unmute_domain">取消靜音 %s</string>
     <string name="action_mute_domain">靜音 %s</string>
-    <string name="action_mute_notifications_desc">靜音來自 %s 的通知</string>
-    <string name="action_unmute_notifications_desc">取消靜音來自 %s 的通知</string>
     <string name="action_unmute_desc">取消靜音 %s</string>
     <string name="action_add_poll">新增投票</string>
     <string name="action_view_domain_mutes">被隱藏的網域</string>

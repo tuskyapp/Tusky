@@ -12,7 +12,7 @@
 
     <string name="emoji_shortcode_format" translatable="false">:%s:</string>
     <string name="post_timestamp_with_edited_indicator" translatable="false">%s *</string>
-    <string name="timestamp_joiner" translatable="false">" • "</string>
+    <string name="metadata_joiner" translatable="false">" • "</string>
 
     <string-array name="post_privacy_values">
         <item>public</item>

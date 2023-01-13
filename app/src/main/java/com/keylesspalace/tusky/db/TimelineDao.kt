@@ -54,6 +54,28 @@ ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     abstract fun getStatuses(account: Long): PagingSource<Int, TimelineStatusWithAccount>
 
     @Query(
+        """
+SELECT s.serverId, s.url, s.timelineUserId,
+s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt, s.editedAt,
+s.emojis, s.reblogsCount, s.favouritesCount, s.repliesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
+s.spoilerText, s.visibility, s.mentions, s.tags, s.application, s.reblogServerId,s.reblogAccountId,
+s.content, s.attachments, s.poll, s.card, s.muted, s.expanded, s.contentShowing, s.contentCollapsed, s.pinned, s.language,  
+a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
+a.localUsername as 'a_localUsername', a.username as 'a_username',
+a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
+a.emojis as 'a_emojis', a.bot as 'a_bot',
+rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
+rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
+rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
+rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
+FROM TimelineStatusEntity s
+LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
+LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+WHERE s.serverId = :statusId OR s.reblogServerId = :statusId"""
+    )
+    abstract suspend fun getStatus(statusId: String): TimelineStatusWithAccount?
+
+    @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
         (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId <= :maxId)
 AND

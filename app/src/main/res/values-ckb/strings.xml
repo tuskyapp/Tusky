@@ -48,8 +48,6 @@
     <string name="action_unmute_conversation">گفتوگۆی لاببە</string>
     <string name="action_unmute_domain">نابێدەنگ کردن %s</string>
     <string name="action_mute_domain">بێدەنگکردن %s</string>
-    <string name="action_mute_notifications_desc">بێدەنگکردنی ئاگانامەکان لە %s</string>
-    <string name="action_unmute_notifications_desc">ئاگانامەکانی لاببە لە %s</string>
     <string name="action_unmute_desc">نابێدەنگ %s</string>
     <string name="action_unmute">بێدەنگی لابردن</string>
     <string name="action_mute">بێدەنگ</string>

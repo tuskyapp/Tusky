@@ -67,8 +67,6 @@
     <string name="action_share">Bagikan</string>
     <string name="action_mute">Bisukan</string>
     <string name="action_unmute_desc">Jangan bisukan %s</string>
-    <string name="action_unmute_notifications_desc">Jangan bisukan notifikasi dari %s</string>
-    <string name="action_mute_notifications_desc">Bisukan notifikasi dari %s</string>
     <string name="action_mute_domain">Bisukan %s</string>
     <string name="action_unmute_domain">Jangan bisukan %s</string>
     <string name="action_unmute_conversation">Jangan bisukan percakapan</string>

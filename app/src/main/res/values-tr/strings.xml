@@ -463,8 +463,6 @@
     <string name="dialog_mute_warning">\@%s sessize al\?</string>
     <string name="dialog_block_warning">\@%s engellensin mi\?</string>
     <string name="action_unmute_domain">%s alan adının sesini aç</string>
-    <string name="action_mute_notifications_desc">%s gelen bildirimleri yoksay</string>
-    <string name="action_unmute_notifications_desc">%s kullanıcısından gelen bildirimleri göster</string>
     <string name="action_unmute_desc">%s sesini aç</string>
     <string name="notification_follow_request_format">%s seni takip etmek istiyor</string>
     <string name="action_unmute_conversation">Sohbetin sesini aç</string>

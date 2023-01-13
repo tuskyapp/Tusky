@@ -67,8 +67,8 @@
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
     <string name="action_unblock">Sblocca</string>
-    <string name="action_hide_reblogs">Nascondi condivisioni</string>
-    <string name="action_show_reblogs">Mostra condivisioni</string>
+    <string name="action_hide_reblogs">Nascondi ricondivisioni</string>
+    <string name="action_show_reblogs">Mostra ricondivisioni</string>
     <string name="action_report">Segnala</string>
     <string name="action_delete">Elimina</string>
     <string name="action_send">TOOT</string>
@@ -108,7 +108,7 @@
     <string name="action_mentions">Menzioni</string>
     <string name="action_hashtags">Hashtag</string>
     <string name="action_open_reblogger">Vai all\'autore della condivisione</string>
-    <string name="action_open_reblogged_by">Mostra condivisioni</string>
+    <string name="action_open_reblogged_by">Mostra ricondivisioni</string>
     <string name="action_open_faved_by">Mostra preferiti</string>
     <string name="title_hashtags_dialog">Hashtag</string>
     <string name="title_mentions_dialog">Menzioni</string>
@@ -181,7 +181,7 @@
     <string name="pref_title_language">Lingua</string>
     <string name="pref_title_post_filter">Filtraggio della timeline</string>
     <string name="pref_title_post_tabs">Schede</string>
-    <string name="pref_title_show_boosts">Mostra condivisioni</string>
+    <string name="pref_title_show_boosts">Mostra ricondivisioni</string>
     <string name="pref_title_show_replies">Mostra risposte</string>
     <string name="pref_title_show_media_preview">Mostra anteprime media</string>
     <string name="pref_title_proxy_settings">Proxy</string>
@@ -206,7 +206,7 @@
     <string name="notification_mention_descriptions">Notifiche di quando vieni menzionato da qualcuno</string>
     <string name="notification_follow_name">Nuovi seguaci</string>
     <string name="notification_follow_description">Notifiche su nuovi seguaci</string>
-    <string name="notification_boost_name">Condivisioni</string>
+    <string name="notification_boost_name">Ricondivisioni</string>
     <string name="notification_boost_description">Notifiche sui tuoi messaggi che vengono condivisi</string>
     <string name="notification_favourite_name">Preferiti</string>
     <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come preferiti</string>
@@ -336,9 +336,9 @@
         <item quantity="other"><b>%1$s</b> Preferiti</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Condivisione</item>
-        <item quantity="many"><b>%s</b> Condivisioni</item>
-        <item quantity="other"><b>%s</b> Condivisioni</item>
+        <item quantity="one"><b>%s</b> ricondivisione</item>
+        <item quantity="many"><b>%s</b> ricondivisioni</item>
+        <item quantity="other"><b>%s</b> ricondivisioni</item>
     </plurals>
     <string name="title_reblogged_by">Condiviso da</string>
     <string name="title_favourited_by">Aggiunto ai preferiti da</string>
@@ -491,8 +491,6 @@
     <string name="pref_main_nav_position">Posizione barra di navigazione principale</string>
     <string name="pref_title_gradient_for_media">Mostra gradienti colorati per i media nascosti</string>
     <string name="dialog_mute_hide_notifications">Nascondi notifiche</string>
-    <string name="action_mute_notifications_desc">Disattiva le notifiche da %s</string>
-    <string name="action_unmute_notifications_desc">Riattiva le notifiche da %s</string>
     <string name="title_announcements">Annunci</string>
     <string name="pref_title_notification_filter_follow_requests">mi viene richiesto di seguirmi</string>
     <string name="wellbeing_hide_stats_profile">Nascondi statistiche quantitative sui profili</string>
@@ -525,8 +523,8 @@
     <string name="action_delete_conversation">Elimina conversazione</string>
     <string name="wellbeing_mode_notice">Alcune informazioni che potrebbero influenzare il tuo benessere mentale saranno nascoste. Questo include:
 \n
-\n - Notifiche riguardo a Preferiti/Condivisioni/Following
-\n - Conteggio dei Preferiti/Condivisioni nei post
+\n - Notifiche riguardo a Preferiti/Ricondivisioni/Following
+\n - Conteggio dei Preferiti/Ricondivisioni nei post
 \n - Statistiche riguardo a Preferiti/Post nei profili
 \n
 \n Le notifiche push non saranno influenzate, ma puoi modificare le tue impostazioni delle notifiche manualmente.</string>
@@ -579,4 +577,43 @@
     <string name="duration_no_change">(nessuna modifica)</string>
     <string name="pref_title_show_self_username">Mostra nome utente nelle barre strumenti</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="action_add_or_remove_from_list">Aggiunti o rimuovi dalla lista</string>
+    <string name="failed_to_add_to_list">Aggiunta dell\'account alla lista fallita</string>
+    <string name="failed_to_remove_from_list">Rimozione dell\'account dalla lista fallita</string>
+    <string name="compose_save_draft_loses_media">Salvare bozza\? (gli allegati verranno ricaricati quando ripristini la bozza.)</string>
+    <string name="failed_to_pin">Fissaggio fallito</string>
+    <string name="hint_media_description_missing">I media dovrebbero avere una descrizione.</string>
+    <string name="no_lists">Non hai alcuna lista.</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="pref_default_post_language">Lingua predefinita per i post creati</string>
+    <string name="notification_report_description">Notifiche sulle segnalazioni da moderare</string>
+    <string name="failed_to_unpin">Rimozione del fissaggio fallita</string>
+    <string name="pref_title_http_proxy_port_message">Il port dovrebbe essere tra %d e %d</string>
+    <string name="report_category_violation">Violazione di una regola</string>
+    <string name="status_created_at_now">adesso</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="pref_title_notification_filter_reports">c\'è una nuova segnalazione</string>
+    <string name="notification_report_name">Segnalazioni</string>
+    <string name="error_muting_hashtag_format">Errore nel silenziamento di #%s</string>
+    <string name="error_unmuting_hashtag_format">Errore nella rimozione del silenziamento di #%s</string>
+    <string name="title_followed_hashtags">Hashtag seguiti</string>
+    <string name="description_post_edited">Modificato</string>
+    <string name="error_following_hashtags_unsupported">Questa istanza non permette di seguire gli hashtag.</string>
+    <string name="action_discard">Scarta modifiche</string>
+    <string name="action_continue_edit">Continua a modificare</string>
+    <string name="notification_report_format">Nuova segnalazione su %s</string>
+    <string name="notification_header_report_format">%s ha segnalato %s</string>
+    <string name="notification_summary_report_format">%s · %d post allegati</string>
+    <string name="action_add_reaction">aggiungi reazione</string>
+    <string name="compose_unsaved_changes">Hai delle modifiche non salvate.</string>
+    <string name="confirmation_hashtag_unfollowed">Non segui più #%s</string>
+    <string name="error_status_source_load">Caricamento dello status della sorgente dal server fallito.</string>
+    <string name="post_edited">Modificato %s</string>
+    <string name="mute_notifications_switch">Silenzia notifiche</string>
+    <string name="title_edits">Modifiche</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="status_edit_info">%1$s ha modificato %2$s</string>
+    <string name="status_created_info">%1$s ha creato %2$s</string>
+    <string name="report_category_other">Altro</string>
+    <string name="action_unfollow_hashtag_format">Smettere di seguire #%s\?</string>
 </resources>

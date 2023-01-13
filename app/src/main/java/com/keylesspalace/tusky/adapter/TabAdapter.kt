@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.chip.Chip
-import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
@@ -120,17 +118,18 @@ class TabAdapter(
 
                     val chip = binding.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                         ?: Chip(context).apply {
+                            setCloseIconResource(R.drawable.ic_cancel_24dp)
+                            isCheckable = false
                             binding.chipGroup.addView(this, binding.chipGroup.size - 1)
-                            chipIconTint = ColorStateList.valueOf(MaterialColors.getColor(this, android.R.attr.textColorPrimary))
                         }
 
                     chip.text = arg
 
                     if (tab.arguments.size <= 1) {
-                        chip.chipIcon = null
+                        chip.isCloseIconVisible = false
                         chip.setOnClickListener(null)
                     } else {
-                        chip.setChipIconResource(R.drawable.ic_cancel_24dp)
+                        chip.isCloseIconVisible = true
                         chip.setOnClickListener {
                             listener.onChipClicked(tab, holder.bindingAdapterPosition, i)
                         }

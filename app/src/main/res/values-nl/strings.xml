@@ -495,8 +495,6 @@
     <string name="action_unmute_conversation">Gesprek niet meer negeren</string>
     <string name="action_mute_conversation">Gesprek negeren</string>
     <string name="action_unmute_domain">%s niet meer negeren</string>
-    <string name="action_mute_notifications_desc">Meldingen van %s negeren</string>
-    <string name="action_unmute_notifications_desc">Meldingen van %s niet meer negeren</string>
     <string name="action_unmute_desc">%s niet meer negeren</string>
     <string name="notification_subscription_format">%s heeft zojuist een bericht geplaatst</string>
     <string name="notification_follow_request_format">%s verzoekt u te volgen</string>

@@ -333,8 +333,6 @@
     <string name="action_mute_conversation">Заглушаване на разговор</string>
     <string name="action_unmute_domain">Раззаглушаване на %s</string>
     <string name="action_mute_domain">Заглушаване на %s</string>
-    <string name="action_mute_notifications_desc">Заглушаване на известия от %s</string>
-    <string name="action_unmute_notifications_desc">Раззаглушаване на известия от %s</string>
     <string name="action_unmute_desc">Раззаглушаване на %s</string>
     <string name="action_unmute">Раззаглушаване</string>
     <string name="action_mute">Заглушаване</string>

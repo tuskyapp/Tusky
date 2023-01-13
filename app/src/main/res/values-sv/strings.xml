@@ -21,7 +21,7 @@
     <string name="title_notifications">Aviseringar</string>
     <string name="title_public_local">Lokalt</string>
     <string name="title_public_federated">Federerat</string>
-    <string name="title_direct_messages">Direkta meddelanden</string>
+    <string name="title_direct_messages">Direktmeddelanden</string>
     <string name="title_tab_preferences">Flikar</string>
     <string name="title_view_thread">Tråd</string>
     <string name="title_posts">Inlägg</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_notification_filter_reblogs">mina inlägg är knuffade</string>
     <string name="pref_title_notification_filter_favourites">mina inlägg är favoritmarkerade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
-    <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
     <string name="pref_title_timeline_filters">Filter</string>
     <string name="app_them_dark">Mörkt</string>
@@ -482,8 +482,6 @@
     <string name="action_unmute_desc">Ta bort tystad %s</string>
     <string name="pref_title_hide_top_toolbar">Dölj titeln i övre verktygsfältet</string>
     <string name="dialog_mute_hide_notifications">Dölj aviseringar</string>
-    <string name="action_mute_notifications_desc">Tysta aviseringar från %s</string>
-    <string name="action_unmute_notifications_desc">Aktivera aviseringar från %s</string>
     <string name="account_note_saved">Sparat!</string>
     <string name="account_note_hint">Din privata notering om detta kontot</string>
     <string name="no_announcements">Det finns inga meddelanden.</string>
@@ -603,4 +601,17 @@
     <string name="pref_title_http_proxy_port_message">Portnummer bör vara mellan %d och %d</string>
     <string name="error_status_source_load">Kunde inte ladda status från servern.</string>
     <string name="post_media_alt">ALT</string>
+    <string name="a11y_label_loading_thread">Laddar tråd</string>
+    <string name="mute_notifications_switch">Tysta notiser</string>
+    <string name="title_edits">Redigeringar</string>
+    <string name="status_edit_info">%1$s redigerade %2$s</string>
+    <string name="action_share_account_link">Dela länk med konto</string>
+    <string name="action_share_account_username">Dela användarnamn för konto</string>
+    <string name="send_account_link_to">Dela konto-URL med…</string>
+    <string name="send_account_username_to">Dela kontots användarnamn med…</string>
+    <string name="account_username_copied">Kopierade användarnamn</string>
+    <string name="status_created_info">%1$s skapade %2$s</string>
+    <string name="action_discard">Förkasta ändringar</string>
+    <string name="action_continue_edit">Fortsätt redigera</string>
+    <string name="compose_unsaved_changes">Du har ändringar som inte sparats.</string>
 </resources>
