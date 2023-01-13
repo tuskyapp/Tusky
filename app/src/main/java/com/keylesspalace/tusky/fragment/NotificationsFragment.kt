@@ -372,28 +372,22 @@ class NotificationsFragment :
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val (_, _, _, status) = notifications[position].asRight()
-        timelineCases.favourite(status!!.id, favourite)
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(
-                {
-                    setFavouriteForStatus(
-                        status.id,
-                        favourite
-                    )
-                }
-            ) { t: Throwable? ->
-                Log.d(
-                    javaClass.simpleName,
-                    "Failed to favourite status: " + status.id,
-                    t
-                )
-            }
+        val statusViewData = adapter.peek(position)?.statusViewData ?: return
+        viewModel.favorite(favourite, statusViewData)
     }
 
     private fun setFavouriteForStatus(statusId: String, favourite: Boolean) {
-        updateStatus(statusId) { s: Status? -> s!!.copyWithFavourited(favourite) }
+        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
+            notificationViewData.value?.statusViewData?.status?.id == statusId
+        } ?: return
+
+        val statusViewData = indexedViewData.value?.statusViewData ?: return
+
+        indexedViewData.value?.statusViewData = statusViewData.copy(
+            status = statusViewData.status.copy(favourited = favourite)
+        )
+
+        adapter.notifyItemChanged(indexedViewData.index)
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {

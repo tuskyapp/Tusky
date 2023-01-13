@@ -100,6 +100,20 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
+    // TODO: Copied from TimelineViewModel
+    fun favorite(
+        favorite: Boolean,
+        statusViewData: StatusViewData.Concrete
+    ): Job = viewModelScope.launch {
+        try {
+            timelineCases.favourite(statusViewData.actionableId, favorite).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to favourite status " + statusViewData.actionableId, t)
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "NotificationsViewModel"
     }
