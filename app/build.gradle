@@ -52,6 +52,8 @@ android {
         disable 'MissingTranslation'
     }
     buildFeatures {
+        buildConfig true
+        resValues true
         viewBinding true
     }
     testOptions {
