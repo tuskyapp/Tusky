@@ -391,28 +391,22 @@ class NotificationsFragment :
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val (_, _, _, status) = notifications[position].asRight()
-        timelineCases.bookmark(status!!.actionableId, bookmark)
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(
-                {
-                    setBookmarkForStatus(
-                        status.id,
-                        bookmark
-                    )
-                }
-            ) { t: Throwable? ->
-                Log.d(
-                    javaClass.simpleName,
-                    "Failed to bookmark status: " + status.id,
-                    t
-                )
-            }
+        val statusViewData = adapter.peek(position)?.statusViewData ?: return
+        viewModel.bookmark(bookmark, statusViewData)
     }
 
     private fun setBookmarkForStatus(statusId: String, bookmark: Boolean) {
-        updateStatus(statusId) { s: Status? -> s!!.copyWithBookmarked(bookmark) }
+        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
+            notificationViewData.value?.statusViewData?.status?.id == statusId
+        } ?: return
+
+        val statusViewData = indexedViewData.value?.statusViewData ?: return
+
+        indexedViewData.value?.statusViewData = statusViewData.copy(
+            status = statusViewData.status.copy(bookmarked = bookmark)
+        )
+
+        adapter.notifyItemChanged(indexedViewData.index)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
