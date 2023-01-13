@@ -25,19 +25,15 @@ import com.mikepenz.materialdrawer.view.BezelImageView
  * override BezelImageView from MaterialDrawer library to provide custom outline
  */
 class BezelImageView @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : BezelImageView(
-    context!!,
-    attrs,
-    defStyle
-) {
+) : BezelImageView(context, attrs, defStyle) {
     override fun onSizeChanged(w: Int, h: Int, old_w: Int, old_h: Int) {
         outlineProvider = CustomOutline(w, h)
     }
 
-    private class CustomOutline internal constructor(var width: Int, var height: Int) :
+    private class CustomOutline(var width: Int, var height: Int) :
         ViewOutlineProvider() {
         override fun getOutline(view: View, outline: Outline) {
             outline.setRoundRect(

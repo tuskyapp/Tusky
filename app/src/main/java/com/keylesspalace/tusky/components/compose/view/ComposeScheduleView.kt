@@ -27,7 +27,6 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ViewComposeScheduleBinding
-import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -35,46 +34,34 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class ComposeScheduleView : ConstraintLayout {
+class ComposeScheduleView
+@JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
     interface OnTimeSetListener {
         fun onTimeSet(time: String?)
     }
 
-    private lateinit var binding: ViewComposeScheduleBinding
+    private var binding = ViewComposeScheduleBinding.inflate(
+        (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
+        this
+    )
     private var listener: OnTimeSetListener? = null
-    private lateinit var dateFormat: DateFormat
-    private lateinit var timeFormat: DateFormat
-    private lateinit var iso8601: SimpleDateFormat
+    private var dateFormat = SimpleDateFormat.getDateInstance()
+    private var timeFormat = SimpleDateFormat.getTimeInstance()
+    private var iso8601 = SimpleDateFormat(
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        Locale.getDefault()
+    ).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
     private var scheduleDateTime: Calendar? = null
 
-    constructor(context: Context) : super(context) {
-        init(context)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
-        init(context)
-    }
-
-    private fun init(context: Context) {
-        binding = ViewComposeScheduleBinding.inflate(
-            (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater),
-            this
-        )
-        dateFormat = SimpleDateFormat.getDateInstance()
-        timeFormat = SimpleDateFormat.getTimeInstance()
-        iso8601 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        iso8601.timeZone = TimeZone.getTimeZone("UTC")
+    init {
         binding.scheduledDateTime.setOnClickListener { openPickDateDialog() }
         binding.invalidScheduleWarning.setText(R.string.warning_scheduling_interval)
-        scheduleDateTime = null
         updateScheduleUi()
         setEditIcons()
     }
@@ -173,7 +160,7 @@ class ComposeScheduleView : ConstraintLayout {
 
     fun verifyScheduledTime(scheduledTime: Date?): Boolean {
         val valid: Boolean = if (scheduledTime != null) {
-            val minimumScheduledTime = calendar
+            val minimumScheduledTime = calendar()
             minimumScheduledTime.add(
                 Calendar.SECOND,
                 MINIMUM_SCHEDULED_SECONDS
@@ -188,7 +175,7 @@ class ComposeScheduleView : ConstraintLayout {
 
     private fun onDateSet(selection: Long) {
         initializeSuggestedTime()
-        val newDate = calendar
+        val newDate = calendar()
         // working around bug in DatePicker where date is UTC #1720
         // see https://github.com/material-components/material-components-android/issues/882
         newDate.timeZone = TimeZone.getTimeZone("UTC")
@@ -202,26 +189,22 @@ class ComposeScheduleView : ConstraintLayout {
         scheduleDateTime?.set(Calendar.HOUR_OF_DAY, hourOfDay)
         scheduleDateTime?.set(Calendar.MINUTE, minute)
         updateScheduleUi()
-        if (listener != null) {
-            listener!!.onTimeSet(time)
-        }
+        listener?.onTimeSet(time)
     }
 
     val time: String?
-        get() = if (scheduleDateTime == null) {
-            null
-        } else iso8601.format(scheduleDateTime!!.time)
+        get() = scheduleDateTime?.time?.let { iso8601.format(it) }
 
     private fun initializeSuggestedTime() {
         if (scheduleDateTime == null) {
-            scheduleDateTime = calendar
-            scheduleDateTime!!.add(Calendar.MINUTE, 15)
+            scheduleDateTime = calendar().apply {
+                add(Calendar.MINUTE, 15)
+            }
         }
     }
 
     companion object {
         var MINIMUM_SCHEDULED_SECONDS = 330 // Minimum is 5 minutes, pad 30 seconds for posting
-        val calendar: Calendar
-            get() = Calendar.getInstance(TimeZone.getDefault())
+        fun calendar(): Calendar = Calendar.getInstance(TimeZone.getDefault())
     }
 }

@@ -21,50 +21,41 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.content.res.AppCompatResources
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 
-class ProgressImageView : MediaPreviewImageView {
+class ProgressImageView
+@JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : MediaPreviewImageView(context, attrs, defStyleAttr) {
     private var progress = -1
     private val progressRect = RectF()
     private val biggerRect = RectF()
-    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val clearPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val markBgPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private lateinit var captionDrawable: Drawable
-
-    constructor(context: Context?) : super(context!!) {
-        init()
+    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = context.getColor(R.color.tusky_blue)
+        strokeWidth = Utils.dpToPx(context, 4).toFloat()
+        style = Paint.Style.STROKE
     }
-
-    constructor(context: Context?, attrs: AttributeSet?) : super(
-        context!!,
-        attrs
-    ) {
-        init()
+    private val clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
     }
-
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context!!,
-        attrs,
-        defStyleAttr
-    ) {
-        init()
+    private val markBgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+        color = context.getColor(R.color.tusky_grey_10)
     }
-
-    private fun init() {
-        circlePaint.color = context.getColor(R.color.tusky_blue)
-        circlePaint.strokeWidth = Utils.dpToPx(context, 4).toFloat()
-        circlePaint.style = Paint.Style.STROKE
-        clearPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-        markBgPaint.style = Paint.Style.FILL
-        markBgPaint.color = context.getColor(R.color.tusky_grey_10)
-        captionDrawable = AppCompatResources.getDrawable(context, R.drawable.spellcheck)!!
+    private val captionDrawable = AppCompatResources.getDrawable(
+        context,
+        R.drawable.spellcheck
+    )!!.apply {
+        setTint(Color.WHITE)
     }
+    private val circleRadius = Utils.dpToPx(context, 14)
+    private val circleMargin = Utils.dpToPx(context, 14)
 
     fun setProgress(progress: Int) {
         this.progress = progress
@@ -92,14 +83,12 @@ class ProgressImageView : MediaPreviewImageView {
         val margin = 8
         biggerRect[progressRect.left - margin, progressRect.top - margin, progressRect.right + margin] =
             progressRect.bottom + margin
-        canvas.saveLayer(biggerRect, null, Canvas.ALL_SAVE_FLAG)
+        canvas.saveLayer(biggerRect, null)
         if (progress != -1) {
             canvas.drawOval(progressRect, circlePaint)
             canvas.drawArc(biggerRect, angle, 360 - angle - 90, true, clearPaint)
         }
         canvas.restore()
-        val circleRadius = Utils.dpToPx(context, 14)
-        val circleMargin = Utils.dpToPx(context, 14)
         val circleY = height - circleMargin - circleRadius / 2
         val circleX = width - circleMargin - circleRadius / 2
         canvas.drawCircle(circleX.toFloat(), circleY.toFloat(), circleRadius.toFloat(), markBgPaint)
@@ -109,7 +98,6 @@ class ProgressImageView : MediaPreviewImageView {
             width - circleMargin,
             height - circleMargin
         )
-        captionDrawable.setTint(Color.WHITE)
         captionDrawable.draw(canvas)
     }
 }
