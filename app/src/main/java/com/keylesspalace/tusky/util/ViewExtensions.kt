@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.util
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
@@ -82,16 +83,20 @@ fun ViewPager2.reduceSwipeSensitivity() {
     // https://bladecoder.medium.com/fixing-recyclerview-nested-scrolling-in-opposite-direction-f587be5c1a04
     // for more (the approach in that Medium article works, but is still quite sensitive to
     // horizontal movement while scrolling).
-    val recyclerViewField = ViewPager2::class.java.getDeclaredField("mRecyclerView")
-    recyclerViewField.isAccessible = true
-    val recyclerView = recyclerViewField.get(this) as RecyclerView
+    try {
+        val recyclerViewField = ViewPager2::class.java.getDeclaredField("mRecyclerView")
+        recyclerViewField.isAccessible = true
+        val recyclerView = recyclerViewField.get(this) as RecyclerView
 
-    val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
-    touchSlopField.isAccessible = true
-    val touchSlop = touchSlopField.get(recyclerView) as Int
-    // 4 seems to be a sweet-spot. 2-3 still causes a horizontal swipe right if the user drags
-    // down-left at ~ 45 degree angle. Experimentally, 4 requires the swipe to be +/- ~ 10 degrees
-    // from horizontal to register as a horizontal and not a vertical swipe.
-    val scaleFactor = 4
-    touchSlopField.set(recyclerView, touchSlop * scaleFactor)
+        val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
+        touchSlopField.isAccessible = true
+        val touchSlop = touchSlopField.get(recyclerView) as Int
+        // 4 seems to be a sweet-spot. 2-3 still causes a horizontal swipe right if the user drags
+        // down-left at ~ 45 degree angle. Experimentally, 4 requires the swipe to be +/- ~ 10 degrees
+        // from horizontal to register as a horizontal and not a vertical swipe.
+        val scaleFactor = 4
+        touchSlopField.set(recyclerView, touchSlop * scaleFactor)
+    } catch (e: Exception) {
+        Log.w("reduceSwipeSensitivity", e)
+    }
 }
