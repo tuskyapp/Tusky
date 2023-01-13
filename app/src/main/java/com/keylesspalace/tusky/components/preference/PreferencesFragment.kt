@@ -52,20 +52,20 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     private var httpProxyPref: Preference? = null
 
     enum class ReadingOrder {
-        /** User scrolls up, reading statuses oldest to newest. Default behaviour. */
+        /** User scrolls up, reading statuses oldest to newest */
         OLDEST_FIRST,
 
-        /** User scrolls down, reading statuses newest to oldest */
+        /** User scrolls down, reading statuses newest to oldest. Default behaviour. */
         NEWEST_FIRST;
 
         companion object {
             fun from(s: String?): ReadingOrder {
-                s ?: return OLDEST_FIRST
+                s ?: return NEWEST_FIRST
 
                 return try {
                     valueOf(s.uppercase())
                 } catch (_: Throwable) {
-                    OLDEST_FIRST
+                    NEWEST_FIRST
                 }
             }
         }
@@ -111,7 +111,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 listPreference {
-                    setDefaultValue(ReadingOrder.OLDEST_FIRST.name)
+                    setDefaultValue(ReadingOrder.NEWEST_FIRST.name)
                     setEntries(R.array.reading_order_names)
                     setEntryValues(R.array.reading_order_values)
                     key = PrefKeys.READING_ORDER
