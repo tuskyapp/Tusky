@@ -16,9 +16,26 @@
 package com.keylesspalace.tusky.viewdata
 
 import com.keylesspalace.tusky.entity.TrendingTag
+import com.keylesspalace.tusky.entity.end
+import com.keylesspalace.tusky.entity.start
+import java.util.Date
 
 sealed class TrendingViewData {
     abstract val id: String
+
+    data class Header(
+        val start: Date,
+        val end: Date,
+    ) : TrendingViewData() {
+        override val id: String
+            get() = start.toString() + end.toString()
+    }
+
+    fun asHeaderOrNull(): Header? {
+        val tag = (this as? Tag)?.tag
+            ?: return null
+        return Header(tag.start(), tag.end())
+    }
 
     data class Tag(
         val tag: TrendingTag

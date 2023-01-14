@@ -13,6 +13,7 @@
         <attr name="secondaryLineColor" format="reference|color" />
         <attr name="lineThickness" format="dimension" />
         <attr name="graphColor" format="reference|color" />
+        <attr name="metaColor" format="reference|color" />
         <attr name="proportionalTrending" format="boolean" />
     </declare-styleable>
 

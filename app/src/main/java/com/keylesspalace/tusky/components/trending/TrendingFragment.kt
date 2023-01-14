@@ -31,6 +31,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -47,7 +48,7 @@ import com.keylesspalace.tusky.databinding.FragmentTrendingBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -69,6 +70,7 @@ class TrendingFragment :
     LinkListener,
     Injectable,
     ReselectableFragment,
+    FabFragment,
     RefreshableFragment {
 
     private lateinit var bottomSheetActivity: BottomSheetActivity
@@ -91,7 +93,6 @@ class TrendingFragment :
     private lateinit var adapter: TrendingPagingAdapter
 
     private var isSwipeToRefreshEnabled = true
-    private var hideFab = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -136,7 +137,7 @@ class TrendingFragment :
         super.onConfigurationChanged(newConfig)
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
-        binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount)
+        setupLayoutManager(columnCount)
     }
 
     override fun onCreateView(
@@ -168,27 +169,6 @@ class TrendingFragment :
             }
         })
 
-        if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            hideFab = preferences.getBoolean("fabHide", false)
-            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                    val composeButton = (activity as ActionButtonActivity).actionButton
-                    if (composeButton != null) {
-                        if (hideFab) {
-                            if (dy > 0 && composeButton.isShown) {
-                                composeButton.hide() // hides the button if we're scrolling down
-                            } else if (dy < 0 && !composeButton.isShown) {
-                                composeButton.show() // shows it if we are scrolling up
-                            }
-                        } else if (!composeButton.isShown) {
-                            composeButton.show()
-                        }
-                    }
-                }
-            })
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collectLatest { trendingState ->
                 processViewState(trendingState)
@@ -213,10 +193,24 @@ class TrendingFragment :
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
+    private fun setupLayoutManager(columnCount: Int) {
+        binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount).apply {
+            spanSizeLookup = object : SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return when (adapter.getItemViewType(position)) {
+                        TrendingPagingAdapter.VIEW_TYPE_HEADER -> columnCount
+                        TrendingPagingAdapter.VIEW_TYPE_TAG -> 1
+                        else -> -1
+                    }
+                }
+            }
+        }
+    }
+
     private fun setupRecyclerView() {
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
-        binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount)
+        setupLayoutManager(columnCount)
 
         binding.recyclerView.setHasFixedSize(true)
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
@@ -255,7 +249,10 @@ class TrendingFragment :
 
     private fun applyLoadedState(viewData: List<TrendingViewData>) {
         clearLoadingState()
-        adapter.submitList(viewData)
+
+        val viewDataWithDates = listOf(viewData.first().asHeaderOrNull()) + viewData
+
+        adapter.submitList(viewDataWithDates)
 
         if (viewData.isEmpty()) {
             binding.recyclerView.hide()
@@ -308,12 +305,8 @@ class TrendingFragment :
     }
 
     private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-
+            // TODO: REMOVE?
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
@@ -323,10 +316,6 @@ class TrendingFragment :
                 }
             }
         }
-    }
-
-    private fun actionButtonPresent(): Boolean {
-        return activity is ActionButtonActivity
     }
 
     private var talkBackWasEnabled = false
@@ -354,6 +343,8 @@ class TrendingFragment :
     override fun refreshContent() {
         onRefresh()
     }
+
+    override fun isFabVisible() = false
 
     companion object {
         private const val TAG = "TrendingF" // logging tag

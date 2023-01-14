@@ -21,8 +21,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.adapter.TrendingDateViewHolder
 import com.keylesspalace.tusky.adapter.TrendingTagViewHolder
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
+import com.keylesspalace.tusky.databinding.ItemTrendingDateBinding
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.TrendingViewData
@@ -46,6 +48,12 @@ class TrendingPagingAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
+            VIEW_TYPE_HEADER -> {
+                val binding =
+                    ItemTrendingDateBinding.inflate(LayoutInflater.from(viewGroup.context))
+                TrendingDateViewHolder(binding)
+            }
+
             VIEW_TYPE_TAG -> {
                 val binding =
                     ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
@@ -77,30 +85,39 @@ class TrendingPagingAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val trending = getItem(position)
-        if (trending is TrendingViewData.Tag) {
-            val maxTrendingValue = currentList
-                .flatMap { trendingViewData ->
-                    trendingViewData.asTagOrNull()?.tag?.history ?: emptyList()
-                }
-                .mapNotNull { it.uses.toLongOrNull() }
-                .maxOrNull() ?: 1
+        when (val header = getItem(position)) {
+            is TrendingViewData.Tag -> {
+                val maxTrendingValue = currentList
+                    .flatMap { trendingViewData ->
+                        trendingViewData.asTagOrNull()?.tag?.history ?: emptyList()
+                    }
+                    .mapNotNull { it.uses.toLongOrNull() }
+                    .maxOrNull() ?: 1
 
-            val holder = viewHolder as TrendingTagViewHolder
-            holder.setup(trending, maxTrendingValue, trendingListener)
+                val holder = viewHolder as TrendingTagViewHolder
+                holder.setup(header, maxTrendingValue, trendingListener)
+            }
+
+            is TrendingViewData.Header -> {
+                val holder = viewHolder as TrendingDateViewHolder
+                holder.setup(header.start, header.end)
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) is TrendingViewData.Tag) {
             VIEW_TYPE_TAG
+        } else if (getItem(position) is TrendingViewData.Header) {
+            VIEW_TYPE_HEADER
         } else {
             VIEW_TYPE_TAG
         }
     }
 
     companion object {
-        private const val VIEW_TYPE_TAG = 0
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_TAG = 1
 
         val TrendingDifferCallback = object : DiffUtil.ItemCallback<TrendingViewData>() {
             override fun areItemsTheSame(

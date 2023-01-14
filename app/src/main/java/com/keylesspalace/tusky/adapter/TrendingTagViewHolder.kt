@@ -21,18 +21,10 @@ import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.entity.TrendingTagHistory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 class TrendingTagViewHolder(
     private val binding: ItemTrendingCellBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-
-    private val dateFormat = SimpleDateFormat("d MMM", Locale.getDefault()).apply {
-        this.timeZone = TimeZone.getDefault()
-    }
 
     fun setup(
         tagViewData: TrendingViewData.Tag,
@@ -42,12 +34,6 @@ class TrendingTagViewHolder(
         val reversedHistory = tagViewData.tag.history.reversed()
         setGraph(reversedHistory, maxTrendingValue)
         setTag(tagViewData.tag.name)
-
-        val start = reversedHistory.firstOrNull()?.day?.toLongOrNull() ?: 0L
-        val last = reversedHistory.lastOrNull()?.day?.toLongOrNull() ?: 0L
-        if (start > 0L && last >= 0L) {
-            setDates(Date(start * 1000L), Date(last * 1000L))
-        }
 
         val totalUsage = tagViewData.tag.history.sumOf { it.uses.toLongOrNull() ?: 0 }
         setUsageText(totalUsage)
@@ -72,14 +58,6 @@ class TrendingTagViewHolder(
 
     private fun setTag(tag: String) {
         binding.tag.text = tag
-    }
-
-    private fun setDates(start: Date, end: Date) {
-        binding.dates.text = itemView.context.getString(
-            R.string.date_range,
-            dateFormat.format(start),
-            dateFormat.format(end)
-        )
     }
 
     private fun setUsageText(usage: Long) {

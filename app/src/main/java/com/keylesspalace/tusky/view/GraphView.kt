@@ -50,6 +50,10 @@ class GraphView @JvmOverloads constructor(
     @ColorInt
     var graphColor = 0
 
+    @get:ColorInt
+    @ColorInt
+    var metaColor = 0
+
     var proportionalTrending = false
 
     private lateinit var primaryLinePaint: Paint
@@ -57,6 +61,7 @@ class GraphView @JvmOverloads constructor(
     private lateinit var primaryCirclePaint: Paint
     private lateinit var secondaryCirclePaint: Paint
     private lateinit var graphPaint: Paint
+    private lateinit var metaPaint: Paint
 
     private lateinit var sizeRect: Rect
     private var primaryLinePath: Path = Path()
@@ -123,6 +128,14 @@ class GraphView @JvmOverloads constructor(
             )
         )
 
+        metaColor = ContextCompat.getColor(
+            context,
+            a.getResourceId(
+                R.styleable.GraphView_metaColor,
+                R.color.dividerColor,
+            )
+        )
+
         proportionalTrending = a.getBoolean(
             R.styleable.GraphView_proportionalTrending,
             proportionalTrending,
@@ -154,6 +167,12 @@ class GraphView @JvmOverloads constructor(
             color = graphColor
         }
 
+        metaPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = metaColor
+            strokeWidth = 0f
+            style = Paint.Style.STROKE
+        }
+
         a.recycle()
     }
 
@@ -171,7 +190,7 @@ class GraphView @JvmOverloads constructor(
             max(primaryLineData.max(), 1)
         }
         val mainRatio = height.toFloat() / max.toFloat()
-        val pointDistance = width.toFloat() / max(lineData.size - 1, 1).toFloat()
+        val pointDistance = dataSpacing(lineData)
 
         lineData.forEachIndexed { index, magnitude ->
             val x = pointDistance * index.toFloat()
@@ -189,6 +208,8 @@ class GraphView @JvmOverloads constructor(
         }
     }
 
+    private fun dataSpacing(data: List<Any>) = width.toFloat() / max(data.size - 1, 1).toFloat()
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
@@ -198,6 +219,17 @@ class GraphView @JvmOverloads constructor(
 
         canvas?.apply {
             drawRect(sizeRect, graphPaint)
+
+            val pointDistance = dataSpacing(primaryLineData)
+            for (i in 0 until primaryLineData.size + 1) {
+                drawLine(
+                    i * pointDistance,
+                    0f,
+                    i * pointDistance,
+                    height.toFloat(),
+                    metaPaint,
+                )
+            }
 
             drawLine(
                 canvas = canvas,

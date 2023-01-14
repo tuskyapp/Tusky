@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.entity
 
+import java.util.Date
+
 /**
  * Mastodon API Documentation: https://docs.joinmastodon.org/methods/trends/#tags
  *
@@ -42,3 +44,6 @@ data class TrendingTagHistory(
     val accounts: String,
     val uses: String,
 )
+
+fun TrendingTag.start() = Date(history.last().day.toLong() * 1000L)
+fun TrendingTag.end() = Date(history.first().day.toLong() * 1000L)

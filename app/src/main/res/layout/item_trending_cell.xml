@@ -45,22 +45,6 @@
         tools:text="itishashtagtuesday" />
 
     <TextView
-        android:id="@+id/dates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-thin"
-        android:importantForAccessibility="no"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="?android:textColorHint"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintStart_toStartOf="@id/symbol"
-        app:layout_constraintTop_toBottomOf="@id/symbol"
-        tools:text="1 jan — 7 jan" />
-
-    <TextView
         android:id="@+id/usage"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
@@ -74,7 +58,7 @@
         app:layout_constraintEnd_toStartOf="@id/accounts"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dates"
+        app:layout_constraintTop_toBottomOf="@id/symbol"
         tools:text="12 345" />
 
     <TextView
@@ -95,7 +79,6 @@
         android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:importantForAccessibility="no"
         android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -105,7 +88,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/usage"
-        app:layout_constraintTop_toBottomOf="@id/dates"
+        app:layout_constraintTop_toTopOf="@id/usage"
         tools:text="498" />
 
     <TextView
@@ -138,6 +121,7 @@
         app:layout_constraintTop_toBottomOf="@id/usageLabel"
         app:lineThickness="3dp"
         app:primaryLineColor="@color/tusky_blue"
+        app:proportionalTrending="true"
         app:secondaryLineColor="@color/tusky_red" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
