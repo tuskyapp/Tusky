@@ -292,7 +292,7 @@ class NotificationsFragment :
         updateFilterVisibility()
 
         hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-        scrollListener = object : EndlessOnScrollListener(layoutManager) {
+        scrollListener = object : EndlessOnScrollListener(layoutManager!!) {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(view, dx, dy)
                 val actionButton = (requireActivity() as ActionButtonActivity).actionButton

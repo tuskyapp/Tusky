@@ -111,3 +111,7 @@
     static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
     static void throwUninitializedPropertyAccessException(java.lang.String);
 }
+
+# Preference fragments can be referenced by name, ensure they remain
+# https://github.com/tuskyapp/Tusky/issues/3161
+-keep class * extends androidx.preference.PreferenceFragmentCompat
