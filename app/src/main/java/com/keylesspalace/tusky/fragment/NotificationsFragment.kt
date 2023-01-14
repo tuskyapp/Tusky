@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListUpdateCallback
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
@@ -67,7 +66,6 @@ import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -292,27 +290,27 @@ class NotificationsFragment :
         updateFilterVisibility()
 
         hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-        scrollListener = object : EndlessOnScrollListener(layoutManager!!) {
-            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(view, dx, dy)
-                val actionButton = (requireActivity() as ActionButtonActivity).actionButton
-                actionButton?.let { composeButton ->
-                    if (hideFab) {
-                        if (dy > 0 && composeButton.isShown) {
-                            composeButton.hide() // Hides the button if we're scrolling down
-                        } else if (dy < 0 && !composeButton.isShown) {
-                            composeButton.show() // Shows it if we are scrolling up
-                        }
-                    } else if (!composeButton.isShown) {
-                        composeButton.show()
-                    }
-                }
-            }
-
-            override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
-                this@NotificationsFragment.onLoadMore()
-            }
-        }
+//        scrollListener = object : EndlessOnScrollListener(layoutManager!!) {
+//            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(view, dx, dy)
+//                val actionButton = (requireActivity() as ActionButtonActivity).actionButton
+//                actionButton?.let { composeButton ->
+//                    if (hideFab) {
+//                        if (dy > 0 && composeButton.isShown) {
+//                            composeButton.hide() // Hides the button if we're scrolling down
+//                        } else if (dy < 0 && !composeButton.isShown) {
+//                            composeButton.show() // Shows it if we are scrolling up
+//                        }
+//                    } else if (!composeButton.isShown) {
+//                        composeButton.show()
+//                    }
+//                }
+//            }
+//
+//            override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
+//                this@NotificationsFragment.onLoadMore()
+//            }
+//        }
 //        binding.recyclerView.addOnScrollListener(scrollListener)
 
         eventHub.events
