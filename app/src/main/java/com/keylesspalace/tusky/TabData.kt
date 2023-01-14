@@ -45,6 +45,8 @@ data class TabData(
     val title: (Context) -> String = { context -> context.getString(text) }
 )
 
+fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
+
 fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
     return when (id) {
         HOME -> TabData(
