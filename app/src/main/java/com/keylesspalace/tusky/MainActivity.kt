@@ -74,6 +74,7 @@ import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNec
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
+import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
@@ -278,8 +279,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
-                                addSearchButton = hideTopToolbar,
-                                addTrendingButton = !event.newTabs.hasTab(TRENDING),
+                            addSearchButton = hideTopToolbar,
+                            addTrendingButton = !event.newTabs.hasTab(TRENDING),
                         )
 
                         setupTabs(false)
@@ -468,129 +469,148 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             itemAdapter.clear()
             tintStatusBar = true
             addItems(
-                    primaryDrawerItem {
-                        nameRes = R.string.action_edit_profile
-                        iconicsIcon = GoogleMaterial.Icon.gmd_person
-                        onClick = {
-                            val intent = Intent(context, EditProfileActivity::class.java)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    primaryDrawerItem {
-                        nameRes = R.string.action_view_favourites
-                        isSelectable = false
-                        iconicsIcon = GoogleMaterial.Icon.gmd_star
-                        onClick = {
-                            val intent = StatusListActivity.newFavouritesIntent(context)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    primaryDrawerItem {
-                        nameRes = R.string.action_view_bookmarks
-                        iconicsIcon = GoogleMaterial.Icon.gmd_bookmark
-                        onClick = {
-                            val intent = StatusListActivity.newBookmarksIntent(context)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    primaryDrawerItem {
-                        nameRes = R.string.action_view_follow_requests
-                        iconicsIcon = GoogleMaterial.Icon.gmd_person_add
-                        onClick = {
-                            val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    primaryDrawerItem {
-                        nameRes = R.string.action_lists
-                        iconicsIcon = GoogleMaterial.Icon.gmd_list
-                        onClick = {
-                            startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
-                        }
-                    },
-                    primaryDrawerItem {
-                        nameRes = R.string.action_access_drafts
-                        iconRes = R.drawable.ic_notebook
-                        onClick = {
-                            val intent = DraftsActivity.newIntent(context)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    primaryDrawerItem {
-                        nameRes = R.string.action_access_scheduled_posts
-                        iconRes = R.drawable.ic_access_time
-                        onClick = {
-                            startActivityWithSlideInAnimation(ScheduledStatusActivity.newIntent(context))
-                        }
-                    },
-                    primaryDrawerItem {
-                        identifier = DRAWER_ITEM_ANNOUNCEMENTS
-                        nameRes = R.string.title_announcements
-                        iconRes = R.drawable.ic_bullhorn_24dp
-                        onClick = {
-                            startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
-                        }
-                        badgeStyle = BadgeStyle().apply {
-                            textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, R.attr.colorOnPrimary))
-                            color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, R.attr.colorPrimary))
-                        }
-                    },
-                    DividerDrawerItem(),
-                    secondaryDrawerItem {
-                        nameRes = R.string.action_view_account_preferences
-                        iconRes = R.drawable.ic_account_settings
-                        onClick = {
-                            val intent = PreferencesActivity.newIntent(context, PreferencesActivity.ACCOUNT_PREFERENCES)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    secondaryDrawerItem {
-                        nameRes = R.string.action_view_preferences
-                        iconicsIcon = GoogleMaterial.Icon.gmd_settings
-                        onClick = {
-                            val intent = PreferencesActivity.newIntent(context, PreferencesActivity.GENERAL_PREFERENCES)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    secondaryDrawerItem {
-                        nameRes = R.string.about_title_activity
-                        iconicsIcon = GoogleMaterial.Icon.gmd_info
-                        onClick = {
-                            val intent = Intent(context, AboutActivity::class.java)
-                            startActivityWithSlideInAnimation(intent)
-                        }
-                    },
-                    secondaryDrawerItem {
-                        nameRes = R.string.action_logout
-                        iconRes = R.drawable.ic_logout
-                        onClick = ::logout
+                primaryDrawerItem {
+                    nameRes = R.string.action_edit_profile
+                    iconicsIcon = GoogleMaterial.Icon.gmd_person
+                    onClick = {
+                        val intent = Intent(context, EditProfileActivity::class.java)
+                        startActivityWithSlideInAnimation(intent)
                     }
+                },
+                primaryDrawerItem {
+                    nameRes = R.string.action_view_favourites
+                    isSelectable = false
+                    iconicsIcon = GoogleMaterial.Icon.gmd_star
+                    onClick = {
+                        val intent = StatusListActivity.newFavouritesIntent(context)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                primaryDrawerItem {
+                    nameRes = R.string.action_view_bookmarks
+                    iconicsIcon = GoogleMaterial.Icon.gmd_bookmark
+                    onClick = {
+                        val intent = StatusListActivity.newBookmarksIntent(context)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                primaryDrawerItem {
+                    nameRes = R.string.action_view_follow_requests
+                    iconicsIcon = GoogleMaterial.Icon.gmd_person_add
+                    onClick = {
+                        val intent = AccountListActivity.newIntent(
+                            context,
+                            AccountListActivity.Type.FOLLOW_REQUESTS,
+                            accountLocked = accountLocked
+                        )
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                primaryDrawerItem {
+                    nameRes = R.string.action_lists
+                    iconicsIcon = GoogleMaterial.Icon.gmd_list
+                    onClick = {
+                        startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
+                    }
+                },
+                primaryDrawerItem {
+                    nameRes = R.string.action_access_drafts
+                    iconRes = R.drawable.ic_notebook
+                    onClick = {
+                        val intent = DraftsActivity.newIntent(context)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                primaryDrawerItem {
+                    nameRes = R.string.action_access_scheduled_posts
+                    iconRes = R.drawable.ic_access_time
+                    onClick = {
+                        startActivityWithSlideInAnimation(ScheduledStatusActivity.newIntent(context))
+                    }
+                },
+                primaryDrawerItem {
+                    identifier = DRAWER_ITEM_ANNOUNCEMENTS
+                    nameRes = R.string.title_announcements
+                    iconRes = R.drawable.ic_bullhorn_24dp
+                    onClick = {
+                        startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
+                    }
+                    badgeStyle = BadgeStyle().apply {
+                        textColor = ColorHolder.fromColor(
+                            MaterialColors.getColor(
+                                binding.mainDrawer,
+                                R.attr.colorOnPrimary
+                            )
+                        )
+                        color = ColorHolder.fromColor(
+                            MaterialColors.getColor(
+                                binding.mainDrawer,
+                                R.attr.colorPrimary
+                            )
+                        )
+                    }
+                },
+                DividerDrawerItem(),
+                secondaryDrawerItem {
+                    nameRes = R.string.action_view_account_preferences
+                    iconRes = R.drawable.ic_account_settings
+                    onClick = {
+                        val intent = PreferencesActivity.newIntent(
+                            context,
+                            PreferencesActivity.ACCOUNT_PREFERENCES
+                        )
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                secondaryDrawerItem {
+                    nameRes = R.string.action_view_preferences
+                    iconicsIcon = GoogleMaterial.Icon.gmd_settings
+                    onClick = {
+                        val intent = PreferencesActivity.newIntent(
+                            context,
+                            PreferencesActivity.GENERAL_PREFERENCES
+                        )
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                secondaryDrawerItem {
+                    nameRes = R.string.about_title_activity
+                    iconicsIcon = GoogleMaterial.Icon.gmd_info
+                    onClick = {
+                        val intent = Intent(context, AboutActivity::class.java)
+                        startActivityWithSlideInAnimation(intent)
+                    }
+                },
+                secondaryDrawerItem {
+                    nameRes = R.string.action_logout
+                    iconRes = R.drawable.ic_logout
+                    onClick = ::logout
+                }
             )
 
             if (addSearchButton) {
                 binding.mainDrawer.addItemsAtPosition(
-                        4,
-                        primaryDrawerItem {
-                            nameRes = R.string.action_search
-                            iconicsIcon = GoogleMaterial.Icon.gmd_search
-                            onClick = {
-                                startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                            }
+                    4,
+                    primaryDrawerItem {
+                        nameRes = R.string.action_search
+                        iconicsIcon = GoogleMaterial.Icon.gmd_search
+                        onClick = {
+                            startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
                         }
+                    }
                 )
             }
 
             if (addTrendingButton) {
                 binding.mainDrawer.addItemsAtPosition(
-                        5,
-                        primaryDrawerItem {
-                            nameRes = R.string.title_public_trending
-                            iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
-                            onClick = {
-                                // TODO: The trending fragment needs to be forced into view
-                                startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                            }
+                    5,
+                    primaryDrawerItem {
+                        nameRes = R.string.title_public_trending
+                        iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
+                        onClick = {
+                            startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
                         }
+                    }
                 )
             }
         }
