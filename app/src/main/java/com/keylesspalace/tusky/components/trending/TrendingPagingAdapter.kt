@@ -61,9 +61,7 @@ class TrendingPagingAdapter(
             }
 
             else -> {
-                val binding =
-                    ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
-                TrendingTagViewHolder(binding)
+                throw IllegalStateException("Trending view cannot be created due to viewType mismatch.")
             }
         }
     }
@@ -111,7 +109,7 @@ class TrendingPagingAdapter(
         } else if (getItem(position) is TrendingViewData.Header) {
             VIEW_TYPE_HEADER
         } else {
-            VIEW_TYPE_TAG
+            throw IllegalStateException("Trending view cannot be retrieved due to viewType mismatch.")
         }
     }
 

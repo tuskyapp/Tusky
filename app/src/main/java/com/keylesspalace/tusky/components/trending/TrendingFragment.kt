@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.databinding.FragmentTrendingBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
@@ -318,6 +319,10 @@ class TrendingFragment :
         }
     }
 
+    private fun actionButtonPresent(): Boolean {
+        return activity is ActionButtonActivity
+    }
+
     private var talkBackWasEnabled = false
 
     override fun onResume() {
@@ -330,6 +335,11 @@ class TrendingFragment :
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
+        }
+
+        if (actionButtonPresent()) {
+            val composeButton = (activity as ActionButtonActivity).actionButton
+            composeButton?.hide()
         }
     }
 

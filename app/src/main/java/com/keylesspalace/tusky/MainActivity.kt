@@ -81,6 +81,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -715,6 +716,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
 
                 binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+
+                refreshComposeButtonState(adapter, tab.position)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -724,6 +727,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 if (fragment is ReselectableFragment) {
                     (fragment as ReselectableFragment).onReselect()
                 }
+
+                refreshComposeButtonState(adapter, tab.position)
             }
         }.also {
             activeTabLayout.addOnTabSelectedListener(it)
@@ -736,6 +741,20 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         updateProfiles()
+    }
+
+    private fun refreshComposeButtonState(adapter: MainPagerAdapter, tabPosition: Int) {
+        adapter.getFragment(tabPosition)?.also { fragment ->
+            if (fragment is FabFragment) {
+                if (fragment.isFabVisible()) {
+                    binding.composeButton.show()
+                } else {
+                    binding.composeButton.hide()
+                }
+            } else {
+                binding.composeButton.show()
+            }
+        }
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
