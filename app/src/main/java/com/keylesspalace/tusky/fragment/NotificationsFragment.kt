@@ -25,7 +25,6 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
-import androidx.arch.core.util.Function
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -44,7 +43,6 @@ import autodispose2.AutoDispose
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.NotificationsAdapter.AdapterDataSource
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -58,6 +56,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
+import com.keylesspalace.tusky.components.notifications.UiAction
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -70,30 +69,21 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.Either.Left
-import com.keylesspalace.tusky.util.Either.Right
-import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.findByRelationType
-import com.keylesspalace.tusky.util.HttpHeaderLink.Companion.parse
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PairedList
 import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.isEmpty
-import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
-import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -116,7 +106,6 @@ class NotificationsFragment :
     @Inject
     lateinit var eventHub: EventHub
 
-    // private lateinit var adapter: NotificationsAdapter
     private lateinit var adapter: NotificationsPagingAdapter
 
     private lateinit var preferences: SharedPreferences
@@ -124,10 +113,6 @@ class NotificationsFragment :
     private var maxPlaceholderId = 0
     private val notificationFilter: MutableSet<Notification.Type> = HashSet()
     private val disposables = CompositeDisposable()
-
-    private enum class FetchEnd {
-        TOP, BOTTOM, MIDDLE
-    }
 
     /**
      * Placeholder for the notificationsEnabled. Consider moving to the separate class to hide constructor
@@ -240,7 +225,6 @@ class NotificationsFragment :
         // Setup the SwipeRefreshLayout.
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-        loadNotificationsFilter()
 
         // Setup the RecyclerView.
         binding.recyclerView.setHasFixedSize(true)
@@ -271,10 +255,14 @@ class NotificationsFragment :
         binding.recyclerView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.flow.collectLatest { pagingData ->
+            viewModel.pagingDataFlow.collectLatest { pagingData ->
                 Log.d(TAG, "Submitting data to adapter")
                 adapter.submitData(pagingData)
             }
+        }
+
+        lifecycleScope.launch {
+            viewModel.uiState.collect()
         }
 
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
@@ -342,9 +330,6 @@ class NotificationsFragment :
     override fun onRefresh() {
         binding.statusView.visibility = View.GONE
         showingError = false
-        val first = notifications.firstOrNull()
-        val topId = first?.asRightOrNull()?.id
-//        sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1)
     }
 
     override fun onReply(position: Int) {
@@ -497,28 +482,6 @@ class NotificationsFragment :
         adapter.notifyItemChanged(position)
     }
 
-    private fun updateViewDataAt(
-        position: Int,
-        mapper: Function<StatusViewData.Concrete, StatusViewData.Concrete>
-    ) {
-        if (position < 0 || position >= notifications.size) {
-            val message = String.format(
-                Locale.getDefault(),
-                "Tried to access out of bounds status position: %d of %d",
-                position,
-                notifications.lastIndex
-            )
-            Log.e(TAG, message)
-            return
-        }
-        val someViewData =
-            notifications.getPairedItem(position) as? NotificationViewData.Concrete ?: return
-        val oldStatusViewData = someViewData.statusViewData ?: return
-        val newViewData = someViewData.copyWithStatus(mapper.apply(oldStatusViewData))
-        notifications.setPairedItem(position, newViewData)
-        updateAdapter()
-    }
-
     override fun onNotificationContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         onContentCollapsedChange(isCollapsed, position)
     }
@@ -588,12 +551,16 @@ class NotificationsFragment :
                     if (!checkedItems[i, false]) excludes.add(notificationsList[i])
                 }
                 window.dismiss()
-                applyFilterChanges(excludes)
+                if (viewModel.uiState.value.activeFilter != excludes) {
+                    viewModel.accept(UiAction.ApplyFilter(excludes))
+                }
             }
         listView.adapter = adapter
         listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
         for (i in notificationsList.indices) {
-            if (!notificationFilter.contains(notificationsList[i])) listView.setItemChecked(i, true)
+            if (!viewModel.uiState.value.activeFilter.contains(notificationsList[i])) {
+                listView.setItemChecked(i, true)
+            }
         }
         window.contentView = view
         window.isFocusable = true
@@ -615,44 +582,6 @@ class NotificationsFragment :
             Notification.Type.UPDATE -> getString(R.string.notification_update_name)
             Notification.Type.REPORT -> getString(R.string.notification_report_name)
             else -> "Unknown"
-        }
-    }
-
-    private fun applyFilterChanges(newSet: Set<Notification.Type>) {
-        val notifications = asList
-        var isChanged = false
-        for (type in notifications) {
-            if (notificationFilter.contains(type) && !newSet.contains(type)) {
-                notificationFilter.remove(type)
-                isChanged = true
-            } else if (!notificationFilter.contains(type) && newSet.contains(type)) {
-                notificationFilter.add(type)
-                isChanged = true
-            }
-        }
-        if (isChanged) {
-            saveNotificationsFilter()
-//            fullyRefreshWithProgressBar(true)
-        }
-    }
-
-    private fun loadNotificationsFilter() {
-        val account = accountManager.activeAccount
-        if (account != null) {
-            notificationFilter.clear()
-            notificationFilter.addAll(
-                deserialize(
-                    account.notificationsFilter
-                )
-            )
-        }
-    }
-
-    private fun saveNotificationsFilter() {
-        val account = accountManager.activeAccount
-        if (account != null) {
-            account.notificationsFilter = serialize(notificationFilter)
-            accountManager.saveAccount(account)
         }
     }
 
@@ -758,34 +687,6 @@ class NotificationsFragment :
         updateAdapter()
     }
 
-    private fun onLoadMore() {
-        if (bottomId == null) {
-            // Already loaded everything
-            return
-        }
-
-        // Check for out-of-bounds when loading
-        // This is required to allow full-timeline reloads of collapsible statuses when the settings
-        // change.
-        if (notifications.size > 0) {
-            if (notifications.last().isRight()) {
-                val placeholder = newPlaceholder()
-                notifications.add(Left(placeholder))
-                val viewData: NotificationViewData =
-                    NotificationViewData.Placeholder(placeholder.id, true)
-                notifications.setPairedItem(notifications.lastIndex, viewData)
-                updateAdapter()
-            }
-        }
-        // sendFetchNotificationsRequest(bottomId, null, FetchEnd.BOTTOM, -1)
-    }
-
-    private fun newPlaceholder(): Placeholder {
-        val placeholder = Placeholder.getInstance(maxPlaceholderId.toLong())
-        maxPlaceholderId--
-        return placeholder
-    }
-
     private fun jumpToTop() {
         if (isAdded) {
             binding.appBarOptions.setExpanded(true, false)
@@ -794,238 +695,58 @@ class NotificationsFragment :
         }
     }
 
-    private fun sendFetchNotificationsRequest(
-        fromId: String?,
-        uptoId: String?,
-        fetchEnd: FetchEnd,
-        pos: Int
-    ) {
-        // If there is a fetch already ongoing, record however many fetches are requested and
-        // fulfill them after it's complete.
-        if (fetchEnd == FetchEnd.TOP && topLoading) {
-            return
-        }
-        if (fetchEnd == FetchEnd.BOTTOM && bottomLoading) {
-            return
-        }
-        if (fetchEnd == FetchEnd.TOP) {
-            topLoading = true
-        }
-        if (fetchEnd == FetchEnd.BOTTOM) {
-            bottomLoading = true
-        }
-//        val notificationCall = mastodonApi.notifications(
-//            fromId,
-//            uptoId,
-//            LOAD_AT_ONCE,
-//            if (showNotificationsFilter) notificationFilter else null
-//        )
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .to<SingleSubscribeProxy<Response<List<Notification>>>>(
-//                AutoDispose.autoDisposable(
-//                    AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-//                )
-//            )
-//            .subscribe(
-//                { response: Response<List<Notification>> ->
-//                    if (response.isSuccessful) {
-//                        val linkHeader = response.headers()["Link"]
-//                        onFetchNotificationsSuccess(response.body()!!, linkHeader, fetchEnd, pos)
-//                    } else {
-//                        onFetchNotificationsFailure(Exception(response.message()), fetchEnd, pos)
-//                    }
+    // TODO: When notifications are succesfully loaded
+    // - If there are no notifications,
+    //            binding.statusView.visibility = View.VISIBLE
+    //            binding.statusView.setup(
+    //                R.drawable.elephant_friend_empty,
+    //                R.string.message_empty,
+    //                null
+    //  Always:
+    //  - saveNewestNotification (see below)
+    //  - updateFilterVisibility()
+    //  - binding.swipeRefreshLayout.isEnabled = true
+    //  - binding.swipeRefreshLayout.isRefreshing = false
+    //  - binding.progressBar.visibility = View.GONE
+
+    // TODO: If notifications fail to load
+    // Always:
+    //  - binding.swipeRefreshLayout.isRefreshing = false
+    //  - binding.swipeRefreshLayout.isEnabled = false
+    //  - binding.progressBar.visibility = View.GONE
+    // IOException?
+    //    binding.statusView.setup(
+    //    R.drawable.elephant_offline,
+    //    R.string.error_network
+    //    ) {
+    //        binding.progressBar.visibility = View.VISIBLE
+    //        onRefresh()
+    //    }
+    // Otherwise:
+    //    binding.statusView.setup(
+    //        R.drawable.elephant_error,
+    //        R.string.error_generic
+    //    ) {
+    //        binding.progressBar.visibility = View.VISIBLE
+    //        onRefresh()
+    //    }
+
+//    private fun saveNewestNotificationId(notifications: List<Notification?>) {
+//        val account = accountManager.activeAccount
+//        if (account != null) {
+//            var lastNotificationId = account.lastNotificationId
+//            for (noti in notifications) {
+//                if (lastNotificationId.isLessThan(noti!!.id)) {
+//                    lastNotificationId = noti.id
 //                }
-//            ) { throwable: Throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos) }
-//        disposables.add(notificationCall)
-    }
-
-    private fun onFetchNotificationsSuccess(
-        notifications: List<Notification>,
-        linkHeader: String?,
-        fetchEnd: FetchEnd,
-        pos: Int
-    ) {
-        val links = parse(linkHeader)
-        val next = findByRelationType(links, "next")
-        var fromId: String? = null
-        if (next != null) {
-            fromId = next.uri.getQueryParameter("max_id")
-        }
-        when (fetchEnd) {
-            FetchEnd.TOP -> {
-                update(notifications, if (this.notifications.isEmpty()) fromId else null)
-            }
-            FetchEnd.MIDDLE -> {
-                replacePlaceholderWithNotifications(notifications, pos)
-            }
-            FetchEnd.BOTTOM -> {
-                if (this.notifications.isNotEmpty() && this.notifications.last().isLeft()
-                ) {
-                    this.notifications.removeLast()
-                    updateAdapter()
-                }
-                if (adapter.itemCount > 1) {
-                    addItems(notifications, fromId)
-                } else {
-                    update(notifications, fromId)
-                }
-            }
-        }
-        saveNewestNotificationId(notifications)
-        if (fetchEnd == FetchEnd.TOP) {
-            topLoading = false
-        }
-        if (fetchEnd == FetchEnd.BOTTOM) {
-            bottomLoading = false
-        }
-        if (notifications.isEmpty() && adapter.itemCount == 0) {
-            binding.statusView.visibility = View.VISIBLE
-            binding.statusView.setup(
-                R.drawable.elephant_friend_empty,
-                R.string.message_empty,
-                null
-            )
-        }
-        updateFilterVisibility()
-        binding.swipeRefreshLayout.isEnabled = true
-        binding.swipeRefreshLayout.isRefreshing = false
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun onFetchNotificationsFailure(
-        throwable: Throwable,
-        fetchEnd: FetchEnd,
-        position: Int
-    ) {
-        binding.swipeRefreshLayout.isRefreshing = false
-        if (fetchEnd == FetchEnd.MIDDLE && notifications[position].isLeft()) {
-            val placeholder = notifications[position].asLeft()
-            val placeholderVD: NotificationViewData =
-                NotificationViewData.Placeholder(placeholder.id, false)
-            notifications.setPairedItem(position, placeholderVD)
-            updateAdapter()
-        } else if (notifications.isEmpty()) {
-            binding.statusView.visibility = View.VISIBLE
-            binding.swipeRefreshLayout.isEnabled = false
-            showingError = true
-            if (throwable is IOException) {
-                binding.statusView.setup(
-                    R.drawable.elephant_offline,
-                    R.string.error_network
-                ) {
-                    binding.progressBar.visibility = View.VISIBLE
-                    onRefresh()
-                }
-            } else {
-                binding.statusView.setup(
-                    R.drawable.elephant_error,
-                    R.string.error_generic
-                ) {
-                    binding.progressBar.visibility = View.VISIBLE
-                    onRefresh()
-                }
-            }
-            updateFilterVisibility()
-        }
-        Log.e(TAG, "Fetch failure: " + throwable.message)
-        if (fetchEnd == FetchEnd.TOP) {
-            topLoading = false
-        }
-        if (fetchEnd == FetchEnd.BOTTOM) {
-            bottomLoading = false
-        }
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun saveNewestNotificationId(notifications: List<Notification?>) {
-        val account = accountManager.activeAccount
-        if (account != null) {
-            var lastNotificationId = account.lastNotificationId
-            for (noti in notifications) {
-                if (lastNotificationId.isLessThan(noti!!.id)) {
-                    lastNotificationId = noti.id
-                }
-            }
-            if (account.lastNotificationId != lastNotificationId) {
-                Log.d(TAG, "saving newest noti id: $lastNotificationId")
-                account.lastNotificationId = lastNotificationId
-                accountManager.saveAccount(account)
-            }
-        }
-    }
-
-    private fun update(newNotifications: List<Notification>, fromId: String?) {
-        if (isEmpty(newNotifications)) {
-            updateAdapter()
-            return
-        }
-        if (fromId != null) {
-            bottomId = fromId
-        }
-        val liftedNew = liftNotificationList(newNotifications).toMutableList()
-        if (notifications.isEmpty()) {
-            notifications.addAll(liftedNew)
-        } else {
-            val index = notifications.indexOf(liftedNew.last())
-            if (index > 0) {
-                notifications.subList(0, index).clear()
-            }
-            val newIndex = liftedNew.indexOf(notifications[0])
-            if (newIndex == -1) {
-                if (index == -1 && liftedNew.size >= LOAD_AT_ONCE) {
-                    liftedNew.add(Left(newPlaceholder()))
-                }
-                notifications.addAll(0, liftedNew)
-            } else {
-                notifications.addAll(0, liftedNew.subList(0, newIndex))
-            }
-        }
-        updateAdapter()
-    }
-
-    private fun addItems(newNotifications: List<Notification>, fromId: String?) {
-        bottomId = fromId
-        if (isEmpty(newNotifications)) {
-            return
-        }
-        val end = notifications.size
-        val liftedNew = liftNotificationList(newNotifications)
-        val last = notifications[end - 1]
-        if (!liftedNew.contains(last)) {
-            notifications.addAll(liftedNew)
-            updateAdapter()
-        }
-    }
-
-    private fun replacePlaceholderWithNotifications(
-        newNotifications: List<Notification>,
-        pos: Int
-    ) {
-        // Remove placeholder
-        notifications.removeAt(pos)
-        if (isEmpty(newNotifications)) {
-            updateAdapter()
-            return
-        }
-        val liftedNew = liftNotificationList(newNotifications).toMutableList()
-
-        // If we fetched less posts than in the limit, it means that the hole is not filled
-        // If we fetched at least as much it means that there are more posts to load and we should
-        // insert new placeholder
-        if (newNotifications.size >= LOAD_AT_ONCE) {
-            liftedNew.add(Left(newPlaceholder()))
-        }
-        notifications.addAll(pos, liftedNew)
-        updateAdapter()
-    }
-
-    private val notificationLifter: (Notification) -> Right<Placeholder, Notification> =
-        { value: Notification -> Right(value) }
-
-    private fun liftNotificationList(list: List<Notification>):
-        List<Either<Placeholder, Notification>> {
-        return list.map(notificationLifter)
-    }
+//            }
+//            if (account.lastNotificationId != lastNotificationId) {
+//                Log.d(TAG, "saving newest noti id: $lastNotificationId")
+//                account.lastNotificationId = lastNotificationId
+//                accountManager.saveAccount(account)
+//            }
+//        }
+//    }
 
     private fun fullyRefreshWithProgressBar(isShow: Boolean) {
         resetNotificationsLoad()
@@ -1033,12 +754,6 @@ class NotificationsFragment :
             binding.progressBar.visibility = View.VISIBLE
             binding.statusView.visibility = View.GONE
         }
-        updateAdapter()
-        // sendFetchNotificationsRequest(null, null, FetchEnd.TOP, -1)
-    }
-
-    private fun fullyRefresh() {
-        fullyRefreshWithProgressBar(false)
     }
 
     private fun updateAdapter() {
@@ -1074,22 +789,12 @@ class NotificationsFragment :
         listUpdateCallback,
         AsyncDifferConfig.Builder(diffCallback).build()
     )
-    private val dataSource: AdapterDataSource<NotificationViewData> =
-        object : AdapterDataSource<NotificationViewData> {
-            override val itemCount: Int
-                get() = differ.currentList.size
-
-            override fun getItemAt(pos: Int): NotificationViewData {
-                return differ.currentList[pos]
-            }
-        }
 
     override fun onResume() {
         super.onResume()
         val rawAccountNotificationFilter = accountManager.activeAccount!!.notificationsFilter
         val accountNotificationFilter = deserialize(rawAccountNotificationFilter)
         if (notificationFilter != accountNotificationFilter) {
-            loadNotificationsFilter()
             fullyRefreshWithProgressBar(true)
         }
         startUpdateTimestamp()
@@ -1124,7 +829,6 @@ class NotificationsFragment :
 
     companion object {
         private const val TAG = "NotificationF" // logging tag
-        private const val LOAD_AT_ONCE = 30
         fun newInstance(): NotificationsFragment {
             val fragment = NotificationsFragment()
             val arguments = Bundle()

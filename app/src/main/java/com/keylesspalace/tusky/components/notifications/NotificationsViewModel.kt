@@ -4,8 +4,6 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -13,27 +11,36 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.deserialize
+import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
-data class NotificationsUiState(
-    // Dummy, just to have something to represent in the state
-    val foo: Int
+data class UiState(
+    /** Filtered notification types */
+    val activeFilter: Set<Notification.Type> = emptySet()
 )
 
 // TODO: The status functions this exposes (reblog, favourite, bookmark, etc) are very similar
@@ -44,21 +51,35 @@ data class NotificationsUiState(
 // fragment or activity to get the data. That would simplify the code slightly and save a function
 // call.
 
+// TODO: When notifications are fetched, save the ID of the newest one.
+
+/** Actions the user can trigger from the UI */
+sealed class UiAction {
+    data class ApplyFilter(val filter: Set<Notification.Type>) : UiAction()
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel @Inject constructor(
-    private val mastodonApi: MastodonApi,
-    private val preferences: SharedPreferences,
+    private val repository: NotificationsRepository,
+    preferences: SharedPreferences,
     private val accountManager: AccountManager,
     private val timelineCases: TimelineCases
 ) : ViewModel() {
     @Inject
     lateinit var eventHub: EventHub
 
-    private val _uiState = MutableStateFlow(NotificationsUiState(foo = 1))
-    val uiState: StateFlow<NotificationsUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<UiState>
 
-    val flow: Flow<PagingData<NotificationViewData.Concrete>>
+    val pagingDataFlow: Flow<PagingData<NotificationViewData.Concrete>>
 
     val statusDisplayOptions: StatusDisplayOptions
+
+    private val actionStateFlow = MutableSharedFlow<UiAction>()
+
+    /** Accept UI actions and convert them to new state */
+    val accept: (UiAction) -> Unit = { action ->
+        viewModelScope.launch { actionStateFlow.emit(action) }
+    }
 
     init {
         statusDisplayOptions = StatusDisplayOptions(
@@ -76,13 +97,47 @@ class NotificationsViewModel @Inject constructor(
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        flow = Pager(
-            config = PagingConfig(pageSize = 30),
-            pagingSourceFactory = {
-                NotificationsPagingSource(mastodonApi)
+        val notificationFilter = actionStateFlow
+            .filterIsInstance<UiAction.ApplyFilter>()
+            .distinctUntilChanged()
+            // Save each change back to the active account
+            .onEach { action ->
+                accountManager.activeAccount?.let { account ->
+                    account.notificationsFilter = serialize(action.filter)
+                    accountManager.saveAccount(account)
+                }
             }
-        )
-            .flow
+            // Load the initial filter from the active account
+            .onStart {
+                emit(
+                    UiAction.ApplyFilter(
+                        filter = deserialize(accountManager.activeAccount?.notificationsFilter)
+                    )
+                )
+            }
+
+        pagingDataFlow = notificationFilter
+            .flatMapLatest { action ->
+                getNotifications(filters = action.filter)
+            }
+            .cachedIn(viewModelScope)
+
+        uiState = notificationFilter
+            .map { actionFilter ->
+                UiState(
+                    activeFilter = actionFilter.filter
+                )
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                initialValue = UiState()
+            )
+    }
+
+    private fun getNotifications(
+        filters: Set<Notification.Type>
+    ): Flow<PagingData<NotificationViewData.Concrete>> {
+        return repository.getNotificationsStream(filters)
             .map { pagingData ->
                 pagingData.map { notification ->
                     notification.toViewData(
@@ -92,7 +147,7 @@ class NotificationsViewModel @Inject constructor(
                         isCollapsed = true
                     )
                 }
-            }.cachedIn(viewModelScope)
+            }
     }
 
     // TODO: Listen for eventhub events here, and update the UI model, instead of the fragment

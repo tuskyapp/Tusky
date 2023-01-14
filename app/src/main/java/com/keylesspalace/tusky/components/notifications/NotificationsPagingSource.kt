@@ -12,21 +12,26 @@ import javax.inject.Inject
 data class Links(val next: String?, val prev: String?)
 
 class NotificationsPagingSource @Inject constructor(
-    private val mastodonApi: MastodonApi
+    private val mastodonApi: MastodonApi,
+    private val notificationFilter: Set<Notification.Type>
 ) : PagingSource<String, Notification>() {
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Notification> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
 
-        // TODO: Handle "excludes" correctly
         val response = when (params) {
-            is LoadParams.Refresh -> mastodonApi.notifications2(limit = params.loadSize)
+            is LoadParams.Refresh -> mastodonApi.notifications2(
+                limit = params.loadSize,
+                excludes = notificationFilter
+            )
             is LoadParams.Append -> mastodonApi.notifications2(
                 maxId = params.key,
-                limit = params.loadSize
+                limit = params.loadSize,
+                excludes = notificationFilter
             )
             is LoadParams.Prepend -> mastodonApi.notifications2(
                 minId = params.key,
-                limit = params.loadSize
+                limit = params.loadSize,
+                excludes = notificationFilter
             )
         }
 
