@@ -605,7 +605,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 binding.mainDrawer.addItemsAtPosition(
                     5,
                     primaryDrawerItem {
-                        nameRes = R.string.title_public_trending
+                        nameRes = R.string.title_public_trending_hashtags
                         iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
                         onClick = {
                             startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))

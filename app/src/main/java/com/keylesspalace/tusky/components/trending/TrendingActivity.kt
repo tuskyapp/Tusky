@@ -46,7 +46,7 @@ class TrendingActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val title = getString(R.string.title_public_trending)
+        val title = getString(R.string.title_public_trending_hashtags)
 
         supportActionBar?.run {
             setTitle(title)

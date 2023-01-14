@@ -81,7 +81,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         )
         TRENDING -> TabData(
             TRENDING,
-            R.string.title_public_trending,
+            R.string.title_public_trending_hashtags,
             R.drawable.ic_trending_up_24px,
             { TrendingFragment.newInstance() }
         )
