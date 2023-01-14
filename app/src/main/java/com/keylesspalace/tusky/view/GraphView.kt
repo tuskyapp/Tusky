@@ -190,14 +190,14 @@ class GraphView @JvmOverloads constructor(
             max(primaryLineData.max(), 1)
         }
         val mainRatio = height.toFloat() / max.toFloat()
-        val pointDistance = dataSpacing(lineData)
 
-        lineData.forEachIndexed { index, magnitude ->
+        val ratioedData = lineData.map { it.toFloat() * mainRatio }
+
+        val pointDistance = dataSpacing(ratioedData)
+
+        ratioedData.forEachIndexed { index, magnitude ->
             val x = pointDistance * index.toFloat()
-
-            val ratio = magnitude.toFloat() / max.toFloat()
-
-            val y = height.toFloat() - (magnitude.toFloat() * ratio * mainRatio)
+            val y = height.toFloat() - magnitude
 
             if (index == 0) {
                 path.reset()
