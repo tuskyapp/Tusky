@@ -263,7 +263,7 @@
     <string name="mute_domain_warning">Вы ўпэўнены, што жадаеце заблакаваць усё з %1$s? Вы не пабачыце допісы з гэтага дамена ва ўсіх агульнадаступных стужках або ў сваіх апавяшчэннях. Вашыя падпісчыкі з гэтага дамену будуць выдаленыя.</string>
     <string name="mute_domain_warning_dialog_ok">Схаваць дамен цалкам</string>
     <string name="dialog_block_warning">Заблакаваць @%1$s?</string>
-    <string name="dialog_mute_warning">Ігнараваць %1$s\?</string>
+    <string name="dialog_mute_warning">Ігнараваць %1$s?</string>
     <string name="dialog_mute_hide_notifications">Схаваць апавяшчэнні</string>
     <string name="visibility_direct">Асабіста: Дасылаць толькі для згаданых карыстальнікаў</string>
     <string name="pref_title_edit_notification_settings">Апавяшчэнні</string>
@@ -349,7 +349,7 @@
         <item quantity="many">Апісанне змесціва для людзей з дэфектам зроку (ліміт у %1$d сімвалаў)</item>
         <item quantity="other">Апісанне змесціва для людзей з дэфектам зроку (ліміт у %1$d сімвалаў)</item>
     </plurals>
-    <string name="compose_save_draft_loses_media">Захаваць чарнавік\? (Далучэнні будуць запампаваныя зноў, калі Вы аднавіце чарнавік.)</string>
+    <string name="compose_save_draft_loses_media">Захаваць чарнавік? (Далучэнні будуць запампаваныя зноў, калі Вы аднавіце чарнавік.)</string>
     <string name="performing_lookup_title">Выконваю пошук…</string>
     <string name="caption_notoemoji">Бягучы набор эмодзі ад Google</string>
     <string name="caption_twemoji">Тыповы набор эмодзі Mastodon</string>
@@ -456,7 +456,7 @@
     <string name="duration_no_change">(Без змен)</string>
     <string name="compose_shortcut_long_label">Стварыць допіс</string>
     <string name="compose_shortcut_short_label">Стварыць</string>
-    <string name="notification_clear_text">Вы ўпэўнены, што жадаеце выдаліць усе апавяшчэнні\?</string>
+    <string name="notification_clear_text">Вы ўпэўнены, што жадаеце выдаліць усе апавяшчэнні?</string>
     <string name="compose_preview_image_description">Дзеянні для выявы %1$s</string>
     <string name="button_done">Гатова</string>
     <string name="report_sent_success">Скарга на @%1$s адпраўлена</string>
