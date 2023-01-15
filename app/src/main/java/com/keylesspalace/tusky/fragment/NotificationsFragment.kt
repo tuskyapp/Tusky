@@ -15,7 +15,6 @@
 package com.keylesspalace.tusky.fragment
 
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,7 +28,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -51,7 +50,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
@@ -67,11 +65,9 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PairedList
-import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.util.viewBinding
@@ -79,12 +75,13 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NotificationsFragment :
@@ -108,9 +105,6 @@ class NotificationsFragment :
 
     private lateinit var adapter: NotificationsPagingAdapter
 
-    private lateinit var preferences: SharedPreferences
-
-    private var maxPlaceholderId = 0
     private val notificationFilter: MutableSet<Notification.Type> = HashSet()
     private val disposables = CompositeDisposable()
 
@@ -128,13 +122,11 @@ class NotificationsFragment :
 
     private var layoutManager: LinearLayoutManager? = null
     private lateinit var scrollListener: EndlessOnScrollListener
-    private var hideFab = false
     private var topLoading = false
     private var bottomLoading = false
     private var bottomId: String? = null
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoiler = false
-    private var showNotificationsFilter = false
     private var showingError = false
 
     // Each element is either a Notification for loading data or a Placeholder
@@ -158,8 +150,6 @@ class NotificationsFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         adapter = NotificationsPagingAdapter(
             notificationDiffCallback,
             accountId = accountManager.activeAccount!!.accountId,
@@ -168,16 +158,6 @@ class NotificationsFragment :
             accountActionListener = this,
             statusDisplayOptions = viewModel.statusDisplayOptions
         )
-
-//        adapter = NotificationsAdapter(
-//            notificationDiffCallback,
-//            accountManager.activeAccount!!.accountId,
-//            dataSource,
-//            statusDisplayOptions,
-//            this,
-//            this,
-//            this
-//        )
     }
 
     override fun onCreateView(
@@ -188,9 +168,9 @@ class NotificationsFragment :
         return inflater.inflate(R.layout.fragment_timeline_notifications, container, false)
     }
 
-    private fun updateFilterVisibility() {
+    private fun updateFilterVisibility(showFilter: Boolean) {
         val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
-        if (showNotificationsFilter && !showingError) {
+        if (showFilter && !showingError) {
             binding.appBarOptions.setExpanded(true, false)
             binding.appBarOptions.visibility = View.VISIBLE
             // Set content behaviour to hide filter on scroll
@@ -213,14 +193,6 @@ class NotificationsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val showNotificationsFilterSetting = preferences.getBoolean(
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER,
-            true
-        )
-        // Clear notifications on filter visibility change to force refresh
-        if (showNotificationsFilterSetting != showNotificationsFilter) notifications.clear()
-        showNotificationsFilter = showNotificationsFilterSetting
 
         // Setup the SwipeRefreshLayout.
         binding.swipeRefreshLayout.setOnRefreshListener(this)
@@ -261,8 +233,28 @@ class NotificationsFragment :
             }
         }
 
+        /** Notifies the adapter that the timestamps of the visible items have changed */
+        val updateTimestampFlow = flow {
+            while (true) { delay(60000); emit(Unit) }
+        }
+            .onEach {
+                adapter.notifyItemRangeChanged(
+                    layoutManager!!.findFirstVisibleItemPosition(),
+                    layoutManager!!.findLastVisibleItemPosition(),
+                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                )
+            }
+
         lifecycleScope.launch {
-            viewModel.uiState.collect()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collectLatest {
+                    updateFilterVisibility(it.showFilterOptions)
+
+                    if (!it.showAbsoluteTime) {
+                        updateTimestampFlow.collect()
+                    }
+                }
+            }
         }
 
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
@@ -275,9 +267,8 @@ class NotificationsFragment :
 //        }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
-        updateFilterVisibility()
+        updateFilterVisibility(viewModel.uiState.value.showFilterOptions)
 
-        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
 //        scrollListener = object : EndlessOnScrollListener(layoutManager!!) {
 //            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
 //                super.onScrolled(view, dx, dy)
@@ -319,7 +310,6 @@ class NotificationsFragment :
                     is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
                     is PinEvent -> setPinForStatus(event.statusId, event.pinned)
                     is BlockEvent -> removeAllByAccountId(event.accountId)
-                    is PreferenceChangedEvent -> onPreferenceChanged(event.preferenceKey)
                 }
             }
 
@@ -494,7 +484,7 @@ class NotificationsFragment :
         // Show friend elephant
         binding.statusView.visibility = View.VISIBLE
         binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
-        updateFilterVisibility()
+        updateFilterVisibility(viewModel.uiState.value.showFilterOptions)
 
         // Update adapter
         updateAdapter()
@@ -644,30 +634,30 @@ class NotificationsFragment :
         )
     }
 
-    private fun onPreferenceChanged(key: String) {
-        when (key) {
-            "fabHide" -> {
-                hideFab = PreferenceManager.getDefaultSharedPreferences(requireContext())
-                    .getBoolean("fabHide", false)
-            }
-            "mediaPreviewEnabled" -> {
-                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-//                if (enabled != adapter.isMediaPreviewEnabled) {
-//                    adapter.isMediaPreviewEnabled = enabled
-//                    fullyRefresh()
+//    private fun onPreferenceChanged(key: String) {
+//        when (key) {
+//            "fabHide" -> {
+//                hideFab = PreferenceManager.getDefaultSharedPreferences(requireContext())
+//                    .getBoolean("fabHide", false)
+//            }
+//            "mediaPreviewEnabled" -> {
+//                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
+////                if (enabled != adapter.isMediaPreviewEnabled) {
+////                    adapter.isMediaPreviewEnabled = enabled
+////                    fullyRefresh()
+////                }
+//            }
+//            "showNotificationsFilter" -> {
+//                if (isAdded) {
+//                    showNotificationsFilter =
+//                        PreferenceManager.getDefaultSharedPreferences(requireContext())
+//                            .getBoolean("showNotificationsFilter", true)
+//                    updateFilterVisibility()
+//                    fullyRefreshWithProgressBar(true)
 //                }
-            }
-            "showNotificationsFilter" -> {
-                if (isAdded) {
-                    showNotificationsFilter =
-                        PreferenceManager.getDefaultSharedPreferences(requireContext())
-                            .getBoolean("showNotificationsFilter", true)
-                    updateFilterVisibility()
-                    fullyRefreshWithProgressBar(true)
-                }
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
     public override fun removeItem(position: Int) {
         notifications.removeAt(position)
@@ -757,7 +747,7 @@ class NotificationsFragment :
     }
 
     private fun updateAdapter() {
-        // differ.submitList(notifications.pairedCopy)
+        differ.submitList(adapter.snapshot())
     }
 
     private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {
@@ -787,41 +777,8 @@ class NotificationsFragment :
     }
     private val differ = AsyncListDiffer(
         listUpdateCallback,
-        AsyncDifferConfig.Builder(diffCallback).build()
+        AsyncDifferConfig.Builder(notificationDiffCallback).build()
     )
-
-    override fun onResume() {
-        super.onResume()
-        val rawAccountNotificationFilter = accountManager.activeAccount!!.notificationsFilter
-        val accountNotificationFilter = deserialize(rawAccountNotificationFilter)
-        if (notificationFilter != accountNotificationFilter) {
-            fullyRefreshWithProgressBar(true)
-        }
-        startUpdateTimestamp()
-    }
-
-    /**
-     * Start to update adapter every minute to refresh timestamp
-     * If setting absoluteTimeView is false
-     * Auto dispose observable on pause
-     */
-    private fun startUpdateTimestamp() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false)
-        if (!useAbsoluteTime) {
-            Observable.interval(0, 1, TimeUnit.MINUTES)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(
-                    AutoDispose.autoDisposable(
-                        AndroidLifecycleScopeProvider.from(
-                            this,
-                            Lifecycle.Event.ON_PAUSE
-                        )
-                    )
-                )
-                .subscribe { updateAdapter() }
-        }
-    }
 
     override fun onReselect() {
         jumpToTop()
@@ -835,35 +792,6 @@ class NotificationsFragment :
             fragment.arguments = arguments
             return fragment
         }
-
-        private val diffCallback: DiffUtil.ItemCallback<NotificationViewData> =
-            object : DiffUtil.ItemCallback<NotificationViewData>() {
-                override fun areItemsTheSame(
-                    oldItem: NotificationViewData,
-                    newItem: NotificationViewData
-                ): Boolean {
-                    return oldItem.viewDataId == newItem.viewDataId
-                }
-
-                override fun areContentsTheSame(
-                    oldItem: NotificationViewData,
-                    newItem: NotificationViewData
-                ): Boolean {
-                    return false
-                }
-
-                override fun getChangePayload(
-                    oldItem: NotificationViewData,
-                    newItem: NotificationViewData
-                ): Any? {
-                    return if (oldItem.deepEquals(newItem)) {
-                        //  If items are equal - update timestamp only
-                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                    } else { // If items are different - update a whole view holder
-                        null
-                    }
-                }
-            }
 
         private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData.Concrete> =
             object : DiffUtil.ItemCallback<NotificationViewData.Concrete>() {

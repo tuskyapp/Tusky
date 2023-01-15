@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PollVoteEvent
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
@@ -27,7 +28,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -35,12 +38,25 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 data class UiState(
     /** Filtered notification types */
-    val activeFilter: Set<Notification.Type> = emptySet()
+    val activeFilter: Set<Notification.Type> = emptySet(),
+
+    /** True if statuses should display absolute time */
+    val showAbsoluteTime: Boolean = false,
+
+    /** True if the UI to filter notifications should be shown */
+    val showFilterOptions: Boolean = false,
+
+    /** True if the FAB should be shown */
+    val showFab: Boolean = true,
+
+    /** True if media previews should be shown */
+    val showMediaPreview: Boolean = false
 )
 
 // TODO: The status functions this exposes (reblog, favourite, bookmark, etc) are very similar
@@ -58,15 +74,32 @@ sealed class UiAction {
     data class ApplyFilter(val filter: Set<Notification.Type>) : UiAction()
 }
 
+/** Preferences this view reacts to */
+data class Prefs(
+    val showAbsoluteTime: Boolean,
+    val showFab: Boolean,
+    val showFilter: Boolean,
+    val showMediaPreviews: Boolean
+) {
+    companion object {
+        /** Relevant preference keys */
+        val prefKeys = setOf(
+            PrefKeys.ABSOLUTE_TIME_VIEW,
+            PrefKeys.FAB_HIDE,
+            PrefKeys.SHOW_NOTIFICATIONS_FILTER,
+            PrefKeys.MEDIA_PREVIEW_ENABLED,
+        )
+    }
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
-    preferences: SharedPreferences,
+    private val preferences: SharedPreferences,
     private val accountManager: AccountManager,
-    private val timelineCases: TimelineCases
+    private val timelineCases: TimelineCases,
+    private val eventHub: EventHub
 ) : ViewModel() {
-    @Inject
-    lateinit var eventHub: EventHub
 
     val uiState: StateFlow<UiState>
 
@@ -97,6 +130,7 @@ class NotificationsViewModel @Inject constructor(
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
+        // Process changes to notification filters
         val notificationFilter = actionStateFlow
             .filterIsInstance<UiAction.ApplyFilter>()
             .distinctUntilChanged()
@@ -116,22 +150,28 @@ class NotificationsViewModel @Inject constructor(
                 )
             }
 
+        val preferencesStateFlow = getPreferences()
+
         pagingDataFlow = notificationFilter
             .flatMapLatest { action ->
                 getNotifications(filters = action.filter)
             }
             .cachedIn(viewModelScope)
 
-        uiState = notificationFilter
-            .map { actionFilter ->
-                UiState(
-                    activeFilter = actionFilter.filter
-                )
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
-                initialValue = UiState()
+        uiState = notificationFilter.combine(preferencesStateFlow) {
+                filter, prefs ->
+            UiState(
+                activeFilter = filter.filter,
+                showAbsoluteTime = prefs.showAbsoluteTime,
+                showFilterOptions = prefs.showFilter,
+                showFab = prefs.showFab,
+                showMediaPreview = prefs.showMediaPreviews
             )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+            initialValue = UiState()
+        )
     }
 
     private fun getNotifications(
@@ -149,6 +189,28 @@ class NotificationsViewModel @Inject constructor(
                 }
             }
     }
+
+    /**
+     * @return Flow of relevant preferences for this view over time
+     */
+    // TODO: Preferences should be in a repository
+    private fun getPreferences() = eventHub.events.asFlow()
+        .filterIsInstance<PreferenceChangedEvent>()
+        .filter { Prefs.prefKeys.contains(it.preferenceKey) }
+        .distinctUntilChanged()
+        .map { toPrefs() }
+        .onStart { emit(toPrefs()) }
+
+    private fun toPrefs() = Prefs(
+        showAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
+        showFab = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
+        // TODO: If this has changed then the adapter needs to do a full refresh
+        showMediaPreviews = accountManager.activeAccount!!.mediaPreviewEnabled,
+        showFilter = preferences.getBoolean(
+            PrefKeys.SHOW_NOTIFICATIONS_FILTER,
+            true
+        )
+    )
 
     // TODO: Listen for eventhub events here, and update the UI model, instead of the fragment
     // listening for events.
