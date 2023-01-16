@@ -562,6 +562,8 @@
         Poll with choices: %1$s, %2$s, %3$s, %4$s; %5$s
     </string>
     <string name="description_post_language">Post language</string>
+    <string name="description_login">Works in most cases. No data is leaked to other apps.</string>
+    <string name="description_browser_login">May support additional authentication methods, but requires a supported browser.</string>
 
     <string name="hint_list_name">List name</string>
 

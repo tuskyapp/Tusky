@@ -53,31 +53,45 @@
                         android:inputType="textUri" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/whatsAnInstanceTextView"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-16dp"
+                    android:text="@string/link_whats_an_instance"
+                    />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginButton"
                     style="@style/TuskyButton"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="@string/action_login" />
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description_login"
+                    android:textColor="?android:textColorTertiary"
+                    />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/browserLoginButton"
                     style="@style/TuskyButton"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:gravity="center"
                     android:text="@string/action_browser_login" />
 
                 <TextView
-                    android:id="@+id/whatsAnInstanceTextView"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="@string/link_whats_an_instance"
-                    android:textAlignment="center" />
+                    android:text="@string/description_browser_login"
+                    android:textColor="?android:textColorTertiary"
+                    />
             </LinearLayout>
 
             <LinearLayout
