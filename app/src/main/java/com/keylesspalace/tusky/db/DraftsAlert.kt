@@ -40,10 +40,7 @@ import javax.inject.Singleton
 private const val TAG = "DraftsAlert"
 
 @Singleton
-class DraftsAlert @Inject constructor(db: AppDatabase) {
-    @Inject
-    lateinit var accountManager: AccountManager
-
+class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountManager) {
     // For tracking when a media upload fails in the service
     private val draftDao: DraftDao = db.draftDao()
 
@@ -54,7 +51,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
     private var userIdCurrent: Long? = null
 
     // Durable "forwarding address" for current draftsNeedUserAlertCurrent object
-    public val draftsNeedUserAlert = MediatorLiveData<Int>()
+    public val draftsNeedUserAlert = MediatorLiveData<Pair<Long,Int>>()
 
     fun switchCurrentUser(dbId: Long) {
         if (dbId == userIdCurrent) {
@@ -73,7 +70,8 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
         this.draftsNeedUserAlertCurrent = draftsNeedUserAlertCurrent
         draftsNeedUserAlert.addSource(draftsNeedUserAlertCurrent, { count ->
             Log.d(TAG, "draftsNeedUserAlert: account id " + dbId + " has " + count + " notification-worthy drafts") // REMOVE BEFORE COMMIT
-            draftsNeedUserAlert.value = count
+            // !! here is safe because this is called only after userIdCurrent first goes non-null, and it never goes null again
+            draftsNeedUserAlert.value = Pair(userIdCurrent!!, count)
         })
     }
 
@@ -85,7 +83,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
         // observe ensures that this gets called at the most appropriate moment wrt the context lifecycle—
         // at init, at next onResume, or immediately if the context is resumed already.
         if (showAlert) {
-            draftsNeedUserAlert.observe(context) { count ->
+            draftsNeedUserAlert.observe(context) { (dbId, count) ->
                 Log.d(TAG, "draftsNeedUserAlert 2: Notification-worthy draft count " + count)
                 if (count > 0) {
                     AlertDialog.Builder(context)
@@ -97,20 +95,21 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
                                 context.getString(R.string.action_post_failed_detail_plural)
                         )
                         .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
-                            clearDraftsAlert() // User looked at drafts
+                            clearDraftsAlert(dbId) // User looked at drafts
 
                             val intent = DraftsActivity.newIntent(context)
                             context.startActivity(intent)
                         }
                         .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
-                            clearDraftsAlert() // User doesn't care
+                            clearDraftsAlert(dbId) // User doesn't care
                         }
                         .show()
                 }
             }
         } else {
-            draftsNeedUserAlert.observe(context) {
-                clearDraftsAlert()
+            draftsNeedUserAlert.observe(context) { (dbId, _) ->
+                Log.d(TAG, "draftsNeedUserAlert 3: Clean out")
+                clearDraftsAlert(dbId)
             }
         }
     }
@@ -119,7 +118,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
      * Clear drafts alert for current user
      * Caller's responsibility to ensure there is a current user
      */
-    fun clearDraftsAlert(id:Long) {
+    fun clearDraftsAlert(id: Long) {
         GlobalScope.launch {
             async {
                 draftDao.draftsClearNeedUserAlert(id)
