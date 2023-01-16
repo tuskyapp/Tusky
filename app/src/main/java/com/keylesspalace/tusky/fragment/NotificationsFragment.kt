@@ -25,10 +25,12 @@ import android.widget.ListView
 import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -36,7 +38,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.SimpleItemAnimator
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.AutoDispose
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
@@ -52,6 +53,7 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
+import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.notifications.UiAction
@@ -82,11 +84,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 class NotificationsFragment :
     SFragment(),
-    OnRefreshListener,
     StatusActionListener,
     NotificationActionListener,
     AccountActionListener,
@@ -195,7 +197,7 @@ class NotificationsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         // Setup the SwipeRefreshLayout.
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         // Setup the RecyclerView.
@@ -207,7 +209,7 @@ class NotificationsFragment :
                 binding.recyclerView,
                 this
             ) { pos: Int ->
-                val notification = notifications.getPairedItemOrNull(pos)
+                val notification = adapter.snapshot()[pos]
                 // We support replies only for now
                 if (notification is NotificationViewData.Concrete) {
                     notification.statusViewData
@@ -224,7 +226,10 @@ class NotificationsFragment :
         )
         alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = NotificationsLoadStateAdapter { adapter.retry() },
+            footer = NotificationsLoadStateAdapter { adapter.retry() }
+        )
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.pagingDataFlow.collectLatest { pagingData ->
@@ -247,10 +252,42 @@ class NotificationsFragment :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest {
-                    updateFilterVisibility(it.showFilterOptions)
+                adapter.loadStateFlow.collect { loadState ->
+                    binding.recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
+                    binding.swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
 
-                    if (!it.showAbsoluteTime) {
+                    binding.statusView.isVisible = false
+                    if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
+                        binding.statusView.setup(
+                            R.drawable.elephant_friend_empty,
+                            R.string.message_empty
+                        )
+                        binding.statusView.isVisible = true
+                    }
+
+                    if (loadState.refresh is LoadState.Error) {
+                        when ((loadState.refresh as LoadState.Error).error) {
+                            is IOException -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_offline,
+                                    R.string.error_network
+                                ) { adapter.retry() }
+                            }
+                            else -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_error,
+                                    R.string.error_generic
+                                ) { adapter.retry() }
+                            }
+                        }
+                        binding.statusView.isVisible = true
+                    }
+                }
+
+                viewModel.uiState.collectLatest { uiState ->
+                    updateFilterVisibility(uiState.showFilterOptions)
+
+                    if (!uiState.showAbsoluteTime) {
                         updateTimestampFlow.collect()
                     }
                 }
@@ -259,15 +296,8 @@ class NotificationsFragment :
 
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
         binding.buttonFilter.setOnClickListener { showFilterMenu() }
-//        if (notifications.isEmpty()) {
-//            binding.swipeRefreshLayout.isEnabled = false
-//            sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1)
-//        } else {
-//            binding.progressBar.visibility = View.GONE
-//        }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
-        updateFilterVisibility(viewModel.uiState.value.showFilterOptions)
 
 //        scrollListener = object : EndlessOnScrollListener(layoutManager!!) {
 //            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -312,14 +342,6 @@ class NotificationsFragment :
                     is BlockEvent -> removeAllByAccountId(event.accountId)
                 }
             }
-
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.progressBar.visibility = View.GONE
-    }
-
-    override fun onRefresh() {
-        binding.statusView.visibility = View.GONE
-        showingError = false
     }
 
     override fun onReply(position: Int) {
@@ -482,8 +504,9 @@ class NotificationsFragment :
         resetNotificationsLoad()
 
         // Show friend elephant
-        binding.statusView.visibility = View.VISIBLE
-        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+//        binding.statusView.visibility = View.VISIBLE
+        // TODO: Use this when the list is empty
+//        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
         updateFilterVisibility(viewModel.uiState.value.showFilterOptions)
 
         // Update adapter
@@ -504,7 +527,7 @@ class NotificationsFragment :
                 { }
             ) {
                 // Reload notifications on failure
-                fullyRefreshWithProgressBar(true)
+                adapter.refresh()
             }
     }
 
@@ -606,7 +629,7 @@ class NotificationsFragment :
                 )
             )
             .subscribe(
-                { fullyRefreshWithProgressBar(true) }
+                { adapter.refresh() }
             ) {
                 Log.e(
                     TAG,
@@ -737,14 +760,6 @@ class NotificationsFragment :
 //            }
 //        }
 //    }
-
-    private fun fullyRefreshWithProgressBar(isShow: Boolean) {
-        resetNotificationsLoad()
-        if (isShow) {
-            binding.progressBar.visibility = View.VISIBLE
-            binding.statusView.visibility = View.GONE
-        }
-    }
 
     private fun updateAdapter() {
         differ.submitList(adapter.snapshot())

@@ -18,35 +18,37 @@ class NotificationsPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Notification> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
 
-        val response = when (params) {
-            is LoadParams.Refresh -> mastodonApi.notifications2(
-                limit = params.loadSize,
-                excludes = notificationFilter
-            )
-            is LoadParams.Append -> mastodonApi.notifications2(
-                maxId = params.key,
-                limit = params.loadSize,
-                excludes = notificationFilter
-            )
-            is LoadParams.Prepend -> mastodonApi.notifications2(
-                minId = params.key,
-                limit = params.loadSize,
-                excludes = notificationFilter
-            )
-        }
+        try {
+            val response = when (params) {
+                is LoadParams.Refresh -> mastodonApi.notifications2(
+                    limit = params.loadSize,
+                    excludes = notificationFilter
+                )
+                is LoadParams.Append -> mastodonApi.notifications2(
+                    maxId = params.key,
+                    limit = params.loadSize,
+                    excludes = notificationFilter
+                )
+                is LoadParams.Prepend -> mastodonApi.notifications2(
+                    minId = params.key,
+                    limit = params.loadSize,
+                    excludes = notificationFilter
+                )
+            }
 
-        if (!response.isSuccessful) {
-            // TODO: Handle reporting failures correctly
-            return LoadResult.Error(Throwable(response.errorBody().toString()))
-        }
+            if (!response.isSuccessful) {
+                return LoadResult.Error(Throwable(response.errorBody().toString()))
+            }
 
-        // TODO: Report loading status correctly
-        val links = getPageLinks(response.headers()["link"])
-        return LoadResult.Page(
-            data = response.body()!!,
-            nextKey = links.next,
-            prevKey = links.prev
-        )
+            val links = getPageLinks(response.headers()["link"])
+            return LoadResult.Page(
+                data = response.body()!!,
+                nextKey = links.next,
+                prevKey = links.prev
+            )
+        } catch (e: Exception) {
+            return LoadResult.Error(e)
+        }
     }
 
     private fun getPageLinks(linkHeader: String?): Links {

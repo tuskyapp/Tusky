@@ -215,16 +215,16 @@ class TimelineFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network)
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic)
                         }
                     }
                     is LoadState.Loading -> {

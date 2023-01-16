@@ -61,12 +61,6 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
     <com.keylesspalace.tusky.view.BackgroundMessageView
         android:id="@+id/statusView"
         android:layout_width="wrap_content"
