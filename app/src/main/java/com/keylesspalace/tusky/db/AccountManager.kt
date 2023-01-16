@@ -45,11 +45,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         private set
     private val accountDao: AccountDao = db.accountDao()
 
-    // For tracking when a media upload fails in the service
-    private val draftDao: DraftDao = db.draftDao()
-    private var draftsNeedUserAlertCurrent: LiveData<Int>? = null
-    public val draftsNeedUserAlert = MediatorLiveData<Int>()
-
     init {
         accounts = accountDao.loadAll().toMutableList()
 
@@ -168,20 +163,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)
-
-            // Now that account is known, need to create routing for media-upload failures
-            val dbId = it.id
-            // Remove old observer if we just switched accounts
-            draftsNeedUserAlertCurrent?.let {
-                draftsNeedUserAlert.removeSource(it)
-            }
-            // Add new observer
-            val draftsNeedUserAlertCurrent = draftDao.draftsNeedUserAlert(dbId)
-            this.draftsNeedUserAlertCurrent = draftsNeedUserAlertCurrent
-            draftsNeedUserAlert.addSource(draftsNeedUserAlertCurrent, { count ->
-                Log.d(TAG, "draftsNeedUserAlert: account id " + dbId + " has " + count + " notification-worthy drafts")
-                draftsNeedUserAlert.value = count
-            })
         }
     }
 
@@ -264,15 +245,5 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             return false
 
         return accounts.size > 1 // "disambiguate"
-    }
-
-    /**
-     * Clear drafts alert for current user
-     * Caller's responsibility to ensure there is a current user
-     */
-    fun clearDraftsAlert() {
-        runBlocking {
-            draftDao.draftsClearNeedUserAlert(activeAccount!!.id)
-        }
     }
 }

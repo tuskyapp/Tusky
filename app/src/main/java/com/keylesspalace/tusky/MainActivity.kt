@@ -165,32 +165,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
 
-        // As early as possible register to be notified when the service saves a "couldn't upload" draft.
-        // This will be called when the app first comes up, which is desirable if a draft has been waiting awhile.
-        accountManager.draftsNeedUserAlert.observe(this) { count ->
-            Log.d(TAG, "draftsNeedUserAlert 2: Notification-worthy draft count " + count)
-            if (count > 0) {
-                AlertDialog.Builder(this)
-                    .setTitle(R.string.action_post_failed)
-                    .setMessage(
-                        if (count == 1)
-                            getString(R.string.action_post_failed_detail)
-                        else
-                            getString(R.string.action_post_failed_detail_plural)
-                    )
-                    .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
-                        accountManager.clearDraftsAlert() // User looked at drafts
-
-                        val intent = DraftsActivity.newIntent(this)
-                        startActivity(intent)
-                    }
-                    .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
-                        accountManager.clearDraftsAlert() // User doesn't care
-                    }
-                    .show()
-            }
-        }
-
         var showNotificationTab = false
         if (intent != null) {
             /** there are two possibilities the accountId can be passed to MainActivity:
