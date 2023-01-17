@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -71,7 +72,11 @@ data class UiState(
 
 /** Actions the user can trigger from the UI */
 sealed class UiAction {
+    /** User wants to apply a new filter to the notification list */
     data class ApplyFilter(val filter: Set<Notification.Type>) : UiAction()
+
+    /** User is leaving the fragment, save the ID of the visible notification */
+    data class SaveVisibleId(val visibleId: String) : UiAction()
 }
 
 /** Preferences this view reacts to */
@@ -150,15 +155,32 @@ class NotificationsViewModel @Inject constructor(
                 )
             }
 
+        // Save the visible notification Id
+        viewModelScope.launch {
+            actionStateFlow
+                .filterIsInstance<UiAction.SaveVisibleId>()
+                .distinctUntilChanged()
+                .collectLatest { action ->
+                    Log.d(TAG, "Saving visible ID: ${action.visibleId}")
+                    accountManager.activeAccount?.let { account ->
+                        account.lastNotificationId = action.visibleId
+                        accountManager.saveAccount(account)
+                    }
+                }
+        }
+
         val preferencesStateFlow = getPreferences()
+
+        val lastNotificationId = accountManager.activeAccount?.lastNotificationId
+        Log.d(TAG, "Restoring at $lastNotificationId")
 
         pagingDataFlow = notificationFilter
             .flatMapLatest { action ->
-                getNotifications(filters = action.filter)
+                getNotifications(filters = action.filter, initialKey = lastNotificationId)
             }
             .cachedIn(viewModelScope)
 
-        uiState = notificationFilter.combine(preferencesStateFlow) {
+        uiState = combine(notificationFilter, preferencesStateFlow) {
                 filter, prefs ->
             UiState(
                 activeFilter = filter.filter,
@@ -175,9 +197,10 @@ class NotificationsViewModel @Inject constructor(
     }
 
     private fun getNotifications(
-        filters: Set<Notification.Type>
+        filters: Set<Notification.Type>,
+        initialKey: String? = null
     ): Flow<PagingData<NotificationViewData.Concrete>> {
-        return repository.getNotificationsStream(filters)
+        return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map { notification ->
                     notification.toViewData(

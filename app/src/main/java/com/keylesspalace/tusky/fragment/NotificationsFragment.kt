@@ -81,6 +81,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -252,37 +253,40 @@ class NotificationsFragment :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                adapter.loadStateFlow.collect { loadState ->
-                    binding.recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
-                    binding.swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
+                adapter.loadStateFlow
+                    .distinctUntilChangedBy { it.refresh }
+                    .collect { loadState ->
+                        binding.recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
+                        binding.swipeRefreshLayout.isRefreshing =
+                            loadState.refresh is LoadState.Loading
 
-                    binding.statusView.isVisible = false
-                    if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
-                        binding.statusView.setup(
-                            R.drawable.elephant_friend_empty,
-                            R.string.message_empty
-                        )
-                        binding.statusView.isVisible = true
-                    }
-
-                    if (loadState.refresh is LoadState.Error) {
-                        when ((loadState.refresh as LoadState.Error).error) {
-                            is IOException -> {
-                                binding.statusView.setup(
-                                    R.drawable.elephant_offline,
-                                    R.string.error_network
-                                ) { adapter.retry() }
-                            }
-                            else -> {
-                                binding.statusView.setup(
-                                    R.drawable.elephant_error,
-                                    R.string.error_generic
-                                ) { adapter.retry() }
-                            }
+                        binding.statusView.isVisible = false
+                        if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty
+                            )
+                            binding.statusView.isVisible = true
                         }
-                        binding.statusView.isVisible = true
+
+                        if (loadState.refresh is LoadState.Error) {
+                            when ((loadState.refresh as LoadState.Error).error) {
+                                is IOException -> {
+                                    binding.statusView.setup(
+                                        R.drawable.elephant_offline,
+                                        R.string.error_network
+                                    ) { adapter.retry() }
+                                }
+                                else -> {
+                                    binding.statusView.setup(
+                                        R.drawable.elephant_error,
+                                        R.string.error_generic
+                                    ) { adapter.retry() }
+                                }
+                            }
+                            binding.statusView.isVisible = true
+                        }
                     }
-                }
 
                 viewModel.uiState.collectLatest { uiState ->
                     updateFilterVisibility(uiState.showFilterOptions)
@@ -298,29 +302,6 @@ class NotificationsFragment :
         binding.buttonFilter.setOnClickListener { showFilterMenu() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
-
-//        scrollListener = object : EndlessOnScrollListener(layoutManager!!) {
-//            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(view, dx, dy)
-//                val actionButton = (requireActivity() as ActionButtonActivity).actionButton
-//                actionButton?.let { composeButton ->
-//                    if (hideFab) {
-//                        if (dy > 0 && composeButton.isShown) {
-//                            composeButton.hide() // Hides the button if we're scrolling down
-//                        } else if (dy < 0 && !composeButton.isShown) {
-//                            composeButton.show() // Shows it if we are scrolling up
-//                        }
-//                    } else if (!composeButton.isShown) {
-//                        composeButton.show()
-//                    }
-//                }
-//            }
-//
-//            override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
-//                this@NotificationsFragment.onLoadMore()
-//            }
-//        }
-//        binding.recyclerView.addOnScrollListener(scrollListener)
 
         eventHub.events
             .observeOn(AndroidSchedulers.mainThread())
@@ -342,6 +323,16 @@ class NotificationsFragment :
                     is BlockEvent -> removeAllByAccountId(event.accountId)
                 }
             }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        // Save the ID of the first notification visible in the list
+        val position = layoutManager!!.findFirstVisibleItemPosition()
+        adapter.snapshot()[position]?.id?.let { id ->
+            viewModel.accept(UiAction.SaveVisibleId(visibleId = id))
+        }
     }
 
     override fun onReply(position: Int) {
@@ -707,59 +698,6 @@ class NotificationsFragment :
             scrollListener.reset()
         }
     }
-
-    // TODO: When notifications are succesfully loaded
-    // - If there are no notifications,
-    //            binding.statusView.visibility = View.VISIBLE
-    //            binding.statusView.setup(
-    //                R.drawable.elephant_friend_empty,
-    //                R.string.message_empty,
-    //                null
-    //  Always:
-    //  - saveNewestNotification (see below)
-    //  - updateFilterVisibility()
-    //  - binding.swipeRefreshLayout.isEnabled = true
-    //  - binding.swipeRefreshLayout.isRefreshing = false
-    //  - binding.progressBar.visibility = View.GONE
-
-    // TODO: If notifications fail to load
-    // Always:
-    //  - binding.swipeRefreshLayout.isRefreshing = false
-    //  - binding.swipeRefreshLayout.isEnabled = false
-    //  - binding.progressBar.visibility = View.GONE
-    // IOException?
-    //    binding.statusView.setup(
-    //    R.drawable.elephant_offline,
-    //    R.string.error_network
-    //    ) {
-    //        binding.progressBar.visibility = View.VISIBLE
-    //        onRefresh()
-    //    }
-    // Otherwise:
-    //    binding.statusView.setup(
-    //        R.drawable.elephant_error,
-    //        R.string.error_generic
-    //    ) {
-    //        binding.progressBar.visibility = View.VISIBLE
-    //        onRefresh()
-    //    }
-
-//    private fun saveNewestNotificationId(notifications: List<Notification?>) {
-//        val account = accountManager.activeAccount
-//        if (account != null) {
-//            var lastNotificationId = account.lastNotificationId
-//            for (noti in notifications) {
-//                if (lastNotificationId.isLessThan(noti!!.id)) {
-//                    lastNotificationId = noti.id
-//                }
-//            }
-//            if (account.lastNotificationId != lastNotificationId) {
-//                Log.d(TAG, "saving newest noti id: $lastNotificationId")
-//                account.lastNotificationId = lastNotificationId
-//                accountManager.saveAccount(account)
-//            }
-//        }
-//    }
 
     private fun updateAdapter() {
         differ.submitList(adapter.snapshot())

@@ -141,6 +141,12 @@ interface MastodonApi {
         @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
     ): Response<List<Notification>>
 
+    /** Fetch a single notification */
+    @GET("api/v1/notifications/{id}")
+    suspend fun notification(
+        @Path("id") id: String
+    ): Response<Notification>
+
     @GET("api/v1/markers")
     fun markersWithAuth(
         @Header("Authorization") auth: String,

@@ -6,6 +6,9 @@ import androidx.paging.PagingState
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
+import okhttp3.Headers
+import okhttp3.ResponseBody.Companion.toResponseBody
+import retrofit2.Response
 import javax.inject.Inject
 
 /** Models next/prev links from the "Links" header in an API response */
@@ -20,10 +23,40 @@ class NotificationsPagingSource @Inject constructor(
 
         try {
             val response = when (params) {
-                is LoadParams.Refresh -> mastodonApi.notifications2(
-                    limit = params.loadSize,
-                    excludes = notificationFilter
-                )
+                is LoadParams.Refresh -> {
+                    // When given an ID the Mastodon API can either return the page of data
+                    // immediately *after* that key, or the page of data immediately *before*
+                    // that key.
+                    //
+                    // In both cases, the page of data *does not include* the item with the
+                    // key you actually asked for.
+                    //
+                    // The result is that the item you asked for is one page higher, and is
+                    // scrolled off the top of the screen.
+                    //
+                    // To work around this, fetch the single notification, and fake next/prev
+                    // paging links.
+                    params.key?.let { key ->
+                        val response = mastodonApi.notification(id = key)
+                        if (!response.isSuccessful) {
+                            return@let Response.error(
+                                response.code(),
+                                response.errorBody() ?: "".toResponseBody()
+                            )
+                        }
+
+                        val headers = Headers.Builder()
+                            .addAll(response.headers())
+                            .add(
+                                "link: </?max_id=$key>; rel=\"next\", </?min_id=$key>; rel=\"prev\""
+                            )
+                            .build()
+                        Response.success<List<Notification>>(listOf(response.body()!!), headers)
+                    } ?: mastodonApi.notifications2(
+                        limit = params.loadSize,
+                        excludes = notificationFilter
+                    )
+                }
                 is LoadParams.Append -> mastodonApi.notifications2(
                     maxId = params.key,
                     limit = params.loadSize,

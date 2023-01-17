@@ -19,12 +19,14 @@ class NotificationsRepository @Inject constructor(
      */
     fun getNotificationsStream(
         filter: Set<Notification.Type>,
-        pageSize: Int = PAGE_SIZE
+        pageSize: Int = PAGE_SIZE,
+        initialKey: String? = null
     ): Flow<PagingData<Notification>> {
         Log.d(TAG, "getNotificationsStream(), filtering: $filter")
 
         return Pager(
             config = PagingConfig(pageSize = pageSize),
+            initialKey = initialKey,
             pagingSourceFactory = {
                 NotificationsPagingSource(mastodonApi, filter)
             }
