@@ -568,4 +568,17 @@
     <string name="error_unfollowing_hashtag_format">#%s のフォロー解除エラー</string>
     <string name="error_could_not_load_login_page">ログインページが読み込めませんでした。</string>
     <string name="error_loading_account_details">アカウントの詳細情報の読み込みに失敗しました</string>
+    <string name="hint_media_description_missing">メディアには説明文が必要です。</string>
+    <string name="title_edits">編集</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="error_muting_hashtag_format">#%s のミュート中にエラーが起こりました</string>
+    <string name="error_unmuting_hashtag_format">#%s のミュート解除中にエラーが起こりました</string>
+    <string name="action_add_reaction">リアクションを追加</string>
+    <string name="action_discard">変更を破棄</string>
+    <string name="action_continue_edit">編集を続ける</string>
+    <string name="action_share_account_link">アカウントにリンクを共有</string>
+    <string name="action_share_account_username">アカウントのユーザー名を共有</string>
+    <string name="send_account_link_to">アカウント URL を共有…</string>
+    <string name="send_account_username_to">アカウントのユーザー名を共有…</string>
+    <string name="account_username_copied">ユーザー名がコピーされました</string>
 </resources>

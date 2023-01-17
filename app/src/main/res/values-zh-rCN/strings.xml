@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="error_generic">应用程序出现异常。</string>
+    <string name="error_generic">出错了。</string>
     <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
@@ -604,4 +604,10 @@
     <string name="send_account_link_to">分享账户链接到…</string>
     <string name="send_account_username_to">分享账户用户名到…</string>
     <string name="account_username_copied">已复制用户名</string>
+    <string name="pref_title_reading_order">阅读顺序</string>
+    <string name="pref_summary_http_proxy_disabled">已禁用</string>
+    <string name="pref_summary_http_proxy_missing">&lt;未设置&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;无效&gt;</string>
+    <string name="pref_reading_order_newest_first">从新到旧</string>
+    <string name="pref_reading_order_oldest_first">从旧到新</string>
 </resources>
