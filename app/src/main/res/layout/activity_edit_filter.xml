@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.keylesspalace.tusky.components.filters.EditFilterActivity">
+
+    <include
+        android:id="@+id/includedToolbar"
+        layout="@layout/toolbar_basic" />
+
+    <TextView
+        android:id="@+id/labelFilterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_filter_title"
+        app:layout_constraintTop_toBottomOf="@id/includedToolbar"
+        />
+
+    <EditText
+        android:id="@+id/filterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelFilterTitle"
+        android:hint="@string/hint_filter_title"
+        />
+
+    <TextView
+        android:id="@+id/labelFilterKeywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterTitle"
+        android:text="@string/label_filter_keywords"
+        />
+
+    <ListView
+        android:id="@+id/filterKeywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelFilterKeywords"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:choiceMode="singleChoice"
+        />
+
+    <!--
+    <Button
+        android:id="@+id/filterDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterKeywords"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/action_delete"
+        />
+
+    <Button
+        android:id="@+id/filterEditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterKeywords"
+        app:layout_constraintRight_toLeftOf="@id/filterDeleteButton"
+        android:text="@string/action_edit"
+        />
+    -->
+
+    <Button
+        android:id="@+id/filterAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterKeywords"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/action_add"
+        />
+
+    <TextView
+        android:id="@+id/labelFilterAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterAddButton"
+        android:text="@string/label_filter_action"
+        />
+
+    <Spinner
+        android:id="@+id/filterActionSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelFilterAction"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:entries="@array/filter_actions"
+        />
+
+    <TextView
+        android:id="@+id/labelFilterDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterActionSpinner"
+        android:text="@string/label_duration"
+        />
+
+    <Spinner
+        android:id="@+id/filterDurationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelFilterDuration"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:entries="@array/filter_duration_names"
+        />
+
+    <TextView
+        android:id="@+id/labelFilterContext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filterDurationSpinner"
+        android:text="@string/label_filter_context"
+        />
+
+    <ListView
+        android:id="@+id/filterContexts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelFilterContext"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:listitem="@android:layout/simple_list_item_multiple_choice"
+        android:entries="@array/filter_contexts"
+        android:choiceMode="multipleChoice"
+        />
+
+    <Button
+        android:id="@+id/filterSaveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/action_save"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

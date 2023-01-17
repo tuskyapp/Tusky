@@ -342,10 +342,10 @@
     <string name="about_tusky_license">Tusky — свабодная праграма з адкрытым зыходным кодам. Зроблена пад GNU General Public License Version 3. Вы можаце паглядзець ліцэнзію тут: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_bug_feature_request_site">Справаздачы аб памылках і пажаданні:
 \n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="filter_addition_dialog_title">Дадаць фільтр</string>
+    <string name="filter_addition_title">Дадаць фільтр</string>
     <string name="follows_you">Вашы падпісчыкі</string>
     <string name="pref_title_alway_show_sensitive_media">Заўсёды паказваць далікатны змест</string>
-    <string name="filter_edit_dialog_title">Рэдагаваць фільтр</string>
+    <string name="filter_edit_title">Рэдагаваць фільтр</string>
     <string name="filter_dialog_remove_button">Выдаліць</string>
     <string name="filter_dialog_update_button">Абнавіць</string>
     <string name="filter_dialog_whole_word">Цэлае слова</string>

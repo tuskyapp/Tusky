@@ -323,8 +323,8 @@
     <string name="pref_title_alway_open_spoiler">گسترش همیشگی فرسته‌های علامت‌خورده با هشدار محتوا</string>
     <string name="pref_title_public_filter_keywords">خط زمانی‌های عمومی</string>
     <string name="pref_title_thread_filter_keywords">گفت‌وگوها</string>
-    <string name="filter_addition_dialog_title">افزودن پالایه</string>
-    <string name="filter_edit_dialog_title">ویرایش پالایه</string>
+    <string name="filter_addition_title">افزودن پالایه</string>
+    <string name="filter_edit_title">ویرایش پالایه</string>
     <string name="filter_dialog_remove_button">برداشتن</string>
     <string name="filter_dialog_update_button">به‌روز رسانی</string>
     <string name="filter_dialog_whole_word">تمام واژه</string>

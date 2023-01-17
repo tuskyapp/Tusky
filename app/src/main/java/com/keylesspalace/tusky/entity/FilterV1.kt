@@ -45,4 +45,19 @@ data class FilterV1(
         val filter = other as FilterV1?
         return filter?.id.equals(id)
     }
+
+    fun toFilter(): Filter {
+        return Filter(
+            id = id,
+            title = phrase,
+            context = context,
+            expiresAt = expiresAt,
+            filterAction = Filter.Action.WARN.action,
+            keywords = listOf(FilterKeyword(
+                id = id,
+                keyword = phrase,
+                wholeWord = wholeWord,
+            ))
+        )
+    }
 }

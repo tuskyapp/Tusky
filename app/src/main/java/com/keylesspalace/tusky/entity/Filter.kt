@@ -1,8 +1,11 @@
 package com.keylesspalace.tusky.entity
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.util.Date
 
+@Parcelize
 data class Filter(
     val id: String,
     val title: String,
@@ -11,7 +14,7 @@ data class Filter(
     @SerializedName("filter_action") private val filterAction: String,
     val keywords: List<FilterKeyword>,
     // val statuses: List<FilterStatus>,
- ) {
+ ): Parcelable {
     enum class Action(val action: String) {
         NONE("none"),
         WARN("warn"),

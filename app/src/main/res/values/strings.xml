@@ -438,8 +438,9 @@
 
     <string name="pref_title_public_filter_keywords">Public timelines</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Add filter</string>
-    <string name="filter_edit_dialog_title">Edit filter</string>
+    <string name="pref_title_account_filter_keywords">Profiles</string>
+    <string name="filter_addition_title">Add filter</string>
+    <string name="filter_edit_title">Edit filter</string>
     <string name="filter_dialog_remove_button">Remove</string>
     <string name="filter_dialog_update_button">Update</string>
     <string name="filter_dialog_whole_word">Whole word</string>
@@ -785,4 +786,16 @@
     <!-- Success messages, displayed in snackbars, when an action succeeded -->
     <string name="ui_success_accepted_follow_request">Follow request accepted</string>
     <string name="ui_success_rejected_follow_request">Follow request blocked</string>
+
+    <string name="hint_filter_title">My filter</string>
+    <string name="label_filter_title">Title</string>
+    <string name="filter_action_warn">Warn</string>
+    <string name="filter_action_hide">Hide</string>
+    <string name="label_filter_action">Action</string>
+    <string name="label_filter_context">Context</string>
+    <string name="label_filter_keywords">Keywords</string>
+    <string name="action_add">Add</string>
+    <string name="filter_keyword_display_format">%s (whole word)</string>
+    <string name="filter_keyword_addition_title">Add keyword</string>
+    <string name="filter_edit_keyword_title">Edit keyword</string>
 </resources>

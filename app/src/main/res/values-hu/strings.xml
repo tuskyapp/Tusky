@@ -307,8 +307,8 @@
     <string name="replying_to">Válasz @%s részére</string>
     <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
     <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
-    <string name="filter_addition_dialog_title">Szűrő hozzáadása</string>
-    <string name="filter_edit_dialog_title">Szűrő szerkesztése</string>
+    <string name="filter_addition_title">Szűrő hozzáadása</string>
+    <string name="filter_edit_title">Szűrő szerkesztése</string>
     <string name="filter_dialog_remove_button">Eltávolítás</string>
     <string name="filter_dialog_update_button">Frissítés</string>
     <string name="filter_add_description">Szűrendő kifejezés</string>

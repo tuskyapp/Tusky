@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
@@ -86,6 +85,7 @@ abstract class TimelineViewModel(
         this.kind = kind
         this.id = id
         this.tags = tags
+        filterModel.kind = kind.toFilterKind()
 
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
@@ -280,8 +280,9 @@ abstract class TimelineViewModel(
         viewModelScope.launch {
             api.getFilters().fold(
                 {
-                    // TODO anything?
-                    filterModel.kind = kind.toFilterKind()
+                    // After the filters are loaded we need to reload displayed content to apply them.
+                    // It can happen during the usage or at startup, when we get statuses before filters.
+                    invalidate()
                 },
                 { throwable ->
                     if (throwable is HttpException && throwable.code() == 404) {

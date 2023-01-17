@@ -227,13 +227,16 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 context = listOf(FilterV1.HOME),
                 filterAction = Filter.Action.WARN.action,
                 expiresInSeconds = null,
-                keywords = listOf(tag),
-                wholeWords = listOf(true),
             ).fold(
                 { filter ->
-                    mutedFilter = filter
-                    updateTagMuteState(true)
-                    eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                    if (mastodonApi.addFilterKeyword(filterId = filter.id, keyword = tag, wholeWord = true).isSuccess) {
+                        mutedFilter = filter
+                        updateTagMuteState(true)
+                        eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                    } else {
+                        Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to mute #$tag")
+                    }
                 },
                 { throwable ->
                     if (throwable is HttpException && throwable.code() == 404) {

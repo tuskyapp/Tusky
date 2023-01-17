@@ -282,8 +282,8 @@
     <string name="notification_favourite_description">Thông báo khi ai đó thích tút của bạn</string>
     <string name="notification_favourite_name">Lượt thích</string>
     <string name="filter_dialog_whole_word">Toàn bộ chữ có chứa cụm từ này</string>
-    <string name="filter_edit_dialog_title">Sửa bộ lọc</string>
-    <string name="filter_addition_dialog_title">Thêm bộ lọc</string>
+    <string name="filter_edit_title">Sửa bộ lọc</string>
+    <string name="filter_addition_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Thảo luận</string>
     <string name="pref_title_public_filter_keywords">Liên hợp</string>
     <string name="load_more_placeholder_text">tải tút chưa đọc</string>

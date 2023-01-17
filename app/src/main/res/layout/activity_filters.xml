@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.FiltersActivity">
+    tools:context="com.keylesspalace.tusky.components.filters.FiltersActivity">
 
     <include
         android:id="@+id/includedToolbar"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:contentDescription="@string/filter_addition_dialog_title"
+        android:contentDescription="@string/filter_addition_title"
         android:src="@drawable/ic_plus_24dp"
         app:layout_anchor="@id/filtersView"
         app:layout_anchorGravity="bottom|end" />

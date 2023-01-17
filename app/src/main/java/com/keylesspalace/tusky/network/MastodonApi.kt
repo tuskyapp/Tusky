@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Instance
@@ -607,8 +608,6 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("filter_action") filterAction: String,
         @Field("expires_in") expiresInSeconds: Int?,
-        @Field("keywords_attributes[][keyword]") keywords: List<String>,
-        @Field("keywords_attributes[][whole_word]") wholeWords: List<Boolean>,
     ): NetworkResult<Filter>
 
     @FormUrlEncoded
@@ -619,15 +618,32 @@ interface MastodonApi {
         @Field("context[]") context: List<String>? = null,
         @Field("filter_action") filterAction: String? = null,
         @Field("expires_in") expiresInSeconds: Int? = null,
-        @Field("keywords_attributes[][keyword]") keywords: List<String>? = null,
-        @Field("keywords_attributes[][whole_word]") wholeWords: List<Boolean>? = null,
-        @Field("keywords_attributes[][id]") ids: List<String>? = null,
-        @Field("keywords_attributes[][_destroy]") destroy: List<Boolean>? = null,
     ): NetworkResult<Filter>
 
     @DELETE("api/v2/filters/{id}")
     suspend fun deleteFilter(
         @Path("id") id: String
+    ): NetworkResult<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("api/v2/filters/{filterId}/keywords")
+    suspend fun addFilterKeyword(
+        @Path("filterId") filterId: String,
+        @Field("keyword") keyword: String,
+        @Field("whole_word") wholeWord: Boolean,
+    ): NetworkResult<FilterKeyword>
+
+    @FormUrlEncoded
+    @PUT("api/v2/filters/keywords/{keywordId}")
+    suspend fun updateFilterKeyword(
+        @Path("keywordId") keywordId: String,
+        @Field("keyword") keyword: String,
+        @Field("whole_word") wholeWord: Boolean,
+    ): NetworkResult<FilterKeyword>
+
+    @DELETE("api/v2/filters/keywords/{keywordId}")
+    suspend fun deleteFilterKeyword(
+        @Path("keywordId") keywordId: String,
     ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
