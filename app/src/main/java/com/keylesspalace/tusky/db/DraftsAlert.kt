@@ -90,10 +90,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
                     AlertDialog.Builder(context)
                         .setTitle(R.string.action_post_failed)
                         .setMessage(
-                            if (count == 1)
-                                context.getString(R.string.action_post_failed_detail)
-                            else
-                                context.getString(R.string.action_post_failed_detail_plural)
+                            context.getResources().getQuantityString(R.plurals.action_post_failed_detail, count)
                         )
                         .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
                             clearDraftsAlert(dbId) // User looked at drafts
