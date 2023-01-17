@@ -4,10 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -23,7 +25,7 @@ import retrofit2.HttpException
 import java.util.Date
 import javax.inject.Inject
 
-class EditFilterActivity: BaseActivity(), KeywordsListener {
+class EditFilterActivity : BaseActivity() {
     @Inject
     lateinit var api: MastodonApi
 
@@ -56,7 +58,7 @@ class EditFilterActivity: BaseActivity(), KeywordsListener {
         )
 
         setTitle(R.string.filter_edit_title)
-        binding.filterAddButton.setOnClickListener { showAddKeywordDialog() }
+        binding.actionChip.setOnClickListener { showAddKeywordDialog() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }
         binding.filterContexts.setOnItemClickListener { _, _, _, _ -> validateSaveButton() }
         binding.filterTitle.doAfterTextChanged { validateSaveButton() }
@@ -85,15 +87,11 @@ class EditFilterActivity: BaseActivity(), KeywordsListener {
         updateKeywords(filter.keywords)
     }
 
-    override fun addKeyword(keyword: FilterKeyword) {
+    private fun addKeyword(keyword: FilterKeyword) {
         updateKeywords(filter.keywords + keyword)
     }
 
-    override fun showEditKeywordUI(keyword: FilterKeyword) {
-        showEditKeywordDialog(keyword)
-    }
-
-    override fun modifyKeyword(original: FilterKeyword, updated: FilterKeyword) {
+    private fun modifyKeyword(original: FilterKeyword, updated: FilterKeyword) {
         val index = filter.keywords.indexOf(original)
         if (index >= 0) {
             val newKeywords = filter.keywords.toMutableList().apply {
@@ -103,12 +101,41 @@ class EditFilterActivity: BaseActivity(), KeywordsListener {
         }
     }
 
-    override fun deleteKeyword(keyword: FilterKeyword) {
+    private fun deleteKeyword(keyword: FilterKeyword) {
         updateKeywords(filter.keywords.filterNot { it == keyword })
     }
 
     private fun updateKeywords(newKeywords: List<FilterKeyword>) {
-        binding.filterKeywords.adapter = KeywordsAdapter(this, this, newKeywords)
+        newKeywords.forEachIndexed { index, filterKeyword ->
+            val chip = binding.keywordChips.getChildAt(index).takeUnless {
+                it.id == R.id.actionChip
+            } as Chip? ?: Chip(this).apply {
+                setCloseIconResource(R.drawable.ic_cancel_24dp)
+                isCheckable = false
+                binding.keywordChips.addView(this, binding.keywordChips.size - 1)
+            }
+
+            chip.text = if (filterKeyword.wholeWord) {
+                binding.root.context.getString(
+                    R.string.filter_keyword_display_format,
+                    filterKeyword.keyword
+                )
+            } else {
+                filterKeyword.keyword
+            }
+            chip.isCloseIconVisible = true
+            chip.setOnClickListener {
+                showEditKeywordDialog(newKeywords[index])
+            }
+            chip.setOnCloseIconClickListener {
+                deleteKeyword(newKeywords[index])
+            }
+        }
+
+        while (binding.keywordChips.size - 1 > newKeywords.size) {
+            binding.keywordChips.removeViewAt(newKeywords.size)
+        }
+
         filter = filter.copy(keywords = newKeywords)
         validateSaveButton()
     }

@@ -1,66 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:isScrollContainer="true"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.keylesspalace.tusky.components.filters.EditFilterActivity">
 
     <include
         android:id="@+id/includedToolbar"
         layout="@layout/toolbar_basic" />
 
-    <TextView
-        android:id="@+id/labelFilterTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/label_filter_title"
-        app:layout_constraintTop_toBottomOf="@id/includedToolbar"
-        />
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:paddingTop="8dp"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="8dp">
 
-    <EditText
-        android:id="@+id/filterTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/labelFilterTitle"
-        android:hint="@string/hint_filter_title"
-        />
+        <TextView
+            android:id="@+id/labelFilterTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_filter_title"
+            />
 
-    <TextView
-        android:id="@+id/labelFilterKeywords"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toBottomOf="@id/filterTitle"
-        android:text="@string/label_filter_keywords"
-        />
+        <EditText
+            android:id="@+id/filterTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelFilterTitle"
+            android:hint="@string/hint_filter_title"
+            />
 
-    <ListView
-        android:id="@+id/filterKeywords"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/labelFilterKeywords"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:choiceMode="singleChoice"
-        />
+        <TextView
+            android:id="@+id/labelFilterKeywords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/filterTitle"
+            android:text="@string/label_filter_keywords"
+            />
 
-    <Button
-        android:id="@+id/filterAddButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/filterKeywords"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/action_add"
-        />
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/keywordChips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/labelFilterKeywords"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/actionChip"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="false"
+                android:text="@string/action_add"
+                app:chipIcon="@drawable/ic_plus_24dp"
+                app:chipSurfaceColor="@color/tusky_blue" />
+        </com.google.android.material.chip.ChipGroup>
+
+<!--    <ListView-->
+<!--        android:id="@+id/filterKeywords"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/labelFilterKeywords"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        android:choiceMode="singleChoice"-->
+<!--        />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/filterAddButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/filterKeywords"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        android:text="@string/action_add"-->
+<!--        />-->
 
     <TextView
         android:id="@+id/labelFilterAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/filterAddButton"
+        app:layout_constraintTop_toBottomOf="@id/keywordChips"
         android:text="@string/label_filter_action"
         />
 
@@ -120,6 +146,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/action_save"
         />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
