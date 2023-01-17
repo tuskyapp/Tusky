@@ -68,7 +68,6 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
         val draftsNeedUserAlertCurrent = draftDao.draftsNeedUserAlert(dbId)
         this.draftsNeedUserAlertCurrent = draftsNeedUserAlertCurrent
         draftsNeedUserAlert.addSource(draftsNeedUserAlertCurrent, { count ->
-            Log.d(TAG, "draftsNeedUserAlert: account id " + dbId + " has " + count + " notification-worthy drafts") // REMOVE BEFORE COMMIT
             // !! here is safe because this is called only after userIdCurrent first goes non-null, and it never goes null again
             draftsNeedUserAlert.value = Pair(userIdCurrent!!, count)
         })
@@ -84,7 +83,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
         // at init, at next onResume, or immediately if the context is resumed already.
         if (showAlert) {
             draftsNeedUserAlert.observe(context) { (dbId, count) ->
-                Log.d(TAG, "draftsNeedUserAlert 2: Notification-worthy draft count " + count)
+                Log.d(TAG, "draftsNeedUserAlert changed: Notification-worthy draft count " + count)
                 if (count > 0) {
                     AlertDialog.Builder(context)
                         .setTitle(R.string.action_post_failed)
@@ -105,7 +104,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
             }
         } else {
             draftsNeedUserAlert.observe(context) { (dbId, _) ->
-                Log.d(TAG, "draftsNeedUserAlert 3: Clean out")
+                Log.d(TAG, "draftsNeedUserAlert: Clean out")
                 clearDraftsAlert(dbId)
             }
         }
