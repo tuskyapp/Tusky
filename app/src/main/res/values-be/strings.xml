@@ -94,7 +94,7 @@
     <string name="action_toggle_visibility">Бачнасць допісаў</string>
     <string name="action_hashtags">Хэштэгі</string>
     <string name="action_open_reblogger">Адкрыць аўтара пашырэння</string>
-    <string name="action_open_reblogged_by">Паказаць прасоўванні</string>
+    <string name="action_open_reblogged_by">Паказаць пашырэнні</string>
     <string name="action_open_faved_by">Паказаць абраныя</string>
     <string name="title_hashtags_dialog">Хэштэгі</string>
     <string name="title_mentions_dialog">Згадкі</string>
@@ -136,7 +136,7 @@
     <string name="pref_title_browser_settings">Браўзер</string>
     <string name="pref_title_custom_tabs">Выкарыстоўваць укладкі браўзера Chrome</string>
     <string name="pref_title_animate_gif_avatars">Анімаваць GIF-аватаркі</string>
-    <string name="pref_title_hide_follow_button">Скрыць кнопку стварэння допісу падчас прагортвання</string>
+    <string name="pref_title_hide_follow_button">Хаваць кнопку стварэння допісу падчас прагортвання</string>
     <string name="pref_title_language">Мова</string>
     <string name="pref_title_bot_overlay">Паказваць індыкатар для ботаў</string>
     <string name="pref_title_gradient_for_media">Паказваць каляровыя градыенты замест скрытых медыя</string>
@@ -166,8 +166,8 @@
     <string name="pref_show_self_username_always">Заўсёды</string>
     <string name="notification_follow_request_name">Запыты на падпіску</string>
     <string name="notification_follow_request_description">Апавяшчаць аб запытах на падпіску</string>
-    <string name="notification_boost_name">Прасоўванні</string>
-    <string name="notification_boost_description">Апавяшчаць аб прасоўванні Вашых допісаў</string>
+    <string name="notification_boost_name">Пашырэнні</string>
+    <string name="notification_boost_description">Апавяшчаць аб пашырэнні Вашых допісаў</string>
     <string name="notification_favourite_name">Упадабаныя</string>
     <string name="notification_report_name">Скаргі</string>
     <string name="notification_report_description">Апавяшчаць аб мадэрацыйных скаргах</string>
@@ -229,7 +229,7 @@
     <string name="action_unmute_desc">Скасаваць ігнараванне %s</string>
     <string name="action_mute_domain">Ігнараваць %s</string>
     <string name="action_unmute_domain">Адмяніць ігнараванне %s</string>
-    <string name="action_mute_conversation">"Адключыць гук  размовы"</string>
+    <string name="action_mute_conversation">Ігнараваць размову</string>
     <string name="action_unmute_conversation">Паказаць размову</string>
     <string name="action_mention">Згадаць</string>
     <string name="action_hide_media">Схаваць медыя</string>
@@ -267,17 +267,17 @@
     <string name="dialog_redraft_post_warning">Выдаліць і перапісаць гэты допіс\?</string>
     <string name="dialog_delete_conversation_warning">Выдаліць гэтую размову\?</string>
     <string name="mute_domain_warning">Вы ўпэўнены, што жадаеце заблакаваць усё з %s\? Вы не пабачыце допісы з гэтага дамена ва ўсіх агульнадаступных стужках або ў сваіх апавяшчэннях. Вашыя падпісчыкі з гэтага дамену будуць выдаленыя.</string>
-    <string name="mute_domain_warning_dialog_ok">Скрыць дамен цалкам</string>
+    <string name="mute_domain_warning_dialog_ok">Схаваць дамен цалкам</string>
     <string name="dialog_block_warning">Заблакаваць @%s\?</string>
-    <string name="dialog_mute_warning">Адключыць гук для %s\?</string>
-    <string name="dialog_mute_hide_notifications">Скрыць апавяшчэнні</string>
+    <string name="dialog_mute_warning">Ігнараваць %s\?</string>
+    <string name="dialog_mute_hide_notifications">Схаваць апавяшчэнні</string>
     <string name="visibility_direct">Асабіста: Дасылаць толькі для згаданых карыстальнікаў</string>
     <string name="pref_title_edit_notification_settings">Апавяшчэнні</string>
     <string name="pref_title_notifications_enabled">Апавяшчэнні</string>
     <string name="pref_title_notification_alerts">Апавяшчэнні</string>
     <string name="pref_title_notification_alert_sound">Апавяшчаць з гукам</string>
     <string name="pref_title_notification_filter_follow_requests">запыт на падпіску</string>
-    <string name="pref_title_notification_filter_reblogs">мае допісы прасунуты</string>
+    <string name="pref_title_notification_filter_reblogs">мае допісы пашыраны</string>
     <string name="pref_title_notification_filter_favourites">мае допісы абраныя</string>
     <string name="pref_title_notification_filter_poll">апытанні скончыліся</string>
     <string name="pref_title_notification_filter_subscriptions">нехта, на каго я падпісаны(-ая), даслаў(-ла) новы допіс</string>
@@ -287,7 +287,7 @@
     <string name="pref_title_appearance_settings">Выгляд</string>
     <string name="pref_title_app_theme">Тэма</string>
     <string name="pref_title_timelines">Стужкі</string>
-    <string name="pref_title_show_boosts">Паказаць прасоўванні</string>
+    <string name="pref_title_show_boosts">Паказаць пашырэнні</string>
     <string name="pref_title_http_proxy_port">HTTP проксі порт</string>
     <string name="pref_title_http_proxy_port_message">Порт павінен быць паміж %d і %d</string>
     <string name="pref_default_post_privacy">Прыватнасць допісаў па змаўчанні</string>
@@ -372,7 +372,7 @@
     <string name="caption_notoemoji">Бягучы набор эмодзі ад Google</string>
     <string name="caption_twemoji">Тыповы набор эмодзі Mastodon</string>
     <string name="download_failed">Не атрымалася спампаваць</string>
-    <string name="unreblog_private">Скасаваць прасоўванне</string>
+    <string name="unreblog_private">Скасаваць пашырэнне</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="pin_action">Замацаваць</string>
     <string name="unpin_action">Адмацаваць</string>
@@ -400,7 +400,7 @@
         <item quantity="many"><b>%1$s</b> абраных</item>
         <item quantity="other"><b>%1$s</b> абраных</item>
     </plurals>
-    <string name="title_reblogged_by">Прасунулі</string>
+    <string name="title_reblogged_by">Пашырылі</string>
     <string name="profile_metadata_label">Метазвесткі профілю</string>
     <string name="title_favourited_by">Упадабалі</string>
     <string name="add_account_description">Дадаць уліковы запіс Mastodon</string>
@@ -435,10 +435,10 @@
     <string name="pref_title_absolute_time">Паказваць абсалютны час</string>
     <string name="label_remote_account">Інфармацыя ніжэй можа не паказваць поўны профіль карыстальніка. Націсніце, каб адкрыць поўны профіль у браўзеры.</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> прасунуты</item>
-        <item quantity="few"><b>%s</b> прасунута</item>
-        <item quantity="many"><b>%s</b> прасунутых</item>
-        <item quantity="other"><b>%s</b> прасунутых</item>
+        <item quantity="one"><b>%s</b> пашыраны</item>
+        <item quantity="few"><b>%s</b> пашырана</item>
+        <item quantity="many"><b>%s</b> пашыраных</item>
+        <item quantity="other"><b>%s</b> пашыраных</item>
     </plurals>
     <string name="compose_unsaved_changes">У Вас засталіся незахаваныя змены.</string>
     <string name="expand_collapse_all_posts">Разгарнуць/згарнуць допісы</string>
@@ -448,7 +448,7 @@
     <string name="profile_badge_bot_text">Бот</string>
     <string name="account_moved_description">%1$s пераехаў(-ла) да:</string>
     <string name="restart">Перазапусціць</string>
-    <string name="reblog_private">Прасоўваць для пачатковай аўдыторыі</string>
+    <string name="reblog_private">Пашырыць для пачатковай аўдыторыі</string>
     <string name="license_description">Tusky змяшчае код і рэсурсы з наступных праграм з адкрытым зыходным кодам:</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s і %2$s</string>
@@ -565,8 +565,8 @@
     <string name="a11y_label_loading_thread">Спампоўваю стужку</string>
     <string name="wellbeing_mode_notice">Некаторая інфармацыя, якая можа ўплываць на Ваш псіхічны стан, будзе скрыта. Гэта ўключае:
 \n
-\n- Апавяшчэнні аб Упадабаннях/Прасоўваннях/Падпісках
-\n- Колькасць Упадабанняў/Прасоўванняў у допісах
+\n- Апавяшчэнні аб Упадабаннях/Пашырэннях/Падпісках
+\n- Колькасць Упадабанняў/Пашырэнняў у допісах
 \n- Статыстыка ў профілях пра Падпісчыкаў/Допісы
 \n
 \nНа Push-паведамленні гэта не ўплывае, але Вы можаце праглядзець налады апавяшчэнняў уручную.</string>
@@ -580,10 +580,10 @@
     <string name="dialog_push_notification_migration_other_accounts">Вы паўторна зайшлі ў бягучы ўліковы запіс, каб дазволіць Tusky падпісацца на push-апавяшчэнні. Але ў Вас яшчэ засталіся ўліковыя запісы, якія не мігрыравалі такім чынам. Пераключыцеся на іх і зайдзіце паўторна, каб уключыць падтрымку апавяшчэнняў праз UnifiedPush.</string>
     <string name="status_edit_info">%1$s адрэдагаваў(-ла) %2$s</string>
     <string name="status_created_info">%1$s стварыў(-ла) %2$s</string>
-    <string name="pref_title_hide_top_toolbar">Скрыць загаловак верхняй панэлі інструментаў</string>
+    <string name="pref_title_hide_top_toolbar">Схаваць загаловак верхняй панэлі інструментаў</string>
     <string name="account_note_hint">Ваша асабістая нататка пра гэты ўліковы запіс</string>
     <string name="pref_title_confirm_favourites">Патрабаваць пацвярджэнне перад упадабаннем</string>
-    <string name="pref_title_confirm_reblogs">Патрабаваць пацвярджэнне перад прасоўваннем</string>
+    <string name="pref_title_confirm_reblogs">Патрабаваць пацвярджэнне перад пашырэннем</string>
     <string name="pref_title_wellbeing_mode">Дабрабыт</string>
     <string name="drafts_failed_loading_reply">Немагчыма атрымаць інфармацыю пра адказ</string>
     <string name="draft_deleted">Чарнавік выдалены</string>
@@ -611,8 +611,8 @@
     </plurals>
     <string name="dialog_delete_list_warning">Вы ўпэўнены, што жадаеце выдаліць спіс %s\?</string>
     <string name="limit_notifications">Абмежаванне апавяшчэнняў у стужцы</string>
-    <string name="wellbeing_hide_stats_posts">Скрыць колькасную статыстыку допісаў</string>
-    <string name="wellbeing_hide_stats_profile">Скрыць колькасную статыстыку профіляў</string>
+    <string name="wellbeing_hide_stats_posts">Схаваць колькасную статыстыку допісаў</string>
+    <string name="wellbeing_hide_stats_profile">Схаваць колькасную статыстыку профіляў</string>
     <string name="report_category_violation">Парушэнне правіла</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="instance_rule_title">Правілы %s</string>
