@@ -53,7 +53,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
     // Durable "forwarding address" for current draftsNeedUserAlertCurrent object
     public val draftsNeedUserAlert = MediatorLiveData<Pair<Long,Int>>()
 
-    fun switchCurrentUser(dbId: Long) {
+    fun updateActiveAccountId(dbId: Long) {
         if (dbId == userIdCurrent) {
             return; // Nothing to do
         }
@@ -76,7 +76,8 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
     }
 
     init {
-        accountManager.activeAccount?.let { switchCurrentUser(it.id) }
+        accountManager.draftsAlert = this
+        accountManager.activeAccount?.let { updateActiveAccountId(it.id) }
     }
 
     public fun <T> observeInContext(context: T, showAlert: Boolean) where T : Context, T : LifecycleOwner {
