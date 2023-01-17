@@ -322,6 +322,8 @@
     <string name="pref_show_self_username_disambiguate">When multiple accounts logged in</string>
     <string name="pref_show_self_username_never">Never</string>
 
+    <string name="notification_send_error_name">Sending errors</string>
+    <string name="notification_send_error_description">Notifications when posts can not be sent</string>
     <string name="notification_mention_name">New Mentions</string>
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_follow_name">New Followers</string>
