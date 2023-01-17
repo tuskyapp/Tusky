@@ -624,4 +624,10 @@
     <string name="tips_push_notification_migration">Увайдзіце зноў на ўсіх уліковых запісах, каб push-апавяшчэнні запрацавалі.</string>
     <string name="mute_notifications_switch">Бязгучныя апавяшчэнні</string>
     <string name="warning_scheduling_interval">Найменшы час планавання ў Mastodon складае 5 хвілін.</string>
+    <string name="pref_reading_order_oldest_first">Спачатку старэйшыя</string>
+    <string name="pref_title_reading_order">Кірунак чытання</string>
+    <string name="pref_summary_http_proxy_disabled">Вымкнена</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;нядзейсны&gt;</string>
+    <string name="pref_summary_http_proxy_missing">&lt;не ўсталявана&gt;</string>
+    <string name="pref_reading_order_newest_first">Спачатку навейшыя</string>
 </resources>
