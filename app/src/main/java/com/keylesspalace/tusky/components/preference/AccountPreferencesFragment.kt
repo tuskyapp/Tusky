@@ -178,6 +178,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preference {
                 setTitle(R.string.pref_title_timeline_filters)
+                setIcon(R.drawable.ic_filter_24dp)
                 setOnPreferenceClickListener {
                     launchFilterActivity()
                     true
