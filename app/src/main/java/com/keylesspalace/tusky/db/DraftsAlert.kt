@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -51,7 +50,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountMa
     private var userIdCurrent: Long? = null
 
     // Durable "forwarding address" for current draftsNeedUserAlertCurrent object
-    public val draftsNeedUserAlert = MediatorLiveData<Pair<Long,Int>>()
+    public val draftsNeedUserAlert = MediatorLiveData<Pair<Long, Int>>()
 
     fun updateActiveAccountId(dbId: Long) {
         if (dbId == userIdCurrent) {
