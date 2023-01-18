@@ -21,7 +21,7 @@ data class Filter(
         HIDE("hide");
 
         companion object {
-            fun fromString(action: String): Action = values().firstOrNull { it.action == action } ?: WARN;
+            fun from(action: String): Action = values().firstOrNull { it.action == action } ?: WARN;
         }
     }
     enum class Kind(val kind: String) {
@@ -32,13 +32,13 @@ data class Filter(
         ACCOUNT("account");
 
         companion object {
-            fun fromString(kind: String): Kind = values().firstOrNull { it.kind == kind } ?: PUBLIC
+            fun from(kind: String): Kind = values().firstOrNull { it.kind == kind } ?: PUBLIC
         }
     }
 
     val action: Action
-        get() = Action.fromString(filterAction)
+        get() = Action.from(filterAction)
 
     val kinds: List<Kind>
-        get() = context.map { Kind.fromString(it) }
+        get() = context.map { Kind.from(it) }
 }

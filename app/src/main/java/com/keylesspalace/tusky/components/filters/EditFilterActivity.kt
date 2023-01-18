@@ -51,16 +51,16 @@ class EditFilterActivity : BaseActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        // This has to be done in code for some reason 🤷
-        binding.filterContexts.adapter = ArrayAdapter(this,
-            android.R.layout.simple_list_item_multiple_choice,
-            resources.getStringArray(R.array.filter_contexts)
-        )
-
         setTitle(R.string.filter_edit_title)
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
+        binding.filterCancelButton.setOnClickListener { finish() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }
-        binding.filterContexts.setOnItemClickListener { _, _, _, _ -> validateSaveButton() }
+
+        binding.filterContextHome.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+        binding.filterContextNotifications.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+        binding.filterContextPublic.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+        binding.filterContextThread.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+        binding.filterContextAccount.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
         binding.filterTitle.doAfterTextChanged { validateSaveButton() }
         validateSaveButton()
 
@@ -73,13 +73,19 @@ class EditFilterActivity : BaseActivity() {
     private fun loadFilter() {
         binding.filterTitle.setText(filter.title)
 
-        val contexts = Filter.Kind.values()
         for (context in filter.context) {
-            contexts.firstOrNull { it.kind == context }?.ordinal?.let { index ->
-                binding.filterContexts.setItemChecked(index, true)
+            when (Filter.Kind.from(context)) {
+                Filter.Kind.HOME -> binding.filterContextHome.isChecked = true
+                Filter.Kind.NOTIFICATIONS -> binding.filterContextNotifications.isChecked = true
+                Filter.Kind.PUBLIC -> binding.filterContextPublic.isChecked = true
+                Filter.Kind.THREAD -> binding.filterContextThread.isChecked = true
+                Filter.Kind.ACCOUNT -> binding.filterContextAccount.isChecked = true
             }
         }
-        binding.filterActionSpinner.setSelection(filter.action.ordinal - 1) // Server-side enum doesn't include None
+
+        binding.filterActionWarn.isChecked = filter.action == Filter.Action.WARN
+        binding.filterActionHide.isChecked = filter.action == Filter.Action.HIDE
+
         if (filter.expiresAt != null) {
             val durationNames = listOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
             binding.filterDurationSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, durationNames)
@@ -152,7 +158,7 @@ class EditFilterActivity : BaseActivity() {
                     binding.phraseWholeWord.isChecked,
                 ))
             }
-            .setNeutralButton(android.R.string.cancel, null)
+            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 
@@ -175,18 +181,38 @@ class EditFilterActivity : BaseActivity() {
     }
 
     private fun validateSaveButton() {
-        binding.filterSaveButton.isEnabled = binding.filterTitle.text.isNotBlank() &&
-            filter.keywords.isNotEmpty() &&
-            binding.filterContexts.checkedItemPositions.indexOfValue(true) >= 0
+        val checkedContexts = binding.filterContextHome.isChecked ||
+                    binding.filterContextNotifications.isChecked ||
+                    binding.filterContextPublic.isChecked ||
+                    binding.filterContextThread.isChecked ||
+                    binding.filterContextAccount.isChecked
+
+        // TODO: This allows the filter action to be empty -- is that OK?
+
+        binding.filterSaveButton.isEnabled = binding.filterTitle.text?.isNotBlank() ?: false &&
+            filter.keywords.isNotEmpty() && checkedContexts
+    }
+
+    private fun getCheckedFilterContexts(): List<String> {
+        val l = mutableListOf<String>()
+        binding.filterContextHome.isChecked && l.add(Filter.Kind.HOME.kind)
+        binding.filterContextNotifications.isChecked && l.add(Filter.Kind.NOTIFICATIONS.kind)
+        binding.filterContextPublic.isChecked && l.add(Filter.Kind.PUBLIC.kind)
+        binding.filterContextThread.isChecked && l.add(Filter.Kind.THREAD.kind)
+        binding.filterContextAccount.isChecked && l.add(Filter.Kind.ACCOUNT.kind)
+        return l
     }
 
     private fun saveChanges() {
-        val checks = binding.filterContexts.checkedItemPositions
-        val contexts = Filter.Kind.values().filterIndexed { index, _ ->
-            checks[index]
-        }.map { it.kind }
-        val title = binding.filterTitle.text.trim().toString()
-        val action = Filter.Action.values()[binding.filterActionSpinner.selectedItemPosition + 1].action
+        val contexts = getCheckedFilterContexts()
+        val title = binding.filterTitle.text?.trim().toString()
+
+        val action = when (binding.filterActionGroup.checkedRadioButtonId) {
+            R.id.filter_action_hide -> Filter.Action.HIDE.action
+            R.id.filter_action_warn -> Filter.Action.WARN.action
+            else -> Filter.Action.NONE.action
+        }
+
         val durationIndex = binding.filterDurationSpinner.selectedItemPosition
 
         lifecycleScope.launch {
@@ -264,6 +290,8 @@ class EditFilterActivity : BaseActivity() {
                         finish()
                     }
                 } else {
+                    // code == 422 can happen here, and indicates a Tusky bug, it's
+                    // sending invalid data to the API endpoint
                     Snackbar.make(binding.root, "Error updating filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -311,6 +339,7 @@ class EditFilterActivity : BaseActivity() {
 
 
     companion object {
+        private const val TAG = "EditFilterActivity"
         const val FILTER_TO_EDIT = "FilterToEdit"
         const val TITLE= "EditFilterActivityTitle"
 

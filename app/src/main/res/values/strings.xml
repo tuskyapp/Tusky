@@ -788,12 +788,12 @@
     <string name="ui_success_rejected_follow_request">Follow request blocked</string>
 
     <string name="hint_filter_title">My filter</string>
-    <string name="label_filter_title">Title</string>
-    <string name="filter_action_warn">Warn</string>
-    <string name="filter_action_hide">Hide</string>
+    <string name="label_filter_title">Filter name</string>
+    <string name="filter_action_warn">Replace content with a warning</string>
+    <string name="filter_action_hide">Remove the content</string>
     <string name="label_filter_action">Action</string>
     <string name="label_filter_context">Context</string>
-    <string name="label_filter_keywords">Keywords</string>
+    <string name="label_filter_keywords">Keywords or phrases to filter</string>
     <string name="action_add">Add</string>
     <string name="filter_keyword_display_format">word: \"%s\"</string>
     <string name="filter_keyword_addition_title">Add keyword</string>
