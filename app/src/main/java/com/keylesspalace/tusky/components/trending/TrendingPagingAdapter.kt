@@ -20,27 +20,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.TrendingDateViewHolder
 import com.keylesspalace.tusky.adapter.TrendingTagViewHolder
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.databinding.ItemTrendingDateBinding
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 class TrendingPagingAdapter(
-    private var statusDisplayOptions: StatusDisplayOptions,
     private val trendingListener: LinkListener,
 ) : ListAdapter<TrendingViewData, RecyclerView.ViewHolder>(TrendingDifferCallback) {
-
-    var mediaPreviewEnabled: Boolean
-        get() = statusDisplayOptions.mediaPreviewEnabled
-        set(mediaPreviewEnabled) {
-            statusDisplayOptions = statusDisplayOptions.copy(
-                mediaPreviewEnabled = mediaPreviewEnabled
-            )
-        }
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -48,12 +37,6 @@ class TrendingPagingAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            VIEW_TYPE_HEADER -> {
-                val binding =
-                    ItemTrendingDateBinding.inflate(LayoutInflater.from(viewGroup.context))
-                TrendingDateViewHolder(binding)
-            }
-
             VIEW_TYPE_TAG -> {
                 val binding =
                     ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
@@ -61,7 +44,9 @@ class TrendingPagingAdapter(
             }
 
             else -> {
-                throw IllegalStateException("Trending view cannot be created due to viewType mismatch.")
+                val binding =
+                    ItemTrendingDateBinding.inflate(LayoutInflater.from(viewGroup.context))
+                TrendingDateViewHolder(binding)
             }
         }
     }
@@ -106,10 +91,8 @@ class TrendingPagingAdapter(
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) is TrendingViewData.Tag) {
             VIEW_TYPE_TAG
-        } else if (getItem(position) is TrendingViewData.Header) {
-            VIEW_TYPE_HEADER
         } else {
-            throw IllegalStateException("Trending view cannot be retrieved due to viewType mismatch.")
+            VIEW_TYPE_HEADER
         }
     }
 
@@ -136,11 +119,7 @@ class TrendingPagingAdapter(
                 oldItem: TrendingViewData,
                 newItem: TrendingViewData
             ): Any? {
-                return if (oldItem == newItem) {
-                    // If items are equal - update timestamp only
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                } else // If items are different - update the whole view holder
-                    null
+                return null
             }
         }
     }

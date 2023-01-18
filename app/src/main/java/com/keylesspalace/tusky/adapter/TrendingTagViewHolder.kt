@@ -57,7 +57,7 @@ class TrendingTagViewHolder(
     }
 
     private fun setTag(tag: String) {
-        binding.tag.text = tag
+        binding.tag.text = binding.root.context.getString(R.string.title_tag, tag)
     }
 
     private fun setUsageText(usage: Long) {

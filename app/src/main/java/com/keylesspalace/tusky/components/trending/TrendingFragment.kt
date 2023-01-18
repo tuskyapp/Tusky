@@ -25,10 +25,8 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -36,13 +34,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.autoDispose
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
 import com.keylesspalace.tusky.databinding.FragmentTrendingBinding
 import com.keylesspalace.tusky.db.AccountManager
@@ -53,14 +49,10 @@ import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
-import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.CardViewMode
-import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -93,8 +85,6 @@ class TrendingFragment :
 
     private lateinit var adapter: TrendingPagingAdapter
 
-    private var isSwipeToRefreshEnabled = true
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         bottomSheetActivity = if (context is BottomSheetActivity) {
@@ -107,29 +97,7 @@ class TrendingFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val arguments = requireArguments()
-
-        isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
-
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val statusDisplayOptions = StatusDisplayOptions(
-            animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
-            useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
-            showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
-            useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = if (preferences.getBoolean(
-                    PrefKeys.SHOW_CARDS_IN_TIMELINES,
-                    false
-                )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
-            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        )
         adapter = TrendingPagingAdapter(
-            statusDisplayOptions,
             this,
         )
     }
@@ -158,12 +126,10 @@ class TrendingFragment :
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
-                            if (isSwipeToRefreshEnabled) {
-                                binding.recyclerView.scrollBy(
-                                    0,
-                                    Utils.dpToPx(requireContext(), -30)
-                                )
-                            } else binding.recyclerView.scrollToPosition(0)
+                            binding.recyclerView.scrollBy(
+                                0,
+                                Utils.dpToPx(requireContext(), -30)
+                            )
                         }
                     }
                 }
@@ -175,21 +141,9 @@ class TrendingFragment :
                 processViewState(trendingState)
             }
         }
-
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
-                when (event) {
-                    is PreferenceChangedEvent -> {
-                        onPreferenceChanged(event.preferenceKey)
-                    }
-                }
-            }
     }
 
     private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
@@ -305,20 +259,6 @@ class TrendingFragment :
         ) { refreshContent() }
     }
 
-    private fun onPreferenceChanged(key: String) {
-        when (key) {
-            // TODO: REMOVE?
-            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
-                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
-                if (enabled != oldMediaPreviewEnabled) {
-                    adapter.mediaPreviewEnabled = enabled
-                    adapter.notifyItemRangeChanged(0, adapter.itemCount)
-                }
-            }
-        }
-    }
-
     private fun actionButtonPresent(): Boolean {
         return activity is ActionButtonActivity
     }
@@ -358,14 +298,9 @@ class TrendingFragment :
 
     companion object {
         private const val TAG = "TrendingF" // logging tag
-        private const val ARG_ENABLE_SWIPE_TO_REFRESH = "enableSwipeToRefresh"
 
         fun newInstance(): TrendingFragment {
-            val fragment = TrendingFragment()
-            val arguments = Bundle(1)
-            arguments.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
-            fragment.arguments = arguments
-            return fragment
+            return TrendingFragment()
         }
     }
 }

@@ -11,38 +11,19 @@
     android:importantForAccessibility="yes">
 
     <TextView
-        android:id="@+id/symbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:importantForAccessibility="no"
-        android:maxLines="1"
-        android:text="@string/hash_symbol"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:textColorPrimary"
-        android:textStyle="normal|bold"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintStart_toStartOf="@id/usage"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/tag"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginEnd="14dp"
-        android:ellipsize="end"
         android:importantForAccessibility="no"
-        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:textColorPrimary"
         android:textStyle="normal|bold"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/symbol"
-        app:layout_constraintTop_toTopOf="@id/symbol"
-        tools:text="itishashtagtuesday" />
+        app:layout_constraintStart_toStartOf="@id/usage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="#itishashtagtuesdayitishashtagtuesday" />
 
     <TextView
         android:id="@+id/usage"
@@ -58,7 +39,7 @@
         app:layout_constraintEnd_toStartOf="@id/accounts"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/symbol"
+        app:layout_constraintTop_toBottomOf="@id/tag"
         tools:text="12 345" />
 
     <TextView

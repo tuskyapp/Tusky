@@ -48,9 +48,6 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug {
-            applicationIdSuffix '.debug'
-        }
     }
 
     flavorDimensions "color"
@@ -76,7 +73,7 @@ android {
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
-        }        
+        }
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())

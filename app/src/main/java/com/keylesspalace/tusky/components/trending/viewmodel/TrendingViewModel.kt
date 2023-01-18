@@ -15,21 +15,24 @@
 
 package com.keylesspalace.tusky.components.trending.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.TrendingTag
-import com.keylesspalace.tusky.usecase.TrendingCases
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okio.IOException
 import javax.inject.Inject
 
 class TrendingViewModel @Inject constructor(
-    private val trendingCases: TrendingCases,
+    private val mastodonApi: MastodonApi,
     accountManager: AccountManager,
 ) : ViewModel() {
     enum class LoadingState {
@@ -55,7 +58,17 @@ class TrendingViewModel @Inject constructor(
     }
 
     private suspend fun trendingTags(): List<TrendingTag> {
-        return trendingCases.trendingTags()
+        val call = withContext(Dispatchers.IO) {
+            mastodonApi.trendingTags()
+        }
+
+        call.exceptionOrNull()?.also { throw it }
+
+        val tags = call.getOrNull() ?: listOf()
+
+        Log.v(TAG, "Trending tags: ${tags.map { it.name }}")
+
+        return tags
     }
 
     /** Triggered when currently displayed data must be reloaded. */
