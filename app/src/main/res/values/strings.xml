@@ -693,6 +693,11 @@
     <string name="draft_deleted">Draft deleted</string>
     <string name="drafts_post_reply_removed">The post you drafted a reply to has been removed</string>
 
+    <plurals name="drafts_failed_count">
+        <item quantity="one">%1$d failure</item>
+        <item quantity="other">%1$d failures</item>
+    </plurals>
+
     <string name="follow_requests_info">Even though your account is not locked, the %1$s staff thought you might want to review follow requests from these accounts manually.</string>
 
     <string name="action_subscribe_account">Subscribe</string>

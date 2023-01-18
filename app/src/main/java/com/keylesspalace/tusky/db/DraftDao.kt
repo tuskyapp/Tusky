@@ -20,6 +20,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DraftDao {
@@ -32,6 +33,9 @@ interface DraftDao {
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId")
     suspend fun loadDrafts(accountId: Long): List<DraftEntity>
+
+    @Query("SELECT COUNT(*) FROM DraftEntity WHERE accountId = :accountId AND failedToSend = 1")
+    fun getFailedToSendCount(accountId: Long): Flow<Int>
 
     @Query("DELETE FROM DraftEntity WHERE id = :id")
     suspend fun delete(id: Int)
