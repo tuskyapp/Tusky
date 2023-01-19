@@ -7,7 +7,6 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import okhttp3.Headers
-import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -36,22 +35,25 @@ class NotificationsPagingSource @Inject constructor(
                     //
                     // To work around this, fetch the single notification, and fake next/prev
                     // paging links.
+                    //
+                    // If the single notification doesn't exist any more that's not an error;
+                    // the user might have deleted it elsewhere, or it's been deleted by the
+                    // server. Return an empty list with the correct header links.
                     params.key?.let { key ->
                         val response = mastodonApi.notification(id = key)
-                        if (!response.isSuccessful) {
-                            return@let Response.error(
-                                response.code(),
-                                response.errorBody() ?: "".toResponseBody()
-                            )
-                        }
-
-                        val headers = Headers.Builder()
-                            .addAll(response.headers())
+                        val builder = Headers.Builder()
                             .add(
                                 "link: </?max_id=$key>; rel=\"next\", </?min_id=$key>; rel=\"prev\""
                             )
-                            .build()
-                        Response.success<List<Notification>>(listOf(response.body()!!), headers)
+
+                        val body = if (response.isSuccessful) {
+                            builder.addAll(response.headers())
+                            listOf(response.body()!!)
+                        } else {
+                            emptyList()
+                        }
+
+                        Response.success(body, builder.build())
                     } ?: mastodonApi.notifications2(
                         limit = params.loadSize,
                         excludes = notificationFilter
