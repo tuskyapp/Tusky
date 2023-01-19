@@ -185,7 +185,7 @@ class TrendingFragment :
     }
 
     override fun onViewTag(tag: String) {
-        startActivity(StatusListActivity.newHashtagIntent(requireContext(), tag))
+        bottomSheetActivity.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
     }
 
     override fun onViewAccount(id: String) {
