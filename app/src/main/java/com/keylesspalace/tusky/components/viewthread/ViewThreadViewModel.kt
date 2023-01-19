@@ -180,8 +180,12 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun detailedStatus(): StatusViewData.Concrete? {
-        return (_uiState.value as ThreadUiState.Success?)?.statusViewData?.find { status ->
-            status.isDetailed
+        return when (val uiState = _uiState.value) {
+            is ThreadUiState.Success -> uiState.statusViewData.find { status ->
+                status.isDetailed
+            }
+            is ThreadUiState.LoadingThread -> uiState.statusViewDatum
+            else -> null
         }
     }
 
@@ -210,7 +214,7 @@ class ViewThreadViewModel @Inject constructor(
             timelineCases.bookmark(status.actionableId, bookmark).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
             }
         }
     }

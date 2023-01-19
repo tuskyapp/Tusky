@@ -28,6 +28,7 @@
     <locale android:name="kab"/>
     <locale android:name="vi"/>
     <locale android:name="tr"/>
+    <locale android:name="be"/>
     <locale android:name="bg"/>
     <locale android:name="ru"/>
     <locale android:name="uk"/>
