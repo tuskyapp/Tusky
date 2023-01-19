@@ -68,8 +68,6 @@ data class UiState(
 // fragment or activity to get the data. That would simplify the code slightly and save a function
 // call.
 
-// TODO: When notifications are fetched, save the ID of the newest one.
-
 /** Actions the user can trigger from the UI */
 sealed class UiAction {
     /** User wants to apply a new filter to the notification list */
@@ -112,9 +110,10 @@ class NotificationsViewModel @Inject constructor(
 
     val statusDisplayOptions: StatusDisplayOptions
 
+    /** Flow of user actions received from the UI */
     private val actionStateFlow = MutableSharedFlow<UiAction>()
 
-    /** Accept UI actions and convert them to new state */
+    /** Accept UI actions in to actionStateFlow */
     val accept: (UiAction) -> Unit = { action ->
         viewModelScope.launch { actionStateFlow.emit(action) }
     }
