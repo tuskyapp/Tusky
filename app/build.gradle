@@ -38,7 +38,7 @@ android {
         debug {}
     }
 
-    flavorDimensions "color"
+    flavorDimensions += "color"
     productFlavors {
         blue {}
         green {
