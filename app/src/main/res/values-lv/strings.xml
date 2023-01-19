@@ -436,4 +436,8 @@
     <string name="notification_poll_description">Paziņojumi par pabeigtajām aptaujām</string>
     <string name="notification_subscription_description">Paziņojumi par jauniem ierakstiem no kāda, kura ierakstus esi abonējis</string>
     <string name="notification_sign_up_description">Paziņojumi par jauniem lietotājiem</string>
+    <string name="limit_notifications">Ierobežot laika līnijas paziņojumus</string>
+    <string name="wellbeing_hide_stats_profile">Slēpt profilu kvantitatīvo statistiku</string>
+    <string name="wellbeing_hide_stats_posts">Slēpt ierakstu kvantitatīvo statistiku</string>
+    <string name="drafts_failed_loading_reply">Neizdevās ielādēt atbildes informāciju</string>
 </resources>
