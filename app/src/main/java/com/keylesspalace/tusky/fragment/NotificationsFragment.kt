@@ -242,14 +242,12 @@ class NotificationsFragment :
         /** Notifies the adapter that the timestamps of the visible items have changed */
         val updateTimestampFlow = flow {
             while (true) { delay(60000); emit(Unit) }
-        }
-            .onEach {
-                adapter.notifyItemRangeChanged(
-                    layoutManager!!.findFirstVisibleItemPosition(),
-                    layoutManager!!.findLastVisibleItemPosition(),
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                )
+        }.onEach {
+            layoutManager?.findFirstVisibleItemPosition()?.let { first ->
+                val count = layoutManager!!.findLastVisibleItemPosition() - first
+                adapter.notifyItemRangeChanged(first, count, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
             }
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
