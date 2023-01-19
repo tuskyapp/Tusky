@@ -10,6 +10,6 @@ allprojects {
     apply plugin: libs.plugins.ktlint.get().pluginId
 }
 
-task clean(type: Delete) {
+tasks.register('clean') {
     delete rootProject.buildDir
 }
