@@ -259,12 +259,16 @@ class NotificationsFragment :
                             loadState.refresh is LoadState.Loading
 
                         binding.statusView.isVisible = false
-                        if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
-                            binding.statusView.setup(
-                                R.drawable.elephant_friend_empty,
-                                R.string.message_empty
-                            )
-                            binding.statusView.isVisible = true
+                        if (loadState.refresh is LoadState.NotLoading) {
+                            if (adapter.itemCount == 0) {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_friend_empty,
+                                    R.string.message_empty
+                                )
+                                binding.statusView.isVisible = true
+                            } else {
+                                binding.statusView.isVisible = false
+                            }
                         }
 
                         if (loadState.refresh is LoadState.Error) {
