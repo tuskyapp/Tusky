@@ -114,4 +114,3 @@ class TuskyApplication : Application(), HasAndroidInjector {
         private const val TAG = "TuskyApplication"
     }
 }
-
