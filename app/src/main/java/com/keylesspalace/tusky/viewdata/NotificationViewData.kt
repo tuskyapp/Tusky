@@ -44,9 +44,6 @@ abstract class NotificationViewData {
     ) : NotificationViewData() {
         override val viewDataId: Long get() = id.hashCode().toLong()
 
-        fun copyWithStatus(statusViewData: StatusViewData.Concrete?): Concrete {
-            return Concrete(type, id, account, statusViewData, report)
-        }
         override fun hashCode(): Int {
             return Objects.hash(type, id, account, statusViewData, report)
         }
@@ -75,18 +72,6 @@ abstract class NotificationViewData {
                 account.id == concrete.account.id &&
                 statusViewData == concrete.statusViewData &&
                 report == concrete.report
-        }
-    }
-
-    data class Placeholder(
-        private val id: Long,
-        val isLoading: Boolean
-    ) : NotificationViewData() {
-        override val viewDataId: Long get() = id
-
-        override fun deepEquals(other: NotificationViewData?): Boolean {
-            if (other !is Placeholder) return false
-            return isLoading == other.isLoading && id == other.id
         }
     }
 }
