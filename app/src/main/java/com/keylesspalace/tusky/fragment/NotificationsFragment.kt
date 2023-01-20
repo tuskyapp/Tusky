@@ -173,7 +173,7 @@ class NotificationsFragment :
             ) { pos: Int ->
                 val notification = adapter.snapshot()[pos]
                 // We support replies only for now
-                if (notification is NotificationViewData.Concrete) {
+                if (notification is NotificationViewData) {
                     notification.statusViewData
                 } else {
                     null
@@ -658,27 +658,27 @@ class NotificationsFragment :
             return fragment
         }
 
-        private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData.Concrete> =
-            object : DiffUtil.ItemCallback<NotificationViewData.Concrete>() {
+        private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData> =
+            object : DiffUtil.ItemCallback<NotificationViewData>() {
                 override fun areItemsTheSame(
-                    oldItem: NotificationViewData.Concrete,
-                    newItem: NotificationViewData.Concrete
+                    oldItem: NotificationViewData,
+                    newItem: NotificationViewData
                 ): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: NotificationViewData.Concrete,
-                    newItem: NotificationViewData.Concrete
+                    oldItem: NotificationViewData,
+                    newItem: NotificationViewData
                 ): Boolean {
                     return false
                 }
 
                 override fun getChangePayload(
-                    oldItem: NotificationViewData.Concrete,
-                    newItem: NotificationViewData.Concrete
+                    oldItem: NotificationViewData,
+                    newItem: NotificationViewData
                 ): Any? {
-                    return if (oldItem.deepEquals(newItem)) {
+                    return if (oldItem == newItem) {
                         //  If items are equal - update timestamp only
                         listOf(StatusBaseViewHolder.Key.KEY_CREATED)
                     } else {

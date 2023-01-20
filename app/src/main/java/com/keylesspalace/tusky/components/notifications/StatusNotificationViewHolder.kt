@@ -63,7 +63,7 @@ internal class StatusNotificationViewHolder(
     )
 
     override fun bind(
-        viewData: NotificationViewData.Concrete,
+        viewData: NotificationViewData,
         payloads: List<*>?,
         statusDisplayOptions: StatusDisplayOptions
     ) {
@@ -228,7 +228,7 @@ internal class StatusNotificationViewHolder(
     }
 
     fun setMessage(
-        notificationViewData: NotificationViewData.Concrete,
+        notificationViewData: NotificationViewData,
         listener: LinkListener,
         animateEmojis: Boolean
     ) {

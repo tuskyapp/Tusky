@@ -17,9 +17,6 @@ package com.keylesspalace.tusky.viewdata
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.TimelineAccount
-import com.keylesspalace.tusky.viewdata.NotificationViewData.Concrete
-import com.keylesspalace.tusky.viewdata.NotificationViewData.Placeholder
-import java.util.Objects
 
 /**
  * Class to represent data required to display either a notification or a placeholder.
@@ -30,48 +27,12 @@ import java.util.Objects
  * [com.keylesspalace.tusky.util.Either] because class hierarchy is cheaper, faster and
  * more native.
  */
-abstract class NotificationViewData {
-    abstract val viewDataId: Long
-
-    abstract fun deepEquals(other: NotificationViewData?): Boolean
-
-    data class Concrete(
-        val type: Notification.Type,
-        val id: String,
-        val account: TimelineAccount,
-        var statusViewData: StatusViewData.Concrete?,
-        val report: Report?
-    ) : NotificationViewData() {
-        override val viewDataId: Long get() = id.hashCode().toLong()
-
-        override fun hashCode(): Int {
-            return Objects.hash(type, id, account, statusViewData, report)
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Concrete
-
-            if (type != other.type) return false
-            if (id != other.id) return false
-            if (account != other.account) return false
-            if (statusViewData != other.statusViewData) return false
-            if (report != other.report) return false
-
-            return true
-        }
-
-        override fun deepEquals(other: NotificationViewData?): Boolean {
-            if (this == other) return true
-            if (other == null || javaClass != other.javaClass) return false
-            val concrete = other as Concrete
-            return type === concrete.type &&
-                id == concrete.id &&
-                account.id == concrete.account.id &&
-                statusViewData == concrete.statusViewData &&
-                report == concrete.report
-        }
-    }
+class NotificationViewData(
+    val type: Notification.Type,
+    val id: String,
+    val account: TimelineAccount,
+    var statusViewData: StatusViewData.Concrete?,
+    val report: Report?
+) {
+    val viewDataId: Long get() = id.hashCode().toLong()
 }

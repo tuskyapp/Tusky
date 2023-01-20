@@ -79,14 +79,14 @@ interface NotificationActionListener {
 }
 
 class NotificationsPagingAdapter(
-    diffCallback: DiffUtil.ItemCallback<NotificationViewData.Concrete>,
+    diffCallback: DiffUtil.ItemCallback<NotificationViewData>,
     /** ID of the the account that notifications are being displayed for */
     private val accountId: String,
     private val statusActionListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
     private val accountActionListener: AccountActionListener,
     var statusDisplayOptions: StatusDisplayOptions
-) : PagingDataAdapter<NotificationViewData.Concrete, RecyclerView.ViewHolder>(diffCallback) {
+) : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(diffCallback) {
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
@@ -94,7 +94,7 @@ class NotificationsPagingAdapter(
     interface ViewHolder {
         /** Bind the data from notification and payloads to the view */
         fun bind(
-            viewData: NotificationViewData.Concrete,
+            viewData: NotificationViewData,
             payloads: List<*>?,
             statusDisplayOptions: StatusDisplayOptions
         )
@@ -178,7 +178,7 @@ class NotificationsPagingAdapter(
         val binding: SimpleListItem1Binding
     ) : ViewHolder, RecyclerView.ViewHolder(binding.root) {
         override fun bind(
-            viewData: NotificationViewData.Concrete,
+            viewData: NotificationViewData,
             payloads: List<*>?,
             statusDisplayOptions: StatusDisplayOptions
         ) {

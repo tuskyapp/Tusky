@@ -20,7 +20,7 @@ class FollowViewHolder(
     )
 
     override fun bind(
-        viewData: NotificationViewData.Concrete,
+        viewData: NotificationViewData,
         payloads: List<*>?,
         statusDisplayOptions: StatusDisplayOptions
     ) {

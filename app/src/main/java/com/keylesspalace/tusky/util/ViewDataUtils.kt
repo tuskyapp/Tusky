@@ -42,8 +42,8 @@ fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean
-): NotificationViewData.Concrete {
-    return NotificationViewData.Concrete(
+): NotificationViewData {
+    return NotificationViewData(
         this.type,
         this.id,
         this.account,

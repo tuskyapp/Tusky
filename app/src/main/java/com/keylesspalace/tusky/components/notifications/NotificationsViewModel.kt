@@ -101,7 +101,7 @@ class NotificationsViewModel @Inject constructor(
 
     val uiState: StateFlow<UiState>
 
-    val pagingDataFlow: Flow<PagingData<NotificationViewData.Concrete>>
+    val pagingDataFlow: Flow<PagingData<NotificationViewData>>
 
     /** Flow of changes to statusDisplayOptions, for use by the UI */
     val statusDisplayOptionsFlow: StateFlow<StatusDisplayOptions>
@@ -200,7 +200,7 @@ class NotificationsViewModel @Inject constructor(
     private fun getNotifications(
         filters: Set<Notification.Type>,
         initialKey: String? = null
-    ): Flow<PagingData<NotificationViewData.Concrete>> {
+    ): Flow<PagingData<NotificationViewData>> {
         return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map { notification ->
