@@ -31,21 +31,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.AsyncDifferConfig
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.AutoDispose
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
@@ -69,11 +64,8 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
-import com.keylesspalace.tusky.util.PairedList
 import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -111,18 +103,6 @@ class NotificationsFragment :
 
     private val disposables = CompositeDisposable()
 
-    /**
-     * Placeholder for the notificationsEnabled. Consider moving to the separate class to hide constructor
-     * and reuse in different places as needed.
-     */
-    private class Placeholder private constructor(val id: Long) {
-        companion object {
-            fun getInstance(id: Long): Placeholder {
-                return Placeholder(id)
-            }
-        }
-    }
-
     private var layoutManager: LinearLayoutManager? = null
     private var topLoading = false
     private var bottomLoading = false
@@ -130,24 +110,6 @@ class NotificationsFragment :
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoiler = false
     private var showingError = false
-
-    // Each element is either a Notification for loading data or a Placeholder
-    private val notifications =
-        PairedList<Either<Placeholder, Notification>, NotificationViewData> { input ->
-            if (input.isRight()) {
-                val notification = input.asRight()
-                    .rewriteToStatusTypeIfNeeded(accountManager.activeAccount!!.accountId)
-                val sensitiveStatus =
-                    notification.status != null && notification.status.actionableStatus.sensitive
-                notification.toViewData(
-                    alwaysShowSensitiveMedia || !sensitiveStatus,
-                    alwaysOpenSpoiler,
-                    true
-                )
-            } else {
-                NotificationViewData.Placeholder(input.asLeft().id, false)
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -364,7 +326,8 @@ class NotificationsFragment :
                     is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
                     is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
                     is PinEvent -> setPinForStatus(event.statusId, event.pinned)
-                    is BlockEvent -> removeAllByAccountId(event.accountId)
+                    // TODO: What do here? Refresh, to load notifications from the server?
+                    // is BlockEvent -> removeAllByAccountId(event.accountId)
                 }
             }
     }
@@ -478,7 +441,7 @@ class NotificationsFragment :
     }
 
     override fun onOpenReblog(position: Int) {
-        val (_, _, account) = notifications[position].asRight()
+        val account = adapter.peek(position)?.account!!
         onViewAccount(account.id)
     }
 
@@ -504,23 +467,7 @@ class NotificationsFragment :
     }
 
     override fun onLoadMore(position: Int) {
-        // Check bounds before accessing list,
-        if (notifications.size >= position && position > 0) {
-            val previous = notifications[position - 1].asRightOrNull()
-            val next = notifications[position + 1].asRightOrNull()
-            if (previous == null || next == null) {
-                Log.e(TAG, "Failed to load more, invalid placeholder position: $position")
-                return
-            }
-            // sendFetchNotificationsRequest(previous.id, next.id, FetchEnd.MIDDLE, position)
-            val placeholder = notifications[position].asLeft()
-            val notificationViewData: NotificationViewData =
-                NotificationViewData.Placeholder(placeholder.id, true)
-            notifications.setPairedItem(position, notificationViewData)
-            updateAdapter()
-        } else {
-            Log.d(TAG, "error loading more")
-        }
+        // Empty -- this fragment doesn't show placeholders
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
@@ -547,7 +494,7 @@ class NotificationsFragment :
         updateFilterVisibility(viewModel.uiState.value.showFilterOptions)
 
         // Update adapter
-        updateAdapter()
+        //updateAdapter()
 
         // Execute clear notifications request
         mastodonApi.clearNotifications()
@@ -575,9 +522,6 @@ class NotificationsFragment :
 
         // Disable load more
         bottomId = null
-
-        // Clear exists notifications
-        notifications.clear()
     }
 
     private fun showFilterMenu() {
@@ -695,66 +639,14 @@ class NotificationsFragment :
     }
 
     public override fun removeItem(position: Int) {
-        notifications.removeAt(position)
-        updateAdapter()
+        // Empty -- this fragment doesn't remove items
     }
 
-    private fun removeAllByAccountId(accountId: String) {
-        // Using iterator to safely remove items while iterating
-        val iterator = notifications.iterator()
-        while (iterator.hasNext()) {
-            val notification = iterator.next()
-            val maybeNotification = notification.asRightOrNull()
-            if (maybeNotification != null && maybeNotification.account.id == accountId) {
-                iterator.remove()
-            }
-        }
-        updateAdapter()
-    }
-
-    private fun jumpToTop() {
+    override fun onReselect() {
         if (isAdded) {
             binding.appBarOptions.setExpanded(true, false)
             layoutManager!!.scrollToPosition(0)
         }
-    }
-
-    private fun updateAdapter() {
-        differ.submitList(adapter.snapshot())
-    }
-
-    private val listUpdateCallback: ListUpdateCallback = object : ListUpdateCallback {
-        override fun onInserted(position: Int, count: Int) {
-            if (isAdded) {
-                adapter.notifyItemRangeInserted(position, count)
-                val context = context
-                // scroll up when new items at the top are loaded while being at the start
-                // https://github.com/tuskyapp/Tusky/pull/1905#issuecomment-677819724
-                if (position == 0 && context != null && adapter.itemCount != count) {
-                    binding.recyclerView.scrollBy(0, Utils.dpToPx(context, -30))
-                }
-            }
-        }
-
-        override fun onRemoved(position: Int, count: Int) {
-            adapter.notifyItemRangeRemoved(position, count)
-        }
-
-        override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapter.notifyItemMoved(fromPosition, toPosition)
-        }
-
-        override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapter.notifyItemRangeChanged(position, count, payload)
-        }
-    }
-    private val differ = AsyncListDiffer(
-        listUpdateCallback,
-        AsyncDifferConfig.Builder(notificationDiffCallback).build()
-    )
-
-    override fun onReselect() {
-        jumpToTop()
     }
 
     companion object {
