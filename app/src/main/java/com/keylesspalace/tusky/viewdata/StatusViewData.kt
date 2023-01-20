@@ -91,11 +91,6 @@ sealed class StatusViewData {
         }
 
         /** Helper for Java */
-        fun copyWithStatus(status: Status): Concrete {
-            return copy(status = status)
-        }
-
-        /** Helper for Java */
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
         }

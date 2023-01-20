@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapt
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
@@ -34,21 +35,33 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 class FollowRequestViewHolder(
     private val binding: ItemFollowRequestBinding,
     private val accountActionListener: AccountActionListener,
-    private val animateAvatar: Boolean,
-    private val animateEmojis: Boolean,
     private val showHeader: Boolean
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
 
-    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>?,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         // TODO: This was in the original code. Why skip if there's a payload?
         if (!payloads.isNullOrEmpty()) return
 
-        setupWithAccount(viewData.account)
+        setupWithAccount(
+            viewData.account,
+            statusDisplayOptions.animateAvatars,
+            statusDisplayOptions.animateEmojis,
+            statusDisplayOptions.showBotOverlay
+        )
 
         setupActionListener(accountActionListener, viewData.account.id)
     }
 
-    fun setupWithAccount(account: TimelineAccount) {
+    fun setupWithAccount(
+        account: TimelineAccount,
+        animateAvatar: Boolean,
+        animateEmojis: Boolean,
+        showBotOverlay: Boolean
+    ) {
         val wrappedName = account.name.unicodeWrap()
         val emojifiedName: CharSequence = wrappedName.emojify(
             account.emojis,

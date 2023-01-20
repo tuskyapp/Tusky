@@ -5,6 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/error_msg"
         android:textColor="?android:textColorPrimary"
@@ -13,13 +18,6 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         tools:text="@string/socket_timeout_exception"/>
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:visibility="gone"/>
     <Button
         android:id="@+id/retry_button"
         style="@style/TuskyButton.Outlined"

@@ -14,21 +14,34 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 class FollowViewHolder(
     private val binding: ItemFollowBinding,
     private val notificationActionListener: NotificationActionListener,
-    private val statusDisplayOptions: StatusDisplayOptions
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
     private val avatarRadius42dp = itemView.context.resources.getDimensionPixelSize(
         R.dimen.avatar_radius_42dp
     )
 
-    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>?,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         // TODO: This was in the original code. Why skip if there's a payload?
         if (!payloads.isNullOrEmpty()) return
 
-        setMessage(viewData.account, viewData.type === Notification.Type.SIGN_UP)
+        setMessage(
+            viewData.account,
+            viewData.type === Notification.Type.SIGN_UP,
+            statusDisplayOptions.animateAvatars,
+            statusDisplayOptions.animateEmojis
+        )
         setupButtons(notificationActionListener, viewData.account.id)
     }
 
-    private fun setMessage(account: TimelineAccount, isSignUp: Boolean) {
+    private fun setMessage(
+        account: TimelineAccount,
+        isSignUp: Boolean,
+        animateAvatars: Boolean,
+        animateEmojis: Boolean
+    ) {
         val context = binding.notificationText.context
         val format =
             context.getString(
@@ -44,7 +57,7 @@ class FollowViewHolder(
             wholeMessage.emojify(
                 account.emojis,
                 binding.notificationText,
-                statusDisplayOptions.animateEmojis
+                animateEmojis
             )
         binding.notificationText.text = emojifiedMessage
         val username = context.getString(R.string.post_username_format, account.username)
@@ -52,14 +65,14 @@ class FollowViewHolder(
         val emojifiedDisplayName = wrappedDisplayName.emojify(
             account.emojis,
             binding.notificationUsername,
-            statusDisplayOptions.animateEmojis
+            animateEmojis
         )
         binding.notificationDisplayName.text = emojifiedDisplayName
         loadAvatar(
             account.avatar,
             binding.notificationAvatar,
             avatarRadius42dp,
-            statusDisplayOptions.animateAvatars
+            animateAvatars
         )
     }
 

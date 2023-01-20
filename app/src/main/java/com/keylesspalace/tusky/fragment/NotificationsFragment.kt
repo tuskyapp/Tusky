@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListUpdateCallback
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.AutoDispose
@@ -159,7 +160,7 @@ class NotificationsFragment :
             statusActionListener = this,
             notificationActionListener = this,
             accountActionListener = this,
-            statusDisplayOptions = viewModel.statusDisplayOptions
+            statusDisplayOptions = viewModel.statusDisplayOptionsFlow.value
         )
     }
 
@@ -244,13 +245,45 @@ class NotificationsFragment :
             while (true) { delay(60000); emit(Unit) }
         }.onEach {
             layoutManager?.findFirstVisibleItemPosition()?.let { first ->
+                first == RecyclerView.NO_POSITION && return@let
                 val count = layoutManager!!.findLastVisibleItemPosition() - first
-                adapter.notifyItemRangeChanged(first, count, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
+                adapter.notifyItemRangeChanged(
+                    first,
+                    count,
+                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                )
             }
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                this.launch {
+                    viewModel.uiState
+                        .collectLatest { uiState ->
+                            updateFilterVisibility(uiState.showFilterOptions)
+
+                            if (!uiState.showAbsoluteTime) {
+                                updateTimestampFlow.collect()
+                            }
+                        }
+                }
+
+                this.launch {
+                    viewModel.statusDisplayOptionsFlow
+                        .collectLatest {
+                            adapter.statusDisplayOptions = it
+                            layoutManager?.findFirstVisibleItemPosition()?.let { first ->
+                                first == RecyclerView.NO_POSITION && return@let
+                                val count = layoutManager!!.findLastVisibleItemPosition() - first
+                                adapter.notifyItemRangeChanged(
+                                    first,
+                                    count,
+                                    null
+                                )
+                            }
+                        }
+                }
+
                 adapter.loadStateFlow
                     .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
@@ -289,14 +322,6 @@ class NotificationsFragment :
                             binding.statusView.isVisible = true
                         }
                     }
-
-                viewModel.uiState.collectLatest { uiState ->
-                    updateFilterVisibility(uiState.showFilterOptions)
-
-                    if (!uiState.showAbsoluteTime) {
-                        updateTimestampFlow.collect()
-                    }
-                }
             }
         }
 
@@ -651,31 +676,6 @@ class NotificationsFragment :
             )
         )
     }
-
-//    private fun onPreferenceChanged(key: String) {
-//        when (key) {
-//            "fabHide" -> {
-//                hideFab = PreferenceManager.getDefaultSharedPreferences(requireContext())
-//                    .getBoolean("fabHide", false)
-//            }
-//            "mediaPreviewEnabled" -> {
-//                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-////                if (enabled != adapter.isMediaPreviewEnabled) {
-////                    adapter.isMediaPreviewEnabled = enabled
-////                    fullyRefresh()
-////                }
-//            }
-//            "showNotificationsFilter" -> {
-//                if (isAdded) {
-//                    showNotificationsFilter =
-//                        PreferenceManager.getDefaultSharedPreferences(requireContext())
-//                            .getBoolean("showNotificationsFilter", true)
-//                    updateFilterVisibility()
-//                    fullyRefreshWithProgressBar(true)
-//                }
-//            }
-//        }
-//    }
 
     public override fun removeItem(position: Int) {
         notifications.removeAt(position)

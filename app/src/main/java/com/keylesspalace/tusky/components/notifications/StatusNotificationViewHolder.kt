@@ -50,7 +50,6 @@ internal class StatusNotificationViewHolder(
     private val binding: ItemStatusNotificationBinding,
     private val statusActionListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
-    private val statusDisplayOptions: StatusDisplayOptions,
     private val absoluteTimeFormatter: AbsoluteTimeFormatter
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
     private val avatarRadius48dp = itemView.context.resources.getDimensionPixelSize(
@@ -63,7 +62,11 @@ internal class StatusNotificationViewHolder(
         R.dimen.avatar_radius_24dp
     )
 
-    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>?,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         val statusViewData = viewData.statusViewData
         if (payloads.isNullOrEmpty()) {
             // Hide null statuses. Shouldn't happen according to the spec, but some servers
@@ -73,17 +76,23 @@ internal class StatusNotificationViewHolder(
             } else {
                 showNotificationContent(true)
                 val (_, _, account, _, _, _, _, createdAt) = statusViewData.actionable
-                setDisplayName(account.displayName, account.emojis)
+                setDisplayName(account.displayName, account.emojis, statusDisplayOptions.animateEmojis)
                 setUsername(account.username)
-                setCreatedAt(createdAt)
+                setCreatedAt(createdAt, statusDisplayOptions.useAbsoluteTime)
                 if (viewData.type == Notification.Type.STATUS ||
                     viewData.type == Notification.Type.UPDATE
                 ) {
-                    setAvatar(account.avatar, account.bot)
+                    setAvatar(
+                        account.avatar,
+                        account.bot,
+                        statusDisplayOptions.animateAvatars,
+                        statusDisplayOptions.showBotOverlay
+                    )
                 } else {
                     setAvatars(
                         account.avatar,
-                        viewData.account.avatar
+                        viewData.account.avatar,
+                        statusDisplayOptions.animateAvatars
                     )
                 }
 
@@ -97,12 +106,13 @@ internal class StatusNotificationViewHolder(
                     notificationActionListener.onViewAccount(viewData.account.id)
                 }
             }
-            setMessage(viewData, statusActionListener)
+            setMessage(viewData, statusActionListener, statusDisplayOptions.animateEmojis)
         } else {
             for (item in payloads) {
                 if (StatusBaseViewHolder.Key.KEY_CREATED == item && statusViewData != null) {
                     setCreatedAt(
-                        statusViewData.status.actionableStatus.createdAt
+                        statusViewData.status.actionableStatus.createdAt,
+                        statusDisplayOptions.useAbsoluteTime
                     )
                 }
             }
@@ -120,12 +130,12 @@ internal class StatusNotificationViewHolder(
         binding.notificationNotificationAvatar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    private fun setDisplayName(name: String?, emojis: List<Emoji>?) {
+    private fun setDisplayName(name: String?, emojis: List<Emoji>?, animateEmojis: Boolean) {
         val emojifiedName =
             name!!.emojify(
                 emojis,
                 binding.statusDisplayName,
-                statusDisplayOptions.animateEmojis
+                animateEmojis
             )
         binding.statusDisplayName.text = emojifiedName
     }
@@ -137,8 +147,8 @@ internal class StatusNotificationViewHolder(
         binding.statusUsername.text = usernameText
     }
 
-    private fun setCreatedAt(createdAt: Date?) {
-        if (statusDisplayOptions.useAbsoluteTime) {
+    private fun setCreatedAt(createdAt: Date?, useAbsoluteTime: Boolean) {
+        if (useAbsoluteTime) {
             binding.statusMetaInfo.text = absoluteTimeFormatter.format(createdAt, true)
         } else {
             // This is the visible timestampInfo.
@@ -176,15 +186,15 @@ internal class StatusNotificationViewHolder(
         return icon
     }
 
-    private fun setAvatar(statusAvatarUrl: String?, isBot: Boolean) {
+    private fun setAvatar(statusAvatarUrl: String?, isBot: Boolean, animateAvatars: Boolean, showBotOverlay: Boolean) {
         binding.notificationStatusAvatar.setPaddingRelative(0, 0, 0, 0)
         loadAvatar(
             statusAvatarUrl,
             binding.notificationStatusAvatar,
             avatarRadius48dp,
-            statusDisplayOptions.animateAvatars
+            animateAvatars
         )
-        if (statusDisplayOptions.showBotOverlay && isBot) {
+        if (showBotOverlay && isBot) {
             binding.notificationNotificationAvatar.visibility = View.VISIBLE
             Glide.with(binding.notificationNotificationAvatar)
                 .load(
@@ -199,27 +209,28 @@ internal class StatusNotificationViewHolder(
         }
     }
 
-    private fun setAvatars(statusAvatarUrl: String?, notificationAvatarUrl: String?) {
+    private fun setAvatars(statusAvatarUrl: String?, notificationAvatarUrl: String?, animateAvatars: Boolean) {
         val padding = Utils.dpToPx(binding.notificationStatusAvatar.context, 12)
         binding.notificationStatusAvatar.setPaddingRelative(0, 0, padding, padding)
         loadAvatar(
             statusAvatarUrl,
             binding.notificationStatusAvatar,
             avatarRadius36dp,
-            statusDisplayOptions.animateAvatars
+            animateAvatars
         )
         binding.notificationNotificationAvatar.visibility = View.VISIBLE
         loadAvatar(
             notificationAvatarUrl,
             binding.notificationNotificationAvatar,
             avatarRadius24dp,
-            statusDisplayOptions.animateAvatars
+            animateAvatars
         )
     }
 
     fun setMessage(
         notificationViewData: NotificationViewData.Concrete,
-        listener: LinkListener
+        listener: LinkListener,
+        animateEmojis: Boolean
     ) {
         val statusViewData = notificationViewData.statusViewData
         val displayName = notificationViewData.account.name.unicodeWrap()
@@ -267,7 +278,7 @@ internal class StatusNotificationViewHolder(
         val emojifiedText = str.emojify(
             notificationViewData.account.emojis,
             binding.notificationTopText,
-            statusDisplayOptions.animateEmojis
+            animateEmojis
         )
         binding.notificationTopText.text = emojifiedText
         if (statusViewData != null) {
@@ -295,13 +306,14 @@ internal class StatusNotificationViewHolder(
                 binding.notificationContent.visibility =
                     if (statusViewData.isExpanded) View.GONE else View.VISIBLE
             }
-            setupContentAndSpoiler(listener, statusViewData)
+            setupContentAndSpoiler(listener, statusViewData, animateEmojis)
         }
     }
 
     private fun setupContentAndSpoiler(
         listener: LinkListener,
-        statusViewData: StatusViewData.Concrete
+        statusViewData: StatusViewData.Concrete,
+        animateEmojis: Boolean
     ) {
         val shouldShowContentIfSpoiler = statusViewData.isExpanded
         val hasSpoiler = !TextUtils.isEmpty(statusViewData.status.spoilerText)
@@ -342,7 +354,7 @@ internal class StatusNotificationViewHolder(
             content.emojify(
                 emojis,
                 binding.notificationContent,
-                statusDisplayOptions.animateEmojis
+                animateEmojis
             )
         setClickableText(
             binding.notificationContent,
@@ -354,7 +366,7 @@ internal class StatusNotificationViewHolder(
         val emojifiedContentWarning: CharSequence = statusViewData.spoilerText.emojify(
             statusViewData.actionable.emojis,
             binding.notificationContentWarningDescription,
-            statusDisplayOptions.animateEmojis
+            animateEmojis
         )
         binding.notificationContentWarningDescription.text = emojifiedContentWarning
     }

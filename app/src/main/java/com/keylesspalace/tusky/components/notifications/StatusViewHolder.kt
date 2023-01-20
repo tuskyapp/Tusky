@@ -10,11 +10,14 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 internal class StatusViewHolder(
     binding: ItemStatusBinding,
     private val statusActionListener: StatusActionListener,
-    private val statusDisplayOptions: StatusDisplayOptions,
     private val accountId: String
 ) : NotificationsPagingAdapter.ViewHolder, StatusViewHolder(binding.root) {
 
-    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>?,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         val statusViewData = viewData.statusViewData
         if (statusViewData == null) {
             // Hide null statuses. Shouldn't happen according to the spec, but some servers

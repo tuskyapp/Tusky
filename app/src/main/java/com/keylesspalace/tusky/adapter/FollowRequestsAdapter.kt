@@ -33,13 +33,11 @@ class FollowRequestsAdapter(
         return FollowRequestViewHolder(
             binding,
             accountActionListener,
-            animateAvatar,
-            animateEmojis,
             showHeader = false)
     }
 
     override fun onBindAccountViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
-        viewHolder.setupWithAccount(accountList[position])
+        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis, showBotOverlay)
         viewHolder.setupActionListener(accountActionListener, accountList[position].id)
     }
 }

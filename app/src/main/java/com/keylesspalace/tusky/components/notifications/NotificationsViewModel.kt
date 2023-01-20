@@ -15,7 +15,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
@@ -26,6 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -50,14 +50,11 @@ data class UiState(
     /** True if statuses should display absolute time */
     val showAbsoluteTime: Boolean = false,
 
-    /** True if the UI to filter notifications should be shown */
+    /** True if the UI to filter and clear notifications should be shown */
     val showFilterOptions: Boolean = false,
 
     /** True if the FAB should be shown */
-    val showFab: Boolean = true,
-
-    /** True if media previews should be shown */
-    val showMediaPreview: Boolean = false
+    val showFab: Boolean = true
 )
 
 // TODO: The status functions this exposes (reblog, favourite, bookmark, etc) are very similar
@@ -77,20 +74,18 @@ sealed class UiAction {
     data class SaveVisibleId(val visibleId: String) : UiAction()
 }
 
-/** Preferences this view reacts to */
-data class Prefs(
+/** Preferences the UI reacts to */
+data class UiPrefs(
     val showAbsoluteTime: Boolean,
     val showFab: Boolean,
-    val showFilter: Boolean,
-    val showMediaPreviews: Boolean
+    val showFilter: Boolean
 ) {
     companion object {
-        /** Relevant preference keys */
+        /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
             PrefKeys.ABSOLUTE_TIME_VIEW,
             PrefKeys.FAB_HIDE,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER,
-            PrefKeys.MEDIA_PREVIEW_ENABLED,
+            PrefKeys.SHOW_NOTIFICATIONS_FILTER
         )
     }
 }
@@ -108,34 +103,20 @@ class NotificationsViewModel @Inject constructor(
 
     val pagingDataFlow: Flow<PagingData<NotificationViewData.Concrete>>
 
-    val statusDisplayOptions: StatusDisplayOptions
+    /** Flow of changes to statusDisplayOptions, for use by the UI */
+    val statusDisplayOptionsFlow: StateFlow<StatusDisplayOptions>
 
     /** Flow of user actions received from the UI */
-    private val actionStateFlow = MutableSharedFlow<UiAction>()
+    private val actionSharedFlow = MutableSharedFlow<UiAction>()
 
     /** Accept UI actions in to actionStateFlow */
     val accept: (UiAction) -> Unit = { action ->
-        viewModelScope.launch { actionStateFlow.emit(action) }
+        viewModelScope.launch { actionSharedFlow.emit(action) }
     }
 
     init {
-        statusDisplayOptions = StatusDisplayOptions(
-            animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
-            useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
-            showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
-            useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
-            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
-            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
-            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
-        )
-
         // Process changes to notification filters
-        val notificationFilter = actionStateFlow
+        val notificationFilter = actionSharedFlow
             .filterIsInstance<UiAction.ApplyFilter>()
             .distinctUntilChanged()
             // Save each change back to the active account
@@ -154,9 +135,9 @@ class NotificationsViewModel @Inject constructor(
                 )
             }
 
-        // Save the visible notification Id
+        // Save the visible notification ID
         viewModelScope.launch {
-            actionStateFlow
+            actionSharedFlow
                 .filterIsInstance<UiAction.SaveVisibleId>()
                 .distinctUntilChanged()
                 .collectLatest { action ->
@@ -168,7 +149,30 @@ class NotificationsViewModel @Inject constructor(
                 }
         }
 
-        val preferencesStateFlow = getPreferences()
+        statusDisplayOptionsFlow = MutableStateFlow(
+            StatusDisplayOptions.default(
+                preferences,
+                accountManager.activeAccount!!
+            )
+        )
+
+        // Collect changes to preferences that affect how statuses are displayed, and emit
+        // updates to statusDisplayOptionsFlow.
+        viewModelScope.launch {
+            eventHub.events.asFlow()
+                .filterIsInstance<PreferenceChangedEvent>()
+                .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
+                .map {
+                    statusDisplayOptionsFlow.value.copy(
+                        preferences,
+                        it.preferenceKey,
+                        accountManager.activeAccount!!
+                    )
+                }
+                .collect {
+                    statusDisplayOptionsFlow.emit(it)
+                }
+        }
 
         val lastNotificationId = accountManager.activeAccount?.lastNotificationId
         Log.d(TAG, "Restoring at $lastNotificationId")
@@ -179,14 +183,12 @@ class NotificationsViewModel @Inject constructor(
             }
             .cachedIn(viewModelScope)
 
-        uiState = combine(notificationFilter, preferencesStateFlow) {
-                filter, prefs ->
+        uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
             UiState(
                 activeFilter = filter.filter,
                 showAbsoluteTime = prefs.showAbsoluteTime,
                 showFilterOptions = prefs.showFilter,
-                showFab = prefs.showFab,
-                showMediaPreview = prefs.showMediaPreviews
+                showFab = prefs.showFab
             )
         }.stateIn(
             scope = viewModelScope,
@@ -203,9 +205,9 @@ class NotificationsViewModel @Inject constructor(
             .map { pagingData ->
                 pagingData.map { notification ->
                     notification.toViewData(
-                        isShowingContent = statusDisplayOptions.showSensitiveMedia ||
+                        isShowingContent = statusDisplayOptionsFlow.value.showSensitiveMedia ||
                             !(notification.status?.actionableStatus?.sensitive ?: false),
-                        isExpanded = statusDisplayOptions.openSpoiler,
+                        isExpanded = statusDisplayOptionsFlow.value.openSpoiler,
                         isCollapsed = true
                     )
                 }
@@ -213,21 +215,18 @@ class NotificationsViewModel @Inject constructor(
     }
 
     /**
-     * @return Flow of relevant preferences for this view over time
+     * @return Flow of relevant preferences that change the UI
      */
     // TODO: Preferences should be in a repository
-    private fun getPreferences() = eventHub.events.asFlow()
+    private fun getUiPrefs() = eventHub.events.asFlow()
         .filterIsInstance<PreferenceChangedEvent>()
-        .filter { Prefs.prefKeys.contains(it.preferenceKey) }
-        .distinctUntilChanged()
+        .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
         .map { toPrefs() }
         .onStart { emit(toPrefs()) }
 
-    private fun toPrefs() = Prefs(
+    private fun toPrefs() = UiPrefs(
         showAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
         showFab = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
-        // TODO: If this has changed then the adapter needs to do a full refresh
-        showMediaPreviews = accountManager.activeAccount!!.mediaPreviewEnabled,
         showFilter = preferences.getBoolean(
             PrefKeys.SHOW_NOTIFICATIONS_FILTER,
             true

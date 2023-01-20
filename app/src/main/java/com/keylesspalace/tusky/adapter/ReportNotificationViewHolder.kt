@@ -36,10 +36,13 @@ import java.util.Date
 class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding,
     private val notificationActionListener: NotificationActionListener,
-    private val statusDisplayOptions: StatusDisplayOptions
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
 
-    override fun bind(viewData: NotificationViewData.Concrete, payloads: List<*>?) {
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>?,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         // TODO: This was in the original code. Why skip if there's a payload?
         if (!payloads.isNullOrEmpty()) return
 
@@ -51,9 +54,9 @@ class ReportNotificationViewHolder(
         )
         setupActionListener(
             notificationActionListener,
-            viewData.report!!.targetAccount.id,
+            viewData.report.targetAccount.id,
             viewData.account.id,
-            viewData.report!!.id
+            viewData.report.id
         )
     }
 
