@@ -53,8 +53,8 @@ data class UiState(
     /** True if the UI to filter and clear notifications should be shown */
     val showFilterOptions: Boolean = false,
 
-    /** True if the FAB should be shown */
-    val showFab: Boolean = true
+    /** True if the FAB should be shown while scrolling */
+    val showFabWhileScrolling: Boolean = true
 )
 
 // TODO: The status functions this exposes (reblog, favourite, bookmark, etc) are very similar
@@ -77,7 +77,7 @@ sealed class UiAction {
 /** Preferences the UI reacts to */
 data class UiPrefs(
     val showAbsoluteTime: Boolean,
-    val showFab: Boolean,
+    val showFabWhileScrolling: Boolean,
     val showFilter: Boolean
 ) {
     companion object {
@@ -188,7 +188,7 @@ class NotificationsViewModel @Inject constructor(
                 activeFilter = filter.filter,
                 showAbsoluteTime = prefs.showAbsoluteTime,
                 showFilterOptions = prefs.showFilter,
-                showFab = prefs.showFab
+                showFabWhileScrolling = prefs.showFabWhileScrolling
             )
         }.stateIn(
             scope = viewModelScope,
@@ -226,7 +226,7 @@ class NotificationsViewModel @Inject constructor(
 
     private fun toPrefs() = UiPrefs(
         showAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
-        showFab = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
+        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
         showFilter = preferences.getBoolean(
             PrefKeys.SHOW_NOTIFICATIONS_FILTER,
             true

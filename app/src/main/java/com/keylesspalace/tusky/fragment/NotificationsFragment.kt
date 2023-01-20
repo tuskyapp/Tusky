@@ -66,6 +66,7 @@ import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.Either
@@ -74,7 +75,6 @@ import com.keylesspalace.tusky.util.PairedList
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -109,7 +109,6 @@ class NotificationsFragment :
 
     private lateinit var adapter: NotificationsPagingAdapter
 
-    private val notificationFilter: MutableSet<Notification.Type> = HashSet()
     private val disposables = CompositeDisposable()
 
     /**
@@ -125,7 +124,6 @@ class NotificationsFragment :
     }
 
     private var layoutManager: LinearLayoutManager? = null
-    private lateinit var scrollListener: EndlessOnScrollListener
     private var topLoading = false
     private var bottomLoading = false
     private var bottomId: String? = null
@@ -226,6 +224,25 @@ class NotificationsFragment :
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            val actionButton = (activity as ActionButtonActivity).actionButton
+
+            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+                actionButton?.let { fab ->
+                    if (!viewModel.uiState.value.showFabWhileScrolling) {
+                        if (dy > 0 && fab.isShown) {
+                            fab.hide() // Hide when scrolling down
+                        } else if (dy < 0 && !fab.isShown) {
+                            fab.show() // Show when scrolling up
+                        }
+                    } else if (!fab.isShown) {
+                        fab.show()
+                    }
+                }
+            }
+        })
+
         alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -699,7 +716,6 @@ class NotificationsFragment :
         if (isAdded) {
             binding.appBarOptions.setExpanded(true, false)
             layoutManager!!.scrollToPosition(0)
-            scrollListener.reset()
         }
     }
 
