@@ -91,7 +91,7 @@ data class StatusDisplayOptions(
             PrefKeys.WELLBEING_HIDE_STATS_POSTS
         )
 
-        fun default(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
+        fun from(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = account.mediaPreviewEnabled,
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),

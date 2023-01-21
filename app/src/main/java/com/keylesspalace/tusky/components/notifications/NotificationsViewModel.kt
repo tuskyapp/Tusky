@@ -190,7 +190,7 @@ class NotificationsViewModel @Inject constructor(
         }
 
         statusDisplayOptionsFlow = MutableStateFlow(
-            StatusDisplayOptions.default(
+            StatusDisplayOptions.from(
                 preferences,
                 accountManager.activeAccount!!
             )
