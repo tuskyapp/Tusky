@@ -83,7 +83,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
@@ -350,8 +349,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         api.relationships(ids)
             .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(from(this))
-            .subscribe(::onFetchRelationshipsSuccess) {
-                onFetchRelationshipsFailure(ids)
+            .subscribe(::onFetchRelationshipsSuccess) { throwable ->
+                Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
             }
     }
 
@@ -360,10 +359,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         val mutingNotificationsMap = HashMap<String, Boolean>()
         relationships.map { mutingNotificationsMap.put(it.id, it.mutingNotifications) }
         mutesAdapter.updateMutingNotificationsMap(mutingNotificationsMap)
-    }
-
-    private fun onFetchRelationshipsFailure(ids: List<String>) {
-        Log.e(TAG, "Fetch failure for relationships of accounts: $ids")
     }
 
     private fun onFetchAccountsFailure(throwable: Throwable) {
