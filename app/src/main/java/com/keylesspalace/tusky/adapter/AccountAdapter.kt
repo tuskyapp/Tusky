@@ -24,12 +24,13 @@ import com.keylesspalace.tusky.util.removeDuplicates
 
 /** Generic adapter with bottom loading indicator. */
 abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructor(
-    var accountActionListener: AccountActionListener,
+    protected val accountActionListener: AccountActionListener,
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean,
     protected val showBotOverlay: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
-    var accountList = mutableListOf<TimelineAccount>()
+
+    protected var accountList: MutableList<TimelineAccount> = mutableListOf()
     private var bottomLoading: Boolean = false
 
     override fun getItemCount(): Int {
