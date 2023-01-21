@@ -19,7 +19,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.AccountAdapter
 import com.keylesspalace.tusky.databinding.ItemMutedUserBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder

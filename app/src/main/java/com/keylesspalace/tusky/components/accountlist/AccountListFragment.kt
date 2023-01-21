@@ -33,7 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.AccountAdapter
+import com.keylesspalace.tusky.components.accountlist.adapter.AccountAdapter
 import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsHeaderAdapter
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.adapter.BlocksAdapter
