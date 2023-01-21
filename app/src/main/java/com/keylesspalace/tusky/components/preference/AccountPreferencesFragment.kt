@@ -24,7 +24,7 @@ import androidx.annotation.DrawableRes
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.FiltersActivity

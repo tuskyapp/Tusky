@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.AboutActivity
-import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.FiltersActivity

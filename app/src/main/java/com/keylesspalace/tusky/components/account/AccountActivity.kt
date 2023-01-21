@@ -50,7 +50,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R

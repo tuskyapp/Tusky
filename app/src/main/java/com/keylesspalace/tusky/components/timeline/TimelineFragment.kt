@@ -34,8 +34,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder

@@ -32,7 +32,7 @@ import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragmen
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
-import com.keylesspalace.tusky.fragment.AccountListFragment
+import com.keylesspalace.tusky.components.accountlist.AccountListFragment
 import com.keylesspalace.tusky.fragment.NotificationsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

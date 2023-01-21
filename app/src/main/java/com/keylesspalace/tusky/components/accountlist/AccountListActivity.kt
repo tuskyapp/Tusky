@@ -13,14 +13,15 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.accountlist
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
-import com.keylesspalace.tusky.fragment.AccountListFragment
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject

@@ -31,8 +31,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment

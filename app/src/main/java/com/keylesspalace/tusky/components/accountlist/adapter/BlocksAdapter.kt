@@ -12,11 +12,12 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
-package com.keylesspalace.tusky.adapter
+package com.keylesspalace.tusky.components.accountlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.AccountAdapter
 import com.keylesspalace.tusky.databinding.ItemBlockedUserBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder
