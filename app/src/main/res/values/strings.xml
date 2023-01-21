@@ -734,4 +734,11 @@
 
     <!-- User friendly error messages for different network errors -->
     <string name="socket_timeout_exception">Contacting your server took too long</string>
+
+    <string name="ui_error_unknown">unknown reason</string>
+    <string name="ui_error_bookmark">Bookmarking post failed: %s</string>
+    <string name="ui_error_clear_notifications">Clearing notifications failed: %s</string>
+    <string name="ui_error_favourite">Favoriting post failed: %s</string>
+    <string name="ui_error_reblog">Boosting post failed: %s</string>
+    <string name="ui_error_vote">Voting in poll failed: %s</string>
 </resources>

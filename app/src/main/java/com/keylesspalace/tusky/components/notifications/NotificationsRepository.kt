@@ -1,9 +1,11 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.util.Log
+import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +14,7 @@ import javax.inject.Inject
 class NotificationsRepository @Inject constructor(
     private val mastodonApi: MastodonApi
 ) {
+    private var factory: InvalidatingPagingSourceFactory<String, Notification>? = null
 
     /**
      * @return flow of Mastodon [Notification], excluding all types in [filter].
@@ -24,13 +27,25 @@ class NotificationsRepository @Inject constructor(
     ): Flow<PagingData<Notification>> {
         Log.d(TAG, "getNotificationsStream(), filtering: $filter")
 
+        factory = InvalidatingPagingSourceFactory {
+            NotificationsPagingSource(mastodonApi, filter)
+        }
+
         return Pager(
             config = PagingConfig(pageSize = pageSize),
             initialKey = initialKey,
-            pagingSourceFactory = {
-                NotificationsPagingSource(mastodonApi, filter)
-            }
+            pagingSourceFactory = factory!!
         ).flow
+    }
+
+    /** Invalidate the active paging source, see [PagingSource.invalidate] */
+    fun invalidate() {
+        factory?.invalidate()
+    }
+
+    /** Clear notifications */
+    fun clearNotifications(): Response<ResponseBody> {
+        return mastodonApi.clearNotifications()
     }
 
     companion object {

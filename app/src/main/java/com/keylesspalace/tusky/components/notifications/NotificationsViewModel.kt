@@ -2,11 +2,13 @@ package com.keylesspalace.tusky.components.notifications
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -41,6 +43,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
+import retrofit2.HttpException
 import javax.inject.Inject
 
 data class UiState(
@@ -72,6 +75,9 @@ sealed class UiAction {
 
     /** User is leaving the fragment, save the ID of the visible notification */
     data class SaveVisibleId(val visibleId: String) : UiAction()
+
+    /** User wants to clear all notifications */
+    object ClearNotifications : UiAction()
 }
 
 /** Preferences the UI reacts to */
@@ -90,6 +96,33 @@ data class UiPrefs(
     }
 }
 
+/** Errors from view model actions that the UI will need to show */
+sealed class UiError(
+    /** The exception associated with the error */
+    open val exception: Exception,
+
+    /** String resource with an error message to show the user */
+    @StringRes val msg: Int
+) {
+    data class Bookmark(override val exception: Exception) : UiError(
+        exception,
+        R.string.ui_error_bookmark
+    )
+    data class ClearNotifications(override val exception: Exception) : UiError(
+        exception,
+        R.string.ui_error_clear_notifications
+    )
+    data class Favourite(override val exception: Exception) : UiError(
+        exception,
+        R.string.ui_error_favourite
+    )
+    data class Reblog(override val exception: Exception) : UiError(
+        exception,
+        R.string.ui_error_reblog
+    )
+    data class Vote(override val exception: Exception) : UiError(exception, R.string.ui_error_vote)
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
@@ -105,6 +138,13 @@ class NotificationsViewModel @Inject constructor(
 
     /** Flow of changes to statusDisplayOptions, for use by the UI */
     val statusDisplayOptionsFlow: StateFlow<StatusDisplayOptions>
+
+    /** Flow of transient errors for the UI to present */
+    // Note: This is a SharedFlow instead of a StateFlow because error state does not need to be
+    // retained. An error is shown once to a user and then dismissed. Re-collecting the flow
+    // (e.g., after a device orientation change) should not re-show the most recent error, as it
+    // will be confusing to the user.
+    val errorsSharedFlow = MutableSharedFlow<UiError>()
 
     /** Flow of user actions received from the UI */
     private val actionSharedFlow = MutableSharedFlow<UiAction>()
@@ -171,6 +211,20 @@ class NotificationsViewModel @Inject constructor(
                 }
                 .collect {
                     statusDisplayOptionsFlow.emit(it)
+                }
+        }
+
+        // Handle UiAction.ClearNotifications
+        viewModelScope.launch {
+            actionSharedFlow.filterIsInstance<UiAction.ClearNotifications>()
+                .collectLatest {
+                    repository.clearNotifications().apply {
+                        if (this.isSuccessful) {
+                            repository.invalidate()
+                        } else {
+                            errorsSharedFlow.emit(UiError.ClearNotifications(HttpException(this)))
+                        }
+                    }
                 }
         }
 
@@ -243,9 +297,10 @@ class NotificationsViewModel @Inject constructor(
     ): Job = viewModelScope.launch {
         try {
             timelineCases.reblog(statusViewData.actionableId, reblog).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to reblog status " + statusViewData.actionableId, t)
+        } catch (e: Exception) {
+            ifExpected(e) {
+                Log.d(TAG, "Failed to reblog status " + statusViewData.actionableId, e)
+                errorsSharedFlow.emit(UiError.Reblog(e))
             }
         }
     }
@@ -257,9 +312,10 @@ class NotificationsViewModel @Inject constructor(
     ): Job = viewModelScope.launch {
         try {
             timelineCases.favourite(statusViewData.actionableId, favorite).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + statusViewData.actionableId, t)
+        } catch (e: Exception) {
+            ifExpected(e) {
+                Log.d(TAG, "Failed to favourite status " + statusViewData.actionableId, e)
+                errorsSharedFlow.emit(UiError.Favourite(e))
             }
         }
     }
@@ -271,45 +327,48 @@ class NotificationsViewModel @Inject constructor(
     ): Job = viewModelScope.launch {
         try {
             timelineCases.bookmark(statusViewData.actionableId, bookmark).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to bookmark status " + statusViewData.actionableId, t)
+        } catch (e: Exception) {
+            ifExpected(e) {
+                Log.d(TAG, "Failed to bookmark status " + statusViewData.actionableId, e)
+                errorsSharedFlow.emit(UiError.Bookmark(e))
             }
         }
     }
 
     // TODO: Copied from TimelineViewModel
-    fun voteInPoll(choices: List<Int>, statusViewData: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = statusViewData.status.actionableStatus.poll ?: run {
-            Log.w(TAG, "No poll on status ${statusViewData.id}")
-            return@launch
-        }
+    fun voteInPoll(choices: List<Int>, statusViewData: StatusViewData.Concrete): Job =
+        viewModelScope.launch {
+            val poll = statusViewData.status.actionableStatus.poll ?: run {
+                Log.w(TAG, "No poll on status ${statusViewData.id}")
+                return@launch
+            }
 
-        // TODO: This is the same functionality as the code in TimelineViewModel; the user is
-        // shown their voting choice as successful before the API call returns. But this is
-        // inconsistent with favourite, bookmark, etc. There the UI is only updated after a
-        // successful call.
-        //
-        // Suspect that button debouncing, or a third state (waiting-on-network) is needed here.
-        // Something like: If the user clicks to vote, or bookmark, etc, the request is sent and
-        // a coroutine starts and sleeps N ms. Then it changes the button to a progress spinner.
-        // When the request completes it cancels the coroutine. In the common case the button
-        // still changes effectively immediately, and in the uncommon case the user gets feedback
-        // that it failed.
-        //
-        // Also, if it failed, maybe show a badge (red exclamation mark?) on the button to
-        // make it clear that something went wrong.
-        val votedPoll = poll.votedCopy(choices)
-        eventHub.dispatch(PollVoteEvent(statusViewData.id, votedPoll))
+            // TODO: This is the same functionality as the code in TimelineViewModel; the user is
+            // shown their voting choice as successful before the API call returns. But this is
+            // inconsistent with favourite, bookmark, etc. There the UI is only updated after a
+            // successful call.
+            //
+            // Suspect that button debouncing, or a third state (waiting-on-network) is needed here.
+            // Something like: If the user clicks to vote, or bookmark, etc, the request is sent and
+            // a coroutine starts and sleeps N ms. Then it changes the button to a progress spinner.
+            // When the request completes it cancels the coroutine. In the common case the button
+            // still changes effectively immediately, and in the uncommon case the user gets feedback
+            // that it failed.
+            //
+            // Also, if it failed, maybe show a badge (red exclamation mark?) on the button to
+            // make it clear that something went wrong.
+            val votedPoll = poll.votedCopy(choices)
+            eventHub.dispatch(PollVoteEvent(statusViewData.id, votedPoll))
 
-        try {
-            timelineCases.voteInPoll(statusViewData.actionableId, poll.id, choices).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + statusViewData.actionableId, t)
+            try {
+                timelineCases.voteInPoll(statusViewData.actionableId, poll.id, choices).await()
+            } catch (e: Exception) {
+                ifExpected(e) {
+                    Log.d(TAG, "Failed to vote in poll: " + statusViewData.actionableId, e)
+                    errorsSharedFlow.emit(UiError.Vote(e))
+                }
             }
         }
-    }
 
     companion object {
         private const val TAG = "NotificationsViewModel"

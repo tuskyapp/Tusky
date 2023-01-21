@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import autodispose2.AutoDispose
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -70,7 +71,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -101,14 +101,7 @@ class NotificationsFragment :
 
     private lateinit var adapter: NotificationsPagingAdapter
 
-    private val disposables = CompositeDisposable()
-
     private var layoutManager: LinearLayoutManager? = null
-    private var topLoading = false
-    private var bottomLoading = false
-    private var bottomId: String? = null
-    private var alwaysShowSensitiveMedia = false
-    private var alwaysOpenSpoiler = false
     private var showingError = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -205,8 +198,6 @@ class NotificationsFragment :
             }
         })
 
-        alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-        alwaysOpenSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
             header = NotificationsLoadStateAdapter { adapter.retry() },
             footer = NotificationsLoadStateAdapter { adapter.retry() }
@@ -236,6 +227,23 @@ class NotificationsFragment :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                this.launch {
+                    // Show errors from the view model as snack bars
+                    // TODO: This shows the errors, but the UI can still confuse the
+                    // user. E.g,. if bookmarking fails they will see an error, but
+                    // the bookmark icon will show that it worked. This can be
+                    // fixed when EventHub is removed and all communication is
+                    // only between the activity / fragment and its view model.
+                    viewModel.errorsSharedFlow.collectLatest { error ->
+                        val msg = getString(
+                            error.msg,
+                            error.exception.localizedMessage
+                                ?: getString(R.string.ui_error_unknown)
+                        )
+                        Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+                    }
+                }
+
                 this.launch {
                     viewModel.uiState
                         .collectLatest { uiState ->
@@ -483,45 +491,8 @@ class NotificationsFragment :
     }
 
     private fun clearNotifications() {
-        // Cancel all ongoing requests
         binding.swipeRefreshLayout.isRefreshing = false
-        resetNotificationsLoad()
-
-        // Show friend elephant
-//        binding.statusView.visibility = View.VISIBLE
-        // TODO: Use this when the list is empty
-//        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
-        updateFilterVisibility(viewModel.uiState.value.showFilterOptions)
-
-        // Update adapter
-        //updateAdapter()
-
-        // Execute clear notifications request
-        mastodonApi.clearNotifications()
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(
-                AutoDispose.autoDisposable(
-                    AndroidLifecycleScopeProvider.from(
-                        this,
-                        Lifecycle.Event.ON_DESTROY
-                    )
-                )
-            )
-            .subscribe(
-                { }
-            ) {
-                // Reload notifications on failure
-                adapter.refresh()
-            }
-    }
-
-    private fun resetNotificationsLoad() {
-        disposables.clear()
-        bottomLoading = false
-        topLoading = false
-
-        // Disable load more
-        bottomId = null
+        viewModel.accept(UiAction.ClearNotifications)
     }
 
     private fun showFilterMenu() {
