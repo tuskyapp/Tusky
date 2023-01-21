@@ -23,41 +23,7 @@ class NotificationsPagingSource @Inject constructor(
         try {
             val response = when (params) {
                 is LoadParams.Refresh -> {
-                    // When given an ID the Mastodon API can either return the page of data
-                    // immediately *after* that key, or the page of data immediately *before*
-                    // that key.
-                    //
-                    // In both cases, the page of data *does not include* the item with the
-                    // key you actually asked for.
-                    //
-                    // The result is that the item you asked for is one page higher, and is
-                    // scrolled off the top of the screen.
-                    //
-                    // To work around this, fetch the single notification, and fake next/prev
-                    // paging links.
-                    //
-                    // If the single notification doesn't exist any more that's not an error;
-                    // the user might have deleted it elsewhere, or it's been deleted by the
-                    // server. Return an empty list with the correct header links.
-                    params.key?.let { key ->
-                        val response = mastodonApi.notification(id = key)
-                        val builder = Headers.Builder()
-                            .add(
-                                "link: </?max_id=$key>; rel=\"next\", </?min_id=$key>; rel=\"prev\""
-                            )
-
-                        val body = if (response.isSuccessful) {
-                            builder.addAll(response.headers())
-                            listOf(response.body()!!)
-                        } else {
-                            emptyList()
-                        }
-
-                        Response.success(body, builder.build())
-                    } ?: mastodonApi.notifications2(
-                        limit = params.loadSize,
-                        excludes = notificationFilter
-                    )
+                    getInitialPage(params)
                 }
                 is LoadParams.Append -> mastodonApi.notifications2(
                     maxId = params.key,
@@ -84,6 +50,65 @@ class NotificationsPagingSource @Inject constructor(
         } catch (e: Exception) {
             return LoadResult.Error(e)
         }
+    }
+
+    private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Notification>> {
+        // If the key is null this is straightforward, just return the most recent notifications.
+        val key = params.key
+            ?: return mastodonApi.notifications2(
+                limit = params.loadSize,
+                excludes = notificationFilter
+            )
+
+        // It's important to return *something* from this state. If an empty page is returned
+        // (even with next/prev links) Pager3 assumes there is no more data to load and stops.
+        //
+        // In addition, the Mastodon API does not let you fetch a page that contains a given key.
+        // You can fetch the page immediately before the key, or the page immediately after, but
+        // you can not fetch the page itself.
+        //
+        // To solve this, perform potentially multiple fetches.
+
+        // First, try and get the notification itself.
+        val keyNotificationResponse = mastodonApi.notification(id = key)
+
+        // If this was successful we must still check that the user is not filtering this type
+        // of notification, as fetching a single notification ignores filters. Returning this
+        // notification if the user is filtering the type is wrong.
+        if (keyNotificationResponse.isSuccessful) {
+            if (!notificationFilter.contains(keyNotificationResponse.body()!!.type)) {
+                // Notification is *not* filtered. We can return this, but need to add fake
+                // "next" and "prev" links so that paging works (the Mastodon response does not
+                // include the "link" header for a single notification).
+                val headers = Headers.Builder()
+                    .addAll(keyNotificationResponse.headers())
+                    .add(
+                        "link: </?max_id=$key>; rel=\"next\", </?min_id=$key>; rel=\"prev\""
+                    )
+                    .build()
+
+                return Response.success(listOf(keyNotificationResponse.body()!!), headers)
+            }
+        }
+
+        // The user's last read notification was missing or is filtered. Try and fetch the page
+        // of notifications chronologically older than their desired notification
+        mastodonApi.notifications2(
+            maxId = key,
+            limit = params.loadSize,
+            excludes = notificationFilter
+        ).apply {
+            if (this.isSuccessful) return this
+        }
+
+        // If the list is still empty then the there were no notifications older than the user's
+        // desired notification. Return the page of notifications immediately newer than their
+        // desired notification.
+        return mastodonApi.notifications2(
+            minId = key,
+            limit = params.loadSize,
+            excludes = notificationFilter
+        )
     }
 
     private fun getPageLinks(linkHeader: String?): Links {
