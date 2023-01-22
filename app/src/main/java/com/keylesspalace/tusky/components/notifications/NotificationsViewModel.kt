@@ -10,11 +10,11 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -25,7 +25,6 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -97,6 +96,13 @@ sealed class StatusAction(
     /** Set the reblog state for a status */
     data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
         StatusAction(statusViewData)
+
+    /** Vote in a poll */
+    data class VoteInPoll(
+        val poll: Poll,
+        val choices: List<Int>,
+        override val statusViewData: StatusViewData.Concrete
+    ) : StatusAction(statusViewData)
 }
 
 /** Changes to a status' visible state after API calls */
@@ -110,11 +116,18 @@ sealed class StatusUiChange(open val statusViewData: StatusViewData) {
     data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
         StatusUiChange(statusViewData)
 
+    data class VoteInPoll(
+        val poll: Poll,
+        val choices: List<Int>,
+        override val statusViewData: StatusViewData.Concrete
+    ) : StatusUiChange(statusViewData)
+
     companion object {
         fun from(action: StatusAction) = when (action) {
             is StatusAction.Bookmark -> Bookmark(action.state, action.statusViewData)
             is StatusAction.Favourite -> Favourite(action.state, action.statusViewData)
             is StatusAction.Reblog -> Reblog(action.state, action.statusViewData)
+            is StatusAction.VoteInPoll -> VoteInPoll(action.poll, action.choices, action.statusViewData)
         }
     }
 }
@@ -166,13 +179,17 @@ sealed class UiError(
         override val action: StatusAction.Reblog
     ) : UiError(exception, R.string.ui_error_reblog, action)
 
-    data class Vote(override val exception: Exception) : UiError(exception, R.string.ui_error_vote)
+    data class VoteInPoll(
+        override val exception: Exception,
+        override val action: StatusAction.VoteInPoll
+    ) : UiError(exception, R.string.ui_error_vote, action)
 
     companion object {
         fun make(exception: Exception, action: StatusAction) =  when (action) {
             is StatusAction.Bookmark -> Bookmark(exception, action)
             is StatusAction.Favourite -> Favourite(exception, action)
             is StatusAction.Reblog -> Reblog(exception, action)
+            is StatusAction.VoteInPoll -> VoteInPoll(exception, action)
         }
     }
 }
@@ -308,6 +325,12 @@ class NotificationsViewModel @Inject constructor(
                                     action.statusViewData.actionableId,
                                     action.state
                                 ).await()
+                            is StatusAction.VoteInPoll ->
+                                timelineCases.voteInPoll(
+                                    action.statusViewData.actionableId,
+                                    action.poll.id,
+                                    action.choices
+                                ).await()
                         }
                         statusSharedFlow.emit(StatusUiChange.from(action))
                     } catch (e: Exception) {
@@ -377,44 +400,6 @@ class NotificationsViewModel @Inject constructor(
             true
         )
     )
-
-    // TODO: Listen for eventhub events here, and update the UI model, instead of the fragment
-    // listening for events.
-
-    // TODO: Copied from TimelineViewModel
-    fun voteInPoll(choices: List<Int>, statusViewData: StatusViewData.Concrete): Job =
-        viewModelScope.launch {
-            val poll = statusViewData.status.actionableStatus.poll ?: run {
-                Log.w(TAG, "No poll on status ${statusViewData.id}")
-                return@launch
-            }
-
-            // TODO: This is the same functionality as the code in TimelineViewModel; the user is
-            // shown their voting choice as successful before the API call returns. But this is
-            // inconsistent with favourite, bookmark, etc. There the UI is only updated after a
-            // successful call.
-            //
-            // Suspect that button debouncing, or a third state (waiting-on-network) is needed here.
-            // Something like: If the user clicks to vote, or bookmark, etc, the request is sent and
-            // a coroutine starts and sleeps N ms. Then it changes the button to a progress spinner.
-            // When the request completes it cancels the coroutine. In the common case the button
-            // still changes effectively immediately, and in the uncommon case the user gets feedback
-            // that it failed.
-            //
-            // Also, if it failed, maybe show a badge (red exclamation mark?) on the button to
-            // make it clear that something went wrong.
-            val votedPoll = poll.votedCopy(choices)
-            eventHub.dispatch(PollVoteEvent(statusViewData.id, votedPoll))
-
-            try {
-                timelineCases.voteInPoll(statusViewData.actionableId, poll.id, choices).await()
-            } catch (e: Exception) {
-                ifExpected(e) {
-                    Log.d(TAG, "Failed to vote in poll: " + statusViewData.actionableId, e)
-                    errorsSharedFlow.emit(UiError.Vote(e))
-                }
-            }
-        }
 
     companion object {
         private const val TAG = "NotificationsViewModel"

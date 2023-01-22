@@ -42,10 +42,6 @@ import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.appstore.Event
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
 import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
@@ -58,7 +54,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -94,9 +89,6 @@ class NotificationsFragment :
     private val viewModel: NotificationsViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
-
-    @Inject
-    lateinit var eventHub: EventHub
 
     private lateinit var adapter: NotificationsPagingAdapter
 
@@ -294,6 +286,8 @@ class NotificationsFragment :
                                 statusViewData.status.copy(favourited = it.state)
                             is StatusUiChange.Reblog ->
                                 statusViewData.status.copy(reblogged = it.state)
+                            is StatusUiChange.VoteInPoll ->
+                                statusViewData.status.copy(poll = it.poll.votedCopy(it.choices))
                         }
                         indexedViewData.value?.statusViewData = statusViewData.copy(
                             status = status
@@ -375,28 +369,6 @@ class NotificationsFragment :
         binding.buttonFilter.setOnClickListener { showFilterMenu() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
-
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(
-                AutoDispose.autoDisposable(
-                    AndroidLifecycleScopeProvider.from(
-                        this,
-                        Lifecycle.Event.ON_DESTROY
-                    )
-                )
-            )
-            .subscribe { event: Event? ->
-                when (event) {
-                    //is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
-                    // is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
-                    //is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
-                    is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
-                    is PinEvent -> setPinForStatus(event.statusId, event.pinned)
-                    // TODO: What do here? Refresh, to load notifications from the server?
-                    // is BlockEvent -> removeAllByAccountId(event.accountId)
-                }
-            }
     }
 
     override fun onPause() {
@@ -433,21 +405,8 @@ class NotificationsFragment :
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val statusViewData = adapter.peek(position)?.statusViewData ?: return
-        viewModel.voteInPoll(choices, statusViewData)
-    }
-
-    private fun setVoteForPoll(statusId: String, poll: Poll) {
-        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
-            notificationViewData.value?.statusViewData?.status?.id == statusId
-        } ?: return
-
-        val statusViewData = indexedViewData.value?.statusViewData ?: return
-
-        indexedViewData.value?.statusViewData = statusViewData.copy(
-            status = statusViewData.status.copy(poll = poll)
-        )
-
-        adapter.notifyItemChanged(indexedViewData.index)
+        val poll = statusViewData.status.poll ?: return
+        viewModel.accept(StatusAction.VoteInPoll(poll, choices, statusViewData))
     }
 
     override fun onMore(view: View, position: Int) {
@@ -484,11 +443,6 @@ class NotificationsFragment :
             isShowingContent = isShowing
         )
         adapter.notifyItemChanged(position)
-    }
-
-    // TODO: Get confirmation on whether this can deleted. The UI doesn't support pinning
-    private fun setPinForStatus(statusId: String, pinned: Boolean) {
-        // updateStatus(statusId) { status: Status? -> status!!.copyWithPinned(pinned) }
     }
 
     override fun onLoadMore(position: Int) {
