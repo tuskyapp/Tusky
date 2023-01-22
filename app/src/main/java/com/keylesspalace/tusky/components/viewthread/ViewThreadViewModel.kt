@@ -107,7 +107,7 @@ class ViewThreadViewModel @Inject constructor(
             val contextCall = async { api.statusContext(id) }
             val timelineStatus = db.timelineDao().getStatus(id)
 
-            var detailedStatus = if (timelineStatus != null) {
+            var detailedStatus = if (timelineStatus != null && !timelineStatus.status.isPlaceholder) {
                 Log.d(TAG, "Loaded status from local timeline")
                 val viewData = timelineStatus.toViewData(
                     gson,
