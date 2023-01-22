@@ -143,6 +143,14 @@ class TimelineCases @Inject constructor(
         }
     }
 
+    fun authorizeFollowRequest(accountId: String): Single<Relationship> {
+        return mastodonApi.authorizeFollowRequest(accountId)
+    }
+
+    fun rejectFollowRequest(accountId: String): Single<Relationship> {
+        return mastodonApi.rejectFollowRequest(accountId)
+    }
+
     private fun <T : Any> convertError(e: Throwable): Single<T> {
         return Single.error(TimelineError(e.getServerErrorMessage()))
     }

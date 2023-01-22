@@ -36,19 +36,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import autodispose2.AutoDispose
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.components.notifications.FallibleUiAction
+import com.keylesspalace.tusky.components.notifications.InfallibleUiAction
+import com.keylesspalace.tusky.components.notifications.NotificationAction
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
+import com.keylesspalace.tusky.components.notifications.NotificationActionSuccess
 import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.notifications.StatusAction
 import com.keylesspalace.tusky.components.notifications.StatusUiChange
-import com.keylesspalace.tusky.components.notifications.UiAction
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -64,7 +65,6 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -218,16 +218,16 @@ class NotificationsFragment :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Show errors from the view model as snack bars.
+                //
+                // Errors are shown:
+                // - Indefinitely, so the user has a chance to read and understand
+                //   the message
+                // - With a max of 5 text lines, to allow space for longer errors.
+                //   E.g., on a typical device, an error message like "Bookmarking
+                //   post failed: Unable to resolve host 'mastodon.social': No
+                //   address associated with hostname" is 3 lines.
                 this.launch {
-                    // Show errors from the view model as snack bars.
-                    //
-                    // Errors are shown:
-                    // - Indefinitely, so the user has a chance to read and understand
-                    //   the message
-                    // - With a max of 5 text lines, to allow space for longer errors.
-                    //   E.g., on a typical device, an error message like "Bookmarking
-                    //   post failed: Unable to resolve host 'mastodon.social': No
-                    //   address associated with hostname" is 3 lines.
                     viewModel.errorsSharedFlow.collect { error ->
                         val msg = getString(
                             error.msg,
@@ -263,6 +263,25 @@ class NotificationsFragment :
                             if (position != -1) {
                                 adapter.notifyItemChanged(position)
                             }
+                        }
+                    }
+                }
+
+                // Show successful notification action as brief snackbars, so the
+                // user is clear the action has happened.
+                this.launch {
+                    viewModel.notificationActionSuccessFlow.collect {
+                        Snackbar.make(
+                            (activity as ActionButtonActivity).actionButton ?: binding.root,
+                            getString(it.msg),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+
+                        when (it) {
+                            // The follow request is no longer valid, refresh the adapter to
+                            // remove it.
+                            is NotificationActionSuccess.AcceptFollowRequest,
+                            is NotificationActionSuccess.RejectFollowRequest -> adapter.refresh()
                         }
                     }
                 }
@@ -378,7 +397,7 @@ class NotificationsFragment :
         val position = layoutManager!!.findFirstVisibleItemPosition()
         if (position >= 0) {
             adapter.snapshot()[position]?.id?.let { id ->
-                viewModel.accept(UiAction.SaveVisibleId(visibleId = id))
+                viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
             }
         }
     }
@@ -463,7 +482,7 @@ class NotificationsFragment :
 
     private fun clearNotifications() {
         binding.swipeRefreshLayout.isRefreshing = false
-        viewModel.accept(UiAction.ClearNotifications)
+        viewModel.accept(FallibleUiAction.ClearNotifications)
     }
 
     private fun showFilterMenu() {
@@ -488,7 +507,7 @@ class NotificationsFragment :
                 }
                 window.dismiss()
                 if (viewModel.uiState.value.activeFilter != excludes) {
-                    viewModel.accept(UiAction.ApplyFilter(excludes))
+                    viewModel.accept(FallibleUiAction.ApplyFilter(excludes))
                 }
             }
         listView.adapter = adapter
@@ -537,33 +556,12 @@ class NotificationsFragment :
         // No blocking from notifications yet
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
-        val request =
-            if (accept) mastodonApi.authorizeFollowRequest(id) else mastodonApi.rejectFollowRequest(
-                id
-            )
-        request.observeOn(AndroidSchedulers.mainThread())
-            .to(
-                AutoDispose.autoDisposable(
-                    AndroidLifecycleScopeProvider.from(
-                        this,
-                        Lifecycle.Event.ON_DESTROY
-                    )
-                )
-            )
-            .subscribe(
-                { adapter.refresh() }
-            ) {
-                Log.e(
-                    TAG,
-                    String.format(
-                        "Failed to %s account id %s",
-                        if (accept) "accept" else "reject",
-                        id
-                    ),
-                    it
-                )
-            }
+    override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
+        if (accept) {
+            viewModel.accept(NotificationAction.AcceptFollowRequest(accountId))
+        } else {
+            viewModel.accept(NotificationAction.RejectFollowRequest(accountId))
+        }
     }
 
     override fun onViewThreadForStatus(status: Status) {
@@ -592,7 +590,7 @@ class NotificationsFragment :
     }
 
     companion object {
-        private const val TAG = "NotificationF" // logging tag
+        private const val TAG = "NotificationF"
         fun newInstance(): NotificationsFragment {
             val fragment = NotificationsFragment()
             val arguments = Bundle()
