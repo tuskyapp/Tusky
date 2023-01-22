@@ -49,10 +49,7 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.getInitialLanguage
-import com.keylesspalace.tusky.util.getLocaleList
-import com.keylesspalace.tusky.util.getTuskyDisplayName
-import com.keylesspalace.tusky.util.makeIcon
+import com.keylesspalace.tusky.util.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -253,7 +250,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
                     setTitle(R.string.pref_title_alway_show_sensitive_media)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false
+                    val x = accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false
+                    preferenceDataStore = AccountPreferenceDataStore(accountManager.activeAccount!!)
                     setOnPreferenceChangeListener { _, newValue ->
                         updateAccount { it.alwaysShowSensitiveMedia = newValue as Boolean }
                         eventHub.dispatch(PreferenceChangedEvent(key))
