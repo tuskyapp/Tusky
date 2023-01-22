@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.service
 
 import android.app.Notification
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -78,21 +77,6 @@ class SendStatusService : Service(), Injectable {
         if (intent.hasExtra(KEY_STATUS)) {
             val statusToSend: StatusToSend = intent.getParcelableExtra(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_post_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
-                notificationManager.createNotificationChannel(channel)
-
-                val errorChannel = NotificationChannel(
-                    CHANNEL_ID_ERROR,
-                    getString(R.string.notification_send_error_name),
-                    NotificationManager.IMPORTANCE_HIGH
-                )
-                errorChannel.description = getString(R.string.notification_send_error_description)
-                errorChannel.enableVibration(true)
-                errorChannel.setShowBadge(true)
-                notificationManager.createNotificationChannel(errorChannel)
-            }
 
             var notificationText = statusToSend.warningText
             if (notificationText.isBlank()) {
@@ -387,8 +371,10 @@ class SendStatusService : Service(), Injectable {
 
         private const val KEY_STATUS = "status"
         private const val KEY_CANCEL = "cancel_id"
-        private const val CHANNEL_ID = "send_toots"
-        private const val CHANNEL_ID_ERROR = "send_toots_failure"
+
+        // These channels are created in TuskyApplication
+        const val CHANNEL_ID = "send_toots"
+        const val CHANNEL_ID_ERROR = "send_toots_failure"
 
         private val MAX_RETRY_INTERVAL = TimeUnit.MINUTES.toMillis(1)
 
