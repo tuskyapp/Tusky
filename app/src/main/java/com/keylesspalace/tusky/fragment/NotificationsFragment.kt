@@ -42,7 +42,6 @@ import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
@@ -53,6 +52,8 @@ import com.keylesspalace.tusky.components.notifications.NotificationActionListen
 import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
+import com.keylesspalace.tusky.components.notifications.StatusAction
+import com.keylesspalace.tusky.components.notifications.StatusUiChange
 import com.keylesspalace.tusky.components.notifications.UiAction
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -228,19 +229,75 @@ class NotificationsFragment :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 this.launch {
-                    // Show errors from the view model as snack bars
-                    // TODO: This shows the errors, but the UI can still confuse the
-                    // user. E.g,. if bookmarking fails they will see an error, but
-                    // the bookmark icon will show that it worked. This can be
-                    // fixed when EventHub is removed and all communication is
-                    // only between the activity / fragment and its view model.
-                    viewModel.errorsSharedFlow.collectLatest { error ->
+                    // Show errors from the view model as snack bars.
+                    //
+                    // Errors are shown:
+                    // - Indefinitely, so the user has a chance to read and understand
+                    //   the message
+                    // - With a max of 5 text lines, to allow space for longer errors.
+                    //   E.g., on a typical device, an error message like "Bookmarking
+                    //   post failed: Unable to resolve host 'mastodon.social': No
+                    //   address associated with hostname" is 3 lines.
+                    viewModel.errorsSharedFlow.collect { error ->
                         val msg = getString(
                             error.msg,
                             error.exception.localizedMessage
                                 ?: getString(R.string.ui_error_unknown)
                         )
-                        Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+                        val snackbar = Snackbar.make(
+                            // Without this the FAB will not move out of the way
+                            (activity as ActionButtonActivity).actionButton ?: binding.root,
+                            msg,
+                            Snackbar.LENGTH_INDEFINITE
+                        ).setTextMaxLines(5)
+                        error.action?.let { action ->
+                            snackbar.setAction(R.string.action_retry) {
+                                viewModel.accept(action)
+                            }
+                        }
+                        snackbar.show()
+
+                        // The status view has pre-emptively updated its state to show
+                        // that the action succeeded. Since it hasn't, re-bind the view
+                        // to show the correct data.
+                        error.action?.let { action ->
+                            action is StatusAction.Bookmark || return@let
+
+                            // TODO: Finding position by status ID is common enough this
+                            // should be a method in the adapter
+                            val position = adapter.snapshot()
+                                .indexOfFirst {
+                                    it?.statusViewData?.status?.id ==
+                                        (action as StatusAction.Bookmark).statusViewData.id
+                                }
+                            if (position != -1) {
+                                adapter.notifyItemChanged(position)
+                            }
+                        }
+                    }
+                }
+
+                this.launch {
+                    viewModel.statusSharedFlow.collect {
+                        val indexedViewData = adapter.snapshot()
+                            .withIndex()
+                            .firstOrNull { notificationViewData ->
+                                notificationViewData.value?.statusViewData?.status?.id ==
+                                    it.statusViewData.id
+                            } ?: return@collect
+
+                        val statusViewData =
+                            indexedViewData.value?.statusViewData ?: return@collect
+
+                        val status = when (it) {
+                            is StatusUiChange.Bookmark ->
+                                statusViewData.status.copy(bookmarked = it.state)
+                        }
+                        indexedViewData.value?.statusViewData = statusViewData.copy(
+                            status = status
+                        )
+
+                        adapter.notifyItemChanged(indexedViewData.index)
                     }
                 }
 
@@ -330,7 +387,7 @@ class NotificationsFragment :
             .subscribe { event: Event? ->
                 when (event) {
                     is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
-                    is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
+                    // is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
                     is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
                     is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
                     is PinEvent -> setPinForStatus(event.statusId, event.pinned)
@@ -397,21 +454,7 @@ class NotificationsFragment :
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
         val statusViewData = adapter.peek(position)?.statusViewData ?: return
-        viewModel.bookmark(bookmark, statusViewData)
-    }
-
-    private fun setBookmarkForStatus(statusId: String, bookmark: Boolean) {
-        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
-            notificationViewData.value?.statusViewData?.status?.id == statusId
-        } ?: return
-
-        val statusViewData = indexedViewData.value?.statusViewData ?: return
-
-        indexedViewData.value?.statusViewData = statusViewData.copy(
-            status = statusViewData.status.copy(bookmarked = bookmark)
-        )
-
-        adapter.notifyItemChanged(indexedViewData.index)
+        viewModel.accept(StatusAction.Bookmark(bookmark, statusViewData))
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {

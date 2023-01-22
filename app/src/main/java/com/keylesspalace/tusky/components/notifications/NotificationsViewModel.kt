@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
@@ -70,14 +72,27 @@ data class UiState(
 
 /** Actions the user can trigger from the UI */
 sealed class UiAction {
-    /** User wants to apply a new filter to the notification list */
+    /** Apply a new filter to the notification list */
     data class ApplyFilter(val filter: Set<Notification.Type>) : UiAction()
 
     /** User is leaving the fragment, save the ID of the visible notification */
     data class SaveVisibleId(val visibleId: String) : UiAction()
 
-    /** User wants to clear all notifications */
+    /** Clear all notifications */
     object ClearNotifications : UiAction()
+}
+
+/** Actions the user can trigger on an individual status */
+sealed class StatusAction : UiAction() {
+    /** Set the bookmark state for a status */
+    data class Bookmark(val state: Boolean, val statusViewData: StatusViewData.Concrete) :
+        StatusAction()
+}
+
+/** Changes to a status' visible state after API calls */
+sealed class StatusUiChange(open val statusViewData: StatusViewData) {
+    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusUiChange(statusViewData)
 }
 
 /** Preferences the UI reacts to */
@@ -102,16 +117,21 @@ sealed class UiError(
     open val exception: Exception,
 
     /** String resource with an error message to show the user */
-    @StringRes val msg: Int
+    @StringRes val msg: Int,
+
+    /** The action that failed. Can be resent to retry the action */
+    open val action: UiAction? = null
 ) {
-    data class Bookmark(override val exception: Exception) : UiError(
-        exception,
-        R.string.ui_error_bookmark
-    )
     data class ClearNotifications(override val exception: Exception) : UiError(
         exception,
         R.string.ui_error_clear_notifications
     )
+
+    data class Bookmark(
+        override val exception: Exception,
+        override val action: StatusAction.Bookmark
+    ) : UiError(exception, R.string.ui_error_bookmark, action)
+
     data class Favourite(override val exception: Exception) : UiError(
         exception,
         R.string.ui_error_favourite
@@ -123,7 +143,7 @@ sealed class UiError(
     data class Vote(override val exception: Exception) : UiError(exception, R.string.ui_error_vote)
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
     private val preferences: SharedPreferences,
@@ -138,6 +158,9 @@ class NotificationsViewModel @Inject constructor(
 
     /** Flow of changes to statusDisplayOptions, for use by the UI */
     val statusDisplayOptionsFlow: StateFlow<StatusDisplayOptions>
+
+    /** Flow of changes to status state, for use by the UI */
+    val statusSharedFlow = MutableSharedFlow<StatusUiChange>()
 
     /** Flow of transient errors for the UI to present */
     // Note: This is a SharedFlow instead of a StateFlow because error state does not need to be
@@ -155,12 +178,13 @@ class NotificationsViewModel @Inject constructor(
     }
 
     init {
-        // Process changes to notification filters
+        // Handle changes to notification filters
         val notificationFilter = actionSharedFlow
             .filterIsInstance<UiAction.ApplyFilter>()
             .distinctUntilChanged()
             // Save each change back to the active account
             .onEach { action ->
+                Log.d(TAG, "notificationFilter: $action")
                 accountManager.activeAccount?.let { account ->
                     account.notificationsFilter = serialize(action.filter)
                     accountManager.saveAccount(account)
@@ -223,6 +247,30 @@ class NotificationsViewModel @Inject constructor(
                             repository.invalidate()
                         } else {
                             errorsSharedFlow.emit(UiError.ClearNotifications(HttpException(this)))
+                        }
+                    }
+                }
+        }
+
+        // Handle StatusAction.*
+        viewModelScope.launch {
+            actionSharedFlow.filterIsInstance<StatusAction>()
+                .debounce(500) // avoid double-taps
+                .collect { action ->
+                    when (action) {
+                        is StatusAction.Bookmark -> try {
+                            timelineCases.bookmark(
+                                action.statusViewData.actionableId,
+                                action.state
+                            ).await()
+                            statusSharedFlow.emit(
+                                StatusUiChange.Bookmark(action.state, action.statusViewData)
+                            )
+                        } catch (e: Exception) {
+                            ifExpected(e) {
+                                Log.d(TAG, "Failed: $action", e)
+                                errorsSharedFlow.emit(UiError.Bookmark(e, action))
+                            }
                         }
                     }
                 }
@@ -316,21 +364,6 @@ class NotificationsViewModel @Inject constructor(
             ifExpected(e) {
                 Log.d(TAG, "Failed to favourite status " + statusViewData.actionableId, e)
                 errorsSharedFlow.emit(UiError.Favourite(e))
-            }
-        }
-    }
-
-    // TODO: Copied from TimelineViewModel
-    fun bookmark(
-        bookmark: Boolean,
-        statusViewData: StatusViewData.Concrete
-    ): Job = viewModelScope.launch {
-        try {
-            timelineCases.bookmark(statusViewData.actionableId, bookmark).await()
-        } catch (e: Exception) {
-            ifExpected(e) {
-                Log.d(TAG, "Failed to bookmark status " + statusViewData.actionableId, e)
-                errorsSharedFlow.emit(UiError.Bookmark(e))
             }
         }
     }
