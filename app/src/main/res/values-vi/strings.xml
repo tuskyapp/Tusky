@@ -93,7 +93,7 @@
     <string name="send_post_link_to">Đăng lại URL tút với…</string>
     <string name="send_post_content_to">Đăng lại tút với…</string>
     <string name="downloading_media">Đang lưu vào thiết bị</string>
-    <string name="download_media">Tải về</string>
+    <string name="download_media">Tải xuống</string>
     <string name="action_share_as">Đăng lại với tư cách …</string>
     <string name="action_open_as">Mở với tư cách %s</string>
     <string name="action_copy_link">Chép URL</string>
@@ -571,7 +571,7 @@
     <string name="hint_media_description_missing">Hình ảnh phải có mô tả.</string>
     <string name="error_status_source_load">Không xác định được trạng thái máy chủ.</string>
     <string name="pref_title_http_proxy_port_message">Cổng nên là khoảng giữa %d đến %d</string>
-    <string name="post_media_alt">✤</string>
+    <string name="post_media_alt">✦</string>
     <string name="action_discard">Hủy bỏ thay đổi</string>
     <string name="action_continue_edit">Tiếp tục sửa</string>
     <string name="compose_unsaved_changes">Thay đổi chưa được lưu.</string>
