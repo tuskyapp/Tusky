@@ -93,6 +93,10 @@ sealed class StatusAction(
     /** Set the favourite state for a status */
     data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
         StatusAction(statusViewData)
+
+    /** Set the reblog state for a status */
+    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusAction(statusViewData)
 }
 
 /** Changes to a status' visible state after API calls */
@@ -103,10 +107,14 @@ sealed class StatusUiChange(open val statusViewData: StatusViewData) {
     data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
         StatusUiChange(statusViewData)
 
+    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusUiChange(statusViewData)
+
     companion object {
         fun from(action: StatusAction) = when (action) {
             is StatusAction.Bookmark -> Bookmark(action.state, action.statusViewData)
             is StatusAction.Favourite -> Favourite(action.state, action.statusViewData)
+            is StatusAction.Reblog -> Reblog(action.state, action.statusViewData)
         }
     }
 }
@@ -153,16 +161,18 @@ sealed class UiError(
         override val action: StatusAction.Favourite
     ) : UiError(exception, R.string.ui_error_favourite, action)
 
-    data class Reblog(override val exception: Exception) : UiError(
-        exception,
-        R.string.ui_error_reblog
-    )
+    data class Reblog(
+        override val exception: Exception,
+        override val action: StatusAction.Reblog
+    ) : UiError(exception, R.string.ui_error_reblog, action)
+
     data class Vote(override val exception: Exception) : UiError(exception, R.string.ui_error_vote)
 
     companion object {
         fun make(exception: Exception, action: StatusAction) =  when (action) {
             is StatusAction.Bookmark -> Bookmark(exception, action)
             is StatusAction.Favourite -> Favourite(exception, action)
+            is StatusAction.Reblog -> Reblog(exception, action)
         }
     }
 }
@@ -283,18 +293,21 @@ class NotificationsViewModel @Inject constructor(
                 .collect { action ->
                     try {
                         when (action) {
-                            is StatusAction.Bookmark -> {
+                            is StatusAction.Bookmark ->
                                 timelineCases.bookmark(
                                     action.statusViewData.actionableId,
                                     action.state
                                 ).await()
-                            }
-                            is StatusAction.Favourite -> {
+                            is StatusAction.Favourite ->
                                 timelineCases.favourite(
                                     action.statusViewData.actionableId,
                                     action.state
                                 ).await()
-                            }
+                            is StatusAction.Reblog ->
+                                timelineCases.reblog(
+                                    action.statusViewData.actionableId,
+                                    action.state
+                                ).await()
                         }
                         statusSharedFlow.emit(StatusUiChange.from(action))
                     } catch (e: Exception) {
@@ -367,21 +380,6 @@ class NotificationsViewModel @Inject constructor(
 
     // TODO: Listen for eventhub events here, and update the UI model, instead of the fragment
     // listening for events.
-
-    // TODO: Copied from TimelineViewModel
-    fun reblog(
-        reblog: Boolean,
-        statusViewData: StatusViewData.Concrete
-    ): Job = viewModelScope.launch {
-        try {
-            timelineCases.reblog(statusViewData.actionableId, reblog).await()
-        } catch (e: Exception) {
-            ifExpected(e) {
-                Log.d(TAG, "Failed to reblog status " + statusViewData.actionableId, e)
-                errorsSharedFlow.emit(UiError.Reblog(e))
-            }
-        }
-    }
 
     // TODO: Copied from TimelineViewModel
     fun voteInPoll(choices: List<Int>, statusViewData: StatusViewData.Concrete): Job =

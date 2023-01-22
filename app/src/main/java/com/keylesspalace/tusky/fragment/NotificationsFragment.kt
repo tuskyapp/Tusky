@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
 import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
@@ -293,6 +292,8 @@ class NotificationsFragment :
                                 statusViewData.status.copy(bookmarked = it.state)
                             is StatusUiChange.Favourite ->
                                 statusViewData.status.copy(favourited = it.state)
+                            is StatusUiChange.Reblog ->
+                                statusViewData.status.copy(reblogged = it.state)
                         }
                         indexedViewData.value?.statusViewData = statusViewData.copy(
                             status = status
@@ -389,7 +390,7 @@ class NotificationsFragment :
                 when (event) {
                     //is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
                     // is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
-                    is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
+                    //is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
                     is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
                     is PinEvent -> setPinForStatus(event.statusId, event.pinned)
                     // TODO: What do here? Refresh, to load notifications from the server?
@@ -417,21 +418,7 @@ class NotificationsFragment :
 
     override fun onReblog(reblog: Boolean, position: Int) {
         val statusViewData = adapter.peek(position)?.statusViewData ?: return
-        viewModel.reblog(reblog, statusViewData)
-    }
-
-    private fun setReblogForStatus(statusId: String, reblogged: Boolean) {
-        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
-            notificationViewData.value?.statusViewData?.status?.id == statusId
-        } ?: return
-
-        val statusViewData = indexedViewData.value?.statusViewData ?: return
-
-        indexedViewData.value?.statusViewData = statusViewData.copy(
-            status = statusViewData.status.copy(reblogged = reblogged)
-        )
-
-        adapter.notifyItemChanged(indexedViewData.index)
+        viewModel.accept(StatusAction.Reblog(reblog, statusViewData))
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
