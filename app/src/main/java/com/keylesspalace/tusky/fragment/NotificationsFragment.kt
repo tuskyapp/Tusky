@@ -44,7 +44,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
@@ -261,14 +260,14 @@ class NotificationsFragment :
                         // that the action succeeded. Since it hasn't, re-bind the view
                         // to show the correct data.
                         error.action?.let { action ->
-                            action is StatusAction.Bookmark || return@let
+                            action is StatusAction || return@let
 
                             // TODO: Finding position by status ID is common enough this
                             // should be a method in the adapter
                             val position = adapter.snapshot()
                                 .indexOfFirst {
                                     it?.statusViewData?.status?.id ==
-                                        (action as StatusAction.Bookmark).statusViewData.id
+                                        (action as StatusAction).statusViewData.id
                                 }
                             if (position != -1) {
                                 adapter.notifyItemChanged(position)
@@ -292,6 +291,8 @@ class NotificationsFragment :
                         val status = when (it) {
                             is StatusUiChange.Bookmark ->
                                 statusViewData.status.copy(bookmarked = it.state)
+                            is StatusUiChange.Favourite ->
+                                statusViewData.status.copy(favourited = it.state)
                         }
                         indexedViewData.value?.statusViewData = statusViewData.copy(
                             status = status
@@ -386,7 +387,7 @@ class NotificationsFragment :
             )
             .subscribe { event: Event? ->
                 when (event) {
-                    is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
+                    //is FavoriteEvent -> setFavouriteForStatus(event.statusId, event.favourite)
                     // is BookmarkEvent -> setBookmarkForStatus(event.statusId, event.bookmark)
                     is ReblogEvent -> setReblogForStatus(event.statusId, event.reblog)
                     is PollVoteEvent -> setVoteForPoll(event.statusId, event.poll)
@@ -435,21 +436,7 @@ class NotificationsFragment :
 
     override fun onFavourite(favourite: Boolean, position: Int) {
         val statusViewData = adapter.peek(position)?.statusViewData ?: return
-        viewModel.favorite(favourite, statusViewData)
-    }
-
-    private fun setFavouriteForStatus(statusId: String, favourite: Boolean) {
-        val indexedViewData = adapter.snapshot().withIndex().firstOrNull { notificationViewData ->
-            notificationViewData.value?.statusViewData?.status?.id == statusId
-        } ?: return
-
-        val statusViewData = indexedViewData.value?.statusViewData ?: return
-
-        indexedViewData.value?.statusViewData = statusViewData.copy(
-            status = statusViewData.status.copy(favourited = favourite)
-        )
-
-        adapter.notifyItemChanged(indexedViewData.index)
+        viewModel.accept(StatusAction.Favourite(favourite, statusViewData))
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {

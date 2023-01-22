@@ -83,16 +83,32 @@ sealed class UiAction {
 }
 
 /** Actions the user can trigger on an individual status */
-sealed class StatusAction : UiAction() {
+sealed class StatusAction(
+    open val statusViewData: StatusViewData.Concrete
+) : UiAction() {
     /** Set the bookmark state for a status */
-    data class Bookmark(val state: Boolean, val statusViewData: StatusViewData.Concrete) :
-        StatusAction()
+    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusAction(statusViewData)
+
+    /** Set the favourite state for a status */
+    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusAction(statusViewData)
 }
 
 /** Changes to a status' visible state after API calls */
 sealed class StatusUiChange(open val statusViewData: StatusViewData) {
     data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
         StatusUiChange(statusViewData)
+
+    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusUiChange(statusViewData)
+
+    companion object {
+        fun from(action: StatusAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(action.state, action.statusViewData)
+            is StatusAction.Favourite -> Favourite(action.state, action.statusViewData)
+        }
+    }
 }
 
 /** Preferences the UI reacts to */
@@ -132,15 +148,23 @@ sealed class UiError(
         override val action: StatusAction.Bookmark
     ) : UiError(exception, R.string.ui_error_bookmark, action)
 
-    data class Favourite(override val exception: Exception) : UiError(
-        exception,
-        R.string.ui_error_favourite
-    )
+    data class Favourite(
+        override val exception: Exception,
+        override val action: StatusAction.Favourite
+    ) : UiError(exception, R.string.ui_error_favourite, action)
+
     data class Reblog(override val exception: Exception) : UiError(
         exception,
         R.string.ui_error_reblog
     )
     data class Vote(override val exception: Exception) : UiError(exception, R.string.ui_error_vote)
+
+    companion object {
+        fun make(exception: Exception, action: StatusAction) =  when (action) {
+            is StatusAction.Bookmark -> Bookmark(exception, action)
+            is StatusAction.Favourite -> Favourite(exception, action)
+        }
+    }
 }
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
@@ -257,20 +281,26 @@ class NotificationsViewModel @Inject constructor(
             actionSharedFlow.filterIsInstance<StatusAction>()
                 .debounce(500) // avoid double-taps
                 .collect { action ->
-                    when (action) {
-                        is StatusAction.Bookmark -> try {
-                            timelineCases.bookmark(
-                                action.statusViewData.actionableId,
-                                action.state
-                            ).await()
-                            statusSharedFlow.emit(
-                                StatusUiChange.Bookmark(action.state, action.statusViewData)
-                            )
-                        } catch (e: Exception) {
-                            ifExpected(e) {
-                                Log.d(TAG, "Failed: $action", e)
-                                errorsSharedFlow.emit(UiError.Bookmark(e, action))
+                    try {
+                        when (action) {
+                            is StatusAction.Bookmark -> {
+                                timelineCases.bookmark(
+                                    action.statusViewData.actionableId,
+                                    action.state
+                                ).await()
                             }
+                            is StatusAction.Favourite -> {
+                                timelineCases.favourite(
+                                    action.statusViewData.actionableId,
+                                    action.state
+                                ).await()
+                            }
+                        }
+                        statusSharedFlow.emit(StatusUiChange.from(action))
+                    } catch (e: Exception) {
+                        ifExpected(e) {
+                            Log.d(TAG, "Failed: $action", e)
+                            errorsSharedFlow.emit(UiError.make(e, action))
                         }
                     }
                 }
@@ -349,21 +379,6 @@ class NotificationsViewModel @Inject constructor(
             ifExpected(e) {
                 Log.d(TAG, "Failed to reblog status " + statusViewData.actionableId, e)
                 errorsSharedFlow.emit(UiError.Reblog(e))
-            }
-        }
-    }
-
-    // TODO: Copied from TimelineViewModel
-    fun favorite(
-        favorite: Boolean,
-        statusViewData: StatusViewData.Concrete
-    ): Job = viewModelScope.launch {
-        try {
-            timelineCases.favourite(statusViewData.actionableId, favorite).await()
-        } catch (e: Exception) {
-            ifExpected(e) {
-                Log.d(TAG, "Failed to favourite status " + statusViewData.actionableId, e)
-                errorsSharedFlow.emit(UiError.Favourite(e))
             }
         }
     }
