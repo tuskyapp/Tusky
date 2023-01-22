@@ -9,6 +9,8 @@ import androidx.paging.PagingSource
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
+import okhttp3.ResponseBody
+import retrofit2.Response
 import javax.inject.Inject
 
 class NotificationsRepository @Inject constructor(
