@@ -17,6 +17,8 @@ package com.keylesspalace.tusky.components.compose
 
 import android.content.ContentResolver
 import android.content.Context
+import android.media.MediaMetadataRetriever
+import android.media.MediaMetadataRetriever.METADATA_KEY_MIMETYPE
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -248,6 +250,19 @@ class MediaUploader @Inject constructor(
     private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
+
+            // Android's MIME type suggestions from file extensions is broken for at least
+            // .m4a files. See https://github.com/tuskyapp/Tusky/issues/3189 for details.
+            // Sniff the content of the file to determine the actual type.
+            if (mimeType != null && (
+                mimeType.startsWith("audio/", ignoreCase = true) ||
+                    mimeType.startsWith("video/", ignoreCase = true)
+                )
+            ) {
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(context, media.uri)
+                mimeType = retriever.extractMetadata(METADATA_KEY_MIMETYPE)
+            }
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
             val filename = "%s_%s_%s.%s".format(
