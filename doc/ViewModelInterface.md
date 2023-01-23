@@ -110,8 +110,7 @@ fun onViewCreated(...) {
 }
 ```
 
-This is a good start, but it can be me looks like 
-`NotificationsFragment`.
+This is a good start, but it can be me significantly improved.
 
 ### Model actions with sealed classes
 
@@ -143,7 +142,7 @@ the UI are:
 > notifications.
 > 
 > That is handled a little differently because of how code outside
-> `NotificationsFragment` is currently written. That will be adjusted at
+> `NotificationsFragment` is currently written. It will be adjusted at
 > a later time.
 
 That becomes:
@@ -250,11 +249,10 @@ binding.button.setOnClickListener {
 
 ### Model the difference between fallible and infallible actions
 
-An infallible action is one either cannot fail, or, can fail, but there are no
+An infallible action either cannot fail, or, can fail but there are no
 user-visible changes to the UI.
 
-Conversely, a fallible action is one that can fail and the user should
-be notified.
+Conversely, a fallible action can fail and the user should be notified.
 
 I've found it helpful to distinguish between the two at the type level, as
 it simplifies error handling in the Fragment.
@@ -284,7 +282,7 @@ flows by the class of item in the flow is straightforward.
 `NotificationsViewModel` splits the fallible actions the user can take as
 operating on three different parts of the UI:
 
-- Everything that's not the list of notifications
+- Everything not the list of notifications
 - Notifications in the list of notifications
 - Statuses in the list of notifications
 
@@ -360,7 +358,7 @@ it or update it during normal operation.
 Similarly, `RecyclerView.Adapter` provides its own `loadStateFlow`, which
 communicates information about the loading state of data in to the adapter.
 
-For `NotificationsViewModel` I have found it helpful to provide flows that
+For `NotificationsViewModel` I have found it helpful to provide flows to
 separate the following types
 
 - `PagingData` in to the adapter
@@ -434,8 +432,8 @@ sequenceDiagram
 
 ### Modelling success and failure for fallible actions
 
-A fallible action should have models that capture success and failure
-information, and be included in the UI state.
+A fallible action should have models capturing success and failure
+information, and be communicated to the UI.
 
 > Note: Infallible actions, by definition, neither succeed or fail, so
 > there is no need to model those states for them.
@@ -455,7 +453,7 @@ Fragment saying "Here is the action I want to be performed" and the action in
 out."
 
 Unsurprisingly, this is modelled with a `UiSuccess` class, and per-action
-subclasses of that.
+subclasses.
 
 Failures are modelled similarly, with a `UiError` class. However, details
 about the error are included, as well as the original action.
@@ -464,7 +462,7 @@ So each fallible action has three associated classes; one for the action,
 one to represent the action succeeding, and one to represent the action
 failing.
 
-For the single "bookmark a status" action that looks like this:
+For the single "bookmark a status" action the code looks like this:
 
 ```kotlin
 // In the View Model
@@ -473,7 +471,7 @@ sealed class StatusAction(
 ) : FallibleUiAction() {
     data class Bookmark(
         val state: Boolean,
-        override val statusViewData: StatusViewData.concrete
+        override val statusViewData: StatusViewData.Concrete
     ) : StatusAction(statusViewData)
   
     // ... other actions here
@@ -518,7 +516,7 @@ sealed class UiError(
 > `UiError`, as all fallible errors (so far) are handled identically. This
 > may change in the future.
 
-Processinging actions in the view model is then:
+Processing actions in the view model is then:
 
 ```kotlin
 // In the View Model
