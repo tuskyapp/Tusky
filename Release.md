@@ -7,7 +7,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 ## Beta
 
 - Make sure all new features are well tested by Nightly users and all issues addressed as good as possible. Check GitHub issues, Google Play crash reports, messages on `@Tusky@mastodon.social`, emails on `tusky@connyduck.at`, #Tusky hashtag.
-- Merge the latest Weblate translations
+- Merge the latest Weblate translations (Weblate -> Repository maintenance -> commit all changes, then merge the automatic PRs by @nailyk-weblate on GitHub) 
 - Check all the translations (Android Studio shows warnings on problems). Sometimes translators add faulty translations that would crash Tusky in this language, e.g. wrong number of formatting parameters. In this case it is usually easiest to just delete the string. [Example cleanup](https://github.com/tuskyapp/Tusky/commit/feaea70af418c77178985144a2d01a8e97725dfd).
 - Update `versionCode` and `versionName` in `app/build.gradle`
 - Add a new short changelog under `fastlane/metadata/android/en-US/changelogs`. Use the next versionCode as the filename. This is so translators on Weblate have the duration of the beta to translate the changelog and F-Droid users will see it in their language on the release. If another beta is released, the changelogs have to be renamed. Note that changelogs shouldn't be over 500 characters or F-Droid will truncate them.
@@ -26,7 +26,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 ## Full release
 
 - Make sure all new features are well tested by beta users and all issues addressed as good as possible. Check GitHub issues, Google Play crash reports, messages on `@Tusky@mastodon.social`, #Tusky hashtag.
-- (optionally merge new translations and check them)
+- Merge the latest Weblate translations (Weblate -> Repository maintenance -> commit all changes, then merge the automatic PRs by @nailyk-weblate on GitHub)
 - Update `versionCode` and `versionName` in `app/build.gradle`
 - Build the app as apk and as app bundle.
 - Do a quick check to make sure the build doesn't crash. Also install it over the last release to make sure the database migrations are correct.
