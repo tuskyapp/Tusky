@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -102,7 +103,6 @@ class LoginActivity : BaseActivity(), Injectable {
         )
 
         binding.loginButton.setOnClickListener { onLoginClick(true) }
-        binding.browserLoginButton.setOnClickListener { onLoginClick(false) }
 
         binding.whatsAnInstanceTextView.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
@@ -113,13 +113,9 @@ class LoginActivity : BaseActivity(), Injectable {
             textView?.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        if (isAdditionalLogin() || isAccountMigration()) {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-        } else {
-            binding.toolbar.visibility = View.GONE
-        }
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(isAdditionalLogin() || isAccountMigration())
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun requiresLogin(): Boolean {
@@ -131,6 +127,17 @@ class LoginActivity : BaseActivity(), Injectable {
         if (isAdditionalLogin() || isAccountMigration()) {
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.add(R.string.action_browser_login)?.apply {
+            setOnMenuItemClickListener {
+                onLoginClick(false)
+                true
+            }
+        }
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     /**
