@@ -328,8 +328,8 @@ classDiagram
   direction LR
   UiAction <|-- InfallibleUiAction
   InfallibleUiAction <|-- SaveVisibleId
+  InfallibleUiAction <|-- ApplyFilter
   UiAction <|-- FallibleUiAction
-  FallibleUiAction <|-- ApplyFilter
   FallibleUiAction <|-- ClearNotifications
   FallibleUiAction <|-- NotificationAction
   NotificationAction <|-- AcceptFollowRequest
@@ -344,7 +344,7 @@ classDiagram
 
 ### Multiple output flows
 
-So far the UI has been modelled as an single output flow of a single `UiState`
+So far the UI has been modelled as a single output flow of a single `UiState`
 type.
 
 For simple UIs that can be sufficient. As the UI gets more complex it
@@ -386,12 +386,12 @@ them in to different flows a sensible approach.
 
 `PagingData`, `UiState`, and `StatusDisplayOptions` are stateful -- if the
 Fragment disconnects from the flow and then reconnects (e.g., because of a
-configuration change) the Fragment should receive the most recent state.
-So is `StatusDisplayOptions` for the same reason.
+configuration change) the Fragment should receive the most recent state of
+each of these.
 
 `UiSuccess` and `UiError` are not stateful. The success and error messages are
 transient; if one has been shown, and there is a subsequent configuration
-change, the user should not see the success or error message again.
+change the user should not see the success or error message again.
 
 ### Updated sequence diagram
 
@@ -425,7 +425,8 @@ sequenceDiagram
           
     end
     ui->>ui: Updates visible UI
-    note over ui,vm: Type of UI change depends on type of object emitted<br>UiState, StatusDisplayOptions, StatusActionSuccess, UiError
+    note over ui,vm: Type of UI change depends on type of object 
+    emitted<br>UiState, StatusDisplayOptions, UiSuccess, UiError
       
     ui-->>-user: Observes changes
 ```
