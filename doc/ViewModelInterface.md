@@ -37,22 +37,20 @@ sequenceDiagram
 ```
 
 In this model, actions always flow from left to right. The user tells
-the fragment to do something. The fragment tells the view model to do
+the fragment to do something, then te fragment tells the view model to do
 something.
 
 The view model does **not** tell the fragment to do something.
 
-State always flows from right to left The fragment does not tell the view
-model "Change your state to reflect this user interaction", it tells the view
-model "The user wants to do X, do that, and send me new state when it is
-done".
+State always flows from right to left. The view model tells the fragment
+"Here's the new state, it up to you how to display it."
 
 Not shown on this diagram, but implicit, is these actions are asynchronous,
 and the view model may be making one or more requests to other components to
 gather the data to use for the new UI state.
 
 Rather than modelling this transfer of data as function calls, and by passing
-callback functions from place to place, they can be modelled as Kotlin flows
+callback functions from place to place they can be modelled as Kotlin flows
 between the Fragment and View Model.
 
 For example:
@@ -201,7 +199,7 @@ fun handleClearNotifications() = viewModelScope.launch {
         }
 }
 
-viewModelScope.launch {
+fun handleSaveVisibleId() = viewModelScope.launch {
     actionFlow
         .filterIsInstance<UiAction.SaveVisibleId>()
         .distinctUntilChanged()
@@ -393,43 +391,6 @@ each of these.
 transient; if one has been shown, and there is a subsequent configuration
 change the user should not see the success or error message again.
 
-### Updated sequence diagram
-
-```mermaid
-sequenceDiagram
-    actor user as User
-    participant ui as Fragment
-    participant vm as View Model
-    user->>+ui: Performs UI action
-    ui->>+vm: viewModel.accept(UiAction.*())
-    vm->>vm: Perform action
-    alt Update UI state?
-      vm->>vm: emit(UiState(...))
-      vm-->>ui: UiState(...)
-      ui-->>ui: collect UiState, update UI
-      
-    else Update StatusDisplayOptions?
-      vm->>vm: emit(StatusDisplayOptions(...))
-      vm-->>ui: StatusDisplayOption(...)
-      ui-->>ui: collect StatusDisplayOptions, rebind list items
-
-    else Successful fallible action
-      vm->>vm: emit(UiSuccess(...))
-      vm-->>ui: UiSuccess(...)
-      ui-->>ui: collect UiSuccess, show snackbar
-
-    else Failed fallible action
-      vm->>-vm: emit(UiError(...))
-      vm-->>ui: UiError(...)
-      ui-->>ui: collect UiError, show snackbar with retry
-          
-    end
-    ui->>ui: Updates visible UI
-    note over ui,vm: Type of UI change depends on type of object emitted<br>UiState, StatusDisplayOptions, UiSuccess, UiError
-      
-    ui-->>-user: Observes changes
-```
-
 ### Modelling success and failure for fallible actions
 
 A fallible action should have models capturing success and failure
@@ -447,9 +408,9 @@ The view model processes the action, and is successful.
 To signal this back to the UI it emits a `UiSuccess` subclass for the action's
 type in to the `uiSuccess` flow, and includes the original action request.
 
-You can read this as the action in the `UiAction` is a message from the
-Fragment saying "Here is the action I want to be performed" and the action in
-`UiSuccess` is the View Model saying "Here is the action that was carried
+You can read this as the `action` in the `UiAction` is a message from the
+Fragment saying "Here is the action I want to be performed" and the `action`
+in `UiSuccess` is the View Model saying "Here is the action that was carried
 out."
 
 Unsurprisingly, this is modelled with a `UiSuccess` class, and per-action
@@ -462,7 +423,8 @@ So each fallible action has three associated classes; one for the action,
 one to represent the action succeeding, and one to represent the action
 failing.
 
-For the single "bookmark a status" action the code looks like this:
+For the single "bookmark a status" action the code for its three classes
+looks like this:
 
 ```kotlin
 // In the View Model
@@ -512,11 +474,11 @@ sealed class UiError(
 }
 ```
 
-> Note: At the moment I haven't found it necessary to create subclasses for
-> `UiError`, as all fallible errors (so far) are handled identically. This
-> may change in the future.
+> Note: I haven't found it necessary to create subclasses for `UiError`, as
+> all fallible errors (so far) are handled identically. This may change in
+> the future.
 
-Processing actions in the view model is then:
+Receiving status actions in the view model (from the `uiAction` flow) is then:
 
 ```kotlin
 // In the View Model
@@ -562,7 +524,7 @@ lifecycleScope.launch {
     // Show a specific error when an action fails
     this.launch {
         viewModel.uiError.collect { error ->
-            SnackBark.make(
+            SnackBar.make(
                 binding.root,
                 getString(error.message),
                 LENGTH_LONG
@@ -585,7 +547,7 @@ lifecycleScope.launch {
     // on the snackbar, and re-send the original action to retry.
     this.launch {
         viewModel.uiError.collect { error ->
-            val snackbar = SnackBark.make(
+            val snackbar = SnackBar.make(
                 binding.root,
                 getString(error.message),
                 LENGTH_LONG
@@ -597,4 +559,57 @@ lifecycleScope.launch {
         }
     }
 }
+```
+
+### Updated sequence diagram
+
+```mermaid
+sequenceDiagram
+    actor user as User
+    participant ui as Fragment
+    participant vm as View Model
+    user->>ui: Performs UI action
+    activate ui
+    ui->>+vm: viewModel.accept(UiAction.*())
+    deactivate ui
+    vm->>vm: Perform action
+    alt Update UI state?
+      vm->>vm: emit(UiState(...))
+      vm-->>ui: UiState(...)
+      activate ui
+      ui->>ui: collect UiState, update UI
+      deactivate ui
+      
+    else Update StatusDisplayOptions?
+      vm->>vm: emit(StatusDisplayOptions(...))
+      vm-->>ui: StatusDisplayOption(...)
+      activate ui
+      ui->>ui: collect StatusDisplayOptions, rebind list items
+      deactivate ui
+
+    else Successful fallible action
+      vm->>vm: emit(UiSuccess(...))
+      vm-->>ui: UiSuccess(...)
+      activate ui
+      ui->>ui: collect UiSuccess, show snackbar
+      deactivate ui
+
+    else Failed fallible action
+      vm->>vm: emit(UiError(...))
+      vm-->>ui: UiError(...)
+      activate ui
+      deactivate vm
+      ui->>ui: collect UiError, show snackbar with retry
+      deactivate ui
+      user->>ui: Presses "Retry"
+      activate ui
+      ui->>vm: viewModel.accept(error.action)
+      deactivate ui
+      activate vm
+      vm->>vm: Perform action, emit response...
+      deactivate vm 
+    end
+    note over ui,vm: Type of UI change depends on type of object emitted<br>UiState, StatusDisplayOptions, UiSuccess, UiError
+      
+    ui-->>user: Observes changes
 ```
