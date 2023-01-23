@@ -425,8 +425,7 @@ sequenceDiagram
           
     end
     ui->>ui: Updates visible UI
-    note over ui,vm: Type of UI change depends on type of object 
-    emitted<br>UiState, StatusDisplayOptions, UiSuccess, UiError
+    note over ui,vm: Type of UI change depends on type of object emitted<br>UiState, StatusDisplayOptions, UiSuccess, UiError
       
     ui-->>-user: Observes changes
 ```
