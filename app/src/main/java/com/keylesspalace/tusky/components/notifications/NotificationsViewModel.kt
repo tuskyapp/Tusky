@@ -51,9 +51,6 @@ data class UiState(
     /** Filtered notification types */
     val activeFilter: Set<Notification.Type> = emptySet(),
 
-    /** True if statuses should display absolute time */
-    val showAbsoluteTime: Boolean = false,
-
     /** True if the UI to filter and clear notifications should be shown */
     val showFilterOptions: Boolean = false,
 
@@ -61,14 +58,26 @@ data class UiState(
     val showFabWhileScrolling: Boolean = true
 )
 
+/** Preferences the UI reacts to */
+data class UiPrefs(
+    val showAbsoluteTime: Boolean,
+    val showFabWhileScrolling: Boolean,
+    val showFilter: Boolean
+) {
+    companion object {
+        /** Relevant preference keys. Changes to any of these trigger a display update */
+        val prefKeys = setOf(
+            PrefKeys.FAB_HIDE,
+            PrefKeys.SHOW_NOTIFICATIONS_FILTER
+        )
+    }
+}
+
 /** Parent class for all UI actions, fallible or infallible. */
 sealed class UiAction
 
 /** Actions the user can trigger from the UI. These actions may fail. */
 sealed class FallibleUiAction : UiAction() {
-    /** Apply a new filter to the notification list */
-    data class ApplyFilter(val filter: Set<Notification.Type>) : FallibleUiAction()
-
     /** Clear all notifications */
     object ClearNotifications : FallibleUiAction()
 }
@@ -78,6 +87,12 @@ sealed class FallibleUiAction : UiAction() {
  * do not show an error.
  */
 sealed class InfallibleUiAction : UiAction() {
+    /** Apply a new filter to the notification list */
+    // This saves the list to the local database, which triggers a refresh of the data.
+    // Saving the data can't fail, which is why this is infallible. Refreshing the
+    // data may fail, but that's handled by the paging system / adapter refresh logic.
+    data class ApplyFilter(val filter: Set<Notification.Type>) : InfallibleUiAction()
+
     /**
      * User is leaving the fragment, save the ID of the visible notification.
      *
@@ -94,17 +109,19 @@ sealed class NotificationAction : FallibleUiAction() {
     data class RejectFollowRequest(val accountId: String) : NotificationAction()
 }
 
+sealed class UiSuccess
+
+/** The result of a successful action on a notification */
 sealed class NotificationActionSuccess(
     /** String resource with an error message to show the user */
     @StringRes val msg: Int,
 
     /**
-     * The original action, in case additional information is required from it to display
-     * the message.
+     * The original action, in case additional information is required from it to display the
+     * message.
      */
     open val action: NotificationAction
-) {
-
+) : UiSuccess() {
     data class AcceptFollowRequest(override val action: NotificationAction) :
         NotificationActionSuccess(R.string.ui_success_accepted_follow_request, action)
     data class RejectFollowRequest(override val action: NotificationAction) :
@@ -143,49 +160,26 @@ sealed class StatusAction(
 }
 
 /** Changes to a status' visible state after API calls */
-sealed class StatusUiChange(open val statusViewData: StatusViewData) {
-    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
-        StatusUiChange(statusViewData)
+sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess() {
+    data class Bookmark(override val action: StatusAction.Bookmark) :
+        StatusActionSuccess(action)
 
-    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
-        StatusUiChange(statusViewData)
+    data class Favourite(override val action: StatusAction.Favourite) :
+        StatusActionSuccess(action)
 
-    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
-        StatusUiChange(statusViewData)
+    data class Reblog(override val action: StatusAction.Reblog) :
+        StatusActionSuccess(action)
 
-    data class VoteInPoll(
-        val poll: Poll,
-        val choices: List<Int>,
-        override val statusViewData: StatusViewData.Concrete
-    ) : StatusUiChange(statusViewData)
+    data class VoteInPoll(override val action: StatusAction.VoteInPoll) :
+        StatusActionSuccess(action)
 
     companion object {
         fun from(action: StatusAction) = when (action) {
-            is StatusAction.Bookmark -> Bookmark(action.state, action.statusViewData)
-            is StatusAction.Favourite -> Favourite(action.state, action.statusViewData)
-            is StatusAction.Reblog -> Reblog(action.state, action.statusViewData)
-            is StatusAction.VoteInPoll -> VoteInPoll(
-                action.poll,
-                action.choices,
-                action.statusViewData
-            )
+            is StatusAction.Bookmark -> Bookmark(action)
+            is StatusAction.Favourite -> Favourite(action)
+            is StatusAction.Reblog -> Reblog(action)
+            is StatusAction.VoteInPoll -> VoteInPoll(action)
         }
-    }
-}
-
-/** Preferences the UI reacts to */
-data class UiPrefs(
-    val showAbsoluteTime: Boolean,
-    val showFabWhileScrolling: Boolean,
-    val showFilter: Boolean
-) {
-    companion object {
-        /** Relevant preference keys. Changes to any of these trigger a display update */
-        val prefKeys = setOf(
-            PrefKeys.ABSOLUTE_TIME_VIEW,
-            PrefKeys.FAB_HIDE,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER
-        )
     }
 }
 
@@ -195,7 +189,7 @@ sealed class UiError(
     open val exception: Exception,
 
     /** String resource with an error message to show the user */
-    @StringRes val msg: Int,
+    @StringRes val message: Int,
 
     /** The action that failed. Can be resent to retry the action */
     open val action: UiAction? = null
@@ -243,7 +237,6 @@ sealed class UiError(
             is StatusAction.VoteInPoll -> VoteInPoll(exception, action)
             is NotificationAction.AcceptFollowRequest -> AcceptFollowRequest(exception, action)
             is NotificationAction.RejectFollowRequest -> RejectFollowRequest(exception, action)
-            is FallibleUiAction.ApplyFilter -> TODO()
             FallibleUiAction.ClearNotifications -> ClearNotifications(exception)
         }
     }
@@ -260,37 +253,33 @@ class NotificationsViewModel @Inject constructor(
 
     val uiState: StateFlow<UiState>
 
+    /** Flow of changes to statusDisplayOptions, for use by the UI */
+    val statusDisplayOptions: StateFlow<StatusDisplayOptions>
+
     val pagingDataFlow: Flow<PagingData<NotificationViewData>>
 
-    /** Flow of notification action updates, for use by the UI */
-    val notificationActionSuccessFlow =
-        MutableSharedFlow<NotificationActionSuccess>()
+    /** Flow of user actions received from the UI */
+    private val uiAction = MutableSharedFlow<UiAction>()
 
-    /** Flow of changes to statusDisplayOptions, for use by the UI */
-    val statusDisplayOptionsFlow: StateFlow<StatusDisplayOptions>
-
-    /** Flow of changes to status state, for use by the UI */
-    val statusSharedFlow = MutableSharedFlow<StatusUiChange>()
+    /** Flow of successful action results */
+    // Note: These are a SharedFlow instead of a StateFlow because success or error state does not
+    // need to be retained. An message is shown once to a user and then dismissed. Re-collecting the
+    // flow (e.g., after a device orientation change) should not re-show the most recent success or
+    // error message, as it will be confusing to the user.
+    val uiSuccess = MutableSharedFlow<UiSuccess>()
 
     /** Flow of transient errors for the UI to present */
-    // Note: This is a SharedFlow instead of a StateFlow because error state does not need to be
-    // retained. An error is shown once to a user and then dismissed. Re-collecting the flow
-    // (e.g., after a device orientation change) should not re-show the most recent error, as it
-    // will be confusing to the user.
-    val errorsSharedFlow = MutableSharedFlow<UiError>()
-
-    /** Flow of user actions received from the UI */
-    private val actionSharedFlow = MutableSharedFlow<UiAction>()
+    val uiError = MutableSharedFlow<UiError>()
 
     /** Accept UI actions in to actionStateFlow */
     val accept: (UiAction) -> Unit = { action ->
-        viewModelScope.launch { actionSharedFlow.emit(action) }
+        viewModelScope.launch { uiAction.emit(action) }
     }
 
     init {
         // Handle changes to notification filters
-        val notificationFilter = actionSharedFlow
-            .filterIsInstance<FallibleUiAction.ApplyFilter>()
+        val notificationFilter = uiAction
+            .filterIsInstance<InfallibleUiAction.ApplyFilter>()
             .distinctUntilChanged()
             // Save each change back to the active account
             .onEach { action ->
@@ -303,7 +292,7 @@ class NotificationsViewModel @Inject constructor(
             // Load the initial filter from the active account
             .onStart {
                 emit(
-                    FallibleUiAction.ApplyFilter(
+                    InfallibleUiAction.ApplyFilter(
                         filter = deserialize(accountManager.activeAccount?.notificationsFilter)
                     )
                 )
@@ -311,7 +300,7 @@ class NotificationsViewModel @Inject constructor(
 
         // Save the visible notification ID
         viewModelScope.launch {
-            actionSharedFlow
+            uiAction
                 .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
                 .distinctUntilChanged()
                 .collectLatest { action ->
@@ -323,40 +312,42 @@ class NotificationsViewModel @Inject constructor(
                 }
         }
 
-        statusDisplayOptionsFlow = MutableStateFlow(
+        // Set initial status display options from the user's preferences.
+        //
+        // Then collect future preference changes and emit new values in to
+        // statusDisplayOptions if necessary.
+        statusDisplayOptions = MutableStateFlow(
             StatusDisplayOptions.from(
                 preferences,
                 accountManager.activeAccount!!
             )
         )
 
-        // Collect changes to preferences that affect how statuses are displayed, and emit
-        // updates to statusDisplayOptionsFlow.
         viewModelScope.launch {
             eventHub.events.asFlow()
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
                 .map {
-                    statusDisplayOptionsFlow.value.copy(
+                    statusDisplayOptions.value.copy(
                         preferences,
                         it.preferenceKey,
                         accountManager.activeAccount!!
                     )
                 }
                 .collect {
-                    statusDisplayOptionsFlow.emit(it)
+                    statusDisplayOptions.emit(it)
                 }
         }
 
         // Handle UiAction.ClearNotifications
         viewModelScope.launch {
-            actionSharedFlow.filterIsInstance<FallibleUiAction.ClearNotifications>()
+            uiAction.filterIsInstance<FallibleUiAction.ClearNotifications>()
                 .collectLatest {
                     repository.clearNotifications().apply {
                         if (this.isSuccessful) {
                             repository.invalidate()
                         } else {
-                            errorsSharedFlow.emit(UiError.make(HttpException(this), it))
+                            uiError.emit(UiError.make(HttpException(this), it))
                         }
                     }
                 }
@@ -364,7 +355,7 @@ class NotificationsViewModel @Inject constructor(
 
         // Handle NotificationAction.*
         viewModelScope.launch {
-            actionSharedFlow.filterIsInstance<NotificationAction>()
+            uiAction.filterIsInstance<NotificationAction>()
                 .debounce(DEBOUNCE_TIMEOUT_MS)
                 .collect { action ->
                     try {
@@ -374,11 +365,11 @@ class NotificationsViewModel @Inject constructor(
                             is NotificationAction.RejectFollowRequest ->
                                 timelineCases.rejectFollowRequest(action.accountId)
                         }
-                        notificationActionSuccessFlow.emit(NotificationActionSuccess.from(action))
+                        uiSuccess.emit(NotificationActionSuccess.from(action))
                     } catch (e: Exception) {
                         ifExpected(e) {
                             Log.d(TAG, "Failed: $action", e)
-                            errorsSharedFlow.emit(UiError.make(e, action))
+                            uiError.emit(UiError.make(e, action))
                         }
                     }
                 }
@@ -386,7 +377,7 @@ class NotificationsViewModel @Inject constructor(
 
         // Handle StatusAction.*
         viewModelScope.launch {
-            actionSharedFlow.filterIsInstance<StatusAction>()
+            uiAction.filterIsInstance<StatusAction>()
                 .debounce(DEBOUNCE_TIMEOUT_MS) // avoid double-taps
                 .collect { action ->
                     try {
@@ -413,11 +404,11 @@ class NotificationsViewModel @Inject constructor(
                                     action.choices
                                 ).await()
                         }
-                        statusSharedFlow.emit(StatusUiChange.from(action))
+                        uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
                         ifExpected(e) {
                             Log.d(TAG, "Failed: $action", e)
-                            errorsSharedFlow.emit(UiError.make(e, action))
+                            uiError.emit(UiError.make(e, action))
                         }
                     }
                 }
@@ -435,7 +426,6 @@ class NotificationsViewModel @Inject constructor(
         uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
             UiState(
                 activeFilter = filter.filter,
-                showAbsoluteTime = prefs.showAbsoluteTime,
                 showFilterOptions = prefs.showFilter,
                 showFabWhileScrolling = prefs.showFabWhileScrolling
             )
@@ -454,9 +444,9 @@ class NotificationsViewModel @Inject constructor(
             .map { pagingData ->
                 pagingData.map { notification ->
                     notification.toViewData(
-                        isShowingContent = statusDisplayOptionsFlow.value.showSensitiveMedia ||
+                        isShowingContent = statusDisplayOptions.value.showSensitiveMedia ||
                             !(notification.status?.actionableStatus?.sensitive ?: false),
-                        isExpanded = statusDisplayOptionsFlow.value.openSpoiler,
+                        isExpanded = statusDisplayOptions.value.openSpoiler,
                         isCollapsed = true
                     )
                 }

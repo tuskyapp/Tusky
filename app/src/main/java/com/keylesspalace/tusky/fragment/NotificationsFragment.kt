@@ -49,7 +49,7 @@ import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAd
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.notifications.StatusAction
-import com.keylesspalace.tusky.components.notifications.StatusUiChange
+import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -69,6 +69,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -104,7 +105,7 @@ class NotificationsFragment :
             statusActionListener = this,
             notificationActionListener = this,
             accountActionListener = this,
-            statusDisplayOptions = viewModel.statusDisplayOptionsFlow.value
+            statusDisplayOptions = viewModel.statusDisplayOptions.value
         )
     }
 
@@ -201,7 +202,10 @@ class NotificationsFragment :
             }
         }
 
-        /** Notifies the adapter that the timestamps of the visible items have changed */
+        /**
+         * Collect this flow to notify the adapter that the timestamps of the visible items have
+         * changed
+         */
         val updateTimestampFlow = flow {
             while (true) { delay(60000); emit(Unit) }
         }.onEach {
@@ -228,16 +232,16 @@ class NotificationsFragment :
                 //   post failed: Unable to resolve host 'mastodon.social': No
                 //   address associated with hostname" is 3 lines.
                 this.launch {
-                    viewModel.errorsSharedFlow.collect { error ->
-                        val msg = getString(
-                            error.msg,
+                    viewModel.uiError.collect { error ->
+                        val message = getString(
+                            error.message,
                             error.exception.localizedMessage
                                 ?: getString(R.string.ui_error_unknown)
                         )
                         val snackbar = Snackbar.make(
                             // Without this the FAB will not move out of the way
                             (activity as ActionButtonActivity).actionButton ?: binding.root,
-                            msg,
+                            message,
                             Snackbar.LENGTH_INDEFINITE
                         ).setTextMaxLines(5)
                         error.action?.let { action ->
@@ -270,65 +274,67 @@ class NotificationsFragment :
                 // Show successful notification action as brief snackbars, so the
                 // user is clear the action has happened.
                 this.launch {
-                    viewModel.notificationActionSuccessFlow.collect {
-                        Snackbar.make(
-                            (activity as ActionButtonActivity).actionButton ?: binding.root,
-                            getString(it.msg),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                    viewModel.uiSuccess
+                        .filterIsInstance<NotificationActionSuccess>()
+                        .collect {
+                            Snackbar.make(
+                                (activity as ActionButtonActivity).actionButton ?: binding.root,
+                                getString(it.msg),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
 
-                        when (it) {
-                            // The follow request is no longer valid, refresh the adapter to
-                            // remove it.
-                            is NotificationActionSuccess.AcceptFollowRequest,
-                            is NotificationActionSuccess.RejectFollowRequest -> adapter.refresh()
+                            when (it) {
+                                // The follow request is no longer valid, refresh the adapter to
+                                // remove it.
+                                is NotificationActionSuccess.AcceptFollowRequest,
+                                is NotificationActionSuccess.RejectFollowRequest -> adapter.refresh()
+                            }
                         }
-                    }
                 }
 
                 this.launch {
-                    viewModel.statusSharedFlow.collect {
-                        val indexedViewData = adapter.snapshot()
-                            .withIndex()
-                            .firstOrNull { notificationViewData ->
-                                notificationViewData.value?.statusViewData?.status?.id ==
-                                    it.statusViewData.id
-                            } ?: return@collect
+                    viewModel.uiSuccess
+                        .filterIsInstance<StatusActionSuccess>()
+                        .collect {
+                            val indexedViewData = adapter.snapshot()
+                                .withIndex()
+                                .firstOrNull { notificationViewData ->
+                                    notificationViewData.value?.statusViewData?.status?.id ==
+                                        it.action.statusViewData.id
+                                } ?: return@collect
 
-                        val statusViewData =
-                            indexedViewData.value?.statusViewData ?: return@collect
+                            val statusViewData =
+                                indexedViewData.value?.statusViewData ?: return@collect
 
-                        val status = when (it) {
-                            is StatusUiChange.Bookmark ->
-                                statusViewData.status.copy(bookmarked = it.state)
-                            is StatusUiChange.Favourite ->
-                                statusViewData.status.copy(favourited = it.state)
-                            is StatusUiChange.Reblog ->
-                                statusViewData.status.copy(reblogged = it.state)
-                            is StatusUiChange.VoteInPoll ->
-                                statusViewData.status.copy(poll = it.poll.votedCopy(it.choices))
+                            val status = when (it) {
+                                is StatusActionSuccess.Bookmark ->
+                                    statusViewData.status.copy(bookmarked = it.action.state)
+                                is StatusActionSuccess.Favourite ->
+                                    statusViewData.status.copy(favourited = it.action.state)
+                                is StatusActionSuccess.Reblog ->
+                                    statusViewData.status.copy(reblogged = it.action.state)
+                                is StatusActionSuccess.VoteInPoll ->
+                                    statusViewData.status.copy(
+                                        poll = it.action.poll.votedCopy(it.action.choices)
+                                    )
+                            }
+                            indexedViewData.value?.statusViewData = statusViewData.copy(
+                                status = status
+                            )
+
+                            adapter.notifyItemChanged(indexedViewData.index)
                         }
-                        indexedViewData.value?.statusViewData = statusViewData.copy(
-                            status = status
-                        )
-
-                        adapter.notifyItemChanged(indexedViewData.index)
-                    }
                 }
 
                 this.launch {
                     viewModel.uiState
                         .collectLatest { uiState ->
                             updateFilterVisibility(uiState.showFilterOptions)
-
-                            if (!uiState.showAbsoluteTime) {
-                                updateTimestampFlow.collect()
-                            }
                         }
                 }
 
                 this.launch {
-                    viewModel.statusDisplayOptionsFlow
+                    viewModel.statusDisplayOptions
                         .collectLatest {
                             adapter.statusDisplayOptions = it
                             layoutManager?.findFirstVisibleItemPosition()?.let { first ->
@@ -339,6 +345,10 @@ class NotificationsFragment :
                                     count,
                                     null
                                 )
+                            }
+
+                            if (!it.useAbsoluteTime) {
+                                updateTimestampFlow.collect()
                             }
                         }
                 }
@@ -507,7 +517,7 @@ class NotificationsFragment :
                 }
                 window.dismiss()
                 if (viewModel.uiState.value.activeFilter != excludes) {
-                    viewModel.accept(FallibleUiAction.ApplyFilter(excludes))
+                    viewModel.accept(InfallibleUiAction.ApplyFilter(excludes))
                 }
             }
         listView.adapter = adapter
