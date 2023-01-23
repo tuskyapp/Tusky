@@ -12,7 +12,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 - Update `versionCode` and `versionName` in `app/build.gradle`
 - Add a new short changelog under `fastlane/metadata/android/en-US/changelogs`. Use the next versionCode as the filename. This is so translators on Weblate have the duration of the beta to translate the changelog and F-Droid users will see it in their language on the release. If another beta is released, the changelogs have to be renamed. Note that changelogs shouldn't be over 500 characters or F-Droid will truncate them.
 - Build the app as apk and as app bundle.
-- Do a quick sanity check to make sure the build doesn't crash. Also install it over the last release to make sure the database migrations are correct.
+- Do a quick check to make sure the build doesn't crash. Also install it over the last release to make sure the database migrations are correct.
 - Merge `develop` into `main`
 - Create a new [GitHub release](https://github.com/tuskyapp/Tusky/releases).
   - Tag the head of `main`.
@@ -29,7 +29,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 - (optionally merge new translations and check them)
 - Update `versionCode` and `versionName` in `app/build.gradle`
 - Build the app as apk and as app bundle.
-- Do a quick sanity check to make sure the build doesn't crash. Also install it over the last release to make sure the database migrations are correct.
+- Do a quick check to make sure the build doesn't crash. Also install it over the last release to make sure the database migrations are correct.
 - Merge `develop` into `main`
 - Create a new [GitHub release](https://github.com/tuskyapp/Tusky/releases).
   - Tag the head of `main`.
