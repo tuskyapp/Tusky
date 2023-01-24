@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.db
 
+import android.accounts.Account
 import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
@@ -39,80 +40,57 @@ import javax.inject.Singleton
 private const val TAG = "DraftsAlert"
 
 @Singleton
-class DraftsAlert @Inject constructor(db: AppDatabase, accountManager: AccountManager) {
+class DraftsAlert @Inject constructor(db: AppDatabase) {
     // For tracking when a media upload fails in the service
     private val draftDao: DraftDao = db.draftDao()
 
-    // Mapped to current user failure count in draftDao
-    private var draftsNeedUserAlertCurrent: LiveData<Int>? = null
-
-    // User id corresponding to draftsNeedUserAlertCurrent
-    private var userIdCurrent: Long? = null
-
-    // Durable "forwarding address" for current draftsNeedUserAlertCurrent object
-    public val draftsNeedUserAlert = MediatorLiveData<Pair<Long, Int>>()
-
-    fun updateActiveAccountId(dbId: Long) {
-        if (dbId == userIdCurrent) {
-            return; // Nothing to do
-        }
-
-        userIdCurrent = dbId
-
-        // Remove old observer if we just switched accounts
-        draftsNeedUserAlertCurrent?.let {
-            draftsNeedUserAlert.removeSource(it)
-        }
-
-        // Add new observer
-        val draftsNeedUserAlertCurrent = draftDao.draftsNeedUserAlert(dbId)
-        this.draftsNeedUserAlertCurrent = draftsNeedUserAlertCurrent
-        draftsNeedUserAlert.addSource(draftsNeedUserAlertCurrent, { count ->
-            // !! here is safe because this is called only after userIdCurrent first goes non-null, and it never goes null again
-            draftsNeedUserAlert.value = Pair(userIdCurrent!!, count)
-        })
-    }
-
-    init {
-        accountManager.draftsAlert = this
-        accountManager.activeAccount?.let { updateActiveAccountId(it.id) }
-    }
+    @Inject
+    lateinit var accountManager: AccountManager
 
     public fun <T> observeInContext(context: T, showAlert: Boolean) where T : Context, T : LifecycleOwner {
-        // observe ensures that this gets called at the most appropriate moment wrt the context lifecycle—
-        // at init, at next onResume, or immediately if the context is resumed already.
-        if (showAlert) {
-            draftsNeedUserAlert.observe(context) { (dbId, count) ->
-                Log.d(TAG, "draftsNeedUserAlert changed: Notification-worthy draft count " + count)
-                if (count > 0) {
-                    AlertDialog.Builder(context)
-                        .setTitle(R.string.action_post_failed)
-                        .setMessage(
-                            context.getResources().getQuantityString(R.plurals.action_post_failed_detail, count)
-                        )
-                        .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
-                            clearDraftsAlert(dbId) // User looked at drafts
+        accountManager.activeAccount?.let { activeAccount ->
+            // Assume a single MainActivity, AccountActivity or DraftsActivity never sees more then one user id in its lifetime.
+            val activeAccountId = activeAccount.id
 
-                            val intent = DraftsActivity.newIntent(context)
-                            context.startActivity(intent)
-                        }
-                        .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
-                            clearDraftsAlert(dbId) // User doesn't care
-                        }
-                        .show()
+            // This LiveData will be automatically disposed when the activity is destroyed.
+            val draftsNeedUserAlert = draftDao.draftsNeedUserAlert(activeAccountId)
+
+            // observe ensures that this gets called at the most appropriate moment wrt the context lifecycle—
+            // at init, at next onResume, or immediately if the context is resumed already.
+            if (showAlert) {
+                draftsNeedUserAlert.observe(context) { count ->
+                    Log.d(TAG, "User id $activeAccountId changed: Notification-worthy draft count $count")
+                    if (count > 0) {
+                        AlertDialog.Builder(context)
+                            .setTitle(R.string.action_post_failed)
+                            .setMessage(
+                                context.getResources().getQuantityString(R.plurals.action_post_failed_detail, count)
+                            )
+                            .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
+                                clearDraftsAlert(activeAccountId) // User looked at drafts
+
+                                val intent = DraftsActivity.newIntent(context)
+                                context.startActivity(intent)
+                            }
+                            .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
+                                clearDraftsAlert(activeAccountId) // User doesn't care
+                            }
+                            .show()
+                    }
+                }
+            } else {
+                draftsNeedUserAlert.observe(context) { _ ->
+                    Log.d(TAG, "User id $activeAccountId: Clean out")
+                    clearDraftsAlert(activeAccountId)
                 }
             }
-        } else {
-            draftsNeedUserAlert.observe(context) { (dbId, _) ->
-                Log.d(TAG, "draftsNeedUserAlert: Clean out")
-                clearDraftsAlert(dbId)
-            }
+        } ?: run {
+            Log.w(TAG, "Attempted to observe drafts, but there is no active account")
         }
     }
 
     /**
-     * Clear drafts alert for current user
-     * Caller's responsibility to ensure there is a current user
+     * Clear drafts alert for specified user
      */
     fun clearDraftsAlert(id: Long) {
         GlobalScope.launch {

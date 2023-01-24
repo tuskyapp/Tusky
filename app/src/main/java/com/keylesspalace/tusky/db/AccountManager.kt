@@ -35,8 +35,6 @@ private const val TAG = "AccountManager"
 @Singleton
 class AccountManager @Inject constructor(db: AppDatabase) {
 
-    public var draftsAlert: DraftsAlert? = null // Will be set in DraftsAlert constructor
-
     @Volatile
     var activeAccount: AccountEntity? = null
 
@@ -162,9 +160,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)
-
-            // Drafts alert tracker needs to change its Dao source to current user
-            draftsAlert?.updateActiveAccountId(it.id)
         }
     }
 
