@@ -33,7 +33,8 @@ class FollowRequestsAdapter(
         return FollowRequestViewHolder(
             binding,
             accountActionListener,
-            showHeader = false)
+            showHeader = false
+        )
     }
 
     override fun onBindAccountViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
