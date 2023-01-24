@@ -184,12 +184,11 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
         }
     }
 
-    inline fun forEachIndexed(action: (Int, View, MediaPreviewImageView, TextView) -> Unit) {
+    inline fun forEachIndexed(action: (Int, MediaPreviewImageView, TextView) -> Unit) {
         for (index in 0 until childCount) {
             val wrapper = getChildAt(index)
             action(
                 index,
-                wrapper,
                 wrapper.findViewById(R.id.preview_image_view) as MediaPreviewImageView,
                 wrapper.findViewById(R.id.preview_media_description_indicator) as TextView
             )

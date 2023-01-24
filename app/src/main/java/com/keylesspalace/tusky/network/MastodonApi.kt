@@ -90,6 +90,7 @@ interface MastodonApi {
     @Throws(Exception::class)
     suspend fun homeTimeline(
         @Query("max_id") maxId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
     ): Response<List<Status>>
@@ -213,9 +214,9 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    fun deleteStatus(
+    suspend fun deleteStatus(
         @Path("id") statusId: String
-    ): Single<DeletedStatus>
+    ): NetworkResult<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
     fun reblogStatus(

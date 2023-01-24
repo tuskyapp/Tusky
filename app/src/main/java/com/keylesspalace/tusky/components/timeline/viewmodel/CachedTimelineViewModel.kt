@@ -32,6 +32,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.toViewData
@@ -169,13 +171,23 @@ class CachedTimelineViewModel @Inject constructor(
 
                 val response = db.withTransaction {
                     val idAbovePlaceholder = timelineDao.getIdAbove(activeAccount.id, placeholderId)
-                    val nextPlaceholderId =
-                        timelineDao.getNextPlaceholderIdAfter(activeAccount.id, placeholderId)
-                    api.homeTimeline(
-                        maxId = idAbovePlaceholder,
-                        sinceId = nextPlaceholderId,
-                        limit = LOAD_AT_ONCE
-                    )
+                    val idBelowPlaceholder = timelineDao.getIdBelow(activeAccount.id, placeholderId)
+                    when (readingOrder) {
+                        // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
+                        // after minId and no larger than maxId
+                        OLDEST_FIRST -> api.homeTimeline(
+                            maxId = idAbovePlaceholder,
+                            minId = idBelowPlaceholder,
+                            limit = LOAD_AT_ONCE
+                        )
+                        // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
+                        // maxId, and no smaller than minId.
+                        NEWEST_FIRST -> api.homeTimeline(
+                            maxId = idAbovePlaceholder,
+                            sinceId = idBelowPlaceholder,
+                            limit = LOAD_AT_ONCE
+                        )
+                    }
                 }
 
                 val statuses = response.body()
@@ -218,12 +230,16 @@ class CachedTimelineViewModel @Inject constructor(
                     /* In case we loaded a whole page and there was no overlap with existing statuses,
                        we insert a placeholder because there might be even more unknown statuses */
                     if (overlappedStatuses == 0 && statuses.size == LOAD_AT_ONCE) {
-                        /* This overrides the last of the newly loaded statuses with a placeholder
+                        /* This overrides the first/last of the newly loaded statuses with a placeholder
                            to guarantee the placeholder has an id that exists on the server as not all
                            servers handle client generated ids as expected */
+                        val idToConvert = when (readingOrder) {
+                            OLDEST_FIRST -> statuses.first().id
+                            NEWEST_FIRST -> statuses.last().id
+                        }
                         timelineDao.insertStatus(
                             Placeholder(
-                                statuses.last().id,
+                                idToConvert,
                                 loading = false
                             ).toEntity(activeAccount.id)
                         )

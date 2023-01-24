@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Animatable
@@ -85,11 +84,13 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
@@ -144,6 +145,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     @Inject
     lateinit var draftsAlert: DraftsAlert
+
+    @Inject
+    lateinit var developerToolsUseCase: DeveloperToolsUseCase
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -253,6 +257,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 true
             }
         }
+
+        binding.viewPager.reduceSwipeSensitivity()
 
         setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
 
@@ -566,14 +572,44 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         if (BuildConfig.DEBUG) {
+            // Add a "Developer tools" entry. Code that makes it easier to
+            // set the app state at runtime belongs here, it will never
+            // be exposed to users.
             binding.mainDrawer.addItems(
+                DividerDrawerItem(),
                 secondaryDrawerItem {
-                    nameText = "debug"
-                    isEnabled = false
-                    textColor = ColorStateList.valueOf(Color.GREEN)
+                    nameText = "Developer tools"
+                    isEnabled = true
+                    iconicsIcon = GoogleMaterial.Icon.gmd_developer_mode
+                    onClick = {
+                        buildDeveloperToolsDialog().show()
+                    }
                 }
             )
         }
+    }
+
+    private fun buildDeveloperToolsDialog(): AlertDialog {
+        return AlertDialog.Builder(this)
+            .setTitle("Developer Tools")
+            .setItems(
+                arrayOf("Create \"Load more\" gap")
+            ) { _, which ->
+                Log.d(TAG, "Developer tools: $which")
+                when (which) {
+                    0 -> {
+                        Log.d(TAG, "Creating \"Load more\" gap")
+                        lifecycleScope.launch {
+                            accountManager.activeAccount?.let {
+                                developerToolsUseCase.createLoadMoreGap(
+                                    it.id
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            .create()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
