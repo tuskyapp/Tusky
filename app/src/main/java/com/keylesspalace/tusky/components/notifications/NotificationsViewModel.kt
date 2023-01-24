@@ -367,10 +367,7 @@ class NotificationsViewModel @Inject constructor(
                         }
                         uiSuccess.emit(NotificationActionSuccess.from(action))
                     } catch (e: Exception) {
-                        ifExpected(e) {
-                            Log.d(TAG, "Failed: $action", e)
-                            uiError.emit(UiError.make(e, action))
-                        }
+                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
                     }
                 }
         }
@@ -406,10 +403,7 @@ class NotificationsViewModel @Inject constructor(
                         }
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
-                        ifExpected(e) {
-                            Log.d(TAG, "Failed: $action", e)
-                            uiError.emit(UiError.make(e, action))
-                        }
+                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
                     }
                 }
         }

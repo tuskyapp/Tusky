@@ -233,6 +233,7 @@ class NotificationsFragment :
                 //   address associated with hostname" is 3 lines.
                 this.launch {
                     viewModel.uiError.collect { error ->
+                        Log.d(TAG, error.toString())
                         val message = getString(
                             error.message,
                             error.exception.localizedMessage
