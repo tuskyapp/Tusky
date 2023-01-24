@@ -143,7 +143,7 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun authorizeFollowRequest(accountId: String): Single<Relationship> {
+    fun acceptFollowRequest(accountId: String): Single<Relationship> {
         return mastodonApi.authorizeFollowRequest(accountId)
     }
 

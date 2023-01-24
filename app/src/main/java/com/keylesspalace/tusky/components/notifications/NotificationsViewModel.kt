@@ -361,7 +361,7 @@ class NotificationsViewModel @Inject constructor(
                     try {
                         when (action) {
                             is NotificationAction.AcceptFollowRequest ->
-                                timelineCases.authorizeFollowRequest(action.accountId)
+                                timelineCases.acceptFollowRequest(action.accountId)
                             is NotificationAction.RejectFollowRequest ->
                                 timelineCases.rejectFollowRequest(action.accountId)
                         }
