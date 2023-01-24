@@ -34,7 +34,7 @@ data class StatusDisplayOptions(
     /**
      * @return a new StatusDisplayOptions adapted to whichever preference changed.
      */
-    fun copy(
+    fun make(
         preferences: SharedPreferences,
         key: String,
         account: AccountEntity

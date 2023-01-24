@@ -328,7 +328,7 @@ class NotificationsViewModel @Inject constructor(
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
                 .map {
-                    statusDisplayOptions.value.copy(
+                    statusDisplayOptions.value.make(
                         preferences,
                         it.preferenceKey,
                         accountManager.activeAccount!!
