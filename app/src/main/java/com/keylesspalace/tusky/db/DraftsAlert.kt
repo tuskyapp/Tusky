@@ -15,14 +15,11 @@
 
 package com.keylesspalace.tusky.db
 
-import android.accounts.Account
 import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import kotlinx.coroutines.GlobalScope
