@@ -18,21 +18,10 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.TimelineAccount
 
-/**
- * Class to represent data required to display either a notification or a placeholder.
- * It is either a [Placeholder] or a [Concrete].
- * It is modelled this way because close relationship between placeholder and concrete notification
- * is fine in this case. Placeholder case is not modelled as a type of notification because
- * invariants would be violated and because it would model domain incorrectly. It is preferable to
- * [com.keylesspalace.tusky.util.Either] because class hierarchy is cheaper, faster and
- * more native.
- */
-class NotificationViewData(
+data class NotificationViewData(
     val type: Notification.Type,
     val id: String,
     val account: TimelineAccount,
     var statusViewData: StatusViewData.Concrete?,
     val report: Report?
-) {
-    val viewDataId: Long get() = id.hashCode().toLong()
-}
+)
