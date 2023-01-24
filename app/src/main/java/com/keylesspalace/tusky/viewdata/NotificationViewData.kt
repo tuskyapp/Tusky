@@ -1,5 +1,4 @@
-/* Copyright 2017 Andrew Dawson
- *
+/*
  * This file is a part of Tusky.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
