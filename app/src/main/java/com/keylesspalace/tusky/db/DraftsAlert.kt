@@ -77,7 +77,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
                 }
             } else {
                 draftsNeedUserAlert.observe(context) { _ ->
-                    Log.d(TAG, "User id $activeAccountId: Clean out")
+                    Log.d(TAG, "User id $activeAccountId: Clean out notification-worthy drafts")
                     clearDraftsAlert(activeAccountId)
                 }
             }
