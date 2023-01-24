@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 
+/** Show load state and retry options when loading notifications */
 class NotificationsLoadStateAdapter(
     private val retry: () -> Unit
 ) : LoadStateAdapter<NotificationsLoadStateViewHolder>() {
