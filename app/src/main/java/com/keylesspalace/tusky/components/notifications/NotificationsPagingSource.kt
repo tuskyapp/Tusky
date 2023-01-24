@@ -28,12 +28,12 @@ class NotificationsPagingSource @Inject constructor(
                 is LoadParams.Refresh -> {
                     getInitialPage(params)
                 }
-                is LoadParams.Append -> mastodonApi.notifications2(
+                is LoadParams.Append -> mastodonApi.notifications(
                     maxId = params.key,
                     limit = params.loadSize,
                     excludes = notificationFilter
                 )
-                is LoadParams.Prepend -> mastodonApi.notifications2(
+                is LoadParams.Prepend -> mastodonApi.notifications(
                     minId = params.key,
                     limit = params.loadSize,
                     excludes = notificationFilter
@@ -69,7 +69,7 @@ class NotificationsPagingSource @Inject constructor(
     private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Notification>> = coroutineScope {
         // If the key is null this is straightforward, just return the most recent notifications.
         val key = params.key
-            ?: return@coroutineScope mastodonApi.notifications2(
+            ?: return@coroutineScope mastodonApi.notifications(
                 limit = params.loadSize,
                 excludes = notificationFilter
             )
@@ -88,7 +88,7 @@ class NotificationsPagingSource @Inject constructor(
         //
         // Make both requests, and wait for the first to complete.
         val deferredNotification = async { mastodonApi.notification(id = key) }
-        val deferredNotificationPage = async { mastodonApi.notifications2(maxId = key, limit = params.loadSize) }
+        val deferredNotificationPage = async { mastodonApi.notifications(maxId = key, limit = params.loadSize) }
 
         val notification = deferredNotification.await()
         if (notification.isSuccessful) {
@@ -129,7 +129,7 @@ class NotificationsPagingSource @Inject constructor(
 
         // There were no notifications older than the user's desired notification. Return the page
         // of notifications immediately newer than their desired notification.
-        return@coroutineScope mastodonApi.notifications2(
+        return@coroutineScope mastodonApi.notifications(
             minId = key,
             limit = params.loadSize,
             excludes = notificationFilter

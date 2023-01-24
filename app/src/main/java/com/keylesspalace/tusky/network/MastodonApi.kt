@@ -122,15 +122,7 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")
-    fun notifications(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?,
-        @Query("exclude_types[]") excludes: Set<Notification.Type>?
-    ): Single<Response<List<Notification>>>
-
-    @GET("api/v1/notifications")
-    suspend fun notifications2(
+    suspend fun notifications(
         /** Return results older than this ID */
         @Query("max_id") maxId: String? = null,
         /** Return results immediately newer than this ID */
