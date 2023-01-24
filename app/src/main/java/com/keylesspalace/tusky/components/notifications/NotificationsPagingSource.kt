@@ -6,6 +6,8 @@ import androidx.paging.PagingState
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import okhttp3.Headers
 import retrofit2.Response
 import javax.inject.Inject
@@ -13,6 +15,7 @@ import javax.inject.Inject
 /** Models next/prev links from the "Links" header in an API response */
 data class Links(val next: String?, val prev: String?)
 
+/** [PagingSource] for Mastodon Notifications, identified by the Notification ID */
 class NotificationsPagingSource @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val notificationFilter: Set<Notification.Type>
@@ -52,10 +55,21 @@ class NotificationsPagingSource @Inject constructor(
         }
     }
 
-    private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Notification>> {
+    /**
+     * Fetch the initial page of notifications, using params.key as the ID of the initial
+     * notification to fetch.
+     *
+     * - If there is no key, a page of the most recent notifications is returned
+     * - If the notification exists, and is not filtered, a page of notifications is returned
+     * - If the notification does not exist, or is filtered, the page of notifications immediately
+     *   before is returned
+     * - If there is no page of notifications immediately before then the page immediately after
+     *   is returned
+     */
+    private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Notification>> = coroutineScope {
         // If the key is null this is straightforward, just return the most recent notifications.
         val key = params.key
-            ?: return mastodonApi.notifications2(
+            ?: return@coroutineScope mastodonApi.notifications2(
                 limit = params.loadSize,
                 excludes = notificationFilter
             )
@@ -66,45 +80,56 @@ class NotificationsPagingSource @Inject constructor(
         // In addition, the Mastodon API does not let you fetch a page that contains a given key.
         // You can fetch the page immediately before the key, or the page immediately after, but
         // you can not fetch the page itself.
+
+        // First, try and get the notification itself, and the notifications immediately before
+        // it. This is so that a full page of results can be returned. Returning just the
+        // single notification means the displayed list can jump around a bit as more data is
+        // loaded.
         //
-        // To solve this, perform potentially multiple fetches.
+        // Make both requests, and wait for the first to complete.
+        val deferredNotification = async { mastodonApi.notification(id = key) }
+        val deferredNotificationPage = async { mastodonApi.notifications2(maxId = key, limit = params.loadSize) }
 
-        // First, try and get the notification itself.
-        val keyNotificationResponse = mastodonApi.notification(id = key)
+        val notification = deferredNotification.await()
+        if (notification.isSuccessful) {
+            // If this was successful we must still check that the user is not filtering this type
+            // of notification, as fetching a single notification ignores filters. Returning this
+            // notification if the user is filtering the type is wrong.
+            if (!notificationFilter.contains(notification.body()!!.type)) {
+                // Notification is *not* filtered. We can return this, but need the next page of
+                // notifications as well
 
-        // If this was successful we must still check that the user is not filtering this type
-        // of notification, as fetching a single notification ignores filters. Returning this
-        // notification if the user is filtering the type is wrong.
-        if (keyNotificationResponse.isSuccessful) {
-            if (!notificationFilter.contains(keyNotificationResponse.body()!!.type)) {
-                // Notification is *not* filtered. We can return this, but need to add fake
-                // "next" and "prev" links so that paging works (the Mastodon response does not
-                // include the "link" header for a single notification).
+                // Collect all notifications in to this list
+                val notifications = mutableListOf(notification.body()!!)
+                val notificationPage = deferredNotificationPage.await()
+                if (notificationPage.isSuccessful) {
+                    notifications.addAll(notificationPage.body()!!)
+                }
+
+                // "notifications" now contains at least one notification we can return, and
+                // hopefully a full page.
+
+                // Build correct max_id and min_id links for the response. The "min_id" to use when
+                // fetching the next page is the same as "key". The "max_id" is the ID of the
+                // oldest notification in the list.
+                val maxId = notifications.last().id
                 val headers = Headers.Builder()
-                    .addAll(keyNotificationResponse.headers())
-                    .add(
-                        "link: </?max_id=$key>; rel=\"next\", </?min_id=$key>; rel=\"prev\""
-                    )
+                    .add("link: </?max_id=$maxId>; rel=\"next\", </?min_id=$key>; rel=\"prev\"")
                     .build()
 
-                return Response.success(listOf(keyNotificationResponse.body()!!), headers)
+                return@coroutineScope Response.success(notifications, headers)
             }
         }
 
-        // The user's last read notification was missing or is filtered. Try and fetch the page
-        // of notifications chronologically older than their desired notification
-        mastodonApi.notifications2(
-            maxId = key,
-            limit = params.loadSize,
-            excludes = notificationFilter
-        ).apply {
-            if (this.isSuccessful) return this
+        // The user's last read notification was missing or is filtered. Use the page of
+        // notifications chronologically older than their desired notification.
+        deferredNotificationPage.await().apply {
+            if (this.isSuccessful) return@coroutineScope this
         }
 
-        // If the list is still empty then the there were no notifications older than the user's
-        // desired notification. Return the page of notifications immediately newer than their
-        // desired notification.
-        return mastodonApi.notifications2(
+        // There were no notifications older than the user's desired notification. Return the page
+        // of notifications immediately newer than their desired notification.
+        return@coroutineScope mastodonApi.notifications2(
             minId = key,
             limit = params.loadSize,
             excludes = notificationFilter
