@@ -92,7 +92,7 @@ class NotificationsPagingAdapter(
 
     /** View holders in this adapter must implement this interface */
     interface ViewHolder {
-        /** Bind the data from notification and payloads to the view */
+        /** Bind the data from the notification and payloads to the view */
         fun bind(
             viewData: NotificationViewData,
             payloads: List<*>?,
