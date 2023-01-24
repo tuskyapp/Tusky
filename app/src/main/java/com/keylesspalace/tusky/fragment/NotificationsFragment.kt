@@ -580,11 +580,7 @@ class NotificationsFragment :
 
     override fun onViewReport(reportId: String) {
         requireContext().openLink(
-            String.format(
-                "https://%s/admin/reports/%s",
-                accountManager.activeAccount!!.domain,
-                reportId
-            )
+            "https://${accountManager.activeAccount!!.domain}/admin/reports/$reportId"
         )
     }
 
