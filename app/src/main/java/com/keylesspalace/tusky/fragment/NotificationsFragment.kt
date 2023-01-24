@@ -94,7 +94,6 @@ class NotificationsFragment :
     private lateinit var adapter: NotificationsPagingAdapter
 
     private var layoutManager: LinearLayoutManager? = null
-    private var showingError = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +118,7 @@ class NotificationsFragment :
 
     private fun updateFilterVisibility(showFilter: Boolean) {
         val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
-        if (showFilter && !showingError) {
+        if (showFilter) {
             binding.appBarOptions.setExpanded(true, false)
             binding.appBarOptions.visibility = View.VISIBLE
             // Set content behaviour to hide filter on scroll
