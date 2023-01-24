@@ -196,7 +196,7 @@ class NotificationsFragment :
         )
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.pagingDataFlow.collectLatest { pagingData ->
+            viewModel.pagingData.collectLatest { pagingData ->
                 Log.d(TAG, "Submitting data to adapter")
                 adapter.submitData(pagingData)
             }

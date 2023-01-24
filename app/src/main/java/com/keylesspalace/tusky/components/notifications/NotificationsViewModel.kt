@@ -256,7 +256,7 @@ class NotificationsViewModel @Inject constructor(
     /** Flow of changes to statusDisplayOptions, for use by the UI */
     val statusDisplayOptions: StateFlow<StatusDisplayOptions>
 
-    val pagingDataFlow: Flow<PagingData<NotificationViewData>>
+    val pagingData: Flow<PagingData<NotificationViewData>>
 
     /** Flow of user actions received from the UI */
     private val uiAction = MutableSharedFlow<UiAction>()
@@ -417,7 +417,7 @@ class NotificationsViewModel @Inject constructor(
         val lastNotificationId = accountManager.activeAccount?.lastNotificationId
         Log.d(TAG, "Restoring at $lastNotificationId")
 
-        pagingDataFlow = notificationFilter
+        pagingData = notificationFilter
             .flatMapLatest { action ->
                 getNotifications(filters = action.filter, initialKey = lastNotificationId)
             }
