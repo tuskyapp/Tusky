@@ -107,8 +107,7 @@ class ViewThreadViewModel @Inject constructor(
             val contextCall = async { api.statusContext(id) }
             val timelineStatus = db.timelineDao().getStatus(id)
 
-            // TODO: Investigate how this could ever be the ID of a placeholder status
-            var detailedStatus = if (timelineStatus != null && !timelineStatus.status.isPlaceholder) {
+            var detailedStatus = if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
                 val viewData = timelineStatus.toViewData(
                     gson,
