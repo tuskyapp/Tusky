@@ -1,0 +1,228 @@
+package com.keylesspalace.tusky.components.notifications
+
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
+import com.keylesspalace.tusky.FilterTest.Companion.mockStatus
+import com.keylesspalace.tusky.viewdata.StatusViewData
+import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.stub
+import org.mockito.kotlin.verify
+import retrofit2.HttpException
+import retrofit2.Response
+
+/**
+ * Verify that [StatusAction] are handled correctly on receipt:
+ *
+ * - Is the correct [UiSuccess] or [UiError] value emitted?
+ * - Is the correct [TimelineCases] function called, with the correct arguments?
+ *   This is only tested in the success case; if it passed there it must also
+ *   have passed in the error case.
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
+class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() {
+    private val status = mockStatus(pollOptions = listOf("Choice 1", "Choice 2", "Choice 3"))
+    private val statusViewData = StatusViewData.Concrete(
+        status = status,
+        isExpanded = true,
+        isShowingContent = false,
+        isCollapsed = false
+    )
+
+    /** Action to bookmark a status */
+    private val bookmarkAction = StatusAction.Bookmark(true, statusViewData)
+
+    /** Action to favourite a status */
+    private val favouriteAction = StatusAction.Favourite(true, statusViewData)
+
+    /** Action to reblog a status */
+    private val reblogAction = StatusAction.Reblog(true, statusViewData)
+
+    /** Action to vote in a poll */
+    private val voteInPollAction = StatusAction.VoteInPoll(
+        poll = status.poll!!,
+        choices = listOf(1, 0, 0),
+        statusViewData
+    )
+
+    /** Exception to throw when testing errors */
+    private val httpException = HttpException(Response.error<String>(404, "".toResponseBody()))
+
+    /** Captors for status ID and state arguments */
+    private val id = argumentCaptor<String>()
+    private val state = argumentCaptor<Boolean>()
+
+    @Test
+    fun `bookmark succeeds && emits UiSuccess`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { bookmark(any(), any()) } doReturn Single.just(status)
+        }
+
+        viewModel.uiSuccess.test {
+            // When
+            viewModel.accept(bookmarkAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(StatusActionSuccess.Bookmark::class.java)
+            assertThat((item as StatusActionSuccess).action).isEqualTo(bookmarkAction)
+        }
+
+        // Then
+        verify(timelineCases).bookmark(id.capture(), state.capture())
+        assertThat(id.firstValue).isEqualTo(statusViewData.status.id)
+        assertThat(state.firstValue).isEqualTo(true)
+    }
+
+    @Test
+    fun `bookmark fails && emits UiError`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { bookmark(any(), any()) } doThrow httpException
+        }
+
+        viewModel.uiError.test {
+            // When
+            viewModel.accept(bookmarkAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(UiError.Bookmark::class.java)
+            assertThat(item.action).isEqualTo(bookmarkAction)
+        }
+    }
+
+    @Test
+    fun `favourite succeeds && emits UiSuccess`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { favourite(any(), any()) } doReturn Single.just(status)
+        }
+
+        viewModel.uiSuccess.test {
+            // When
+            viewModel.accept(favouriteAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(StatusActionSuccess.Favourite::class.java)
+            assertThat((item as StatusActionSuccess).action).isEqualTo(favouriteAction)
+        }
+
+        // Then
+        verify(timelineCases).favourite(id.capture(), state.capture())
+        assertThat(id.firstValue).isEqualTo(statusViewData.status.id)
+        assertThat(state.firstValue).isEqualTo(true)
+    }
+
+    @Test
+    fun `favourite fails && emits UiError`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { favourite(any(), any()) } doThrow httpException
+        }
+
+        viewModel.uiError.test {
+            // When
+            viewModel.accept(favouriteAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(UiError.Favourite::class.java)
+            assertThat(item.action).isEqualTo(favouriteAction)
+        }
+    }
+
+    @Test
+    fun `reblog succeeds && emits UiSuccess`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { reblog(any(), any()) } doReturn Single.just(status)
+        }
+
+        viewModel.uiSuccess.test {
+            // When
+            viewModel.accept(reblogAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(StatusActionSuccess.Reblog::class.java)
+            assertThat((item as StatusActionSuccess).action).isEqualTo(reblogAction)
+        }
+
+        // Then
+        verify(timelineCases).reblog(id.capture(), state.capture())
+        assertThat(id.firstValue).isEqualTo(statusViewData.status.id)
+        assertThat(state.firstValue).isEqualTo(true)
+    }
+
+    @Test
+    fun `reblog fails && emits UiError`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { reblog(any(), any()) } doThrow httpException
+        }
+
+        viewModel.uiError.test {
+            // When
+            viewModel.accept(reblogAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(UiError.Reblog::class.java)
+            assertThat(item.action).isEqualTo(reblogAction)
+        }
+    }
+
+    @Test
+    fun `voteinpoll succeeds && emits UiSuccess`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { voteInPoll(any(), any(), any()) } doReturn Single.just(status.poll!!)
+        }
+
+        viewModel.uiSuccess.test {
+            // When
+            viewModel.accept(voteInPollAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(StatusActionSuccess.VoteInPoll::class.java)
+            assertThat((item as StatusActionSuccess).action).isEqualTo(voteInPollAction)
+        }
+
+        // Then
+        val pollId = argumentCaptor<String>()
+        val choices = argumentCaptor<List<Int>>()
+        verify(timelineCases).voteInPoll(id.capture(), pollId.capture(), choices.capture())
+        assertThat(id.firstValue).isEqualTo(statusViewData.status.id)
+        assertThat(pollId.firstValue).isEqualTo(status.poll!!.id)
+        assertThat(choices.firstValue).isEqualTo(voteInPollAction.choices)
+    }
+
+    @Test
+    fun `voteinpoll fails && emits UiError`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { voteInPoll(any(), any(), any()) } doThrow httpException
+        }
+
+        viewModel.uiError.test {
+            // When
+            viewModel.accept(voteInPollAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(UiError.VoteInPoll::class.java)
+            assertThat(item.action).isEqualTo(voteInPollAction)
+        }
+    }
+}

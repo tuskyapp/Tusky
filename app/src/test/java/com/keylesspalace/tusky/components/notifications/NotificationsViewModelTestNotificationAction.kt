@@ -1,0 +1,136 @@
+package com.keylesspalace.tusky.components.notifications
+
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
+import com.keylesspalace.tusky.entity.Relationship
+import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.stub
+import org.mockito.kotlin.verify
+import retrofit2.HttpException
+import retrofit2.Response
+
+/**
+ * Verify that [NotificationAction] are handled correctly on receipt:
+ *
+ * - Is the correct [UiSuccess] or [UiError] value emitted?
+ * - Is the correct [TimelineCases] function called, with the correct arguments?
+ *   This is only tested in the success case; if it passed there it must also
+ *   have passed in the error case.
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
+class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestBase() {
+    /** Dummy relationship */
+    private val relationship = Relationship(
+        // Nothing special about these values, it's just to have something to return
+        "1234",
+        following = true,
+        followedBy = true,
+        blocking = false,
+        muting = false,
+        mutingNotifications = false,
+        requested = false,
+        showingReblogs = false,
+        subscribing = null,
+        blockingDomain = false,
+        note = null,
+        notifying = null
+    )
+
+    /** Action to accept a follow request */
+    private val acceptAction = NotificationAction.AcceptFollowRequest("1234")
+
+    /** Action to reject a follow request */
+    private val rejectAction = NotificationAction.RejectFollowRequest("1234")
+
+    @Test
+    fun `accepting follow request succeeds && emits UiSuccess`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { acceptFollowRequest(any()) } doReturn Single.just(relationship)
+        }
+
+        viewModel.uiSuccess.test {
+            // When
+            viewModel.accept(acceptAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(NotificationActionSuccess::class.java)
+            assertThat((item as NotificationActionSuccess).action).isEqualTo(acceptAction)
+        }
+
+        // Then
+        argumentCaptor<String>().apply {
+            verify(timelineCases).acceptFollowRequest(capture())
+            assertThat(this.lastValue).isEqualTo("1234")
+        }
+    }
+
+    @Test
+    fun `accepting follow request fails && emits UiError`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { acceptFollowRequest(any()) } doThrow HttpException(Response.error<String>(404, "".toResponseBody()))
+        }
+
+        viewModel.uiError.test {
+            // When
+            viewModel.accept(acceptAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(UiError.AcceptFollowRequest::class.java)
+            assertThat(item.action).isEqualTo(acceptAction)
+        }
+    }
+
+    @Test
+    fun `rejecting follow request succeeds && emits UiSuccess`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { rejectFollowRequest(any()) } doReturn Single.just(relationship)
+        }
+
+        viewModel.uiSuccess.test {
+            // When
+            viewModel.accept(rejectAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(NotificationActionSuccess::class.java)
+            assertThat((item as NotificationActionSuccess).action).isEqualTo(rejectAction)
+        }
+
+        // Then
+        argumentCaptor<String>().apply {
+            verify(timelineCases).rejectFollowRequest(capture())
+            assertThat(this.lastValue).isEqualTo("1234")
+        }
+    }
+
+    @Test
+    fun `rejecting follow request fails && emits UiError`() = runTest {
+        // Given
+        timelineCases.stub {
+            onBlocking { rejectFollowRequest(any()) } doThrow HttpException(Response.error<String>(404, "".toResponseBody()))
+        }
+
+        viewModel.uiError.test {
+            // When
+            viewModel.accept(rejectAction)
+
+            // Then
+            val item = awaitItem()
+            assertThat(item).isInstanceOf(UiError.RejectFollowRequest::class.java)
+            assertThat(item.action).isEqualTo(rejectAction)
+        }
+    }
+}

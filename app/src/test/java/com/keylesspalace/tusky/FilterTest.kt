@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
 import java.time.Instant
-import java.util.ArrayList
 import java.util.Date
 
 @Config(sdk = [28])
@@ -243,69 +242,71 @@ class FilterTest {
         assert(updatedDuration != null && updatedDuration > (expiresInSeconds - 60))
     }
 
-    private fun mockStatus(
-        content: String = "",
-        spoilerText: String = "",
-        pollOptions: List<String>? = null,
-        attachmentsDescriptions: List<String>? = null
-    ): Status {
-        return Status(
-            id = "123",
-            url = "https://mastodon.social/@Tusky/100571663297225812",
-            account = mock(),
-            inReplyToId = null,
-            inReplyToAccountId = null,
-            reblog = null,
-            content = content,
-            createdAt = Date(),
-            editedAt = null,
-            emojis = emptyList(),
-            reblogsCount = 0,
-            favouritesCount = 0,
-            repliesCount = 0,
-            reblogged = false,
-            favourited = false,
-            bookmarked = false,
-            sensitive = false,
-            spoilerText = spoilerText,
-            visibility = Status.Visibility.PUBLIC,
-            attachments = if (attachmentsDescriptions != null) {
-                ArrayList(
-                    attachmentsDescriptions.map {
-                        Attachment(
-                            id = "1234",
-                            url = "",
-                            previewUrl = null,
-                            meta = null,
-                            type = Attachment.Type.IMAGE,
-                            description = it,
-                            blurhash = null
-                        )
-                    }
-                )
-            } else arrayListOf(),
-            mentions = listOf(),
-            tags = listOf(),
-            application = null,
-            pinned = false,
-            muted = false,
-            poll = if (pollOptions != null) {
-                Poll(
-                    id = "1234",
-                    expiresAt = null,
-                    expired = false,
-                    multiple = false,
-                    votesCount = 0,
-                    votersCount = 0,
-                    options = pollOptions.map {
-                        PollOption(it, 0)
-                    },
-                    voted = false,
-                    ownVotes = null
-                )
-            } else null,
-            card = null,
-            language = null,
-        )
+    companion object {
+        fun mockStatus(
+            content: String = "",
+            spoilerText: String = "",
+            pollOptions: List<String>? = null,
+            attachmentsDescriptions: List<String>? = null
+        ): Status {
+            return Status(
+                id = "123",
+                url = "https://mastodon.social/@Tusky/100571663297225812",
+                account = mock(),
+                inReplyToId = null,
+                inReplyToAccountId = null,
+                reblog = null,
+                content = content,
+                createdAt = Date(),
+                editedAt = null,
+                emojis = emptyList(),
+                reblogsCount = 0,
+                favouritesCount = 0,
+                repliesCount = 0,
+                reblogged = false,
+                favourited = false,
+                bookmarked = false,
+                sensitive = false,
+                spoilerText = spoilerText,
+                visibility = Status.Visibility.PUBLIC,
+                attachments = if (attachmentsDescriptions != null) {
+                    ArrayList(
+                        attachmentsDescriptions.map {
+                            Attachment(
+                                id = "1234",
+                                url = "",
+                                previewUrl = null,
+                                meta = null,
+                                type = Attachment.Type.IMAGE,
+                                description = it,
+                                blurhash = null
+                            )
+                        }
+                    )
+                } else arrayListOf(),
+                mentions = listOf(),
+                tags = listOf(),
+                application = null,
+                pinned = false,
+                muted = false,
+                poll = if (pollOptions != null) {
+                    Poll(
+                        id = "1234",
+                        expiresAt = null,
+                        expired = false,
+                        multiple = false,
+                        votesCount = 0,
+                        votersCount = 0,
+                        options = pollOptions.map {
+                            PollOption(it, 0)
+                        },
+                        voted = false,
+                        ownVotes = null
+                    )
+                } else null,
+                card = null,
+                language = null,
+            )
+        }
     }
 }
