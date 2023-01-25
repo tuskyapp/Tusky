@@ -53,11 +53,13 @@ data class FilterV1(
             context = context,
             expiresAt = expiresAt,
             filterAction = Filter.Action.WARN.action,
-            keywords = listOf(FilterKeyword(
-                id = id,
-                keyword = phrase,
-                wholeWord = wholeWord,
-            ))
+            keywords = listOf(
+                FilterKeyword(
+                    id = id,
+                    keyword = phrase,
+                    wholeWord = wholeWord,
+                )
+            )
         )
     }
 }

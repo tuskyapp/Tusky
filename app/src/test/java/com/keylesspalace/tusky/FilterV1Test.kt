@@ -18,6 +18,7 @@
 package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
@@ -25,7 +26,6 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

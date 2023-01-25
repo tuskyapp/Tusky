@@ -14,14 +14,14 @@ data class Filter(
     @SerializedName("filter_action") private val filterAction: String,
     val keywords: List<FilterKeyword>,
     // val statuses: List<FilterStatus>,
- ): Parcelable {
+) : Parcelable {
     enum class Action(val action: String) {
         NONE("none"),
         WARN("warn"),
         HIDE("hide");
 
         companion object {
-            fun from(action: String): Action = values().firstOrNull { it.action == action } ?: WARN;
+            fun from(action: String): Action = values().firstOrNull { it.action == action } ?: WARN
         }
     }
     enum class Kind(val kind: String) {

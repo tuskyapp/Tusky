@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +10,27 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemRemovableBinding
 import com.keylesspalace.tusky.entity.Filter
 
-class FiltersAdapter(context: Context, val listener: FiltersListener, val filters: List<Filter>):
-    ArrayAdapter<String>(context, R.layout.item_removable, filters.map{ filter ->
-        if (filter.expiresAt == null) {
-            filter.title
-        } else {
-            context.getString(
-                R.string.filter_expiration_format,
-                filter.title,
-                DateUtils.getRelativeTimeSpanString(
-                    filter.expiresAt.time,
-                    System.currentTimeMillis(),
-                    DateUtils.MINUTE_IN_MILLIS,
-                    DateUtils.FORMAT_ABBREV_RELATIVE
+class FiltersAdapter(context: Context, val listener: FiltersListener, val filters: List<Filter>) :
+    ArrayAdapter<String>(
+        context,
+        R.layout.item_removable,
+        filters.map { filter ->
+            if (filter.expiresAt == null) {
+                filter.title
+            } else {
+                context.getString(
+                    R.string.filter_expiration_format,
+                    filter.title,
+                    DateUtils.getRelativeTimeSpanString(
+                        filter.expiresAt.time,
+                        System.currentTimeMillis(),
+                        DateUtils.MINUTE_IN_MILLIS,
+                        DateUtils.FORMAT_ABBREV_RELATIVE
+                    )
                 )
-            )
+            }
         }
-    }) {
+    ) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding = if (convertView == null) {

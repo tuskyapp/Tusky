@@ -114,10 +114,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
 
     private fun launchEditFilterActivity(filter: Filter? = null) {
         val intent = Intent(this, EditFilterActivity::class.java).apply {
-            if (filter == null) {
-                putExtra(EditFilterActivity.TITLE, getString(R.string.filter_addition_title))
-            } else {
-                putExtra(EditFilterActivity.TITLE, getString(R.string.filter_edit_title))
+            if (filter != null) {
                 putExtra(EditFilterActivity.FILTER_TO_EDIT, filter)
             }
         }

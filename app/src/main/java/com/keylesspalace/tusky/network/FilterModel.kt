@@ -37,8 +37,8 @@ class FilterModel @Inject constructor() {
 
             return if (
                 matcher.reset(status.actionableStatus.content.parseAsMastodonHtml().toString()).find() ||
-                    (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
-                    (attachmentsDescriptions.isNotEmpty() && matcher.reset(attachmentsDescriptions.joinToString("\n")).find())
+                (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
+                (attachmentsDescriptions.isNotEmpty() && matcher.reset(attachmentsDescriptions.joinToString("\n")).find())
             ) {
                 Filter.Action.HIDE
             } else {
@@ -55,7 +55,7 @@ class FilterModel @Inject constructor() {
         } else {
             matchingKind.maxOf { it.filter.action }
         }
-}
+    }
 
     private fun filterToRegexToken(filter: FilterV1): String? {
         val phrase = filter.phrase

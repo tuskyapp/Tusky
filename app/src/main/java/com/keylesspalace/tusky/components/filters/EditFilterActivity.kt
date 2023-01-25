@@ -11,6 +11,7 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -36,12 +37,22 @@ class EditFilterActivity : BaseActivity() {
 
     private lateinit var filter: Filter
     private var originalFilter: Filter? = null
+    private lateinit var contextSwitches: Map<SwitchMaterial, Filter.Kind>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         originalFilter = intent?.getParcelableExtra(FILTER_TO_EDIT)
         filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
+        binding.apply {
+            contextSwitches = mapOf(
+                filterContextHome to Filter.Kind.HOME,
+                filterContextNotifications to Filter.Kind.NOTIFICATIONS,
+                filterContextPublic to Filter.Kind.PUBLIC,
+                filterContextThread to Filter.Kind.THREAD,
+                filterContextAccount to Filter.Kind.ACCOUNT,
+            )
+        }
 
         setContentView(binding.root)
         setSupportActionBar(binding.includedToolbar.toolbar)
@@ -51,20 +62,25 @@ class EditFilterActivity : BaseActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        setTitle(R.string.filter_edit_title)
-        binding.actionChip.setOnClickListener { showAddKeywordDialog() }
-        binding.filterCancelButton.setOnClickListener { finish() }
-        binding.filterSaveButton.setOnClickListener { saveChanges() }
+        setTitle(
+            if (originalFilter == null) {
+                R.string.filter_addition_title
+            } else {
+                R.string.filter_edit_title
+            }
+        )
 
-        binding.filterContextHome.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
-        binding.filterContextNotifications.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
-        binding.filterContextPublic.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
-        binding.filterContextThread.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
-        binding.filterContextAccount.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+        binding.actionChip.setOnClickListener { showAddKeywordDialog() }
+        binding.filterSaveButton.setOnClickListener { saveChanges() }
+        for (switch in contextSwitches.keys) {
+            switch.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+        }
         binding.filterTitle.doAfterTextChanged { validateSaveButton() }
         validateSaveButton()
 
-        if (originalFilter != null) {
+        if (originalFilter == null) {
+            binding.filterActionWarn.isChecked = true
+        } else {
             loadFilter()
         }
     }
@@ -73,18 +89,14 @@ class EditFilterActivity : BaseActivity() {
     private fun loadFilter() {
         binding.filterTitle.setText(filter.title)
 
-        for (context in filter.context) {
-            when (Filter.Kind.from(context)) {
-                Filter.Kind.HOME -> binding.filterContextHome.isChecked = true
-                Filter.Kind.NOTIFICATIONS -> binding.filterContextNotifications.isChecked = true
-                Filter.Kind.PUBLIC -> binding.filterContextPublic.isChecked = true
-                Filter.Kind.THREAD -> binding.filterContextThread.isChecked = true
-                Filter.Kind.ACCOUNT -> binding.filterContextAccount.isChecked = true
-            }
+        for (entry in contextSwitches) {
+            entry.key.isChecked = filter.context.contains(entry.value.kind)
         }
 
-        binding.filterActionWarn.isChecked = filter.action == Filter.Action.WARN
-        binding.filterActionHide.isChecked = filter.action == Filter.Action.HIDE
+        when (filter.action) {
+            Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
+            else -> binding.filterActionWarn.isChecked = true
+        }
 
         if (filter.expiresAt != null) {
             val durationNames = listOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
@@ -153,10 +165,13 @@ class EditFilterActivity : BaseActivity() {
             .setTitle(R.string.filter_keyword_addition_title)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                addKeyword(FilterKeyword("",
-                    binding.phraseEditText.text.toString(),
-                    binding.phraseWholeWord.isChecked,
-                ))
+                addKeyword(
+                    FilterKeyword(
+                        "",
+                        binding.phraseEditText.text.toString(),
+                        binding.phraseWholeWord.isChecked,
+                    )
+                )
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -171,49 +186,32 @@ class EditFilterActivity : BaseActivity() {
             .setTitle(R.string.filter_edit_keyword_title)
             .setView(binding.root)
             .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
-                modifyKeyword(keyword, keyword.copy(
-                    keyword = binding.phraseEditText.text.toString(),
-                    wholeWord = binding.phraseWholeWord.isChecked,
-                ))
+                modifyKeyword(
+                    keyword,
+                    keyword.copy(
+                        keyword = binding.phraseEditText.text.toString(),
+                        wholeWord = binding.phraseWholeWord.isChecked,
+                    )
+                )
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 
     private fun validateSaveButton() {
-        val checkedContexts = binding.filterContextHome.isChecked ||
-                    binding.filterContextNotifications.isChecked ||
-                    binding.filterContextPublic.isChecked ||
-                    binding.filterContextThread.isChecked ||
-                    binding.filterContextAccount.isChecked
-
-        // TODO: This allows the filter action to be empty -- is that OK?
-
-        binding.filterSaveButton.isEnabled = binding.filterTitle.text?.isNotBlank() ?: false &&
-            filter.keywords.isNotEmpty() && checkedContexts
-    }
-
-    private fun getCheckedFilterContexts(): List<String> {
-        val l = mutableListOf<String>()
-        binding.filterContextHome.isChecked && l.add(Filter.Kind.HOME.kind)
-        binding.filterContextNotifications.isChecked && l.add(Filter.Kind.NOTIFICATIONS.kind)
-        binding.filterContextPublic.isChecked && l.add(Filter.Kind.PUBLIC.kind)
-        binding.filterContextThread.isChecked && l.add(Filter.Kind.THREAD.kind)
-        binding.filterContextAccount.isChecked && l.add(Filter.Kind.ACCOUNT.kind)
-        return l
+        binding.filterSaveButton.isEnabled = !binding.filterTitle.text.isNullOrBlank() &&
+            filter.keywords.isNotEmpty() &&
+            contextSwitches.keys.any { it.isChecked }
     }
 
     private fun saveChanges() {
-        val contexts = getCheckedFilterContexts()
+        val contexts = contextSwitches.filter { it.key.isChecked }.map { it.value.kind }
         val title = binding.filterTitle.text?.trim().toString()
-
+        val durationIndex = binding.filterDurationSpinner.selectedItemPosition
         val action = when (binding.filterActionGroup.checkedRadioButtonId) {
             R.id.filter_action_hide -> Filter.Action.HIDE.action
-            R.id.filter_action_warn -> Filter.Action.WARN.action
-            else -> Filter.Action.NONE.action
+            else -> Filter.Action.WARN.action
         }
-
-        val durationIndex = binding.filterDurationSpinner.selectedItemPosition
 
         lifecycleScope.launch {
             originalFilter?.let { originalFilter ->
@@ -232,10 +230,13 @@ class EditFilterActivity : BaseActivity() {
         ).fold(
             { newFilter ->
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
-                if (showErrorIfAnyFailure(filter.keywords.map { keyword ->
-                        api.addFilterKeyword(filterId = newFilter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
-                    }, "Error creating filter '${filter.title}'"
-                )) {
+                if (showErrorIfAnyFailure(
+                        filter.keywords.map { keyword ->
+                            api.addFilterKeyword(filterId = newFilter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
+                        },
+                        "Error creating filter '${filter.title}'"
+                    )
+                ) {
                     finish()
                 }
             },
@@ -246,11 +247,7 @@ class EditFilterActivity : BaseActivity() {
                         finish()
                     }
                 } else {
-                    Snackbar.make(
-                        binding.root,
-                        "Error creating filter '${filter.title}'",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    Snackbar.make(binding.root, "Error creating filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
                 }
             }
         )
@@ -269,15 +266,15 @@ class EditFilterActivity : BaseActivity() {
             {
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
                 val results = filter.keywords.map { keyword ->
-                        if (keyword.id.isEmpty()) {
-                            api.addFilterKeyword(filterId = filter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
-                        } else {
-                            api.updateFilterKeyword(keywordId = keyword.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
-                        }
-                    } + originalFilter.keywords.filter { keyword ->
-                        // Deleted keywords
-                        filter.keywords.none { it.id == keyword.id }
-                    }.map { api.deleteFilterKeyword(it.id) }
+                    if (keyword.id.isEmpty()) {
+                        api.addFilterKeyword(filterId = filter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
+                    } else {
+                        api.updateFilterKeyword(keywordId = keyword.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
+                    }
+                } + originalFilter.keywords.filter { keyword ->
+                    // Deleted keywords
+                    filter.keywords.none { it.id == keyword.id }
+                }.map { api.deleteFilterKeyword(it.id) }
 
                 if (showErrorIfAnyFailure(results, "Error updating filter '${filter.title}'")) {
                     finish()
@@ -290,8 +287,6 @@ class EditFilterActivity : BaseActivity() {
                         finish()
                     }
                 } else {
-                    // code == 422 can happen here, and indicates a Tusky bug, it's
-                    // sending invalid data to the API endpoint
                     Snackbar.make(binding.root, "Error updating filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -299,22 +294,27 @@ class EditFilterActivity : BaseActivity() {
     }
 
     private suspend fun createFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
-        return showErrorIfAnyFailure(filter.keywords.map { keyword ->
+        return showErrorIfAnyFailure(
+            filter.keywords.map { keyword ->
                 api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiresInSeconds)
-            }, "Error creating filter '${filter.title}'",
+            },
+            "Error creating filter '${filter.title}'",
         )
     }
 
     private suspend fun updateFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
         val results = filter.keywords.map { keyword ->
             if (filter.id.isEmpty()) {
-                api.createFilterV1(phrase = keyword.keyword,
+                api.createFilterV1(
+                    phrase = keyword.keyword,
                     context = context,
                     irreversible = false,
                     wholeWord = keyword.wholeWord,
-                    expiresInSeconds = expiresInSeconds)
+                    expiresInSeconds = expiresInSeconds
+                )
             } else {
-                api.updateFilterV1(id = filter.id,
+                api.updateFilterV1(
+                    id = filter.id,
                     phrase = keyword.keyword,
                     context = context,
                     irreversible = false,
@@ -337,11 +337,9 @@ class EditFilterActivity : BaseActivity() {
         }
     }
 
-
     companion object {
         private const val TAG = "EditFilterActivity"
         const val FILTER_TO_EDIT = "FilterToEdit"
-        const val TITLE= "EditFilterActivityTitle"
 
         // Mastodon *stores* the absolute date in the filter,
         // but create/edit take a number of seconds (relative to the time the operation is posted)
@@ -353,5 +351,4 @@ class EditFilterActivity : BaseActivity() {
             }
         }
     }
-
 }

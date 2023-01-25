@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.di
 import com.keylesspalace.tusky.AboutActivity
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.EditProfileActivity
-import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.MainActivity
@@ -32,6 +31,7 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.filters.EditFilterActivity
+import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity

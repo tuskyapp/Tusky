@@ -317,7 +317,6 @@ abstract class TimelineViewModel(
         ): Boolean {
             return filterContext.contains(kind.toFilterKind().kind)
         }
-
     }
 
     enum class Kind {

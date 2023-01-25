@@ -178,9 +178,9 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             mastodonApi.getFilters().fold(
                 { filters ->
                     mutedFilter = filters.firstOrNull { filter ->
-                            filter.context.contains(Filter.Kind.HOME.kind) && filter.keywords.any {
-                                it.keyword == tag
-                            }
+                        filter.context.contains(Filter.Kind.HOME.kind) && filter.keywords.any {
+                            it.keyword == tag
+                        }
                     }
                     updateTagMuteState(mutedFilter != null)
                 },
@@ -210,7 +210,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             muteTagItem?.isVisible = false
             muteTagItem?.isEnabled = false
             unmuteTagItem?.isVisible = true
-
         } else {
             unmuteTagItem?.isVisible = false
             muteTagItem?.isEnabled = true
@@ -283,7 +282,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                     mastodonApi.deleteFilter(filter.id)
                 }
             } else if (mutedFilterV1 != null) {
-                val filter = mutedFilterV1!!
+                mutedFilterV1?.let { filter ->
                     if (filter.context.size > 1) {
                         // This filter exists in multiple contexts, just remove the home context
                         mastodonApi.updateFilterV1(
@@ -297,6 +296,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                     } else {
                         mastodonApi.deleteFilterV1(filter.id)
                     }
+                }
             } else {
                 null
             }
@@ -310,7 +310,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 },
                 { throwable ->
                     Snackbar.make(binding.root, getString(R.string.error_unmuting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
-                    Log.e(TAG, "Failed to unmute #${tag}", throwable)
+                    Log.e(TAG, "Failed to unmute #$tag", throwable)
                 }
             )
         }
