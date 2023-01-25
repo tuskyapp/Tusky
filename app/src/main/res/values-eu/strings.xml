@@ -125,9 +125,9 @@
     <string name="dialog_title_finishing_media_upload">Mediaren igoera bukatzen</string>
     <string name="dialog_message_uploading_media">Igotzen…</string>
     <string name="dialog_download_image">Jaitsi</string>
-    <string name="dialog_message_cancel_follow_request">Jarraipenaren eskakizunari uko egin\?</string>
+    <string name="dialog_message_cancel_follow_request">Jarraipenaren eskakizunari uko egin?</string>
     <string name="dialog_unfollow_warning">Kontu hau jarraitzeari utzi?</string>
-    <string name="dialog_delete_post_warning">Tut hau ezabatu\?</string>
+    <string name="dialog_delete_post_warning">Tut hau ezabatu?</string>
     <string name="visibility_public">Publikoa: Istorio publikoetan erakutsi</string>
     <string name="visibility_unlisted">Ezkutukoa: Ez erakutsi istorio publikoetan</string>
     <string name="visibility_private">Pribatua: Jarraitzaileentzat soilik ikusgai</string>
@@ -300,8 +300,8 @@
     <string name="download_media">Deskargatu multimedia</string>
     <string name="downloading_media">Multimedia deskargatzen</string>
     <string name="confirmation_domain_unmuted">%1$s ez dago ezkutatua</string>
-    <string name="dialog_redraft_post_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
-    <string name="mute_domain_warning">Ziur al zaude %1$s-(r)en eduki guztia ezabatu nahi duzula\? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenetan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
+    <string name="dialog_redraft_post_warning">Tut hau ezabatu eta zirriborro berria egin?</string>
+    <string name="mute_domain_warning">Ziur al zaude %1$s-(r)en eduki guztia ezabatu nahi duzula? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenetan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
     <string name="mute_domain_warning_dialog_ok">Domeinu osoa ezkutatu</string>
     <string name="pref_title_timeline_filters">Iragazkiak</string>
     <string name="app_theme_system">Erabili sistemaren diseinua</string>
