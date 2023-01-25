@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
@@ -190,6 +191,14 @@ class SendStatusService : Service(), Injectable {
                 scheduledAt = statusToSend.scheduledAt,
                 poll = statusToSend.poll,
                 language = statusToSend.language,
+                mediaAttributes = media.map { media ->
+                    MediaAttribute(
+                        id = media.id!!,
+                        description = media.description,
+                        focus = media.focus?.toMastodonApiString(),
+                        thumbnail = null,
+                    )
+                },
             )
 
             val sendResult = if (statusToSend.statusId == null) {

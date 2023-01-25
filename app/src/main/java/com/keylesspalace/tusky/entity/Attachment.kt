@@ -83,7 +83,9 @@ data class Attachment(
     data class Focus(
         val x: Float,
         val y: Float
-    ) : Parcelable
+    ) : Parcelable {
+        fun toMastodonApiString(): String = "$x,$y"
+    }
 
     /**
      * The size of an image, used to specify the width/height.
