@@ -27,14 +27,11 @@ class TrendingDateViewHolder(
     private val binding: ItemTrendingDateBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val dateFormat = SimpleDateFormat("d MMM", Locale.getDefault()).apply {
+    private val dateFormat = SimpleDateFormat("EEE dd MMM yyyy", Locale.getDefault()).apply {
         this.timeZone = TimeZone.getDefault()
     }
 
-    fun setup(
-        start: Date,
-        end: Date,
-    ) {
+    fun setup(start: Date, end: Date) {
         binding.dates.text = itemView.context.getString(
             R.string.date_range,
             dateFormat.format(start),

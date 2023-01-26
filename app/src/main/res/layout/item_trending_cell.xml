@@ -95,7 +95,6 @@
         app:layout_constraintStart_toStartOf="@id/accounts"
         app:layout_constraintTop_toBottomOf="@id/accounts" />
 
-
     <com.keylesspalace.tusky.view.GraphView
         android:id="@+id/graph"
         android:layout_width="0dp"
