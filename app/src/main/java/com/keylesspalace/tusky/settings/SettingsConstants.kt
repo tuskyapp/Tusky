@@ -28,6 +28,7 @@ object PrefKeys {
     const val SHOW_BOT_OVERLAY = "showBotOverlay"
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"
     const val USE_BLURHASH = "useBlurhash"
+    const val SHOW_DESCRIPTION_BADGE = "showDescriptionBadge"
     const val SHOW_SELF_USERNAME = "showSelfUsername"
     const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"

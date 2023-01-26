@@ -244,6 +244,7 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("absoluteTimeView", false),
                 preferences.getBoolean("showBotOverlay", true),
                 preferences.getBoolean("useBlurhash", true),
+                preferences.getBoolean("showDescriptionBadge", true),
                 CardViewMode.NONE,
                 preferences.getBoolean("confirmReblogs", true),
                 preferences.getBoolean("confirmFavourites", false),

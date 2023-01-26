@@ -11,6 +11,8 @@ data class StatusDisplayOptions(
     val showBotOverlay: Boolean,
     @get:JvmName("useBlurhash")
     val useBlurhash: Boolean,
+    @get:JvmName("showDescriptionBadge")
+    val showDescriptionBadge: Boolean,
     @get:JvmName("cardViewMode")
     val cardViewMode: CardViewMode,
     @get:JvmName("confirmReblogs")

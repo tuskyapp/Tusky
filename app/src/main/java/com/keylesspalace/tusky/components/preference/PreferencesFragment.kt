@@ -187,6 +187,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.SHOW_DESCRIPTION_BADGE
+                    setTitle(R.string.pref_title_badge_for_descriptions)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.SHOW_CARDS_IN_TIMELINES
                     setTitle(R.string.pref_title_show_cards_in_timelines)

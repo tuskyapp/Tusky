@@ -150,8 +150,8 @@ class PreferencesActivity :
                 this.restartCurrentActivity()
             }
             "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
-            "showSelfUsername", "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
-            "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
+            "showDescriptionBadge", "showSelfUsername", "showCardsInTimelines", "confirmReblogs",
+            "confirmFavourites", "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
             }
         }

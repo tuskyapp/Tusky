@@ -91,7 +91,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             boolean sensitive = status.getSensitive();
             if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
                 setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
-                        statusDisplayOptions.useBlurhash());
+                        statusDisplayOptions.useBlurhash(), statusDisplayOptions.showDescriptionBadge());
 
                 if (attachments.size() == 0) {
                     hideSensitiveMediaWarning();

@@ -90,6 +90,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
             showBotOverlay = preferences.getBoolean("showBotOverlay", true),
             useBlurhash = preferences.getBoolean("useBlurhash", true),
+            showDescriptionBadge = preferences.getBoolean("showDescriptionBadge", true),
             cardViewMode = CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),

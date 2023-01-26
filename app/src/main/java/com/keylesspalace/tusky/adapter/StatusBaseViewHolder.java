@@ -459,7 +459,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             boolean sensitive,
             final StatusActionListener listener,
             boolean showingContent,
-            boolean useBlurhash
+            boolean useBlurhash,
+            boolean showDescriptionBadge
     ) {
 
         mediaPreview.setVisibility(View.VISIBLE);
@@ -502,7 +503,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             sensitiveMediaWarning.setVisibility(showingContent ? View.GONE : View.VISIBLE);
             sensitiveMediaShow.setVisibility(showingContent ? View.VISIBLE : View.GONE);
 
-            descriptionIndicator.setVisibility(hasDescription && showingContent ? View.VISIBLE : View.GONE);
+            descriptionIndicator.setVisibility(showDescriptionBadge && hasDescription && showingContent ? View.VISIBLE : View.GONE);
 
             sensitiveMediaShow.setOnClickListener(v -> {
                 if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
@@ -518,7 +519,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
                 v.setVisibility(View.GONE);
                 sensitiveMediaShow.setVisibility(View.VISIBLE);
-                descriptionIndicator.setVisibility(hasDescription ? View.VISIBLE : View.GONE);
+                descriptionIndicator.setVisibility(showDescriptionBadge && hasDescription ? View.VISIBLE : View.GONE);
             });
 
             return null;
@@ -731,7 +732,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             List<Attachment> attachments = actionable.getAttachments();
             boolean sensitive = actionable.getSensitive();
             if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
-                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash(), statusDisplayOptions.showDescriptionBadge());
 
                 if (attachments.size() == 0) {
                     hideSensitiveMediaWarning();
