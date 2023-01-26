@@ -193,6 +193,11 @@ class NotificationsFragment :
             footer = NotificationsLoadStateAdapter { adapter.retry() }
         )
 
+        binding.buttonClear.setOnClickListener { confirmClearNotifications() }
+        binding.buttonFilter.setOnClickListener { showFilterMenu() }
+        (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
+            false
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.pagingData.collectLatest { pagingData ->
                 Log.d(TAG, "Submitting data to adapter")
@@ -229,6 +234,7 @@ class NotificationsFragment :
                 //   E.g., on a typical device, an error message like "Bookmarking
                 //   post failed: Unable to resolve host 'mastodon.social': No
                 //   address associated with hostname" is 3 lines.
+                // - With a "Retry" option if the error included a UiAction to retry.
                 this.launch {
                     viewModel.uiError.collect { error ->
                         Log.d(TAG, error.toString())
@@ -256,14 +262,10 @@ class NotificationsFragment :
                         error.action?.let { action ->
                             action is StatusAction || return@let
 
-                            // TODO: Finding position by status ID is common enough this
-                            // should be a method in the adapter
-                            val position = adapter.snapshot()
-                                .indexOfFirst {
-                                    it?.statusViewData?.status?.id ==
-                                        (action as StatusAction).statusViewData.id
-                                }
-                            if (position != -1) {
+                            val position = adapter.snapshot().indexOfFirst {
+                                it?.statusViewData?.status?.id == (action as StatusAction).statusViewData.id
+                            }
+                            if (position != RecyclerView.NO_POSITION) {
                                 adapter.notifyItemChanged(position)
                             }
                         }
@@ -291,6 +293,8 @@ class NotificationsFragment :
                         }
                 }
 
+                // Update adapter data when status actions are successful, and re-bind to update
+                // the UI.
                 this.launch {
                     viewModel.uiSuccess
                         .filterIsInstance<StatusActionSuccess>()
@@ -325,13 +329,13 @@ class NotificationsFragment :
                         }
                 }
 
+                // Update filter option visibility from uiState
                 this.launch {
-                    viewModel.uiState
-                        .collectLatest { uiState ->
-                            updateFilterVisibility(uiState.showFilterOptions)
-                        }
+                    viewModel.uiState.collectLatest { updateFilterVisibility(it.showFilterOptions) }
                 }
 
+                // Update status display from statusDisplayOptions. If the new options request
+                // relative time display collect the flow to periodically re-bind the UI.
                 this.launch {
                     viewModel.statusDisplayOptions
                         .collectLatest {
@@ -352,6 +356,7 @@ class NotificationsFragment :
                         }
                 }
 
+                // Update the UI from the loadState
                 adapter.loadStateFlow
                     .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
@@ -392,11 +397,6 @@ class NotificationsFragment :
                     }
             }
         }
-
-        binding.buttonClear.setOnClickListener { confirmClearNotifications() }
-        binding.buttonFilter.setOnClickListener { showFilterMenu() }
-        (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
-            false
     }
 
     override fun onPause() {
