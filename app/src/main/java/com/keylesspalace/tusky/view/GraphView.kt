@@ -219,6 +219,8 @@ class GraphView @JvmOverloads constructor(
             drawRect(sizeRect, graphPaint)
 
             val pointDistance = dataSpacing(primaryLineData)
+
+            // Vertical tick marks
             for (i in 0 until primaryLineData.size + 1) {
                 drawLine(
                     i * pointDistance,
@@ -229,6 +231,10 @@ class GraphView @JvmOverloads constructor(
                 )
             }
 
+            // X-axis
+            drawLine(0f, height.toFloat(), width.toFloat(), height.toFloat(), metaPaint)
+
+            // Data lines
             drawLine(
                 canvas = canvas,
                 linePath = secondaryLinePath,

@@ -27,7 +27,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
@@ -166,8 +165,6 @@ class TrendingFragment :
         setupLayoutManager(columnCount)
 
         binding.recyclerView.setHasFixedSize(true)
-        val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
-        binding.recyclerView.addItemDecoration(divider)
 
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.recyclerView.adapter = adapter
