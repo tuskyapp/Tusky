@@ -27,7 +27,7 @@ import com.keylesspalace.tusky.databinding.ItemTrendingDateBinding
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
-class TrendingPagingAdapter(
+class TrendingAdapter(
     private val trendingListener: LinkListener,
 ) : ListAdapter<TrendingViewData, RecyclerView.ViewHolder>(TrendingDifferCallback) {
 

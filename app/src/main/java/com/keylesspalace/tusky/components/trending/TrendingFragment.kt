@@ -81,7 +81,7 @@ class TrendingFragment :
 
     private val binding by viewBinding(FragmentTrendingBinding::bind)
 
-    private lateinit var adapter: TrendingPagingAdapter
+    private lateinit var adapter: TrendingAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -95,7 +95,7 @@ class TrendingFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = TrendingPagingAdapter(
+        adapter = TrendingAdapter(
             this,
         )
     }
@@ -151,8 +151,8 @@ class TrendingFragment :
             spanSizeLookup = object : SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (adapter.getItemViewType(position)) {
-                        TrendingPagingAdapter.VIEW_TYPE_HEADER -> columnCount
-                        TrendingPagingAdapter.VIEW_TYPE_TAG -> 1
+                        TrendingAdapter.VIEW_TYPE_HEADER -> columnCount
+                        TrendingAdapter.VIEW_TYPE_TAG -> 1
                         else -> -1
                     }
                 }
