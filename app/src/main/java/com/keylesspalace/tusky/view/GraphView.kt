@@ -44,7 +44,7 @@ class GraphView @JvmOverloads constructor(
     var secondaryLineColor = 0
 
     @get:Dimension
-    var lineThickness = 0f
+    var lineWidth = 0f
 
     @get:ColorInt
     @ColorInt
@@ -113,12 +113,10 @@ class GraphView @JvmOverloads constructor(
             )
         )
 
-        lineThickness = resources.getDimension(
-            a.getResourceId(
-                R.styleable.GraphView_lineThickness,
-                R.dimen.graph_line_thickness,
-            )
-        )
+        lineWidth = a.getDimensionPixelSize(
+            R.styleable.GraphView_lineWidth,
+            R.dimen.graph_line_thickness
+        ).toFloat()
 
         graphColor = ContextCompat.getColor(
             context,
@@ -143,7 +141,7 @@ class GraphView @JvmOverloads constructor(
 
         primaryLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = primaryLineColor
-            strokeWidth = lineThickness
+            strokeWidth = lineWidth
             style = Paint.Style.STROKE
         }
 
@@ -154,7 +152,7 @@ class GraphView @JvmOverloads constructor(
 
         secondaryLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = secondaryLineColor
-            strokeWidth = lineThickness
+            strokeWidth = lineWidth
             style = Paint.Style.STROKE
         }
 
@@ -236,14 +234,14 @@ class GraphView @JvmOverloads constructor(
                 linePath = secondaryLinePath,
                 linePaint = secondaryLinePaint,
                 circlePaint = secondaryCirclePaint,
-                lineThickness = lineThickness,
+                lineThickness = lineWidth,
             )
             drawLine(
                 canvas = canvas,
                 linePath = primaryLinePath,
                 linePaint = primaryLinePaint,
                 circlePaint = primaryCirclePaint,
-                lineThickness = lineThickness,
+                lineThickness = lineWidth,
             )
         }
     }

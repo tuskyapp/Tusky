@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usageLabel"
-        app:lineThickness="4dp"
+        app:lineWidth="2sp"
         app:primaryLineColor="@color/tusky_blue"
         app:proportionalTrending="true"
         app:secondaryLineColor="@color/tusky_red" />
