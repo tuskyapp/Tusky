@@ -45,7 +45,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
-import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -63,7 +62,6 @@ class TrendingFragment :
     LinkListener,
     Injectable,
     ReselectableFragment,
-    FabFragment,
     RefreshableFragment {
 
     private lateinit var bottomSheetActivity: BottomSheetActivity
@@ -293,8 +291,6 @@ class TrendingFragment :
     override fun refreshContent() {
         onRefresh()
     }
-
-    override fun isFabVisible() = false
 
     companion object {
         private const val TAG = "TrendingF" // logging tag
