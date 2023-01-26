@@ -93,6 +93,7 @@ data class StatusDisplayOptions(
 
         fun from(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             mediaPreviewEnabled = account.mediaPreviewEnabled,
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
@@ -101,7 +102,6 @@ data class StatusDisplayOptions(
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showSensitiveMedia = account.alwaysShowSensitiveMedia,
             openSpoiler = account.alwaysOpenSpoiler
         )

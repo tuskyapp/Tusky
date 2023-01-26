@@ -4,12 +4,10 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
-import retrofit2.Response
 
 /**
  * Verify that [ClearNotifications] is handled correctly on receipt:
@@ -24,9 +22,7 @@ class NotificationsViewModelTestClearNotifications : NotificationsViewModelTestB
     @Test
     fun `clearing notifications succeeds && invalidate the repository`() = runTest {
         // Given
-        notificationsRepository.stub {
-            on { clearNotifications() } doReturn Response.success("".toResponseBody())
-        }
+        notificationsRepository.stub { on { clearNotifications() } doReturn emptySuccess }
 
         // When
         viewModel.accept(FallibleUiAction.ClearNotifications)
@@ -39,9 +35,7 @@ class NotificationsViewModelTestClearNotifications : NotificationsViewModelTestB
     @Test
     fun `clearing notifications fails && emits UiError`() = runTest {
         // Given
-        notificationsRepository.stub {
-            on { clearNotifications() } doReturn Response.error(404, "".toResponseBody())
-        }
+        notificationsRepository.stub { on { clearNotifications() } doReturn emptyError }
 
         viewModel.uiError.test {
             // When

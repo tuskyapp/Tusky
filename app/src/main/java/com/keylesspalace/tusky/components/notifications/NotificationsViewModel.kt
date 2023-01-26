@@ -60,7 +60,6 @@ data class UiState(
 
 /** Preferences the UI reacts to */
 data class UiPrefs(
-    val showAbsoluteTime: Boolean,
     val showFabWhileScrolling: Boolean,
     val showFilter: Boolean
 ) {
@@ -458,12 +457,8 @@ class NotificationsViewModel @Inject constructor(
         .onStart { emit(toPrefs()) }
 
     private fun toPrefs() = UiPrefs(
-        showAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
         showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
-        showFilter = preferences.getBoolean(
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER,
-            true
-        )
+        showFilter = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
     )
 
     companion object {

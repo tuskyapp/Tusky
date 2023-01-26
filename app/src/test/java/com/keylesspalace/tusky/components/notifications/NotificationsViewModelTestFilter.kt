@@ -31,11 +31,7 @@ class NotificationsViewModelTestFilter : NotificationsViewModelTestBase() {
     fun `should save filter to active account && update state`() = runTest {
         viewModel.uiState.test {
             // When
-            viewModel.accept(
-                InfallibleUiAction.ApplyFilter(
-                    setOf(Notification.Type.REBLOG)
-                )
-            )
+            viewModel.accept(InfallibleUiAction.ApplyFilter(setOf(Notification.Type.REBLOG)))
 
             // Then
             // - filter saved to active account

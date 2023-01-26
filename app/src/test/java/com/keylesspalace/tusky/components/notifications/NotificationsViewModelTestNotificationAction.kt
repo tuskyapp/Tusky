@@ -6,7 +6,6 @@ import com.keylesspalace.tusky.entity.Relationship
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
@@ -14,8 +13,6 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
-import retrofit2.HttpException
-import retrofit2.Response
 
 /**
  * Verify that [NotificationAction] are handled correctly on receipt:
@@ -77,9 +74,7 @@ class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestB
     @Test
     fun `accepting follow request fails && emits UiError`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { acceptFollowRequest(any()) } doThrow HttpException(Response.error<String>(404, "".toResponseBody()))
-        }
+        timelineCases.stub { onBlocking { acceptFollowRequest(any()) } doThrow httpException }
 
         viewModel.uiError.test {
             // When
@@ -95,9 +90,7 @@ class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestB
     @Test
     fun `rejecting follow request succeeds && emits UiSuccess`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { rejectFollowRequest(any()) } doReturn Single.just(relationship)
-        }
+        timelineCases.stub { onBlocking { rejectFollowRequest(any()) } doReturn Single.just(relationship) }
 
         viewModel.uiSuccess.test {
             // When
@@ -119,9 +112,7 @@ class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestB
     @Test
     fun `rejecting follow request fails && emits UiError`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { rejectFollowRequest(any()) } doThrow HttpException(Response.error<String>(404, "".toResponseBody()))
-        }
+        timelineCases.stub { onBlocking { rejectFollowRequest(any()) } doThrow httpException }
 
         viewModel.uiError.test {
             // When

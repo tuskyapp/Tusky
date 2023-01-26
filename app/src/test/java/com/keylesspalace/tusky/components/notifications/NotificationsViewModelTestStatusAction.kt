@@ -7,7 +7,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
@@ -15,8 +14,6 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
-import retrofit2.HttpException
-import retrofit2.Response
 
 /**
  * Verify that [StatusAction] are handled correctly on receipt:
@@ -52,9 +49,6 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
         statusViewData
     )
 
-    /** Exception to throw when testing errors */
-    private val httpException = HttpException(Response.error<String>(404, "".toResponseBody()))
-
     /** Captors for status ID and state arguments */
     private val id = argumentCaptor<String>()
     private val state = argumentCaptor<Boolean>()
@@ -62,9 +56,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `bookmark succeeds && emits UiSuccess`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { bookmark(any(), any()) } doReturn Single.just(status)
-        }
+        timelineCases.stub { onBlocking { bookmark(any(), any()) } doReturn Single.just(status) }
 
         viewModel.uiSuccess.test {
             // When
@@ -85,9 +77,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `bookmark fails && emits UiError`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { bookmark(any(), any()) } doThrow httpException
-        }
+        timelineCases.stub { onBlocking { bookmark(any(), any()) } doThrow httpException }
 
         viewModel.uiError.test {
             // When
@@ -126,9 +116,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `favourite fails && emits UiError`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { favourite(any(), any()) } doThrow httpException
-        }
+        timelineCases.stub { onBlocking { favourite(any(), any()) } doThrow httpException }
 
         viewModel.uiError.test {
             // When
@@ -144,9 +132,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `reblog succeeds && emits UiSuccess`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { reblog(any(), any()) } doReturn Single.just(status)
-        }
+        timelineCases.stub { onBlocking { reblog(any(), any()) } doReturn Single.just(status) }
 
         viewModel.uiSuccess.test {
             // When
@@ -167,9 +153,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `reblog fails && emits UiError`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { reblog(any(), any()) } doThrow httpException
-        }
+        timelineCases.stub { onBlocking { reblog(any(), any()) } doThrow httpException }
 
         viewModel.uiError.test {
             // When
@@ -211,9 +195,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `voteinpoll fails && emits UiError`() = runTest {
         // Given
-        timelineCases.stub {
-            onBlocking { voteInPoll(any(), any(), any()) } doThrow httpException
-        }
+        timelineCases.stub { onBlocking { voteInPoll(any(), any(), any()) } doThrow httpException }
 
         viewModel.uiError.test {
             // When
