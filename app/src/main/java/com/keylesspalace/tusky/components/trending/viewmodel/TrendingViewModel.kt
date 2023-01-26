@@ -15,25 +15,19 @@
 
 package com.keylesspalace.tusky.components.trending.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okio.IOException
 import javax.inject.Inject
 
 class TrendingViewModel @Inject constructor(
-    private val mastodonApi: MastodonApi,
-    accountManager: AccountManager,
+    private val mastodonApi: MastodonApi
 ) : ViewModel() {
     enum class LoadingState {
         INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
@@ -47,46 +41,32 @@ class TrendingViewModel @Inject constructor(
     val uiState: Flow<TrendingUiState> get() = _uiState
     private val _uiState = MutableStateFlow(TrendingUiState(listOf(), LoadingState.INITIAL))
 
-    private var alwaysShowSensitiveMedia = false
-    private var alwaysOpenSpoilers = false
-
     init {
-        this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-        this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
-
         invalidate()
-    }
-
-    private suspend fun trendingTags(): List<TrendingTag> {
-        val call = withContext(Dispatchers.IO) {
-            mastodonApi.trendingTags()
-        }
-
-        call.exceptionOrNull()?.also { throw it }
-
-        val tags = call.getOrNull() ?: listOf()
-
-        Log.v(TAG, "Trending tags: ${tags.map { it.name }}")
-
-        return tags
     }
 
     /** Triggered when currently displayed data must be reloaded. */
     fun invalidate() = viewModelScope.launch {
-        _uiState.value = TrendingUiState(listOf(), LoadingState.LOADING)
+        _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
 
         try {
-            val trending = trendingTags()
-            val viewData = trending.map { it.toViewData() }
-            _uiState.value = TrendingUiState(viewData, LoadingState.LOADED)
+            val response = mastodonApi.trendingTags()
+            if (!response.isSuccessful) {
+                _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
+                return@launch
+            }
+            _uiState.value = TrendingUiState(
+                response.body()!!.map { it.toViewData() },
+                LoadingState.LOADED
+            )
         } catch (e: IOException) {
-            _uiState.value = TrendingUiState(listOf(), LoadingState.ERROR_NETWORK)
+            _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
         } catch (e: Exception) {
-            _uiState.value = TrendingUiState(listOf(), LoadingState.ERROR_OTHER)
+            _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_OTHER)
         }
     }
 
     companion object {
-        private const val TAG = "TrendingVM"
+        private const val TAG = "TrendingViewModel"
     }
 }
