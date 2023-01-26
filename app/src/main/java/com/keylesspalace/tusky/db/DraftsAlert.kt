@@ -19,11 +19,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,6 +46,8 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
 
     public fun <T> observeInContext(context: T, showAlert: Boolean) where T : Context, T : LifecycleOwner {
         accountManager.activeAccount?.let { activeAccount ->
+            val coroutineScope = context.lifecycleScope
+
             // Assume a single MainActivity, AccountActivity or DraftsActivity never sees more then one user id in its lifetime.
             val activeAccountId = activeAccount.id
 
@@ -64,13 +66,13 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
                                 context.getResources().getQuantityString(R.plurals.action_post_failed_detail, count)
                             )
                             .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
-                                clearDraftsAlert(activeAccountId) // User looked at drafts
+                                clearDraftsAlert(coroutineScope, activeAccountId) // User looked at drafts
 
                                 val intent = DraftsActivity.newIntent(context)
                                 context.startActivity(intent)
                             }
                             .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
-                                clearDraftsAlert(activeAccountId) // User doesn't care
+                                clearDraftsAlert(coroutineScope, activeAccountId) // User doesn't care
                             }
                             .show()
                     }
@@ -78,7 +80,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
             } else {
                 draftsNeedUserAlert.observe(context) { _ ->
                     Log.d(TAG, "User id $activeAccountId: Clean out notification-worthy drafts")
-                    clearDraftsAlert(activeAccountId)
+                    clearDraftsAlert(coroutineScope, activeAccountId)
                 }
             }
         } ?: run {
@@ -89,11 +91,9 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
     /**
      * Clear drafts alert for specified user
      */
-    fun clearDraftsAlert(id: Long) {
-        GlobalScope.launch {
-            async {
-                draftDao.draftsClearNeedUserAlert(id)
-            }
+    fun clearDraftsAlert(coroutineScope: LifecycleCoroutineScope, id: Long) {
+        coroutineScope.launch {
+            draftDao.draftsClearNeedUserAlert(id)
         }
     }
 }
