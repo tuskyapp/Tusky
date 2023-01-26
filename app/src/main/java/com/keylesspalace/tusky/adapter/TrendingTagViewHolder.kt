@@ -22,9 +22,12 @@ import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.entity.TrendingTagHistory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import java.text.NumberFormat
+import kotlin.math.ln
+import kotlin.math.pow
 
 class TrendingTagViewHolder(
-    private val binding: ItemTrendingCellBinding,
+    private val binding: ItemTrendingCellBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun setup(
@@ -42,10 +45,10 @@ class TrendingTagViewHolder(
         setTag(tagViewData.tag.name)
 
         val totalUsage = tagViewData.tag.history.sumOf { it.uses.toLongOrNull() ?: 0 }
-        setUsageText(totalUsage)
+        binding.usage.text = formatNumber(totalUsage)
 
         val totalAccounts = tagViewData.tag.history.sumOf { it.accounts.toLongOrNull() ?: 0 }
-        setAccountsText(totalAccounts)
+        binding.accounts.text = formatNumber(totalAccounts)
 
         itemView.setOnClickListener {
             trendingListener.onViewTag(tagViewData.tag.name)
@@ -66,26 +69,29 @@ class TrendingTagViewHolder(
         binding.tag.text = binding.root.context.getString(R.string.title_tag, tag)
     }
 
-    private fun setUsageText(usage: Long) {
-        val safeUsage = when {
-            usage >= 100_000_000L -> "${usage / 1000}m"
-            usage >= 100_000L -> "${usage / 1000}k"
-            else -> "$usage"
-        }
-        binding.usage.text = safeUsage
-    }
-
-    private fun setAccountsText(accounts: Long) {
-        val safeAccounts = when {
-            accounts >= 100_000_000L -> "${accounts / 1000}m"
-            accounts >= 100_000L -> "${accounts / 1000}k"
-            else -> "$accounts"
-        }
-        binding.accounts.text = safeAccounts
-    }
-
     private fun setAccessibility(totalAccounts: Long, tag: String) {
         itemView.contentDescription =
             itemView.context.getString(R.string.accessibility_talking_about_tag, totalAccounts, tag)
+    }
+
+    companion object {
+        private val numberFormatter: NumberFormat = NumberFormat.getInstance()
+        private val ln_1k = ln(1000.0)
+
+        /**
+         * Format numbers according to the current locale. Numbers < min have
+         * separators (',', '.', etc) inserted according to the locale.
+         *
+         * Numbers > min are scaled down to that by multiples of 1,000, and
+         * a suffix appropriate to the scaling is appended.
+         */
+        private fun formatNumber(num: Long, min: Int = 100000): String {
+            if (num < min) return numberFormatter.format(num)
+
+            val exp = (ln(num.toDouble()) / ln_1k).toInt()
+
+            // TODO: is the choice of suffixes here locale-agnostic?
+            return String.format("%.1f %c", num / 1000.0.pow(exp.toDouble()), "KMGTPE"[exp - 1])
+        }
     }
 }
