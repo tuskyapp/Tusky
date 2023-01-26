@@ -169,7 +169,6 @@ class TrendingFragment :
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
 
-        // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.recyclerView.adapter = adapter
     }
@@ -293,7 +292,7 @@ class TrendingFragment :
     }
 
     companion object {
-        private const val TAG = "TrendingF" // logging tag
+        private const val TAG = "TrendingFragment"
 
         fun newInstance(): TrendingFragment {
             return TrendingFragment()

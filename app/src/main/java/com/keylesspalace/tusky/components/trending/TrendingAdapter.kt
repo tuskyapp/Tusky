@@ -112,7 +112,7 @@ class TrendingAdapter(
                 oldItem: TrendingViewData,
                 newItem: TrendingViewData
             ): Boolean {
-                return false // Items are different always. It allows to refresh timestamp on every view holder update
+                return false
             }
 
             override fun getChangePayload(

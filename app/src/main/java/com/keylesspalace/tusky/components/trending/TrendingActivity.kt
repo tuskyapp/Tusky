@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.trending
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.commit
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
@@ -40,7 +39,6 @@ class TrendingActivity : BottomSheetActivity(), HasAndroidInjector {
     private val binding: ActivityTrendingBinding by viewBinding(ActivityTrendingBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
