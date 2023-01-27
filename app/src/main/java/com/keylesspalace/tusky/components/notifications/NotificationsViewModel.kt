@@ -342,12 +342,16 @@ class NotificationsViewModel @Inject constructor(
         viewModelScope.launch {
             uiAction.filterIsInstance<FallibleUiAction.ClearNotifications>()
                 .collectLatest {
-                    repository.clearNotifications().apply {
-                        if (this.isSuccessful) {
-                            repository.invalidate()
-                        } else {
-                            uiError.emit(UiError.make(HttpException(this), it))
+                    try {
+                        repository.clearNotifications().apply {
+                            if (this.isSuccessful) {
+                                repository.invalidate()
+                            } else {
+                                uiError.emit(UiError.make(HttpException(this), it))
+                            }
                         }
+                    } catch (e: Exception) {
+                        ifExpected(e) { uiError.emit(UiError.make(e, it)) }
                     }
                 }
         }
