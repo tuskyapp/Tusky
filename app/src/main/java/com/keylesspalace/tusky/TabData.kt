@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -91,7 +92,15 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             arguments,
             { arguments.getOrNull(1).orEmpty() }
         )
-        else -> throw IllegalArgumentException("unknown tab type")
+        else -> {
+            Log.e("TabData", "unknown tab type, reverting to HOME")
+            TabData(
+                HOME,
+                R.string.title_home,
+                R.drawable.ic_home_24dp,
+                { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
+            )
+        }
     }
 }
 
