@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
 import com.keylesspalace.tusky.components.timeline.Placeholder
@@ -261,6 +262,10 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
+        // handled by CacheUpdater
+    }
+
+    override fun handleTranslationEvent(translationEvent: TranslationEvent) {
         // handled by CacheUpdater
     }
 

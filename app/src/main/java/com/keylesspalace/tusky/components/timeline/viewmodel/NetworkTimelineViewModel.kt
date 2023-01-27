@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Poll
@@ -221,6 +222,12 @@ class NetworkTimelineViewModel @Inject constructor(
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
         updateStatusById(reblogEvent.statusId) {
             it.copy(status = it.status.copy(reblogged = reblogEvent.reblog))
+        }
+    }
+
+    override fun handleTranslationEvent(translationEvent: TranslationEvent) {
+        updateStatusById(translationEvent.statusId) {
+            it.copy(status = it.status.copy(translationResult = translationEvent.translation))
         }
     }
 

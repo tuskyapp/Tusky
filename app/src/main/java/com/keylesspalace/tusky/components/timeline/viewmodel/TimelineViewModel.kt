@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -170,6 +171,8 @@ abstract class TimelineViewModel(
 
     abstract fun handleReblogEvent(reblogEvent: ReblogEvent)
 
+    abstract fun handleTranslationEvent(translationEvent: TranslationEvent)
+
     abstract fun handleFavEvent(favEvent: FavoriteEvent)
 
     abstract fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent)
@@ -248,6 +251,7 @@ abstract class TimelineViewModel(
         when (event) {
             is FavoriteEvent -> handleFavEvent(event)
             is ReblogEvent -> handleReblogEvent(event)
+            is TranslationEvent -> handleTranslationEvent(event)
             is BookmarkEvent -> handleBookmarkEvent(event)
             is PinEvent -> handlePinEvent(event)
             is MuteConversationEvent -> fullReload()

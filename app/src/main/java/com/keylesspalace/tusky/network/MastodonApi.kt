@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.entity.TranslationResult
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -222,6 +223,11 @@ interface MastodonApi {
     fun reblogStatus(
         @Path("id") statusId: String
     ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/translate")
+    fun translateStatus(
+        @Path("id") statusId: String
+    ): Single<TranslationResult>
 
     @POST("api/v1/statuses/{id}/unreblog")
     fun unreblogStatus(

@@ -4,9 +4,11 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TranslationResult
 
 data class FavoriteEvent(val statusId: String, val favourite: Boolean) : Dispatchable
 data class ReblogEvent(val statusId: String, val reblog: Boolean) : Dispatchable
+data class TranslationEvent(val statusId: String, val translation: TranslationResult?) : Dispatchable
 data class BookmarkEvent(val statusId: String, val bookmark: Boolean) : Dispatchable
 data class MuteConversationEvent(val statusId: String, val mute: Boolean) : Dispatchable
 data class UnfollowEvent(val accountId: String) : Dispatchable

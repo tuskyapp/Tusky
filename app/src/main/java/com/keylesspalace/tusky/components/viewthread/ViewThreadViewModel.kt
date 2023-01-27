@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -87,6 +88,7 @@ class ViewThreadViewModel @Inject constructor(
                     when (event) {
                         is FavoriteEvent -> handleFavEvent(event)
                         is ReblogEvent -> handleReblogEvent(event)
+                        is TranslationEvent -> handleTranslationEvent(event)
                         is BookmarkEvent -> handleBookmarkEvent(event)
                         is PinEvent -> handlePinEvent(event)
                         is BlockEvent -> removeAllByAccountId(event.accountId)
@@ -286,6 +288,13 @@ class ViewThreadViewModel @Inject constructor(
             status.copy(reblogged = event.reblog)
         }
     }
+
+    private fun handleTranslationEvent(event: TranslationEvent) {
+        updateStatus(event.statusId) { status ->
+            status.copy(translationResult = event.translation)
+        }
+    }
+
 
     private fun handleBookmarkEvent(event: BookmarkEvent) {
         updateStatus(event.statusId) { status ->

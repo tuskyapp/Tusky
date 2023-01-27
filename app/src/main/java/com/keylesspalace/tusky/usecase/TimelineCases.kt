@@ -29,9 +29,11 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
@@ -61,6 +63,13 @@ class TimelineCases @Inject constructor(
         }
         return call.doAfterSuccess {
             eventHub.dispatch(ReblogEvent(statusId, reblog))
+        }
+    }
+
+    fun translate(statusId: String): Single<TranslationResult> {
+        return mastodonApi.translateStatus(statusId)
+                .doAfterSuccess {translation ->
+             eventHub.dispatch(TranslationEvent(statusId, translation))
         }
     }
 

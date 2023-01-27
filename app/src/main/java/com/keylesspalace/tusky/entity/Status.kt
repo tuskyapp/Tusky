@@ -51,7 +51,16 @@ data class Status(
     val poll: Poll?,
     val card: Card?,
     val language: String?,
+    val translationResult: TranslationResult? = null
 ) {
+
+    val displayedContent: String
+        get() {
+            if (translationResult == null) {
+                return content
+            }
+            return translationResult.toString();
+        }
 
     val actionableId: String
         get() = reblog?.id ?: id

@@ -21,6 +21,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TranslationResult
 
 /**
  * We're trying to play smart here. Server sends us reblogs as two entities one embedded into
