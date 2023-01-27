@@ -64,6 +64,14 @@ android {
     lintOptions {
         disable 'MissingTranslation'
     }
+
+    ktlint {
+        reporters {
+            reporter "plain"
+            reporter "checkstyle"
+        }
+    }
+
     buildFeatures {
         viewBinding true
     }

@@ -1,0 +1,42 @@
+name: Ktlint
+on: pull_request
+jobs:
+  ktlint:
+    if: github.event.pull_request.user.login == 'nikclayton'
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'gradle'
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck --continue
+      - name: 🐶 Setup Review Dog
+        if: ${{ failure() }}
+        uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+      - name: 🐶 Report with Review Dog
+        if: ${{ failure() }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          find app/build/reports/ktlint -name \*.xml -type f | while read ktlintxml
+          do
+              echo Found ktlintCheck XML file: $ktlintxml
+              reviewdog -f=checkstyle -name=ktlint -filter-mode=nofilter -reporter=github-pr-review <$ktlintxml
+          done
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
