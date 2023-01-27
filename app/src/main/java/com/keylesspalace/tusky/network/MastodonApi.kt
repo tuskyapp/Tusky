@@ -154,7 +154,7 @@ interface MastodonApi {
     ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")
-    fun clearNotifications(): Response<ResponseBody>
+    suspend fun clearNotifications(): Response<ResponseBody>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")

@@ -46,7 +46,7 @@ class NotificationsRepository @Inject constructor(
     }
 
     /** Clear notifications */
-    fun clearNotifications(): Response<ResponseBody> {
+    suspend fun clearNotifications(): Response<ResponseBody> {
         return mastodonApi.clearNotifications()
     }
 
