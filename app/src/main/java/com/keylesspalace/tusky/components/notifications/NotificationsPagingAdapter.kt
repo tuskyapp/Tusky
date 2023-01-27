@@ -100,6 +100,10 @@ class NotificationsPagingAdapter(
         )
     }
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
     override fun getItemViewType(position: Int): Int {
         return NotificationViewKind.from(getItem(position)?.type).ordinal
     }
