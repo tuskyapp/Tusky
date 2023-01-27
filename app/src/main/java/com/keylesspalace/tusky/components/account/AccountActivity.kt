@@ -61,6 +61,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -99,6 +100,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var draftsAlert: DraftsAlert
 
     private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
@@ -386,6 +389,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         viewModel.noteSaved.observe(this) {
             binding.saveNoteInfo.visible(it, View.INVISIBLE)
         }
+
+        // "Post failed" dialog should display in this activity
+        draftsAlert.observeInContext(this, true)
     }
 
     /**
