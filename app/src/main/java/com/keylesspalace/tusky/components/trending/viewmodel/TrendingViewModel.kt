@@ -17,17 +17,24 @@ package com.keylesspalace.tusky.components.trending.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx3.asFlow
 import okio.IOException
 import javax.inject.Inject
 
 class TrendingViewModel @Inject constructor(
-    private val mastodonApi: MastodonApi
+    private val mastodonApi: MastodonApi,
+    private val eventHub: EventHub
 ) : ViewModel() {
     enum class LoadingState {
         INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
@@ -43,22 +50,44 @@ class TrendingViewModel @Inject constructor(
 
     init {
         invalidate()
+
+        // Collect PreferenceChangedEvent, FiltersActivity creates them when a filter is created
+        // or deleted. Unfortunately, there's nothing in the event to determine if it's a filter
+        // that was modified, so refresh on every preference change.
+        viewModelScope.launch {
+            eventHub.events.asFlow()
+                .filterIsInstance<PreferenceChangedEvent>()
+                .collect {
+                    invalidate()
+                }
+        }
     }
 
-    /** Triggered when currently displayed data must be reloaded. */
+    /**
+     * Invalidate the current list of trending tags and fetch a new list.
+     *
+     * A tag is excluded if it is filtered by the user on their home timeline.
+     */
     fun invalidate() = viewModelScope.launch {
         _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
 
         try {
+            val deferredFilters = async { mastodonApi.getFilters() }
             val response = mastodonApi.trendingTags()
             if (!response.isSuccessful) {
                 _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
                 return@launch
             }
-            _uiState.value = TrendingUiState(
-                response.body()!!.map { it.toViewData() },
-                LoadingState.LOADED
-            )
+
+            val homeFilters = deferredFilters.await().getOrNull()?.filter {
+                it.context.contains(Filter.HOME)
+            }
+
+            val tags = response.body()!!
+                .filter { homeFilters?.none { filter -> filter.phrase.equals(it.name, ignoreCase = true) } ?: false }
+                .map { it.toViewData() }
+
+            _uiState.value = TrendingUiState(tags, LoadingState.LOADED)
         } catch (e: IOException) {
             _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
         } catch (e: Exception) {
