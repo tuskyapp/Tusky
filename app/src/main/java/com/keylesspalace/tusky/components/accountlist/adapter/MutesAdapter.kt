@@ -26,9 +26,7 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.visible
 
-/**
- * Displays a list of muted accounts with mute/unmute account button and mute/unmute notifications switch
- * */
+/** Displays a list of muted accounts with mute/unmute account button and mute/unmute notifications switch */
 class MutesAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
