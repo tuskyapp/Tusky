@@ -371,6 +371,11 @@ class TimelineFragment :
         viewModel.bookmark(bookmark, status)
     }
 
+    override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.translate(alreadyTranslated, status)
+    }
+
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
         viewModel.voteInPoll(choices, status)

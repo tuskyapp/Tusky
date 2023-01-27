@@ -135,6 +135,20 @@ abstract class TimelineViewModel(
         }
     }
 
+    fun translate(alreadyTranslated: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        if (alreadyTranslated) {
+            timelineCases.dispatchNullTranslation(status.actionableId)
+        } else {
+            try {
+                timelineCases.translate(status.actionableId).await()
+            } catch (t: Exception) {
+                ifExpected(t) {
+                    Log.d(TAG, "Failed to translate status " + status.actionableId, t)
+                }
+            }
+        }
+    }
+
     fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         val poll = status.status.actionableStatus.poll ?: run {
             Log.w(TAG, "No poll on status ${status.id}")

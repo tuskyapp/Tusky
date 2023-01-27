@@ -77,13 +77,13 @@ sealed class StatusViewData {
         init {
             if (Build.VERSION.SDK_INT == 23) {
                 // https://github.com/tuskyapp/Tusky/issues/563
-                this.content = replaceCrashingCharacters(status.actionableStatus.content.parseAsMastodonHtml())
+                this.content = replaceCrashingCharacters(status.actionableStatus.displayedContent.parseAsMastodonHtml())
                 this.spoilerText =
                     replaceCrashingCharacters(status.actionableStatus.spoilerText).toString()
                 this.username =
                     replaceCrashingCharacters(status.actionableStatus.account.username).toString()
             } else {
-                this.content = status.actionableStatus.content.parseAsMastodonHtml()
+                this.content = status.actionableStatus.displayedContent.parseAsMastodonHtml()
                 this.spoilerText = status.actionableStatus.spoilerText
                 this.username = status.actionableStatus.account.username
             }

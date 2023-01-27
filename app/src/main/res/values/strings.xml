@@ -94,6 +94,8 @@
     <string name="action_unfavourite">Remove favorite</string>
     <string name="action_bookmark">Bookmark</string>
     <string name="action_unbookmark">Remove bookmark</string>
+    <string name="action_translate">Translate</string>
+    <string name="action_untranslate">Show original</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
     <string name="action_login">Login with Tusky</string>

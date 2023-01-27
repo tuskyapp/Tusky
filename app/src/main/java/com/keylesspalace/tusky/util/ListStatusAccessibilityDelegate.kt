@@ -60,6 +60,7 @@ class ListStatusAccessibilityDelegate(
                 }
                 info.addAction(if (actionable.favourited) unfavouriteAction else favouriteAction)
                 info.addAction(if (actionable.bookmarked) unbookmarkAction else bookmarkAction)
+                info.addAction(if (actionable.translationResult == null) translateAction else untranslateAction)
 
                 val mediaActions = intArrayOf(
                     R.id.action_open_media_1,
@@ -109,6 +110,8 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_unfavourite -> statusActionListener.onFavourite(false, pos)
                 R.id.action_bookmark -> statusActionListener.onBookmark(true, pos)
                 R.id.action_unbookmark -> statusActionListener.onBookmark(false, pos)
+                R.id.action_translate -> statusActionListener.onTranslate(false, pos)
+                R.id.action_untranslate -> statusActionListener.onTranslate(true, pos)
                 R.id.action_reblog -> statusActionListener.onReblog(true, pos)
                 R.id.action_unreblog -> statusActionListener.onReblog(false, pos)
                 R.id.action_open_profile -> {
@@ -311,6 +314,16 @@ class ListStatusAccessibilityDelegate(
     private val unbookmarkAction = AccessibilityActionCompat(
         R.id.action_unbookmark,
         context.getString(R.string.action_bookmark)
+    )
+
+    private val translateAction = AccessibilityActionCompat(
+        R.id.action_translate,
+        context.getString(R.string.action_translate)
+    )
+
+    private val untranslateAction = AccessibilityActionCompat(
+        R.id.action_untranslate,
+        context.getString(R.string.action_untranslate)
     )
 
     private val openProfileAction = AccessibilityActionCompat(

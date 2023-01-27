@@ -68,9 +68,13 @@ class TimelineCases @Inject constructor(
 
     fun translate(statusId: String): Single<TranslationResult> {
         return mastodonApi.translateStatus(statusId)
-                .doAfterSuccess {translation ->
-             eventHub.dispatch(TranslationEvent(statusId, translation))
-        }
+            .doAfterSuccess {translation ->
+                eventHub.dispatch(TranslationEvent(statusId, translation))
+            }
+    }
+
+    fun dispatchNullTranslation(statusId: String) {
+        eventHub.dispatch(TranslationEvent(statusId, null))
     }
 
     fun favourite(statusId: String, favourite: Boolean): Single<Status> {

@@ -443,6 +443,11 @@ public class NotificationsFragment extends SFragment implements
                 );
     }
 
+    @Override
+    public void onTranslate(boolean alreadyTranslated, int position) {
+        // TODO: not yet implemented
+    }
+
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
         updateStatus(statusId, (s) -> s.copyWithBookmarked(bookmark));
     }
