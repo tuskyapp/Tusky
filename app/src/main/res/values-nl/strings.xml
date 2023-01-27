@@ -60,7 +60,7 @@
     <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
     <string name="action_compose">Bericht schrijven</string>
-    <string name="action_login">Aanmelden</string>
+    <string name="action_login">Aanmelden met Mastodon</string>
     <string name="action_logout">Afmelden</string>
     <string name="action_logout_confirm">Ben je er zeker van dat je het account %1$s wil afmelden?</string>
     <string name="action_follow">Volgen</string>
@@ -328,14 +328,10 @@
     <string name="description_post_media_no_description_placeholder">Geen omschrijving</string>
     <string name="description_post_reblogged">Geboost</string>
     <string name="description_post_favourited">Als favoriet gemarkeerd</string>
-    <string name="description_visibility_public">        Openbaar
-    </string>
-    <string name="description_visibility_unlisted">        Minder openbaar
-    </string>
-    <string name="description_visibility_private">        Volgers
-    </string>
-    <string name="description_visibility_direct">        Direct
-    </string>
+    <string name="description_visibility_public">Openbaar</string>
+    <string name="description_visibility_unlisted">Minder openbaar</string>
+    <string name="description_visibility_private">Volgers</string>
+    <string name="description_visibility_direct">Direct</string>
     <string name="download_media">Media downloaden</string>
     <string name="downloading_media">Media aan het downloaden</string>
     <string name="pref_title_timeline_filters">Filters</string>
@@ -561,4 +557,39 @@
     <string name="error_following_hashtag_format">Fout tijdens het volgen van #%s</string>
     <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%s</string>
     <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen\?</string>
+    <string name="pref_title_reading_order">Leesvolgorde</string>
+    <string name="pref_reading_order_oldest_first">Oudste eerst</string>
+    <string name="pref_reading_order_newest_first">Nieuwste eerst</string>
+    <string name="failed_to_add_to_list">Account toevoegen aan de lijst is mislukt</string>
+    <string name="action_add_or_remove_from_list">Toevoegen of verwijderen van lijst</string>
+    <string name="failed_to_pin">Kan niet vastmaken</string>
+    <string name="pref_summary_http_proxy_disabled">Uitgeschakeld</string>
+    <string name="failed_to_remove_from_list">Account verwijderen van de lijst is mislukt</string>
+    <string name="compose_unsaved_changes">Er zijn niet opgeslagen wijzigingen.</string>
+    <string name="mute_notifications_switch">Meldingen negeren</string>
+    <string name="title_edits">Bewerkingen</string>
+    <string name="pref_default_post_language">Standaardtaal van berichten</string>
+    <string name="notification_report_name">Rapporten</string>
+    <string name="description_post_edited">Bewerkt</string>
+    <string name="status_edit_info">%1$s bewerkte %2$s</string>
+    <string name="status_created_info">%1$s maakte %2$s</string>
+    <string name="instance_rule_info">Door in te loggen ben je het eens met de regels van %s.</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Overig</string>
+    <string name="hint_media_description_missing">Media moet een beschrijving hebben.</string>
+    <string name="failed_to_unpin">Kan niet losmaken</string>
+    <string name="instance_rule_title">%s regels</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="report_category_violation">Regelovertreding</string>
+    <string name="no_lists">Je hebt geen lijsten.</string>
+    <string name="status_created_at_now">nu</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="action_unfollow_hashtag_format">Ontvolg #%s\?</string>
+    <string name="error_muting_hashtag_format">Fout bij negeren #%s</string>
+    <string name="action_continue_edit">Ga door met bewerken</string>
+    <string name="pref_title_notification_filter_reports">Er is een nieuw rapport</string>
+    <string name="notification_report_format">Nieuw rapport over %s</string>
+    <string name="account_username_copied">Gebruikersnaam gekopieerd</string>
+    <string name="confirmation_hashtag_unfollowed">#%s ontvolgd</string>
+    <string name="title_followed_hashtags">Gevolgde hashtags</string>
 </resources>

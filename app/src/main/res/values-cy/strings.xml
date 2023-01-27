@@ -3,11 +3,11 @@
     <string name="error_generic">Bu gwall.</string>
     <string name="error_empty">Ni all hwn fod yn wag.</string>
     <string name="error_invalid_domain">Rhoddwyd parth annilys</string>
-    <string name="error_failed_app_registration">Methu awdurdodi gyda\'r gweinydd hwnnw.</string>
+    <string name="error_failed_app_registration">Methu awdurdodi gyda\'r gweinydd hwnnw. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
     <string name="error_no_web_browser_found">Methu dod o hyd i borwr gwe i\'w ddefnyddio.</string>
-    <string name="error_authorization_unknown">Bu gwall awdurdodi anhysbys.</string>
-    <string name="error_authorization_denied">Gwrthodwyd awdurdodi.</string>
-    <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi.</string>
+    <string name="error_authorization_unknown">Bu gwall awdurdodi anhysbys. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
+    <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os ydych chi\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
+    <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
     <string name="error_compose_character_limit">Mae\'ch neges yn rhy hir!</string>
     <string name="error_media_upload_type">Ni allwch lwytho\'r math hwnnw o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
@@ -52,7 +52,7 @@
     <string name="action_favourite">Ffefryn</string>
     <string name="action_more">Mwy</string>
     <string name="action_compose">Creu</string>
-    <string name="action_login">Mewngofnodi â Mastodon</string>
+    <string name="action_login">Mewngofnodi â Thusky</string>
     <string name="action_logout">Allgofnodi</string>
     <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s?</string>
     <string name="action_follow">Dilyn</string>
@@ -487,7 +487,7 @@
     <string name="notification_header_report_format">Adroddodd %s %s</string>
     <string name="notification_summary_report_format">%s · %d post wedi\'u hatodi</string>
     <string name="pref_title_notification_filter_reports">mae yna adroddiad newydd</string>
-    <string name="report_category_violation">Torri rheolau</string>
+    <string name="report_category_violation">Toriad rheol</string>
     <string name="report_category_spam">Sbam</string>
     <string name="failed_to_pin">Wedi methu pinio</string>
     <string name="failed_to_unpin">Wedi methu dadbinio</string>
@@ -657,4 +657,13 @@
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
     <string name="send_account_username_to">Rhannu enw denyddiwr cyfrif i…</string>
     <string name="account_username_copied">Enw defnyddiwr wedi\'i gopïo</string>
+    <string name="pref_reading_order_oldest_first">Hynaf yn gyntaf</string>
+    <string name="pref_reading_order_newest_first">Diweddaraf yn gyntaf</string>
+    <string name="pref_title_reading_order">Trefn darllen</string>
+    <string name="pref_summary_http_proxy_disabled">Analluogwyd</string>
+    <string name="pref_summary_http_proxy_missing">&lt;heb ei osod&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;annilys&gt;</string>
+    <string name="action_browser_login">Mewngofnodi â phorwr</string>
+    <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
+    <string name="description_browser_login">Gall gefnogi dulliau dilysu ychwanegol, ond mae angen porwr a gefnogir.</string>
 </resources>

@@ -3,11 +3,11 @@
     <string name="error_generic">Errorea gertatu da.</string>
     <string name="error_empty">Eremu hau ezin da hutsik egon.</string>
     <string name="error_invalid_domain">Domeinu baliogabea sartu da</string>
-    <string name="error_failed_app_registration">Akatsa saioa hasterakoan.</string>
+    <string name="error_failed_app_registration">Akatsa instantzia horrekin autentikatzerakoan. Akatsak badarrai, menutik, nabigatzailean saioa hasteko aukerarekin saiatu.</string>
     <string name="error_no_web_browser_found">Ez da web nabigatzailerik aurkitu.</string>
-    <string name="error_authorization_unknown">Identifikatu gabeko baimentza akatsa gertatu da.</string>
-    <string name="error_authorization_denied">Akatsa baimentzerakoan.</string>
-    <string name="error_retrieving_oauth_token">Akatsa login identifikatzailea lortzerakoan.</string>
+    <string name="error_authorization_unknown">Identifikatu gabeko baimen-akatsa gertatu da. Akatsak badarrai, menutik, nabigatzailean saioa hasteko aukerarekin saiatu.</string>
+    <string name="error_authorization_denied">Baimena ukatu da. Ziur bazaude zuk sartutako egiaztagiriak zuzenak direla, menutik, nabigatzailean saioa hasteko aukerarekin saiatu.</string>
+    <string name="error_retrieving_oauth_token">Akatsa saio-hasieraren identifikatzailea eskuratzerakoan. Akatsak badarrai, menutik, nabigatzailean saioa hasteko aukerarekin saiatu.</string>
     <string name="error_compose_character_limit">Tut luzeegia!</string>
     <string name="error_media_upload_type">Ez da fitxategi mota hau onartzen.</string>
     <string name="error_media_upload_opening">Ezin izan da fitxategi hau ireki.</string>
@@ -281,7 +281,7 @@
     <string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
     <string name="title_direct_messages">Mezu Zuzenak</string>
     <string name="title_tab_preferences">Fitxak</string>
-    <string name="title_posts_pinned">Lotuta</string>
+    <string name="title_posts_pinned">Finkatua</string>
     <string name="title_domain_mutes">Ezkutuko domeinuak</string>
     <string name="title_scheduled_posts">Programatutako tutak</string>
     <string name="post_username_format">\@%s</string>
@@ -514,4 +514,13 @@
 \nPush-jakinarazpenek ez dute eraginik izango, baina jakinarazpenen hobespenak eskuz berrikus ditzakezu.</string>
     <string name="wellbeing_hide_stats_posts">Mezuetan estatistika kuantitatiboak ezkutatu</string>
     <string name="action_unbookmark">Laster-marka kendu</string>
+    <string name="error_image_edit_failed">Ezin izan da irudia editatu.</string>
+    <string name="error_multimedia_size_limit">Bideo eta audio fitxategiek ezin dute %s MBeko tamaina baino handiagoa izan.</string>
+    <string name="error_muting_hashtag_format">Akatsa #%s mututzerakoan</string>
+    <string name="error_unmuting_hashtag_format">Errorea #%s desmututzerakoan</string>
+    <string name="error_following_hashtags_unsupported">Instantzia honek traolak jarraitzeko funtzioarekin bateragarritasuna ez dauka.</string>
+    <string name="error_following_hashtag_format">Akatsa #%s jarraitzerakoan</string>
+    <string name="error_unfollowing_hashtag_format">Akatsa #%s jarraitzerakoan</string>
+    <string name="error_could_not_load_login_page">Ezin izan da saio-hasierako orria kargatu.</string>
+    <string name="error_loading_account_details">Akatsa kontuaren xehetasunak kargatzerakoan</string>
 </resources>
