@@ -27,16 +27,25 @@ class FollowRequestsAdapter(
     animateAvatar: Boolean,
     animateEmojis: Boolean,
     showBotOverlay: Boolean
-) : AccountAdapter<FollowRequestViewHolder>(accountActionListener, animateAvatar, animateEmojis, showBotOverlay) {
+) : AccountAdapter<FollowRequestViewHolder>(
+    accountActionListener = accountActionListener,
+    animateAvatar = animateAvatar,
+    animateEmojis = animateEmojis,
+    showBotOverlay = showBotOverlay
+) {
+
     override fun createAccountViewHolder(parent: ViewGroup): FollowRequestViewHolder {
-        val binding = ItemFollowRequestBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
+        val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FollowRequestViewHolder(binding, false)
     }
 
     override fun onBindAccountViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
-        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis, showBotOverlay)
+        viewHolder.setupWithAccount(
+            account = accountList[position],
+            animateAvatar = animateAvatar,
+            animateEmojis = animateEmojis,
+            showBotOverlay = showBotOverlay
+        )
         viewHolder.setupActionListener(accountActionListener, accountList[position].id)
     }
 }

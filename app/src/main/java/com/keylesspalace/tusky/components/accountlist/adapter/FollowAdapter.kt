@@ -28,17 +28,14 @@ class FollowAdapter(
     animateEmojis: Boolean,
     showBotOverlay: Boolean
 ) : AccountAdapter<AccountViewHolder>(
-    accountActionListener,
-    animateAvatar,
-    animateEmojis,
-    showBotOverlay
+    accountActionListener = accountActionListener,
+    animateAvatar = animateAvatar,
+    animateEmojis = animateEmojis,
+    showBotOverlay = showBotOverlay
 ) {
+
     override fun createAccountViewHolder(parent: ViewGroup): AccountViewHolder {
-        val binding = ItemAccountBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemAccountBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AccountViewHolder(binding)
     }
 

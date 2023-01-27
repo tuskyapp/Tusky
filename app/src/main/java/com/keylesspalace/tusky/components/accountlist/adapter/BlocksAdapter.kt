@@ -32,11 +32,12 @@ class BlocksAdapter(
     animateEmojis: Boolean,
     showBotOverlay: Boolean,
 ) : AccountAdapter<BindingHolder<ItemBlockedUserBinding>>(
-    accountActionListener,
-    animateAvatar,
-    animateEmojis,
-    showBotOverlay
+    accountActionListener = accountActionListener,
+    animateAvatar = animateAvatar,
+    animateEmojis = animateEmojis,
+    showBotOverlay = showBotOverlay
 ) {
+
     override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemBlockedUserBinding> {
         val binding = ItemBlockedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)

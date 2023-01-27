@@ -35,11 +35,12 @@ class MutesAdapter(
     animateEmojis: Boolean,
     showBotOverlay: Boolean
 ) : AccountAdapter<BindingHolder<ItemMutedUserBinding>>(
-    accountActionListener,
-    animateAvatar,
-    animateEmojis,
-    showBotOverlay
+    accountActionListener = accountActionListener,
+    animateAvatar = animateAvatar,
+    animateEmojis = animateEmojis,
+    showBotOverlay = showBotOverlay
 ) {
+
     private val mutingNotificationsMap = HashMap<String, Boolean>()
 
     override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemMutedUserBinding> {
