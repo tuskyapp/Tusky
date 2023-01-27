@@ -199,11 +199,8 @@ class TrendingFragment :
     private fun applyLoadedState(viewData: List<TrendingViewData>) {
         clearLoadingState()
 
-        val viewDataWithDates = listOf(viewData.first().asHeaderOrNull()) + viewData
-
-        adapter.submitList(viewDataWithDates)
-
         if (viewData.isEmpty()) {
+            adapter.submitList(emptyList())
             binding.recyclerView.hide()
             binding.messageView.show()
             binding.messageView.setup(
@@ -211,6 +208,10 @@ class TrendingFragment :
                 null
             )
         } else {
+            val viewDataWithDates = listOf(viewData.first().asHeaderOrNull()) + viewData
+
+            adapter.submitList(viewDataWithDates)
+
             binding.recyclerView.show()
             binding.messageView.hide()
         }
