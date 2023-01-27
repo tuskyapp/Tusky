@@ -36,4 +36,9 @@
         <item>@string/pref_title_thread_filter_keywords</item>
         <item>@string/pref_title_account_filter_keywords</item>
     </string-array>
+
+    <string-array name="filter_actions">
+        <item>@string/filter_action_warn</item>
+        <item>@string/filter_action_hide</item>
+    </string-array>
 </resources>

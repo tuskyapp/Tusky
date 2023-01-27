@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,28 +8,10 @@ import android.widget.ArrayAdapter
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemRemovableBinding
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 
-class FiltersAdapter(context: Context, val listener: FiltersListener, val filters: List<Filter>) :
-    ArrayAdapter<String>(
-        context,
-        R.layout.item_removable,
-        filters.map { filter ->
-            if (filter.expiresAt == null) {
-                filter.title
-            } else {
-                context.getString(
-                    R.string.filter_expiration_format,
-                    filter.title,
-                    DateUtils.getRelativeTimeSpanString(
-                        filter.expiresAt.time,
-                        System.currentTimeMillis(),
-                        DateUtils.MINUTE_IN_MILLIS,
-                        DateUtils.FORMAT_ABBREV_RELATIVE
-                    )
-                )
-            }
-        }
-    ) {
+class FiltersAdapter(context: Context, val listener: FiltersListener, filters: List<Filter>) :
+    ArrayAdapter<Filter>(context, R.layout.item_removable, filters) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding = if (convertView == null) {
@@ -38,24 +19,37 @@ class FiltersAdapter(context: Context, val listener: FiltersListener, val filter
         } else {
             ItemRemovableBinding.bind(convertView)
         }
-        binding.text.text = filters[position].title
+
+        val resources = binding.root.resources
+        val actions = resources.getStringArray(R.array.filter_actions)
+        val contexts = resources.getStringArray(R.array.filter_contexts)
+
+        getItem(position)?.let { filter ->
+            val context = binding.root.context
+            binding.textPrimary.text = if (filter.expiresAt == null) {
+                filter.title
+            } else {
+                context.getString(
+                    R.string.filter_expiration_format,
+                    filter.title,
+                    getRelativeTimeSpanString(binding.root.context, filter.expiresAt.time, System.currentTimeMillis())
+                )
+            }
+            binding.textSecondary.text = context.getString(
+                R.string.filter_description_format,
+                actions.getOrNull(filter.action.ordinal - 1),
+                filter.context.map { contexts.getOrNull(Filter.Kind.from(it).ordinal) }.joinToString("/")
+            )
+        }
 
         binding.delete.setOnClickListener {
-            deleteFilter(position)
+            getItem(position)?.let { listener.deleteFilter(it) }
         }
 
         binding.root.setOnClickListener {
-            editFilter(position)
+            getItem(position)?.let { listener.updateFilter(it) }
         }
 
         return binding.root
-    }
-
-    private fun deleteFilter(position: Int) {
-        listener.deleteFilter(filters[position])
-    }
-
-    private fun editFilter(position: Int) {
-        listener.updateFilter(filters[position])
     }
 }

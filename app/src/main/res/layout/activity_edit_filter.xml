@@ -80,13 +80,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
-                    android:text="@string/filter_action_warn"/>
+                    android:text="@string/filter_description_warn"/>
                 <RadioButton
                     android:id="@+id/filter_action_hide"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
-                    android:text="@string/filter_action_hide"/>
+                    android:text="@string/filter_description_hide"/>
             </RadioGroup>
 
             <TextView
