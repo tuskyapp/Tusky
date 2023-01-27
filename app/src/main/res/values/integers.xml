@@ -2,5 +2,5 @@
 <resources>
     <integer name="profile_media_column_count">3</integer>
 
-    <integer name="trending_column_count">2</integer>
+    <integer name="trending_column_count">1</integer>
 </resources>
