@@ -323,6 +323,8 @@
     <string name="pref_show_self_username_disambiguate">When multiple accounts logged in</string>
     <string name="pref_show_self_username_never">Never</string>
 
+    <string name="notification_send_error_name">Sending errors</string>
+    <string name="notification_send_error_description">Notifications when posts can not be sent</string>
     <string name="notification_mention_name">New Mentions</string>
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
     <string name="notification_follow_name">New Followers</string>
@@ -693,6 +695,11 @@
     <string name="drafts_failed_loading_reply">Failed loading Reply information</string>
     <string name="draft_deleted">Draft deleted</string>
     <string name="drafts_post_reply_removed">The post you drafted a reply to has been removed</string>
+
+    <plurals name="drafts_failed_count">
+        <item quantity="one">%1$d failure</item>
+        <item quantity="other">%1$d failures</item>
+    </plurals>
 
     <string name="follow_requests_info">Even though your account is not locked, the %1$s staff thought you might want to review follow requests from these accounts manually.</string>
 

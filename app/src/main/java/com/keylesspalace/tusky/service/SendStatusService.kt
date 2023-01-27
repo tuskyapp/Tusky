@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.service
 
 import android.app.Notification
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -78,11 +77,6 @@ class SendStatusService : Service(), Injectable {
         if (intent.hasExtra(KEY_STATUS)) {
             val statusToSend: StatusToSend = intent.getParcelableExtra(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_post_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
-                notificationManager.createNotificationChannel(channel)
-            }
 
             var notificationText = statusToSend.warningText
             if (notificationText.isBlank()) {
@@ -271,7 +265,8 @@ class SendStatusService : Service(), Injectable {
                 R.string.send_post_notification_error_title,
                 R.string.send_post_notification_saved_content,
                 failedStatus.accountId,
-                statusId
+                statusId,
+                channelId = CHANNEL_ID_ERROR
             )
 
             notificationManager.cancel(statusId)
@@ -340,7 +335,8 @@ class SendStatusService : Service(), Injectable {
         @StringRes title: Int,
         @StringRes content: Int,
         accountId: Long,
-        statusId: Int
+        statusId: Int,
+        channelId: String = CHANNEL_ID
     ): Notification {
 
         val intent = Intent(this, MainActivity::class.java)
@@ -354,7 +350,7 @@ class SendStatusService : Service(), Injectable {
             NotificationHelper.pendingIntentFlags(false)
         )
 
-        return NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)
+        return NotificationCompat.Builder(this@SendStatusService, channelId)
             .setSmallIcon(R.drawable.ic_notify)
             .setContentTitle(getString(title))
             .setContentText(getString(content))
@@ -375,7 +371,10 @@ class SendStatusService : Service(), Injectable {
 
         private const val KEY_STATUS = "status"
         private const val KEY_CANCEL = "cancel_id"
-        private const val CHANNEL_ID = "send_toots"
+
+        // These channels are created in TuskyApplication
+        const val CHANNEL_ID = "send_toots"
+        const val CHANNEL_ID_ERROR = "send_toots_failure"
 
         private val MAX_RETRY_INTERVAL = TimeUnit.MINUTES.toMillis(1)
 

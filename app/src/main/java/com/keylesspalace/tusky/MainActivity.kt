@@ -40,6 +40,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -76,6 +77,7 @@ import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
@@ -100,6 +102,7 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
+import com.mikepenz.materialdrawer.holder.DimenHolder
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.AbstractDrawerItem
@@ -132,6 +135,9 @@ import javax.inject.Inject
 class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    @Inject
+    lateinit var database: AppDatabase
 
     @Inject
     lateinit var eventHub: EventHub
@@ -258,6 +264,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
 
+        updateDraftsBadge()
+
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo()
@@ -312,6 +320,34 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 1
             )
+        }
+    }
+
+    /**
+     * Update the badge on the "Drafts" drawer item whenever the count of drafts that
+     * are because of send failures changes.
+     */
+    private fun updateDraftsBadge() {
+        lifecycleScope.launch {
+            database.draftDao()
+                .getFailedToSendCount(accountManager.activeAccount?.id!!)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { count ->
+                    binding.mainDrawer.updateBadge(
+                        DRAWER_ITEM_DRAFTS,
+                        StringHolder(
+                            if (count == 0) {
+                                null
+                            } else {
+                                resources.getQuantityString(
+                                    R.plurals.drafts_failed_count,
+                                    count,
+                                    count
+                                )
+                            }
+                        )
+                    )
+                }
         }
     }
 
@@ -490,8 +526,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 },
                 primaryDrawerItem {
+                    identifier = DRAWER_ITEM_DRAFTS
                     nameRes = R.string.action_access_drafts
                     iconRes = R.drawable.ic_notebook
+                    badgeStyle = BadgeStyle().apply {
+                        textColor = ColorHolder.fromColorRes(R.color.tusky_red)
+                        color = ColorHolder.fromColor(Color.LTGRAY)
+                        paddingLeftRight = DimenHolder.fromDp(6)
+                    }
                     onClick = {
                         val intent = DraftsActivity.newIntent(context)
                         startActivityWithSlideInAnimation(intent)
@@ -954,8 +996,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     companion object {
         private const val TAG = "MainActivity" // logging tag
-        private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
-        private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
+        private const val DRAWER_ITEM_ADD_ACCOUNT = -13L
+        private const val DRAWER_ITEM_ANNOUNCEMENTS = 14L
+        private const val DRAWER_ITEM_DRAFTS = 1L
         const val REDIRECT_URL = "redirectUrl"
         const val OPEN_DRAFTS = "draft"
     }

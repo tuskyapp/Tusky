@@ -16,12 +16,17 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
+import com.keylesspalace.tusky.service.SendStatusService
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
@@ -88,6 +93,38 @@ class TuskyApplication : Application(), HasAndroidInjector {
                 .setWorkerFactory(notificationWorkerFactory)
                 .build()
         )
+
+        createNotificationChannels()
+    }
+
+    /**
+     * Create app-global notification channels for sending and errors. This
+     * ensures that the channels are available and configurable by the user
+     * *before* a status is sent or an error occurs.
+     */
+    // See https://github.com/tuskyapp/Tusky/pull/3185#issuecomment-1399352266
+    private fun createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(
+                Context.NOTIFICATION_SERVICE
+            ) as NotificationManager
+            val channel = NotificationChannel(
+                SendStatusService.CHANNEL_ID,
+                getString(R.string.send_post_notification_channel_name),
+                NotificationManager.IMPORTANCE_LOW
+            )
+            notificationManager.createNotificationChannel(channel)
+
+            val errorChannel = NotificationChannel(
+                SendStatusService.CHANNEL_ID_ERROR,
+                getString(R.string.notification_send_error_name),
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            errorChannel.description = getString(R.string.notification_send_error_description)
+            errorChannel.enableVibration(true)
+            errorChannel.setShowBadge(true)
+            notificationManager.createNotificationChannel(errorChannel)
+        }
     }
 
     override fun androidInjector() = androidInjector
