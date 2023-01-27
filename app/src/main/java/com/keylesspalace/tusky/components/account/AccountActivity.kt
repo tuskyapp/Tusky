@@ -577,6 +577,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     }
                 }
                 updateFollowButton()
+                updateSubscribeButton()
             }
         }
     }
@@ -650,7 +651,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 binding.accountFollowButton.setText(R.string.action_unfollow)
             }
         }
-        updateSubscribeButton()
     }
 
     private fun updateMuteButton() {
@@ -682,17 +682,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             binding.accountFollowButton.show()
             updateFollowButton()
+            updateSubscribeButton()
 
             if (blocking) {
                 binding.accountFloatingActionButton.hide()
                 binding.accountMuteButton.hide()
-                binding.accountSubscribeButton.hide()
             } else {
                 binding.accountFloatingActionButton.show()
-                if (muting)
-                    binding.accountMuteButton.show()
-                else
-                    binding.accountMuteButton.hide()
+                binding.accountMuteButton.visible(muting)
                 updateMuteButton()
             }
         } else {
