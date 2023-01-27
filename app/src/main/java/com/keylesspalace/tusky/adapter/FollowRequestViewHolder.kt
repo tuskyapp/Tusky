@@ -55,6 +55,7 @@ class FollowRequestViewHolder(
         binding.usernameTextView.text = formattedUsername
         val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.avatar, avatarRadius, animateAvatar)
+        binding.avatarBadge.visible(showBotOverlay && account.bot)
     }
 
     fun setupActionListener(listener: AccountActionListener, accountId: String) {

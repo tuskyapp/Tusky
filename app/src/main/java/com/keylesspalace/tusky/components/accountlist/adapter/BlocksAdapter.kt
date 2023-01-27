@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.visible
 
 /** Displays a list of blocked accounts. */
 class BlocksAdapter(
@@ -50,8 +51,11 @@ class BlocksAdapter(
         binding.blockedUserDisplayName.text = emojifiedName
         val formattedUsername = context.getString(R.string.post_username_format, account.username)
         binding.blockedUserUsername.text = formattedUsername
+
         val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.blockedUserAvatar, avatarRadius, animateAvatar)
+
+        binding.blockedUserBotBadge.visible(showBotOverlay && account.bot)
 
         binding.blockedUserUnblock.setOnClickListener {
             accountActionListener.onBlock(false, account.id, position)

@@ -19,6 +19,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
+    <ImageView
+        android:id="@+id/muted_user_bot_badge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/profile_badge_bot_text"
+        android:src="@drawable/bot_badge"
+        app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
+        app:layout_constraintEnd_toEndOf="@id/muted_user_avatar" />
+
     <TextView
         android:id="@+id/muted_user_display_name"
         android:layout_width="0dp"
