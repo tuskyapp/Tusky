@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.adapter
 
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
@@ -35,11 +34,6 @@ class TrendingTagViewHolder(
         maxTrendingValue: Long,
         trendingListener: LinkListener,
     ) {
-        binding.root.layoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            (200 * binding.root.resources.displayMetrics.density).toInt()
-        )
-
         val reversedHistory = tagViewData.tag.history.reversed()
         setGraph(reversedHistory, maxTrendingValue)
         setTag(tagViewData.tag.name)

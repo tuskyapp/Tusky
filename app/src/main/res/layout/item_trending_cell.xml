@@ -12,12 +12,12 @@
     android:padding="8dp"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    tools:layout_height="200dp">
+    tools:layout_height="128dp">
 
     <com.keylesspalace.tusky.view.GraphView
         android:id="@+id/graph"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="160dp"
         android:importantForAccessibility="no"
         app:graphColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
