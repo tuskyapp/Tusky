@@ -4,11 +4,11 @@
     <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
-    <string name="error_failed_app_registration">未能通过该实例的身份验证。</string>
+    <string name="error_failed_app_registration">未能通过该实例的身份验证。如果这个问题持续，请从菜单处尝试“在浏览器中登录”。</string>
     <string name="error_no_web_browser_found">找不到可用的浏览器。</string>
-    <string name="error_authorization_unknown">发生不明授权错误。</string>
-    <string name="error_authorization_denied">授权被拒绝。</string>
-    <string name="error_retrieving_oauth_token">未能获取登录令牌。</string>
+    <string name="error_authorization_unknown">发生不明授权错误。如果这个问题持续，请从菜单处尝试 “在浏览器中登录”。</string>
+    <string name="error_authorization_denied">授权被拒绝。如果你确定提供了正确的凭据，请从菜单处尝试“在浏览器中登录”。</string>
+    <string name="error_retrieving_oauth_token">未能获取登录令牌。如果这个问题持续，请从菜单处尝试 “在浏览器中登录”。</string>
     <string name="error_compose_character_limit">嘟文太长了！</string>
     <string name="error_media_upload_type">无法上传此类型的文件。</string>
     <string name="error_media_upload_opening">此文件无法打开。</string>
@@ -60,7 +60,7 @@
     <string name="action_unfavourite">取消喜欢</string>
     <string name="action_more">更多</string>
     <string name="action_compose">发表嘟文</string>
-    <string name="action_login">登录 Mastodon 帐号</string>
+    <string name="action_login">用 Tusky 登录</string>
     <string name="action_logout">注销</string>
     <string name="action_logout_confirm">确定要退出帐号 %1$s 吗？</string>
     <string name="action_follow">关注</string>
@@ -78,7 +78,7 @@
     <string name="action_close">关闭</string>
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
-    <string name="action_view_account_preferences">帐户设置</string>
+    <string name="action_view_account_preferences">账户设置</string>
     <string name="action_view_favourites">喜欢</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
@@ -293,7 +293,7 @@
     </plurals>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove">移除</string>
-    <string name="lock_account_label">保护你的帐户（锁嘟）</string>
+    <string name="lock_account_label">保护你的账户（锁嘟）</string>
     <string name="lock_account_label_description">你需要手动审核所有关注请求</string>
     <string name="compose_save_draft">保存为草稿？</string>
     <string name="send_post_notification_title">正在发送嘟文…</string>
@@ -425,8 +425,8 @@
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">举报失败</string>
     <string name="failed_fetch_posts">无法获取嘟文</string>
-    <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此帐户的原因的说明：</string>
-    <string name="report_description_remote_instance">该帐户来自其他服务器。向那里发送一份匿名的报告副本？</string>
+    <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此账户的原因的说明：</string>
+    <string name="report_description_remote_instance">该账户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
     <string name="failed_search">搜索失败</string>
     <string name="pref_title_show_notifications_filter">显示通知过滤器</string>
@@ -610,4 +610,7 @@
     <string name="pref_summary_http_proxy_invalid">&lt;无效&gt;</string>
     <string name="pref_reading_order_newest_first">从新到旧</string>
     <string name="pref_reading_order_oldest_first">从旧到新</string>
+    <string name="action_browser_login">用浏览器登录</string>
+    <string name="description_login">多数情况下有效。没有数据泄露给其他应用。</string>
+    <string name="description_browser_login">可能支持额外的验证方法但需要受支持的浏览器。</string>
 </resources>
