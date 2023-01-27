@@ -591,4 +591,7 @@
     <string name="pref_summary_http_proxy_disabled">Tắt</string>
     <string name="pref_summary_http_proxy_missing">&lt;không đặt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;không hợp lệ&gt;</string>
+    <string name="description_browser_login">Có thể hỗ trợ các phương thức xác thực bổ sung nhưng yêu cầu trình duyệt được hỗ trợ.</string>
+    <string name="action_browser_login">Đăng nhập bằng trình duyệt</string>
+    <string name="description_login">Đăng nhập ổn định. Dữ liệu sẽ không bị lộ.</string>
 </resources>

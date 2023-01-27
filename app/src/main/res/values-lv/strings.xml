@@ -468,4 +468,34 @@
     <string name="description_post_cw">Satura brīdinājums: %s</string>
     <string name="about_project_site">Projekta vietne:
 \n https://tusky.app</string>
+    <string name="a11y_label_loading_thread">Ielādē pavedienu</string>
+    <string name="confirmation_hashtag_unfollowed">pārtraukta sekošana #%s</string>
+    <string name="confirmation_domain_unmuted">%s atcelta slēpšana</string>
+    <string name="error_create_list">Nevarēja izveidot sarakstu</string>
+    <string name="pref_title_reading_order">Lasīšanas secība</string>
+    <string name="filter_add_description">Filtrējamā frāze</string>
+    <string name="pref_summary_http_proxy_disabled">Atspējots</string>
+    <string name="pref_summary_http_proxy_missing">&lt;nav iestatīts&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;nederīgs&gt;</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="add_account_description">Pievienot jaunu Mastodon kontu</string>
+    <string name="pref_title_animate_custom_emojis">Animēt pielāgotās emocijzīmes</string>
+    <string name="notification_sign_up_name">Jaunu dalībnieku reģistrācija</string>
+    <string name="pref_show_self_username_disambiguate">Kad pievienoti vairāki konti</string>
+    <string name="restart_required">Nepieciešama lietotnes restartēšana</string>
+    <string name="reblog_private">Pastiprināt sākotnējai auditorijai</string>
+    <string name="description_post_reblogged">Pastiprināts</string>
+    <string name="replying_to">Atbildot @%s</string>
+    <string name="lock_account_label_description">Prasa manuāli apstiprināt sekotājus</string>
+    <string name="title_reblogged_by">Pastiprināja</string>
+    <plurals name="reblogs">
+        <item quantity="zero"><b>%s</b> pastiprinājumi</item>
+        <item quantity="one"><b>%s</b> pastiprinājums</item>
+        <item quantity="other"><b>%s</b> pastiprinājumi</item>
+    </plurals>
+    <plurals name="max_tab_number_reached">
+        <item quantity="zero">sasniegts maksimālais ciļņu skaits %1$d</item>
+        <item quantity="one">sasniegts maksimālais ciļņu skaits %1$d</item>
+        <item quantity="other">sasniegts maksimālais ciļņu skaits %1$d</item>
+    </plurals>
 </resources>
