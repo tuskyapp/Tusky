@@ -602,9 +602,9 @@
         <item quantity="one">Wystąpił problem podczas publikacji posta, ale został on zapisany w szkicach.
 \n
 \nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił post.</item>
-        <item quantity="other">Wystąpił problem podczas publikacji Twojego posta i został on zapisany w szkicach.
-\n
-\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił Twój post.</item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
     </plurals>
     <string name="error_muting_hashtag_format">Wystąpił błąd podczas wyciszania #%1$s</string>
     <string name="error_unmuting_hashtag_format">Wystąpił błąd podczas zdejmowania wyciszenia #%1$s</string>
