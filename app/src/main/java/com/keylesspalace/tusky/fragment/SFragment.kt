@@ -304,11 +304,11 @@ abstract class SFragment : Fragment(), Injectable {
                 }
                 R.id.status_translate -> {
                     if (status.translationResult == null) {
-                        timelineCases.translate(status.id)
-                            .onErrorComplete {
-                                // TODO: this seems bad
-                                Toast.makeText(context, "Translation failed", Toast.LENGTH_LONG)
-                                return@onErrorComplete true
+                        timelineCases.translate(status.actionableId)
+                            .map { return@map }
+                            .onErrorReturn {
+                                // TODO: improve
+                                Log.d("TUSKY", "TRANSLATION FAILED", it)
                             }
                             .observeOn(AndroidSchedulers.mainThread())
                             .to(
@@ -318,7 +318,7 @@ abstract class SFragment : Fragment(), Injectable {
                             )
                             .subscribe()
                     } else
-                        timelineCases.dispatchNullTranslation(status.id)
+                        timelineCases.dispatchNullTranslation(status.actionableId)
                     return@setOnMenuItemClickListener true
                 }
             }

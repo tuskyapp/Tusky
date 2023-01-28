@@ -26,8 +26,9 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import java.util.Date
+import java.util.*
 
 @Entity(primaryKeys = ["id", "accountId"])
 @TypeConverters(Converters::class)
@@ -97,6 +98,7 @@ data class ConversationStatusEntity(
     val muted: Boolean,
     val poll: Poll?,
     val language: String?,
+    val translationResult: TranslationResult?,
 ) {
 
     fun toViewData(): StatusViewData.Concrete {
@@ -130,6 +132,7 @@ data class ConversationStatusEntity(
                 poll = poll,
                 card = null,
                 language = language,
+                translationResult = translationResult,
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
@@ -178,6 +181,7 @@ fun Status.toEntity(
         muted = muted ?: false,
         poll = poll,
         language = language,
+        translationResult = translationResult,
     )
 
 fun Conversation.toEntity(

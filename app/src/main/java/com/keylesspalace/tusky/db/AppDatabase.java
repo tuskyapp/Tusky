@@ -646,4 +646,11 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `DraftEntity` ADD COLUMN `failedToSendNew` INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    public static final Migration MIGRATION_47_48 = new Migration(47, 48) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `translatedResult` TEXT DEFAULT NULL");
+        }
+    };
 }

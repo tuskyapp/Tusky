@@ -201,6 +201,19 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    fun translate(alreadyTranslated: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        try {
+            if (alreadyTranslated)
+                timelineCases.dispatchNullTranslation(status.actionableId)
+            else
+                timelineCases.translate(status.actionableId).await()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
+            }
+        }
+    }
+
     fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
             timelineCases.favourite(status.actionableId, favorite).await()

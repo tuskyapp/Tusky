@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import java.util.Date
+import java.util.*
 
 private const val TAG = "TimelineTypeMappers"
 
@@ -105,6 +105,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         card = null,
         repliesCount = 0,
         language = null,
+        translationResult = null,
     )
 }
 
@@ -149,6 +150,7 @@ fun Status.toEntity(
         card = actionableStatus.card?.let(gson::toJson),
         repliesCount = actionableStatus.repliesCount,
         language = actionableStatus.language,
+        translationResult = actionableStatus.translationResult,
     )
 }
 

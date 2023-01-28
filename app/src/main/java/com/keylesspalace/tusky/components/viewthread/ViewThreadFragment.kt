@@ -299,7 +299,8 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
-        TODO("Not yet implemented")
+        val status = adapter.currentList[position]
+        viewModel.translate(alreadyTranslated, status)
     }
 
     override fun onMore(view: View, position: Int) {

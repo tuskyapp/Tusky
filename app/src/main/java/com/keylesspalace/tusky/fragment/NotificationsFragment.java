@@ -71,6 +71,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TranslationResult;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
@@ -443,13 +444,32 @@ public class NotificationsFragment extends SFragment implements
                 );
     }
 
-    @Override
-    public void onTranslate(boolean alreadyTranslated, int position) {
-        // TODO: not yet implemented
-    }
-
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
         updateStatus(statusId, (s) -> s.copyWithBookmarked(bookmark));
+    }
+
+    @Override
+    public void onTranslate(boolean alreadyTranslated, int position) {
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        if (alreadyTranslated) {
+            setTranslationForStatus(status.getActionableId(), null);
+            return;
+        }
+
+        timelineCases.translate(status.getActionableId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(autoDisposable(from(this)))
+                .subscribe(
+                        (translationResult) -> setTranslationForStatus(status.getId(), translationResult),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to bookmark status: " + status.getId(), t)
+                );
+    }
+
+    protected void setTranslationForStatus(String statusId, TranslationResult translationResult) {
+        updateStatus(statusId, (s) -> s.copyWithTranslation(translationResult));
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {

@@ -26,7 +26,7 @@ class CacheUpdater @Inject constructor(
                 is ReblogEvent ->
                     timelineDao.setReblogged(accountId, event.statusId, event.reblog)
                 is TranslationEvent ->
-                    TODO("Don't how yet")
+                    timelineDao.setTranslation(accountId, event.statusId, event.translation)
                 is BookmarkEvent ->
                     timelineDao.setBookmarked(accountId, event.statusId, event.bookmark)
                 is UnfollowEvent ->

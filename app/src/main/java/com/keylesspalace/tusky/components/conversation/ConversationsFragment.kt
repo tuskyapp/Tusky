@@ -224,7 +224,9 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
-        TODO("Not yet implemented")
+        adapter.peek(position)?.let { conversation ->
+            viewModel.translate(alreadyTranslated, conversation)
+        }
     }
 
     override fun onMore(view: View, position: Int) {

@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.conversation
 
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
 data class ConversationViewData(
@@ -33,7 +34,8 @@ data class ConversationViewData(
         poll: Poll? = lastStatus.status.poll,
         expanded: Boolean = lastStatus.isExpanded,
         collapsed: Boolean = lastStatus.isCollapsed,
-        showingHiddenContent: Boolean = lastStatus.isShowingContent
+        showingHiddenContent: Boolean = lastStatus.isShowingContent,
+        translationResult: TranslationResult? = lastStatus.status.translationResult,
     ): ConversationEntity {
         return ConversationEntity(
             accountId = accountId,
@@ -48,7 +50,8 @@ data class ConversationViewData(
                 poll = poll,
                 expanded = expanded,
                 collapsed = collapsed,
-                showingHiddenContent = showingHiddenContent
+                showingHiddenContent = showingHiddenContent,
+                translationResult = translationResult,
             )
         )
     }
@@ -61,7 +64,8 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
     poll: Poll? = status.poll,
     expanded: Boolean = isExpanded,
     collapsed: Boolean = isCollapsed,
-    showingHiddenContent: Boolean = isShowingContent
+    showingHiddenContent: Boolean = isShowingContent,
+    translationResult: TranslationResult? = status.translationResult,
 ): ConversationStatusEntity {
     return ConversationStatusEntity(
         id = id,
@@ -88,5 +92,6 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         muted = muted,
         poll = poll,
         language = status.language,
+        translationResult = translationResult,
     )
 }

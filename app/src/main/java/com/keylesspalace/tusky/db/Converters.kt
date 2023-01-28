@@ -28,9 +28,10 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TranslationResult
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -83,6 +84,16 @@ class Converters @Inject constructor (
     @TypeConverter
     fun jsonToAccount(accountJson: String?): ConversationAccountEntity? {
         return gson.fromJson(accountJson, ConversationAccountEntity::class.java)
+    }
+
+    @TypeConverter
+    fun optionalTranslationResultToJson(translationResult: TranslationResult?): String {
+        return gson.toJson(translationResult)
+    }
+
+    @TypeConverter
+    fun jsonToOptionalTranslationResult(translationResultJson: String?): TranslationResult? {
+        return gson.fromJson(translationResultJson, TranslationResult::class.java)
     }
 
     @TypeConverter

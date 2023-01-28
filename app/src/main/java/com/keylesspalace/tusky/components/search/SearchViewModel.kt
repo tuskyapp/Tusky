@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.RxAwareViewModel
@@ -163,6 +164,19 @@ class SearchViewModel @Inject constructor(
         updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
         timelineCases.bookmark(statusViewData.id, isBookmarked)
             .onErrorReturnItem(statusViewData.status)
+            .subscribe()
+            .autoDispose()
+    }
+
+    fun translate(statusViewData: StatusViewData.Concrete, alreadyTranslated: Boolean) {
+        if (alreadyTranslated)
+            return timelineCases.dispatchNullTranslation(statusViewData.actionableId)
+        timelineCases.translate(statusViewData.actionableId)
+            .onErrorReturnItem(TranslationResult(
+                statusViewData.status.content,
+                statusViewData.status.language ?: "null",
+                "<error>"
+            ))
             .subscribe()
             .autoDispose()
     }

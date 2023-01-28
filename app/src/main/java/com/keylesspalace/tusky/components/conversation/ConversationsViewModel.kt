@@ -93,6 +93,27 @@ class ConversationsViewModel @Inject constructor(
         }
     }
 
+    fun translate(alreadyTranslated: Boolean, conversation: ConversationViewData) {
+        viewModelScope.launch {
+            try {
+                val translationResult = if (alreadyTranslated) {
+                    timelineCases.dispatchNullTranslation(conversation.lastStatus.actionableId)
+                    null
+                } else
+                    timelineCases.translate(conversation.lastStatus.actionableId).await()
+
+                val newConversation = conversation.toEntity(
+                    accountId = accountManager.activeAccount!!.id,
+                    translationResult = translationResult
+                )
+
+                saveConversationToDb(newConversation)
+            } catch (e: Exception) {
+                Log.w(TAG, "failed to bookmark status", e)
+            }
+        }
+    }
+
     fun voteInPoll(choices: List<Int>, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {

@@ -11,7 +11,8 @@ data class TranslationResult(
     val displayedContent: String
         get() {
             // TODO: Translate this text & do this properly
-            return "$content\n\nTranslated from $detectedSourceLanguage with $provider"
+            // TODO: detectedSourceLanguage is short, map it to full name
+            return "$content\n\n<small>Translated from $detectedSourceLanguage with $provider</small>"
         }
 
 }

@@ -19,8 +19,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import java.util.ArrayList
-import java.util.Date
+import java.util.*
 
 data class Status(
     val id: String,
@@ -71,6 +70,7 @@ data class Status(
     /** Helpers for Java */
     fun copyWithFavourited(favourited: Boolean): Status = copy(favourited = favourited)
     fun copyWithReblogged(reblogged: Boolean): Status = copy(reblogged = reblogged)
+    fun copyWithTranslation(translationResult: TranslationResult?): Status = copy(translationResult = translationResult)
     fun copyWithBookmarked(bookmarked: Boolean): Status = copy(bookmarked = bookmarked)
     fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
     fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
