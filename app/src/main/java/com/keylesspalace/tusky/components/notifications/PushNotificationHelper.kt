@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.util.CryptoUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
-import retrofit2.HttpException
 
 private const val TAG = "PushNotificationHelper"
 
@@ -210,10 +209,8 @@ suspend fun updateUnifiedPushSubscription(context: Context, api: MastodonApi, ac
 suspend fun unregisterUnifiedPushEndpoint(api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
     withContext(Dispatchers.IO) {
         api.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
-            .onFailure {
-                Log.d(TAG, "Error unregistering push endpoint for account " + account.id)
-                Log.d(TAG, Log.getStackTraceString(it))
-                Log.d(TAG, (it as HttpException).response().toString())
+            .onFailure { throwable ->
+                Log.w(TAG, "Error unregistering push endpoint for account " + account.id, throwable)
             }
             .onSuccess {
                 Log.d(TAG, "UnifiedPush unregistration succeeded for account " + account.id)
