@@ -633,4 +633,13 @@
     <string name="action_browser_login">Увійти через браузер</string>
     <string name="description_login">Працює в більшості випадків. Дані не витікають в інші застосунки.</string>
     <string name="description_browser_login">Може підтримувати додаткові методи автентифікації, але для цього потрібен підтримуваний браузер.</string>
+    <string name="action_post_failed">Не вдалося вивантажити</string>
+    <string name="action_post_failed_show_drafts">Показати чернетки</string>
+    <string name="action_post_failed_do_nothing">Відхилити</string>
+    <string name="action_post_failed_detail">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\n
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
+    <string name="action_post_failed_detail_plural">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\n
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
 </resources>
