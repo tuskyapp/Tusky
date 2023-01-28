@@ -56,7 +56,7 @@
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Tusky</string>
     <string name="action_logout">Sair</string>
-    <string name="action_logout_confirm">Tem certeza de que deseja sair de %1$s\? Isso excluirá todos os dados locais da conta, incluindo rascunhos e preferências.</string>
+    <string name="action_logout_confirm">Tem certeza de que deseja sair de %1$s? Isso excluirá todos os dados locais da conta, incluindo rascunhos e preferências.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -537,7 +537,7 @@
     <string name="action_add_or_remove_from_list">Adicionar ou remover da lista</string>
     <string name="failed_to_pin">Falha ao fixar</string>
     <string name="failed_to_unpin">Falha ao desafixar</string>
-    <string name="compose_save_draft_loses_media">Salvar rascunho\? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
+    <string name="compose_save_draft_loses_media">Salvar rascunho? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
     <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
@@ -565,8 +565,8 @@
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Você tem alterações não salvas.</string>
     <string name="description_post_edited">Editado</string>
-    <string name="delete_scheduled_post_warning">Excluir este toot agendado\?</string>
-    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s\?</string>
+    <string name="delete_scheduled_post_warning">Excluir este toot agendado?</string>
+    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s?</string>
     <string name="action_share_account_link">Compartilhar link da conta</string>
     <string name="action_share_account_username">Compartilhar nome de usuário da conta</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
@@ -596,9 +596,9 @@
     <string name="action_refresh">Atualizar</string>
     <string name="action_add">Adicionar</string>
     <string name="notification_unknown_name">Desconhecido</string>
-    <string name="dialog_delete_filter_text">Excluir filtro \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Excluir filtro \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Excluir</string>
-    <string name="dialog_save_profile_changes_message">Você deseja salvar as alterações do seu perfil\?</string>
+    <string name="dialog_save_profile_changes_message">Você deseja salvar as alterações do seu perfil?</string>
     <string name="about_copied">Versão e informações do dispositivo copiadas</string>
     <string name="status_filter_placeholder_label_format">Filtrado: %1$s</string>
     <string name="pref_title_account_filter_keywords">Perfis</string>
@@ -609,7 +609,7 @@
     <string name="filter_action_hide">Esconder</string>
     <string name="about_copy">Copiar a versão e as informações do dispositivo</string>
     <string name="load_newest_notifications">Carregar notificações mais recentes</string>
-    <string name="compose_delete_draft">Excluir rascunho\?</string>
+    <string name="compose_delete_draft">Excluir rascunho?</string>
     <string name="dialog_follow_warning"></string>
     <string name="title_public_trending_statuses"></string>
     <string name="unblock_success"></string>
