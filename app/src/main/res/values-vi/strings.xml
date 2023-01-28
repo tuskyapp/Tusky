@@ -455,7 +455,7 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Ghi chú</string>
+    <string name="account_note_hint">Ghi chú về người này</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang hồ sơ</string>
@@ -594,4 +594,13 @@
     <string name="description_browser_login">Có thể hỗ trợ các phương thức xác thực bổ sung nhưng yêu cầu trình duyệt được hỗ trợ.</string>
     <string name="action_browser_login">Đăng nhập bằng trình duyệt</string>
     <string name="description_login">Đăng nhập ổn định. Dữ liệu sẽ không bị lộ.</string>
+    <string name="action_post_failed">Tải lên thất bại</string>
+    <string name="action_post_failed_detail">Tút của bạn không tải lên được và đã được lưu nháp.
+\n
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+    <string name="action_post_failed_detail_plural">Tút của bạn không tải lên được và đã được lưu nháp.
+\n
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+    <string name="action_post_failed_show_drafts">Xem bản nháp</string>
+    <string name="action_post_failed_do_nothing">Bỏ qua</string>
 </resources>
