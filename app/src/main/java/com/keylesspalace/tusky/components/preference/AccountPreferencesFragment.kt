@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
@@ -229,42 +228,27 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timelines) {
                 // TODO having no activeAccount in this fragment does not really make sense, enforce it?
                 //   All other locations here make in optional, however.
-                val accountPreferenceDataStore = AccountPreferenceDataStore(accountManager, accountManager.activeAccount!!)
+                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, eventHub)
 
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
                     setTitle(R.string.pref_title_show_media_preview)
                     isSingleLineTitle = false
-                    preferenceDataStore = accountPreferenceDataStore
-                    setOnPreferenceChangeListener { _, newValue ->
-                        accountPreferenceDataStore.putBoolean(key, newValue as Boolean)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceHandler
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
                     setTitle(R.string.pref_title_alway_show_sensitive_media)
                     isSingleLineTitle = false
-                    preferenceDataStore = accountPreferenceDataStore
-                    setOnPreferenceChangeListener { _, newValue ->
-                        accountPreferenceDataStore.putBoolean(key, newValue as Boolean)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceHandler
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_OPEN_SPOILER
                     setTitle(R.string.pref_title_alway_open_spoiler)
                     isSingleLineTitle = false
-                    preferenceDataStore = accountPreferenceDataStore
-                    setOnPreferenceChangeListener { _, newValue ->
-                        accountPreferenceDataStore.putBoolean(key, newValue as Boolean)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceHandler
                 }
             }
 
