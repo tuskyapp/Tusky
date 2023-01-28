@@ -81,7 +81,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
                 }
                 setOnPreferenceClickListener {
-                    openNotificationPrefs()
+                    openNotificationSystemPrefs()
                     true
                 }
             }
@@ -276,10 +276,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_public_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.PUBLIC,
-                            R.string.pref_title_public_filter_keywords
-                        )
+                        launchFilterActivity(Filter.PUBLIC, R.string.pref_title_public_filter_keywords)
                         true
                     }
                 }
@@ -303,10 +300,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_thread_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.THREAD,
-                            R.string.pref_title_thread_filter_keywords
-                        )
+                        launchFilterActivity(Filter.THREAD, R.string.pref_title_thread_filter_keywords)
                         true
                     }
                 }
@@ -327,7 +321,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         requireActivity().setTitle(R.string.action_view_account_preferences)
     }
 
-    private fun openNotificationPrefs() {
+    private fun openNotificationSystemPrefs() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val intent = Intent()
             intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
@@ -350,6 +344,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null, language: String? = null) {
+        // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issure #3204
+
         mastodonApi.accountUpdateSource(visibility, sensitive, language)
             .enqueue(object : Callback<Account> {
                 override fun onResponse(call: Call<Account>, response: Response<Account>) {
