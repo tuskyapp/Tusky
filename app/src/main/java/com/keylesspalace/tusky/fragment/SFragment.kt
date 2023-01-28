@@ -302,6 +302,14 @@ abstract class SFragment : Fragment(), Injectable {
                         .subscribe()
                     return@setOnMenuItemClickListener true
                 }
+                R.id.status_translate -> {
+                    if (status.translationResult == null) {
+                        val x = timelineCases.translate(status.id).blockingGet()
+                        x.content
+                    } else
+                        timelineCases.dispatchNullTranslation(status.id)
+                    return@setOnMenuItemClickListener true
+                }
             }
             false
         }
