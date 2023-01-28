@@ -593,7 +593,7 @@
     <string name="description_post_edited">Edytowano</string>
     <string name="report_category_other">Inne</string>
     <string name="post_edited">Edytowano %1$s</string>
-    <string name="delete_scheduled_post_warning">Usunąć ten zaplanowany wpis\?</string>
+    <string name="delete_scheduled_post_warning">Usunąć ten zaplanowany wpis?</string>
     <string name="pref_title_reading_order">Kolejność czytania</string>
     <string name="pref_summary_http_proxy_missing">&lt;nieustawiony&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;niepoprawny&gt;</string>
