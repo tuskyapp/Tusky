@@ -172,11 +172,13 @@ class SearchViewModel @Inject constructor(
         if (alreadyTranslated)
             return timelineCases.dispatchNullTranslation(statusViewData.actionableId)
         timelineCases.translate(statusViewData.actionableId)
-            .onErrorReturnItem(TranslationResult(
-                statusViewData.status.content,
-                statusViewData.status.language ?: "null",
-                "<error>"
-            ))
+            .onErrorReturnItem(
+                TranslationResult(
+                    statusViewData.status.content,
+                    statusViewData.status.language ?: "null",
+                    "<error>",
+                )
+            )
             .subscribe()
             .autoDispose()
     }

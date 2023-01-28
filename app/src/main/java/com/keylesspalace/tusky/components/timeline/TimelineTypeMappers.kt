@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import java.util.*
+import java.util.Date
 
 private const val TAG = "TimelineTypeMappers"
 

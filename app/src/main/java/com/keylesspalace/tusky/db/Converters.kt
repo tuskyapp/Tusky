@@ -31,7 +31,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TranslationResult
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
