@@ -59,7 +59,7 @@ data class Status(
             if (translationResult == null) {
                 return content
             }
-            return translationResult.toString();
+            return translationResult.displayedContent;
         }
 
     val actionableId: String

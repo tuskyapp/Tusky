@@ -304,8 +304,19 @@ abstract class SFragment : Fragment(), Injectable {
                 }
                 R.id.status_translate -> {
                     if (status.translationResult == null) {
-                        val x = timelineCases.translate(status.id).blockingGet()
-                        x.content
+                        timelineCases.translate(status.id)
+                            .onErrorComplete {
+                                // TODO: this seems bad
+                                Toast.makeText(context, "Translation failed", Toast.LENGTH_LONG)
+                                return@onErrorComplete true
+                            }
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .to(
+                                AutoDispose.autoDisposable(
+                                    AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
+                                )
+                            )
+                            .subscribe()
                     } else
                         timelineCases.dispatchNullTranslation(status.id)
                     return@setOnMenuItemClickListener true
