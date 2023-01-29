@@ -42,8 +42,17 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.*
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.settings.AccountPreferenceHandler
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.listPreference
+import com.keylesspalace.tusky.settings.makePreferenceScreen
+import com.keylesspalace.tusky.settings.preference
+import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.switchPreference
+import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getLocaleList
+import com.keylesspalace.tusky.util.getTuskyDisplayName
+import com.keylesspalace.tusky.util.makeIcon
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -227,7 +236,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
             preferenceCategory(R.string.pref_title_timelines) {
                 // TODO having no activeAccount in this fragment does not really make sense, enforce it?
-                //   All other locations here make in optional, however.
+                //   All other locations here make it optional, however.
                 val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, eventHub)
 
                 switchPreference {
@@ -317,7 +326,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null, language: String? = null) {
-        // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issure #3204
+        // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issue #3204
 
         mastodonApi.accountUpdateSource(visibility, sensitive, language)
             .enqueue(object : Callback<Account> {

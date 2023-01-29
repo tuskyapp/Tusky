@@ -6,7 +6,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 
-// TODO this must be possible with DI / @Inject somehow
+// TODO this must be possible with DI / @Inject somehow?
 
 class AccountPreferenceHandler(
     private val account: AccountEntity,
