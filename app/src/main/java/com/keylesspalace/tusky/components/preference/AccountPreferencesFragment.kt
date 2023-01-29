@@ -183,7 +183,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
                     setSummaryProvider { entry }
-                    val visibility = accountManager.activeAccount?.defaultPostPrivacy  ?: Status.Visibility.PUBLIC
+                    val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.serverString()
                     setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
