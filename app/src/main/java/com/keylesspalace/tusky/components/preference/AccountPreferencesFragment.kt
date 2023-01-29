@@ -49,7 +49,10 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getLocaleList
+import com.keylesspalace.tusky.util.getTuskyDisplayName
+import com.keylesspalace.tusky.util.makeIcon
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
