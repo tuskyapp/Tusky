@@ -12,10 +12,10 @@ class AccountPreferenceHandler(
     private val account: AccountEntity,
     private val accountManager: AccountManager,
     private val eventHub: EventHub,
-): PreferenceDataStore() {
+) : PreferenceDataStore() {
 
     override fun getBoolean(key: String?, defValue: Boolean): Boolean {
-        return when(key) {
+        return when (key) {
             PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> account.alwaysShowSensitiveMedia
             PrefKeys.ALWAYS_OPEN_SPOILER -> account.alwaysOpenSpoiler
             PrefKeys.MEDIA_PREVIEW_ENABLED -> account.mediaPreviewEnabled
@@ -25,7 +25,7 @@ class AccountPreferenceHandler(
 
     override fun putBoolean(key: String?, value: Boolean) {
         if (key == null) {
-            return;
+            return
         }
 
         when (key) {
