@@ -262,7 +262,7 @@
     <string name="caption_twemoji">Set emoji safonol Mastodon</string>
     <string name="download_failed">Methodd y llwytho</string>
     <string name="account_moved_description">Mae %1$s wedi symud i:</string>
-    <string name="reblog_private">Hwb i\'r gynulleidfa wreiddiol</string>
+    <string name="reblog_private">Hybu i\'r gynulleidfa wreiddiol</string>
     <string name="unreblog_private">Dad-hybu</string>
     <string name="license_description">Mae Tusky yn cynnwys cod ac asedau o\'r projectau cod agored canlynol:</string>
     <string name="license_apache_2">Yn cael ei drwyddedu o Drwydded Apache (copi isod)</string>
