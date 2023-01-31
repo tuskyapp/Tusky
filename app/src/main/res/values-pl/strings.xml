@@ -7,7 +7,7 @@
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
     <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji. Jeśli problem będzie się powtarzał, spróbuj zalogować się za pomocą przeglądarki z menu aplikacji.</string>
     <string name="error_authorization_denied">Odmówiono autoryzacji. Jeśli jesteś pewien poprawności wprowadzonych danych, spróbuj zalogowania się za pomocą przeglądarki dostępnej w menu.</string>
-    <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
+    <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania. Jeśli problem będzie się powtarzał, spróbuj zalogować się za pomocą przeglądarki z menu aplikacji.</string>
     <string name="error_compose_character_limit">Zbyt długi wpis!</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
@@ -50,11 +50,11 @@
     <string name="action_favourite">Dodaj do ulubionych</string>
     <string name="action_more">Więcej</string>
     <string name="action_compose">Napisz</string>
-    <string name="action_login">Zaloguj się Kontem Mastodon</string>
+    <string name="action_login">Zaloguj się z Tusky</string>
     <string name="action_logout">Wyloguj się</string>
     <string name="action_logout_confirm">Czy na pewno chcesz wylogować się z konta %1$s?</string>
     <string name="action_follow">Obserwuj</string>
-    <string name="action_unfollow">Przestań śledzić</string>
+    <string name="action_unfollow">Przestań obserwować</string>
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
@@ -266,7 +266,7 @@
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
     <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
-    <string name="title_direct_messages">Wiadomości bezpośrednie</string>
+    <string name="title_direct_messages">Bezpośrednie wiadomości</string>
     <string name="title_posts_pinned">Przypięte</string>
     <string name="post_content_show_more">Rozwiń</string>
     <string name="post_content_show_less">Zwiń</string>
@@ -645,4 +645,9 @@
     <string name="failed_to_unpin">Błąd podczas odpinania</string>
     <string name="error_status_source_load">Błąd ładowania źródła statusu z serwera.</string>
     <string name="pref_title_show_self_username">Wyświetl nazwy użytkowników w pasku narzędzi</string>
+    <string name="pref_summary_http_proxy_disabled">Wyłączone</string>
+    <string name="hint_media_description_missing">Media powinny mieć opis.</string>
+    <string name="action_discard">Odrzuć zmiany</string>
+    <string name="action_share_account_username">Udostępnij nazwę użytkownika</string>
+    <string name="action_share_account_link">Udostępnij link do konta</string>
 </resources>
