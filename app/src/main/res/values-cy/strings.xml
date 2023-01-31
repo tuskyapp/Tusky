@@ -9,12 +9,12 @@
     <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os ydych chi\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
     <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
     <string name="error_compose_character_limit">Mae\'ch neges yn rhy hir!</string>
-    <string name="error_media_upload_type">Ni allwch lwytho\'r math hwnnw o ffeil.</string>
+    <string name="error_media_upload_type">Ni allwch lanlwytho\'r math hwnnw o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
     <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen y cyfrwng hwn.</string>
     <string name="error_media_download_permission">Rhaid cael caniatâd i gadw\'r cyfrwng hwn.</string>
     <string name="error_media_upload_image_or_video">Ni allwch atodi delweddau a fideos i\'r un neges.</string>
-    <string name="error_media_upload_sending">Methodd yr uwchlwytho.</string>
+    <string name="error_media_upload_sending">Methodd yr lanlwytho.</string>
     <string name="error_sender_account_gone">Bu gwall wrth anfon y neges.</string>
     <string name="title_home">Hafan</string>
     <string name="title_notifications">Hysbysiadau</string>
@@ -123,8 +123,8 @@
 \nEnghraifft yw\'r man y mae\'ch cyfrif wedi\'i gynnal, ond gallwch yn hawdd gyfathrebu â phobl a\'u dilyn ar enghreifftiau eraill fel petai chi yn yr unfan.
 \n
 \nRhagor o wybodaeth yn <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="dialog_title_finishing_media_upload">Yn gorffen uwchlwytho\'r cyfryngau</string>
-    <string name="dialog_message_uploading_media">Yn uwchlwytho…</string>
+    <string name="dialog_title_finishing_media_upload">Yn Gorffen Lanlwytho\'r Cyfryngau</string>
+    <string name="dialog_message_uploading_media">Yn lanlwytho…</string>
     <string name="dialog_download_image">Lawrlwytho</string>
     <string name="dialog_message_cancel_follow_request">Tynnu\'r cais i ddilyn yn ôl?</string>
     <string name="dialog_unfollow_warning">Dad-ddilyn y cyfrif hwn?</string>
@@ -475,7 +475,7 @@
     <string name="failed_to_add_to_list">Wedi methu ag ychwanegu\'r cyfrif at y rhestr</string>
     <string name="failed_to_remove_from_list">Wedi methu tynnu\'r cyfrif o\'r rhestr</string>
     <string name="instance_rule_info">Drwy fewngofnodi rydych yn cytuno i reolau %s.</string>
-    <string name="compose_save_draft_loses_media">Cadw drafft\? (Bydd atodiadau\'n cael eu llwytho i fyny eto pan fyddwch chi\'n adfer y drafft.)</string>
+    <string name="compose_save_draft_loses_media">Cadw drafft\? (Bydd atodiadau\'n cael eu lanlwytho eto pan fyddwch chi\'n adfer y drafft.)</string>
     <string name="description_post_reblogged">Ailflogiwyd</string>
     <string name="dialog_push_notification_migration_other_accounts">Rydych wedi ail-fewngofnodi i\'ch cyfrif cyfredol i roi caniatâd tanysgrifio gwthio i Tusky. Fodd bynnag, mae gennych gyfrifon eraill o hyd nad ydyn nhw wedi\'u mudo fel hyn. Newidiwch atyn nhw ac ail-fewngofnodi fesul un er mwyn galluogi cefnogaeth hysbysiadau UnifiedPush.</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
@@ -622,12 +622,12 @@
         <item quantity="other">%d munud ar ôl</item>
     </plurals>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="zero">Nid oes modd i chi lwytho mwy na %1$d atodiadau cyfryngau.</item>
-        <item quantity="one">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="two">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="few">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="many">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="other">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="zero">Nid oes modd i chi lanlwytho mwy na %1$d atodiadau cyfryngau.</item>
+        <item quantity="one">Nid oes modd i chi lanlwytho mwy nag %1$d atodiad cyfryngau.</item>
+        <item quantity="two">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="few">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="many">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="other">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
     </plurals>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="zero">Disgrifiwch ar gyfer pobl â nam ar eu golwg
@@ -666,4 +666,13 @@
     <string name="action_browser_login">Mewngofnodi â phorwr</string>
     <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
     <string name="description_browser_login">Gall gefnogi dulliau dilysu ychwanegol, ond mae angen porwr a gefnogir.</string>
+    <string name="action_post_failed_detail">Methodd eich post â lanlwytho ac mae wedi\'i gadw i ddrafftiau.
+\n
+\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y post.</string>
+    <string name="action_post_failed">Wedi methu lanlwytho</string>
+    <string name="action_post_failed_show_drafts">Dangos drafftiau</string>
+    <string name="action_post_failed_do_nothing">Diystyru</string>
+    <string name="action_post_failed_detail_plural">Methodd eich pyst â lanlwytho ac mae wedi\'u cadw i ddrafftiau.
+\n
+\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y pyst.</string>
 </resources>
