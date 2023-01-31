@@ -224,10 +224,10 @@ class GraphView @JvmOverloads constructor(
             for (i in 0 until primaryLineData.size + 1) {
                 drawLine(
                     i * pointDistance,
-                    0f,
-                    i * pointDistance,
                     height.toFloat(),
-                    metaPaint,
+                    i * pointDistance,
+                    height - (height.toFloat() / 20),
+                    metaPaint
                 )
             }
 
