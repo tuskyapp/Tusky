@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -45,6 +46,8 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
+import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.FontScaleContextWrapper;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -54,6 +57,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+    private static final String TAG = "BaseActivity";
 
     @Inject
     public AccountManager accountManager;
@@ -91,6 +95,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
 
         requesters = new HashMap<>();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Log.d(TAG, "attachBaseContext()");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+
+        float uiScaleRatio = preferences.getFloat(PrefKeys.UI_SCALE_RATIO, 100F);
+        Context context = FontScaleContextWrapper.Companion.wrap(
+                newBase,
+                uiScaleRatio / 100.f
+        );
+        super.attachBaseContext(context);
     }
 
     protected boolean requiresLogin() {

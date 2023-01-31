@@ -93,7 +93,9 @@ class PreferencesActivity :
         }
 
         onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
-        restartActivitiesOnBackPressedCallback.isEnabled = savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
+        restartActivitiesOnBackPressedCallback.isEnabled = intent.extras?.getBoolean(
+            EXTRA_RESTART_ON_BACK
+        ) ?: savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
     }
 
     override fun onPreferenceStartFragment(
@@ -149,6 +151,10 @@ class PreferencesActivity :
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }
+            PrefKeys.UI_SCALE_RATIO -> {
+                restartActivitiesOnBackPressedCallback.isEnabled = true
+                this.restartCurrentActivity()
+            }
             "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
             "showSelfUsername", "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
             "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
@@ -172,7 +178,7 @@ class PreferencesActivity :
     override fun androidInjector() = androidInjector
 
     companion object {
-
+        const val TAG = "PreferencesActivity"
         const val GENERAL_PREFERENCES = 0
         const val ACCOUNT_PREFERENCES = 1
         const val NOTIFICATION_PREFERENCES = 2
