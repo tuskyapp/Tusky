@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Suporte para novos tipos de notificação Mastodon 3.5
+- O emblema do bot agora parece melhor e se ajusta ao tema selecionado
+- O texto agora pode ser selecionado na exibição de detalhes do toot
+- Corrigido muitos bugs, incluindo um que impedia logins no Android 6 e inferior
