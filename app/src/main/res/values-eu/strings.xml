@@ -18,9 +18,9 @@
     <string name="error_sender_account_gone">Akatsa tuta bidaltzerakoan.</string>
     <string name="title_home">Hasiera</string>
     <string name="title_notifications">Jakinarazpenak</string>
-    <string name="title_public_local">Lokala</string>
+    <string name="title_public_local">Bertakoa</string>
     <string name="title_public_federated">Federatua</string>
-    <string name="title_view_thread">Tuta</string>
+    <string name="title_view_thread">Haria</string>
     <string name="title_posts">Tutak</string>
     <string name="title_posts_with_replies">Erantzunekin</string>
     <string name="title_follows">Jarraitzen</string>
@@ -28,7 +28,7 @@
     <string name="title_favourites">Gogokoak</string>
     <string name="title_mutes">Isilduak</string>
     <string name="title_blocks">Blokeatuak</string>
-    <string name="title_follow_requests">Eskakizunak</string>
+    <string name="title_follow_requests">Jarraipen-eskaerak</string>
     <string name="title_edit_profile">Profila editatu</string>
     <string name="title_drafts">Zirriborroak</string>
     <string name="title_licenses">Lizentziak</string>
@@ -41,8 +41,8 @@
     <string name="post_content_show_more">Zabaldu</string>
     <string name="post_content_show_less">Itxi</string>
     <string name="footer_empty">Edukirik ez. Arrastatu behera birkargatzeko!</string>
-    <string name="notification_reblog_format">%s(e)k zure tuta bultzatu du</string>
-    <string name="notification_favourite_format">%s(e)k zure tuta gogoko du</string>
+    <string name="notification_reblog_format">%s-(e)k zure tuta bultzatu du</string>
+    <string name="notification_favourite_format">%s-(e)k zure tuta gogoko du</string>
     <string name="notification_follow_format">%s-(e)k jarraitu zaitu</string>
     <string name="report_username_format">\@%s salatu</string>
     <string name="report_comment_hint">Informazio gehigarria?</string>
@@ -52,7 +52,7 @@
     <string name="action_favourite">Gogokoa</string>
     <string name="action_more">Gehiago</string>
     <string name="action_compose">Idatzi</string>
-    <string name="action_login">Saioa hasi</string>
+    <string name="action_login">Tuskykin saioa hasi</string>
     <string name="action_logout">Saioa itxi</string>
     <string name="action_logout_confirm">Ziur zaude %1$s saioa itxi nahi duzula?</string>
     <string name="action_follow">Jarraitu</string>
@@ -279,7 +279,7 @@
     <string name="unpin_action">Desainguratu</string>
     <string name="pin_action">Ainguratu</string>
     <string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
-    <string name="title_direct_messages">Mezu Zuzenak</string>
+    <string name="title_direct_messages">Mezu zuzenak</string>
     <string name="title_tab_preferences">Fitxak</string>
     <string name="title_posts_pinned">Finkatua</string>
     <string name="title_domain_mutes">Ezkutuko domeinuak</string>
@@ -453,10 +453,10 @@
     <string name="hashtags">Traolak</string>
     <string name="dialog_mute_hide_notifications">Jakinarazpenak ezkutatu</string>
     <string name="action_unmute_desc">Desmututu %s</string>
-    <string name="pref_title_hide_top_toolbar">Ezkutatu goiko tresna-barraren izenburua</string>
-    <string name="pref_title_confirm_reblogs">Erakutsi berrespen-abisua tuta bultzatu aurretik</string>
-    <string name="pref_title_show_cards_in_timelines">Erakutsi esteken aurrebista denbora-lerroetan</string>
-    <string name="pref_title_enable_swipe_for_tabs">Gaitu pasatze-keinua fitxetan zehar aldatzeko</string>
+    <string name="pref_title_hide_top_toolbar">Goiko tresna-barraren izenburua ezkutatu</string>
+    <string name="pref_title_confirm_reblogs">Tuta bultzatu aurretik berresteko galdetu</string>
+    <string name="pref_title_show_cards_in_timelines">Esteken aurrebista denbora-lerroetan erakutsi</string>
+    <string name="pref_title_enable_swipe_for_tabs">Irristatzeko keinua gaitu fitxetan zehar mugitzeko</string>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">Minutu %d faltan</item>
         <item quantity="other">%d minutu faltan</item>
@@ -482,7 +482,7 @@
     <string name="drafts_failed_loading_reply">Erantzunaren informazioa ezin izan da kargatu</string>
     <string name="wellbeing_hide_stats_profile">Profiletan estatistika kuantitatiboak ezkutatu</string>
     <string name="draft_deleted">Zirriborroa ezabatu da</string>
-    <string name="drafts_post_reply_removed">Erantzuna idatzi zenuen tuta ezabatu da</string>
+    <string name="drafts_post_reply_removed">Erantzun nahi zenuen tuta ezabatua izan da</string>
     <string name="pref_title_wellbeing_mode">Ongizatea</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Ezin duzu multimedia eranskin %1$d baino gehiago kargatu.</item>
@@ -504,7 +504,7 @@
     <string name="title_announcements">Iragarpenak</string>
     <string name="notification_subscription_description">Jakinarazpenak harpidetuta zauden norbaitek tut berria argitaratu duenean</string>
     <string name="account_note_hint">Kontu honi buruzko zure ohar pribatua</string>
-    <string name="drafts_post_failed_to_send">Tut honek ezin izan du bidali!</string>
+    <string name="drafts_post_failed_to_send">Akatsa tut hau bidaltzean!</string>
     <string name="wellbeing_mode_notice">Zure ongizate mentalean eragina izan dezaketen zenbait informazio ezkutatuta egongo dira. Honek honako hauek ditu:
 \n
 \n - Gogokoak, bultzadak eta jarraitzaileen jakinarazpenak
@@ -523,4 +523,26 @@
     <string name="error_unfollowing_hashtag_format">Akatsa #%s jarraitzerakoan</string>
     <string name="error_could_not_load_login_page">Ezin izan da saio-hasierako orria kargatu.</string>
     <string name="error_loading_account_details">Akatsa kontuaren xehetasunak kargatzerakoan</string>
+    <string name="title_login">Saioa hasi</string>
+    <string name="title_edits">Aldaketak</string>
+    <string name="notification_report_format">Salaketa berria %s-(r)i</string>
+    <string name="notification_header_report_format">%s-(e)k %s salatu du</string>
+    <string name="notification_summary_report_format">%s · %d tutak finkatuak</string>
+    <string name="title_followed_hashtags">Jarraitutako traolak</string>
+    <string name="notification_update_format">%s-(e)k bere tuta editatu du</string>
+    <string name="title_migration_relogin">Berriro saioa hasi push motako jakinarazpenak gaitzeko</string>
+    <string name="action_post_failed">Igoerak huts egin du</string>
+    <string name="action_post_failed_detail">Akatsa zure tuta bidaltzean, beraz, zirriborroetara bidali da.
+\n
+\nZerbitzariarekin ezin izan da komunikatu edo tuta baztertu egin da.</string>
+    <string name="action_post_failed_detail_plural">Akatsa zure tutak bidaltzean, beraz, zirriborroetara bidali dira.
+\n
+\nZerbitzariarekin ezin izan da komunikatu edo zure tutak baztertuak izan dira.</string>
+    <string name="action_post_failed_show_drafts">Zirriborroak erakutsi</string>
+    <string name="action_post_failed_do_nothing">Baztertu</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="action_browser_login">Nabigatzailearekin saioa hasi</string>
+    <string name="post_edited">%s editatua</string>
+    <string name="notification_sign_up_format">%s-(e)k izena eman du</string>
+    <string name="error_status_source_load">Akatsa zerbitzaritik egoeraren iturria kargatzean.</string>
 </resources>
