@@ -198,13 +198,6 @@ class NotificationsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.pagingData.collectLatest { pagingData ->
-                Log.d(TAG, "Submitting data to adapter")
-                adapter.submitData(pagingData)
-            }
-        }
-
         /**
          * Collect this flow to notify the adapter that the timestamps of the visible items have
          * changed
@@ -225,6 +218,13 @@ class NotificationsFragment :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.pagingData.collectLatest { pagingData ->
+                        Log.d(TAG, "Submitting data to adapter")
+                        adapter.submitData(pagingData)
+                    }
+                }
+
                 // Show errors from the view model as snack bars.
                 //
                 // Errors are shown:
