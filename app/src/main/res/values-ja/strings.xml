@@ -3,11 +3,11 @@
     <string name="error_generic">エラーが発生しました。</string>
     <string name="error_empty">本文なしでは投稿できません。</string>
     <string name="error_invalid_domain">無効なドメインです</string>
-    <string name="error_failed_app_registration">そのインスタンスでの認証に失敗しました。</string>
+    <string name="error_failed_app_registration">そのインスタンスでの認証に失敗しました。失敗が続く場合、メニューからブラウザでのログインを試してください。</string>
     <string name="error_no_web_browser_found">ウェブブラウザが見つかりませんでした。</string>
-    <string name="error_authorization_unknown">不明な承認エラーが発生しました。</string>
-    <string name="error_authorization_denied">承認が拒否されました。</string>
-    <string name="error_retrieving_oauth_token">ログイントークンの取得に失敗しました。</string>
+    <string name="error_authorization_unknown">不明な承認エラーが発生しました。失敗が続く場合、メニューからブラウザでのログインを試してください。</string>
+    <string name="error_authorization_denied">認証が拒否されました。正しい認証情報を入力したことが確かな場合、メニューからブラウザでのログインを試してください。</string>
+    <string name="error_retrieving_oauth_token">ログイントークンの取得に失敗しました。もし失敗が続く場合、メニューからブラウザでのログインを試してください。</string>
     <string name="error_compose_character_limit">投稿文が長すぎます！</string>
     <string name="error_media_upload_type">その形式のファイルはアップロードできません。</string>
     <string name="error_media_upload_opening">ファイルを開けませんでした。</string>
@@ -56,7 +56,7 @@
     <string name="action_favourite">お気に入り</string>
     <string name="action_more">その他</string>
     <string name="action_compose">投稿する</string>
-    <string name="action_login">Mastodonでログイン</string>
+    <string name="action_login">TUsky でログイン</string>
     <string name="action_logout">ログアウト</string>
     <string name="action_logout_confirm">アカウント %1$s からログアウトしてもよろしいですか？</string>
     <string name="action_follow">フォローする</string>
@@ -581,4 +581,37 @@
     <string name="send_account_link_to">アカウント URL を共有…</string>
     <string name="send_account_username_to">アカウントのユーザー名を共有…</string>
     <string name="account_username_copied">ユーザー名がコピーされました</string>
+    <string name="a11y_label_loading_thread">スレッドの読み込み中</string>
+    <string name="pref_reading_order_newest_first">新しい順</string>
+    <string name="pref_title_reading_order">読む順番</string>
+    <string name="pref_reading_order_oldest_first">古い順</string>
+    <string name="set_focus_description">サムネイル画像で常に表示される中心点を設定するには、円をタップまたはドラッグして中してくだだい。</string>
+    <string name="mute_notifications_switch">通知のミュート</string>
+    <string name="account_date_joined">%1$s に参加</string>
+    <string name="status_edit_info">%1$s 編集 %2$s</string>
+    <string name="status_created_info">%1$s の投稿 %2$s</string>
+    <string name="post_lookup_error_format">投稿 %s の検索エラー</string>
+    <string name="error_failed_set_focus">中心点の設定に失敗しました</string>
+    <string name="follow_requests_info">アカウントがロックされていなかったとしても、%1$s のスタッフは以下のアカウントのフォローリクエストを確認した方がいいと判断しました。</string>
+    <string name="action_set_focus">中心点の設定</string>
+    <string name="compose_unsaved_changes">保存していない変更があります。</string>
+    <string name="error_status_source_load">サーバーからステータスの元情報を取得できませんでした。</string>
+    <string name="pref_summary_http_proxy_disabled">無効</string>
+    <string name="pref_summary_http_proxy_missing">&lt;設定なし&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;無効&gt;</string>
+    <string name="pref_title_notification_filter_updates">やり取りした投稿が編集された時</string>
+    <string name="notification_update_description">やり取りした投稿が編集されたときの通知</string>
+    <string name="pref_title_http_proxy_port_message">ポートは %d から %d の間でなければなりません</string>
+    <string name="action_post_failed">アップロードに失敗しました</string>
+    <string name="action_post_failed_detail">アップロードに失敗した投稿は下書きに保存されました。
+\n
+\nサーバーと接続できなかったか、投稿が拒否されました。</string>
+    <string name="action_post_failed_show_drafts">下書きを表示</string>
+    <string name="action_post_failed_do_nothing">閉じる</string>
+    <string name="action_browser_login">ブラウザでログイン</string>
+    <string name="description_login">ほとんどの場合に動作します。他のアプリにはデータが漏洩しません。</string>
+    <string name="description_browser_login">追加の認証方法がサポートされる可能性がありますが、対応ブラウザが必要です。</string>
+    <string name="action_post_failed_detail_plural">アップロードに失敗した投稿は下書きに保存されました。
+\n
+\nサーバーと接続できなかったか、投稿が拒否されました。</string>
 </resources>

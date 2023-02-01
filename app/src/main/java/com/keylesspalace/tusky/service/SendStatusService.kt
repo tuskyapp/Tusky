@@ -265,7 +265,7 @@ class SendStatusService : Service(), Injectable {
 
             mediaUploader.cancelUploadScope(*failedStatus.media.map { it.localId }.toIntArray())
 
-            saveStatusToDrafts(failedStatus)
+            saveStatusToDrafts(failedStatus, failedToSendAlert = true)
 
             val notification = buildDraftNotification(
                 R.string.send_post_notification_error_title,
@@ -288,7 +288,7 @@ class SendStatusService : Service(), Injectable {
             val sendJob = sendJobs.remove(statusId)
             sendJob?.cancel()
 
-            saveStatusToDrafts(statusToCancel)
+            saveStatusToDrafts(statusToCancel, failedToSendAlert = false)
 
             val notification = buildDraftNotification(
                 R.string.send_post_notification_cancel_title,
@@ -305,7 +305,7 @@ class SendStatusService : Service(), Injectable {
         }
     }
 
-    private suspend fun saveStatusToDrafts(status: StatusToSend) {
+    private suspend fun saveStatusToDrafts(status: StatusToSend, failedToSendAlert: Boolean) {
         draftHelper.saveDraft(
             draftId = status.draftId,
             accountId = status.accountId,
@@ -319,6 +319,7 @@ class SendStatusService : Service(), Injectable {
             mediaFocus = status.media.map { it.focus },
             poll = status.poll,
             failedToSend = true,
+            failedToSendAlert = failedToSendAlert,
             scheduledAt = status.scheduledAt,
             language = status.language,
             statusId = status.statusId,

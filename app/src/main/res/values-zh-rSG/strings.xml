@@ -60,9 +60,9 @@
     <string name="action_unfavourite">取消喜欢</string>
     <string name="action_more">更多</string>
     <string name="action_compose">新嘟文</string>
-    <string name="action_login">登录 Mastodon 帐号</string>
+    <string name="action_login">登录 Mastodon 账号</string>
     <string name="action_logout">退出登录</string>
-    <string name="action_logout_confirm">确定要退出帐号 %1$s 吗？</string>
+    <string name="action_logout_confirm">确定要退出账号 %1$s 吗？</string>
     <string name="action_follow">关注</string>
     <string name="action_unfollow">取消关注</string>
     <string name="action_block">屏蔽</string>
@@ -141,10 +141,11 @@
     <string name="label_header">标题</string>
     <string name="link_whats_an_instance">需要帮助？</string>
     <string name="login_connection">正在连接…</string>
-    <string name="dialog_whats_an_instance">请输入你帐号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
-        \n\n还没有 Mastodon 帐号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的帐号并授权 Tusky 登入。
-        \n\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。
-    </string>
+    <string name="dialog_whats_an_instance">请输入你账号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
+\n
+\n还没有 Mastodon 账号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的账号并授权 Tusky 登入。
+\n
+\n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
     <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
     <string name="dialog_download_image">下载</string>
@@ -239,7 +240,7 @@
         问题反馈：\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
-    <string name="about_tusky_account">Tusky 官方帐号</string>
+    <string name="about_tusky_account">Tusky 官方账号</string>
     <string name="post_share_content">分享嘟文内容</string>
     <string name="post_share_link">分享嘟文链接</string>
     <string name="post_media_images">照片</string>
@@ -268,8 +269,8 @@
     <string name="filter_dialog_remove_button">移除</string>
     <string name="filter_dialog_update_button">更新</string>
     <string name="filter_add_description">需要过滤的文字</string>
-    <string name="add_account_name">添加帐号</string>
-    <string name="add_account_description">添加新的 Mastodon 帐号</string>
+    <string name="add_account_name">添加账号</string>
+    <string name="add_account_description">添加新的 Mastodon 账号</string>
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
     <string name="error_create_list">无法新建列表</string>
