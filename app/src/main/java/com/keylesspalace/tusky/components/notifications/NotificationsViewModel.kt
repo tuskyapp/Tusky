@@ -9,7 +9,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteConversationEvent
+import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -108,7 +111,21 @@ sealed class NotificationAction : FallibleUiAction() {
     data class RejectFollowRequest(val accountId: String) : NotificationAction()
 }
 
-sealed class UiSuccess
+sealed class UiSuccess {
+    // These three are from menu items on the status. Currently they don't come to the
+    // viewModel as actions, they're noticed when events are posted. That will change,
+    // but for the moment we can still report them to the UI. Typically, receiving any
+    // of these three should trigger the UI to refresh.
+
+    /** A user was blocked */
+    object Block : UiSuccess()
+
+    /** A user was muted */
+    object Mute : UiSuccess()
+
+    /** A conversation was muted */
+    object MuteConversation : UiSuccess()
+}
 
 /** The result of a successful action on a notification */
 sealed class NotificationActionSuccess(
@@ -409,6 +426,17 @@ class NotificationsViewModel @Inject constructor(
                         ifExpected(e) { uiError.emit(UiError.make(e, action)) }
                     }
                 }
+        }
+
+        // Handle events that should refresh the list
+        viewModelScope.launch {
+            eventHub.events.asFlow().collectLatest {
+                when (it) {
+                    is BlockEvent -> uiSuccess.emit(UiSuccess.Block)
+                    is MuteEvent -> uiSuccess.emit(UiSuccess.Mute)
+                    is MuteConversationEvent -> uiSuccess.emit(UiSuccess.MuteConversation)
+                }
+            }
         }
 
         // The database stores "0" as the last notification ID if notifications have not been

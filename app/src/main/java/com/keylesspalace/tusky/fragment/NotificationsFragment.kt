@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapt
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.notifications.StatusAction
 import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
+import com.keylesspalace.tusky.components.notifications.UiSuccess
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -327,6 +328,17 @@ class NotificationsFragment :
 
                             adapter.notifyItemChanged(indexedViewData.index)
                         }
+                }
+
+                // Refresh adapter on mutes and blocks
+                this.launch {
+                    viewModel.uiSuccess.collectLatest {
+                        when (it) {
+                            is UiSuccess.Block, is UiSuccess.Mute, is UiSuccess.MuteConversation ->
+                                adapter.refresh()
+                            else -> { /* nothing to do */ }
+                        }
+                    }
                 }
 
                 // Update filter option visibility from uiState
