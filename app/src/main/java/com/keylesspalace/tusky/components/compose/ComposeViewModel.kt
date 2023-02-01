@@ -334,17 +334,20 @@ class ComposeViewModel @Inject constructor(
             }
         }
 
-        val updatedItem = newMediaList.find { it.localId == localId }
-        if (updatedItem?.id != null) {
-            val focus = updatedItem.focus
-            val focusString = if (focus != null) "${focus.x},${focus.y}" else null
-            return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
-                .fold({
-                    true
-                }, { throwable ->
-                    Log.w(TAG, "failed to update media", throwable)
-                    false
-                })
+        if (!editing) {
+            // Updates to media for already-published statuses need to go through the status edit api
+            val updatedItem = newMediaList.find { it.localId == localId }
+            if (updatedItem?.id != null) {
+                val focus = updatedItem.focus
+                val focusString = if (focus != null) "${focus.x},${focus.y}" else null
+                return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
+                    .fold({
+                        true
+                    }, { throwable ->
+                        Log.w(TAG, "failed to update media", throwable)
+                        false
+                    })
+            }
         }
         return true
     }
