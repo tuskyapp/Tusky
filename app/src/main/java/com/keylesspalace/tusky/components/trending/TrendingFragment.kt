@@ -138,6 +138,8 @@ class TrendingFragment :
                 processViewState(trendingState)
             }
         }
+
+        (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
     }
 
     private fun setupSwipeRefreshLayout() {
