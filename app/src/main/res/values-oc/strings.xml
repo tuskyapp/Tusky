@@ -3,11 +3,11 @@
     <string name="error_generic">S\'es produch una error.</string>
     <string name="error_empty">Aquò pot pas èsser void.</string>
     <string name="error_invalid_domain">Lo domeni picat es pas valid</string>
-    <string name="error_failed_app_registration">L\'autenticacion en aquesta instància a fracassat.</string>
+    <string name="error_failed_app_registration">L\'autenticacion en aquesta instància a fracassat. Se ten de se produire, ensajatz la connexion via Navigador via lo menú.</string>
     <string name="error_no_web_browser_found">Cap de navegador web pas trobat d’utilizar.</string>
-    <string name="error_authorization_unknown">S\'es produch una error d\'autoritzacion pas identificada.</string>
-    <string name="error_authorization_denied">L\'autoritzacion es estada regetada.</string>
-    <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del testimoni d\'iniciacion de session.</string>
+    <string name="error_authorization_unknown">S\'es produch una error d\'autorizacion pas identificada. Se ten de se produire, ensajatz la connexion via Navigador via lo menú.</string>
+    <string name="error_authorization_denied">L\'autorizacion es estada regetada.</string>
+    <string name="error_retrieving_oauth_token">Fracàs de l’obtencion del geton d\'iniciacion de session.</string>
     <string name="error_compose_character_limit">La publicacion es tròp longa !</string>
     <string name="error_media_upload_type">Aqueste tip de fichièr se pòt pas mandar.</string>
     <string name="error_media_upload_opening">Aqueste tip de fichièr se pòt pas dobrir.</string>
@@ -51,7 +51,7 @@
     <string name="action_favourite">Aimar</string>
     <string name="action_more">Mai</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Començar la session amb Mastodon</string>
+    <string name="action_login">Començar la session amb Tusky</string>
     <string name="action_logout">Tampar la session</string>
     <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?</string>
     <string name="action_follow">Seguir</string>
@@ -601,4 +601,28 @@
     <string name="action_discard">Ignorar las modificacions</string>
     <string name="action_continue_edit">Téner de modificar</string>
     <string name="compose_unsaved_changes">Avètz de modificacions pas salvadas.</string>
+    <string name="a11y_label_loading_thread">Cargament del fil</string>
+    <string name="pref_title_reading_order">Òrdre de lectura</string>
+    <string name="pref_reading_order_oldest_first">Mai ancians en primièr</string>
+    <string name="pref_reading_order_newest_first">Mai recents primièr</string>
+    <string name="pref_summary_http_proxy_disabled">Desactivat</string>
+    <string name="pref_summary_http_proxy_missing">&lt;pas definit&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;invalid&gt;</string>
+    <string name="action_share_account_link">Partejar lo ligam al compte</string>
+    <string name="action_share_account_username">Partejar lo nom d’utilizaire del compte</string>
+    <string name="send_account_link_to">Partejar l’URL del compte amb…</string>
+    <string name="send_account_username_to">Partejar lo nom d’utilizaire del compte amb…</string>
+    <string name="account_username_copied">Nom d’utilizaire copiat</string>
+    <string name="action_post_failed">Mandadís fracassat</string>
+    <string name="action_post_failed_show_drafts">Afichar los borrolhons</string>
+    <string name="action_post_failed_do_nothing">Ignorar</string>
+    <string name="action_post_failed_detail">Vòstra publicacion a pas pogut s’enviar e es estada salvada als borrolhons.
+\n
+\nSiá se podiá pas contactar lo servidor, siá aquel a regetat la publicacion.</string>
+    <string name="action_post_failed_detail_plural">Vòstras publicacions an pas pogut s’enviar e son estadas salvadas als borrolhons.
+\n
+\nSiá se podiá pas contactar lo servidor, siá aquel a regetat las publicacions.</string>
+    <string name="action_browser_login">Connexion via Navigador</string>
+    <string name="description_browser_login">Poiriá prendre en carga de metòdes d’autentificacions suplementaris, mas requerís un navigador compatible.</string>
+    <string name="description_login">Fonciona los tres quarts del temps. Cap de donadas pèrdon pas per las autras aplicacions.</string>
 </resources>

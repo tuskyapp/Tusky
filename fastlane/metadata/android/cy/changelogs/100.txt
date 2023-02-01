@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Cefnogaeth ar gyfer golygu post
+- Gosodiad newydd i ddewis y cyfeiriad darllen a ffefrir
+- Rhagluniau cyfryngau mwy a throshaen newydd i nodi cyfryngau gyda disgrifiad
+- Mae bellach yn bosibl ychwanegu cyfrifon at restrau o'u proffil
+a llawer mwy

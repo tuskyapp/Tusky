@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ett fel har uppstått.</string>
-    <string name="error_network">Ett nätverksfel inträffade! Kontrollera att du är ansluten till internet och försök igen! </string>
-    <string name="error_empty">Det här kan inte vara tomt.</string>
+    <string name="error_network">Ett nätverksfel inträffade. Kontrollera att du är ansluten till internet och försök igen.</string>
+    <string name="error_empty">Detta kan inte vara tomt.</string>
     <string name="error_invalid_domain">Ogiltig domän angiven</string>
-    <string name="error_failed_app_registration">Kunde inte med att autentisera med den instansen.</string>
+    <string name="error_failed_app_registration">Misslyckades att autentisera med denna instans. Om problemet kvarstår, försök att logga in via webbläsare från menyn.</string>
     <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare.</string>
-    <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade.</string>
-    <string name="error_authorization_denied">Ingen behörighet.</string>
+    <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade. Om problemet kvarstår, försök att logga in via webbläsare från menyn.</string>
+    <string name="error_authorization_denied">Ingen behörighet. Om du är säker på att användarnamn och lösenord är korrekt, försök att logga in via webbläsare från menyn.</string>
     <string name="error_retrieving_oauth_token">Misslyckades med att få en inloggnings-token.</string>
     <string name="error_compose_character_limit">Inlägget är för långt!</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
@@ -33,7 +33,7 @@
     <string name="title_mutes">Tystade användare</string>
     <string name="title_blocks">Blockerade användare</string>
     <string name="title_follow_requests">Följarförfrågningar</string>
-    <string name="title_edit_profile">Ändra din profil</string>
+    <string name="title_edit_profile">Redigera din profil</string>
     <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Licenser</string>
     <string name="post_username_format">\@%s</string>
@@ -60,7 +60,7 @@
     <string name="action_unfavourite">Ta bort favorit</string>
     <string name="action_more">Mer</string>
     <string name="action_compose">Skriv</string>
-    <string name="action_login">Logga in med Mastodon</string>
+    <string name="action_login">Logga in med Tusky</string>
     <string name="action_logout">Logga ut</string>
     <string name="action_logout_confirm">Är du säker på att du vill logga ut från kontot %1$s?</string>
     <string name="action_follow">Följ</string>
@@ -442,7 +442,7 @@
     <string name="poll_new_choice_hint">Val %d</string>
     <string name="edit_poll">Redigera</string>
     <string name="title_scheduled_posts">Schemalagda toots</string>
-    <string name="action_edit">Ändra</string>
+    <string name="action_edit">Redigera</string>
     <string name="action_access_scheduled_posts">Schemalagda toots</string>
     <string name="action_schedule_post">Schemalägg toot</string>
     <string name="action_reset_schedule">Återställ</string>
@@ -493,7 +493,7 @@
     <string name="wellbeing_hide_stats_profile">Dölj kvantitativ information på profiler</string>
     <string name="wellbeing_hide_stats_posts">Dölj kvantitativ information på inlägg</string>
     <string name="limit_notifications">Begränsa tidslinje aviseringar</string>
-    <string name="review_notifications">Ändra aviseringar</string>
+    <string name="review_notifications">Revidera aviseringar</string>
     <string name="wellbeing_mode_notice">Information som kan påverka ditt välmående kommer att döljas. Detta inkluderar:
 \n
 \n- Favoritmarkering-/Knuff-/Följaraviseringar
@@ -614,4 +614,18 @@
     <string name="action_discard">Förkasta ändringar</string>
     <string name="action_continue_edit">Fortsätt redigera</string>
     <string name="compose_unsaved_changes">Du har ändringar som inte sparats.</string>
+    <string name="action_post_failed">Uppladdning misslyckades</string>
+    <string name="action_post_failed_detail">Ett fel inträffade när inlägget skulle laddas upp och har sparats till utkast.
+\n
+\nAntingen kunde servern inte kontaktas, eller så nekades uppladdningen.</string>
+    <string name="action_post_failed_show_drafts">Visa utkast</string>
+    <string name="action_browser_login">Logga in via webbläsare</string>
+    <string name="pref_summary_http_proxy_disabled">Inaktiverad</string>
+    <string name="pref_summary_http_proxy_missing">&lt;ej angiven&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;felaktig&gt;</string>
+    <string name="action_post_failed_detail_plural">Uppladdning av dina inlägg misslyckades och de har sparats i utkast.
+\n
+\nAntingen kunde inte servern nås eller så har uppladdningen nekats.</string>
+    <string name="action_post_failed_do_nothing">Stäng</string>
+    <string name="description_login">Fungerar i de flesta fallen. Ingen information läcker till andra applikationer.</string>
 </resources>

@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Suporte a edição de toots
+- Nova configuração para controlar a direção de leitura preferida
+- Pré-visualizações de mídia maiores e uma novo indicador de mídias com descrição
+- Agora é possível adicionar contas a listas diretamente de seus perfis
+e muito mais
