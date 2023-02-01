@@ -121,6 +121,7 @@ class MainActivityTest {
         activity.accountManager = mock {
             on { activeAccount } doReturn accountEntity
         }
+        activity.draftsAlert = mock {}
         activity.mastodonApi = mock {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
             onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())

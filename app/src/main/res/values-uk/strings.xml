@@ -36,7 +36,7 @@
     <string name="action_logout">Вийти</string>
     <string name="title_drafts">Чернетки</string>
     <string name="title_favourites">Вподобане</string>
-    <string name="action_login">Увійти з Mastodon</string>
+    <string name="action_login">Увійти з Tusky</string>
     <string name="login_connection">Зʼєднання…</string>
     <string name="search_no_results">Немає результатів</string>
     <string name="hint_search">Пошук…</string>
@@ -139,10 +139,10 @@
     <string name="title_view_thread">Тред</string>
     <string name="title_tab_preferences">Вкладки</string>
     <string name="error_media_upload_sending">Не вдалося відвантажити.</string>
-    <string name="error_retrieving_oauth_token">Не вдалося отримати токен входу.</string>
-    <string name="error_authorization_denied">Авторизацію відхилено.</string>
-    <string name="error_authorization_unknown">Сталася помилка невпізнання авторизації.</string>
-    <string name="error_failed_app_registration">Помилка автентифікації цього сервера.</string>
+    <string name="error_retrieving_oauth_token">Не вдалося отримати токен входу. Якщо проблема не зникає, спробуйте увійти через браузер з меню.</string>
+    <string name="error_authorization_denied">Авторизацію відхилено. Якщо ви впевнені, що вказали правильні облікові дані, спробуйте увійти через браузер з меню.</string>
+    <string name="error_authorization_unknown">Сталася помилка невпізнання авторизації. Якщо проблема не зникає, спробуйте увійти через браузер з меню.</string>
+    <string name="error_failed_app_registration">Помилка автентифікації цього сервера. Якщо проблема не зникає, спробуйте увійти через браузер з меню.</string>
     <string name="error_invalid_domain">Введено недійсний домен</string>
     <string name="action_open_reblogged_by">Показати поширення</string>
     <string name="pref_title_show_boosts">Показати поширення</string>
@@ -630,4 +630,16 @@
     <string name="pref_summary_http_proxy_disabled">Вимкнено</string>
     <string name="pref_summary_http_proxy_missing">&lt;не налаштовано&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;недійсний&gt;</string>
+    <string name="action_browser_login">Увійти через браузер</string>
+    <string name="description_login">Працює в більшості випадків. Дані не витікають в інші застосунки.</string>
+    <string name="description_browser_login">Може підтримувати додаткові методи автентифікації, але для цього потрібен підтримуваний браузер.</string>
+    <string name="action_post_failed">Не вдалося вивантажити</string>
+    <string name="action_post_failed_show_drafts">Показати чернетки</string>
+    <string name="action_post_failed_do_nothing">Відхилити</string>
+    <string name="action_post_failed_detail">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\n
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
+    <string name="action_post_failed_detail_plural">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\n
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
 </resources>

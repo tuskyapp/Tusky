@@ -1,0 +1,13 @@
+Tusky v6.0
+
+- Mae hidlwyr ffrwd wedi symud i ddewisiadau'ch cyfrif a byddant yn cysoni â'r gweinydd
+- Nawr gallwch chi gael hashnod wedi'i deilwra fel tab yn y prif ryngwyneb
+- Bellach gellir golygu rhestrau
+- Diogelwch: dileu cefnogaeth ar gyfer TLS 1.0 a TLS 1.1, ac ychwanegu cefnogaeth i TLS 1.3 ar Android 6+
+- Bydd yr olygfa gyfansoddi nawr yn awgrymu emojis personol wrth ddechrau teipio
+- Gosodiad thema newydd "dilyn thema system"
+- Gwell hygyrchedd y ffrwd
+- Bydd Tusky nawr yn anwybyddu hysbysiadau anhysbys ac ni fyddant yn chwalu mwyach
+- Lleoliad newydd: Nawr gallwch chi ddiystyru iaith y system a gosod iaith wahanol yn Tusky
+- Cyfieithiadau newydd: Tsieceg ac Esperanto
+- Llawer o welliannau ac atebion eraill

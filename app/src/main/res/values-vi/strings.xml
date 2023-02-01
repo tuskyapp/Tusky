@@ -93,7 +93,7 @@
     <string name="send_post_link_to">Đăng lại URL tút với…</string>
     <string name="send_post_content_to">Đăng lại tút với…</string>
     <string name="downloading_media">Đang lưu vào thiết bị</string>
-    <string name="download_media">Tải về</string>
+    <string name="download_media">Tải xuống</string>
     <string name="action_share_as">Đăng lại với tư cách …</string>
     <string name="action_open_as">Mở với tư cách %s</string>
     <string name="action_copy_link">Chép URL</string>
@@ -455,7 +455,7 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Ghi chú</string>
+    <string name="account_note_hint">Ghi chú về người này</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang hồ sơ</string>
@@ -571,7 +571,7 @@
     <string name="hint_media_description_missing">Hình ảnh phải có mô tả.</string>
     <string name="error_status_source_load">Không xác định được trạng thái máy chủ.</string>
     <string name="pref_title_http_proxy_port_message">Cổng nên là khoảng giữa %d đến %d</string>
-    <string name="post_media_alt">✤</string>
+    <string name="post_media_alt">✦</string>
     <string name="action_discard">Hủy bỏ thay đổi</string>
     <string name="action_continue_edit">Tiếp tục sửa</string>
     <string name="compose_unsaved_changes">Thay đổi chưa được lưu.</string>
@@ -591,4 +591,16 @@
     <string name="pref_summary_http_proxy_disabled">Tắt</string>
     <string name="pref_summary_http_proxy_missing">&lt;không đặt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;không hợp lệ&gt;</string>
+    <string name="description_browser_login">Có thể hỗ trợ các phương thức xác thực bổ sung nhưng yêu cầu trình duyệt được hỗ trợ.</string>
+    <string name="action_browser_login">Đăng nhập bằng trình duyệt</string>
+    <string name="description_login">Đăng nhập ổn định. Dữ liệu sẽ không bị lộ.</string>
+    <string name="action_post_failed">Tải lên thất bại</string>
+    <string name="action_post_failed_detail">Tút của bạn không tải lên được và đã được lưu nháp.
+\n
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+    <string name="action_post_failed_detail_plural">Tút của bạn không tải lên được và đã được lưu nháp.
+\n
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+    <string name="action_post_failed_show_drafts">Xem bản nháp</string>
+    <string name="action_post_failed_do_nothing">Bỏ qua</string>
 </resources>
