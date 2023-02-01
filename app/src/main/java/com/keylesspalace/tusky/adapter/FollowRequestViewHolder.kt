@@ -43,7 +43,8 @@ class FollowRequestViewHolder(
         payloads: List<*>?,
         statusDisplayOptions: StatusDisplayOptions
     ) {
-        // TODO: This was in the original code. Why skip if there's a payload?
+        // Skip updates with payloads. That indicates a timestamp update, and
+        // this view does not have timestamps.
         if (!payloads.isNullOrEmpty()) return
 
         setupWithAccount(
