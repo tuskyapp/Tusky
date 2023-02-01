@@ -193,6 +193,25 @@ class GraphView @JvmOverloads constructor(
 
         val pointDistance = dataSpacing(ratioedData)
 
+        /** X coord of the start of this path segment */
+        var startX = 0F
+
+        /** Y coord of the start of this path segment */
+        var startY = 0F
+
+        /** X coord of the end of this path segment */
+        var endX: Float
+
+        /** Y coord of the end of this path segment */
+        var endY: Float
+
+        /** X coord of bezier control point #1 */
+        var controlX1: Float
+
+        /** X coord of bezier control point #2 */
+        var controlX2: Float
+
+        // Draw cubic bezier curves between each pair of points.
         ratioedData.forEachIndexed { index, magnitude ->
             val x = pointDistance * index.toFloat()
             val y = height.toFloat() - magnitude
@@ -200,8 +219,21 @@ class GraphView @JvmOverloads constructor(
             if (index == 0) {
                 path.reset()
                 path.moveTo(x, y)
+                startX = x
+                startY = y
             } else {
-                path.lineTo(x, y)
+                endX = x
+                endY = y
+
+                // X-coord for a control point is placed one third of the distance between the
+                // two points.
+                val offsetX = (endX - startX) / 3
+                controlX1 = startX + offsetX
+                controlX2 = endX - offsetX
+                path.cubicTo(controlX1, startY, controlX2, endY, x, y)
+
+                startX = x
+                startY = y
             }
         }
     }

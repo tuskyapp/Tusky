@@ -17,7 +17,7 @@
     <com.keylesspalace.tusky.view.GraphView
         android:id="@+id/graph"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="120dp"
         android:importantForAccessibility="no"
         app:graphColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
