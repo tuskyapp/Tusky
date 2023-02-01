@@ -360,7 +360,7 @@ class NotificationsFragment :
                 adapter.loadStateFlow
                     .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
-                        binding.recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
+                        binding.recyclerView.isVisible = true
                         binding.swipeRefreshLayout.isRefreshing =
                             loadState.refresh is LoadState.Loading
 
@@ -371,6 +371,7 @@ class NotificationsFragment :
                                     R.drawable.elephant_friend_empty,
                                     R.string.message_empty
                                 )
+                                binding.recyclerView.isVisible = false
                                 binding.statusView.isVisible = true
                             } else {
                                 binding.statusView.isVisible = false
@@ -392,6 +393,7 @@ class NotificationsFragment :
                                     ) { adapter.retry() }
                                 }
                             }
+                            binding.recyclerView.isVisible = false
                             binding.statusView.isVisible = true
                         }
                     }
