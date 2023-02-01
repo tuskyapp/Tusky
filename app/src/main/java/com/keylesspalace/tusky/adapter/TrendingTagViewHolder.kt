@@ -39,10 +39,13 @@ class TrendingTagViewHolder(
         setTag(tagViewData.tag.name)
 
         val totalUsage = tagViewData.tag.history.sumOf { it.uses.toLongOrNull() ?: 0 }
-        binding.usage.text = formatNumber(totalUsage)
+        binding.totalUsage.text = formatNumber(totalUsage)
 
         val totalAccounts = tagViewData.tag.history.sumOf { it.accounts.toLongOrNull() ?: 0 }
-        binding.accounts.text = formatNumber(totalAccounts)
+        binding.totalAccounts.text = formatNumber(totalAccounts)
+
+        binding.currentUsage.text = reversedHistory.last().uses
+        binding.currentAccounts.text = reversedHistory.last().accounts
 
         itemView.setOnClickListener {
             trendingListener.onViewTag(tagViewData.tag.name)

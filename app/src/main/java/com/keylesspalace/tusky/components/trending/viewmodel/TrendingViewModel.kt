@@ -85,7 +85,9 @@ class TrendingViewModel @Inject constructor(
 
             val tags = response.body()!!
                 .filter { homeFilters?.none { filter -> filter.phrase.equals(it.name, ignoreCase = true) } ?: false }
+                .sortedBy { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
                 .map { it.toViewData() }
+                .asReversed()
 
             _uiState.value = TrendingUiState(tags, LoadingState.LOADED)
         } catch (e: IOException) {

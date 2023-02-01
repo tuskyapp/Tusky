@@ -21,14 +21,48 @@
         android:importantForAccessibility="no"
         app:graphColor="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/current_usage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lineWidth="2sp"
+        app:metaColor="@color/tusky_blue_light"
         app:primaryLineColor="@color/tusky_blue"
         app:proportionalTrending="true"
-        app:metaColor="@color/tusky_blue_light"
         app:secondaryLineColor="@color/tusky_red" />
+
+    <TextView
+        android:id="@+id/current_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:paddingStart="6dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/tusky_blue"
+        android:textSize="8sp"
+        android:textStyle="normal"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/current_accounts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/graph"
+        tools:text="12 345" />
+
+    <TextView
+        android:id="@+id/current_accounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:paddingStart="6dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/tusky_red"
+        android:textSize="8sp"
+        android:textStyle="normal"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/graph"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/graph"
+        tools:text="12 345" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/legend_container"
@@ -37,7 +71,8 @@
         android:background="?android:colorBackground"
         android:backgroundTint="@color/color_background_transparent_60"
         android:backgroundTintMode="src_in"
-        android:padding="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -58,7 +93,7 @@
             tools:text="#itishashtagtuesdayitishashtagtuesday" />
 
         <TextView
-            android:id="@+id/usage"
+            android:id="@+id/total_usage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -80,17 +115,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:importantForAccessibility="no"
-            android:text="@string/usage"
+            android:text="@string/total_usage"
             android:textAlignment="textEnd"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?android:textColorTertiary"
             app:layout_constrainedWidth="false"
-            app:layout_constraintBaseline_toBaselineOf="@+id/usage"
-            app:layout_constraintEnd_toStartOf="@id/accounts"
-            app:layout_constraintStart_toEndOf="@+id/usage" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/total_usage"
+            app:layout_constraintEnd_toStartOf="@id/total_accounts"
+            app:layout_constraintStart_toEndOf="@+id/total_usage" />
 
         <TextView
-            android:id="@+id/accounts"
+            android:id="@+id/total_accounts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -113,11 +148,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:importantForAccessibility="no"
-            android:text="@string/accounts"
+            android:text="@string/total_accounts"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?android:textColorTertiary"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBaseline_toBaselineOf="@+id/accounts"
-            app:layout_constraintStart_toEndOf="@id/accounts" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/total_accounts"
+            app:layout_constraintStart_toEndOf="@id/total_accounts" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -735,6 +735,6 @@
 
     <!--@knossos@fosstodon.org created 2023-01-07 -->
     <string name="accessibility_talking_about_tag">%1$d people are talking about hashtag %2$s</string>
-    <string name="usage">Usage</string>
-    <string name="accounts">Accounts</string>
+    <string name="total_usage">Total usage</string>
+    <string name="total_accounts">Total accounts</string>
 </resources>
