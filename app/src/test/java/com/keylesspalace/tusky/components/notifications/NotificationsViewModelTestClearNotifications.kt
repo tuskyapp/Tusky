@@ -22,7 +22,7 @@ class NotificationsViewModelTestClearNotifications : NotificationsViewModelTestB
     @Test
     fun `clearing notifications succeeds && invalidate the repository`() = runTest {
         // Given
-        notificationsRepository.stub { on { clearNotifications() } doReturn emptySuccess }
+        notificationsRepository.stub { onBlocking { clearNotifications() } doReturn emptySuccess }
 
         // When
         viewModel.accept(FallibleUiAction.ClearNotifications)
@@ -35,7 +35,7 @@ class NotificationsViewModelTestClearNotifications : NotificationsViewModelTestB
     @Test
     fun `clearing notifications fails && emits UiError`() = runTest {
         // Given
-        notificationsRepository.stub { on { clearNotifications() } doReturn emptyError }
+        notificationsRepository.stub { onBlocking { clearNotifications() } doReturn emptyError }
 
         viewModel.uiError.test {
             // When
