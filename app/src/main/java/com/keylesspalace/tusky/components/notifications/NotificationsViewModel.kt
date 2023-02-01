@@ -411,7 +411,12 @@ class NotificationsViewModel @Inject constructor(
                 }
         }
 
-        val lastNotificationId = accountManager.activeAccount?.lastNotificationId
+        // The database stores "0" as the last notification ID if notifications have not been
+        // fetched. Convert to null to ensure a full fetch in this case
+        val lastNotificationId = when (val id = accountManager.activeAccount?.lastNotificationId) {
+            "0" -> null
+            else -> id
+        }
         Log.d(TAG, "Restoring at $lastNotificationId")
 
         pagingData = notificationFilter
