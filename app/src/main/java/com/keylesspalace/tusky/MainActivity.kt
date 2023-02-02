@@ -267,7 +267,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingButton = false,
+            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING)
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
