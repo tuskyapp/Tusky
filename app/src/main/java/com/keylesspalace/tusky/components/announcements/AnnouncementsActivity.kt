@@ -19,12 +19,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
+import androidx.core.view.MenuProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
@@ -41,9 +46,18 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
 
-class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener, OnEmojiSelectedListener, Injectable {
+class AnnouncementsActivity :
+    BottomSheetActivity(),
+    AnnouncementActionListener,
+    OnEmojiSelectedListener,
+    MenuProvider,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -70,6 +84,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        addMenuProvider(this)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.apply {
@@ -127,6 +142,27 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
 
         viewModel.load()
         binding.progressBar.show()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.announcements_activity, menu)
+        menu.findItem(R.id.action_search)?.apply {
+            icon = IconicsDrawable(this@AnnouncementsActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.includedToolbar.toolbar, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshAnnouncements()
+                true
+            }
+            else -> false
+        }
     }
 
     private fun refreshAnnouncements() {
