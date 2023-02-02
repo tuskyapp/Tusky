@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Suporte para Unified Push. Para ativar o suporte, você terá que fazer login novamente em suas contas.
+- O número de respostas a uma postagem agora é indicado nas linhas do tempo.
+- As imagens agora podem ser cortadas ao compor uma postagem.
+- Os perfis agora mostram a data em que foram criados.
+- Ao visualizar uma lista, o título agora é exibido na barra de ferramentas.
+- Muitas correções de bugs
+- Melhorias na tradução

@@ -94,8 +94,6 @@
     <string name="action_view_profile">व्यक्तिविवरणम्</string>
     <string name="action_close">पिधीयताम्</string>
     <string name="action_retry">पुनः यत्यताम्</string>
-    <string name="action_mute_notifications_desc">%s मित्रविषये मा सूच्यताम्</string>
-    <string name="action_unmute_notifications_desc">%s मित्रविषये सूच्यताम्</string>
     <string name="action_unmute_desc">%s सशब्दं क्रियताम्</string>
     <string name="action_unmute">सशब्दम्</string>
     <string name="action_mute">निःशब्दम्</string>

@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
+import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import io.reactivex.rxjava3.core.Single
@@ -89,6 +90,7 @@ interface MastodonApi {
     @Throws(Exception::class)
     suspend fun homeTimeline(
         @Query("max_id") maxId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
     ): Response<List<Status>>
@@ -194,6 +196,11 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): NetworkResult<StatusContext>
 
+    @GET("api/v1/statuses/{id}/history")
+    suspend fun statusEdits(
+        @Path("id") statusId: String
+    ): NetworkResult<List<StatusEdit>>
+
     @GET("api/v1/statuses/{id}/reblogged_by")
     suspend fun statusRebloggedBy(
         @Path("id") statusId: String,
@@ -207,9 +214,9 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    fun deleteStatus(
+    suspend fun deleteStatus(
         @Path("id") statusId: String
-    ): Single<DeletedStatus>
+    ): NetworkResult<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
     fun reblogStatus(

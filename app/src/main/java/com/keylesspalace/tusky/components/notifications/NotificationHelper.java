@@ -174,11 +174,11 @@ public class NotificationHelper {
         notificationId++;
 
         builder.setContentTitle(titleForType(context, body, account))
-                .setContentText(bodyForType(body, context));
+                .setContentText(bodyForType(body, context, account.getAlwaysOpenSpoiler()));
 
         if (body.getType() == Notification.Type.MENTION || body.getType() == Notification.Type.POLL) {
             builder.setStyle(new NotificationCompat.BigTextStyle()
-                    .bigText(bodyForType(body, context)));
+                    .bigText(bodyForType(body, context, account.getAlwaysOpenSpoiler())));
         }
 
         //load the avatar synchronously
@@ -371,6 +371,7 @@ public class NotificationHelper {
         composeOptions.setMentionedUsernames(mentionedUsernames);
         composeOptions.setModifiedInitialState(true);
         composeOptions.setLanguage(actionableStatus.getLanguage());
+        composeOptions.setKind(ComposeActivity.ComposeKind.NEW);
 
         Intent composeIntent = ComposeActivity.startIntent(
                 context,
@@ -694,7 +695,7 @@ public class NotificationHelper {
         return null;
     }
 
-    private static String bodyForType(Notification notification, Context context) {
+    private static String bodyForType(Notification notification, Context context, Boolean alwaysOpenSpoiler) {
         switch (notification.getType()) {
             case FOLLOW:
             case FOLLOW_REQUEST:
@@ -704,13 +705,13 @@ public class NotificationHelper {
             case FAVOURITE:
             case REBLOG:
             case STATUS:
-                if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
+                if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText()) && !alwaysOpenSpoiler) {
                     return notification.getStatus().getSpoilerText();
                 } else {
                     return parseAsMastodonHtml(notification.getStatus().getContent()).toString();
                 }
             case POLL:
-                if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText())) {
+                if (!TextUtils.isEmpty(notification.getStatus().getSpoilerText()) && !alwaysOpenSpoiler) {
                     return notification.getStatus().getSpoilerText();
                 } else {
                     StringBuilder builder = new StringBuilder(parseAsMastodonHtml(notification.getStatus().getContent()));

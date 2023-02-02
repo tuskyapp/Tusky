@@ -63,6 +63,7 @@ import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -86,8 +87,8 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.PickMediaFiles
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.getInitialLanguage
 import com.keylesspalace.tusky.util.getLocaleList
@@ -97,6 +98,7 @@ import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -135,8 +137,6 @@ class ComposeActivity :
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
-    // this only exists when a status is trying to be sent, but uploads are still occurring
-    private var finishingUploadDialog: ProgressDialog? = null
     private var photoUploadUri: Uri? = null
 
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
@@ -208,7 +208,7 @@ class ComposeActivity :
             accountManager.setActiveAccount(accountId)
         }
 
-        val theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
@@ -343,7 +343,7 @@ class ComposeActivity :
             binding.composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
             val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).apply { sizeDp = 12 }
 
-            ThemeUtils.setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
+            setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
             binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
 
             binding.composeReplyView.setOnClickListener {
@@ -356,7 +356,7 @@ class ComposeActivity :
                     binding.composeReplyContentView.show()
                     val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).apply { sizeDp = 12 }
 
-                    ThemeUtils.setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
+                    setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
                     binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
                 }
             }
@@ -503,7 +503,7 @@ class ComposeActivity :
             displayTransientMessage(R.string.hint_media_description_missing)
         }
 
-        val textColor = ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+        val textColor = MaterialColors.getColor(binding.root, android.R.attr.textColorTertiary)
 
         val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).apply { colorInt = textColor; sizeDp = 18 }
         binding.actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
@@ -690,7 +690,7 @@ class ComposeActivity :
                     getColor(R.color.tusky_blue)
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-                    ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                    MaterialColors.getColor(binding.composeHideMediaButton, android.R.attr.textColorTertiary)
                 }
             }
             binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
@@ -712,7 +712,7 @@ class ComposeActivity :
             enableButton(binding.composeScheduleButton, clickable = false, colorActive = false)
         } else {
             @ColorInt val color = if (binding.composeScheduleView.time == null) {
-                ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+                MaterialColors.getColor(binding.composeScheduleButton, android.R.attr.textColorTertiary)
             } else {
                 getColor(R.color.tusky_blue)
             }
@@ -908,7 +908,7 @@ class ComposeActivity :
         val textColor = if (remainingLength < 0) {
             getColor(R.color.tusky_red)
         } else {
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            MaterialColors.getColor(binding.composeCharactersLeftView, android.R.attr.textColorTertiary)
         }
         binding.composeCharactersLeftView.setTextColor(textColor)
     }
@@ -957,16 +957,9 @@ class ComposeActivity :
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
-            if (viewModel.media.value.isNotEmpty()) {
-                finishingUploadDialog = ProgressDialog.show(
-                    this, getString(R.string.dialog_title_finishing_media_upload),
-                    getString(R.string.dialog_message_uploading_media), true, true
-                )
-            }
 
             lifecycleScope.launch {
                 viewModel.sendStatus(contentText, spoilerText)
-                finishingUploadDialog?.dismiss()
                 deleteDraftAndFinish()
             }
         } else {
@@ -1016,7 +1009,7 @@ class ComposeActivity :
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
-        ThemeUtils.setDrawableTint(
+        setDrawableTint(
             this, button.drawable,
             if (colorActive) android.R.attr.textColorTertiary
             else R.attr.textColorDisabled
@@ -1025,8 +1018,8 @@ class ComposeActivity :
 
     private fun enablePollButton(enable: Boolean) {
         binding.addPollTextActionTextView.isEnabled = enable
-        val textColor = ThemeUtils.getColor(
-            this,
+        val textColor = MaterialColors.getColor(
+            binding.addPollTextActionTextView,
             if (enable) android.R.attr.textColorTertiary
             else R.attr.textColorDisabled
         )
@@ -1086,7 +1079,7 @@ class ComposeActivity :
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
-            ThemeUtils.getColor(this, android.R.attr.textColorTertiary)
+            MaterialColors.getColor(binding.composeContentWarningButton, android.R.attr.textColorTertiary)
         }
         binding.composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -1101,7 +1094,6 @@ class ComposeActivity :
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        Log.d(TAG, event.toString())
         if (event.action == KeyEvent.ACTION_DOWN) {
             if (event.isCtrlPressed) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -1123,23 +1115,77 @@ class ComposeActivity :
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
         if (viewModel.didChange(contentText, contentWarning)) {
-
-            val warning = if (!viewModel.media.value.isEmpty()) {
-                R.string.compose_save_draft_loses_media
-            } else {
-                R.string.compose_save_draft
-            }
-
-            AlertDialog.Builder(this)
-                .setMessage(warning)
-                .setPositiveButton(R.string.action_save) { _, _ ->
-                    saveDraftAndFinish(contentText, contentWarning)
-                }
-                .setNegativeButton(R.string.action_delete) { _, _ -> deleteDraftAndFinish() }
-                .show()
+            when (viewModel.composeKind) {
+                ComposeKind.NEW -> getSaveAsDraftOrDiscardDialog(contentText, contentWarning)
+                ComposeKind.EDIT_DRAFT -> getUpdateDraftOrDiscardDialog(contentText, contentWarning)
+                ComposeKind.EDIT_POSTED -> getContinueEditingOrDiscardDialog()
+                ComposeKind.EDIT_SCHEDULED -> getContinueEditingOrDiscardDialog()
+            }.show()
         } else {
+            viewModel.stopUploads()
             finishWithoutSlideOutAnimation()
         }
+    }
+
+    /**
+     * User is editing a new post, and can either save the changes as a draft or discard them.
+     */
+    private fun getSaveAsDraftOrDiscardDialog(contentText: String, contentWarning: String): AlertDialog.Builder {
+        val warning = if (viewModel.media.value.isNotEmpty()) {
+            R.string.compose_save_draft_loses_media
+        } else {
+            R.string.compose_save_draft
+        }
+
+        return AlertDialog.Builder(this)
+            .setMessage(warning)
+            .setPositiveButton(R.string.action_save) { _, _ ->
+                viewModel.stopUploads()
+                saveDraftAndFinish(contentText, contentWarning)
+            }
+            .setNegativeButton(R.string.action_delete) { _, _ ->
+                viewModel.stopUploads()
+                deleteDraftAndFinish()
+            }
+    }
+
+    /**
+     * User is editing an existing draft, and can either update the draft with the new changes or
+     * discard them.
+     */
+    private fun getUpdateDraftOrDiscardDialog(contentText: String, contentWarning: String): AlertDialog.Builder {
+        val warning = if (viewModel.media.value.isNotEmpty()) {
+            R.string.compose_save_draft_loses_media
+        } else {
+            R.string.compose_save_draft
+        }
+
+        return AlertDialog.Builder(this)
+            .setMessage(warning)
+            .setPositiveButton(R.string.action_save) { _, _ ->
+                viewModel.stopUploads()
+                saveDraftAndFinish(contentText, contentWarning)
+            }
+            .setNegativeButton(R.string.action_discard) { _, _ ->
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
+    }
+
+    /**
+     * User is editing a post (scheduled, or posted), and can either go back to editing, or
+     * discard the changes.
+     */
+    private fun getContinueEditingOrDiscardDialog(): AlertDialog.Builder {
+        return AlertDialog.Builder(this)
+            .setMessage(R.string.compose_unsaved_changes)
+            .setPositiveButton(R.string.action_continue_edit) { _, _ ->
+                // Do nothing, dialog will dismiss, user can continue editing
+            }
+            .setNegativeButton(R.string.action_discard) { _, _ ->
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
     }
 
     private fun deleteDraftAndFinish() {
@@ -1188,14 +1234,17 @@ class ComposeActivity :
         val id: String? = null,
         val description: String? = null,
         val focus: Attachment.Focus? = null,
-        val processed: Boolean = false,
+        val state: State
     ) {
         enum class Type {
             IMAGE, VIDEO, AUDIO;
         }
+        enum class State {
+            UPLOADING, UNPROCESSED, PROCESSED, PUBLISHED
+        }
     }
 
-    override fun onTimeSet(time: String) {
+    override fun onTimeSet(time: String?) {
         viewModel.updateScheduledAt(time)
         if (verifyScheduledTime()) {
             scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -1215,6 +1264,24 @@ class ComposeActivity :
                 Toast.makeText(this@ComposeActivity, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    /**
+     * Status' kind. This particularly affects how the status is handled if the user
+     * backs out of the edit.
+     */
+    enum class ComposeKind {
+        /** Status is new */
+        NEW,
+
+        /** Editing a posted status */
+        EDIT_POSTED,
+
+        /** Editing a status started as an existing draft */
+        EDIT_DRAFT,
+
+        /** Editing an an existing scheduled status */
+        EDIT_SCHEDULED
     }
 
     @Parcelize
@@ -1240,6 +1307,7 @@ class ComposeActivity :
         var modifiedInitialState: Boolean? = null,
         var language: String? = null,
         var statusId: String? = null,
+        var kind: ComposeKind? = null
     ) : Parcelable
 
     companion object {

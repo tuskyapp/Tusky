@@ -32,7 +32,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
@@ -40,8 +39,6 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -63,7 +60,6 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -223,6 +219,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 replyingStatusAuthor = actionableStatus.account.localUsername,
                 replyingStatusContent = status.content.toString(),
                 language = actionableStatus.language,
+                kind = ComposeActivity.ComposeKind.NEW
             )
         )
         bottomSheetActivity?.startActivityWithSlideInAnimation(intent)
@@ -444,7 +441,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             AlertDialog.Builder(it)
                 .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    viewModel.deleteStatus(id)
+                    viewModel.deleteStatusAsync(id)
                     removeItem(position)
                 }
                 .setNegativeButton(android.R.string.cancel, null)
@@ -457,10 +454,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             AlertDialog.Builder(it)
                 .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    viewModel.deleteStatus(id)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                        .subscribe(
+                    lifecycleScope.launch {
+                        viewModel.deleteStatusAsync(id).await().fold(
                             { deletedStatus ->
                                 removeItem(position)
 
@@ -481,6 +476,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                         sensitive = redraftStatus.sensitive,
                                         poll = redraftStatus.poll?.toNewPoll(status.createdAt),
                                         language = redraftStatus.language,
+                                        kind = ComposeActivity.ComposeKind.NEW
                                     )
                                 )
                                 startActivity(intent)
@@ -490,6 +486,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                 Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
                             }
                         )
+                    }
                 }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
@@ -510,6 +507,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         language = status.language,
                         statusId = source.id,
                         poll = status.poll?.toNewPoll(status.createdAt),
+                        kind = ComposeActivity.ComposeKind.EDIT_POSTED,
                     )
                     startActivity(ComposeActivity.startIntent(requireContext(), composeOptions))
                 },

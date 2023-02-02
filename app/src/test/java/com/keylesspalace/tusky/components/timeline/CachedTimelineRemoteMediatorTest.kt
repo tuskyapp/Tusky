@@ -78,7 +78,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
+                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
             db = db,
             gson = Gson()
@@ -98,7 +98,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
+                onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
             db = db,
             gson = Gson()
@@ -547,7 +547,7 @@ class CachedTimelineRemoteMediatorTest {
     private fun AppDatabase.insert(statuses: List<TimelineStatusWithAccount>) {
         runBlocking {
             statuses.forEach { statusWithAccount ->
-                if (statusWithAccount.status.authorServerId != null) {
+                if (!statusWithAccount.status.isPlaceholder) {
                     timelineDao().insertAccount(statusWithAccount.account)
                 }
                 statusWithAccount.reblogAccount?.let { account ->
@@ -574,7 +574,7 @@ class CachedTimelineRemoteMediatorTest {
 
         for ((exp, prov) in expected.zip(loadedStatuses)) {
             assertEquals(exp.status, prov.status)
-            if (exp.status.authorServerId != null) { // only check if no placeholder
+            if (!exp.status.isPlaceholder) {
                 assertEquals(exp.account, prov.account)
                 assertEquals(exp.reblogAccount, prov.reblogAccount)
             }

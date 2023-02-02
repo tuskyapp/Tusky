@@ -12,7 +12,7 @@
 
     <string name="emoji_shortcode_format" translatable="false">:%s:</string>
     <string name="post_timestamp_with_edited_indicator" translatable="false">%s *</string>
-    <string name="timestamp_joiner" translatable="false">" • "</string>
+    <string name="metadata_joiner" translatable="false">" • "</string>
 
     <string-array name="post_privacy_values">
         <item>public</item>
@@ -65,6 +65,7 @@
         <item>Taqbaylit</item>
         <item>Tiếng Việt</item>
         <item>Türkçe</item>
+        <item>Беларуская</item>
         <item>български</item>
         <item>Русский</item>
         <item>Українська</item>
@@ -115,6 +116,7 @@
         <item>kab</item>
         <item>vi</item>
         <item>tr</item>
+        <item>be</item>
         <item>bg</item>
         <item>ru</item>
         <item>uk</item>
@@ -243,4 +245,14 @@
         <item>259200</item>
         <item>604800</item>
     </integer-array>
+
+    <string-array name="reading_order_names">
+        <item>@string/pref_reading_order_oldest_first</item>
+        <item>@string/pref_reading_order_newest_first</item>
+    </string-array>
+
+    <string-array name="reading_order_values">
+        <item>OLDEST_FIRST</item>
+        <item>NEWEST_FIRST</item>
+    </string-array>
 </resources>

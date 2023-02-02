@@ -10,6 +10,19 @@
         android:title="@string/action_open_as"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_account_share"
+        android:title="@string/action_share">
+        <menu>
+            <item
+                android:id="@+id/action_share_account_link"
+                android:title="@string/action_share_account_link" />
+            <item
+                android:id="@+id/action_share_account_username"
+                android:title="@string/action_share_account_username" />
+        </menu>
+    </item>
+
     <item android:id="@+id/action_mute"
         android:title="@string/action_mute"
         app:showAsAction="never" />

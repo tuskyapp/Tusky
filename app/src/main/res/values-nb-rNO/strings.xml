@@ -464,8 +464,6 @@
     <string name="pref_main_nav_position">Plassering av hovednavigasjon</string>
     <string name="action_unmute_domain">Fjern demping av %s</string>
     <string name="dialog_mute_hide_notifications">Skjul varsler</string>
-    <string name="action_mute_notifications_desc">Demp varsler fra %s</string>
-    <string name="action_unmute_notifications_desc">Fjern demping av varsler fra %s</string>
     <string name="action_unmute_desc">Fjern demping av %s</string>
     <string name="pref_title_hide_top_toolbar">Skjul tittelen på den øverste verktøylinjen</string>
     <string name="account_note_saved">Lagret!</string>

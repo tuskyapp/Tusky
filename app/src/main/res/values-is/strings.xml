@@ -6,7 +6,7 @@
     <string name="title_drafts">Drög</string>
     <string name="action_logout">Skrá út</string>
     <string name="action_view_preferences">Kjörstillingar</string>
-    <string name="action_view_account_preferences">Eiginleikar tengingar</string>
+    <string name="action_view_account_preferences">Eiginleikar notandaaðgangs</string>
     <string name="action_edit_profile">Breyta notandasniði</string>
     <string name="action_search">Leita</string>
     <string name="about_title_activity">Um hugbúnaðinn</string>
@@ -467,8 +467,6 @@
     <string name="action_unmute_conversation">Hætta að þagga niður í samtali</string>
     <string name="action_mute_conversation">Þagga niður í samtali</string>
     <string name="action_unmute_domain">Afþagga %s</string>
-    <string name="action_mute_notifications_desc">Þagga tilkynningar frá %s</string>
-    <string name="action_unmute_notifications_desc">Afþagga tilkynningar frá %s</string>
     <string name="action_unmute_desc">Afþagga %s</string>
     <string name="notification_follow_request_format">%s bað um að fylgjast með þér</string>
     <string name="title_announcements">Tilkynningar</string>
@@ -586,4 +584,24 @@
     <string name="hint_media_description_missing">Myndefni ætti að vera með lýsingu.</string>
     <string name="pref_title_http_proxy_port_message">Gáttin ætti að vera á milli %d og %d</string>
     <string name="error_status_source_load">Mistókst að hlaða inn uppruna stöðufærslu af netþjóninum.</string>
+    <string name="a11y_label_loading_thread">Hleð inn þræði</string>
+    <string name="pref_title_reading_order">Lestrarröð</string>
+    <string name="pref_reading_order_oldest_first">Elsta fyrst</string>
+    <string name="pref_reading_order_newest_first">Nýjasta fyrst</string>
+    <string name="compose_unsaved_changes">Þú ert með óvistaðar breytingar.</string>
+    <string name="pref_summary_http_proxy_disabled">Óvirkt</string>
+    <string name="pref_summary_http_proxy_missing">&lt;ekki stillt&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;ógilt&gt;</string>
+    <string name="title_edits">Breytingar</string>
+    <string name="status_created_info">%1$s bjó til %2$s</string>
+    <string name="status_edit_info">%1$s breytti %2$s</string>
+    <string name="post_media_alt">AUKA</string>
+    <string name="action_discard">Henda breytingum</string>
+    <string name="action_continue_edit">Halda breytingum áfram</string>
+    <string name="action_share_account_link">Deila tengli á notandaaðgang</string>
+    <string name="action_share_account_username">Deila notandanafni aðgangs</string>
+    <string name="send_account_link_to">Deila slóð aðgangs til…</string>
+    <string name="send_account_username_to">Deila notandanafni aðgangs til…</string>
+    <string name="account_username_copied">Notandanafn afritað</string>
+    <string name="mute_notifications_switch">Þagga tilkynningar</string>
 </resources>

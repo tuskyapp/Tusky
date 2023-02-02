@@ -54,6 +54,29 @@ ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     abstract fun getStatuses(account: Long): PagingSource<Int, TimelineStatusWithAccount>
 
     @Query(
+        """
+SELECT s.serverId, s.url, s.timelineUserId,
+s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt, s.editedAt,
+s.emojis, s.reblogsCount, s.favouritesCount, s.repliesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
+s.spoilerText, s.visibility, s.mentions, s.tags, s.application, s.reblogServerId,s.reblogAccountId,
+s.content, s.attachments, s.poll, s.card, s.muted, s.expanded, s.contentShowing, s.contentCollapsed, s.pinned, s.language,  
+a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
+a.localUsername as 'a_localUsername', a.username as 'a_username',
+a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
+a.emojis as 'a_emojis', a.bot as 'a_bot',
+rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
+rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
+rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
+rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
+FROM TimelineStatusEntity s
+LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
+LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+WHERE (s.serverId = :statusId OR s.reblogServerId = :statusId) 
+AND s.authorServerId IS NOT NULL"""
+    )
+    abstract suspend fun getStatus(statusId: String): TimelineStatusWithAccount?
+
+    @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
         (LENGTH(serverId) < LENGTH(:maxId) OR LENGTH(serverId) == LENGTH(:maxId) AND serverId <= :maxId)
 AND
@@ -193,6 +216,13 @@ AND timelineUserId = :accountId
     abstract suspend fun getIdAbove(accountId: Long, serverId: String): String?
 
     /**
+     * Returns the ID directly below [serverId], or null if [serverId] is the ID of the bottom
+     * status
+     */
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    abstract suspend fun getIdBelow(accountId: Long, serverId: String): String?
+
+    /**
      * Returns the id of the next placeholder after [serverId]
      */
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
@@ -200,4 +230,12 @@ AND timelineUserId = :accountId
 
     @Query("SELECT COUNT(*) FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
     abstract suspend fun getStatusCount(accountId: Long): Int
+
+    /** Developer tools: Find N most recent status IDs */
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count")
+    abstract suspend fun getMostRecentNStatusIds(accountId: Long, count: Int): List<String>
+
+    /** Developer tools: Convert a status to a placeholder */
+    @Query("UPDATE TimelineStatusEntity SET authorServerId = NULL WHERE serverId = :serverId")
+    abstract suspend fun convertStatustoPlaceholder(serverId: String)
 }

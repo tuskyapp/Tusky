@@ -25,8 +25,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 97
-        versionName "20.0"
+        versionCode 99
+        versionName "21.0 beta 2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -72,6 +72,9 @@ android {
             returnDefaultValues = true
             includeAndroidResources = true
         }
+        unitTests.all {
+            systemProperty 'robolectric.logging.enabled', 'true'
+        }        
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
@@ -87,9 +90,6 @@ android {
             // bundle all languages in every apk so the dynamic language switching works
             enableSplit = false
         }
-    }
-    kotlinOptions {
-        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
     dependenciesInfo {
         includeInApk false

@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Animatable
@@ -55,6 +54,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -79,6 +79,7 @@ import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
@@ -86,11 +87,13 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
@@ -142,6 +145,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     @Inject
     lateinit var logoutUsecase: LogoutUsecase
+
+    @Inject
+    lateinit var draftsAlert: DraftsAlert
+
+    @Inject
+    lateinit var developerToolsUseCase: DeveloperToolsUseCase
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -243,6 +252,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         addMenuProvider(this)
 
+        binding.viewPager.reduceSwipeSensitivity()
+
         setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -300,6 +311,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 1
             )
         }
+
+        // "Post failed" dialog should display in this activity
+        draftsAlert.observeInContext(this, true)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -307,7 +321,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         menu.findItem(R.id.action_search)?.apply {
             icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
                 sizeDp = 20
-                colorInt = ThemeUtils.getColor(this@MainActivity, android.R.attr.textColorPrimary)
+                colorInt = MaterialColors.getColor(binding.mainToolbar, android.R.attr.textColorPrimary)
             }
         }
     }
@@ -423,7 +437,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
-        header.accountHeaderBackground.setBackgroundColor(ThemeUtils.getColor(this, R.attr.colorBackgroundAccent))
+        header.accountHeaderBackground.setBackgroundColor(MaterialColors.getColor(header, R.attr.colorBackgroundAccent))
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
@@ -519,8 +533,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
                     }
                     badgeStyle = BadgeStyle().apply {
-                        textColor = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorOnPrimary))
-                        color = ColorHolder.fromColor(ThemeUtils.getColor(this@MainActivity, R.attr.colorPrimary))
+                        textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, R.attr.colorOnPrimary))
+                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, R.attr.colorPrimary))
                     }
                 },
                 DividerDrawerItem(),
@@ -572,14 +586,44 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         if (BuildConfig.DEBUG) {
+            // Add a "Developer tools" entry. Code that makes it easier to
+            // set the app state at runtime belongs here, it will never
+            // be exposed to users.
             binding.mainDrawer.addItems(
+                DividerDrawerItem(),
                 secondaryDrawerItem {
-                    nameText = "debug"
-                    isEnabled = false
-                    textColor = ColorStateList.valueOf(Color.GREEN)
+                    nameText = "Developer tools"
+                    isEnabled = true
+                    iconicsIcon = GoogleMaterial.Icon.gmd_developer_mode
+                    onClick = {
+                        buildDeveloperToolsDialog().show()
+                    }
                 }
             )
         }
+    }
+
+    private fun buildDeveloperToolsDialog(): AlertDialog {
+        return AlertDialog.Builder(this)
+            .setTitle("Developer Tools")
+            .setItems(
+                arrayOf("Create \"Load more\" gap")
+            ) { _, which ->
+                Log.d(TAG, "Developer tools: $which")
+                when (which) {
+                    0 -> {
+                        Log.d(TAG, "Creating \"Load more\" gap")
+                        lifecycleScope.launch {
+                            accountManager.activeAccount?.let {
+                                developerToolsUseCase.createLoadMoreGap(
+                                    it.id
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            .create()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -587,9 +631,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
-
         val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
-            val actionBarSize = ThemeUtils.getDimension(this, R.attr.actionBarSize)
+            val actionBarSize = getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
             binding.topNav.hide()

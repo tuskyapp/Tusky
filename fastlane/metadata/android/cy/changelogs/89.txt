@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- Mae "Ar agor fel ..." hefyd ar gael yn y ddewislen ar broffiliau cyfrifon wrth ddefnyddio cyfrifon lluosog
+- Mae mewngofnodi bellach yn cael ei drin mewn WebView o fewn yr ap
+- Cefnogaeth i Android 12
+- cefnogaeth i'r API cyfluniad enghraifft Mastodon newydd
+- a llawer o atebion a gwelliannau bach eraill

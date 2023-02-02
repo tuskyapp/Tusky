@@ -4,7 +4,7 @@
     <string name="post_username_format">\@%s</string>
     <string name="title_licenses">Ліцензії</string>
     <string name="title_edit_profile">Редагувати профіль</string>
-    <string name="title_follow_requests">Запити на підписку</string>
+    <string name="title_follow_requests">Запити на стеження</string>
     <string name="title_bookmarks">Закладки</string>
     <string name="title_followers">Підписники</string>
     <string name="title_follows">Підписки</string>
@@ -36,7 +36,7 @@
     <string name="action_logout">Вийти</string>
     <string name="title_drafts">Чернетки</string>
     <string name="title_favourites">Вподобане</string>
-    <string name="action_login">Увійти з Mastodon</string>
+    <string name="action_login">Увійти з Tusky</string>
     <string name="login_connection">Зʼєднання…</string>
     <string name="search_no_results">Немає результатів</string>
     <string name="hint_search">Пошук…</string>
@@ -70,7 +70,7 @@
     <string name="action_add_media">Додати медіа</string>
     <string name="action_open_in_web">Відкрити в браузері</string>
     <string name="action_view_media">Медіа</string>
-    <string name="action_view_follow_requests">Запити на підписку</string>
+    <string name="action_view_follow_requests">Запити на стеження</string>
     <string name="action_view_blocks">Заблоковані користувачі</string>
     <string name="action_view_bookmarks">Закладки</string>
     <string name="action_view_favourites">Вподобане</string>
@@ -115,7 +115,7 @@
     <string name="pref_title_edit_notification_settings">Сповіщення</string>
     <string name="title_blocks">Заблоковані користувачі</string>
     <string name="notification_favourite_name">Вподобане</string>
-    <string name="notification_follow_request_name">Запити на підписку</string>
+    <string name="notification_follow_request_name">Запити на стеження</string>
     <string name="action_unmute_desc">Не приховувати %s</string>
     <string name="action_unmute">Не приховувати</string>
     <string name="action_view_domain_mutes">Приховані домени</string>
@@ -139,10 +139,10 @@
     <string name="title_view_thread">Тред</string>
     <string name="title_tab_preferences">Вкладки</string>
     <string name="error_media_upload_sending">Не вдалося відвантажити.</string>
-    <string name="error_retrieving_oauth_token">Не вдалося отримати токен входу.</string>
-    <string name="error_authorization_denied">Авторизацію відхилено.</string>
-    <string name="error_authorization_unknown">Сталася помилка невпізнання авторизації.</string>
-    <string name="error_failed_app_registration">Помилка автентифікації цього сервера.</string>
+    <string name="error_retrieving_oauth_token">Не вдалося отримати токен входу. Якщо проблема не зникає, спробуйте увійти через браузер з меню.</string>
+    <string name="error_authorization_denied">Авторизацію відхилено. Якщо ви впевнені, що вказали правильні облікові дані, спробуйте увійти через браузер з меню.</string>
+    <string name="error_authorization_unknown">Сталася помилка невпізнання авторизації. Якщо проблема не зникає, спробуйте увійти через браузер з меню.</string>
+    <string name="error_failed_app_registration">Помилка автентифікації цього сервера. Якщо проблема не зникає, спробуйте увійти через браузер з меню.</string>
     <string name="error_invalid_domain">Введено недійсний домен</string>
     <string name="action_open_reblogged_by">Показати поширення</string>
     <string name="pref_title_show_boosts">Показати поширення</string>
@@ -167,8 +167,6 @@
     <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
     <string name="pref_title_notification_filter_favourites">мої дописи вподобано</string>
     <string name="action_hide_media">Сховати медіа</string>
-    <string name="action_mute_notifications_desc">Приховати сповіщення від %s</string>
-    <string name="action_unmute_notifications_desc">Не приховувати сповіщення від %s</string>
     <string name="notification_subscription_format">%s щойно опубліковано</string>
     <string name="title_announcements">Оголошення</string>
     <string name="action_open_drawer">Відкрити меню</string>
@@ -613,4 +611,35 @@
     <string name="pref_title_http_proxy_port_message">Порт повинен бути між %d і %d</string>
     <string name="error_status_source_load">Не вдалося завантажити джерело стану з сервера.</string>
     <string name="post_media_alt">ALT</string>
+    <string name="action_discard">Відкинути зміни</string>
+    <string name="compose_unsaved_changes">У вас є незбережені зміни.</string>
+    <string name="action_continue_edit">Продовжити редагування</string>
+    <string name="mute_notifications_switch">Беззвучні сповіщення</string>
+    <string name="title_edits">Редагування</string>
+    <string name="status_edit_info">%1$s редагує %2$s</string>
+    <string name="status_created_info">%1$s створює %2$s</string>
+    <string name="a11y_label_loading_thread">Завантаження стрічки</string>
+    <string name="action_share_account_link">Поділитися посиланням на обліковий запис</string>
+    <string name="action_share_account_username">Поділитися іменем користувача облікового запису</string>
+    <string name="send_account_link_to">Поділитися URL облікового запису через…</string>
+    <string name="send_account_username_to">Поділитися іменем користувача облікового запису через…</string>
+    <string name="account_username_copied">Ім\'я користувача скопійовано</string>
+    <string name="pref_reading_order_newest_first">Спочатку новіші</string>
+    <string name="pref_title_reading_order">Порядок читання</string>
+    <string name="pref_reading_order_oldest_first">Спочатку давніші</string>
+    <string name="pref_summary_http_proxy_disabled">Вимкнено</string>
+    <string name="pref_summary_http_proxy_missing">&lt;не налаштовано&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;недійсний&gt;</string>
+    <string name="action_browser_login">Увійти через браузер</string>
+    <string name="description_login">Працює в більшості випадків. Дані не витікають в інші застосунки.</string>
+    <string name="description_browser_login">Може підтримувати додаткові методи автентифікації, але для цього потрібен підтримуваний браузер.</string>
+    <string name="action_post_failed">Не вдалося вивантажити</string>
+    <string name="action_post_failed_show_drafts">Показати чернетки</string>
+    <string name="action_post_failed_do_nothing">Відхилити</string>
+    <string name="action_post_failed_detail">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\n
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
+    <string name="action_post_failed_detail_plural">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\n
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
 </resources>

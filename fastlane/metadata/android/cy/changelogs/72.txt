@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Hysbysiadau am geisiadau dilynol newydd pan fydd eich cyfrif wedi'i gloi
+- Nodweddion newydd y gellir eu toglo ar y sgrin Dewisiadau:
+    - analluogi llithro rhwng tabiau
+    - dangos ymgom cadarnhau cyn rhoi hwb i dant
+    - dangos rhagolygon cyswllt mewn llinellau amser
+- Bellach gellir tawelu sgyrsiau
+- Bydd canlyniadau pleidleisio nawr yn cael eu cyfrifo ar sail nifer y pleidleiswyr ac nid ar gyfanswm y pleidleisiau sy'n gwneud polau amlddewis yn haws i'w deall
+- Llawer o atgyweiriadau, y rhan fwyaf ohonynt yn ymwneud â chyfansoddi toots
+- Gwell cyfieithiadau

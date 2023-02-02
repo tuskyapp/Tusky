@@ -19,6 +19,7 @@ import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
+import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsViewModel
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
@@ -117,6 +118,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ViewThreadViewModel::class)
     internal abstract fun viewThreadViewModel(viewModel: ViewThreadViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ViewEditsViewModel::class)
+    internal abstract fun viewEditsViewModel(viewModel: ViewEditsViewModel): ViewModel
 
     @Binds
     @IntoMap

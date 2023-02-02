@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.timeline
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.TimelineAccountEntity
@@ -29,6 +30,8 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
+
+private const val TAG = "TimelineTypeMappers"
 
 data class Placeholder(
     val id: String,
@@ -149,8 +152,9 @@ fun Status.toEntity(
     )
 }
 
-fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
-    if (this.status.authorServerId == null) {
+fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
+    if (this.status.isPlaceholder) {
+        Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
 
@@ -261,6 +265,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
         status = status,
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
-        isCollapsed = this.status.contentCollapsed
+        isCollapsed = this.status.contentCollapsed,
+        isDetailed = isDetailed
     )
 }

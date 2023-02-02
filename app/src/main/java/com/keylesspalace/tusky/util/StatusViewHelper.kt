@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.InputFilter
 import android.text.TextUtils
@@ -24,6 +25,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
@@ -85,7 +87,7 @@ class StatusViewHelper(private val itemView: View) {
             return
         }
 
-        val mediaPreviewUnloaded = ColorDrawable(ThemeUtils.getColor(context, R.attr.colorBackgroundAccent))
+        val mediaPreviewUnloaded = ColorDrawable(MaterialColors.getColor(context, R.attr.colorBackgroundAccent, Color.BLACK))
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
@@ -292,7 +294,7 @@ class StatusViewHelper(private val itemView: View) {
             if (useAbsoluteTime) {
                 context.getString(R.string.poll_info_time_absolute, absoluteTimeFormatter.format(poll.expiresAt, false))
             } else {
-                TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
+                formatPollDuration(context, poll.expiresAt!!.time, timestamp)
             }
         }
 

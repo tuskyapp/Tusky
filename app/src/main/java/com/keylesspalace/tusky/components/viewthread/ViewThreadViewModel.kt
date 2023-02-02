@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
+import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -28,8 +29,10 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
@@ -54,7 +57,9 @@ class ViewThreadViewModel @Inject constructor(
     private val filterModel: FilterModel,
     private val timelineCases: TimelineCases,
     eventHub: EventHub,
-    accountManager: AccountManager
+    accountManager: AccountManager,
+    private val db: AppDatabase,
+    private val gson: Gson
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<ThreadUiState> = MutableStateFlow(ThreadUiState.Loading)
@@ -95,36 +100,70 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun loadThread(id: String) {
+        _uiState.value = ThreadUiState.Loading
+
         viewModelScope.launch {
+            Log.d(TAG, "Finding status with: $id")
             val contextCall = async { api.statusContext(id) }
-            val statusCall = async { api.statusAsync(id) }
+            val timelineStatus = db.timelineDao().getStatus(id)
 
-            val contextResult = contextCall.await()
-            val statusResult = statusCall.await()
+            var detailedStatus = if (timelineStatus != null) {
+                Log.d(TAG, "Loaded status from local timeline")
+                val viewData = timelineStatus.toViewData(
+                    gson,
+                    isDetailed = true
+                ) as StatusViewData.Concrete
 
-            val status = statusResult.getOrElse { exception ->
-                _uiState.value = ThreadUiState.Error(exception)
-                return@launch
+                // Return the correct status, depending on which one matched. If you do not do
+                // this the status IDs will be different between the status that's displayed with
+                // ThreadUiState.LoadingThread and ThreadUiState.Success, even though the apparent
+                // status content is the same. Then the status flickers as it is drawn twice.
+                if (viewData.actionableId == id) {
+                    viewData.actionable.toViewData(isDetailed = true)
+                } else {
+                    viewData
+                }
+            } else {
+                Log.d(TAG, "Loaded status from network")
+                val result = api.status(id).getOrElse { exception ->
+                    _uiState.value = ThreadUiState.Error(exception)
+                    return@launch
+                }
+                result.toViewData(isDetailed = true)
             }
 
-            contextResult.fold({ statusContext ->
+            _uiState.value = ThreadUiState.LoadingThread(
+                statusViewDatum = detailedStatus,
+                revealButton = detailedStatus.getRevealButtonState()
+            )
 
+            // If the detailedStatus was loaded from the database it might be out-of-date
+            // compared to the remote one. Now the user has a working UI do a background fetch
+            // for the status. Ignore errors, the user still has a functioning UI if the fetch
+            // failed.
+            if (timelineStatus != null) {
+                val viewData = api.status(id).getOrNull()?.toViewData(isDetailed = true)
+                if (viewData != null) { detailedStatus = viewData }
+            }
+
+            val contextResult = contextCall.await()
+
+            contextResult.fold({ statusContext ->
                 val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
-                val detailedStatus = status.toViewData(true)
                 val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
                 val statuses = ancestors + detailedStatus + descendants
 
                 _uiState.value = ThreadUiState.Success(
-                    statuses = statuses,
-                    revealButton = statuses.getRevealButtonState(),
-                    refreshing = false
+                    statusViewData = statuses,
+                    detailedStatusPosition = ancestors.size,
+                    revealButton = statuses.getRevealButtonState()
                 )
             }, { throwable ->
                 _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
-                    statuses = listOf(status.toViewData(true)),
+                    statusViewData = listOf(detailedStatus),
+                    detailedStatusPosition = 0,
                     revealButton = RevealButtonState.NO_BUTTON,
-                    refreshing = false
                 )
             })
         }
@@ -136,15 +175,17 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun refresh(id: String) {
-        updateSuccess { uiState ->
-            uiState.copy(refreshing = true)
-        }
+        _uiState.value = ThreadUiState.Refreshing
         loadThread(id)
     }
 
     fun detailedStatus(): StatusViewData.Concrete? {
-        return (_uiState.value as ThreadUiState.Success?)?.statuses?.find { status ->
-            status.isDetailed
+        return when (val uiState = _uiState.value) {
+            is ThreadUiState.Success -> uiState.statusViewData.find { status ->
+                status.isDetailed
+            }
+            is ThreadUiState.LoadingThread -> uiState.statusViewDatum
+            else -> null
         }
     }
 
@@ -173,7 +214,7 @@ class ViewThreadViewModel @Inject constructor(
             timelineCases.bookmark(status.actionableId, bookmark).await()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
             }
         }
     }
@@ -201,14 +242,14 @@ class ViewThreadViewModel @Inject constructor(
     fun removeStatus(statusToRemove: StatusViewData.Concrete) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.filterNot { status -> status == statusToRemove }
+                statusViewData = uiState.statusViewData.filterNot { status -> status == statusToRemove }
             )
         }
     }
 
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         updateSuccess { uiState ->
-            val statuses = uiState.statuses.map { viewData ->
+            val statuses = uiState.statusViewData.map { viewData ->
                 if (viewData.id == status.id) {
                     viewData.copy(isExpanded = expanded)
                 } else {
@@ -216,7 +257,7 @@ class ViewThreadViewModel @Inject constructor(
                 }
             }
             uiState.copy(
-                statuses = statuses,
+                statusViewData = statuses,
                 revealButton = statuses.getRevealButtonState()
             )
         }
@@ -261,7 +302,7 @@ class ViewThreadViewModel @Inject constructor(
     private fun removeAllByAccountId(accountId: String) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.filter { viewData ->
+                statusViewData = uiState.statusViewData.filter { viewData ->
                     viewData.status.account.id != accountId
                 }
             )
@@ -271,7 +312,7 @@ class ViewThreadViewModel @Inject constructor(
     private fun handleStatusComposedEvent(event: StatusComposedEvent) {
         val eventStatus = event.status
         updateSuccess { uiState ->
-            val statuses = uiState.statuses
+            val statuses = uiState.statusViewData
             val detailedIndex = statuses.indexOfFirst { status -> status.isDetailed }
             val repliedIndex = statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
             if (detailedIndex != -1 && repliedIndex >= detailedIndex) {
@@ -279,7 +320,7 @@ class ViewThreadViewModel @Inject constructor(
                 val newStatuses = statuses.subList(0, repliedIndex + 1) +
                     eventStatus.toViewData() +
                     statuses.subList(repliedIndex + 1, statuses.size)
-                uiState.copy(statuses = newStatuses)
+                uiState.copy(statusViewData = newStatuses)
             } else {
                 uiState
             }
@@ -289,7 +330,7 @@ class ViewThreadViewModel @Inject constructor(
     private fun handleStatusDeletedEvent(event: StatusDeletedEvent) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.filter { status ->
+                statusViewData = uiState.statusViewData.filter { status ->
                     status.id != event.statusId
                 }
             )
@@ -300,13 +341,13 @@ class ViewThreadViewModel @Inject constructor(
         updateSuccess { uiState ->
             when (uiState.revealButton) {
                 RevealButtonState.HIDE -> uiState.copy(
-                    statuses = uiState.statuses.map { viewData ->
+                    statusViewData = uiState.statusViewData.map { viewData ->
                         viewData.copy(isExpanded = false)
                     },
                     revealButton = RevealButtonState.REVEAL
                 )
                 RevealButtonState.REVEAL -> uiState.copy(
-                    statuses = uiState.statuses.map { viewData ->
+                    statusViewData = uiState.statusViewData.map { viewData ->
                         viewData.copy(isExpanded = true)
                     },
                     revealButton = RevealButtonState.HIDE
@@ -316,16 +357,11 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun List<StatusViewData.Concrete>.getRevealButtonState(): RevealButtonState {
-        val hasWarnings = any { viewData ->
-            viewData.status.spoilerText.isNotEmpty()
-        }
+    private fun StatusViewData.Concrete.getRevealButtonState(): RevealButtonState {
+        val hasWarnings = status.spoilerText.isNotEmpty()
 
         return if (hasWarnings) {
-            val allExpanded = none { viewData ->
-                !viewData.isExpanded
-            }
-            if (allExpanded) {
+            if (isExpanded) {
                 RevealButtonState.HIDE
             } else {
                 RevealButtonState.REVEAL
@@ -333,6 +369,31 @@ class ViewThreadViewModel @Inject constructor(
         } else {
             RevealButtonState.NO_BUTTON
         }
+    }
+
+    /**
+     * Get the reveal button state based on the state of all the statuses in the list.
+     *
+     * - If any status sets it to REVEAL, use REVEAL
+     * - If no status sets it to REVEAL, but at least one uses HIDE, use HIDE
+     * - Otherwise use NO_BUTTON
+     */
+    private fun List<StatusViewData.Concrete>.getRevealButtonState(): RevealButtonState {
+        var seenHide = false
+
+        forEach {
+            when (val state = it.getRevealButtonState()) {
+                RevealButtonState.NO_BUTTON -> return@forEach
+                RevealButtonState.REVEAL -> return state
+                RevealButtonState.HIDE -> seenHide = true
+            }
+        }
+
+        if (seenHide) {
+            return RevealButtonState.HIDE
+        }
+
+        return RevealButtonState.NO_BUTTON
     }
 
     private fun loadFilters() {
@@ -349,9 +410,9 @@ class ViewThreadViewModel @Inject constructor(
             )
 
             updateSuccess { uiState ->
-                val statuses = uiState.statuses.filter()
+                val statuses = uiState.statusViewData.filter()
                 uiState.copy(
-                    statuses = statuses,
+                    statusViewData = statuses,
                     revealButton = statuses.getRevealButtonState()
                 )
             }
@@ -364,13 +425,15 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun Status.toViewData(detailed: Boolean = false): StatusViewData.Concrete {
-        val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statuses?.find { it.id == this.id }
+    private fun Status.toViewData(
+        isDetailed: Boolean = false
+    ): StatusViewData.Concrete {
+        val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find { it.id == this.id }
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
-            isCollapsed = oldStatus?.isCollapsed ?: !detailed,
-            isDetailed = oldStatus?.isDetailed ?: detailed
+            isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
+            isDetailed = oldStatus?.isDetailed ?: isDetailed
         )
     }
 
@@ -387,7 +450,7 @@ class ViewThreadViewModel @Inject constructor(
     private fun updateStatusViewData(statusId: String, updater: (StatusViewData.Concrete) -> StatusViewData.Concrete) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.map { viewData ->
+                statusViewData = uiState.statusViewData.map { viewData ->
                     if (viewData.id == statusId) {
                         updater(viewData)
                     } else {
@@ -412,13 +475,27 @@ class ViewThreadViewModel @Inject constructor(
 }
 
 sealed interface ThreadUiState {
+    /** The initial load of the detailed status for this thread */
     object Loading : ThreadUiState
-    class Error(val throwable: Throwable) : ThreadUiState
-    data class Success(
-        val statuses: List<StatusViewData.Concrete>,
-        val revealButton: RevealButtonState,
-        val refreshing: Boolean
+
+    /** Loading the detailed status has completed, now loading ancestors/descendants */
+    data class LoadingThread(
+        val statusViewDatum: StatusViewData.Concrete?,
+        val revealButton: RevealButtonState
     ) : ThreadUiState
+
+    /** An error occurred at any point */
+    class Error(val throwable: Throwable) : ThreadUiState
+
+    /** Successfully loaded the full thread */
+    data class Success(
+        val statusViewData: List<StatusViewData.Concrete>,
+        val revealButton: RevealButtonState,
+        val detailedStatusPosition: Int
+    ) : ThreadUiState
+
+    /** Refreshing the thread with a swipe */
+    object Refreshing : ThreadUiState
 }
 
 enum class RevealButtonState {
