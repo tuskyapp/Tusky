@@ -25,6 +25,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -94,7 +96,7 @@ import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, LinkListener {
+class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, HasAndroidInjector, LinkListener {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -150,6 +152,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         loadResources()
         makeNotificationBarTransparent()
         setContentView(binding.root)
+        addMenuProvider(this)
 
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
@@ -394,14 +397,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         draftsAlert.observeInContext(this, true)
     }
 
+    private fun onRefresh() {
+        viewModel.refresh()
+        adapter.refreshContent()
+    }
+
     /**
      * Setup swipe to refresh layout
      */
     private fun setupRefreshLayout() {
-        binding.swipeToRefreshLayout.setOnRefreshListener {
-            viewModel.refresh()
-            adapter.refreshContent()
-        }
+        binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
         viewModel.isRefreshing.observe(
             this
         ) { isRefreshing ->
@@ -706,7 +711,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.account_toolbar, menu)
 
         val openAsItem = menu.findItem(R.id.action_open_as)
@@ -770,8 +775,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         if (!viewModel.isSelf && followState != FollowState.FOLLOWING) {
             menu.removeItem(R.id.action_add_or_remove_from_list)
         }
-
-        return super.onCreateOptionsMenu(menu)
     }
 
     private fun showFollowRequestPendingDialog() {
@@ -859,7 +862,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         viewUrl(url)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
@@ -931,7 +934,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
         }
-        return super.onOptionsItemSelected(item)
+        return false
     }
 
     override fun getActionButton(): FloatingActionButton? {
