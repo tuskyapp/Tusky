@@ -139,7 +139,9 @@ class TrendingFragment :
             }
         }
 
-        (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
+        if (activity is ActionButtonActivity) {
+            (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
+        }
     }
 
     private fun setupSwipeRefreshLayout() {
