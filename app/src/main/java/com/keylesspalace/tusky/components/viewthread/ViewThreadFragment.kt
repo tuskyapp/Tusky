@@ -24,6 +24,7 @@ import android.widget.LinearLayout
 import androidx.annotation.CheckResult
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -211,7 +212,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         threadProgressBar.cancel()
 
                         adapter.submitList(uiState.statusViewData) {
-                            if (viewModel.isInitialLoad) {
+                            if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) && viewModel.isInitialLoad) {
                                 viewModel.isInitialLoad = false
 
                                 // Ensure the top of the status is visible
