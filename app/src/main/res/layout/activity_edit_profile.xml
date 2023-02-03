@@ -159,6 +159,19 @@
                     android:text="@string/profile_metadata_add"
                     android:textColor="#fff" />
 
+                <Button
+                    android:id="@+id/addFieldButtonTest"
+                    style="@style/TuskyButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:drawablePadding="6dp"
+                    android:text="@string/profile_metadata_add_test"
+                    android:textColor="#fff" />
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

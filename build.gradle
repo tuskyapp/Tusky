@@ -3,6 +3,12 @@ buildscript {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            url '../../flutter_module/build/host/outputs/repo'
+        }
+        maven {
+            url "https://storage.googleapis.com/download.flutter.io"
+        }
     }
     dependencies {
         classpath libs.android.gradle.plugin
@@ -14,9 +20,16 @@ buildscript {
 allprojects {
     apply plugin: "org.jlleitschuh.gradle.ktlint"
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
+        maven {
+            url '../../flutter_module/build/host/outputs/repo'
+        }
+        maven {
+            url "https://storage.googleapis.com/download.flutter.io"
+        }
     }
 }
 

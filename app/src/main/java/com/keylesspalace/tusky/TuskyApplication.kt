@@ -30,6 +30,9 @@ import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
@@ -46,6 +49,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
     lateinit var localeManager: LocaleManager
 
+    lateinit var flutterEngine: FlutterEngine
+
+    companion object {
+        const val FLUTTER_ENGINE_NAME = "wagr_flutter_engine_test"
+    }
+
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -59,6 +68,22 @@ class TuskyApplication : Application(), HasAndroidInjector {
 //        }
         super.onCreate()
 
+        //Flutter Init
+        flutterEngine = FlutterEngine(this)
+
+        //Pigeon Init
+//        Pigeon.TuskyApi.setup(flutterEngine.dartExecutor.binaryMessenger, MyFlutterApi())
+
+//        flutterEngine.navigationChannel.setInitialRoute("second")
+        flutterEngine.dartExecutor.executeDartEntrypoint(
+            /*DartExecutor.DartEntrypoint(
+                FlutterInjector.instance().flutterLoader().findAppBundlePath(), "testing"
+            )*/
+            DartExecutor.DartEntrypoint.createDefault()
+        )
+        FlutterEngineCache.getInstance().put(FLUTTER_ENGINE_NAME, flutterEngine)
+
+        // REST OF THE APP
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         AutoDisposePlugins.setHideProxies(false) // a small performance optimization

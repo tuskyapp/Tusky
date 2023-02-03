@@ -157,4 +157,7 @@ dependencies {
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
 
+    //Flutter Dependencies
+    implementation project(':flutter')
+    debugImplementation 'us.wagr.flutter.wagr_flutter_module:flutter:1.0'
 }

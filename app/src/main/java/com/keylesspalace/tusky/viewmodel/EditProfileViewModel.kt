@@ -170,6 +170,28 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
+    fun saveDisplayName(newDisplayName: String) {
+        if (saveData.value is Loading || profileData.value !is Success) {
+            return
+        }
+        saveData.value = Loading()
+        val displayName = newDisplayName.toRequestBody(MultipartBody.FORM)
+        viewModelScope.launch {
+            mastodonApi.accountDisplayNameUpdate(
+                displayName,
+            ).fold(
+                { newProfileData ->
+                    eventHub.dispatch(ProfileEditedEvent(newProfileData))
+                    saveData.postValue(Success())
+                },
+                { throwable ->
+                    saveData.postValue(Error(errorMessage = throwable.getServerErrorMessage()))
+                }
+            )
+        }
+    }
+
+
     // cache activity state for rotation change
     fun updateProfile(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
         if (profileData.value is Success) {

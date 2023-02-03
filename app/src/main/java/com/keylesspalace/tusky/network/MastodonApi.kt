@@ -311,6 +311,12 @@ interface MastodonApi {
         @Part(value = "fields_attributes[3][value]") fieldValue3: RequestBody?
     ): NetworkResult<Account>
 
+    @Multipart
+    @PATCH("api/v1/accounts/update_credentials")
+    suspend fun accountDisplayNameUpdate(
+        @Part(value = "display_name") displayName: RequestBody?
+    ): NetworkResult<Account>
+
     @GET("api/v1/accounts/search")
     suspend fun searchAccounts(
         @Query("q") query: String,

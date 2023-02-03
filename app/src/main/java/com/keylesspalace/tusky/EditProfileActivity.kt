@@ -52,6 +52,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.plugins.Pigeon
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -94,7 +97,25 @@ class EditProfileActivity : BaseActivity(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Get the cached engine which is already running
+        val engine = FlutterEngineCache.getInstance().get(TuskyApplication.FLUTTER_ENGINE_NAME);
+        if (engine != null) {
+            /* Pushing route for an existing Cached Engine
+         * Get the cached instance and call the pushRoute function from navigation channel with the appropriate call back
+         * engine?.navigationChannel?.pushRoute("/hello") */
+            Pigeon.TuskyApi.setup( engine.dartExecutor.binaryMessenger, MyFlutterApi(viewModel))
+        }
+
         setContentView(binding.root)
+
+        //Open the flutter intent on button click
+        binding.addFieldButtonTest.setOnClickListener {
+            intent = FlutterActivity
+                .withCachedEngine(TuskyApplication.FLUTTER_ENGINE_NAME)
+                .build(this)
+
+            startActivityWithSlideInAnimation(intent)
+        }
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
@@ -301,5 +322,17 @@ class EditProfileActivity : BaseActivity(), Injectable {
     private fun onPickFailure(throwable: Throwable?) {
         Log.w("EditProfileActivity", "failed to pick media", throwable)
         Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
+    }
+}
+
+class MyFlutterApi(
+    var viewModel: EditProfileViewModel
+) :
+    Pigeon.TuskyApi, Injectable {
+    override fun updateDisplayName(displayName: String): Boolean {
+        viewModel.saveDisplayName(
+            displayName,
+        )
+        return true
     }
 }
