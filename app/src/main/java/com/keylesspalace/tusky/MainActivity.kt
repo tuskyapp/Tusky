@@ -34,6 +34,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -167,6 +168,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
 
+    /** Mediate between binding.viewPager and the chosen tab layout */
+    private var tabLayoutMediator: TabLayoutMediator? = null
+
+    /** Adapter for the different timeline tabs */
+    private lateinit var tabAdapter: MainPagerAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -267,6 +274,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         fetchUserInfo()
 
         fetchAnnouncements()
+
+        // Initialise the tab adapter and set to viewpager. Fragments appear to be leaked if the
+        // adapter changes over the life of the viewPager (the adapter, not its contents), so set
+        // the initial list of tabs to empty, and set the full list later in setupTabs(). See
+        // https://github.com/tuskyapp/Tusky/issues/3251 for details.
+        tabAdapter = MainPagerAdapter(emptyList(), this)
+        binding.viewPager.adapter = tabAdapter
 
         setupTabs(showNotificationTab)
 
@@ -617,7 +631,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
-        val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
+        val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
             val actionBarSize = getDimension(this, R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
@@ -630,29 +644,36 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             binding.tabLayout
         }
 
+        // Save the previous tab so it can be restored later
+        val previousTab = tabAdapter.tabs.getOrNull(binding.viewPager.currentItem)
+
         val tabs = accountManager.activeAccount!!.tabPreferences
 
-        val adapter = MainPagerAdapter(tabs, this)
-        binding.viewPager.adapter = adapter
-        TabLayoutMediator(activeTabLayout, binding.viewPager) { _: TabLayout.Tab?, _: Int -> }.attach()
-        activeTabLayout.removeAllTabs()
-        for (i in tabs.indices) {
-            val tab = activeTabLayout.newTab()
-                .setIcon(tabs[i].icon)
-            if (tabs[i].id == LIST) {
-                tab.contentDescription = tabs[i].arguments[1]
-            } else {
-                tab.setContentDescription(tabs[i].text)
-            }
-            activeTabLayout.addTab(tab)
+        // Detach any existing mediator before changing tab contents and attaching a new mediator
+        tabLayoutMediator?.detach()
 
-            if (tabs[i].id == NOTIFICATIONS) {
-                notificationTabPosition = i
-                if (selectNotificationTab) {
-                    tab.select()
-                }
+        tabAdapter.tabs = tabs
+        tabAdapter.notifyItemRangeChanged(0, tabs.size)
+
+        tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
+            tab: TabLayout.Tab, position: Int ->
+            tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
+            tab.contentDescription = when (tabs[position].id) {
+                LIST -> tabs[position].arguments[position]
+                else -> getString(tabs[position].text)
             }
-        }
+        }.also { it.attach() }
+
+        // Selected tab is either
+        // - Notification tab (if appropriate)
+        // - The previously selected tab (if it hasn't been removed)
+        // - Left-most tab
+        val position = if (selectNotificationTab) {
+            tabs.indexOfFirst { it.id == NOTIFICATIONS }
+        } else {
+            previousTab?.let { tabs.indexOfFirst { it == previousTab } }
+        }.takeIf { it != -1 } ?: 0
+        binding.viewPager.setCurrentItem(position, false)
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
@@ -676,7 +697,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             override fun onTabUnselected(tab: TabLayout.Tab) {}
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-                val fragment = adapter.getFragment(tab.position)
+                val fragment = tabAdapter.getFragment(tab.position)
                 if (fragment is ReselectableFragment) {
                     (fragment as ReselectableFragment).onReselect()
                 }
@@ -688,7 +709,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
         binding.mainToolbar.title = tabs[activeTabPosition].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
-            (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
+            (tabAdapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
 
         updateProfiles()
