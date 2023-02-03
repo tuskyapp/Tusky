@@ -590,7 +590,7 @@
     <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
     <string name="pref_reading_order_newest_first">Neueste Beiträge zuerst laden</string>
     <string name="pref_reading_order_oldest_first">Älteste Beiträge zuerst laden</string>
-    <string name="pref_title_reading_order">Sortierung Timeline</string>
+    <string name="pref_title_reading_order">Leserichtung</string>
     <string name="title_edits">Bearbeitungen</string>
     <string name="pref_summary_http_proxy_disabled">Deaktiviert</string>
     <string name="pref_summary_http_proxy_missing">&lt;nicht gesetzt&gt;</string>
