@@ -102,6 +102,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17
     }
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "Tusky_${variant.versionName}_${variant.versionCode}_${gitSha}_" +
+                "${variant.flavorName}_${buildType.name}.apk"
+        }
+    }
 }
 
 kapt {
