@@ -98,6 +98,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.mediaDescription.visible(showingDescription)
         binding.mediaDescription.movementMethod = ScrollingMovementMethod()
 
+        // Ensure the description is visible over the video
+        binding.mediaDescription.elevation = binding.videoView.elevation + 1
+
         binding.videoView.transitionName = url
         binding.videoView.setVideoPath(url)
         mediaController = object : MediaController(mediaActivity) {

@@ -58,7 +58,7 @@
     <string name="action_favourite">Favorito</string>
     <string name="action_more">Más</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Iniciar sesión</string>
+    <string name="action_login">Iniciar sesión con Tusky</string>
     <string name="action_logout">Cerrar sesión</string>
     <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
     <string name="action_follow">Seguir</string>
@@ -607,11 +607,15 @@
     <string name="report_category_other">Otros</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_unfollow_hashtag_format">¿Dejar de seguir a #%s\?</string>
-    <string name="post_edited">Editado %s</string>
+    <string name="post_edited">%s editado</string>
     <string name="error_status_source_load">Fallo al cargar el estado desde el servidor.</string>
     <string name="confirmation_hashtag_unfollowed">Dejaste de seguir a #%s</string>
     <string name="pref_title_notification_filter_reports">Hay una nueva denuncia</string>
     <string name="action_discard">Descartar cambios</string>
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Tienes cambios sin guardar.</string>
+    <string name="title_edits">Ediciones</string>
+    <string name="action_post_failed">La subida falló</string>
+    <string name="action_post_failed_do_nothing">Descartar</string>
+    <string name="action_browser_login">Iniciar sesión con el navegador</string>
 </resources>

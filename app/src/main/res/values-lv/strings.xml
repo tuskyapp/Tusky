@@ -2,9 +2,9 @@
 <resources>
     <string name="error_invalid_domain">Ievadīts nederīgs domēns</string>
     <string name="error_empty">Tas nevar būt tukšs.</string>
-    <string name="error_failed_app_registration">Autentificēšana ar šo instanci neizdevās.</string>
-    <string name="error_authorization_unknown">Radās neidentificēta autorizācijas kļūda.</string>
-    <string name="error_authorization_denied">Autorizācija tika liegta.</string>
+    <string name="error_failed_app_registration">Autentificēšana ar šo instanci neizdevās. Ja tas atkārtojas, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
+    <string name="error_authorization_unknown">Radās neidentificēta autorizācijas kļūda. Ja tas atkārtojas, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
+    <string name="error_authorization_denied">Autorizācija tika liegta. Ja ir pārliecība, ka ievadīti pareizi pieslēgšanās dati, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
     <string name="error_no_web_browser_found">Nevarēja atrast tīmekļa pārlūku, ko izmantot.</string>
     <string name="error_could_not_load_login_page">Nevarēja ielādēt pieslēgšanās lapu.</string>
     <string name="error_compose_character_limit">Ieraksts ir pārāk garš!</string>
@@ -40,7 +40,7 @@
     <string name="post_media_alt">ALT</string>
     <string name="action_quick_reply">Ātrā atbilde</string>
     <string name="action_reply">Atbildēt</string>
-    <string name="action_login">Pieslēgties ar Mastodon</string>
+    <string name="action_login">Pieslēgties ar Tusky</string>
     <string name="action_bookmark">Atzīmēt ar grāmatzīmi</string>
     <string name="action_unbookmark">Noņemt grāmatzīmi</string>
     <string name="action_follow">Sekot</string>
@@ -337,7 +337,7 @@
     <string name="pref_title_show_boosts">Parādīt pastiprinājumus</string>
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">tikko</string>
-    <string name="error_retrieving_oauth_token">Neizdevās iegūt pieteikšanās pilnvaru.</string>
+    <string name="error_retrieving_oauth_token">Neizdevās iegūt pieteikšanās pilnvaru. Ja tas atkārtojas, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
     <string name="error_media_upload_permission">Nepieciešama atļauja lasīt multividi.</string>
     <string name="error_media_download_permission">Nepieciešama atļauja saglabāt multividi.</string>
     <string name="error_following_hashtag_format">Radās kļūda, sākot sekot #%s</string>
@@ -440,4 +440,130 @@
     <string name="wellbeing_hide_stats_profile">Slēpt profilu kvantitatīvo statistiku</string>
     <string name="wellbeing_hide_stats_posts">Slēpt ierakstu kvantitatīvo statistiku</string>
     <string name="drafts_failed_loading_reply">Neizdevās ielādēt atbildes informāciju</string>
+    <string name="action_delete_and_redraft">Dzēst un sākt no jauna</string>
+    <string name="action_dismiss">Aizvākt</string>
+    <string name="dialog_message_cancel_follow_request">Vai atcelt sekošanas pieprasījumu\?</string>
+    <string name="dialog_redraft_post_warning">Vai dzēst šo ierakstu un sākt no jauna\?</string>
+    <string name="about_powered_by_tusky">Darbību nodrošina Tusky</string>
+    <string name="hint_search_people_list">Meklēt personas, kurām seko</string>
+    <string name="send_post_notification_error_title">Sūtot ziņu, radās kļūda</string>
+    <string name="account_moved_description">%1$s ir pārcēlies uz:</string>
+    <string name="failed_to_pin">Piespraušana neizdevās</string>
+    <string name="failed_to_unpin">Atspraušana neizdevās</string>
+    <string name="post_share_content">Dalīties ar ieraksta saturu</string>
+    <string name="set_focus_description">Pieskaries vai velc apli, lai izvēlētos fokusa punktu, kas vienmēr būs redzams sīktēlos.</string>
+    <string name="expand_collapse_all_posts">Izplest/sakļaut visus ierakstus</string>
+    <string name="caption_twemoji">Mastodon standarta emocijzīmju komplekts</string>
+    <string name="caption_notoemoji">Google aktuālais emocijzīmju komplekts</string>
+    <string name="notification_report_description">Paziņojumi par moderēšanas ziņojumiem</string>
+    <string name="notification_mention_format">%s pieminēja tevi</string>
+    <string name="notification_summary_small">%1$s un %2$s</string>
+    <string name="notification_summary_medium">%1$s, %2$s un %3$s</string>
+    <string name="post_share_link">Dalīties ar saiti uz ierakstu</string>
+    <string name="error_failed_set_caption">Neizdevās pievienot parakstu</string>
+    <string name="error_failed_set_focus">Neizdevās iestatīt fokusa punktu</string>
+    <string name="pref_title_absolute_time">Izmantot absolūto laiku</string>
+    <string name="conversation_1_recipients">%1$s</string>
+    <string name="conversation_2_recipients">%1$s un %2$s</string>
+    <string name="description_post_cw">Satura brīdinājums: %s</string>
+    <string name="about_project_site">Projekta vietne:
+\n https://tusky.app</string>
+    <string name="a11y_label_loading_thread">Ielādē pavedienu</string>
+    <string name="confirmation_hashtag_unfollowed">pārtraukta sekošana #%s</string>
+    <string name="confirmation_domain_unmuted">%s atcelta slēpšana</string>
+    <string name="error_create_list">Nevarēja izveidot sarakstu</string>
+    <string name="pref_title_reading_order">Lasīšanas secība</string>
+    <string name="filter_add_description">Filtrējamā frāze</string>
+    <string name="pref_summary_http_proxy_disabled">Atspējots</string>
+    <string name="pref_summary_http_proxy_missing">&lt;nav iestatīts&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;nederīgs&gt;</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="add_account_description">Pievienot jaunu Mastodon kontu</string>
+    <string name="pref_title_animate_custom_emojis">Animēt pielāgotās emocijzīmes</string>
+    <string name="notification_sign_up_name">Jaunu dalībnieku reģistrācija</string>
+    <string name="pref_show_self_username_disambiguate">Kad pievienoti vairāki konti</string>
+    <string name="restart_required">Nepieciešama lietotnes restartēšana</string>
+    <string name="reblog_private">Pastiprināt sākotnējai auditorijai</string>
+    <string name="description_post_reblogged">Pastiprināts</string>
+    <string name="replying_to">Atbildot @%s</string>
+    <string name="lock_account_label_description">Prasa manuāli apstiprināt sekotājus</string>
+    <string name="title_reblogged_by">Pastiprināja</string>
+    <plurals name="reblogs">
+        <item quantity="zero"><b>%s</b> pastiprinājumi</item>
+        <item quantity="one"><b>%s</b> pastiprinājums</item>
+        <item quantity="other"><b>%s</b> pastiprinājumi</item>
+    </plurals>
+    <plurals name="max_tab_number_reached">
+        <item quantity="zero">sasniegts maksimālais ciļņu skaits %1$d</item>
+        <item quantity="one">sasniegts maksimālais ciļņu skaits %1$d</item>
+        <item quantity="other">sasniegts maksimālais ciļņu skaits %1$d</item>
+    </plurals>
+    <string name="title_favourites">Izlases</string>
+    <string name="notification_favourite_format">%s pievienoja tavu ierakstu izlasei</string>
+    <string name="action_favourite">Pievienot izlasei</string>
+    <string name="action_unfavourite">Noņemt no izlases</string>
+    <string name="action_send">PUBLICĒT</string>
+    <string name="action_send_public">PUBLICĒT!</string>
+    <string name="action_open_faved_by">Rādīt izlases</string>
+    <string name="pref_publishing">Publicē (sinhronizēts ar serveri)</string>
+    <string name="notification_favourite_name">Izlases</string>
+    <string name="report_category_spam">Mēstule</string>
+    <string name="action_set_focus">Iestatīt fokusa punktu</string>
+    <plurals name="poll_info_votes">
+        <item quantity="zero">%s balsis</item>
+        <item quantity="one">%s balss</item>
+        <item quantity="other">%s balsis</item>
+    </plurals>
+    <string name="pref_reading_order_oldest_first">Vecākos vispirms</string>
+    <string name="pref_reading_order_newest_first">Jaunākos vispirms</string>
+    <string name="status_created_info">%1$s izveidoja %2$s</string>
+    <plurals name="poll_info_people">
+        <item quantity="zero">%s personas</item>
+        <item quantity="one">%s persona</item>
+        <item quantity="other">%s personas</item>
+    </plurals>
+    <plurals name="poll_timespan_hours">
+        <item quantity="zero">atlikušas %d stundas</item>
+        <item quantity="one">atlikusi %d stunda</item>
+        <item quantity="other">atlikušas %d stundas</item>
+    </plurals>
+    <plurals name="poll_timespan_days">
+        <item quantity="zero">atlikušas %d dienas</item>
+        <item quantity="one">atlikusi %d diena</item>
+        <item quantity="other">atlikušas %d dienas</item>
+    </plurals>
+    <plurals name="poll_timespan_minutes">
+        <item quantity="zero">atlikušas %d minūtes</item>
+        <item quantity="one">atlikusi %d minūte</item>
+        <item quantity="other">atlikušas %d minūtes</item>
+    </plurals>
+    <plurals name="poll_timespan_seconds">
+        <item quantity="zero">atlikušas %d sekundes</item>
+        <item quantity="one">atlikusi %d sekunde</item>
+        <item quantity="other">atlikušas %d sekundes</item>
+    </plurals>
+    <string name="action_post_failed">Augšupielāde neizdevās</string>
+    <string name="action_post_failed_show_drafts">Rādīt melnrakstus</string>
+    <string name="action_post_failed_do_nothing">Aizvākt</string>
+    <string name="edit_hashtag_hint">Tēmturis bez #</string>
+    <string name="status_edit_info">%1$s laboja %2$s</string>
+    <string name="action_browser_login">Pieslēgties ar pārlūku</string>
+    <string name="description_login">Strādā vairumā gadījumu. Dati netiek nopludināti uz citām lietotnēm.</string>
+    <string name="poll_info_time_absolute">beidzas %s</string>
+    <string name="pref_title_confirm_favourites">Pirms pievienošanas izlasei rādīt apstiprināšanas dialogu</string>
+    <string name="action_view_favourites">Izlases</string>
+    <string name="pref_title_notification_filter_favourites">mani ieraksti tiek pievienoti izlasei</string>
+    <string name="abbreviated_in_days">pēc %dd</string>
+    <string name="abbreviated_in_hours">pēc %dh</string>
+    <string name="abbreviated_in_minutes">pēc %dm</string>
+    <string name="abbreviated_in_years">pēc %dg</string>
+    <string name="abbreviated_in_seconds">pēc %ds</string>
+    <string name="pref_title_alway_open_spoiler">Vienmēr izvērst ziņas, kas atzīmētas ar satura brīdinājumu</string>
+    <string name="action_post_failed_detail">Neizdevās augšupielādēt tavu ierakstu un tas tika saglabāts melnrakstos.
+\n
+\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstu.</string>
+    <string name="action_post_failed_detail_plural">Neizdevās augšupielādēt tavus ierakstus un tie tika saglabāti melnrakstos.
+\n
+\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstus.</string>
+    <string name="notification_favourite_description">Paziņojumi par tavu ierakstu pievienošanu izlasei</string>
 </resources>
