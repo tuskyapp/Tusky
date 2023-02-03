@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Mae'r rhesymeg llwytho llinell amser wedi'i hailysgrifennu'n llwyr er mwyn bod yn gyflymach, yn llai ddrwg ac yn haws ei chynnal.
+- Gall Tusky nawr animeiddio emojis wedi'u teilwra ar fformat APNG a WebP wedi'i hanimeiddio.
+- Llawer o atgyweiriadau
+- Cefnogaeth i Android 11
+- Cyfieithiadau newydd: Gaeleg yr Alban, Galiseg, Wcreineg
+- Gwell cyfieithiadau

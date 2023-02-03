@@ -60,7 +60,7 @@
     <string name="action_unfavourite">إزالة المفضلة</string>
     <string name="action_more">المزيد</string>
     <string name="action_compose">حرر</string>
-    <string name="action_login">الولوج إلى ماستدون</string>
+    <string name="action_login">الولوج باستخدام Tusky</string>
     <string name="action_logout">خروج</string>
     <string name="action_logout_confirm">متأكد مِن أنك تود الخروج من الحساب %1$s؟</string>
     <string name="action_follow">إتبع</string>
@@ -647,7 +647,7 @@
     <string name="error_following_hashtag_format">خطأ في متابعة %s#</string>
     <string name="error_unfollowing_hashtag_format">خطأ في إلغاء المتابعة %s#</string>
     <string name="title_followed_hashtags">الوسوم المتابعة</string>
-    <string name="error_status_source_load">فشل تحميل مصدر الحالة من الخادم.</string>
+    <string name="error_status_source_load">فشل تحميل مصدر المنشور من الخادم.</string>
     <string name="report_category_violation">انتهاك الشروط</string>
     <string name="dialog_push_notification_migration">من أجل استخدام الإشعارات عبر UnifiedPush ، يحتاج Tusky إلى إذن للإشتراك في الإشعارات على خادم Mastodon الخاص بك. يتطلب هذا إعادة تسجيل الدخول لتغيير نطاقات OAuth الممنوحة لـ Tusky. سيؤدي استخدام خيار إعادة تسجيل الدخول هنا أو في اعدادات الحساب إلى الاحتفاظ بجميع المسودات المحلية وذاكرة التخزين المؤقت.</string>
     <string name="pref_title_wellbeing_mode">الرفاهية</string>
@@ -658,4 +658,12 @@
     <string name="pref_title_notification_filter_updates">المنشور الذي تفاعلت معه تم تعديله</string>
     <string name="error_loading_account_details">فشل الوصل الى بيانات الحساب.</string>
     <string name="error_could_not_load_login_page">فشل الوصول الى صفحة تسجيل الدخول.</string>
+    <string name="action_post_failed">فشل التحميل</string>
+    <string name="action_post_failed_show_drafts">إظهار المسودات</string>
+    <string name="action_post_failed_do_nothing">تخطي</string>
+    <string name="pref_title_reading_order">ترتيب القراءة</string>
+    <string name="pref_summary_http_proxy_disabled">مُعطَّل</string>
+    <string name="pref_reading_order_oldest_first">الأقدم أولاً</string>
+    <string name="pref_reading_order_newest_first">الأحدث أولاً</string>
+    <string name="action_browser_login">الولوج باستخدام متصفح</string>
 </resources>
