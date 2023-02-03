@@ -20,8 +20,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -36,7 +39,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
+
+class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -58,6 +62,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
             setDisplayShowHomeEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
+        addMenuProvider(this)
         setupPages()
         handleIntent(intent)
     }
@@ -80,17 +85,24 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
         handleIntent(intent)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.search_toolbar, menu)
-        val searchView = menu.findItem(R.id.action_search)
-            .actionView as SearchView
+        val searchViewMenuItem = menu.findItem(R.id.action_search)
+
+        // The menu defines app:showAsAction="ifRoom|collapseActionView". If "collapseActionView"
+        // is omitted the search view is too wide, pushing the "..." of the menu almost off the
+        // edge of the screen. It is the correct width if it as shown as an expanded action
+        // view, so use "collapseActionView" in the layout, and .expandActionView() here to force
+        // the correct width.
+        searchViewMenuItem.expandActionView()
+        val searchView = searchViewMenuItem.actionView as SearchView
         setupSearchView(searchView)
 
         searchView.setQuery(viewModel.currentQuery, false)
+    }
 
-        return true
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
     }
 
     override fun finish() {
@@ -115,12 +127,8 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun setupSearchView(searchView: SearchView) {
         searchView.setIconifiedByDefault(false)
-
         searchView.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.getSearchableInfo(componentName))
-
         searchView.requestFocus()
-
-        searchView.maxWidth = Integer.MAX_VALUE
     }
 
     override fun androidInjector() = androidInjector
