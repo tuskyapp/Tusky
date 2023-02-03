@@ -326,7 +326,7 @@ class TimelineFragment :
             else -> false
         }
     }
-    
+
     /**
      * Set the correct reading position in the timeline after the user clicked "Load more",
      * assuming the reading position should be below the freshly-loaded statuses.
