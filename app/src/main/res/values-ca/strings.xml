@@ -148,6 +148,7 @@
     <string name="notification_summary_small">%1$s i %2$s</string>
     <plurals name="notification_title_summary">
         <item quantity="one">%1$d interacció nova</item>
+        <item quantity="many"></item>
         <item quantity="other">%1$d interaccions noves</item>
     </plurals>
     <string name="description_account_locked">Compte blocat</string>
@@ -278,6 +279,7 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descriu per a persones amb discapacitat visual
 \n(%1$d límit de caràcters)</item>
+        <item quantity="many"></item>
         <item quantity="other">Descriu per a persones amb discapacitat visual
 \n(%1$d límit de caràcters)</item>
     </plurals>
@@ -323,6 +325,7 @@
     <string name="label_remote_account">La informació de sota pot mostrar el perfil incomplert de l\'usuari. Clica per obrir el perfil complert al navegador.</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="many"></item>
         <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
@@ -353,6 +356,7 @@
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s vot</item>
+        <item quantity="many"></item>
         <item quantity="other">%1$s vots</item>
     </plurals>
     <string name="poll_info_time_absolute">Acaba a %1$s</string>
@@ -424,6 +428,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s persona</item>
+        <item quantity="many"></item>
         <item quantity="other">%1$s persones</item>
     </plurals>
     <string name="hashtags">Hashtags</string>
@@ -479,6 +484,7 @@
     <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %1$s\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">No podeu penjar més de %1$d fitxers adjunts multimèdia.</item>
+        <item quantity="many"></item>
         <item quantity="other">No podeu penjar més de %1$d fitxers adjunts multimèdia.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Amaga les estadístiques quantitatives dels perfils</string>
@@ -488,7 +494,7 @@
     <string name="error_loading_account_details">No s\'han pogut carregar els detalls del compte</string>
     <string name="action_add_or_remove_from_list">Afegeix o elimina de la llista</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
-    <string name="dialog_delete_conversation_warning">Vols suprimir aquesta conversa\?</string>
+    <string name="dialog_delete_conversation_warning">Vols suprimir aquesta conversa?</string>
     <string name="failed_to_add_to_list">No s\'ha pogut afegir el compte a la llista</string>
     <string name="error_multimedia_size_limit">Els fitxers de vídeo i àudio no poden superar la mida de %1$s MB.</string>
     <string name="error_image_edit_failed">La imatge no s\'ha pogut editar.</string>
@@ -513,6 +519,7 @@
         <item quantity="one">La teva publicació no s\'ha pogut penjar i s\'ha desat als esborranys.
 \n
 \nNo s\'ha pogut contactar amb el servidor o bé ha rebutjat la publicació.</item>
+        <item quantity="many"></item>
         <item quantity="other">Les teves publicacions no s\'han pogut penjar i s\'han desat als esborranys.
 \n
 \nNo s\'ha pogut contactar amb el servidor o ha rebutjat les publicacions.</item>
@@ -551,7 +558,7 @@
     <string name="notification_sign_up_description">Notificacions sobre nous usuaris</string>
     <string name="title_login">Iniciar Sessió</string>
     <string name="a11y_label_loading_thread">S\'està carregant el fil</string>
-    <string name="compose_save_draft_loses_media">Guardar l\'esborrany\? (Els fitxers adjunts es tornaran a penjar quan recupereu l\'esborrany.)</string>
+    <string name="compose_save_draft_loses_media">Guardar l\'esborrany? (Els fitxers adjunts es tornaran a penjar quan recupereu l\'esborrany.)</string>
     <string name="instance_rule_info">En iniciar sessió, accepteu les regles de %1$s.</string>
     <string name="action_edit_image">Edita la imatge</string>
     <string name="failed_to_pin">No s\'ha pogut fixar</string>
@@ -570,7 +577,7 @@
     <string name="duration_no_change">(Sense canvis)</string>
     <string name="tusky_compose_post_quicksetting_label">Redacta la publicació</string>
     <string name="pref_title_confirm_favourites">Mostra el diàleg de confirmació abans de marcar com a preferit</string>
-    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s?</string>
     <string name="compose_unsaved_changes">Tens canvis no desats.</string>
     <string name="set_focus_description">Toqueu o arrossegueu el cercle per triar el punt focal que sempre serà visible a les miniatures.</string>
     <string name="pref_title_show_self_username">Mostra el nom d\'usuari a les barres d\'eines</string>
@@ -578,7 +585,7 @@
     <string name="description_login">Funciona en la majoria dels casos. No es filtra cap dada a altres aplicacions.</string>
     <string name="description_browser_login">Pot ser compatible amb mètodes d\'autenticació addicionals, però requereix un navegador compatible.</string>
     <string name="no_lists">No tens cap llista.</string>
-    <string name="delete_scheduled_post_warning">Vols suprimir aquesta publicació programada\?</string>
+    <string name="delete_scheduled_post_warning">Vols suprimir aquesta publicació programada?</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Incompliment de la regla</string>
     <string name="report_category_spam">Spam</string>
