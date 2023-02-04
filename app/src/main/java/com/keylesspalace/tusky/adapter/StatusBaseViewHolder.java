@@ -84,18 +84,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final SparkButton bookmarkButton;
     private final ImageButton moreButton;
     private final ConstraintLayout mediaContainer;
-    protected MediaPreviewLayout mediaPreview;
+    protected final MediaPreviewLayout mediaPreview;
     private final TextView sensitiveMediaWarning;
     private final View sensitiveMediaShow;
-    protected TextView[] mediaLabels;
-    protected CharSequence[] mediaDescriptions;
+    protected final TextView[] mediaLabels;
+    protected final CharSequence[] mediaDescriptions;
     private final MaterialButton contentWarningButton;
     private final ImageView avatarInset;
 
-    public ImageView avatar;
-    public TextView metaInfo;
-    public TextView content;
-    public TextView contentWarningDescription;
+    public final ImageView avatar;
+    public final TextView metaInfo;
+    public final TextView content;
+    public final TextView contentWarningDescription;
 
     private final RecyclerView pollOptions;
     private final TextView pollDescription;
@@ -112,7 +112,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
-    protected int avatarRadius48dp;
+    protected final int avatarRadius48dp;
     private final int avatarRadius36dp;
     private final int avatarRadius24dp;
 

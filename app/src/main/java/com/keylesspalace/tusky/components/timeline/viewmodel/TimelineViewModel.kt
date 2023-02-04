@@ -55,7 +55,7 @@ abstract class TimelineViewModel(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
-    protected val sharedPreferences: SharedPreferences,
+    private val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
 ) : ViewModel() {
 
