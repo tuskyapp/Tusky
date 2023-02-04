@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
 import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
@@ -45,6 +46,9 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var draftsAlert: DraftsAlert
 
     private val viewModel: DraftsViewModel by viewModels { viewModelFactory }
 
@@ -83,6 +87,9 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
         adapter.addLoadStateListener {
             binding.draftsErrorMessageView.visible(adapter.itemCount == 0)
         }
+
+        // If a failed post is saved to drafts while this activity is up, do nothing; the user is already in the drafts view.
+        draftsAlert.observeInContext(this, false)
     }
 
     override fun onOpenDraft(draft: DraftEntity) {

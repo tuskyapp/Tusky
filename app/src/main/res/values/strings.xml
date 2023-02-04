@@ -4,11 +4,11 @@
     <string name="error_network">A network error occurred! Please check your connection and try again!</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
-    <string name="error_failed_app_registration">Failed authenticating with that instance.</string>
+    <string name="error_failed_app_registration">Failed authenticating with that instance. If this persists, try "Login in Browser" from the menu.</string>
     <string name="error_no_web_browser_found">Couldn\'t find a web browser to use.</string>
-    <string name="error_authorization_unknown">An unidentified authorization error occurred.</string>
-    <string name="error_authorization_denied">Authorization was denied.</string>
-    <string name="error_retrieving_oauth_token">Failed getting a login token.</string>
+    <string name="error_authorization_unknown">An unidentified authorization error occurred. If this persists, try "Login in Browser" from the menu.</string>
+    <string name="error_authorization_denied">Authorization was denied. If you\'re sure that you supplied the correct credentials, try "Login in Browser" from the menu.</string>
+    <string name="error_retrieving_oauth_token">Failed getting a login token. If this persists, try "Login in Browser" from the menu.</string>
     <string name="error_loading_account_details">Failed loading account details</string>
     <string name="error_could_not_load_login_page">Could not load the login page.</string>
     <string name="error_compose_character_limit">The post is too long!</string>
@@ -96,9 +96,15 @@
     <string name="action_unbookmark">Remove bookmark</string>
     <string name="action_more">More</string>
     <string name="action_compose">Compose</string>
-    <string name="action_login">Log in with Mastodon</string>
+    <string name="action_login">Login with Tusky</string>
+    <string name="action_browser_login">Login with Browser</string>
     <string name="action_logout">Log out</string>
     <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
+    <string name="action_post_failed">Upload failed</string>
+    <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.\n\nEither the server could not be contacted, or it rejected the post.</string>
+    <string name="action_post_failed_detail_plural">Your posts failed to upload and have been saved to drafts.\n\nEither the server could not be contacted, or it rejected the posts.</string>
+    <string name="action_post_failed_show_drafts">Show drafts</string>
+    <string name="action_post_failed_do_nothing">Dismiss</string>
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="action_block">Block</string>
@@ -561,6 +567,8 @@
         Poll with choices: %1$s, %2$s, %3$s, %4$s; %5$s
     </string>
     <string name="description_post_language">Post language</string>
+    <string name="description_login">Works in most cases. No data is leaked to other apps.</string>
+    <string name="description_browser_login">May support additional authentication methods, but requires a supported browser.</string>
 
     <string name="hint_list_name">List name</string>
 

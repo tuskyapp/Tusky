@@ -45,9 +45,8 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     init {
         accounts = accountDao.loadAll().toMutableList()
 
-        activeAccount = accounts.find { acc ->
-            acc.isActive
-        }
+        activeAccount = accounts.find { acc -> acc.isActive }
+            ?: accounts.firstOrNull()?.also { acc -> acc.isActive = true }
     }
 
     /**
@@ -169,15 +168,17 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      */
     fun setActiveAccount(accountId: Long) {
 
+        val newActiveAccount = accounts.find { (id) ->
+            id == accountId
+        } ?: return // invalid accountId passed, do nothing
+
         activeAccount?.let {
             Log.d(TAG, "setActiveAccount: saving account with id " + it.id)
             it.isActive = false
             saveAccount(it)
         }
 
-        activeAccount = accounts.find { (id) ->
-            id == accountId
-        }
+        activeAccount = newActiveAccount
 
         activeAccount?.let {
             it.isActive = true

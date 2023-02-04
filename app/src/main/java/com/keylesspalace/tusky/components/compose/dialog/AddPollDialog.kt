@@ -63,7 +63,7 @@ fun showAddPollDialog(
     var durations = context.resources.getIntArray(R.array.poll_duration_values).toList()
     val durationLabels = context.resources.getStringArray(R.array.poll_duration_names).filterIndexed { index, _ -> durations[index] in minDuration..maxDuration }
     binding.pollDurationSpinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, durationLabels).apply {
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
     durations = durations.filter { it in minDuration..maxDuration }
 

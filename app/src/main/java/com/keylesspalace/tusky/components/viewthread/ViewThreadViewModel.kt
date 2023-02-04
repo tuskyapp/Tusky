@@ -180,8 +180,12 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun detailedStatus(): StatusViewData.Concrete? {
-        return (_uiState.value as ThreadUiState.Success?)?.statusViewData?.find { status ->
-            status.isDetailed
+        return when (val uiState = _uiState.value) {
+            is ThreadUiState.Success -> uiState.statusViewData.find { status ->
+                status.isDetailed
+            }
+            is ThreadUiState.LoadingThread -> uiState.statusViewDatum
+            else -> null
         }
     }
 

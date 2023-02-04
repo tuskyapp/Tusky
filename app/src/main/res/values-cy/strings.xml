@@ -3,18 +3,18 @@
     <string name="error_generic">Bu gwall.</string>
     <string name="error_empty">Ni all hwn fod yn wag.</string>
     <string name="error_invalid_domain">Rhoddwyd parth annilys</string>
-    <string name="error_failed_app_registration">Methu awdurdodi gyda\'r gweinydd hwnnw.</string>
+    <string name="error_failed_app_registration">Methu awdurdodi gyda\'r gweinydd hwnnw. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
     <string name="error_no_web_browser_found">Methu dod o hyd i borwr gwe i\'w ddefnyddio.</string>
-    <string name="error_authorization_unknown">Bu gwall awdurdodi anhysbys.</string>
-    <string name="error_authorization_denied">Gwrthodwyd awdurdodi.</string>
-    <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi.</string>
+    <string name="error_authorization_unknown">Bu gwall awdurdodi anhysbys. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
+    <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os ydych chi\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
+    <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisiwch Mewngofnodi yn Porwr o\'r ddewislen.</string>
     <string name="error_compose_character_limit">Mae\'ch neges yn rhy hir!</string>
-    <string name="error_media_upload_type">Ni allwch lwytho\'r math hwnnw o ffeil.</string>
+    <string name="error_media_upload_type">Ni allwch lanlwytho\'r math hwnnw o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
     <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen y cyfrwng hwn.</string>
     <string name="error_media_download_permission">Rhaid cael caniatâd i gadw\'r cyfrwng hwn.</string>
     <string name="error_media_upload_image_or_video">Ni allwch atodi delweddau a fideos i\'r un neges.</string>
-    <string name="error_media_upload_sending">Methodd yr uwchlwytho.</string>
+    <string name="error_media_upload_sending">Methodd yr lanlwytho.</string>
     <string name="error_sender_account_gone">Bu gwall wrth anfon y neges.</string>
     <string name="title_home">Hafan</string>
     <string name="title_notifications">Hysbysiadau</string>
@@ -52,7 +52,7 @@
     <string name="action_favourite">Ffefryn</string>
     <string name="action_more">Mwy</string>
     <string name="action_compose">Creu</string>
-    <string name="action_login">Mewngofnodi â Mastodon</string>
+    <string name="action_login">Mewngofnodi â Thusky</string>
     <string name="action_logout">Allgofnodi</string>
     <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s?</string>
     <string name="action_follow">Dilyn</string>
@@ -123,8 +123,8 @@
 \nEnghraifft yw\'r man y mae\'ch cyfrif wedi\'i gynnal, ond gallwch yn hawdd gyfathrebu â phobl a\'u dilyn ar enghreifftiau eraill fel petai chi yn yr unfan.
 \n
 \nRhagor o wybodaeth yn <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="dialog_title_finishing_media_upload">Yn gorffen uwchlwytho\'r cyfryngau</string>
-    <string name="dialog_message_uploading_media">Yn uwchlwytho…</string>
+    <string name="dialog_title_finishing_media_upload">Yn Gorffen Lanlwytho\'r Cyfryngau</string>
+    <string name="dialog_message_uploading_media">Yn lanlwytho…</string>
     <string name="dialog_download_image">Lawrlwytho</string>
     <string name="dialog_message_cancel_follow_request">Tynnu\'r cais i ddilyn yn ôl?</string>
     <string name="dialog_unfollow_warning">Dad-ddilyn y cyfrif hwn?</string>
@@ -242,7 +242,7 @@
     <string name="compose_save_draft">Cadw drafft?</string>
     <string name="send_post_notification_title">Yn anfon y neges…</string>
     <string name="send_post_notification_error_title">Gwall wrth anfon y neges</string>
-    <string name="send_post_notification_channel_name">Yn anfon Pyst</string>
+    <string name="send_post_notification_channel_name">Yn anfon Negeseuon</string>
     <string name="send_post_notification_cancel_title">Diddymwyd anfon</string>
     <string name="send_post_notification_saved_content">Cadwyd copi o\'r neges i\'ch drafftiau</string>
     <string name="action_compose_shortcut">Creu</string>
@@ -262,7 +262,7 @@
     <string name="caption_twemoji">Set emoji safonol Mastodon</string>
     <string name="download_failed">Methodd y llwytho</string>
     <string name="account_moved_description">Mae %1$s wedi symud i:</string>
-    <string name="reblog_private">Hwb i\'r gynulleidfa wreiddiol</string>
+    <string name="reblog_private">Hybu i\'r gynulleidfa wreiddiol</string>
     <string name="unreblog_private">Dad-hybu</string>
     <string name="license_description">Mae Tusky yn cynnwys cod ac asedau o\'r projectau cod agored canlynol:</string>
     <string name="license_apache_2">Yn cael ei drwyddedu o Drwydded Apache (copi isod)</string>
@@ -319,7 +319,7 @@
     <string name="action_add_poll">Ychwanegu pôl</string>
     <string name="confirmation_domain_unmuted">%s wedi ei amlygu</string>
     <string name="action_access_scheduled_posts">Negeseuon amserlenwyd</string>
-    <string name="action_schedule_post">Amserlennu post</string>
+    <string name="action_schedule_post">Amserlennu Neges</string>
     <string name="action_mentions">Crybwylliadau</string>
     <string name="dialog_mute_warning">Tewi @%s\?</string>
     <string name="dialog_mute_hide_notifications">Cuddio hysbysiadau</string>
@@ -327,20 +327,20 @@
     <string name="pref_title_timeline_filters">Hidlyddion</string>
     <string name="dialog_block_warning">Rhwystro @%s\?</string>
     <string name="notification_subscription_name">Negeseuon newydd</string>
-    <string name="notification_update_name">Golygiadau pyst</string>
+    <string name="notification_update_name">Golygiadau\'r neges</string>
     <string name="notification_poll_name">Polau</string>
     <string name="notification_sign_up_name">Cofrestriadau</string>
     <string name="pref_title_public_filter_keywords">Ffrydiau cyhoeddus</string>
     <string name="filter_addition_dialog_title">Ychwanegu hidlydd</string>
     <string name="filter_edit_dialog_title">Golygu hidlydd</string>
     <string name="filter_dialog_update_button">Diweddaru</string>
-    <string name="pref_title_notification_filter_updates">golygwyd post rwy wedi rhyngweithio ag ef</string>
+    <string name="pref_title_notification_filter_updates">golygwyd neges rwy wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>
     <string name="filter_apply">Hidlo</string>
     <string name="pref_title_notification_filter_follow_requests">cais i ddilyn</string>
     <string name="notifications_clear">Clirio</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
-    <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi post newydd</string>
+    <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi neges newydd</string>
     <string name="filter_dialog_whole_word">Gair cyfan</string>
     <string name="filter_add_description">Ymadrodd i\'w hidlo</string>
     <string name="action_open_as">Agor fel %s</string>
@@ -383,7 +383,7 @@
     <string name="report_description_1">Bydd yr adroddiad yn cael ei anfon at reolwr eich gweinydd. Gallwch esbonio pam rydych chi\'n adrodd ar y cyfrif hwn isod:</string>
     <string name="warning_scheduling_interval">Mae gan Mastodon egwyl amserlennu o o leiaf 5 munud.</string>
     <string name="follow_requests_info">Er nad ydych wedi cloi\'ch cyfrif, roedd staff %1$s yn meddwl efallai yr hoffech adolygu\'r ceisiadau i\'ch dilyn o\'r cyfrifon hyn â llaw.</string>
-    <string name="delete_scheduled_post_warning">Hoffech chi ddileu\'r post amserlenwyd hwn\?</string>
+    <string name="delete_scheduled_post_warning">Hoffech chi ddileu\'r neges hon wedi\'i amserlennu\?</string>
     <string name="description_post_media_no_description_placeholder">Dim disgrifiad</string>
     <string name="hint_list_name">Enw rhestr</string>
     <string name="edit_hashtag_hint">Hashnod heb #</string>
@@ -475,7 +475,7 @@
     <string name="failed_to_add_to_list">Wedi methu ag ychwanegu\'r cyfrif at y rhestr</string>
     <string name="failed_to_remove_from_list">Wedi methu tynnu\'r cyfrif o\'r rhestr</string>
     <string name="instance_rule_info">Drwy fewngofnodi rydych yn cytuno i reolau %s.</string>
-    <string name="compose_save_draft_loses_media">Cadw drafft\? (Bydd atodiadau\'n cael eu llwytho i fyny eto pan fyddwch chi\'n adfer y drafft.)</string>
+    <string name="compose_save_draft_loses_media">Cadw drafft\? (Bydd atodiadau\'n cael eu lanlwytho eto pan fyddwch chi\'n adfer y drafft.)</string>
     <string name="description_post_reblogged">Ailflogiwyd</string>
     <string name="dialog_push_notification_migration_other_accounts">Rydych wedi ail-fewngofnodi i\'ch cyfrif cyfredol i roi caniatâd tanysgrifio gwthio i Tusky. Fodd bynnag, mae gennych gyfrifon eraill o hyd nad ydyn nhw wedi\'u mudo fel hyn. Newidiwch atyn nhw ac ail-fewngofnodi fesul un er mwyn galluogi cefnogaeth hysbysiadau UnifiedPush.</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
@@ -485,9 +485,9 @@
     <string name="review_notifications">Adolygu hysbysiadau</string>
     <string name="notification_report_format">Adroddiad newydd ar %s</string>
     <string name="notification_header_report_format">Adroddodd %s %s</string>
-    <string name="notification_summary_report_format">%s · %d post wedi\'u hatodi</string>
+    <string name="notification_summary_report_format">%s · %d neges wedi\'u hatodi</string>
     <string name="pref_title_notification_filter_reports">mae yna adroddiad newydd</string>
-    <string name="report_category_violation">Torri rheolau</string>
+    <string name="report_category_violation">Toriad rheol</string>
     <string name="report_category_spam">Sbam</string>
     <string name="failed_to_pin">Wedi methu pinio</string>
     <string name="failed_to_unpin">Wedi methu dadbinio</string>
@@ -538,7 +538,7 @@
     <string name="post_edited">Wedi golygu %s</string>
     <string name="confirmation_hashtag_unfollowed">#%s wedi ei ddad-ddilyn</string>
     <string name="pref_title_animate_custom_emojis">Animeiddio emojis cyfaddas</string>
-    <string name="notification_subscription_description">Hysbysiadau pan fydd rhywun rydych wedi tanysgrifio iddyn nhw\'n cyhoeddi post newydd</string>
+    <string name="notification_subscription_description">Hysbysiadau pan fydd rhywun rydych wedi tanysgrifio iddyn nhw\'n cyhoeddi neges newydd</string>
     <string name="notification_sign_up_description">Hysbysiadau am ddefnyddwyr newydd</string>
     <string name="notification_report_description">Hysbysiadau am adroddiadau cymedroli</string>
     <string name="filter_dialog_whole_word_description">Os yw\'r allweddair neu\'r ymadrodd yn alffaniwmerig yn unig, mi fydd ond yn cael ei osod os yw\'n cyfateb â\'r gair cyfan</string>
@@ -576,13 +576,13 @@
     <string name="wellbeing_mode_notice">Bydd rhywfaint o wybodaeth a all effeithio ar eich lles meddyliol yn cael ei chuddio. Mae hyn yn cynnwys:
 \n
 \n - Hysbysiadau Ffafrio/Hybu/Dilyn
-\n - Cyfrif pyst Ffafrio/Hybu
-\n - Ystadegau Dilynwr/Pyst ar broffiliau
+\n - Cyfrif o Fefrynnau/Hybiadau ar negeseuon
+\n - Ystadegau Dilynwr/Negeseuon ar broffiliau
 \n
 \n Ni fydd hysbysiadau gwthio yn cael eu heffeithio, ond gallwch adolygu eich dewisiadau hysbysu â llaw.</string>
     <string name="report_category_other">Arall</string>
     <string name="action_unfollow_hashtag_format">Dad-ddilyn #%s\?</string>
-    <string name="notification_update_description">Mae hysbysiadau pan fydd post rydych chi wedi rhyngweithio â nhw yn cael eu golygu</string>
+    <string name="notification_update_description">Hysbysiadau pan fydd negeseuon rydych chi wedi rhyngweithio â nhw yn cael eu golygu</string>
     <string name="failed_search">Wedi methu â chwilio</string>
     <string name="failed_report">Wedi methu ag adrodd</string>
     <string name="compose_preview_image_description">Gweithredoedd ar gyfer delwedd %s</string>
@@ -622,12 +622,12 @@
         <item quantity="other">%d munud ar ôl</item>
     </plurals>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="zero">Nid oes modd i chi lwytho mwy na %1$d atodiadau cyfryngau.</item>
-        <item quantity="one">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="two">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="few">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="many">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
-        <item quantity="other">Nid oes modd i chi lwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="zero">Nid oes modd i chi lanlwytho mwy na %1$d atodiadau cyfryngau.</item>
+        <item quantity="one">Nid oes modd i chi lanlwytho mwy nag %1$d atodiad cyfryngau.</item>
+        <item quantity="two">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="few">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="many">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
+        <item quantity="other">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
     </plurals>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="zero">Disgrifiwch ar gyfer pobl â nam ar eu golwg
@@ -657,4 +657,22 @@
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
     <string name="send_account_username_to">Rhannu enw denyddiwr cyfrif i…</string>
     <string name="account_username_copied">Enw defnyddiwr wedi\'i gopïo</string>
+    <string name="pref_reading_order_oldest_first">Hynaf yn gyntaf</string>
+    <string name="pref_reading_order_newest_first">Diweddaraf yn gyntaf</string>
+    <string name="pref_title_reading_order">Trefn darllen</string>
+    <string name="pref_summary_http_proxy_disabled">Analluogwyd</string>
+    <string name="pref_summary_http_proxy_missing">&lt;heb ei osod&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;annilys&gt;</string>
+    <string name="action_browser_login">Mewngofnodi â phorwr</string>
+    <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
+    <string name="description_browser_login">Gall gefnogi dulliau dilysu ychwanegol, ond mae angen porwr a gefnogir.</string>
+    <string name="action_post_failed_detail">Methodd eich post â lanlwytho ac mae wedi\'i gadw i ddrafftiau.
+\n
+\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y neges.</string>
+    <string name="action_post_failed">Wedi methu lanlwytho</string>
+    <string name="action_post_failed_show_drafts">Dangos drafftiau</string>
+    <string name="action_post_failed_do_nothing">Diystyru</string>
+    <string name="action_post_failed_detail_plural">Methodd eich negeseuon â lanlwytho ac mae wedi\'u cadw i ddrafftiau.
+\n
+\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y negeseuon.</string>
 </resources>

@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -37,6 +38,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
 import com.keylesspalace.tusky.util.viewBinding
@@ -66,24 +68,8 @@ class LoginActivity : BaseActivity(), Injectable {
             is LoginResult.Ok -> lifecycleScope.launch {
                 fetchOauthToken(result.code)
             }
-            is LoginResult.Err -> {
-                // Authorization failed. Put the error response where the user can read it and they
-                // can try again.
-                setLoading(false)
-                // Use error returned by the server or fall back to the generic message
-                binding.domainTextInputLayout.error =
-                    result.errorMessage.ifBlank { getString(R.string.error_authorization_denied) }
-                Log.e(
-                    TAG,
-                    "%s %s".format(
-                        getString(R.string.error_authorization_denied),
-                        result.errorMessage
-                    )
-                )
-            }
-            is LoginResult.Cancel -> {
-                setLoading(false)
-            }
+            is LoginResult.Err -> displayError(result.errorMessage)
+            is LoginResult.Cancel -> setLoading(false)
         }
     }
 
@@ -116,7 +102,7 @@ class LoginActivity : BaseActivity(), Injectable {
             getString(R.string.preferences_file_key), Context.MODE_PRIVATE
         )
 
-        binding.loginButton.setOnClickListener { onButtonClick() }
+        binding.loginButton.setOnClickListener { onLoginClick(true) }
 
         binding.whatsAnInstanceTextView.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
@@ -127,13 +113,9 @@ class LoginActivity : BaseActivity(), Injectable {
             textView?.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        if (isAdditionalLogin() || isAccountMigration()) {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-        } else {
-            binding.toolbar.visibility = View.GONE
-        }
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(isAdditionalLogin() || isAccountMigration())
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun requiresLogin(): Boolean {
@@ -147,12 +129,23 @@ class LoginActivity : BaseActivity(), Injectable {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.add(R.string.action_browser_login)?.apply {
+            setOnMenuItemClickListener {
+                onLoginClick(false)
+                true
+            }
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
     /**
      * Obtain the oauth client credentials for this app. This is only necessary the first time the
      * app is run on a given server instance. So, after the first authentication, they are
      * saved in SharedPreferences and every subsequent run they are simply fetched from there.
      */
-    private fun onButtonClick() {
+    private fun onLoginClick(openInWebView: Boolean) {
         binding.loginButton.isEnabled = false
         binding.domainTextInputLayout.error = null
 
@@ -190,7 +183,7 @@ class LoginActivity : BaseActivity(), Injectable {
                         .putString(CLIENT_SECRET, credentials.clientSecret)
                         .apply()
 
-                    redirectUserToAuthorizeAndLogin(domain, credentials.clientId)
+                    redirectUserToAuthorizeAndLogin(domain, credentials.clientId, openInWebView)
                 },
                 { e ->
                     binding.loginButton.isEnabled = true
@@ -204,10 +197,10 @@ class LoginActivity : BaseActivity(), Injectable {
         }
     }
 
-    private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String) {
+    private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String, openInWebView: Boolean) {
         // To authorize this app and log in it's necessary to redirect to the domain given,
         // login there, and the server will redirect back to the app with its response.
-        val url = HttpUrl.Builder()
+        val uri = HttpUrl.Builder()
             .scheme("https")
             .host(domain)
             .addPathSegments(MastodonApi.ENDPOINT_AUTHORIZE)
@@ -216,13 +209,59 @@ class LoginActivity : BaseActivity(), Injectable {
             .addQueryParameter("response_type", "code")
             .addQueryParameter("scope", OAUTH_SCOPES)
             .build()
-        doWebViewAuth.launch(LoginData(domain, url.toString().toUri(), oauthRedirectUri.toUri()))
+            .toString()
+            .toUri()
+
+        if (openInWebView) {
+            doWebViewAuth.launch(LoginData(domain, uri, oauthRedirectUri.toUri()))
+        } else {
+            openLinkInCustomTab(uri, this)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        // first show or user cancelled login
+
+        /* Check if we are resuming during authorization by seeing if the intent contains the
+         * redirect that was given to the server. If so, its response is here! */
+        val uri = intent.data
+
+        if (uri?.toString()?.startsWith(oauthRedirectUri) == true) {
+            // This should either have returned an authorization code or an error.
+            val code = uri.getQueryParameter("code")
+            val error = uri.getQueryParameter("error")
+
+            /* restore variables from SharedPreferences */
+            val domain = preferences.getNonNullString(DOMAIN, "")
+            val clientId = preferences.getNonNullString(CLIENT_ID, "")
+            val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
+
+            if (code != null && domain.isNotEmpty() && clientId.isNotEmpty() && clientSecret.isNotEmpty()) {
+                lifecycleScope.launch {
+                    fetchOauthToken(code)
+                }
+            } else {
+                displayError(error)
+            }
+        } else {
+            // first show or user cancelled login
+            setLoading(false)
+        }
+    }
+
+    private fun displayError(error: String?) {
+        // Authorization failed. Put the error response where the user can read it and they
+        // can try again.
         setLoading(false)
+
+        binding.domainTextInputLayout.error = if (error == null) {
+            // This case means a junk response was received somehow.
+            getString(R.string.error_authorization_unknown)
+        } else {
+            // Use error returned by the server or fall back to the generic message
+            Log.e(TAG, "%s %s".format(getString(R.string.error_authorization_denied), error))
+            error.ifBlank { getString(R.string.error_authorization_denied) }
+        }
     }
 
     private suspend fun fetchOauthToken(code: String) {
