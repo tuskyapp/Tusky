@@ -16,41 +16,18 @@
 package com.keylesspalace.tusky.db
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
-import androidx.room.Transaction
-import androidx.room.Update
+import androidx.room.Upsert
 
 @Dao
 interface InstanceDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun insertOrIgnore(instance: InstanceInfoEntity): Long
+    @Upsert(entity = InstanceEntity::class)
+    suspend fun upsert(instance: InstanceInfoEntity)
 
-    @Update(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun updateOrIgnore(instance: InstanceInfoEntity)
-
-    @Transaction
-    suspend fun upsert(instance: InstanceInfoEntity) {
-        if (insertOrIgnore(instance) == -1L) {
-            updateOrIgnore(instance)
-        }
-    }
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun insertOrIgnore(emojis: EmojisEntity): Long
-
-    @Update(onConflict = OnConflictStrategy.IGNORE, entity = InstanceEntity::class)
-    suspend fun updateOrIgnore(emojis: EmojisEntity)
-
-    @Transaction
-    suspend fun upsert(emojis: EmojisEntity) {
-        if (insertOrIgnore(emojis) == -1L) {
-            updateOrIgnore(emojis)
-        }
-    }
+    @Upsert(entity = InstanceEntity::class)
+    suspend fun upsert(emojis: EmojisEntity)
 
     @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
