@@ -76,46 +76,46 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         public static final String KEY_CREATED = "created";
     }
 
-    private TextView displayName;
-    private TextView username;
-    private ImageButton replyButton;
-    private TextView replyCountLabel;
-    private SparkButton reblogButton;
-    private SparkButton favouriteButton;
-    private SparkButton bookmarkButton;
-    private ImageButton moreButton;
-    private ConstraintLayout mediaContainer;
+    private final TextView displayName;
+    private final TextView username;
+    private final ImageButton replyButton;
+    private final TextView replyCountLabel;
+    private final SparkButton reblogButton;
+    private final SparkButton favouriteButton;
+    private final SparkButton bookmarkButton;
+    private final ImageButton moreButton;
+    private final ConstraintLayout mediaContainer;
     protected MediaPreviewLayout mediaPreview;
-    private TextView sensitiveMediaWarning;
-    private View sensitiveMediaShow;
+    private final TextView sensitiveMediaWarning;
+    private final View sensitiveMediaShow;
     protected TextView[] mediaLabels;
     protected CharSequence[] mediaDescriptions;
-    private MaterialButton contentWarningButton;
-    private ImageView avatarInset;
+    private final MaterialButton contentWarningButton;
+    private final ImageView avatarInset;
 
     public ImageView avatar;
     public TextView metaInfo;
     public TextView content;
     public TextView contentWarningDescription;
 
-    private RecyclerView pollOptions;
-    private TextView pollDescription;
-    private Button pollButton;
+    private final RecyclerView pollOptions;
+    private final TextView pollDescription;
+    private final Button pollButton;
 
-    private LinearLayout cardView;
-    private LinearLayout cardInfo;
-    private ShapeableImageView cardImage;
-    private TextView cardTitle;
-    private TextView cardDescription;
-    private TextView cardUrl;
-    private PollAdapter pollAdapter;
+    private final LinearLayout cardView;
+    private final LinearLayout cardInfo;
+    private final ShapeableImageView cardImage;
+    private final TextView cardTitle;
+    private final TextView cardDescription;
+    private final TextView cardUrl;
+    private final PollAdapter pollAdapter;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     protected int avatarRadius48dp;
-    private int avatarRadius36dp;
-    private int avatarRadius24dp;
+    private final int avatarRadius36dp;
+    private final int avatarRadius24dp;
 
     private final Drawable mediaPreviewUnloaded;
 

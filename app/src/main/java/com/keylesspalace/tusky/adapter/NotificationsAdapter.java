@@ -87,12 +87,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private String accountId;
+    private final String accountId;
     private StatusDisplayOptions statusDisplayOptions;
-    private StatusActionListener statusListener;
-    private NotificationActionListener notificationActionListener;
-    private AccountActionListener accountActionListener;
-    private AdapterDataSource<NotificationViewData> dataSource;
+    private final StatusActionListener statusListener;
+    private final NotificationActionListener notificationActionListener;
+    private final AccountActionListener accountActionListener;
+    private final AdapterDataSource<NotificationViewData> dataSource;
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     public NotificationsAdapter(String accountId,
@@ -353,11 +353,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
-        private TextView message;
-        private TextView usernameView;
-        private TextView displayNameView;
-        private ImageView avatar;
-        private StatusDisplayOptions statusDisplayOptions;
+        private final TextView message;
+        private final TextView usernameView;
+        private final TextView displayNameView;
+        private final ImageView avatar;
+        private final StatusDisplayOptions statusDisplayOptions;
 
         FollowViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
@@ -414,7 +414,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final TextView contentWarningDescriptionTextView;
         private final Button contentWarningButton;
         private final Button contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
-        private StatusDisplayOptions statusDisplayOptions;
+        private final StatusDisplayOptions statusDisplayOptions;
         private final AbsoluteTimeFormatter absoluteTimeFormatter;
 
         private String accountId;
@@ -422,9 +422,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
 
-        private int avatarRadius48dp;
-        private int avatarRadius36dp;
-        private int avatarRadius24dp;
+        private final int avatarRadius48dp;
+        private final int avatarRadius36dp;
+        private final int avatarRadius24dp;
 
         StatusNotificationViewHolder(
             View itemView,
