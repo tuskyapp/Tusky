@@ -13,27 +13,28 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter
+package com.keylesspalace.tusky.components.accountlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemFollowRequestsHeaderBinding
+import com.keylesspalace.tusky.util.BindingHolder
 
-class FollowRequestsHeaderAdapter(private val instanceName: String, private val accountLocked: Boolean) : RecyclerView.Adapter<HeaderViewHolder>() {
+class FollowRequestsHeaderAdapter(
+    private val instanceName: String,
+    private val accountLocked: Boolean
+) : RecyclerView.Adapter<BindingHolder<ItemFollowRequestsHeaderBinding>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_follow_requests_header, parent, false) as TextView
-        return HeaderViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestsHeaderBinding> {
+        val binding = ItemFollowRequestsHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: HeaderViewHolder, position: Int) {
-        viewHolder.textView.text = viewHolder.textView.context.getString(R.string.follow_requests_info, instanceName)
+    override fun onBindViewHolder(viewHolder: BindingHolder<ItemFollowRequestsHeaderBinding>, position: Int) {
+        viewHolder.binding.root.text = viewHolder.binding.root.context.getString(R.string.follow_requests_info, instanceName)
     }
 
     override fun getItemCount() = if (accountLocked) 0 else 1
 }
-
-class HeaderViewHolder(var textView: TextView) : RecyclerView.ViewHolder(textView)
