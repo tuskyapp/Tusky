@@ -25,7 +25,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
-import androidx.core.view.ViewKt;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -325,8 +324,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
-                String readout = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
-                timestampText = readout;
+                timestampText = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
             }
         }
 
@@ -598,9 +596,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                 final String accountId,
                                 final String statusContent,
                                 StatusDisplayOptions statusDisplayOptions) {
-        View.OnClickListener profileButtonClickListener = button -> {
-            listener.onViewAccount(accountId);
-        };
+        View.OnClickListener profileButtonClickListener = button -> listener.onViewAccount(accountId);
 
         avatar.setOnClickListener(profileButtonClickListener);
         displayName.setOnClickListener(profileButtonClickListener);

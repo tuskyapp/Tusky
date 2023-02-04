@@ -67,7 +67,7 @@ import java.util.List;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 
-public class NotificationsAdapter extends RecyclerView.Adapter {
+public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface AdapterDataSource<T> {
         int getItemCount();
@@ -164,11 +164,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List payloads) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List<Object> payloads) {
         bindViewHolder(viewHolder, position, payloads);
     }
 
-    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads) {
+    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List<Object> payloads) {
         Object payloadForHolder = payloads != null && !payloads.isEmpty() ? payloads.get(0) : null;
         if (position < this.dataSource.getItemCount()) {
             NotificationViewData notification = dataSource.getItemAt(position);
@@ -234,7 +234,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotification.getId());
                     } else {
                         if (payloadForHolder instanceof List)
-                            for (Object item : (List) payloadForHolder) {
+                            for (Object item : (List<?>) payloadForHolder) {
                                 if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item) && statusViewData != null) {
                                     holder.setCreatedAt(statusViewData.getStatus().getActionableStatus().getCreatedAt());
                                 }
