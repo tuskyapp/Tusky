@@ -148,7 +148,7 @@
     <string name="dialog_message_uploading_media">Wird hochgeladen …</string>
     <string name="dialog_download_image">Herunterladen</string>
     <string name="dialog_message_cancel_follow_request">Follow-Anfrage zurückziehen?</string>
-    <string name="dialog_unfollow_warning">Dieses Profil entfolgen\?</string>
+    <string name="dialog_unfollow_warning">Dieses Profil entfolgen?</string>
     <string name="dialog_delete_post_warning">Diesen Beitrag löschen?</string>
     <string name="visibility_public">Öffentlich: Für alle sichtbar</string>
     <string name="visibility_unlisted">Nicht gelistet: Nicht in der öffentlichen Timeline sichtbar</string>
@@ -368,7 +368,7 @@
     <string name="action_view_domain_mutes">Ausgeblendete Domains</string>
     <string name="action_mute_domain">%1$s stummschalten</string>
     <string name="confirmation_domain_unmuted">%1$s nicht mehr ausgeblendet</string>
-    <string name="mute_domain_warning">Bist du dir sicher, dass du alles von %1$s blockieren möchtest\? Du wirst keine Inhalte dieser Domain in irgendwelchen öffentlichen Timelines oder in deinen Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
+    <string name="mute_domain_warning">Bist du dir sicher, dass du alles von %1$s blockieren möchtest? Du wirst keine Inhalte dieser Domain in irgendwelchen öffentlichen Timelines oder in deinen Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
     <string name="mute_domain_warning_dialog_ok">Gesamte Domain ausblenden</string>
     <string name="pref_title_animate_gif_avatars">GIF-Profilbilder animieren</string>
     <string name="filter_dialog_whole_word">Ganzes Wort</string>
