@@ -311,8 +311,8 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
 
@@ -352,23 +352,23 @@ public class NotificationsFragment extends SFragment implements
         binding.recyclerView.addOnScrollListener(scrollListener);
 
         eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
-                    } else if (event instanceof BookmarkEvent) {
-                        setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
-                    } else if (event instanceof ReblogEvent) {
-                        setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
-                    } else if (event instanceof PinEvent) {
-                        setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
-                    } else if (event instanceof BlockEvent) {
-                        removeAllByAccountId(((BlockEvent) event).getAccountId());
-                    } else if (event instanceof PreferenceChangedEvent) {
-                        onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
-                    }
-                });
+            .observeOn(AndroidSchedulers.mainThread())
+            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+            .subscribe(event -> {
+                if (event instanceof FavoriteEvent) {
+                    setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
+                } else if (event instanceof BookmarkEvent) {
+                    setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
+                } else if (event instanceof ReblogEvent) {
+                    setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
+                } else if (event instanceof PinEvent) {
+                    setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
+                } else if (event instanceof BlockEvent) {
+                    removeAllByAccountId(((BlockEvent) event).getAccountId());
+                } else if (event instanceof PreferenceChangedEvent) {
+                    onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
+                }
+            });
     }
 
     @Override
