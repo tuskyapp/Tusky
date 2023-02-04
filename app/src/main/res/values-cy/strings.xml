@@ -242,7 +242,7 @@
     <string name="compose_save_draft">Cadw drafft?</string>
     <string name="send_post_notification_title">Yn anfon y neges…</string>
     <string name="send_post_notification_error_title">Gwall wrth anfon y neges</string>
-    <string name="send_post_notification_channel_name">Yn anfon Pyst</string>
+    <string name="send_post_notification_channel_name">Yn anfon Negeseuon</string>
     <string name="send_post_notification_cancel_title">Diddymwyd anfon</string>
     <string name="send_post_notification_saved_content">Cadwyd copi o\'r neges i\'ch drafftiau</string>
     <string name="action_compose_shortcut">Creu</string>
@@ -319,7 +319,7 @@
     <string name="action_add_poll">Ychwanegu pôl</string>
     <string name="confirmation_domain_unmuted">%s wedi ei amlygu</string>
     <string name="action_access_scheduled_posts">Negeseuon amserlenwyd</string>
-    <string name="action_schedule_post">Amserlennu post</string>
+    <string name="action_schedule_post">Amserlennu Neges</string>
     <string name="action_mentions">Crybwylliadau</string>
     <string name="dialog_mute_warning">Tewi @%s\?</string>
     <string name="dialog_mute_hide_notifications">Cuddio hysbysiadau</string>
@@ -327,20 +327,20 @@
     <string name="pref_title_timeline_filters">Hidlyddion</string>
     <string name="dialog_block_warning">Rhwystro @%s\?</string>
     <string name="notification_subscription_name">Negeseuon newydd</string>
-    <string name="notification_update_name">Golygiadau pyst</string>
+    <string name="notification_update_name">Golygiadau\'r neges</string>
     <string name="notification_poll_name">Polau</string>
     <string name="notification_sign_up_name">Cofrestriadau</string>
     <string name="pref_title_public_filter_keywords">Ffrydiau cyhoeddus</string>
     <string name="filter_addition_dialog_title">Ychwanegu hidlydd</string>
     <string name="filter_edit_dialog_title">Golygu hidlydd</string>
     <string name="filter_dialog_update_button">Diweddaru</string>
-    <string name="pref_title_notification_filter_updates">golygwyd post rwy wedi rhyngweithio ag ef</string>
+    <string name="pref_title_notification_filter_updates">golygwyd neges rwy wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>
     <string name="filter_apply">Hidlo</string>
     <string name="pref_title_notification_filter_follow_requests">cais i ddilyn</string>
     <string name="notifications_clear">Clirio</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
-    <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi post newydd</string>
+    <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi neges newydd</string>
     <string name="filter_dialog_whole_word">Gair cyfan</string>
     <string name="filter_add_description">Ymadrodd i\'w hidlo</string>
     <string name="action_open_as">Agor fel %s</string>
@@ -383,7 +383,7 @@
     <string name="report_description_1">Bydd yr adroddiad yn cael ei anfon at reolwr eich gweinydd. Gallwch esbonio pam rydych chi\'n adrodd ar y cyfrif hwn isod:</string>
     <string name="warning_scheduling_interval">Mae gan Mastodon egwyl amserlennu o o leiaf 5 munud.</string>
     <string name="follow_requests_info">Er nad ydych wedi cloi\'ch cyfrif, roedd staff %1$s yn meddwl efallai yr hoffech adolygu\'r ceisiadau i\'ch dilyn o\'r cyfrifon hyn â llaw.</string>
-    <string name="delete_scheduled_post_warning">Hoffech chi ddileu\'r post amserlenwyd hwn\?</string>
+    <string name="delete_scheduled_post_warning">Hoffech chi ddileu\'r neges hon wedi\'i amserlennu\?</string>
     <string name="description_post_media_no_description_placeholder">Dim disgrifiad</string>
     <string name="hint_list_name">Enw rhestr</string>
     <string name="edit_hashtag_hint">Hashnod heb #</string>
@@ -485,7 +485,7 @@
     <string name="review_notifications">Adolygu hysbysiadau</string>
     <string name="notification_report_format">Adroddiad newydd ar %s</string>
     <string name="notification_header_report_format">Adroddodd %s %s</string>
-    <string name="notification_summary_report_format">%s · %d post wedi\'u hatodi</string>
+    <string name="notification_summary_report_format">%s · %d neges wedi\'u hatodi</string>
     <string name="pref_title_notification_filter_reports">mae yna adroddiad newydd</string>
     <string name="report_category_violation">Toriad rheol</string>
     <string name="report_category_spam">Sbam</string>
@@ -538,7 +538,7 @@
     <string name="post_edited">Wedi golygu %s</string>
     <string name="confirmation_hashtag_unfollowed">#%s wedi ei ddad-ddilyn</string>
     <string name="pref_title_animate_custom_emojis">Animeiddio emojis cyfaddas</string>
-    <string name="notification_subscription_description">Hysbysiadau pan fydd rhywun rydych wedi tanysgrifio iddyn nhw\'n cyhoeddi post newydd</string>
+    <string name="notification_subscription_description">Hysbysiadau pan fydd rhywun rydych wedi tanysgrifio iddyn nhw\'n cyhoeddi neges newydd</string>
     <string name="notification_sign_up_description">Hysbysiadau am ddefnyddwyr newydd</string>
     <string name="notification_report_description">Hysbysiadau am adroddiadau cymedroli</string>
     <string name="filter_dialog_whole_word_description">Os yw\'r allweddair neu\'r ymadrodd yn alffaniwmerig yn unig, mi fydd ond yn cael ei osod os yw\'n cyfateb â\'r gair cyfan</string>
@@ -576,13 +576,13 @@
     <string name="wellbeing_mode_notice">Bydd rhywfaint o wybodaeth a all effeithio ar eich lles meddyliol yn cael ei chuddio. Mae hyn yn cynnwys:
 \n
 \n - Hysbysiadau Ffafrio/Hybu/Dilyn
-\n - Cyfrif pyst Ffafrio/Hybu
-\n - Ystadegau Dilynwr/Pyst ar broffiliau
+\n - Cyfrif o Fefrynnau/Hybiadau ar negeseuon
+\n - Ystadegau Dilynwr/Negeseuon ar broffiliau
 \n
 \n Ni fydd hysbysiadau gwthio yn cael eu heffeithio, ond gallwch adolygu eich dewisiadau hysbysu â llaw.</string>
     <string name="report_category_other">Arall</string>
     <string name="action_unfollow_hashtag_format">Dad-ddilyn #%s\?</string>
-    <string name="notification_update_description">Mae hysbysiadau pan fydd post rydych chi wedi rhyngweithio â nhw yn cael eu golygu</string>
+    <string name="notification_update_description">Hysbysiadau pan fydd negeseuon rydych chi wedi rhyngweithio â nhw yn cael eu golygu</string>
     <string name="failed_search">Wedi methu â chwilio</string>
     <string name="failed_report">Wedi methu ag adrodd</string>
     <string name="compose_preview_image_description">Gweithredoedd ar gyfer delwedd %s</string>
@@ -668,11 +668,11 @@
     <string name="description_browser_login">Gall gefnogi dulliau dilysu ychwanegol, ond mae angen porwr a gefnogir.</string>
     <string name="action_post_failed_detail">Methodd eich post â lanlwytho ac mae wedi\'i gadw i ddrafftiau.
 \n
-\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y post.</string>
+\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y neges.</string>
     <string name="action_post_failed">Wedi methu lanlwytho</string>
     <string name="action_post_failed_show_drafts">Dangos drafftiau</string>
     <string name="action_post_failed_do_nothing">Diystyru</string>
-    <string name="action_post_failed_detail_plural">Methodd eich pyst â lanlwytho ac mae wedi\'u cadw i ddrafftiau.
+    <string name="action_post_failed_detail_plural">Methodd eich negeseuon â lanlwytho ac mae wedi\'u cadw i ddrafftiau.
 \n
-\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y pyst.</string>
+\nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y negeseuon.</string>
 </resources>

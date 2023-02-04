@@ -4,7 +4,7 @@ Mae Tusky yn gleient ysgafn i Mastodon, gweinydd rhwydwaith cymdeithasol ffynhon
 • Gweithredwyd y rhan fwyaf o API Mastodon
 • Cefnogaeth amlgyfrif
 • Thema dywyll a golau gyda'r posibilrwydd i newid yn awtomatig ar sail amser y dydd
-• Drafftiau - cyfansoddi pyst a'u cadw yn nes ymlaen
+• Drafftiau - cyfansoddi negeseuon a'u cadw yn nes ymlaen
 • Dewiswch rhwng gwahanol arddulliau emoji
 • Wedi'i optimeiddio ar gyfer pob maint sgrin
 • Cwbl ffynhonnell agored - dim dibyniaethau nad ydynt am ddim fel gwasanaethau Google
