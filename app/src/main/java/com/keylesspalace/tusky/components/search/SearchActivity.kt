@@ -88,12 +88,6 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.search_toolbar, menu)
         val searchViewMenuItem = menu.findItem(R.id.action_search)
-
-        // The menu defines app:showAsAction="ifRoom|collapseActionView". If "collapseActionView"
-        // is omitted the search view is too wide, pushing the "..." of the menu almost off the
-        // edge of the screen. It is the correct width if it as shown as an expanded action
-        // view, so use "collapseActionView" in the layout, and .expandActionView() here to force
-        // the correct width.
         searchViewMenuItem.expandActionView()
         val searchView = searchViewMenuItem.actionView as SearchView
         setupSearchView(searchView)
@@ -128,12 +122,41 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
     private fun setupSearchView(searchView: SearchView) {
         searchView.setIconifiedByDefault(false)
         searchView.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.getSearchableInfo(componentName))
+
+        // SearchView has a bug. If it's displayed 'app:showAsAction="always"' it's too wide,
+        // pushing other icons (including the options menu '...' icon) off the edge of the
+        // screen.
+        //
+        // E.g., see:
+        //
+        // - https://stackoverflow.com/questions/41662373/android-toolbar-searchview-too-wide-to-move-other-items
+        // - https://stackoverflow.com/questions/51525088/how-to-control-size-of-a-searchview-in-toolbar
+        // - https://stackoverflow.com/questions/36976163/push-icons-away-when-expandig-searchview-in-android-toolbar
+        // - https://issuetracker.google.com/issues/36976484
+        //
+        // The fix is to use 'app:showAsAction="ifRoom|collapseActionView"' and then immediately
+        // expand it after inflating. That sets the width correctly.
+        //
+        // But if you do that code in AppCompatDelegateImpl activates, and when the user presses
+        // the "Back" button the SearchView is first set to its collapsed state. The user has to
+        // press "Back" again to exit the activity. This is clearly unacceptable.
+        //
+        // It appears to be impossible to override this behaviour on API level < 33.
+        //
+        // SearchView does allow you to specify the maximum width. So take the screen width,
+        // subtract 48dp * 2 (for the menu icon and back icon on either side), convert to pixels,
+        // and use that.
+        val pxScreenWidth = resources.displayMetrics.widthPixels
+        val pxBuffer = ((48 * 2) * resources.displayMetrics.density).toInt()
+        searchView.maxWidth = pxScreenWidth - pxBuffer
+
         searchView.requestFocus()
     }
 
     override fun androidInjector() = androidInjector
 
     companion object {
+        const val TAG = "SearchActivity"
         fun getIntent(context: Context) = Intent(context, SearchActivity::class.java)
     }
 }
