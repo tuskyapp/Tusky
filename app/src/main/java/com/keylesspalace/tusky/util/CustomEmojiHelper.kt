@@ -1,5 +1,5 @@
 /* Copyright 2020 Tusky Contributors
- * 
+ *
  * This file is a part of Tusky.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the

@@ -11,7 +11,7 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject
 
-class FollowedTagsViewModel @Inject constructor (
+class FollowedTagsViewModel @Inject constructor(
     api: MastodonApi
 ) : ViewModel(), Injectable {
     val tags: MutableList<HashTag> = mutableListOf()

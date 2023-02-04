@@ -1,5 +1,5 @@
 [versions]
-agp = "7.3.1"
+agp = "7.4.0"
 androidx-activity = "1.6.0"
 androidx-appcompat = "1.6.0-rc01"
 androidx-browser = "1.4.0"
@@ -30,7 +30,6 @@ glide = "4.13.2"
 glide-animation-plugin = "2.23.0"
 gson = "2.9.0"
 kotlin = "1.7.10"
-ktlint = "10.2.1"
 image-cropper = "4.3.1"
 lifecycle = "2.5.1"
 material = "1.6.1"
@@ -50,8 +49,14 @@ photoview = "2.3.0"
 sparkbutton = "4.1.0"
 unified-push = "2.0.1"
 
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
+
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -105,7 +110,6 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "image-cropper" }
 material-drawer-core = { module = "com.mikepenz:materialdrawer", version.ref = "material-drawer" }
 material-drawer-iconics = { module = "com.mikepenz:materialdrawer-iconics", version.ref = "material-drawer" }
@@ -145,5 +149,3 @@ okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
 retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
-
-[plugins]
