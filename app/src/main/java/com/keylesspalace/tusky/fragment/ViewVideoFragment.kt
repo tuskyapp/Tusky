@@ -57,9 +57,12 @@ class ViewVideoFragment : ViewMediaFragment() {
         mediaController.hide()
     }
     private lateinit var mediaActivity: ViewMediaActivity
-    private val TOOLBAR_HIDE_DELAY_MS = 3000L
     private lateinit var mediaController: MediaController
     private var isAudio = false
+
+    companion object {
+        private const val TOOLBAR_HIDE_DELAY_MS = 3000L
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
