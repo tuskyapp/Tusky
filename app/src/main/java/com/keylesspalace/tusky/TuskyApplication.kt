@@ -16,12 +16,13 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
@@ -36,7 +37,6 @@ import java.security.Security
 import javax.inject.Inject
 
 class TuskyApplication : Application(), HasAndroidInjector {
-
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -45,6 +45,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var localeManager: LocaleManager
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -65,7 +68,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        // Migrate shared preference keys and defaults from version to version. The last
+        // version that did not have a SCHEMA_VERSION was 97, so that's the default.
+        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 97)
+        if (oldVersion != BuildConfig.VERSION_CODE) {
+            upgradeSharedPreferences(oldVersion, BuildConfig.VERSION_CODE)
+        }
 
         // In this case, we want to have the emoji preferences merged with the other ones
         // Copied from PreferenceManager.getDefaultSharedPreferenceName
@@ -73,7 +81,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
-        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
+        val theme = sharedPreferences.getString("appTheme", APP_THEME_DEFAULT)
         setAppNightMode(theme)
 
         localeManager.setLocale()
@@ -91,4 +99,18 @@ class TuskyApplication : Application(), HasAndroidInjector {
     }
 
     override fun androidInjector() = androidInjector
+
+    private fun upgradeSharedPreferences(oldVersion: Int, newVersion: Int) {
+        Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
+        val editor = sharedPreferences.edit()
+
+        // Future upgrade code goes here
+
+        editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
+        editor.apply()
+    }
+
+    companion object {
+        private const val TAG = "TuskyApplication"
+    }
 }
