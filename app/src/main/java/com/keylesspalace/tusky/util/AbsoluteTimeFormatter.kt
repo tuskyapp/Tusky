@@ -15,17 +15,30 @@
 
 package com.keylesspalace.tusky.util
 
+import android.text.format.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class AbsoluteTimeFormatter @JvmOverloads constructor(private val tz: TimeZone = TimeZone.getDefault()) {
-    private val sameDaySdf = SimpleDateFormat("HH:mm", Locale.getDefault()).apply { this.timeZone = tz }
-    private val sameYearSdf = SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault()).apply { this.timeZone = tz }
-    private val otherYearSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).apply { this.timeZone = tz }
-    private val otherYearCompleteSdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).apply { this.timeZone = tz }
+class AbsoluteTimeFormatter @JvmOverloads constructor(private val tz: TimeZone = TimeZone.getDefault(), is24HourFormat: Boolean) {
+    private val sameDaySkeleton = if (is24HourFormat) "HH:mm" else "hh:mm a"
+    private val sameYearSkeleton = if (is24HourFormat) "dd MMM, HH:mm" else "dd MMM, hh:mm a"
+    private val otherYearSkeleton = "yyyy-MM-dd"
+    private val otherYearCompleteSkeleton = if (is24HourFormat) "yyyy-MM-dd HH:mm" else "yyyy-MM-dd hh:mm a"
+
+    // DateFormat.getBestDateTimePattern() will return null in unit test.
+    private val sameDayPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), sameDaySkeleton) ?: sameDaySkeleton
+    private val sameYearPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), sameYearSkeleton) ?: sameYearSkeleton
+    private val otherYearPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), otherYearSkeleton) ?: otherYearSkeleton
+    private val otherYearCompletePattern =
+        DateFormat.getBestDateTimePattern(Locale.getDefault(), otherYearCompleteSkeleton) ?: otherYearCompleteSkeleton
+
+    private val sameDaySdf = SimpleDateFormat(sameDayPattern, Locale.getDefault()).apply { this.timeZone = tz }
+    private val sameYearSdf = SimpleDateFormat(sameYearPattern, Locale.getDefault()).apply { this.timeZone = tz }
+    private val otherYearSdf = SimpleDateFormat(otherYearPattern, Locale.getDefault()).apply { this.timeZone = tz }
+    private val otherYearCompleteSdf = SimpleDateFormat(otherYearCompletePattern, Locale.getDefault()).apply { this.timeZone = tz }
 
     @JvmOverloads
     fun format(time: Date?, shortFormat: Boolean = true, now: Date = Date()): String {

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +112,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private PollAdapter pollAdapter;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
-    private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
+    private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(DateFormat.is24HourFormat(itemView.getContext()));
 
     protected int avatarRadius48dp;
     private int avatarRadius36dp;

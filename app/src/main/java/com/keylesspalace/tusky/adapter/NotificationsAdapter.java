@@ -24,6 +24,7 @@ import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +32,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.ColorRes;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
@@ -65,6 +59,12 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import at.connyduck.sparkbutton.helpers.Utils;
 
 public class NotificationsAdapter extends RecyclerView.Adapter {
@@ -93,7 +93,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private NotificationActionListener notificationActionListener;
     private AccountActionListener accountActionListener;
     private AdapterDataSource<NotificationViewData> dataSource;
-    private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     public NotificationsAdapter(String accountId,
                                 AdapterDataSource<NotificationViewData> dataSource,
@@ -123,7 +122,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_STATUS_NOTIFICATION: {
                 View view = inflater
                         .inflate(R.layout.item_status_notification, parent, false);
-                return new StatusNotificationViewHolder(view, statusDisplayOptions, absoluteTimeFormatter);
+                return new StatusNotificationViewHolder(view, statusDisplayOptions);
             }
             case VIEW_TYPE_FOLLOW: {
                 View view = inflater
@@ -427,9 +426,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private int avatarRadius24dp;
 
         StatusNotificationViewHolder(
-            View itemView,
-            StatusDisplayOptions statusDisplayOptions,
-            AbsoluteTimeFormatter absoluteTimeFormatter
+                View itemView,
+                StatusDisplayOptions statusDisplayOptions
         ) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_top_text);
@@ -444,7 +442,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             contentWarningButton = itemView.findViewById(R.id.notification_content_warning_button);
             contentCollapseButton = itemView.findViewById(R.id.button_toggle_notification_content);
             this.statusDisplayOptions = statusDisplayOptions;
-            this.absoluteTimeFormatter = absoluteTimeFormatter;
+            this.absoluteTimeFormatter = new AbsoluteTimeFormatter(DateFormat.is24HourFormat(itemView.getContext()));
 
             int darkerFilter = Color.rgb(123, 123, 123);
             statusAvatar.setColorFilter(darkerFilter, PorterDuff.Mode.MULTIPLY);
@@ -637,7 +635,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private void setupContentAndSpoiler(final LinkListener listener) {
 
             boolean shouldShowContentIfSpoiler = statusViewData.isExpanded();
-            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getStatus(). getSpoilerText());
+            boolean hasSpoiler = !TextUtils.isEmpty(statusViewData.getStatus().getSpoilerText());
             if (!shouldShowContentIfSpoiler && hasSpoiler) {
                 statusContent.setVisibility(View.GONE);
             } else {

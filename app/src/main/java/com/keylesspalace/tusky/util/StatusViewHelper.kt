@@ -20,6 +20,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.InputFilter
 import android.text.TextUtils
+import android.text.format.DateFormat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -38,7 +39,7 @@ import java.text.NumberFormat
 import kotlin.math.min
 
 class StatusViewHelper(private val itemView: View) {
-    private val absoluteTimeFormatter = AbsoluteTimeFormatter()
+    private val absoluteTimeFormatter = AbsoluteTimeFormatter(is24HourFormat = DateFormat.is24HourFormat(itemView.context.applicationContext))
 
     interface MediaPreviewListener {
         fun onViewMedia(v: View?, idx: Int)
@@ -51,7 +52,7 @@ class StatusViewHelper(private val itemView: View) {
         sensitive: Boolean,
         previewListener: MediaPreviewListener,
         showingContent: Boolean,
-        mediaPreviewHeight: Int
+        mediaPreviewHeight: Int,
     ) {
 
         val context = itemView.context
@@ -210,7 +211,7 @@ class StatusViewHelper(private val itemView: View) {
         mediaLabel: TextView,
         attachments: List<Attachment>,
         sensitive: Boolean,
-        listener: MediaPreviewListener
+        listener: MediaPreviewListener,
     ) {
         if (attachments.isEmpty()) {
             mediaLabel.visibility = View.GONE
