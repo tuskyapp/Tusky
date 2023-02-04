@@ -137,7 +137,7 @@ data class Status(
         )
     }
 
-    fun getEditableText(): String {
+    private fun getEditableText(): String {
         val contentSpanned = content.parseAsMastodonHtml()
         val builder = SpannableStringBuilder(content.parseAsMastodonHtml())
         for (span in contentSpanned.getSpans(0, content.length, URLSpan::class.java)) {

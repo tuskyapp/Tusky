@@ -69,7 +69,7 @@ abstract class TimelineViewModel(
         private set
 
     protected var alwaysShowSensitiveMedia = false
-    protected var alwaysOpenSpoilers = false
+    private var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST

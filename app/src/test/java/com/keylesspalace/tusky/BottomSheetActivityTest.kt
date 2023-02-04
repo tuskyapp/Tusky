@@ -237,7 +237,6 @@ class BottomSheetActivityTest {
 
         init {
             mastodonApi = api
-            @Suppress("UNCHECKED_CAST")
             bottomSheet = mock()
         }
 

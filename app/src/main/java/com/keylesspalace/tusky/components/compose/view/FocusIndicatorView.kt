@@ -70,9 +70,7 @@ class FocusIndicatorView
         if (event.actionMasked == MotionEvent.ACTION_CANCEL)
             return false
 
-        val imageSize = this.imageSize
-        if (imageSize == null)
-            return false
+        val imageSize = this.imageSize ?: return false
 
         // Convert touch xy to point inside image
         focus = Attachment.Focus(axisToFocus(event.x, imageSize.x, this.width), -axisToFocus(event.y, imageSize.y, this.height))

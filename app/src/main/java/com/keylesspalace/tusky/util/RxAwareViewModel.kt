@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
 open class RxAwareViewModel : ViewModel() {
-    val disposables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
     fun Disposable.autoDispose() = disposables.add(this)
 
