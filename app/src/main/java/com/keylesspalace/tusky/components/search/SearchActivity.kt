@@ -39,7 +39,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-
 class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
