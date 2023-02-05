@@ -54,11 +54,6 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
     private lateinit var statusId: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
-        binding.toolbar.title = getString(R.string.title_edits)
         binding.swipeRefreshLayout.isEnabled = false
 
         binding.recyclerView.setHasFixedSize(true)
@@ -119,6 +114,11 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
         }
 
         viewModel.loadEdits(statusId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().title = getString(R.string.title_edits)
     }
 
     override fun onViewAccount(id: String) {
