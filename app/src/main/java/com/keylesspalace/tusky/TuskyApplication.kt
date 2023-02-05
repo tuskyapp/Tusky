@@ -104,10 +104,22 @@ class TuskyApplication : Application(), HasAndroidInjector {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
         val editor = sharedPreferences.edit()
 
-        // Future upgrade code goes here
+        for (version in oldVersion+1..newVersion) {
+            when (version) {
+                101 -> upgradeSharedPreferences100to101(editor)
+            }
+        }
 
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
+    }
+
+    private fun upgradeSharedPreferences100to101(editor: SharedPreferences.Editor) {
+        // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
+
+        editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
+        editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
+        editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
     }
 
     companion object {
