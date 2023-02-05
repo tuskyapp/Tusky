@@ -234,6 +234,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
+        setSupportActionBar(binding.mainToolbar)
 
         glide = Glide.with(this)
 
