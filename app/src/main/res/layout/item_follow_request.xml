@@ -35,6 +35,15 @@
         app:layout_constraintTop_toBottomOf="@id/notificationTextView"
         tools:src="@drawable/avatar_default" />
 
+    <ImageView
+        android:id="@+id/avatarBadge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/profile_badge_bot_text"
+        android:src="@drawable/bot_badge"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintEnd_toEndOf="@id/avatar" />
+
     <TextView
         android:id="@+id/displayNameTextView"
         android:layout_width="0dp"
@@ -97,4 +106,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/avatar"
         app:srcCompat="@drawable/ic_check_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

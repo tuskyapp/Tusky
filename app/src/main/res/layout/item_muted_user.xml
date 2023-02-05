@@ -19,11 +19,20 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/avatar_default" />
 
+    <ImageView
+        android:id="@+id/muted_user_bot_badge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/profile_badge_bot_text"
+        android:src="@drawable/bot_badge"
+        app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
+        app:layout_constraintEnd_toEndOf="@id/muted_user_avatar" />
+
     <TextView
         android:id="@+id/muted_user_display_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
@@ -65,16 +74,16 @@
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:text="@string/mute_notifications_switch"
         android:id="@+id/muted_user_mute_notifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:textColor="?android:textColorTertiary"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/mute_notifications_switch"
+        android:textColor="?android:textColorTertiary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:switchPadding="4dp"
         app:layout_constraintStart_toStartOf="@id/muted_user_display_name"
-        app:layout_constraintTop_toBottomOf="@id/muted_user_username" />
+        app:layout_constraintTop_toBottomOf="@id/muted_user_username"
+        app:switchPadding="4dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

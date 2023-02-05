@@ -61,7 +61,7 @@
     <string name="action_unfavourite">Favorisierung entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Beitrag erstellen</string>
-    <string name="action_login">Mit Mastodon anmelden</string>
+    <string name="action_login">Mit Tusky anmelden</string>
     <string name="action_logout">Ausloggen</string>
     <string name="action_logout_confirm">Bist du sicher, dass du dich vom Konto %1$s abmelden möchtest\?</string>
     <string name="action_follow">Folgen</string>
@@ -586,4 +586,36 @@
     <string name="title_followed_hashtags">Gefolgte Hashtags</string>
     <string name="action_unfollow_hashtag_format">#%s entfolgen\?</string>
     <string name="description_post_edited">Bearbeitet</string>
+    <string name="a11y_label_loading_thread">Lade Thread</string>
+    <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
+    <string name="pref_reading_order_newest_first">Neueste Beiträge zuerst laden</string>
+    <string name="pref_reading_order_oldest_first">Älteste Beiträge zuerst laden</string>
+    <string name="pref_title_reading_order">Leserichtung</string>
+    <string name="title_edits">Bearbeitungen</string>
+    <string name="pref_summary_http_proxy_disabled">Deaktiviert</string>
+    <string name="pref_summary_http_proxy_missing">&lt;nicht gesetzt&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;ungültig&gt;</string>
+    <string name="compose_unsaved_changes">Du hast nicht gespeicherte Änderungen.</string>
+    <string name="pref_title_http_proxy_port_message">Port sollte zwischen %d und %d liegen</string>
+    <string name="error_muting_hashtag_format">Stummschalten von #%s fehlgeschlagen</string>
+    <string name="action_post_failed">Hochladen fehlgeschlagen</string>
+    <string name="action_post_failed_detail">Dein Beitrag konnte nicht gepostet werden.
+\n
+\nEntweder ist die Verbindung zum Server fehlgeschlagen oder der Server hat den Beitrag abgelehnt.</string>
+    <string name="action_post_failed_detail_plural">Dein Beiträge konnte nicht gepostet werden.
+\n
+\nEntweder ist die Verbindung zum Server fehlgeschlagen oder der Server hat die Beiträge abgelehnt.</string>
+    <string name="action_post_failed_show_drafts">Entwürfe anzeigen</string>
+    <string name="action_post_failed_do_nothing">Abbrechen</string>
+    <string name="post_edited">Bearbeitet %s</string>
+    <string name="action_discard">Änderungen verwerfen</string>
+    <string name="action_continue_edit">Bearbeitung fortsetzen</string>
+    <string name="action_browser_login">Login mit Browser</string>
+    <string name="action_share_account_username">Name des Profils teilen</string>
+    <string name="action_share_account_link">Link zum Profil teilen</string>
+    <string name="send_account_link_to">Teile Profil-Link mit …</string>
+    <string name="send_account_username_to">Teile Profilnamen mit …</string>
+    <string name="account_username_copied">Proilname kopiert</string>
+    <string name="status_edit_info">%1$s bearbeitete %2$s</string>
+    <string name="status_created_info">%1$s erstellte %2$s</string>
 </resources>

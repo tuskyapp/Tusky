@@ -122,7 +122,7 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />
-        <activity android:name=".AccountListActivity" />
+        <activity android:name=".components.accountlist.AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".TabPreferenceActivity" />
         <activity

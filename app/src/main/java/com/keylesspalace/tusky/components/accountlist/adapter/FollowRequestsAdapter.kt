@@ -12,10 +12,12 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
-package com.keylesspalace.tusky.adapter
+
+package com.keylesspalace.tusky.components.accountlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 
@@ -25,7 +27,13 @@ class FollowRequestsAdapter(
     animateAvatar: Boolean,
     animateEmojis: Boolean,
     showBotOverlay: Boolean
-) : AccountAdapter<FollowRequestViewHolder>(accountActionListener, animateAvatar, animateEmojis, showBotOverlay) {
+) : AccountAdapter<FollowRequestViewHolder>(
+    accountActionListener = accountActionListener,
+    animateAvatar = animateAvatar,
+    animateEmojis = animateEmojis,
+    showBotOverlay = showBotOverlay
+) {
+
     override fun createAccountViewHolder(parent: ViewGroup): FollowRequestViewHolder {
         val binding = ItemFollowRequestBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -38,7 +46,12 @@ class FollowRequestsAdapter(
     }
 
     override fun onBindAccountViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
-        viewHolder.setupWithAccount(accountList[position], animateAvatar, animateEmojis, showBotOverlay)
+        viewHolder.setupWithAccount(
+            account = accountList[position],
+            animateAvatar = animateAvatar,
+            animateEmojis = animateEmojis,
+            showBotOverlay = showBotOverlay
+        )
         viewHolder.setupActionListener(accountActionListener, accountList[position].id)
     }
 }

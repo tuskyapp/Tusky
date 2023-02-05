@@ -193,9 +193,9 @@ class CachedTimelineRemoteMediatorTest {
             listOf(
                 mockStatusEntityWithAccount("8"),
                 mockStatusEntityWithAccount("7"),
-                TimelineStatusWithAccount().apply {
+                TimelineStatusWithAccount(
                     status = Placeholder("5", loading = false).toEntity(1)
-                },
+                ),
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
                 mockStatusEntityWithAccount("1"),
@@ -547,8 +547,8 @@ class CachedTimelineRemoteMediatorTest {
     private fun AppDatabase.insert(statuses: List<TimelineStatusWithAccount>) {
         runBlocking {
             statuses.forEach { statusWithAccount ->
-                if (!statusWithAccount.status.isPlaceholder) {
-                    timelineDao().insertAccount(statusWithAccount.account)
+                statusWithAccount.account?.let { account ->
+                    timelineDao().insertAccount(account)
                 }
                 statusWithAccount.reblogAccount?.let { account ->
                     timelineDao().insertAccount(account)
