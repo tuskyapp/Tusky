@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.components.accountlist
 
 import android.os.Bundle
 import android.util.Log
@@ -30,16 +30,16 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountListActivity.Type
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.AccountAdapter
-import com.keylesspalace.tusky.adapter.BlocksAdapter
-import com.keylesspalace.tusky.adapter.FollowAdapter
-import com.keylesspalace.tusky.adapter.FollowRequestsAdapter
-import com.keylesspalace.tusky.adapter.FollowRequestsHeaderAdapter
-import com.keylesspalace.tusky.adapter.MutesAdapter
 import com.keylesspalace.tusky.components.account.AccountActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Type
+import com.keylesspalace.tusky.components.accountlist.adapter.AccountAdapter
+import com.keylesspalace.tusky.components.accountlist.adapter.BlocksAdapter
+import com.keylesspalace.tusky.components.accountlist.adapter.FollowAdapter
+import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsAdapter
+import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsHeaderAdapter
+import com.keylesspalace.tusky.components.accountlist.adapter.MutesAdapter
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
@@ -83,7 +83,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
@@ -101,7 +100,10 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.FOLLOW_REQUESTS -> {
-                val headerAdapter = FollowRequestsHeaderAdapter(accountManager.activeAccount!!.domain, arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true)
+                val headerAdapter = FollowRequestsHeaderAdapter(
+                    instanceName = accountManager.activeAccount!!.domain,
+                    accountLocked = arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true
+                )
                 val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
@@ -350,8 +352,8 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         api.relationships(ids)
             .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(from(this))
-            .subscribe(::onFetchRelationshipsSuccess) {
-                onFetchRelationshipsFailure(ids)
+            .subscribe(::onFetchRelationshipsSuccess) { throwable ->
+                Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
             }
     }
 
@@ -360,10 +362,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         val mutingNotificationsMap = HashMap<String, Boolean>()
         relationships.map { mutingNotificationsMap.put(it.id, it.mutingNotifications) }
         mutesAdapter.updateMutingNotificationsMap(mutingNotificationsMap)
-    }
-
-    private fun onFetchRelationshipsFailure(ids: List<String>) {
-        Log.e(TAG, "Fetch failure for relationships of accounts: $ids")
     }
 
     private fun onFetchAccountsFailure(throwable: Throwable) {

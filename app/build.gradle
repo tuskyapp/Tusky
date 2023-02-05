@@ -1,30 +1,33 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-
-apply from: "../instance-build.gradle"
-
-def getGitSha = {
-    def stdout = new ByteArrayOutputStream()
-    try {
-        exec {
-            commandLine 'git', 'rev-parse', '--short', 'HEAD'
-            standardOutput = stdout
-        }
-    } catch (Exception e) {
-        return "unknown"
-    }
-    return stdout.toString().trim()
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
+final def gitSha = providers.exec {
+    commandLine('git', 'rev-parse', '--short=7', 'HEAD')
+}.standardOutput.asText.get().trim()
+
+// The app name
+final def APP_NAME = "Tusky"
+// The application id. Must be unique, e.g. based on your domain
+final def APP_ID = "com.keylesspalace.tusky"
+// url of a custom app logo. Recommended size at least 600x600. Keep empty to use the Tusky elephant friend.
+final def CUSTOM_LOGO_URL = ""
+// e.g. mastodon.social. Keep empty to not suggest any instance on the signup screen
+final def CUSTOM_INSTANCE = ""
+// link to your support account. Will be linked on the about page when not empty.
+final def SUPPORT_ACCOUNT_URL = "https://mastodon.social/@Tusky"
+
 android {
-    compileSdkVersion 33
+    compileSdk 33
+    namespace "com.keylesspalace.tusky"
     defaultConfig {
         applicationId APP_ID
         namespace "com.keylesspalace.tusky"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdk 23
+        targetSdk 33
         versionCode 100
         versionName "21.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -35,12 +38,6 @@ android {
         buildConfigField("String", "CUSTOM_LOGO_URL", "\"$CUSTOM_LOGO_URL\"")
         buildConfigField("String", "CUSTOM_INSTANCE", "\"$CUSTOM_INSTANCE\"")
         buildConfigField("String", "SUPPORT_ACCOUNT_URL", "\"$SUPPORT_ACCOUNT_URL\"")
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
     buildTypes {
         release {
@@ -51,20 +48,22 @@ android {
         debug {}
     }
 
-    flavorDimensions "color"
+    flavorDimensions += "color"
     productFlavors {
         blue {}
         green {
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
-            versionNameSuffix "-" + getGitSha()
+            versionNameSuffix "-" + gitSha
         }
     }
 
-    lintOptions {
+    lint {
         disable 'MissingTranslation'
     }
     buildFeatures {
+        buildConfig true
+        resValues true
         viewBinding true
     }
     testOptions {
@@ -74,17 +73,18 @@ android {
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
-        }        
+        }
     }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
-    packagingOptions {
-        // Exclude unneeded files added by libraries
-        exclude 'LICENSE_OFL'
-        exclude 'LICENSE_UNICODE'
-    }
+    // Exclude unneeded files added by libraries
+    packagingOptions.resources.excludes += [
+            'LICENSE_OFL',
+            'LICENSE_UNICODE',
+    ]
+
     bundle {
         language {
             // bundle all languages in every apk so the dynamic language switching works
@@ -94,6 +94,26 @@ android {
     dependenciesInfo {
         includeInApk false
         includeInBundle false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "Tusky_${variant.versionName}_${variant.versionCode}_${gitSha}_" +
+                "${variant.flavorName}_${buildType.name}.apk"
+        }
+    }
+}
+
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
     }
 }
 
@@ -132,11 +152,7 @@ dependencies {
     implementation libs.photoview
 
     implementation libs.bundles.material.drawer
-    implementation libs.material.typeface, {
-        artifact {
-            type = "aar"
-        }
-    }
+    implementation libs.material.typeface
 
     implementation libs.image.cropper
 
@@ -156,5 +172,4 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
-
 }

@@ -328,9 +328,9 @@
     <string name="pref_show_self_username_disambiguate">When multiple accounts logged in</string>
     <string name="pref_show_self_username_never">Never</string>
 
-    <string name="notification_mention_name">New Mentions</string>
+    <string name="notification_mention_name">New mentions</string>
     <string name="notification_mention_descriptions">Notifications about new mentions</string>
-    <string name="notification_follow_name">New Followers</string>
+    <string name="notification_follow_name">New followers</string>
     <string name="notification_follow_description">Notifications about new followers</string>
     <string name="notification_follow_request_name">Follow requests</string>
     <string name="notification_follow_request_description">Notifications about follow requests</string>

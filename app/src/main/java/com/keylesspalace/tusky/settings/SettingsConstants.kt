@@ -16,6 +16,7 @@ object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give
     // each preference a key for it to work.
 
+    const val SCHEMA_VERSION: String = "schema_version"
     const val APP_THEME = "appTheme"
     const val EMOJI = "selected_emoji_font"
     const val FAB_HIDE = "fabHide"
