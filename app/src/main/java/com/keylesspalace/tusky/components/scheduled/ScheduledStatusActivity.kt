@@ -130,7 +130,7 @@ class ScheduledStatusActivity :
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.announcements_activity, menu)
+        menuInflater.inflate(R.menu.activity_announcements, menu)
         menu.findItem(R.id.action_search)?.apply {
             icon = IconicsDrawable(this@ScheduledStatusActivity, GoogleMaterial.Icon.gmd_search).apply {
                 sizeDp = 20

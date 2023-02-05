@@ -305,7 +305,7 @@ class TimelineFragment :
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.timeline_fragment, menu)
+        menuInflater.inflate(R.menu.fragment_timeline, menu)
         menu.findItem(R.id.action_refresh)?.apply {
             icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
                 sizeDp = 20

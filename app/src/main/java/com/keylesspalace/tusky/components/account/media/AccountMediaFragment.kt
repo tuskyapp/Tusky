@@ -149,7 +149,7 @@ class AccountMediaFragment :
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.account_media_fragment, menu)
+        menuInflater.inflate(R.menu.fragment_account_media, menu)
         menu.findItem(R.id.action_refresh)?.apply {
             icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
                 sizeDp = 20

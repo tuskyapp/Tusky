@@ -332,7 +332,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.main_activity, menu)
+        menuInflater.inflate(R.menu.activity_main, menu)
         menu.findItem(R.id.action_search)?.apply {
             icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
                 sizeDp = 20
