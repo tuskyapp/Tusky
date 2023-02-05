@@ -280,6 +280,10 @@ class ViewThreadFragment :
                 context?.openLink(requireArguments().getString(URL_EXTRA)!!)
                 true
             }
+            R.id.action_refresh -> {
+                onRefresh()
+                true
+            }
             else -> false
         }
     }
