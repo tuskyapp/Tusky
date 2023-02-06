@@ -76,7 +76,7 @@ internal class StatusNotificationViewHolder(
             } else {
                 showNotificationContent(true)
                 val (_, _, account, _, _, _, _, createdAt) = statusViewData.actionable
-                setDisplayName(account.displayName, account.emojis, statusDisplayOptions.animateEmojis)
+                setDisplayName(account.name, account.emojis, statusDisplayOptions.animateEmojis)
                 setUsername(account.username)
                 setCreatedAt(createdAt, statusDisplayOptions.useAbsoluteTime)
                 if (viewData.type == Notification.Type.STATUS ||
@@ -130,13 +130,8 @@ internal class StatusNotificationViewHolder(
         binding.notificationNotificationAvatar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    private fun setDisplayName(name: String?, emojis: List<Emoji>?, animateEmojis: Boolean) {
-        val emojifiedName =
-            name!!.emojify(
-                emojis,
-                binding.statusDisplayName,
-                animateEmojis
-            )
+    private fun setDisplayName(name: String, emojis: List<Emoji>?, animateEmojis: Boolean) {
+        val emojifiedName = name.emojify(emojis, binding.statusDisplayName, animateEmojis)
         binding.statusDisplayName.text = emojifiedName
     }
 
