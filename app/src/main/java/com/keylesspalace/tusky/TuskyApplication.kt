@@ -104,7 +104,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
         val editor = sharedPreferences.edit()
 
-        for (version in oldVersion+1..newVersion) {
+        for (version in oldVersion + 1..newVersion) {
             when (version) {
                 101 -> upgradeSharedPreferences100to101(editor)
             }
