@@ -55,6 +55,7 @@ class BottomSheetActivityTest {
         localUsername = "admin",
         username = "admin",
         displayName = "Ad Min",
+        note = "This is their bio",
         url = "http://mastodon.foo.bar",
         avatar = ""
     )
