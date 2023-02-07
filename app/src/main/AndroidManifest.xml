@@ -109,6 +109,19 @@
             android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+
+        <activity android:name=".components.compose.AddHashTagActivity"
+            android:label="@string/action_convert_to_hashtags"
+            android:exported="false"
+            android:icon="@drawable/ic_hashtag"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <data android:mimeType="text/plain"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".components.viewthread.ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
