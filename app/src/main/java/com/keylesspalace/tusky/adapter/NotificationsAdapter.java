@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -356,6 +358,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private TextView message;
         private TextView usernameView;
         private TextView displayNameView;
+        private TextView noteView;
         private ImageView avatar;
         private StatusDisplayOptions statusDisplayOptions;
 
@@ -364,7 +367,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             message = itemView.findViewById(R.id.notification_text);
             usernameView = itemView.findViewById(R.id.notification_username);
             displayNameView = itemView.findViewById(R.id.notification_display_name);
+            noteView = itemView.findViewById(R.id.notification_account_note);
             avatar = itemView.findViewById(R.id.notification_avatar);
+
             this.statusDisplayOptions = statusDisplayOptions;
         }
 
@@ -387,6 +392,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
             );
 
             displayNameView.setText(emojifiedDisplayName);
+
+            CharSequence emojifiedNote = CustomEmojiHelper.emojify(
+                parseAsMastodonHtml(account.getNote()), account.getEmojis(), noteView, statusDisplayOptions.animateEmojis()
+            );
+            noteView.setText(emojifiedNote);
 
             int avatarRadius = avatar.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.avatar_radius_42dp);
