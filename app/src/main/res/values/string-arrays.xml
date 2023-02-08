@@ -28,5 +28,4 @@
         <item>@string/pref_show_self_username_disambiguate</item>
         <item>@string/pref_show_self_username_never</item>
     </string-array>
-
 </resources>

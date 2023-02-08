@@ -30,6 +30,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -45,6 +46,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -83,8 +85,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
-        int style = textStyle(preferences.getString("statusTextSize", "medium"));
+        int style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"));
         getTheme().applyStyle(style, true);
+
+        style = fontFamilyStyle(preferences.getString(PrefKeys.FONT_FAMILY, "default"));
+        if (style != -1) {
+            getTheme().applyStyle(style, true);
+        }
 
         if(requiresLogin()) {
             redirectIfNotLoggedIn();
@@ -97,7 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return true;
     }
 
-    private static int textStyle(String name) {
+    private static @StyleRes int textStyle(String name) {
         int style;
         switch (name) {
             case "smallest":
@@ -117,6 +124,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
                 style = R.style.TextSizeLargest;
                 break;
         }
+        return style;
+    }
+
+    public static @StyleRes int fontFamilyStyle(String name) {
+        int style;
+        switch (name) {
+            case "atkinson_hyperlegible":
+                style = R.style.FontAtkinsonHyperlegible;
+                break;
+            case "opendyslexic":
+                style = R.style.FontOpenDyslexic;
+                break;
+            default:
+                style = -1;
+        }
+
         return style;
     }
 

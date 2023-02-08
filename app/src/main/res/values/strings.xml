@@ -280,6 +280,7 @@
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
+    <string name="pref_title_font_family">Font family</string>
     <string name="pref_title_language">Language</string>
     <string name="pref_title_bot_overlay">Show indicator for bots</string>
     <string name="pref_title_animate_gif_avatars">Animate GIF avatars</string>
@@ -310,7 +311,6 @@
     <string name="pref_main_nav_position">Main navigation position</string>
     <string name="pref_main_nav_position_option_top">Top</string>
     <string name="pref_main_nav_position_option_bottom">Bottom</string>
-
 
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Unlisted</string>
@@ -727,7 +727,7 @@
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
     <string name="mute_notifications_switch">Mute notifications</string>
-    
+
     <!-- Reading order preference -->
     <string name="pref_title_reading_order">Reading order</string>
     <string name="pref_reading_order_oldest_first">Oldest first</string>

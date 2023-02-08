@@ -93,7 +93,9 @@ class PreferencesActivity :
         }
 
         onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
-        restartActivitiesOnBackPressedCallback.isEnabled = savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
+        restartActivitiesOnBackPressedCallback.isEnabled = intent.extras?.getBoolean(
+            EXTRA_RESTART_ON_BACK
+        ) ?: savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
     }
 
     override fun onPreferenceStartFragment(
@@ -146,6 +148,10 @@ class PreferencesActivity :
                 Log.d("activeTheme", theme)
                 setAppNightMode(theme)
 
+                restartActivitiesOnBackPressedCallback.isEnabled = true
+                this.restartCurrentActivity()
+            }
+            PrefKeys.FONT_FAMILY -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }

@@ -30,6 +30,14 @@
         <item name="status_text_large">22sp</item>
     </style>
 
+    <style name="FontAtkinsonHyperlegible">
+        <item name="android:fontFamily">@font/atkinson_hyperlegible</item>
+    </style>
+
+    <style name="FontOpenDyslexic">
+        <item name="android:fontFamily">@font/opendyslexic</item>
+    </style>
+
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <item name="windowSplashScreenBackground">@color/tusky_grey_20</item>

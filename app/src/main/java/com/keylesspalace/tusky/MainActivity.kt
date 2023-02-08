@@ -32,6 +32,7 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -111,6 +112,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IProfile
+import com.mikepenz.materialdrawer.model.interfaces.Typefaceable
 import com.mikepenz.materialdrawer.model.interfaces.descriptionRes
 import com.mikepenz.materialdrawer.model.interfaces.descriptionText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
@@ -587,6 +589,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 }
             )
+        }
+
+        // The drawer library forces the `android:fontFamily` attribute, overriding the value in
+        // the theme. Forceably set the typeface for everything in the drawer from the normal
+        // TextView typeface if using a non-default font.
+        if ("default" != preferences.getString(PrefKeys.FONT_FAMILY, "default")) {
+            val typeface = TextView(this).typeface
+            for (i in 0..binding.mainDrawer.adapter.itemCount) {
+                val item = binding.mainDrawer.adapter.getItem(i)
+                if (item !is Typefaceable) continue
+                item.typeface = typeface
+            }
         }
     }
 

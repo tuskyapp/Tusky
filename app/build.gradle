@@ -119,8 +119,7 @@ kapt {
 }
 
 aboutLibraries {
-    includePlatform = false
-    duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+    configPath = "licenses"
 }
 
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
