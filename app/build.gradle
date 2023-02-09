@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.aboutlibraries)
 }
 
 final def gitSha = providers.exec {
@@ -117,6 +118,11 @@ kapt {
     }
 }
 
+aboutLibraries {
+    includePlatform = false
+    duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+}
+
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
 dependencies {
     implementation libs.kotlinx.coroutines.android
@@ -160,6 +166,8 @@ dependencies {
 
     implementation libs.bouncycastle
     implementation libs.unified.push
+
+    implementation libs.bundles.aboutlibraries
 
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
