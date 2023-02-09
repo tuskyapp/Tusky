@@ -207,9 +207,9 @@
     <string name="post_text_size_medium">标准</string>
     <string name="post_text_size_large">大</string>
     <string name="post_text_size_largest">最大</string>
-    <string name="notification_mention_name">提及</string>
+    <string name="notification_mention_name">新提及</string>
     <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>
-    <string name="notification_follow_name">关注</string>
+    <string name="notification_follow_name">新关注者</string>
     <string name="notification_follow_description">当有用户关注我时</string>
     <string name="notification_boost_name">转嘟</string>
     <string name="notification_boost_description">当我的嘟文被转发时通知</string>
