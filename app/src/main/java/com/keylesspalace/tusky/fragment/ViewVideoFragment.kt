@@ -70,7 +70,6 @@ class ViewVideoFragment : ViewMediaFragment() {
         super.onResume()
 
         if (_binding != null) {
-                handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
             if (mediaActivity.isToolbarVisible && !isAudio) {
                 hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
             }
