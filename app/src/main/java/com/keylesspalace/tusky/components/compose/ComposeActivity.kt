@@ -90,7 +90,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.afterTextChanged
-import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
@@ -266,7 +266,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupLanguageSpinner(getInitialLanguage(composeOptions?.language, accountManager.activeAccount))
+        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, accountManager.activeAccount))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -542,7 +542,7 @@ class ComposeActivity :
         )
     }
 
-    private fun setupLanguageSpinner(initialLanguage: String) {
+    private fun setupLanguageSpinner(initialLanguages: List<String>) {
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
@@ -553,7 +553,7 @@ class ComposeActivity :
             }
         }
         binding.composePostLanguageButton.apply {
-            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguage))
+            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguages))
             setSelection(0)
         }
     }
