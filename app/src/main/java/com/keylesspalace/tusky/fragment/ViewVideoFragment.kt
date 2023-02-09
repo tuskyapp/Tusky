@@ -125,13 +125,13 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.videoView.requestFocus()
         binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
             override fun onPlay() {
-                if(!isAudio) {
+                if (!isAudio) {
                     hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
                 }
             }
 
             override fun onPause() {
-                if(!isAudio) {
+                if (!isAudio) {
                     handler.removeCallbacks(hideToolbar)
                 }
             }
