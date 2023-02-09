@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.EmbeddedFontFamily;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -88,9 +89,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         int style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"));
         getTheme().applyStyle(style, true);
 
-        style = fontFamilyStyle(preferences.getString(PrefKeys.FONT_FAMILY, "default"));
-        if (style != -1) {
-            getTheme().applyStyle(style, true);
+        EmbeddedFontFamily fontFamily = EmbeddedFontFamily.Companion.from(preferences.getString(PrefKeys.FONT_FAMILY, "default"));
+        if (fontFamily != EmbeddedFontFamily.DEFAULT) {
+            getTheme().applyStyle(fontFamily.getStyle(), true);
         }
 
         if(requiresLogin()) {
@@ -124,22 +125,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
                 style = R.style.TextSizeLargest;
                 break;
         }
-        return style;
-    }
-
-    public static @StyleRes int fontFamilyStyle(String name) {
-        int style;
-        switch (name) {
-            case "atkinson_hyperlegible":
-                style = R.style.FontAtkinsonHyperlegible;
-                break;
-            case "opendyslexic":
-                style = R.style.FontOpenDyslexic;
-                break;
-            default:
-                style = -1;
-        }
-
         return style;
     }
 

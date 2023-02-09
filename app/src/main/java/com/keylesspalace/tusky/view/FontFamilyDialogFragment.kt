@@ -11,7 +11,7 @@ import androidx.appcompat.R
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.ListPreference
 import androidx.preference.ListPreferenceDialogFragmentCompat
-import com.keylesspalace.tusky.BaseActivity.fontFamilyStyle
+import com.keylesspalace.tusky.util.EmbeddedFontFamily
 
 /**
  * Dialog fragment for choosing a font family. Displays the list of font families with each
@@ -60,11 +60,11 @@ class FontFamilyDialogFragment : ListPreferenceDialogFragmentCompat() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
 
-                val style = fontFamilyStyle(entryValues[position] as String?)
-                if (style == -1) {
+                val fontFamily = EmbeddedFontFamily.from(entryValues[position].toString())
+                if (fontFamily == EmbeddedFontFamily.DEFAULT) {
                     (view as TextView).typeface = Typeface.DEFAULT
                 } else {
-                    (view as TextView).setTextAppearance(style)
+                    (view as TextView).setTextAppearance(fontFamily.style)
                 }
                 return view
             }
