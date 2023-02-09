@@ -509,7 +509,7 @@
     <string name="action_unsubscribe_account">Deabonnieren</string>
     <string name="abbreviated_in_minutes">in %d M.</string>
     <string name="abbreviated_in_hours">in %d Std.</string>
-    <string name="drafts_failed_loading_reply">Antwortinformationen konnten nicht geladen werden</string>
+    <string name="drafts_failed_loading_reply">Informationen zur Antwort konnten nicht geladen werden</string>
     <string name="abbreviated_days_ago">%d T.</string>
     <string name="abbreviated_in_years">in %d J.</string>
     <string name="abbreviated_in_seconds">in %d Sek.</string>
