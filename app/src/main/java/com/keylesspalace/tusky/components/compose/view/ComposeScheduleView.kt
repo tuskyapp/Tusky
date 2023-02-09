@@ -14,6 +14,7 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.components.compose.view
 
+import android.app.TimePickerDialog
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -128,17 +129,31 @@ class ComposeScheduleView
     }
 
     private fun openPickTimeDialog() {
-        val pickerBuilder = MaterialTimePicker.Builder()
-        scheduleDateTime?.let {
-            pickerBuilder.setHour(it[Calendar.HOUR_OF_DAY])
-                .setMinute(it[Calendar.MINUTE])
-        }
+        // Do not use Material time picker for now as it has a very odd 24-h display (https://github.com/material-components/material-components-android/issues/1450)
 
-        pickerBuilder.setTimeFormat(getTimeFormat(context))
+//        val pickerBuilder = MaterialTimePicker.Builder()
+//        scheduleDateTime?.let {
+//            pickerBuilder.setHour(it[Calendar.HOUR_OF_DAY])
+//                .setMinute(it[Calendar.MINUTE])
+//        }
+//
+//        pickerBuilder.setTimeFormat(getTimeFormat(context))
+//        pickerBuilder.setInputMode()
+//
+//        val picker = pickerBuilder.build()
+//        picker.addOnPositiveButtonClickListener { onTimeSet(picker.hour, picker.minute) }
+//        picker.show((context as AppCompatActivity).supportFragmentManager, "time_picker")
 
-        val picker = pickerBuilder.build()
-        picker.addOnPositiveButtonClickListener { onTimeSet(picker.hour, picker.minute) }
-        picker.show((context as AppCompatActivity).supportFragmentManager, "time_picker")
+
+        val timePickerDialog = TimePickerDialog(
+            context,
+            { _, hour, minute -> onTimeSet(hour, minute) },
+            scheduleDateTime?.let { it[Calendar.HOUR_OF_DAY] } ?: 12,
+            scheduleDateTime?.let { it[Calendar.MINUTE] } ?: 0,
+            android.text.format.DateFormat.is24HourFormat(context)
+        )
+
+        timePickerDialog.show()
     }
 
     fun getDateTime(scheduledAt: String?): Date? {
