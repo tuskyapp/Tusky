@@ -70,8 +70,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         super.onResume()
 
         if (_binding != null) {
-            if (mediaActivity.isToolbarVisible) {
                 handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
+            if (mediaActivity.isToolbarVisible && !isAudio) {
+                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
             }
             binding.videoView.start()
         }
@@ -124,16 +125,15 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.videoView.setMediaController(mediaController)
         binding.videoView.requestFocus()
         binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
-            override fun onPause() {
-                handler.removeCallbacks(hideToolbar)
-            }
             override fun onPlay() {
-                // Audio doesn't cause the controller to show automatically,
-                // and we only want to hide the toolbar if it's a video.
-                if (isAudio) {
-                    mediaController.show()
-                } else {
+                if(!isAudio) {
                     hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                }
+            }
+
+            override fun onPause() {
+                if(!isAudio) {
+                    handler.removeCallbacks(hideToolbar)
                 }
             }
         })
@@ -159,6 +159,11 @@ class ViewVideoFragment : ViewMediaFragment() {
             binding.videoView.setOnTouchListener { _, _ ->
                 mediaActivity.onPhotoTap()
                 false
+            }
+
+            // Audio doesn't cause the controller to show automatically
+            if (isAudio) {
+                mediaController.show()
             }
 
             binding.progressBar.hide()
