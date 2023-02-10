@@ -5,14 +5,20 @@
 2. Clone your fork to your machine. ```git clone https://github.com/<Your_Username>/Tusky```
 3. Create a new branch named after your change. ```git checkout -b your-change-name``` (```checkout``` switches to a branch, ```-b``` specifies that the branch is a new one)
 
+## Building
+
+Building Tusky requires Gradle 7.5 ([AGP](https://developer.android.com/studio/releases/gradle-plugin) 7.4.1) or newer. The easiest way to get this is to install [Android Studio](https://developer.android.com/studio/releases/gradle-plugin#android_gradle_plugin_and_android_studio_compatibility) Electric Eel (2022.1.1) or newer.
+
+Tusky comes with two sets of build variants, "blue" and "green", which can be installed simultaneously and are distinguished by the colors of their icons. Official release builds are "blue", whereas official nightly builds are "green". Build variant "greenDebug" is recommended for local development builds.
+
 ## Making Changes
 
 ### Text
 All English text that will be visible to users should be put in ```app/src/main/res/values/strings.xml```. Any text that is missing in a translation will fall back to the version in this file. Be aware that anything added to this file will need to be translated, so be very concise with wording and try to add as few things as possible. Look for existing strings to use first. If there is untranslatable text that you don't want to keep as a string constant in a Java class, you can use the string resource file ```app/src/main/res/values/donottranslate.xml```.
 
 ### Translation
-Translations are done through our [Weblate](https://weblate.tusky.app/projects/tusky/tusky/). 
-To add a new language, click on the 'Start a new translation' button on at the bottom of the page. 
+Translations are done through our [Weblate](https://weblate.tusky.app/projects/tusky/tusky/).
+To add a new language, click on the 'Start a new translation' button on at the bottom of the page.
 
 ### Kotlin
 This project is in the process of migrating to Kotlin, all new code must be written in Kotlin.
