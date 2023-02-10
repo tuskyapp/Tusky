@@ -483,7 +483,7 @@ class ComposeActivity :
         composeOptionsBehavior = BottomSheetBehavior.from(binding.composeOptionsBottomSheet)
         addMediaBehavior = BottomSheetBehavior.from(binding.addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(binding.composeScheduleView)
-        emojiBehavior = BottomSheetBehavior.from(binding.emojiView)
+        emojiBehavior = BottomSheetBehavior.from(binding.emojiBottomSheet)
 
         enableButton(binding.composeEmojiButton, clickable = false, colorActive = false)
 

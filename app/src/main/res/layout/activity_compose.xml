@@ -236,19 +236,27 @@
             android:textSize="?attr/status_text_medium" />
     </LinearLayout>
 
-    <com.keylesspalace.tusky.view.EmojiPicker
-        android:id="@+id/emojiView"
+    <LinearLayout
+        android:id="@+id/emojiBottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
         android:elevation="12dp"
+        android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
         android:paddingBottom="60dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+        <com.keylesspalace.tusky.view.EmojiPicker
+            android:id="@+id/emojiView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <com.keylesspalace.tusky.components.compose.view.ComposeOptionsView
         android:id="@+id/composeOptionsBottomSheet"

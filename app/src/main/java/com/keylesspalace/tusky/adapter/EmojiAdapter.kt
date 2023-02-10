@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.TooltipCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
@@ -31,8 +32,37 @@ class EmojiAdapter(
     private val animate: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
-    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
-        .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
+    private val trueEmojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+        .sortedWith(compareBy<Emoji, String?>(nullsLast()) { it.category?.lowercase(Locale.ROOT) }.thenBy { it.shortcode.lowercase(Locale.ROOT) })
+    private val emojiList = mutableListOf<EmojiGridItem>()
+    private lateinit var emojiCategories: Map<String?, Int>
+
+    data class EmojiGridItem(val emoji: Emoji?, val trueIndex: Int?)
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+
+        val spanCount = (recyclerView.layoutManager as GridLayoutManager).spanCount
+
+        val catMap = HashMap<String?, Int>()
+        var currentCategory: String? = null
+        for (index in trueEmojiList.indices) {
+            val emoji = trueEmojiList[index]
+            if (emoji.category != currentCategory) {
+                currentCategory = emoji.category
+                catMap[currentCategory] = index
+                val emojiListIndex = emojiList.size - 1
+                if (index > 0) {
+                    repeat(2 * spanCount - (emojiListIndex % spanCount) - 1) {
+                        emojiList.add(EmojiGridItem(null, null))
+                    }
+                }
+            }
+            emojiList.add(EmojiGridItem(emoji, index))
+        }
+
+        emojiCategories = catMap
+    }
 
     override fun getItemCount() = emojiList.size
 
@@ -42,8 +72,17 @@ class EmojiAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemEmojiButtonBinding>, position: Int) {
-        val emoji = emojiList[position]
+        val emojiGridItem = emojiList[position]
+        val emoji = emojiGridItem.emoji
         val emojiImageView = holder.binding.root
+        if (emoji == null) {
+            emojiImageView.background = null
+            emojiImageView.setImageResource(android.R.color.transparent)
+            emojiImageView.contentDescription = null
+            emojiImageView.setOnClickListener(null)
+            TooltipCompat.setTooltipText(emojiImageView, null)
+            return
+        }
 
         if (animate) {
             Glide.with(emojiImageView)
