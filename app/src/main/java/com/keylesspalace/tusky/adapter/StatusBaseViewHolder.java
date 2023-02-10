@@ -25,7 +25,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
-import androidx.core.view.ViewKt;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -743,7 +742,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 setMediaLabel(attachments, sensitive, listener, status.isShowingContent());
                 // Hide all unused views.
-                mediaPreview.setVisibility(View.GONE);
+                mediaContainer.setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
 

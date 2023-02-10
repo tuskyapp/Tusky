@@ -117,6 +117,7 @@
 
     <Button
         android:id="@+id/button_toggle_notification_content"
+        style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/notification_content"
@@ -130,10 +131,9 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        tools:text="@string/post_content_show_less"
-        style="@style/TuskyButton.Outlined"
         android:textSize="?attr/status_text_medium"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:text="@string/post_content_show_less" />
 
     <ImageView
         android:id="@+id/notification_status_avatar"

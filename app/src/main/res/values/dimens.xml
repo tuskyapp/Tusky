@@ -1,4 +1,28 @@
 <resources>
+    <!-- marginStart for views in a status that are aligned horizontally-->
+    <dimen name="status_marginStart">4dp</dimen>
+    <!-- marginTop for views in a status that are aligned vertically -->
+    <dimen name="status_marginTop">4dp</dimen>
+
+    <dimen name="status_avatar_width">48dp</dimen>
+    <dimen name="status_avatar_height">48dp</dimen>
+    <dimen name="status_avatar_inset_width">24dp</dimen>
+    <dimen name="status_avatar_inset_height">24dp</dimen>
+
+    <!-- Minimum width for disclosure buttons in a status -->
+    <dimen name="status_button_minWidth">150dp</dimen>
+
+    <!-- Padding for disclosure buttons in a status -->
+    <dimen name="status_button_paddingTop">4dp</dimen>
+    <dimen name="status_button_paddingBottom">4dp</dimen>
+    <dimen name="status_button_paddingStart">16dp</dimen>
+    <dimen name="status_button_paddingEnd">16dp</dimen>
+
+    <!-- Width and height for "action" (reblog, favourite, etc) buttons in a status -->
+    <dimen name="status_action_button_width">52dp</dimen>
+    <dimen name="status_action_button_height">48dp</dimen>
+
+    <!-- TODO(nikclayton): Review this block and see how many of these can be deleted -->
     <dimen name="status_display_name_padding_end">4dp</dimen>
     <dimen name="status_reblogged_bar_padding_top">8dp</dimen>
     <dimen name="status_media_preview_margin_top">8dp</dimen>
