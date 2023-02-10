@@ -11,7 +11,7 @@ def getGitSha = {
         providers.exec {
             commandLine 'git', 'rev-parse', 'HEAD'
         }.standardOutput.asText.get().trim()
-    } catch (Exception e) {
+    } catch (Throwable e) {
         "unknown" // Try-catch is necessary for build to work on non-git distributions
     }
 }
