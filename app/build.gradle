@@ -7,7 +7,6 @@ plugins {
 
 // For constructing gitSha
 def getGitSha = {
-    def stdout = new ByteArrayOutputStream()
     try {
         providers.exec {
             commandLine 'git', 'rev-parse', '--short=7', 'HEAD'
