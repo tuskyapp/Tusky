@@ -5,9 +5,19 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-final def gitSha = providers.exec {
-    commandLine('git', 'rev-parse', '--short=7', 'HEAD')
-}.standardOutput.asText.get().trim()
+// For constructing gitSha
+def getGitSha = {
+    def stdout = new ByteArrayOutputStream()
+    try {
+        providers.exec {
+            commandLine 'git', 'rev-parse', '--short=7', 'HEAD'
+        }.standardOutput.asText.get().trim()
+    } catch (Exception e) {
+        "unknown"
+    }
+}
+
+final def gitSha = getGitSha()
 
 // The app name
 final def APP_NAME = "Tusky"
