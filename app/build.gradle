@@ -5,14 +5,14 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-// For constructing gitSha
+// For constructing gitSha only
 def getGitSha = {
     try {
         providers.exec {
-            commandLine 'git', 'rev-parse', '--short=7', 'HEAD'
+            commandLine 'git', 'rev-parse', 'HEAD'
         }.standardOutput.asText.get().trim()
     } catch (Exception e) {
-        "unknown"
+        "unknown" // Try-catch is necessary for build to work on non-git distributions
     }
 }
 
