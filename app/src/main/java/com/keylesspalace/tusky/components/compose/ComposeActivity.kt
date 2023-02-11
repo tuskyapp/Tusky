@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -41,6 +42,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -58,6 +60,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
@@ -1220,7 +1224,33 @@ class ComposeActivity :
     private fun setEmojiList(emojiList: List<Emoji>?) {
         if (emojiList != null) {
             val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-            binding.emojiView.adapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
+            val emojiAdapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
+            binding.emojiView.adapter = emojiAdapter
+
+            emojiAdapter.emojiCategories.keys.forEachIndexed() { i: Int, s: String? ->
+                val categoryTextView = TextView(this)
+                categoryTextView.text = s ?: getString(R.string.custom_emoji_default_category_title)
+                val padding = (8 * resources.displayMetrics.density + 0.5f).toInt()
+                categoryTextView.setPadding(padding, padding, padding, padding)
+                // categoryTextView.textSize = ... R.attr.status_text_medium ...
+                // if (i == 0) categoryTextView.setTypeface(null, Typeface.BOLD)
+                categoryTextView.setOnClickListener() {
+                    val p = emojiAdapter.getCategoryStartPosition(s)
+                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(binding.emojiView.context) {
+                        override fun getHorizontalSnapPreference(): Int {
+                            return SNAP_TO_START
+                        }
+                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float {
+                            return 2000f / binding.emojiView.computeHorizontalScrollRange();
+                        }
+                    }
+                    smoothScroller.targetPosition = p;
+                    binding.emojiView.layoutManager?.startSmoothScroll(smoothScroller)
+                }
+                binding.emojiCategoryLinearLayout.addView(categoryTextView)
+            }
+            if (emojiAdapter.emojiCategories.isNotEmpty()) binding.emojiCategoryScrollView.visibility = View.VISIBLE
+
             enableButton(binding.composeEmojiButton, true, emojiList.isNotEmpty())
         }
     }
