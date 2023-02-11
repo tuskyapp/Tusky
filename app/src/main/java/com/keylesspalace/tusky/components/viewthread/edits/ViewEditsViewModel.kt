@@ -20,14 +20,26 @@ import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.network.MastodonApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.pageseeder.diffx.api.Operator
+import org.pageseeder.diffx.config.DiffConfig
+import org.pageseeder.diffx.config.TextGranularity
+import org.pageseeder.diffx.config.WhiteSpaceProcessing
+import org.pageseeder.diffx.core.OptimisticXMLProcessor
+import org.pageseeder.diffx.format.XMLDiffOutput
+import org.pageseeder.diffx.load.SAXLoader
+import org.pageseeder.diffx.token.XMLToken
+import org.pageseeder.diffx.token.XMLTokenType
+import org.pageseeder.diffx.token.impl.SpaceToken
+import org.pageseeder.diffx.xml.NamespaceSet
+import org.pageseeder.xmlwriter.XML.NamespaceAware
+import org.pageseeder.xmlwriter.XMLStringWriter
 import javax.inject.Inject
 
-class ViewEditsViewModel @Inject constructor(
-    private val api: MastodonApi
-) : ViewModel() {
+class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 
     private val _uiState: MutableStateFlow<EditsUiState> = MutableStateFlow(EditsUiState.Initial)
     val uiState: Flow<EditsUiState>
@@ -41,8 +53,49 @@ class ViewEditsViewModel @Inject constructor(
             viewModelScope.launch {
                 api.statusEdits(statusId).fold(
                     { edits ->
-                        val sortedEdits = edits.sortedBy { edit -> edit.createdAt }.reversed()
-                        _uiState.value = EditsUiState.Success(sortedEdits)
+                        val sortedEdits = edits.sortedBy { edit -> edit.createdAt }.reversed().toMutableList()
+
+                        // Diff each status' content against the previous version, producing new
+                        // content with additional `ins` or `del` elements marking inserted or
+                        // deleted content.
+                        //
+                        // This can be CPU intensive depending on the number of edits and the size
+                        // of each, so don't run this on Dispatchers.Main.
+                        viewModelScope.launch(Dispatchers.Default) {
+                            val loader = SAXLoader()
+                            loader.config = DiffConfig(
+                                false,
+                                WhiteSpaceProcessing.PRESERVE,
+                                TextGranularity.SPACE_WORD
+                            )
+                            val processor = OptimisticXMLProcessor()
+                            processor.setCoalesce(true)
+                            val output = HtmlDiffOutput()
+
+                            // The XML processor expects `br` to be closed
+                            var currentContent =
+                                loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
+                            var previousContent =
+                                loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
+
+                            for (i in 1 until sortedEdits.size) {
+                                processor.diff(previousContent, currentContent, output)
+                                sortedEdits[i - 1] = sortedEdits[i - 1].copy(
+                                    content = output.xml.toString()
+                                )
+
+                                if (i < sortedEdits.size - 1) {
+                                    currentContent = previousContent
+                                    previousContent = loader.load(
+                                        sortedEdits[i + 1].content.replace(
+                                            "<br>",
+                                            "<br/>"
+                                        )
+                                    )
+                                }
+                            }
+                            _uiState.value = EditsUiState.Success(sortedEdits)
+                        }
                     },
                     { throwable ->
                         _uiState.value = EditsUiState.Error(throwable)
@@ -50,6 +103,10 @@ class ViewEditsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    companion object {
+        const val TAG = "ViewEditsViewModel"
     }
 }
 
@@ -60,4 +117,68 @@ sealed interface EditsUiState {
     data class Success(
         val edits: List<StatusEdit>
     ) : EditsUiState
+}
+
+/**
+ * Add `ins` and `del` elements wrapping inserted or deleted content.
+ */
+class HtmlDiffOutput : XMLDiffOutput {
+    /** XML Output */
+    lateinit var xml: XMLStringWriter
+        private set
+
+    override fun start() {
+        xml = XMLStringWriter(NamespaceAware.Yes)
+    }
+
+    override fun handle(operator: Operator, token: XMLToken) {
+        if (operator.isEdit) {
+            handleEdit(operator, token)
+        } else {
+            token.toXML(xml)
+        }
+    }
+
+    override fun end() {
+        xml.flush()
+    }
+
+    override fun setWriteXMLDeclaration(show: Boolean) {
+        // This space intentionally left blank
+    }
+
+    override fun setNamespaces(namespaces: NamespaceSet?) {
+        // This space intentionally left blank
+    }
+
+    private fun handleEdit(operator: Operator, token: XMLToken) {
+        if (token == SpaceToken.NEW_LINE) {
+            if (operator == Operator.INS) {
+                token.toXML(xml)
+            }
+            return
+        }
+        when (token.type) {
+            XMLTokenType.START_ELEMENT -> token.toXML(xml)
+            XMLTokenType.END_ELEMENT -> token.toXML(xml)
+            XMLTokenType.TEXT -> {
+                // wrap the characters in a <ins/del> element
+                when (operator) {
+                    Operator.INS -> "ins"
+                    Operator.DEL -> "del"
+                    else -> null
+                }?.let {
+                    xml.openElement(it, false)
+                }
+                token.toXML(xml)
+                xml.closeElement()
+            }
+            else -> {
+                // Only include inserted content
+                if (operator === Operator.INS) {
+                    token.toXML(xml)
+                }
+            }
+        }
+    }
 }

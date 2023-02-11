@@ -40,17 +40,26 @@ class ViewEditsAdapter(
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
+    /** CSS colour string to set as background for deleted content */
+    private lateinit var cssDeletedBackground: String
+
+    /** CSS colour string to set as background for inserted content */
+    private lateinit var cssInsertedBackground: String
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BindingHolder<ItemStatusEditBinding> {
         val binding = ItemStatusEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         binding.statusEditMediaPreview.clipToOutline = true
+
+        cssDeletedBackground = binding.root.context.getString(R.string.view_edits_background_delete)
+        cssInsertedBackground = binding.root.context.getString(R.string.view_edits_background_insert)
+
         return BindingHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemStatusEditBinding>, position: Int) {
-
         val edit = edits[position]
 
         val binding = holder.binding
@@ -89,7 +98,17 @@ class ViewEditsAdapter(
             )
         }
 
-        val emojifiedText = edit.content.parseAsMastodonHtml().emojify(edit.emojis, binding.statusEditContent, animateEmojis)
+        // The view model inserts <ins> / <del> elements wrapping content that has been
+        // inserted or deleted. Replace that with spans styled with the appropriate background
+        // colour.
+        val content = edit.content
+            .replace("<ins>", "<span style=\"background:$cssInsertedBackground\">")
+            .replace("</ins>", "</span>")
+            .replace("<del>", "<span style=\"background:$cssDeletedBackground\">")
+            .replace("</del>", "</span>")
+
+        val emojifiedText = content.parseAsMastodonHtml().emojify(edit.emojis, binding.statusEditContent, animateEmojis)
+
         setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
 
         if (edit.poll == null) {
