@@ -62,6 +62,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -1224,11 +1225,20 @@ class ComposeActivity :
         replaceTextAtCaret(":$shortcode: ")
     }
 
+    private fun setActiveEmojiCategory(categoryTextView: TextView) {
+        binding.emojiCategoryLinearLayout.forEach { view ->
+            (view as TextView).setTypeface(null, if (view == categoryTextView) Typeface.BOLD else Typeface.NORMAL)
+        }
+        binding.emojiCategoryScrollView.smoothScrollTo(categoryTextView.left, 0)
+    }
+
     private fun setEmojiList(emojiList: List<Emoji>?) {
         if (emojiList != null) {
             val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
             val emojiAdapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
             binding.emojiView.adapter = emojiAdapter
+
+            val categoryTextViews = hashMapOf<String?, TextView>()
 
             emojiAdapter.emojiCategories.keys.forEachIndexed { i: Int, s: String? ->
                 val categoryTextView = TextView(this)
@@ -1246,20 +1256,30 @@ class ComposeActivity :
                             return SNAP_TO_START
                         }
                         override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float {
-                            return 2000f / binding.emojiView.computeHorizontalScrollRange();
+                            return 2000f / binding.emojiView.computeHorizontalScrollRange()
                         }
                     }
-                    smoothScroller.targetPosition = p;
+                    smoothScroller.targetPosition = p
                     binding.emojiView.layoutManager?.startSmoothScroll(smoothScroller)
 
-                    binding.emojiCategoryLinearLayout.forEach { view ->
-                        (view as TextView).setTypeface(null, if (view == it) Typeface.BOLD else Typeface.NORMAL)
-                    }
-                    binding.emojiCategoryScrollView.smoothScrollTo(it.left, 0)
+                    setActiveEmojiCategory(it as TextView)
                 }
                 binding.emojiCategoryLinearLayout.addView(categoryTextView)
+                categoryTextViews[s] = categoryTextView
             }
-            if (emojiAdapter.emojiCategories.isNotEmpty()) binding.emojiCategoryScrollView.visibility = View.VISIBLE
+            if (emojiAdapter.emojiCategories.isNotEmpty()) {
+                binding.emojiCategoryScrollView.visibility = View.VISIBLE
+
+                binding.emojiView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (binding.emojiView.layoutManager?.isSmoothScrolling == true) return // TODO needs to be improved
+                        val firstVisibleItemPosition = (binding.emojiView.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+                        val activeCategory = emojiAdapter.getCategoryForPosition(firstVisibleItemPosition)
+                        setActiveEmojiCategory(categoryTextViews.getValue(activeCategory))
+                    }
+                })
+            }
 
             enableButton(binding.composeEmojiButton, true, emojiList.isNotEmpty())
         }

@@ -37,7 +37,7 @@ class EmojiAdapter(
     private val emojiList = mutableListOf<EmojiGridItem>()
     lateinit var emojiCategories: LinkedHashMap<String?, Int>
         private set
-    private lateinit var emojiCategoryPositions: HashMap<String?, Int>
+    private lateinit var emojiCategoryPositions: LinkedHashMap<String?, Int>
 
     data class EmojiGridItem(val emoji: Emoji?, val trueIndex: Int?)
 
@@ -47,7 +47,7 @@ class EmojiAdapter(
         val spanCount = (recyclerView.layoutManager as GridLayoutManager).spanCount
 
         val catMap = LinkedHashMap<String?, Int>()
-        val catPosMap = HashMap<String?, Int>()
+        val catPosMap = LinkedHashMap<String?, Int>()
         var currentCategory: String? = null
         for (index in trueEmojiList.indices) {
             val emoji = trueEmojiList[index]
@@ -71,6 +71,17 @@ class EmojiAdapter(
 
     fun getCategoryStartPosition(category: String?): Int {
         return emojiCategoryPositions.getValue(category)
+    }
+
+    fun getCategoryForPosition(position: Int): String? {
+        var prevKey: String? = null
+        for (entry in emojiCategoryPositions) {
+            if (position < entry.value) {
+                return prevKey
+            }
+            prevKey = entry.key
+        }
+        return prevKey
     }
 
     override fun getItemCount() = emojiList.size
