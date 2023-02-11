@@ -9,7 +9,7 @@
 
 Building Tusky requires Gradle 7.5 ([AGP](https://developer.android.com/studio/releases/gradle-plugin) 7.4.1) or newer. The easiest way to get this is to install [Android Studio](https://developer.android.com/studio/releases/gradle-plugin#android_gradle_plugin_and_android_studio_compatibility) Electric Eel (2022.1.1) or newer.
 
-Tusky comes with two sets of build variants, "blue" and "green", which can be installed simultaneously and are distinguished by the colors of their icons. Official release builds are "blue", whereas official nightly builds are "green". Build variant "greenDebug" is recommended for local development builds.
+Tusky comes with two sets of build variants, "blue" and "green", which can be installed simultaneously. There are only two differences: The colors of the icons, and the "green" version encodes the git commit into its version number whereas the blue does not. Official release builds are "blue", whereas official nightly builds are "green". Local development builds should probably use build variant "greenDebug" (both because of the git tracking, and so it will not interfere with your regular install from Play or F-Droid).
 
 ## Making Changes
 
