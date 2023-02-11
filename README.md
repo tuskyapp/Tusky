@@ -25,7 +25,7 @@ The nightly build containing the newest development code is [available on Google
 
 ### Support
 
-Check out our [FAQs](https://github.com/tuskyapp/faq/blob/master/README.md), your question may already be answered.
+Check out our [FAQs](https://github.com/tuskyapp/faq/blob/main/README.md), your question may already be answered.
 If you have any bug reports, feature requests or questions please open an issue or send us a message at [Tusky@mastodon.social](https://mastodon.social/@Tusky)!
 
 ### Contributing
