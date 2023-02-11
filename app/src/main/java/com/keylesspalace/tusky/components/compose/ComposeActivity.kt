@@ -26,6 +26,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +34,7 @@ import android.os.Parcelable
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
@@ -55,6 +57,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
+import androidx.core.view.forEach
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -1227,14 +1230,16 @@ class ComposeActivity :
             val emojiAdapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
             binding.emojiView.adapter = emojiAdapter
 
-            emojiAdapter.emojiCategories.keys.forEachIndexed() { i: Int, s: String? ->
+            emojiAdapter.emojiCategories.keys.forEachIndexed { i: Int, s: String? ->
                 val categoryTextView = TextView(this)
                 categoryTextView.text = s ?: getString(R.string.custom_emoji_default_category_title)
                 val padding = (8 * resources.displayMetrics.density + 0.5f).toInt()
                 categoryTextView.setPadding(padding, padding, padding, padding)
-                // categoryTextView.textSize = ... R.attr.status_text_medium ...
-                // if (i == 0) categoryTextView.setTypeface(null, Typeface.BOLD)
-                categoryTextView.setOnClickListener() {
+                val typedValue = TypedValue()
+                this.theme.resolveAttribute(R.attr.status_text_medium, typedValue, true)
+                categoryTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, typedValue.getDimension(resources.displayMetrics))
+                if (i == 0) categoryTextView.setTypeface(null, Typeface.BOLD)
+                categoryTextView.setOnClickListener {
                     val p = emojiAdapter.getCategoryStartPosition(s)
                     val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(binding.emojiView.context) {
                         override fun getHorizontalSnapPreference(): Int {
@@ -1246,6 +1251,11 @@ class ComposeActivity :
                     }
                     smoothScroller.targetPosition = p;
                     binding.emojiView.layoutManager?.startSmoothScroll(smoothScroller)
+
+                    binding.emojiCategoryLinearLayout.forEach { view ->
+                        (view as TextView).setTypeface(null, if (view == it) Typeface.BOLD else Typeface.NORMAL)
+                    }
+                    binding.emojiCategoryScrollView.smoothScrollTo(it.left, 0)
                 }
                 binding.emojiCategoryLinearLayout.addView(categoryTextView)
             }
