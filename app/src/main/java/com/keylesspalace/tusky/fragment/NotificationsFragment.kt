@@ -648,12 +648,7 @@ class NotificationsFragment :
 
     companion object {
         private const val TAG = "NotificationF"
-        fun newInstance(): NotificationsFragment {
-            val fragment = NotificationsFragment()
-            val arguments = Bundle()
-            fragment.arguments = arguments
-            return fragment
-        }
+        fun newInstance() = NotificationsFragment()
 
         private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData> =
             object : DiffUtil.ItemCallback<NotificationViewData>() {
