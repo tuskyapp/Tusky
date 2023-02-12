@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Hỗ trợ sửa tút
+- Thêm cài đặt cách đọc
+- Xem trước media và lớp phủ mới để biểu thị phương tiện có mô tả
+- Cho phép thêm tài khoản vào danh sách hồ sơ
+và còn nữa

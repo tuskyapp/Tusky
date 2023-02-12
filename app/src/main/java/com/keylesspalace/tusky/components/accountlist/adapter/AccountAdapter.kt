@@ -12,24 +12,26 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
-package com.keylesspalace.tusky.adapter
+package com.keylesspalace.tusky.components.accountlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemFooterBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.removeDuplicates
 
 /** Generic adapter with bottom loading indicator. */
 abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructor(
-    var accountActionListener: AccountActionListener,
+    protected val accountActionListener: AccountActionListener,
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean,
     protected val showBotOverlay: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
-    var accountList = mutableListOf<TimelineAccount>()
+
+    protected var accountList: MutableList<TimelineAccount> = mutableListOf()
     private var bottomLoading: Boolean = false
 
     override fun getItemCount(): Int {
@@ -61,9 +63,8 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
     private fun createFooterViewHolder(
         parent: ViewGroup,
     ): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_footer, parent, false)
-        return LoadingFooterViewHolder(view)
+        val binding = ItemFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
     override fun getItemViewType(position: Int): Int {

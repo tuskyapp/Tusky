@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Gallwch nawr nodi statws tudalen a rhestru'ch nodau tudalen yn Tusky.
+- Gallwch nawr amserlennu toots gyda Thusky. Sylwch fod yn rhaid i'r amser a ddewiswch fod o leiaf 5 munud yn y dyfodol.
+- Gallwch nawr ychwanegu rhestrau at y brif sgrin.
+- Gallwch nawr bostio atodiadau sain gyda Tusky.
+
+A llawer o welliannau bach eraill ac atgyweiriadau bygiau!

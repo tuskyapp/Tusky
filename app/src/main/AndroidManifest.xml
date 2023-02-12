@@ -38,7 +38,18 @@
         </activity>
         <activity
             android:name=".components.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${applicationId}"
+                    android:scheme="@string/oauth_scheme" />
+            </intent-filter>
         </activity>
         <activity android:name=".components.login.LoginWebViewActivity" />
         <activity
@@ -111,7 +122,7 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />
-        <activity android:name=".AccountListActivity" />
+        <activity android:name=".components.accountlist.AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".TabPreferenceActivity" />
         <activity

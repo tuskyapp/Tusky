@@ -3,11 +3,11 @@
     <string name="error_generic">Wystąpił błąd.</string>
     <string name="error_empty">To nie może pozostać puste.</string>
     <string name="error_invalid_domain">Wprowadzono nieprawidłową domenę</string>
-    <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją.</string>
+    <string name="error_failed_app_registration">Nie udało się uwierzytelnić z tą instancją. Jeśli problem będzie się powtarzał, spróbuj zalogować się za pomocą przeglądarki z menu aplikacji.</string>
     <string name="error_no_web_browser_found">Nie znaleziono przeglądarki internetowej.</string>
-    <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji.</string>
-    <string name="error_authorization_denied">Odmówiono autoryzacji.</string>
-    <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania.</string>
+    <string name="error_authorization_unknown">Wystąpił nieokreślony błąd podczas próby autoryzacji. Jeśli problem będzie się powtarzał, spróbuj zalogować się za pomocą przeglądarki z menu aplikacji.</string>
+    <string name="error_authorization_denied">Odmówiono autoryzacji. Jeśli jesteś pewien poprawności wprowadzonych danych, spróbuj zalogowania się za pomocą przeglądarki dostępnej w menu.</string>
+    <string name="error_retrieving_oauth_token">Nie udało się uzyskać tokenu logowania. Jeśli problem będzie się powtarzał, spróbuj zalogować się za pomocą przeglądarki z menu aplikacji.</string>
     <string name="error_compose_character_limit">Zbyt długi wpis!</string>
     <string name="error_media_upload_type">Ten format pliku nie może zostać wysłany.</string>
     <string name="error_media_upload_opening">Nie można otworzyć tego pliku.</string>
@@ -50,11 +50,11 @@
     <string name="action_favourite">Dodaj do ulubionych</string>
     <string name="action_more">Więcej</string>
     <string name="action_compose">Napisz</string>
-    <string name="action_login">Zaloguj się Kontem Mastodon</string>
+    <string name="action_login">Zaloguj się z Tusky</string>
     <string name="action_logout">Wyloguj się</string>
     <string name="action_logout_confirm">Czy na pewno chcesz wylogować się z konta %1$s?</string>
     <string name="action_follow">Obserwuj</string>
-    <string name="action_unfollow">Odobserwuj</string>
+    <string name="action_unfollow">Przestań obserwować</string>
     <string name="action_block">Zablokuj</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_hide_reblogs">Ukryj podbicia</string>
@@ -266,7 +266,7 @@
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
     <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
-    <string name="title_direct_messages">Wiadomości bezpośrednie</string>
+    <string name="title_direct_messages">Bezpośrednie wiadomości</string>
     <string name="title_posts_pinned">Przypięte</string>
     <string name="post_content_show_more">Rozwiń</string>
     <string name="post_content_show_less">Zwiń</string>
@@ -598,4 +598,56 @@
     <string name="compose_save_draft_loses_media">Czy chcesz zapisać jako szkic\? (Załączniki zostaną załadowane ponownie po przywróceniu szkicu.)</string>
     <string name="error_following_hashtags_unsupported">Ta instancja nie wspiera obserwowania hashtagów.</string>
     <string name="title_followed_hashtags">Obserwowane hashtagi</string>
+    <string name="a11y_label_loading_thread">Ładowanie wątku</string>
+    <string name="instance_rule_info">Logując się akceptujesz regulamin %s.</string>
+    <string name="pref_reading_order_oldest_first">Najpierw najstarsze</string>
+    <string name="pref_reading_order_newest_first">Najpierw najnowsze</string>
+    <string name="no_lists">Nie masz żadnych list.</string>
+    <string name="mute_notifications_switch">Wycisz powiadomienia</string>
+    <string name="status_edit_info">%1$s edytował %2$s</string>
+    <string name="status_created_info">%1$s stworzył %2$s</string>
+    <string name="title_edits">Edycje</string>
+    <string name="compose_unsaved_changes">Masz niezapisane zmiany.</string>
+    <string name="instance_rule_title">%s regulamin</string>
+    <string name="action_post_failed">Błąd wysyłania</string>
+    <string name="action_post_failed_show_drafts">Pokaż szkice</string>
+    <string name="action_post_failed_do_nothing">Odrzuć</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="action_browser_login">Zaloguj się przez przeglądarkę</string>
+    <string name="action_continue_edit">Kontynuuj edycję</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="send_account_link_to">Udostępnij link do konta…</string>
+    <string name="send_account_username_to">Udostępnij nazwę użytkownika…</string>
+    <string name="account_username_copied">Skopiowano nazwę użytkownika</string>
+    <string name="description_post_edited">Edytowano</string>
+    <string name="report_category_other">Inne</string>
+    <string name="post_edited">Edytowano %s</string>
+    <string name="delete_scheduled_post_warning">Usunąć ten zaplanowany wpis\?</string>
+    <string name="pref_title_reading_order">Kolejność czytania</string>
+    <string name="pref_summary_http_proxy_missing">&lt;nieustawiony&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;niepoprawny&gt;</string>
+    <string name="pref_title_http_proxy_port_message">Port powinien być pomiędzy %d a %d</string>
+    <string name="action_post_failed_detail">Wystąpił problem podczas publikacji posta, ale został on zapisany w szkicach.
+\n
+\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił post.</string>
+    <string name="action_post_failed_detail_plural">Wystąpił problem podczas publikacji Twojego posta i został on zapisany w szkicach.
+\n
+\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił Twój post.</string>
+    <string name="error_muting_hashtag_format">Wystąpił błąd podczas wyciszania #%s</string>
+    <string name="error_unmuting_hashtag_format">Wystąpił błąd podczas zdejmowania wyciszenia #%s</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="report_category_violation">Naruszenie zasad</string>
+    <string name="description_login">Działa w większości przypadków. Dane nie wyciekły do innych aplikacji.</string>
+    <string name="description_browser_login">Może obsługiwać dodatkowe formy weryfikacji, ale wymaga kompatybilnej przeglądarki.</string>
+    <string name="notification_report_format">Nowe zgłoszenie dotyczące %s</string>
+    <string name="notification_summary_report_format">%s · %d załączonych postów</string>
+    <string name="failed_to_pin">Błąd w akcji przypinania</string>
+    <string name="failed_to_unpin">Błąd podczas odpinania</string>
+    <string name="error_status_source_load">Błąd ładowania źródła statusu z serwera.</string>
+    <string name="pref_title_show_self_username">Wyświetl nazwy użytkowników w pasku narzędzi</string>
+    <string name="pref_summary_http_proxy_disabled">Wyłączone</string>
+    <string name="hint_media_description_missing">Media powinny mieć opis.</string>
+    <string name="action_discard">Odrzuć zmiany</string>
+    <string name="action_share_account_username">Udostępnij nazwę użytkownika</string>
+    <string name="action_share_account_link">Udostępnij link do konta</string>
 </resources>

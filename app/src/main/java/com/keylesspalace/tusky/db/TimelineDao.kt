@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.db
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 
 @Dao
@@ -71,7 +71,8 @@ rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
 FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
 LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
-WHERE s.serverId = :statusId OR s.reblogServerId = :statusId"""
+WHERE (s.serverId = :statusId OR s.reblogServerId = :statusId) 
+AND s.authorServerId IS NOT NULL"""
     )
     abstract suspend fun getStatus(statusId: String): TimelineStatusWithAccount?
 

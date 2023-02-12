@@ -50,17 +50,18 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.AccountListActivity
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
@@ -99,6 +100,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var draftsAlert: DraftsAlert
 
     private val viewModel: AccountViewModel by viewModels { viewModelFactory }
 
@@ -175,9 +178,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = MaterialColors.getColor(this, R.attr.colorSurface, Color.BLACK)
+        toolbarColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurface, Color.BLACK)
         statusBarColorTransparent = getColor(R.color.transparent_statusbar_background)
-        statusBarColorOpaque = MaterialColors.getColor(this, R.attr.colorPrimaryDark, Color.BLACK)
+        statusBarColorOpaque = MaterialColors.getColor(this, androidx.appcompat.R.attr.colorPrimaryDark, Color.BLACK)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }
@@ -386,6 +389,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         viewModel.noteSaved.observe(this) {
             binding.saveNoteInfo.visible(it, View.INVISIBLE)
         }
+
+        // "Post failed" dialog should display in this activity
+        draftsAlert.observeInContext(this, true)
     }
 
     /**
@@ -577,6 +583,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     }
                 }
                 updateFollowButton()
+                updateSubscribeButton()
             }
         }
     }
@@ -650,7 +657,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 binding.accountFollowButton.setText(R.string.action_unfollow)
             }
         }
-        updateSubscribeButton()
     }
 
     private fun updateMuteButton() {
@@ -682,17 +688,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
             binding.accountFollowButton.show()
             updateFollowButton()
+            updateSubscribeButton()
 
             if (blocking) {
                 binding.accountFloatingActionButton.hide()
                 binding.accountMuteButton.hide()
-                binding.accountSubscribeButton.hide()
             } else {
                 binding.accountFloatingActionButton.show()
-                if (muting)
-                    binding.accountMuteButton.show()
-                else
-                    binding.accountMuteButton.hide()
+                binding.accountMuteButton.visible(muting)
                 updateMuteButton()
             }
         } else {

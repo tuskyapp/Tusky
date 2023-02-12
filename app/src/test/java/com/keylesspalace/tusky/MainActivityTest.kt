@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.work.testing.WorkManagerTestInitHelper
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
@@ -121,6 +122,7 @@ class MainActivityTest {
         activity.accountManager = mock {
             on { activeAccount } doReturn accountEntity
         }
+        activity.draftsAlert = mock {}
         activity.mastodonApi = mock {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
             onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())

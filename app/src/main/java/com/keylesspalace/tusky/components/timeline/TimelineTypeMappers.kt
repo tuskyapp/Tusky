@@ -153,7 +153,7 @@ fun Status.toEntity(
 }
 
 fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
-    if (this.status.isPlaceholder) {
+    if (this.account == null) {
         Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }

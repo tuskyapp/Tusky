@@ -1,36 +1,36 @@
 [versions]
-agp = "7.3.1"
-androidx-activity = "1.6.0"
-androidx-appcompat = "1.6.0-rc01"
+agp = "7.4.1"
+androidx-activity = "1.6.1"
+androidx-appcompat = "1.6.0"
 androidx-browser = "1.4.0"
 androidx-cardview = "1.0.0"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.9.0"
-androidx-exifinterface = "1.3.4"
-androidx-fragment = "1.5.3"
-androidx-junit = "1.1.3"
+androidx-exifinterface = "1.3.5"
+androidx-fragment = "1.5.5"
+androidx-junit = "1.1.5"
 androidx-paging = "3.1.1"
 androidx-preference = "1.2.0"
-androidx-recyclerview = "1.1.0"
+androidx-recyclerview = "1.2.1"
 androidx-sharetarget = "1.2.0"
 androidx-splashscreen = "1.0.0"
 androidx-swiperefresh-layout = "1.1.0"
 androidx-testing = "2.1.0"
 androidx-viewpager2 = "1.0.0"
 androidx-work = "2.7.1"
+androidx-room = "2.5.0"
 autodispose = "2.1.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
 coroutines = "1.6.4"
 dagger = "2.43.2"
 emoji2 = "1.1.0"
-espresso = "3.4.0"
+espresso = "3.5.1"
 filemoji-compat = "3.2.7"
 glide = "4.13.2"
 glide-animation-plugin = "2.23.0"
 gson = "2.9.0"
 kotlin = "1.7.10"
-ktlint = "10.2.1"
 image-cropper = "4.3.1"
 lifecycle = "2.5.1"
 material = "1.6.1"
@@ -42,7 +42,6 @@ networkresult-calladapter = "1.0.0"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
 robolectric = "4.8.1"
-room = "2.4.3"
 rxandroid3 = "3.0.0"
 rxjava3 = "3.1.3"
 rxkotlin3 = "3.0.1"
@@ -50,8 +49,14 @@ photoview = "2.3.0"
 sparkbutton = "4.1.0"
 unified-push = "2.0.1"
 
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
+
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -72,10 +77,10 @@ androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycl
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "androidx-paging" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "androidx-room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-sharetarget = { module = "androidx.sharetarget:sharetarget", version.ref = "androidx-sharetarget" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefresh-layout" }
@@ -105,7 +110,6 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "image-cropper" }
 material-drawer-core = { module = "com.mikepenz:materialdrawer", version.ref = "material-drawer" }
 material-drawer-iconics = { module = "com.mikepenz:materialdrawer-iconics", version.ref = "material-drawer" }
@@ -145,5 +149,3 @@ okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
 retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
-
-[plugins]
