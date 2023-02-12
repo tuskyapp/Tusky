@@ -325,7 +325,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     override fun onResume() {
         super.onResume()
-        NotificationHelper.clearNotificationsForActiveAccount(this, accountManager)
         val currentEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
         if (currentEmojiPack != selectedEmojiPack) {
             Log.d(
