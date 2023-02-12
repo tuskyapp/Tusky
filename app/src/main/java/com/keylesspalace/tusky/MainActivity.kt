@@ -666,10 +666,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == notificationTabPosition) {
-                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
-                }
-
                 binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
             }
 
