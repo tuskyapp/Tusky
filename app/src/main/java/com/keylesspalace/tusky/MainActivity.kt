@@ -253,8 +253,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
                 sizeDp = 20
-                colorInt =
-                    MaterialColors.getColor(binding.mainToolbar, android.R.attr.textColorPrimary)
+                colorInt = MaterialColors.getColor(binding.mainToolbar, android.R.attr.textColorPrimary)
             }
             setOnMenuItemClickListener {
                 startActivity(SearchActivity.getIntent(this@MainActivity))
