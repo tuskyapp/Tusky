@@ -105,7 +105,7 @@ class NotificationsFragment :
 
     private lateinit var adapter: NotificationsPagingAdapter
 
-    private var layoutManager: LinearLayoutManager? = null
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -219,9 +219,9 @@ class NotificationsFragment :
         val updateTimestampFlow = flow {
             while (true) { delay(60000); emit(Unit) }
         }.onEach {
-            layoutManager?.findFirstVisibleItemPosition()?.let { first ->
+            layoutManager.findFirstVisibleItemPosition()?.let { first ->
                 first == RecyclerView.NO_POSITION && return@let
-                val count = layoutManager!!.findLastVisibleItemPosition() - first
+                val count = layoutManager.findLastVisibleItemPosition() - first
                 adapter.notifyItemRangeChanged(
                     first,
                     count,
@@ -365,9 +365,9 @@ class NotificationsFragment :
                     viewModel.statusDisplayOptions
                         .collectLatest {
                             adapter.statusDisplayOptions = it
-                            layoutManager?.findFirstVisibleItemPosition()?.let { first ->
+                            layoutManager.findFirstVisibleItemPosition()?.let { first ->
                                 first == RecyclerView.NO_POSITION && return@let
-                                val count = layoutManager!!.findLastVisibleItemPosition() - first
+                                val count = layoutManager.findLastVisibleItemPosition() - first
                                 adapter.notifyItemRangeChanged(
                                     first,
                                     count,
@@ -455,7 +455,7 @@ class NotificationsFragment :
         super.onPause()
 
         // Save the ID of the first notification visible in the list
-        val position = layoutManager!!.findFirstVisibleItemPosition()
+        val position = layoutManager.findFirstVisibleItemPosition()
         if (position >= 0) {
             adapter.snapshot()[position]?.id?.let { id ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
@@ -642,7 +642,7 @@ class NotificationsFragment :
     override fun onReselect() {
         if (isAdded) {
             binding.appBarOptions.setExpanded(true, false)
-            layoutManager!!.scrollToPosition(0)
+            layoutManager.scrollToPosition(0)
         }
     }
 
