@@ -398,9 +398,9 @@ class NotificationsViewModel @Inject constructor(
                     try {
                         when (action) {
                             is NotificationAction.AcceptFollowRequest ->
-                                timelineCases.acceptFollowRequest(action.accountId)
+                                timelineCases.acceptFollowRequest(action.accountId).await()
                             is NotificationAction.RejectFollowRequest ->
-                                timelineCases.rejectFollowRequest(action.accountId)
+                                timelineCases.rejectFollowRequest(action.accountId).await()
                         }
                         uiSuccess.emit(NotificationActionSuccess.from(action))
                     } catch (e: Exception) {
