@@ -223,9 +223,9 @@ class NotificationsFragment :
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewLifecycleOwner.lifecycleScope.launch {
+                launch {
                     viewModel.pagingData.collectLatest { pagingData ->
                         Log.d(TAG, "Submitting data to adapter")
                         adapter.submitData(pagingData)
@@ -242,7 +242,7 @@ class NotificationsFragment :
                 //   post failed: Unable to resolve host 'mastodon.social': No
                 //   address associated with hostname" is 3 lines.
                 // - With a "Retry" option if the error included a UiAction to retry.
-                this.launch {
+                launch {
                     viewModel.uiError.collect { error ->
                         Log.d(TAG, error.toString())
                         val message = getString(
@@ -281,7 +281,7 @@ class NotificationsFragment :
 
                 // Show successful notification action as brief snackbars, so the
                 // user is clear the action has happened.
-                this.launch {
+                launch {
                     viewModel.uiSuccess
                         .filterIsInstance<NotificationActionSuccess>()
                         .collect {
@@ -302,7 +302,7 @@ class NotificationsFragment :
 
                 // Update adapter data when status actions are successful, and re-bind to update
                 // the UI.
-                this.launch {
+                launch {
                     viewModel.uiSuccess
                         .filterIsInstance<StatusActionSuccess>()
                         .collect {
@@ -337,24 +337,25 @@ class NotificationsFragment :
                 }
 
                 // Refresh adapter on mutes and blocks
-                this.launch {
+                launch {
                     viewModel.uiSuccess.collectLatest {
                         when (it) {
                             is UiSuccess.Block, is UiSuccess.Mute, is UiSuccess.MuteConversation ->
                                 adapter.refresh()
-                            else -> { /* nothing to do */ }
+                            else -> { /* nothing to do */
+                            }
                         }
                     }
                 }
 
                 // Update filter option visibility from uiState
-                this.launch {
+                launch {
                     viewModel.uiState.collectLatest { updateFilterVisibility(it.showFilterOptions) }
                 }
 
                 // Update status display from statusDisplayOptions. If the new options request
                 // relative time display collect the flow to periodically re-bind the UI.
-                this.launch {
+                launch {
                     viewModel.statusDisplayOptions
                         .collectLatest {
                             adapter.statusDisplayOptions = it
