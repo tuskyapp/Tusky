@@ -154,7 +154,7 @@ class NotificationsPagingAdapter(
                 FollowRequestViewHolder(
                     ItemFollowRequestBinding.inflate(inflater, parent, false),
                     accountActionListener,
-                    showHeader = false
+                    showHeader = true
                 )
             }
             NotificationViewKind.REPORT -> {
