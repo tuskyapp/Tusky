@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.fragment
+package com.keylesspalace.tusky.components.notifications
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -49,22 +49,12 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.components.notifications.FallibleUiAction
-import com.keylesspalace.tusky.components.notifications.InfallibleUiAction
-import com.keylesspalace.tusky.components.notifications.NotificationAction
-import com.keylesspalace.tusky.components.notifications.NotificationActionListener
-import com.keylesspalace.tusky.components.notifications.NotificationActionSuccess
-import com.keylesspalace.tusky.components.notifications.NotificationsLoadStateAdapter
-import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
-import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
-import com.keylesspalace.tusky.components.notifications.StatusAction
-import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
-import com.keylesspalace.tusky.components.notifications.UiSuccess
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
