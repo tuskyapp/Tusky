@@ -114,29 +114,33 @@ class NotificationsPagingSource @Inject constructor(
             // If this was successful we must still check that the user is not filtering this type
             // of notification, as fetching a single notification ignores filters. Returning this
             // notification if the user is filtering the type is wrong.
-            if (!notificationFilter.contains(notification.body()!!.type)) {
-                // Notification is *not* filtered. We can return this, but need the next page of
-                // notifications as well
+            notification.body()?.let { body ->
+                if (!notificationFilter.contains(body.type)) {
+                    // Notification is *not* filtered. We can return this, but need the next page of
+                    // notifications as well
 
-                // Collect all notifications in to this list
-                val notifications = mutableListOf(notification.body()!!)
-                val notificationPage = deferredNotificationPage.await()
-                if (notificationPage.isSuccessful) {
-                    notifications.addAll(notificationPage.body()!!)
+                    // Collect all notifications in to this list
+                    val notifications = mutableListOf(body)
+                    val notificationPage = deferredNotificationPage.await()
+                    if (notificationPage.isSuccessful) {
+                        notificationPage.body()?.let {
+                            notifications.addAll(it)
+                        }
+                    }
+
+                    // "notifications" now contains at least one notification we can return, and
+                    // hopefully a full page.
+
+                    // Build correct max_id and min_id links for the response. The "min_id" to use
+                    // when fetching the next page is the same as "key". The "max_id" is the ID of
+                    // the oldest notification in the list.
+                    val maxId = notifications.last().id
+                    val headers = Headers.Builder()
+                        .add("link: </?max_id=$maxId>; rel=\"next\", </?min_id=$key>; rel=\"prev\"")
+                        .build()
+
+                    return@coroutineScope Response.success(notifications, headers)
                 }
-
-                // "notifications" now contains at least one notification we can return, and
-                // hopefully a full page.
-
-                // Build correct max_id and min_id links for the response. The "min_id" to use when
-                // fetching the next page is the same as "key". The "max_id" is the ID of the
-                // oldest notification in the list.
-                val maxId = notifications.last().id
-                val headers = Headers.Builder()
-                    .add("link: </?max_id=$maxId>; rel=\"next\", </?min_id=$key>; rel=\"prev\"")
-                    .build()
-
-                return@coroutineScope Response.success(notifications, headers)
             }
         }
 
