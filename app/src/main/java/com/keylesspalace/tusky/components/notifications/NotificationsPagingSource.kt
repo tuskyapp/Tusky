@@ -105,7 +105,9 @@ class NotificationsPagingSource @Inject constructor(
         //
         // Make both requests, and wait for the first to complete.
         val deferredNotification = async { mastodonApi.notification(id = key) }
-        val deferredNotificationPage = async { mastodonApi.notifications(maxId = key, limit = params.loadSize) }
+        val deferredNotificationPage = async {
+            mastodonApi.notifications(maxId = key, limit = params.loadSize, excludes = notificationFilter)
+        }
 
         val notification = deferredNotification.await()
         if (notification.isSuccessful) {
