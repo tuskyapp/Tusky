@@ -348,6 +348,7 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
+    <string name="notification_unknown_name">Unknown</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -728,7 +729,7 @@
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
     <string name="action_refresh">Refresh</string>
     <string name="mute_notifications_switch">Mute notifications</string>
-    
+
     <!-- Reading order preference -->
     <string name="pref_title_reading_order">Reading order</string>
     <string name="pref_reading_order_oldest_first">Oldest first</string>

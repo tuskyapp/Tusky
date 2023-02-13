@@ -60,7 +60,6 @@ import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Notification.Type.Companion.asList
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -547,14 +546,12 @@ class NotificationsFragment :
     }
 
     private fun showFilterMenu() {
-        val notificationsList = asList
-        val list: MutableList<String> = ArrayList()
-        for (type in notificationsList) {
-            list.add(getNotificationText(type))
+        val texts = Notification.Type.visibleTypes.map {
+            getString(it.uiString)
         }
         val context = requireContext()
         val adapter =
-            ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, list)
+            ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, texts)
         val window = PopupWindow(context)
         val view = LayoutInflater.from(context)
             .inflate(R.layout.notifications_filter, view as ViewGroup?, false)
@@ -563,8 +560,8 @@ class NotificationsFragment :
             .setOnClickListener {
                 val checkedItems = listView.checkedItemPositions
                 val excludes: MutableSet<Notification.Type> = HashSet()
-                for (i in notificationsList.indices) {
-                    if (!checkedItems[i, false]) excludes.add(notificationsList[i])
+                for (i in Notification.Type.visibleTypes.indices) {
+                    if (!checkedItems[i, false]) excludes.add(Notification.Type.visibleTypes[i])
                 }
                 window.dismiss()
                 if (viewModel.uiState.value.activeFilter != excludes) {
@@ -573,8 +570,8 @@ class NotificationsFragment :
             }
         listView.adapter = adapter
         listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
-        for (i in notificationsList.indices) {
-            if (!viewModel.uiState.value.activeFilter.contains(notificationsList[i])) {
+        for (i in Notification.Type.visibleTypes.indices) {
+            if (!viewModel.uiState.value.activeFilter.contains(Notification.Type.visibleTypes[i])) {
                 listView.setItemChecked(i, true)
             }
         }
@@ -583,22 +580,6 @@ class NotificationsFragment :
         window.width = ViewGroup.LayoutParams.WRAP_CONTENT
         window.height = ViewGroup.LayoutParams.WRAP_CONTENT
         window.showAsDropDown(binding.buttonFilter)
-    }
-
-    private fun getNotificationText(type: Notification.Type): String {
-        return when (type) {
-            Notification.Type.MENTION -> getString(R.string.notification_mention_name)
-            Notification.Type.FAVOURITE -> getString(R.string.notification_favourite_name)
-            Notification.Type.REBLOG -> getString(R.string.notification_boost_name)
-            Notification.Type.FOLLOW -> getString(R.string.notification_follow_name)
-            Notification.Type.FOLLOW_REQUEST -> getString(R.string.notification_follow_request_name)
-            Notification.Type.POLL -> getString(R.string.notification_poll_name)
-            Notification.Type.STATUS -> getString(R.string.notification_subscription_name)
-            Notification.Type.SIGN_UP -> getString(R.string.notification_sign_up_name)
-            Notification.Type.UPDATE -> getString(R.string.notification_update_name)
-            Notification.Type.REPORT -> getString(R.string.notification_report_name)
-            else -> "Unknown"
-        }
     }
 
     override fun onViewTag(tag: String) {

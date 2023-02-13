@@ -15,11 +15,13 @@
 
 package com.keylesspalace.tusky.entity
 
+import androidx.annotation.StringRes
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
+import com.keylesspalace.tusky.R
 
 data class Notification(
     val type: Type,
@@ -31,42 +33,40 @@ data class Notification(
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */
     @JsonAdapter(NotificationTypeAdapter::class)
-    enum class Type(val presentation: String) {
-        UNKNOWN("unknown"),
+    enum class Type(val presentation: String, @StringRes val uiString: Int) {
+        UNKNOWN("unknown", R.string.notification_unknown_name),
 
         /** Someone mentioned you */
-        MENTION("mention"),
+        MENTION("mention", R.string.notification_mention_name),
 
         /** Someone boosted one of your statuses */
-        REBLOG("reblog"),
+        REBLOG("reblog", R.string.notification_boost_name),
 
         /** Someone favourited one of your statuses */
-        FAVOURITE("favourite"),
+        FAVOURITE("favourite", R.string.notification_favourite_name),
 
         /** Someone followed you */
-        FOLLOW("follow"),
+        FOLLOW("follow", R.string.notification_follow_name),
 
         /** Someone requested to follow you */
-        FOLLOW_REQUEST("follow_request"),
+        FOLLOW_REQUEST("follow_request", R.string.notification_follow_request_name),
 
         /** A poll you have voted in or created has ended */
-        POLL("poll"),
+        POLL("poll", R.string.notification_poll_name),
 
         /** Someone you enabled notifications for has posted a status */
-        STATUS("status"),
+        STATUS("status", R.string.notification_subscription_name),
 
         /** Someone signed up (optionally sent to admins) */
-        SIGN_UP("admin.sign_up"),
+        SIGN_UP("admin.sign_up", R.string.notification_sign_up_name),
 
         /** A status you interacted with has been updated */
-        UPDATE("update"),
+        UPDATE("update", R.string.notification_update_name),
 
         /** A new report has been filed */
-        REPORT("admin.report"),
-        ;
+        REPORT("admin.report", R.string.notification_report_name);
 
         companion object {
-
             @JvmStatic
             fun byString(s: String): Type {
                 values().forEach {
@@ -75,7 +75,9 @@ data class Notification(
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
+
+            /** Notification types for UI display (omits UNKNOWN) */
+            val visibleTypes = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
         }
 
         override fun toString(): String {
@@ -106,9 +108,6 @@ data class Notification(
             return Type.byString(json.asString)
         }
     }
-
-    /** Helper for Java */
-    fun copyWithStatus(status: Status?): Notification = copy(status = status)
 
     // for Pleroma compatibility that uses Mention type
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {

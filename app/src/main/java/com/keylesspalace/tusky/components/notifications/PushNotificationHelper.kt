@@ -150,7 +150,7 @@ fun disableAllNotifications(context: Context, accountManager: AccountManager) {
 
 private fun buildSubscriptionData(context: Context, account: AccountEntity): Map<String, Boolean> =
     buildMap {
-        Notification.Type.asList.forEach {
+        Notification.Type.visibleTypes.forEach {
             put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(account, it, context))
         }
     }
