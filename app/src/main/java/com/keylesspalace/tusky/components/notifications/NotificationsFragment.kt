@@ -17,6 +17,7 @@
 
 package com.keylesspalace.tusky.components.notifications
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -26,13 +27,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -201,7 +200,7 @@ class NotificationsFragment :
         )
 
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
-        binding.buttonFilter.setOnClickListener { showFilterMenu() }
+        binding.buttonFilter.setOnClickListener { showFilterDialog() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
 
@@ -540,41 +539,13 @@ class NotificationsFragment :
         viewModel.accept(FallibleUiAction.ClearNotifications)
     }
 
-    private fun showFilterMenu() {
-        val texts = Notification.Type.visibleTypes.map {
-            getString(it.uiString)
-        }
-        val context = requireContext()
-        val adapter =
-            ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, texts)
-        val window = PopupWindow(context)
-        val view = LayoutInflater.from(context)
-            .inflate(R.layout.notifications_filter, view as ViewGroup?, false)
-        val listView = view.findViewById<ListView>(R.id.listView)
-        view.findViewById<View>(R.id.buttonApply)
-            .setOnClickListener {
-                val checkedItems = listView.checkedItemPositions
-                val excludes: MutableSet<Notification.Type> = HashSet()
-                for (i in Notification.Type.visibleTypes.indices) {
-                    if (!checkedItems[i, false]) excludes.add(Notification.Type.visibleTypes[i])
-                }
-                window.dismiss()
-                if (viewModel.uiState.value.activeFilter != excludes) {
-                    viewModel.accept(InfallibleUiAction.ApplyFilter(excludes))
-                }
-            }
-        listView.adapter = adapter
-        listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
-        for (i in Notification.Type.visibleTypes.indices) {
-            if (!viewModel.uiState.value.activeFilter.contains(Notification.Type.visibleTypes[i])) {
-                listView.setItemChecked(i, true)
+    private fun showFilterDialog() {
+        FilterDialogFragment(viewModel.uiState.value.activeFilter) { filter ->
+            if (viewModel.uiState.value.activeFilter != filter) {
+                viewModel.accept(InfallibleUiAction.ApplyFilter(filter))
             }
         }
-        window.contentView = view
-        window.isFocusable = true
-        window.width = ViewGroup.LayoutParams.WRAP_CONTENT
-        window.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        window.showAsDropDown(binding.buttonFilter)
+            .show(parentFragmentManager, "dialogFilter")
     }
 
     override fun onViewTag(tag: String) {
@@ -655,5 +626,34 @@ class NotificationsFragment :
                     }
                 }
             }
+    }
+}
+
+class FilterDialogFragment(
+    private val activeFilter: Set<Notification.Type>,
+    private val listener: ((filter: Set<Notification.Type>) -> Unit)
+) : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val context = requireContext()
+
+        val items = Notification.Type.visibleTypes.map { getString(it.uiString) }.toTypedArray()
+        val checkedItems = Notification.Type.visibleTypes.map {
+            !activeFilter.contains(it)
+        }.toBooleanArray()
+
+        val builder = AlertDialog.Builder(context)
+            .setTitle(R.string.notifications_apply_filter)
+            .setMultiChoiceItems(items, checkedItems) { _, which, isChecked ->
+                checkedItems[which] = isChecked
+            }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                val excludes: MutableSet<Notification.Type> = HashSet()
+                for (i in Notification.Type.visibleTypes.indices) {
+                    if (!checkedItems[i]) excludes.add(Notification.Type.visibleTypes[i])
+                }
+                listener(excludes)
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+        return builder.create()
     }
 }
