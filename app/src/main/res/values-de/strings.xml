@@ -221,7 +221,7 @@
     </plurals>
     <string name="description_account_locked">Privates Profil</string>
     <string name="about_title_activity">Über</string>
-    <string name="about_tusky_license">Tusky ist freie und quelloffene Software. Es ist lizenziert unter der GNU General Public License Version 3. Du kannst dir die Lizenz hier anschauen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
+    <string name="about_tusky_license">Tusky ist eine freie &amp; quelloffene Software und ist lizenziert unter der GNU General Public License Version 3. Du kannst die Lizenz hier einsehen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
