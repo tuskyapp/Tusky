@@ -4,6 +4,10 @@
     <!-- marginTop for views in a status that are aligned vertically -->
     <dimen name="status_marginTop">4dp</dimen>
 
+    <!-- Alternative marginTop for views where the density should be lower,
+         https://m3.material.io/foundations/layout/understanding-layout/spacing#da94f612-f274-49ab-aec5-f03dab53be8e -->
+    <dimen name="status_marginTop_density_1">8dp</dimen>
+
     <dimen name="status_avatar_width">48dp</dimen>
     <dimen name="status_avatar_height">48dp</dimen>
     <dimen name="status_avatar_inset_width">24dp</dimen>
