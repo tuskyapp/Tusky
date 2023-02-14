@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
@@ -203,6 +204,18 @@ class NotificationsFragment :
         binding.buttonFilter.setOnClickListener { showFilterDialog() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
+
+        // Signal the user that a refresh has loaded new items above their current position
+        // by scrolling up slightly to disclose the new content
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                    binding.recyclerView.post {
+                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                    }
+                }
+            }
+        })
 
         /**
          * Collect this flow to notify the adapter that the timestamps of the visible items have
