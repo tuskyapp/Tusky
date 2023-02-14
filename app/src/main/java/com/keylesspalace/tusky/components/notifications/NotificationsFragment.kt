@@ -557,11 +557,11 @@ class NotificationsFragment :
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
-        // No muting from notifications yet
+        adapter.refresh()
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        // No blocking from notifications yet
+        adapter.refresh()
     }
 
     override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
