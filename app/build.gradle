@@ -54,7 +54,6 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug {}
     }
 
     flavorDimensions += "color"
