@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.di
 
 import com.keylesspalace.tusky.AboutActivity
 import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.DrawerPreferenceActivity
 import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
@@ -40,7 +41,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
-import com.keylesspalace.tusky.components.trending.TrendingActivity
+import com.keylesspalace.tusky.components.tabs.TabActivity
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -104,6 +105,9 @@ abstract class ActivitiesModule {
     abstract fun contributesTabPreferenceActivity(): TabPreferenceActivity
 
     @ContributesAndroidInjector
+    abstract fun contributesDrawerPreferenceActivity(): DrawerPreferenceActivity
+
+    @ContributesAndroidInjector
     abstract fun contributesFiltersActivity(): FiltersActivity
 
     @ContributesAndroidInjector
@@ -128,7 +132,7 @@ abstract class ActivitiesModule {
     abstract fun contributesSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesTrendingActivity(): TrendingActivity
+    abstract fun contributesTabActivity(): TabActivity
 
     @ContributesAndroidInjector
     abstract fun contributesEditFilterActivity(): EditFilterActivity

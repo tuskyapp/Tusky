@@ -125,6 +125,7 @@
         <activity android:name=".components.accountlist.AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".TabPreferenceActivity" />
+        <activity android:name=".DrawerPreferenceActivity" />
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -143,7 +144,7 @@
         <activity android:name=".ListsActivity" />
         <activity android:name=".LicenseActivity" />
         <activity android:name=".components.filters.FiltersActivity" />
-        <activity android:name=".components.trending.TrendingActivity" />
+        <activity android:name=".components.tabs.TabActivity" />
         <activity android:name=".components.followedtags.FollowedTagsActivity" />
         <activity
             android:name=".components.report.ReportActivity"

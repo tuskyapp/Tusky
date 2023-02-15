@@ -15,28 +15,33 @@
 
 package com.keylesspalace.tusky
 
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
+import autodispose2.autoDispose
 import com.keylesspalace.tusky.TabData.AllowedContext
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.di.Injectable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-class TabPreferenceActivity :
+class DrawerPreferenceActivity :
     OrderableListPreferenceActivity(),
     Injectable,
     ItemInteractionListener {
 
     override fun initializeList(): List<TabData> {
-        return accountManager.activeAccount?.tabPreferences.orEmpty()
+        return accountManager.activeAccount?.drawerPreferences.orEmpty()
     }
 
     override fun saveList(list: List<TabData>) {
         accountManager.activeAccount?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-                it.tabPreferences = list
+            Single.fromCallable {
+                it.drawerPreferences = list
                 accountManager.saveAccount(it)
             }
+                .subscribeOn(Schedulers.io())
+                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
+                .subscribe()
         }
         tabsChanged = true
     }
@@ -45,12 +50,12 @@ class TabPreferenceActivity :
 
     override fun getMaxCount(): Int = MAX_TAB_COUNT
 
-    override fun getActivityTitle(): CharSequence = getString(R.string.title_tab_preferences)
+    override fun getActivityTitle(): CharSequence = getString(R.string.title_drawer_preferences)
 
-    override fun getAllowedContext() = AllowedContext.TABS
+    override fun getAllowedContext() = AllowedContext.SIDEBAR
 
     companion object {
-        private const val MIN_TAB_COUNT = 2
-        private const val MAX_TAB_COUNT = 5
+        private const val MIN_TAB_COUNT = 0
+        private const val MAX_TAB_COUNT = 10
     }
 }

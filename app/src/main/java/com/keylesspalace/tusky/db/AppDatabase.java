@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 48)
+        }, version = 49)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -651,6 +651,15 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `filtered` TEXT");
+        }
+    };
+
+    public static final Migration MIGRATION_48_49 = new Migration(48, 49) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            String defaultTabs = TabDataKt.TRENDING + ";" +
+                TabDataKt.FEDERATED;
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `drawerPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
         }
     };
 }

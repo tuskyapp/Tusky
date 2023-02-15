@@ -37,7 +37,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -58,6 +57,8 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import com.keylesspalace.tusky.TabData.Action.FragmentAction
+import com.keylesspalace.tusky.TabData.Action.IntentAction
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.appstore.EventHub
@@ -65,7 +66,6 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
-import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
@@ -75,9 +75,8 @@ import com.keylesspalace.tusky.components.notifications.disableAllNotifications
 import com.keylesspalace.tusky.components.notifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNecessary
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
-import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
-import com.keylesspalace.tusky.components.trending.TrendingActivity
+import com.keylesspalace.tusky.components.tabs.TabActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
@@ -279,7 +278,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // adapter changes over the life of the viewPager (the adapter, not its contents), so set
         // the initial list of tabs to empty, and set the full list later in setupTabs(). See
         // https://github.com/tuskyapp/Tusky/issues/3251 for details.
-        tabAdapter = MainPagerAdapter(emptyList(), this)
+        tabAdapter = MainPagerAdapter(this)
         binding.viewPager.adapter = tabAdapter
 
         setupTabs(showNotificationTab)
@@ -289,11 +288,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 when (event) {
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                     is MainTabsChangedEvent -> {
-                        refreshMainDrawerItems(
-                            addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TRENDING)
-                        )
-
+                        refreshMainDrawerItems(addSearchButton = hideTopToolbar)
                         setupTabs(false)
                     }
 
@@ -499,83 +494,58 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
-            refreshMainDrawerItems(addSearchButton, addTrendingButton)
+            refreshMainDrawerItems(addSearchButton)
             setSavedInstance(savedInstanceState)
         }
     }
 
-    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingButton: Boolean) {
+    private fun refreshMainDrawerItems(addSearchButton: Boolean) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
             tintStatusBar = true
+
+            val customDrawerItems =
+                listOf(DividerDrawerItem()) + accountManager.activeAccount?.drawerPreferences.orEmpty()
+                    .map { tabData ->
+                        primaryDrawerItem {
+                            identifier = tabData.id.hashCode().toLong()
+                            when (tabData.id) {
+                                LIST -> nameText = tabData.arguments[1]
+                                else -> nameRes = tabData.text
+                            }
+                            iconicsIcon = tabData.icon
+                            onClick = {
+                                when (tabData.action) {
+                                    is FragmentAction -> {
+                                        startActivityWithSlideInAnimation(
+                                            TabActivity.getIntent(
+                                                context,
+                                                tabData
+                                            )
+                                        )
+                                    }
+
+                                    is IntentAction -> {
+                                        // Passing an intent action to the Tab Activity is likely an error. We can redirect
+                                        // it to start a new activity directly, using the passed intent.
+                                        val intent = tabData.action.intent(this@MainActivity, tabData.arguments)
+                                        startActivityWithSlideInAnimation(intent)
+                                    }
+                                }
+                            }
+                            badgeStyle = BadgeStyle().apply {
+                                textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
+                                color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary))
+                            }
+                        }
+                    }
+            if (customDrawerItems.size > 1) {
+                binding.mainDrawer.addItems(
+                    *customDrawerItems.toTypedArray()
+                )
+            }
+
             addItems(
-                primaryDrawerItem {
-                    nameRes = R.string.action_edit_profile
-                    iconicsIcon = GoogleMaterial.Icon.gmd_person
-                    onClick = {
-                        val intent = Intent(context, EditProfileActivity::class.java)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                },
-                primaryDrawerItem {
-                    nameRes = R.string.action_view_favourites
-                    isSelectable = false
-                    iconicsIcon = GoogleMaterial.Icon.gmd_star
-                    onClick = {
-                        val intent = StatusListActivity.newFavouritesIntent(context)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                },
-                primaryDrawerItem {
-                    nameRes = R.string.action_view_bookmarks
-                    iconicsIcon = GoogleMaterial.Icon.gmd_bookmark
-                    onClick = {
-                        val intent = StatusListActivity.newBookmarksIntent(context)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                },
-                primaryDrawerItem {
-                    nameRes = R.string.action_view_follow_requests
-                    iconicsIcon = GoogleMaterial.Icon.gmd_person_add
-                    onClick = {
-                        val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                },
-                primaryDrawerItem {
-                    nameRes = R.string.action_lists
-                    iconicsIcon = GoogleMaterial.Icon.gmd_list
-                    onClick = {
-                        startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
-                    }
-                },
-                primaryDrawerItem {
-                    nameRes = R.string.action_access_drafts
-                    iconRes = R.drawable.ic_notebook
-                    onClick = {
-                        val intent = DraftsActivity.newIntent(context)
-                        startActivityWithSlideInAnimation(intent)
-                    }
-                },
-                primaryDrawerItem {
-                    nameRes = R.string.action_access_scheduled_posts
-                    iconRes = R.drawable.ic_access_time
-                    onClick = {
-                        startActivityWithSlideInAnimation(ScheduledStatusActivity.newIntent(context))
-                    }
-                },
-                primaryDrawerItem {
-                    identifier = DRAWER_ITEM_ANNOUNCEMENTS
-                    nameRes = R.string.title_announcements
-                    iconRes = R.drawable.ic_bullhorn_24dp
-                    onClick = {
-                        startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
-                    }
-                    badgeStyle = BadgeStyle().apply {
-                        textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
-                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary))
-                    }
-                },
                 DividerDrawerItem(),
                 secondaryDrawerItem {
                     nameRes = R.string.action_view_account_preferences
@@ -616,19 +586,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         iconicsIcon = GoogleMaterial.Icon.gmd_search
                         onClick = {
                             startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
-                        }
-                    }
-                )
-            }
-
-            if (addTrendingButton) {
-                binding.mainDrawer.addItemsAtPosition(
-                    5,
-                    primaryDrawerItem {
-                        nameRes = R.string.title_public_trending_hashtags
-                        iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
-                        onClick = {
-                            startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
                         }
                     }
                 )
@@ -705,9 +662,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         tabAdapter.tabs = tabs
         tabAdapter.notifyItemRangeChanged(0, tabs.size)
 
-        tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
-                tab: TabLayout.Tab, position: Int ->
-            tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
+        tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) { tab: TabLayout.Tab, position: Int ->
+            tab.icon = IconicsDrawable(this@MainActivity, tabs[position].icon)
             tab.contentDescription = when (tabs[position].id) {
                 LIST -> tabs[position].arguments[1]
                 else -> getString(tabs[position].text)
@@ -1007,7 +963,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun updateAnnouncementsBadge() {
-        binding.mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()))
+        binding.mainDrawer.updateBadge(ANNOUNCEMENTS.hashCode().toLong(), StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()))
     }
 
     private fun updateProfiles() {
@@ -1048,7 +1004,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     companion object {
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
-        private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
         const val REDIRECT_URL = "redirectUrl"
         const val OPEN_DRAFTS = "draft"
     }

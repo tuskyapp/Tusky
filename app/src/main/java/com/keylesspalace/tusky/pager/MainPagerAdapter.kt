@@ -18,13 +18,24 @@ package com.keylesspalace.tusky.pager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.TabData.Action.FragmentAction
+import com.keylesspalace.tusky.TabData.Action.IntentAction
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
-class MainPagerAdapter(var tabs: List<TabData>, activity: FragmentActivity) : CustomFragmentStateAdapter(activity) {
+class MainPagerAdapter(activity: FragmentActivity) : CustomFragmentStateAdapter(activity) {
+
+    var tabs: List<TabData> = emptyList()
+        set(value) {
+            field = value.filter { it.action is FragmentAction }
+        }
 
     override fun createFragment(position: Int): Fragment {
         val tab = tabs[position]
-        return tab.fragment(tab.arguments)
+        val action = when (tab.action) {
+            is FragmentAction -> tab.action
+            is IntentAction -> throw IllegalStateException("Fragment Adapter cannot contain an intent action")
+        }
+        return action.fragment(tab.arguments)
     }
 
     override fun getItemCount() = tabs.size

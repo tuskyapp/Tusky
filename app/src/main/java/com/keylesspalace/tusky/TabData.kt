@@ -16,14 +16,23 @@
 package com.keylesspalace.tusky
 
 import android.content.Context
-import androidx.annotation.DrawableRes
+import android.content.Intent
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.keylesspalace.tusky.TabData.Action.FragmentAction
+import com.keylesspalace.tusky.TabData.Action.IntentAction
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
+import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.notifications.NotificationsFragment
+import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.trending.TrendingFragment
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial.Icon
+import kotlinx.parcelize.Parcelize
 import java.util.Objects
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
@@ -36,15 +45,25 @@ const val DIRECT = "Direct"
 const val TRENDING = "Trending"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
+const val EDIT_PROFILE = "Edit profile"
+const val FAVOURITES = "Favourites"
+const val BOOKMARKS = "Bookmarks"
+const val FOLLOW_REQUESTS = "Follow requests"
+const val LISTS = "Lists"
+const val DRAFTS = "Drafts"
+const val SCHEDULED_POSTS = "Scheduled posts"
+const val ANNOUNCEMENTS = "Announcements"
 
+@Parcelize
 data class TabData(
     val id: String,
     @StringRes val text: Int,
-    @DrawableRes val icon: Int,
-    val fragment: (List<String>) -> Fragment,
+    val icon: Icon,
+    val action: Action,
     val arguments: List<String> = emptyList(),
-    val title: (Context) -> String = { context -> context.getString(text) }
-) {
+    val title: (Context) -> String = { context -> context.getString(text) },
+    val allowedContexts: List<AllowedContext> = listOf(AllowedContext.TABS, AllowedContext.SIDEBAR)
+) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -58,6 +77,16 @@ data class TabData(
     }
 
     override fun hashCode() = Objects.hash(id, arguments)
+
+    @Parcelize
+    sealed class Action : Parcelable {
+        data class FragmentAction(val fragment: (List<String>) -> Fragment) : Action()
+        data class IntentAction(val intent: (Context, List<String>) -> Intent) : Action()
+    }
+
+    enum class AllowedContext {
+        SIDEBAR, TABS
+    }
 }
 
 fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
@@ -65,56 +94,123 @@ fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != nul
 fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
     return when (id) {
         HOME -> TabData(
-            id = HOME,
+            id = id,
             text = R.string.title_home,
-            icon = R.drawable.ic_home_24dp,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
+            icon = Icon.gmd_home,
+            action = FragmentAction { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
         )
         NOTIFICATIONS -> TabData(
-            id = NOTIFICATIONS,
+            id = id,
             text = R.string.title_notifications,
-            icon = R.drawable.ic_notifications_24dp,
-            fragment = { NotificationsFragment.newInstance() }
+            icon = Icon.gmd_notifications,
+            action = FragmentAction { NotificationsFragment.newInstance() }
         )
         LOCAL -> TabData(
-            id = LOCAL,
+            id = id,
             text = R.string.title_public_local,
-            icon = R.drawable.ic_local_24dp,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
+            icon = Icon.gmd_group,
+            action = FragmentAction { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
         )
         FEDERATED -> TabData(
-            id = FEDERATED,
+            id = id,
             text = R.string.title_public_federated,
-            icon = R.drawable.ic_public_24dp,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
+            icon = Icon.gmd_public,
+            action = FragmentAction { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
         )
         DIRECT -> TabData(
-            id = DIRECT,
+            id = id,
             text = R.string.title_direct_messages,
-            icon = R.drawable.ic_reblog_direct_24dp,
-            fragment = { ConversationsFragment.newInstance() }
+            icon = Icon.gmd_mail,
+            action = FragmentAction { ConversationsFragment.newInstance() }
         )
         TRENDING -> TabData(
-            id = TRENDING,
+            id = id,
             text = R.string.title_public_trending_hashtags,
-            icon = R.drawable.ic_trending_up_24px,
-            fragment = { TrendingFragment.newInstance() }
+            icon = Icon.gmd_trending_up,
+            action = FragmentAction { TrendingFragment.newInstance() }
         )
         HASHTAG -> TabData(
-            id = HASHTAG,
+            id = id,
             text = R.string.hashtags,
-            icon = R.drawable.ic_hashtag,
-            fragment = { args -> TimelineFragment.newHashtagInstance(args) },
+            icon = Icon.gmd_tag,
+            action = FragmentAction { args -> TimelineFragment.newHashtagInstance(args) },
             arguments = arguments,
             title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
         )
         LIST -> TabData(
-            id = LIST,
+            id = id,
             text = R.string.list,
-            icon = R.drawable.ic_list,
-            fragment = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
+            icon = Icon.gmd_list,
+            action = FragmentAction { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
             arguments = arguments,
             title = { arguments.getOrNull(1).orEmpty() }
+        )
+        EDIT_PROFILE -> TabData(
+            id = id,
+            text = R.string.action_edit_profile,
+            icon = Icon.gmd_person,
+            action = IntentAction { context, _ -> Intent(context, EditProfileActivity::class.java) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        // TODO: STOPSHIP: isSelectable = false was removed from "primaryDrawerItem". Is this important?
+        FAVOURITES -> TabData(
+            id = id,
+            text = R.string.action_view_favourites,
+            icon = Icon.gmd_star,
+            action = IntentAction { context, _ -> StatusListActivity.newFavouritesIntent(context) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        BOOKMARKS -> TabData(
+            id = id,
+            text = R.string.action_view_bookmarks,
+            icon = Icon.gmd_bookmark,
+            action = IntentAction { context, _ -> StatusListActivity.newBookmarksIntent(context) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        // TODO: STOPSHIP: Add accountLocked = accountLocked
+        FOLLOW_REQUESTS -> TabData(
+            id = id,
+            text = R.string.action_view_follow_requests,
+            icon = Icon.gmd_person_add,
+            action = IntentAction { context, _ -> AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = false) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        LISTS -> TabData(
+            id = id,
+            text = R.string.action_lists,
+            icon = Icon.gmd_list,
+            action = IntentAction { context, _ -> ListsActivity.newIntent(context) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        // TODO: STOPSHIP: Icon is visually different (no match in Iconics)
+        DRAFTS -> TabData(
+            id = id,
+            text = R.string.action_access_drafts,
+            icon = Icon.gmd_book,
+            action = IntentAction { context, _ -> DraftsActivity.newIntent(context) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        SCHEDULED_POSTS -> TabData(
+            id = id,
+            text = R.string.action_access_scheduled_posts,
+            icon = Icon.gmd_schedule,
+            action = IntentAction { context, _ -> ScheduledStatusActivity.newIntent(context) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+        )
+        ANNOUNCEMENTS -> TabData(
+            id = id,
+            text = R.string.title_announcements,
+            icon = Icon.gmd_campaign,
+            action = IntentAction { context, _ -> AnnouncementsActivity.newIntent(context) },
+            arguments = arguments,
+            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
         else -> throw IllegalArgumentException("unknown tab type")
     }
@@ -126,5 +222,20 @@ fun defaultTabs(): List<TabData> {
         createTabDataFromId(NOTIFICATIONS),
         createTabDataFromId(LOCAL),
         createTabDataFromId(DIRECT)
+    )
+}
+
+fun defaultSidebarEntries(): List<TabData> {
+    return listOf(
+        createTabDataFromId(EDIT_PROFILE),
+        createTabDataFromId(FAVOURITES),
+        createTabDataFromId(BOOKMARKS),
+        createTabDataFromId(FOLLOW_REQUESTS),
+        createTabDataFromId(LISTS),
+        createTabDataFromId(TRENDING),
+        createTabDataFromId(FEDERATED),
+        createTabDataFromId(DRAFTS),
+        createTabDataFromId(SCHEDULED_POSTS),
+        createTabDataFromId(ANNOUNCEMENTS)
     )
 }

@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
+import com.mikepenz.iconics.IconicsDrawable
 
 interface ItemInteractionListener {
     fun onTabAdded(tab: TabData)
@@ -71,8 +72,7 @@ class TabAdapter(
             val binding = holder.binding as ItemTabPreferenceSmallBinding
 
             binding.textView.setText(tab.text)
-
-            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(tab.icon, 0, 0, 0)
+            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(IconicsDrawable(context, tab.icon), null, null, null)
 
             binding.textView.setOnClickListener {
                 listener.onTabAdded(tab)
@@ -86,7 +86,7 @@ class TabAdapter(
                 binding.textView.setText(tab.text)
             }
 
-            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(tab.icon, 0, 0, 0)
+            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(IconicsDrawable(context, tab.icon), null, null, null)
 
             binding.imageView.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {

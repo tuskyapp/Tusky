@@ -20,6 +20,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.defaultSidebarEntries
 import com.keylesspalace.tusky.defaultTabs
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
@@ -74,6 +75,7 @@ data class AccountEntity(
     var activeNotifications: String = "[]",
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
+    var drawerPreferences: List<TabData> = defaultSidebarEntries(),
     var notificationsFilter: String = "[\"follow_request\"]",
     // Scope cannot be changed without re-login, so store it in case
     // the scope needs to be changed in the future

@@ -27,6 +27,7 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.DrawerPreferenceActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
@@ -96,6 +97,20 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
+                    true
+                }
+            }
+
+            preference {
+                setTitle(R.string.title_drawer_preferences)
+                setIcon(R.drawable.ic_list)
+                setOnPreferenceClickListener {
+                    val intent = Intent(context, DrawerPreferenceActivity::class.java)
                     activity?.startActivity(intent)
                     activity?.overridePendingTransition(
                         R.anim.slide_from_right,
