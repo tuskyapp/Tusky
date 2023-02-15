@@ -175,7 +175,7 @@
     <string name="mute_domain_warning">निश्चियेन सर्वमेव निषिद्धं भवेदेतस्य जनस्य %1$s \? कोऽपि विषयो न द्रष्टुं शक्यते तत्प्रदेशात् कस्यामपि समयतालिकायामुत वा ते सूचनापेटिकायाम् । भवदनुसर्तारः तस्मात्प्रदेशान्निष्क्रियन्ते ।</string>
     <string name="dialog_redraft_post_warning">विनश्य पुनः लिख्यताम् \?</string>
     <string name="dialog_delete_post_warning">दौत्यमेतन्नश्यताम्\?</string>
-    <string name="dialog_unfollow_warning">व्यक्तित्वविवरणलेखायाः अनुसरणम् अपाकरणीयं किम् \?</string>
+    <string name="dialog_unfollow_warning">व्यक्तित्वविवरणलेखायाः अनुसरणम् अपाकरणीयं किम् ?</string>
     <string name="dialog_download_image">अवारोप्यताम्</string>
     <string name="dialog_message_uploading_media">उपारोप्यमाणम्…</string>
     <string name="dialog_title_finishing_media_upload">सामग्रीणामुपारोपणसिद्धिः वर्तमाना</string>
@@ -479,7 +479,7 @@
     <string name="duration_30_days">३० दिनानि</string>
     <string name="report_category_other">अन्यम्</string>
     <string name="title_login">सम्प्रवेशः</string>
-    <string name="dialog_delete_conversation_warning">इदं सम्भाषणं निष्कास्यताम् \?</string>
+    <string name="dialog_delete_conversation_warning">इदं सम्भाषणं निष्कास्यताम् ?</string>
     <string name="pref_show_self_username_always">सर्वदा</string>
     <string name="notification_subscription_name">नूतन-प्रकटनानि</string>
     <string name="notification_sign_up_name">पञ्जीकरणानि</string>
@@ -535,14 +535,14 @@
     <string name="notification_report_description">परिमितावेदनानि प्रति ज्ञापनसूचनाः</string>
     <string name="compose_unsaved_changes">भवतः अरक्षितानि परिवर्तनानि सन्ति।</string>
     <string name="pref_title_wellbeing_mode">सुस्थितिः</string>
-    <string name="delete_scheduled_post_warning">इदं कालबद्धदौत्यं विनश्येत् किम् \?</string>
+    <string name="delete_scheduled_post_warning">इदं कालबद्धदौत्यं विनश्येत् किम् ?</string>
     <string name="drafts_failed_loading_reply">प्रत्युत्तरसमाचारस्य आरोपनं विफलं जातम्</string>
     <string name="post_media_alt">आल्ट्</string>
     <string name="pref_title_animate_custom_emojis">स्वीयानुकूलानि भावचिह्नानि सञ्जीव्यताम्</string>
     <string name="notification_report_format">%1$s-विषये नूतनम् आवेदनम्</string>
     <string name="action_share_account_username">लेखायाः उपभोक्तृनाम्नः संविभागं कुरुताम्</string>
     <string name="action_share_account_link">लेखायै शृङ्खलायाः संविभागं कुरुताम्</string>
-    <string name="action_unfollow_hashtag_format">#%1$s-चिह्नस्य अनुसरणम् अपाकरणीयं किम् \?</string>
+    <string name="action_unfollow_hashtag_format">#%1$s-चिह्नस्य अनुसरणम् अपाकरणीयं किम् ?</string>
     <string name="title_followed_hashtags">अनुसृताः निश्रेणिचिह्नशीर्षकाः</string>
     <string name="title_public_trending_hashtags">जनप्रियाः निश्रेणिचिह्नशीर्षकाः</string>
     <string name="send_account_username_to">लेखायाः उपभोक्तृनाम्नः संविभागं कुरुताम् अस्मै…</string>
