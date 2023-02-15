@@ -2,9 +2,9 @@
 <resources>
     <string name="error_invalid_domain">Ievadīts nederīgs domēns</string>
     <string name="error_empty">Tas nevar būt tukšs.</string>
-    <string name="error_failed_app_registration">Autentificēšana ar šo instanci neizdevās.</string>
-    <string name="error_authorization_unknown">Radās neidentificēta autorizācijas kļūda.</string>
-    <string name="error_authorization_denied">Autorizācija tika liegta.</string>
+    <string name="error_failed_app_registration">Autentificēšana ar šo instanci neizdevās. Ja tas atkārtojas, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
+    <string name="error_authorization_unknown">Radās neidentificēta autorizācijas kļūda. Ja tas atkārtojas, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
+    <string name="error_authorization_denied">Autorizācija tika liegta. Ja ir pārliecība, ka ievadīti pareizi pieslēgšanās dati, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
     <string name="error_no_web_browser_found">Nevarēja atrast tīmekļa pārlūku, ko izmantot.</string>
     <string name="error_could_not_load_login_page">Nevarēja ielādēt pieslēgšanās lapu.</string>
     <string name="error_compose_character_limit">Ieraksts ir pārāk garš!</string>
@@ -337,7 +337,7 @@
     <string name="pref_title_show_boosts">Parādīt pastiprinājumus</string>
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">tikko</string>
-    <string name="error_retrieving_oauth_token">Neizdevās iegūt pieteikšanās pilnvaru.</string>
+    <string name="error_retrieving_oauth_token">Neizdevās iegūt pieteikšanās pilnvaru. Ja tas atkārtojas, izmantojot izvēlni, mēģiniet pieslēgties pārlūkā.</string>
     <string name="error_media_upload_permission">Nepieciešama atļauja lasīt multividi.</string>
     <string name="error_media_download_permission">Nepieciešama atļauja saglabāt multividi.</string>
     <string name="error_following_hashtag_format">Radās kļūda, sākot sekot #%s</string>
@@ -553,4 +553,25 @@
     <string name="pref_title_confirm_favourites">Pirms pievienošanas izlasei rādīt apstiprināšanas dialogu</string>
     <string name="action_view_favourites">Izlases</string>
     <string name="pref_title_notification_filter_favourites">mani ieraksti tiek pievienoti izlasei</string>
+    <string name="abbreviated_in_days">pēc %dd</string>
+    <string name="abbreviated_in_hours">pēc %dh</string>
+    <string name="abbreviated_in_minutes">pēc %dm</string>
+    <string name="abbreviated_in_years">pēc %dg</string>
+    <string name="abbreviated_in_seconds">pēc %ds</string>
+    <string name="pref_title_alway_open_spoiler">Vienmēr izvērst ziņas, kas atzīmētas ar satura brīdinājumu</string>
+    <string name="action_post_failed_detail">Neizdevās augšupielādēt tavu ierakstu un tas tika saglabāts melnrakstos.
+\n
+\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstu.</string>
+    <string name="action_post_failed_detail_plural">Neizdevās augšupielādēt tavus ierakstus un tie tika saglabāti melnrakstos.
+\n
+\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstus.</string>
+    <string name="notification_favourite_description">Paziņojumi par tavu ierakstu pievienošanu izlasei</string>
+    <string name="title_migration_relogin">Pieslēdzies vēlreiz, lai iespējotu pašpiegādātos paziņojumus</string>
+    <string name="wellbeing_mode_notice">Daļa informācijas, kas varētu ietekmēt tavu garīgo labsajūtu, tiks slēpta. Tas ietver:
+\n
+\n - Pievienošanas izlasei/pastiprināšanas/jaunu sekotāju paziņojumus
+\n - Izlasēm pievienoto/pastiprinājumu skaitu ierakstiem
+\n - Sekotāju/ierakstu skaitu profilos
+\n
+\n Pašpiegādātie paziņojumi netiks ietekmēti, bet paziņojumu preferences var pārskatīt manuāli.</string>
 </resources>

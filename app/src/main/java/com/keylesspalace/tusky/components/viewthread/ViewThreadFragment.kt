@@ -24,6 +24,7 @@ import android.widget.LinearLayout
 import androidx.annotation.CheckResult
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,10 +32,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -211,7 +212,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         threadProgressBar.cancel()
 
                         adapter.submitList(uiState.statusViewData) {
-                            if (viewModel.isInitialLoad) {
+                            if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) && viewModel.isInitialLoad) {
                                 viewModel.isInitialLoad = false
 
                                 // Ensure the top of the status is visible

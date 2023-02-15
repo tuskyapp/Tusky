@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -15,7 +15,27 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemTrendingDateBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
-class LoadingFooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+class TrendingDateViewHolder(
+    private val binding: ItemTrendingDateBinding,
+) : RecyclerView.ViewHolder(binding.root) {
+
+    private val dateFormat = SimpleDateFormat("EEE dd MMM yyyy", Locale.getDefault()).apply {
+        this.timeZone = TimeZone.getDefault()
+    }
+
+    fun setup(start: Date, end: Date) {
+        binding.dates.text = itemView.context.getString(
+            R.string.date_range,
+            dateFormat.format(start),
+            dateFormat.format(end)
+        )
+    }
+}

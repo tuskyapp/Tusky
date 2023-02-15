@@ -13,13 +13,15 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.accountlist
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.commit
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
-import com.keylesspalace.tusky.fragment.AccountListFragment
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
@@ -63,10 +65,9 @@ class AccountListActivity : BaseActivity(), HasAndroidInjector {
             setDisplayShowHomeEnabled(true)
         }
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container, AccountListFragment.newInstance(type, id, accountLocked))
-            .commit()
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container, AccountListFragment.newInstance(type, id, accountLocked))
+        }
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
@@ -76,8 +77,6 @@ class AccountListActivity : BaseActivity(), HasAndroidInjector {
         private const val EXTRA_ID = "id"
         private const val EXTRA_ACCOUNT_LOCKED = "acc_locked"
 
-        @JvmStatic
-        @JvmOverloads
         fun newIntent(context: Context, type: Type, id: String? = null, accountLocked: Boolean = false): Intent {
             return Intent(context, AccountListActivity::class.java).apply {
                 putExtra(EXTRA_TYPE, type)

@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Les sol·licituds de seguiment ara es mostren sempre al menú principal.
+- El selector de temps per programar una publicació té ara un disseny coherent amb la resta de l'aplicació
+Registre de canvis complet: https://github.com/tuskyapp/Tusky/releases

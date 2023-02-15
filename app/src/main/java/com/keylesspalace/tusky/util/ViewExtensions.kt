@@ -77,7 +77,7 @@ fun ViewPager2.reduceSwipeSensitivity() {
     // to scroll vertically -- it's far too easy to trigger an accidental horizontal swipe.
     //
     // One way to stop this is to reach in to ViewPager2's RecyclerView and adjust the amount
-    // of touch slop it has. Scaling by 2 appears to work well.
+    // of touch slop it has.
     //
     // See https://issuetracker.google.com/issues/139867645 and
     // https://bladecoder.medium.com/fixing-recyclerview-nested-scrolling-in-opposite-direction-f587be5c1a04
@@ -91,10 +91,10 @@ fun ViewPager2.reduceSwipeSensitivity() {
         val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
         touchSlopField.isAccessible = true
         val touchSlop = touchSlopField.get(recyclerView) as Int
-        // 4 seems to be a sweet-spot. 2-3 still causes a horizontal swipe right if the user drags
-        // down-left at ~ 45 degree angle. Experimentally, 4 requires the swipe to be +/- ~ 10 degrees
-        // from horizontal to register as a horizontal and not a vertical swipe.
-        val scaleFactor = 4
+        // Experimentally, 2 seems to be a sweet-spot, requiring a downward swipe that's at least
+        // 45 degrees off the vertical to trigger a change. This is consistent with maximum angle
+        // supported to open the nav. drawer.
+        val scaleFactor = 2
         touchSlopField.set(recyclerView, touchSlop * scaleFactor)
     } catch (e: Exception) {
         Log.w("reduceSwipeSensitivity", e)

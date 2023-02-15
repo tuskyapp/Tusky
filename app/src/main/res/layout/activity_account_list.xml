@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.AccountListActivity">
+    tools:context="com.keylesspalace.tusky.components.accountlist.AccountListActivity">
 
     <include
         android:id="@+id/includedToolbar"
