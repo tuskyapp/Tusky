@@ -697,7 +697,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
             tab.contentDescription = when (tabs[position].id) {
-                LIST -> tabs[position].arguments[position]
+                LIST -> tabs[position].arguments[1]
                 else -> getString(tabs[position].text)
             }
         }.also { it.attach() }
