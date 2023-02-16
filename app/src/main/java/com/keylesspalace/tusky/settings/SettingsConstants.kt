@@ -19,17 +19,18 @@ enum class AppTheme(val value: String) {
  * If you make an incompatible change to the preferences schema you must:
  *
  * - Update this value
- * - Update the code in [TuskyApplication.upgradeSharedPreferences] to migrate from the old
- *   schema version to the new schema version.
+ * - Update the code in
+ *   [TuskyApplication.upgradeSharedPreferences][com.keylesspalace.tusky.TuskyApplication.upgradeSharedPreferences]
+ *   to migrate from the old schema version to the new schema version.
  *
  * An incompatible change is:
  *
  * - Deleting a preference. The migration should delete the old preference.
  * - Changing a preference's default value (e.g., from true to false, or from one enum value to
  *   another). The migration should check to see if the user had set an explicit value for
- *   that preference [SharedPreferences.contains]; if they hadn't then the migration should set
- *   the *old* default value as the preference's value, so the app behaviour does not unexpectedly
- *   change.
+ *   that preference ([SharedPreferences.contains][android.content.SharedPreferences.contains]);
+ *   if they hadn't then the migration should set the *old* default value as the preference's
+ *   value, so the app behaviour does not unexpectedly change.
  * - Changing a preference's type (e.g,. from a boolean to an enum). If you do this you may want
  *   to give the preference a different name, but you still need to migrate the user's previous
  *   preference value to the new preference.
