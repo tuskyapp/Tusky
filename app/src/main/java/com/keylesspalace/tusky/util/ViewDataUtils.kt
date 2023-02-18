@@ -18,8 +18,10 @@ package com.keylesspalace.tusky.util
 
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 @JvmName("statusToViewData")
 fun Status.toViewData(
@@ -49,5 +51,12 @@ fun Notification.toViewData(
         this.account,
         this.status?.toViewData(isShowingContent, isExpanded, isCollapsed),
         this.report,
+    )
+}
+
+@JvmName("tagToViewData")
+fun TrendingTag.toViewData(): TrendingViewData.Tag {
+    return TrendingViewData.Tag(
+        tag = this,
     )
 }

@@ -18,6 +18,7 @@ import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
 import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsViewModel
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
@@ -143,6 +144,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ListsForAccountViewModel::class)
     internal abstract fun listsForAccountViewModel(viewModel: ListsForAccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TrendingViewModel::class)
+    internal abstract fun trendingViewModel(viewModel: TrendingViewModel): ViewModel
 
     // Add more ViewModels here
 }
