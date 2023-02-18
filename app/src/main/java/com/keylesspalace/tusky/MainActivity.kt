@@ -177,6 +177,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    /** True if the navigation drawer was opened by pressing "Back" */
+    private var navDrawerOpenedWithBack = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -323,13 +326,30 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
+                /**
+                 * Back can mean (in order of priority):
+                 *
+                 * - Finish the activity (if the navigation drawer is open, and it was opened
+                 *   by pressing "Back")
+                 * - Close the navigation drawer if open (if it wasn't opened by pressing "Back")
+                 * - Go back to the 0'th tab
+                 * - Open the navigation drawer
+                 */
                 override fun handleOnBackPressed() {
                     when {
                         binding.mainDrawerLayout.isOpen -> {
-                            binding.mainDrawerLayout.close()
+                            if (navDrawerOpenedWithBack) {
+                                finish()
+                            } else {
+                                binding.mainDrawerLayout.close()
+                            }
                         }
                         binding.viewPager.currentItem != 0 -> {
                             binding.viewPager.currentItem = 0
+                        }
+                        !binding.mainDrawerLayout.isOpen -> {
+                            navDrawerOpenedWithBack = true
+                            binding.mainDrawerLayout.open()
                         }
                         else -> {
                             finish()
@@ -380,6 +400,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 if (binding.mainDrawerLayout.isOpen) {
                     binding.mainDrawerLayout.close()
                 } else {
+                    navDrawerOpenedWithBack = false
                     binding.mainDrawerLayout.open()
                 }
                 return true
@@ -430,8 +451,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         addSearchButton: Boolean,
         addTrendingButton: Boolean
     ) {
-
-        val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
+        val drawerOpenClickListener = View.OnClickListener {
+            navDrawerOpenedWithBack = false
+            binding.mainDrawerLayout.open()
+        }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)
         binding.topNavAvatar.setOnClickListener(drawerOpenClickListener)
