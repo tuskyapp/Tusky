@@ -34,6 +34,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -75,6 +76,7 @@ import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNec
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
+import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
@@ -82,6 +84,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -167,6 +170,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
+
+    /** Mediate between binding.viewPager and the chosen tab layout */
+    private var tabLayoutMediator: TabLayoutMediator? = null
+
+    /** Adapter for the different timeline tabs */
+    private lateinit var tabAdapter: MainPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -262,13 +271,24 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         binding.viewPager.reduceSwipeSensitivity()
 
-        setupDrawer(savedInstanceState, addSearchButton = hideTopToolbar)
+        setupDrawer(
+            savedInstanceState,
+            addSearchButton = hideTopToolbar,
+            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING)
+        )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
          * drawer, though, because its callback touches the header in the drawer. */
         fetchUserInfo()
 
         fetchAnnouncements()
+
+        // Initialise the tab adapter and set to viewpager. Fragments appear to be leaked if the
+        // adapter changes over the life of the viewPager (the adapter, not its contents), so set
+        // the initial list of tabs to empty, and set the full list later in setupTabs(). See
+        // https://github.com/tuskyapp/Tusky/issues/3251 for details.
+        tabAdapter = MainPagerAdapter(emptyList(), this)
+        binding.viewPager.adapter = tabAdapter
 
         setupTabs(showNotificationTab)
 
@@ -278,7 +298,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             .subscribe { event: Event? ->
                 when (event) {
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
-                    is MainTabsChangedEvent -> setupTabs(false)
+                    is MainTabsChangedEvent -> {
+                        refreshMainDrawerItems(
+                            addSearchButton = hideTopToolbar,
+                            addTrendingButton = !event.newTabs.hasTab(TRENDING),
+                        )
+
+                        setupTabs(false)
+                    }
+
                     is AnnouncementReadEvent -> {
                         unreadAnnouncementsCount--
                         updateAnnouncementsBadge()
@@ -398,7 +426,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
+    private fun setupDrawer(
+        savedInstanceState: Bundle?,
+        addSearchButton: Boolean,
+        addTrendingButton: Boolean
+    ) {
 
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -456,6 +488,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
+            refreshMainDrawerItems(addSearchButton, addTrendingButton)
+            setSavedInstance(savedInstanceState)
+        }
+    }
+
+    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingButton: Boolean) {
+        binding.mainDrawer.apply {
+            itemAdapter.clear()
             tintStatusBar = true
             addItems(
                 primaryDrawerItem {
@@ -522,7 +562,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                     badgeStyle = BadgeStyle().apply {
                         textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
-                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, androidx.appcompat.R.attr.colorPrimary))
+                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary))
                     }
                 },
                 DividerDrawerItem(),
@@ -570,7 +610,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 )
             }
 
-            setSavedInstance(savedInstanceState)
+            if (addTrendingButton) {
+                binding.mainDrawer.addItemsAtPosition(
+                    5,
+                    primaryDrawerItem {
+                        nameRes = R.string.title_public_trending_hashtags
+                        iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
+                        onClick = {
+                            startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
+                        }
+                    }
+                )
+            }
         }
 
         if (BuildConfig.DEBUG) {
@@ -619,7 +670,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun setupTabs(selectNotificationTab: Boolean) {
-        val activeTabLayout = if (preferences.getString("mainNavPosition", "top") == "bottom") {
+        val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
             val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
@@ -632,29 +683,36 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             binding.tabLayout
         }
 
+        // Save the previous tab so it can be restored later
+        val previousTab = tabAdapter.tabs.getOrNull(binding.viewPager.currentItem)
+
         val tabs = accountManager.activeAccount!!.tabPreferences
 
-        val adapter = MainPagerAdapter(tabs, this)
-        binding.viewPager.adapter = adapter
-        TabLayoutMediator(activeTabLayout, binding.viewPager) { _: TabLayout.Tab?, _: Int -> }.attach()
-        activeTabLayout.removeAllTabs()
-        for (i in tabs.indices) {
-            val tab = activeTabLayout.newTab()
-                .setIcon(tabs[i].icon)
-            if (tabs[i].id == LIST) {
-                tab.contentDescription = tabs[i].arguments[1]
-            } else {
-                tab.setContentDescription(tabs[i].text)
-            }
-            activeTabLayout.addTab(tab)
+        // Detach any existing mediator before changing tab contents and attaching a new mediator
+        tabLayoutMediator?.detach()
 
-            if (tabs[i].id == NOTIFICATIONS) {
-                notificationTabPosition = i
-                if (selectNotificationTab) {
-                    tab.select()
-                }
+        tabAdapter.tabs = tabs
+        tabAdapter.notifyItemRangeChanged(0, tabs.size)
+
+        tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
+            tab: TabLayout.Tab, position: Int ->
+            tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
+            tab.contentDescription = when (tabs[position].id) {
+                LIST -> tabs[position].arguments[1]
+                else -> getString(tabs[position].text)
             }
-        }
+        }.also { it.attach() }
+
+        // Selected tab is either
+        // - Notification tab (if appropriate)
+        // - The previously selected tab (if it hasn't been removed)
+        // - Left-most tab
+        val position = if (selectNotificationTab) {
+            tabs.indexOfFirst { it.id == NOTIFICATIONS }
+        } else {
+            previousTab?.let { tabs.indexOfFirst { it == previousTab } }
+        }.takeIf { it != -1 } ?: 0
+        binding.viewPager.setCurrentItem(position, false)
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
         binding.viewPager.setPageTransformer(MarginPageTransformer(pageMargin))
@@ -673,15 +731,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
 
                 binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+
+                refreshComposeButtonState(tabAdapter, tab.position)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-                val fragment = adapter.getFragment(tab.position)
+                val fragment = tabAdapter.getFragment(tab.position)
                 if (fragment is ReselectableFragment) {
                     (fragment as ReselectableFragment).onReselect()
                 }
+
+                refreshComposeButtonState(tabAdapter, tab.position)
             }
         }.also {
             activeTabLayout.addOnTabSelectedListener(it)
@@ -690,10 +752,24 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
         binding.mainToolbar.title = tabs[activeTabPosition].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
-            (adapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
+            (tabAdapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
 
         updateProfiles()
+    }
+
+    private fun refreshComposeButtonState(adapter: MainPagerAdapter, tabPosition: Int) {
+        adapter.getFragment(tabPosition)?.also { fragment ->
+            if (fragment is FabFragment) {
+                if (fragment.isFabVisible()) {
+                    binding.composeButton.show()
+                } else {
+                    binding.composeButton.hide()
+                }
+            } else {
+                binding.composeButton.show()
+            }
+        }
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
@@ -931,16 +1007,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun updateProfiles() {
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        val profiles: MutableList<IProfile> = accountManager.getAllAccountsOrderedByActive().map { acc ->
-            ProfileDrawerItem().apply {
-                isSelected = acc.isActive
-                nameText = acc.displayName.emojify(acc.emojis, header, animateEmojis)
-                iconUrl = acc.profilePictureUrl
-                isNameShown = true
-                identifier = acc.id
-                descriptionText = acc.fullName
-            }
-        }.toMutableList()
+        val profiles: MutableList<IProfile> =
+            accountManager.getAllAccountsOrderedByActive().map { acc ->
+                ProfileDrawerItem().apply {
+                    isSelected = acc.isActive
+                    nameText = acc.displayName.emojify(acc.emojis, header, animateEmojis)
+                    iconUrl = acc.profilePictureUrl
+                    isNameShown = true
+                    identifier = acc.id
+                    descriptionText = acc.fullName
+                }
+            }.toMutableList()
 
         // reuse the already existing "add account" item
         for (profile in header.profiles.orEmpty()) {

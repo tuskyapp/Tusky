@@ -50,6 +50,7 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
+    <string name="title_public_trending_hashtags">Trending hashtags</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_direct_messages">Direct messages</string>
     <string name="title_tab_preferences">Tabs</string>
@@ -758,6 +759,11 @@
     <string name="status_created_info">%1$s created %2$s</string>
 
     <string name="a11y_label_loading_thread">Loading thread</string>
+
+    <!--@knossos@fosstodon.org created 2023-01-07 -->
+    <string name="accessibility_talking_about_tag">%1$d people are talking about hashtag %2$s</string>
+    <string name="total_usage">Total usage</string>
+    <string name="total_accounts">Total accounts</string>
 
     <!-- User friendly error messages for different network errors -->
     <string name="socket_timeout_exception">Contacting your server took too long</string>

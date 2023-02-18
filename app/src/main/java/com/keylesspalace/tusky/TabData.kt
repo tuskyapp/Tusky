@@ -20,9 +20,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
+import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
-import com.keylesspalace.tusky.fragment.NotificationsFragment
+import com.keylesspalace.tusky.components.trending.TrendingFragment
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
 
@@ -31,6 +32,7 @@ const val NOTIFICATIONS = "Notifications"
 const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
+const val TRENDING = "Trending"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
 
@@ -42,6 +44,8 @@ data class TabData(
     val arguments: List<String> = emptyList(),
     val title: (Context) -> String = { context -> context.getString(text) }
 )
+
+fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
 
 fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
     return when (id) {
@@ -74,6 +78,12 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             R.string.title_direct_messages,
             R.drawable.ic_reblog_direct_24dp,
             { ConversationsFragment.newInstance() }
+        )
+        TRENDING -> TabData(
+            TRENDING,
+            R.string.title_public_trending_hashtags,
+            R.drawable.ic_trending_up_24px,
+            { TrendingFragment.newInstance() }
         )
         HASHTAG -> TabData(
             HASHTAG,

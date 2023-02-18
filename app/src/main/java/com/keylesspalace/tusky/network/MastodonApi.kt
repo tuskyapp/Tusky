@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.entity.TrendingTag
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -719,4 +720,7 @@ interface MastodonApi {
 
     @POST("api/v1/tags/{name}/unfollow")
     suspend fun unfollowTag(@Path("name") name: String): NetworkResult<HashTag>
+
+    @GET("api/v1/trends/tags")
+    suspend fun trendingTags(): Response<List<TrendingTag>>
 }

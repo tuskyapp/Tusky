@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
+import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -124,4 +125,7 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract fun contributesSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
+    abstract fun contributesTrendingActivity(): TrendingActivity
 }
