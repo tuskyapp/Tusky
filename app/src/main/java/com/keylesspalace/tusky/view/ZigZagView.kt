@@ -2,22 +2,15 @@ package com.keylesspalace.tusky.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.View
-
-
-val density = Resources.getSystem().displayMetrics.density
-
-// These are extensions:
-
-val Int.dp: Int
-    get() = (this / density).toInt()
-
-val Float.px: Float
-    get() = (this * density)
 
 fun Path.matches(width: Int, height: Int, helper: RectF): Boolean {
     this.computeBounds(helper, false)
@@ -77,7 +70,6 @@ class ZigZagView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
             x += height
             path.lineTo(x, height * (if (zig) 1 else 0))
             zig = !zig
-
         }
         if (!zig) {
             path.lineTo(x, 0f)
