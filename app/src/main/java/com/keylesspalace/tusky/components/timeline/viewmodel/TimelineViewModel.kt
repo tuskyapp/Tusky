@@ -55,7 +55,7 @@ abstract class TimelineViewModel(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
-    protected val sharedPreferences: SharedPreferences,
+    private val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
 ) : ViewModel() {
 
@@ -69,7 +69,7 @@ abstract class TimelineViewModel(
         private set
 
     protected var alwaysShowSensitiveMedia = false
-    protected var alwaysOpenSpoilers = false
+    private var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST

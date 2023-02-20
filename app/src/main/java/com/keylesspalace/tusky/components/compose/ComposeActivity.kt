@@ -697,7 +697,7 @@ class ComposeActivity :
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
-                if (media.description == null || media.description.isEmpty()) {
+                if (media.description.isNullOrEmpty()) {
                     oneMediaWithoutDescription = true
                     break
                 }

@@ -172,20 +172,20 @@ public class NotificationsFragment extends SFragment implements
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
-            = new PairedList<>(new Function<Either<Placeholder, Notification>, NotificationViewData>() {
+            = new PairedList<>(new Function<>() {
         @Override
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
                 Notification notification = input.asRight()
-                        .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
+                    .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
 
                 boolean sensitiveStatus = notification.getStatus() != null && notification.getStatus().getActionableStatus().getSensitive();
 
                 return ViewDataUtils.notificationToViewData(
-                        notification,
-                        alwaysShowSensitiveMedia || !sensitiveStatus,
-                        alwaysOpenSpoiler,
-                        true
+                    notification,
+                    alwaysShowSensitiveMedia || !sensitiveStatus,
+                    alwaysOpenSpoiler,
+                    true
                 );
             } else {
                 return new NotificationViewData.Placeholder(input.asLeft().id, false);
@@ -311,8 +311,8 @@ public class NotificationsFragment extends SFragment implements
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Activity activity = getActivity();
         if (activity == null) throw new AssertionError("Activity is null");
 
@@ -344,7 +344,7 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public void onLoadMore(int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int totalItemsCount, @NonNull RecyclerView view) {
                 NotificationsFragment.this.onLoadMore();
             }
         };
@@ -352,23 +352,23 @@ public class NotificationsFragment extends SFragment implements
         binding.recyclerView.addOnScrollListener(scrollListener);
 
         eventHub.getEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(event -> {
-                    if (event instanceof FavoriteEvent) {
-                        setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
-                    } else if (event instanceof BookmarkEvent) {
-                        setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
-                    } else if (event instanceof ReblogEvent) {
-                        setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
-                    } else if (event instanceof PinEvent) {
-                        setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
-                    } else if (event instanceof BlockEvent) {
-                        removeAllByAccountId(((BlockEvent) event).getAccountId());
-                    } else if (event instanceof PreferenceChangedEvent) {
-                        onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
-                    }
-                });
+            .observeOn(AndroidSchedulers.mainThread())
+            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
+            .subscribe(event -> {
+                if (event instanceof FavoriteEvent) {
+                    setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
+                } else if (event instanceof BookmarkEvent) {
+                    setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
+                } else if (event instanceof ReblogEvent) {
+                    setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
+                } else if (event instanceof PinEvent) {
+                    setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
+                } else if (event instanceof BlockEvent) {
+                    removeAllByAccountId(((BlockEvent) event).getAccountId());
+                } else if (event instanceof PreferenceChangedEvent) {
+                    onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
+                }
+            });
     }
 
     @Override
@@ -483,7 +483,6 @@ public class NotificationsFragment extends SFragment implements
         Notification notification = notifications.get(position).asRight();
         Status status = notification.getStatus();
         if (status == null) return;
-        ;
         super.viewThread(status.getActionableId(), status.getActionableStatus().getUrl());
     }
 
@@ -1171,20 +1170,20 @@ public class NotificationsFragment extends SFragment implements
             new AsyncDifferConfig.Builder<>(diffCallback).build());
 
     private final NotificationsAdapter.AdapterDataSource<NotificationViewData> dataSource =
-            new NotificationsAdapter.AdapterDataSource<NotificationViewData>() {
-                @Override
-                public int getItemCount() {
-                    return differ.getCurrentList().size();
-                }
+        new NotificationsAdapter.AdapterDataSource<>() {
+            @Override
+            public int getItemCount() {
+                return differ.getCurrentList().size();
+            }
 
-                @Override
-                public NotificationViewData getItemAt(int pos) {
-                    return differ.getCurrentList().get(pos);
-                }
-            };
+            @Override
+            public NotificationViewData getItemAt(int pos) {
+                return differ.getCurrentList().get(pos);
+            }
+        };
 
     private static final DiffUtil.ItemCallback<NotificationViewData> diffCallback
-            = new DiffUtil.ItemCallback<NotificationViewData>() {
+            = new DiffUtil.ItemCallback<>() {
 
         @Override
         public boolean areItemsTheSame(NotificationViewData oldItem, NotificationViewData newItem) {
