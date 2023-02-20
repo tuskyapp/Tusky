@@ -82,6 +82,7 @@ import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
@@ -109,7 +110,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private lateinit var accountFieldAdapter: AccountFieldAdapter
 
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false

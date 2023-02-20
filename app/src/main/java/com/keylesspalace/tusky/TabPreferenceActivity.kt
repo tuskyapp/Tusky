@@ -46,6 +46,7 @@ import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.core.Single
@@ -70,9 +71,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private var tabsChanged = false
 
-    private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
+    private val selectedItemElevation by unsafeLazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
 
-    private val hashtagRegex by lazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
+    private val hashtagRegex by unsafeLazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
 
     private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
