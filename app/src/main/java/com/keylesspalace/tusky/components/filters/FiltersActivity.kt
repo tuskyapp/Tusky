@@ -57,7 +57,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     }
 
     private fun refreshFilterDisplay(filters: List<Filter>) {
-        binding.filtersView.adapter = FiltersAdapter(this, this, filters)
+        binding.filtersView.adapter = FiltersAdapter(this, filters)
     }
 
     private fun loadFilters() {

@@ -203,8 +203,8 @@ AND timelineUserId = :accountId
     )
     abstract suspend fun deleteAllFromInstance(accountId: Long, instanceDomain: String)
 
-    @Query("UPDATE TimelineStatusEntity SET filtered = NULL WHERE (serverId = :statusId OR reblogServerId = :statusId)")
-    abstract suspend fun clearWarning(statusId: String): Int
+    @Query("UPDATE TimelineStatusEntity SET filtered = NULL WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)")
+    abstract suspend fun clearWarning(accountId: Long, statusId: String): Int
 
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
     abstract suspend fun getTopId(accountId: Long): String?

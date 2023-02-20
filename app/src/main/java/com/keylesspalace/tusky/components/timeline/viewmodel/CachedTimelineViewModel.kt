@@ -155,7 +155,7 @@ class CachedTimelineViewModel @Inject constructor(
 
     override fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao().clearWarning(status.actionableId)
+            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
         }
     }
 
