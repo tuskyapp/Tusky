@@ -488,16 +488,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 .centerCrop()
                 .into(binding.accountHeaderImageView)
 
-            binding.accountAvatarImageView.setOnClickListener { avatarView ->
-                val intent =
-                    ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
-
-                avatarView.transitionName = account.avatar
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
-
-                startActivity(intent, options.toBundle())
+            binding.accountAvatarImageView.setOnClickListener { view ->
+                viewImage(view, account.avatar)
+            }
+            binding.accountHeaderImageView.setOnClickListener { view ->
+                viewImage(view, account.header)
             }
         }
+    }
+
+    private fun viewImage(view: View, uri: String) {
+        view.transitionName = uri
+        startActivity(
+            ViewMediaActivity.newSingleImageIntent(view.context, uri),
+            ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, uri).toBundle()
+        )
     }
 
     /**
