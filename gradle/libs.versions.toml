@@ -1,7 +1,7 @@
 [versions]
 agp = "7.4.1"
 androidx-activity = "1.6.1"
-androidx-appcompat = "1.6.0"
+androidx-appcompat = "1.6.1"
 androidx-browser = "1.4.0"
 androidx-cardview = "1.0.0"
 androidx-constraintlayout = "2.1.4"
