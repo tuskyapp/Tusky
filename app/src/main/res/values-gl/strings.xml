@@ -616,4 +616,8 @@
     <string name="action_browser_login">Acceder no Navegador</string>
     <string name="description_browser_login">Pode ter soporte para métodos adicionais de autenticación, pero require un navegador soportado.</string>
     <string name="description_login">Funciona case sempre. Non se filtran datos a outras apps.</string>
+    <string name="accessibility_talking_about_tag">%1$d persoas están falando acerca do cancelo %2$s</string>
+    <string name="title_public_trending_hashtags">Cancelos en voga</string>
+    <string name="total_usage">Uso total</string>
+    <string name="total_accounts">Total de contas</string>
 </resources>

@@ -625,4 +625,8 @@
     <string name="instance_rule_title">%s regles</string>
     <string name="mute_notifications_switch">Silencia les notificacions</string>
     <string name="status_created_info">%1$s ha creat %2$s</string>
+    <string name="title_public_trending_hashtags">Hashtags populars</string>
+    <string name="accessibility_talking_about_tag">%1$d persones parlen del hashtag %2$s</string>
+    <string name="total_usage">Ús total</string>
+    <string name="total_accounts">Total de comptes</string>
 </resources>

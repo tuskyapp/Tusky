@@ -4,11 +4,11 @@
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
-    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia. Si esto persiste, prueba en el menú Iniciar sesión con el navegador</string>
+    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
-    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado. Si esto persiste, prueba en el menú Iniciar sesión con el navegador</string>
-    <string name="error_authorization_denied">La autorización falló. Si estás seguro de que has suministrado las credenciales correctas, prueba en el menú Iniciar sesión con el navegador</string>
-    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login. Si esto persiste, prueba en el menú Iniciar sesión con el navegador</string>
+    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
+    <string name="error_authorization_denied">La autorización falló. Si estás seguro de que has suministrado las credenciales correctas, prueba en el menú Iniciar sesión con el navegador.</string>
+    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
     <string name="error_compose_character_limit">¡La publicación es demasiado larga!</string>
     <string name="error_media_upload_type">No se admite este tipo de archivo.</string>
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
@@ -642,4 +642,8 @@
     <string name="action_share_account_username">Compartir el nombre de usuario de la cuenta</string>
     <string name="send_account_link_to">Compartir URL de la cuenta con…</string>
     <string name="action_share_account_link">Compartir enlace a la cuenta</string>
+    <string name="title_public_trending_hashtags">Hashtags en tendencia</string>
+    <string name="accessibility_talking_about_tag">%1$d personas están hablando de #%2$s</string>
+    <string name="total_usage">Uso total</string>
+    <string name="total_accounts">Cuentas totales</string>
 </resources>
