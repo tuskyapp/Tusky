@@ -624,4 +624,8 @@
     <string name="description_browser_login">Kann zusätzliche Authentifizierungsmethoden unterstützen, erfordert aber einen unterstützten Browser.</string>
     <string name="notification_report_name">Meldungen</string>
     <string name="error_status_source_load">Die Statusquelle konnte nicht vom Server geladen werden.</string>
+    <string name="title_public_trending_hashtags">Angesagte Hashtags</string>
+    <string name="accessibility_talking_about_tag">%1$d Leute schreiben über den Hashtag %2$s</string>
+    <string name="total_usage">Insgesamt verwendet</string>
+    <string name="total_accounts">Konten insgesamt</string>
 </resources>
