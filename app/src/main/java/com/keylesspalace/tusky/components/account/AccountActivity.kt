@@ -304,6 +304,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         // Provide a non-transparent background to the navigation and overflow icons to ensure
         // they remain visible over whatever the profile background image might be.
         val backgroundCircle = AppCompatResources.getDrawable(this, R.drawable.background_circle)!!
+        backgroundCircle.alpha = 210 // Any lower than this and the backgrounds interfere
         binding.accountToolbar.navigationIcon = LayerDrawable(
             arrayOf(
                 backgroundCircle,
