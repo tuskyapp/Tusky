@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Rebeu una notificació quan un usuari seguit publica: feu clic a la icona de campana del seu perfil! (funció Mastodon 3.3.0)
+- La funció d'esborrany de Tusky s'ha redissenyat completament per ser més ràpida, més fàcil d'utilitzar i amb menys errors.
+- S'ha afegit un nou mode de benestar que us permet limitar determinades funcions de Tusky.
+- Ara Tusky pot animar emojis personalitzats.
+Registre de canvis complet: https://github.com/tuskyapp/Tusky/releases

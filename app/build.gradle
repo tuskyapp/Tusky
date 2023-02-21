@@ -5,9 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-final def gitSha = providers.exec {
-    commandLine('git', 'rev-parse', '--short=7', 'HEAD')
-}.standardOutput.asText.get().trim()
+apply from: 'getGitSha.gradle'
+
+final def gitSha = ext.getGitSha()
 
 // The app name
 final def APP_NAME = "Tusky"
@@ -45,7 +45,6 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug {}
     }
 
     flavorDimensions += "color"

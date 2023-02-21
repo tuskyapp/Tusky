@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Suport per a Unified Push. Per activar l'assistència, haureu de tornar a iniciar sessió als vostres comptes.
+- El nombre de respostes a una publicació s'indica ara a les línies de temps.
+- Les imatges ara es poden retallar mentre es redacta una publicació.
+- Ara els perfils mostren la data en què es van crear.
+- Quan es visualitza una llista, ara el títol es mostra a la barra d'eines.
+- Moltes correccions d'errors
+- Millores en la traducció

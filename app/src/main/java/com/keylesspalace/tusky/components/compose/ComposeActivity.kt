@@ -100,6 +100,7 @@ import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
@@ -139,7 +140,7 @@ class ComposeActivity :
 
     private var photoUploadUri: Uri? = null
 
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     @VisibleForTesting
     var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
@@ -697,7 +698,7 @@ class ComposeActivity :
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
-                if (media.description == null || media.description.isEmpty()) {
+                if (media.description.isNullOrEmpty()) {
                     oneMediaWithoutDescription = true
                     break
                 }

@@ -57,9 +57,12 @@ class ViewVideoFragment : ViewMediaFragment() {
         mediaController.hide()
     }
     private lateinit var mediaActivity: ViewMediaActivity
-    private val TOOLBAR_HIDE_DELAY_MS = 3000L
     private lateinit var mediaController: MediaController
     private var isAudio = false
+
+    companion object {
+        private const val TOOLBAR_HIDE_DELAY_MS = 3000L
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -188,10 +191,8 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
+            ?: throw IllegalArgumentException("attachment has to be set")
 
-        if (attachment == null) {
-            throw IllegalArgumentException("attachment has to be set")
-        }
         val url = attachment.url
         isAudio = attachment.type == Attachment.Type.AUDIO
 

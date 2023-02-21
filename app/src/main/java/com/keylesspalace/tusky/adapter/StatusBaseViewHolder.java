@@ -25,7 +25,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
-import androidx.core.view.ViewKt;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,46 +75,46 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         public static final String KEY_CREATED = "created";
     }
 
-    private TextView displayName;
-    private TextView username;
-    private ImageButton replyButton;
-    private TextView replyCountLabel;
-    private SparkButton reblogButton;
-    private SparkButton favouriteButton;
-    private SparkButton bookmarkButton;
-    private ImageButton moreButton;
-    private ConstraintLayout mediaContainer;
-    protected MediaPreviewLayout mediaPreview;
-    private TextView sensitiveMediaWarning;
-    private View sensitiveMediaShow;
-    protected TextView[] mediaLabels;
-    protected CharSequence[] mediaDescriptions;
-    private MaterialButton contentWarningButton;
-    private ImageView avatarInset;
+    private final TextView displayName;
+    private final TextView username;
+    private final ImageButton replyButton;
+    private final TextView replyCountLabel;
+    private final SparkButton reblogButton;
+    private final SparkButton favouriteButton;
+    private final SparkButton bookmarkButton;
+    private final ImageButton moreButton;
+    private final ConstraintLayout mediaContainer;
+    protected final MediaPreviewLayout mediaPreview;
+    private final TextView sensitiveMediaWarning;
+    private final View sensitiveMediaShow;
+    protected final TextView[] mediaLabels;
+    protected final CharSequence[] mediaDescriptions;
+    private final MaterialButton contentWarningButton;
+    private final ImageView avatarInset;
 
-    public ImageView avatar;
-    public TextView metaInfo;
-    public TextView content;
-    public TextView contentWarningDescription;
+    public final ImageView avatar;
+    public final TextView metaInfo;
+    public final TextView content;
+    public final TextView contentWarningDescription;
 
-    private RecyclerView pollOptions;
-    private TextView pollDescription;
-    private Button pollButton;
+    private final RecyclerView pollOptions;
+    private final TextView pollDescription;
+    private final Button pollButton;
 
-    private LinearLayout cardView;
-    private LinearLayout cardInfo;
-    private ShapeableImageView cardImage;
-    private TextView cardTitle;
-    private TextView cardDescription;
-    private TextView cardUrl;
-    private PollAdapter pollAdapter;
+    private final LinearLayout cardView;
+    private final LinearLayout cardInfo;
+    private final ShapeableImageView cardImage;
+    private final TextView cardTitle;
+    private final TextView cardDescription;
+    private final TextView cardUrl;
+    private final PollAdapter pollAdapter;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
-    protected int avatarRadius48dp;
-    private int avatarRadius36dp;
-    private int avatarRadius24dp;
+    protected final int avatarRadius48dp;
+    private final int avatarRadius36dp;
+    private final int avatarRadius24dp;
 
     private final Drawable mediaPreviewUnloaded;
 
@@ -325,8 +324,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 long then = createdAt.getTime();
                 long now = System.currentTimeMillis();
-                String readout = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
-                timestampText = readout;
+                timestampText = TimestampUtils.getRelativeTimeSpanString(metaInfo.getContext(), then, now);
             }
         }
 
@@ -598,9 +596,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                 final String accountId,
                                 final String statusContent,
                                 StatusDisplayOptions statusDisplayOptions) {
-        View.OnClickListener profileButtonClickListener = button -> {
-            listener.onViewAccount(accountId);
-        };
+        View.OnClickListener profileButtonClickListener = button -> listener.onViewAccount(accountId);
 
         avatar.setOnClickListener(profileButtonClickListener);
         displayName.setOnClickListener(profileButtonClickListener);

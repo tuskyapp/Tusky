@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.makeIcon
 import com.keylesspalace.tusky.util.serialize
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
@@ -47,7 +48,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var localeManager: LocaleManager
 
-    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest */

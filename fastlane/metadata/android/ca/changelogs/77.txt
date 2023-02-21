@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- Suport per a notes de perfil (funció Mastodon 3.2.0)
+- Suport per a anuncis d'administrador (funció Mastodon 3.1.0)
+
+- Ara es mostrarà l'avatar del vostre compte seleccionat a la barra d'eines principal
+- Si feu clic al nom de visualització en una línia de temps, ara s'obrirà la pàgina de perfil d'aquest usuari
+
+- Moltes correccions d'errors i petites millores
+- Traduccions millorades

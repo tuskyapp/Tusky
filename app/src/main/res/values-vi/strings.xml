@@ -204,7 +204,7 @@
     <string name="pref_title_show_boosts">Hiện lượt đăng lại</string>
     <string name="pref_title_post_tabs">Tabs</string>
     <string name="pref_title_post_filter">Lọc bảng tin</string>
-    <string name="pref_title_gradient_for_media">Che mờ nội dung nhạy cảm</string>
+    <string name="pref_title_gradient_for_media">Phủ màu media nhạy cảm</string>
     <string name="pref_title_animate_gif_avatars">Ảnh đại diện GIF</string>
     <string name="pref_title_bot_overlay">Icon cho tài khoản Bot</string>
     <string name="pref_title_language">Ngôn ngữ</string>
