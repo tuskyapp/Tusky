@@ -160,6 +160,8 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
+    implementation libs.exoplayer
+
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
     testImplementation libs.bundles.mockito
