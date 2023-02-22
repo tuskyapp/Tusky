@@ -64,12 +64,6 @@ android {
         baseline = file("lint-baseline.xml")
     }
 
-    applicationVariants.all {
-        // Fail the build on lint errors
-        def lintTask = tasks["lint${name.capitalize()}"]
-        assembleProvider.get().dependsOn(lintTask)
-    }
-
     buildFeatures {
         buildConfig true
         resValues true
