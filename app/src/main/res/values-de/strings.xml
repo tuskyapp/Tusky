@@ -138,7 +138,7 @@
     <string name="label_avatar">Profilbild</string>
     <string name="label_header">Titelbild</string>
     <string name="link_whats_an_instance">Was ist eine Instanz\?</string>
-    <string name="login_connection">Verbinde …</string>
+    <string name="login_connection">Wird verbunden …</string>
     <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, and <a href="https://instances.social">more!</a>
 \n
 \nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten.
@@ -272,7 +272,7 @@
     <string name="lock_account_label">Gesperrtes Profil</string>
     <string name="lock_account_label_description">Wer dir folgen möchte, muss um deine Erlaubnis bitten</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
-    <string name="send_post_notification_title">Sende Beitrag …</string>
+    <string name="send_post_notification_title">Beitrag wird gesendet …</string>
     <string name="send_post_notification_error_title">Fehler beim Senden</string>
     <string name="send_post_notification_channel_name">Beiträge senden</string>
     <string name="send_post_notification_cancel_title">Senden abgebrochen</string>
@@ -282,7 +282,7 @@
     <string name="emoji_style">Emoji-Stil</string>
     <string name="system_default">System-Standard</string>
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
-    <string name="performing_lookup_title">Schlage nach …</string>
+    <string name="performing_lookup_title">Wird nachgeschlagen …</string>
     <string name="expand_collapse_all_posts">Alle Beiträge aus-/einklappen</string>
     <string name="action_open_post">Beitrag öffnen</string>
     <string name="restart_required">App-Neustart erforderlich</string>
@@ -433,10 +433,10 @@
     <string name="description_post_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="list">Liste</string>
-    <string name="post_lookup_error_format">Fehler beim Nachschlagen von Beitrag %s</string>
+    <string name="post_lookup_error_format">Fehler beim Nachschlagen von %s</string>
     <string name="no_drafts">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
-    <string name="warning_scheduling_interval">Das Datum des geplanten Toots muss mindestens 5 Minuten in der Zukunft liegen.</string>
+    <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Follower-Anfragen</string>
     <string name="pref_title_notification_filter_follow_requests">Anfrage zum Folgen gesendet</string>
     <string name="notification_follow_request_name">Follower-Anfragen</string>
@@ -546,7 +546,7 @@
     <string name="action_edit_image">Bild bearbeiten</string>
     <string name="action_details">Details</string>
     <string name="error_image_edit_failed">Das Bild konnte nicht bearbeitet werden.</string>
-    <string name="saving_draft">Speichere Entwurf …</string>
+    <string name="saving_draft">Entwurf wird gespeichert …</string>
     <string name="error_multimedia_size_limit">Video- und Audiodateien dürfen nicht größer als %s MB sein.</string>
     <string name="error_following_hashtag_format">Fehler beim Folgen von #%s</string>
     <string name="error_unfollowing_hashtag_format">Fehler beim Entfolgen von #%s</string>
@@ -611,9 +611,9 @@
     <string name="action_browser_login">Mit Browser anmelden</string>
     <string name="action_share_account_username">Name des Profils teilen</string>
     <string name="action_share_account_link">Link zum Profil teilen</string>
-    <string name="send_account_link_to">Teile Profil-Link mit …</string>
+    <string name="send_account_link_to">Profil-Link teilen an …</string>
     <string name="send_account_username_to">Profilname teilen an …</string>
-    <string name="account_username_copied">Proilname kopiert</string>
+    <string name="account_username_copied">Profilname kopiert</string>
     <string name="status_edit_info">%1$s bearbeitete %2$s</string>
     <string name="status_created_info">%1$s erstellte %2$s</string>
     <string name="notification_report_format">Neue Meldung über %s</string>
@@ -624,4 +624,10 @@
     <string name="description_browser_login">Kann zusätzliche Authentifizierungsmethoden unterstützen, erfordert aber einen unterstützten Browser.</string>
     <string name="notification_report_name">Meldungen</string>
     <string name="error_status_source_load">Die Statusquelle konnte nicht vom Server geladen werden.</string>
+    <string name="title_public_trending_hashtags">Angesagte Hashtags</string>
+    <string name="accessibility_talking_about_tag">%1$d Leute schreiben über den Hashtag %2$s</string>
+    <string name="total_usage">Insgesamt verwendet</string>
+    <string name="total_accounts">Konten insgesamt</string>
+    <string name="dialog_follow_hashtag_title">Hashtag folgen</string>
+    <string name="dialog_follow_hashtag_hint">#Hashtag</string>
 </resources>
