@@ -2,13 +2,14 @@ package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import at.connyduck.calladapter.networkresult.NetworkResult
-import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -17,12 +18,12 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.util.Date
 import javax.inject.Inject
 
@@ -33,7 +34,11 @@ class EditFilterActivity : BaseActivity() {
     @Inject
     lateinit var eventHub: EventHub
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val binding by viewBinding(ActivityEditFilterBinding::inflate)
+    private val viewModel: EditFilterViewModel by viewModels { viewModelFactory }
 
     private lateinit var filter: Filter
     private var originalFilter: Filter? = null
@@ -73,9 +78,44 @@ class EditFilterActivity : BaseActivity() {
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }
         for (switch in contextSwitches.keys) {
-            switch.setOnCheckedChangeListener { _, _ -> validateSaveButton() }
+            switch.setOnCheckedChangeListener { _, isChecked ->
+                val context = contextSwitches[switch]!!
+                if (isChecked) {
+                    viewModel.addContext(context)
+                } else {
+                    viewModel.removeContext(context)
+                }
+                validateSaveButton()
+            }
         }
-        binding.filterTitle.doAfterTextChanged { validateSaveButton() }
+        binding.filterTitle.doAfterTextChanged { editable ->
+            viewModel.setTitle(editable.toString())
+            validateSaveButton()
+        }
+        binding.filterActionWarn.setOnCheckedChangeListener { _, checked ->
+            viewModel.setAction(
+                if (checked) {
+                    Filter.Action.WARN
+                } else {
+                    Filter.Action.HIDE
+                }
+            )
+        }
+        binding.filterDurationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.setDuration(
+                    if (originalFilter?.expiresAt == null) {
+                        position
+                    } else {
+                        position - 1
+                    }
+                )
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                viewModel.setDuration(0)
+            }
+        }
         validateSaveButton()
 
         if (originalFilter == null) {
@@ -83,44 +123,48 @@ class EditFilterActivity : BaseActivity() {
         } else {
             loadFilter()
         }
+        observeModel()
+    }
+
+    private fun observeModel() {
+        lifecycleScope.launch {
+            viewModel.title.collect { title ->
+                if (title != binding.filterTitle.text.toString()) {
+                    // We also get this callback when typing in the field,
+                    // which messes with the cursor focus
+                    binding.filterTitle.setText(title)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.keywords.collect { keywords ->
+                updateKeywords(keywords)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.contexts.collect { contexts ->
+                for (entry in contextSwitches) {
+                    entry.key.isChecked = contexts.contains(entry.value)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.action.collect { action ->
+                when (action) {
+                    Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
+                    else -> binding.filterActionWarn.isChecked = true
+                }
+            }
+        }
     }
 
     // Populate the UI from the filter's members
     private fun loadFilter() {
-        binding.filterTitle.setText(filter.title)
-
-        for (entry in contextSwitches) {
-            entry.key.isChecked = filter.context.contains(entry.value.kind)
-        }
-
-        when (filter.action) {
-            Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
-            else -> binding.filterActionWarn.isChecked = true
-        }
-
+        viewModel.load(filter)
         if (filter.expiresAt != null) {
             val durationNames = listOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
             binding.filterDurationSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, durationNames)
         }
-        updateKeywords(filter.keywords)
-    }
-
-    private fun addKeyword(keyword: FilterKeyword) {
-        updateKeywords(filter.keywords + keyword)
-    }
-
-    private fun modifyKeyword(original: FilterKeyword, updated: FilterKeyword) {
-        val index = filter.keywords.indexOf(original)
-        if (index >= 0) {
-            val newKeywords = filter.keywords.toMutableList().apply {
-                set(index, updated)
-            }
-            updateKeywords(newKeywords)
-        }
-    }
-
-    private fun deleteKeyword(keyword: FilterKeyword) {
-        updateKeywords(filter.keywords.filterNot { it == keyword })
     }
 
     private fun updateKeywords(newKeywords: List<FilterKeyword>) {
@@ -146,7 +190,7 @@ class EditFilterActivity : BaseActivity() {
                 showEditKeywordDialog(newKeywords[index])
             }
             chip.setOnCloseIconClickListener {
-                deleteKeyword(newKeywords[index])
+                viewModel.deleteKeyword(newKeywords[index])
             }
         }
 
@@ -165,7 +209,7 @@ class EditFilterActivity : BaseActivity() {
             .setTitle(R.string.filter_keyword_addition_title)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                addKeyword(
+                viewModel.addKeyword(
                     FilterKeyword(
                         "",
                         binding.phraseEditText.text.toString(),
@@ -186,7 +230,7 @@ class EditFilterActivity : BaseActivity() {
             .setTitle(R.string.filter_edit_keyword_title)
             .setView(binding.root)
             .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
-                modifyKeyword(
+                viewModel.modifyKeyword(
                     keyword,
                     keyword.copy(
                         keyword = binding.phraseEditText.text.toString(),
@@ -199,146 +243,20 @@ class EditFilterActivity : BaseActivity() {
     }
 
     private fun validateSaveButton() {
-        binding.filterSaveButton.isEnabled = !binding.filterTitle.text.isNullOrBlank() &&
-            filter.keywords.isNotEmpty() &&
-            contextSwitches.keys.any { it.isChecked }
+        binding.filterSaveButton.isEnabled = viewModel.validate()
     }
 
     private fun saveChanges() {
-        val contexts = contextSwitches.filter { it.key.isChecked }.map { it.value.kind }
-        val title = binding.filterTitle.text?.trim().toString()
-        val durationIndex = binding.filterDurationSpinner.selectedItemPosition
-        val action = when (binding.filterActionGroup.checkedRadioButtonId) {
-            R.id.filter_action_hide -> Filter.Action.HIDE.action
-            else -> Filter.Action.WARN.action
-        }
-
         lifecycleScope.launch {
-            originalFilter?.let { originalFilter ->
-                updateFilter(originalFilter, title, contexts, action, durationIndex)
-            } ?: createFilter(title, contexts, action, durationIndex)
-        }
-    }
-
-    private suspend fun createFilter(title: String, contexts: List<String>, action: String, durationIndex: Int) {
-        val expiresInSeconds = getSecondsForDurationIndex(durationIndex, this@EditFilterActivity)
-        api.createFilter(
-            title = title,
-            context = contexts,
-            filterAction = action,
-            expiresInSeconds = expiresInSeconds,
-        ).fold(
-            { newFilter ->
-                // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
-                if (showErrorIfAnyFailure(
-                        filter.keywords.map { keyword ->
-                            api.addFilterKeyword(filterId = newFilter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
-                        },
-                        "Error creating filter '${filter.title}'"
-                    )
-                ) {
-                    finish()
-                }
-            },
-            { throwable ->
-                if (throwable is HttpException && throwable.code() == 404) {
-                    // Endpoint not found, fall back to v1 api
-                    if (createFilterV1(contexts, expiresInSeconds)) {
-                        finish()
-                    }
-                } else {
-                    Snackbar.make(binding.root, "Error creating filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        )
-    }
-
-    private suspend fun updateFilter(originalFilter: Filter, title: String, contexts: List<String>, action: String, durationIndex: Int) {
-        // durationIndex - 1 here because we've prepended an extra entry for "don't modify"
-        val expiresInSeconds = getSecondsForDurationIndex(durationIndex - 1, this@EditFilterActivity)
-        api.updateFilter(
-            id = filter.id,
-            title = title,
-            context = contexts,
-            filterAction = action,
-            expiresInSeconds = expiresInSeconds,
-        ).fold(
-            {
-                // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
-                val results = filter.keywords.map { keyword ->
-                    if (keyword.id.isEmpty()) {
-                        api.addFilterKeyword(filterId = filter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
-                    } else {
-                        api.updateFilterKeyword(keywordId = keyword.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
-                    }
-                } + originalFilter.keywords.filter { keyword ->
-                    // Deleted keywords
-                    filter.keywords.none { it.id == keyword.id }
-                }.map { api.deleteFilterKeyword(it.id) }
-
-                if (showErrorIfAnyFailure(results, "Error updating filter '${filter.title}'")) {
-                    finish()
-                }
-            },
-            { throwable ->
-                if (throwable is HttpException && throwable.code() == 404) {
-                    // Endpoint not found, fall back to v1 api
-                    if (updateFilterV1(contexts, expiresInSeconds)) {
-                        finish()
-                    }
-                } else {
-                    Snackbar.make(binding.root, "Error updating filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        )
-    }
-
-    private suspend fun createFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
-        return showErrorIfAnyFailure(
-            filter.keywords.map { keyword ->
-                api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiresInSeconds)
-            },
-            "Error creating filter '${filter.title}'",
-        )
-    }
-
-    private suspend fun updateFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
-        val results = filter.keywords.map { keyword ->
-            if (filter.id.isEmpty()) {
-                api.createFilterV1(
-                    phrase = keyword.keyword,
-                    context = context,
-                    irreversible = false,
-                    wholeWord = keyword.wholeWord,
-                    expiresInSeconds = expiresInSeconds
-                )
+            if (viewModel.saveChanges(this@EditFilterActivity)) {
+                finish()
             } else {
-                api.updateFilterV1(
-                    id = filter.id,
-                    phrase = keyword.keyword,
-                    context = context,
-                    irreversible = false,
-                    wholeWord = keyword.wholeWord,
-                    expiresInSeconds = expiresInSeconds,
-                )
+                Snackbar.make(binding.root, "Error saving filter '${viewModel.title.value}'", Snackbar.LENGTH_SHORT).show()
             }
-        }
-        // Don't handle deleted keywords here because there's only one keyword per v1 filter anyway
-
-        return showErrorIfAnyFailure(results, "Error updating filter '${filter.title}'")
-    }
-
-    private fun showErrorIfAnyFailure(results: List<NetworkResult<Any>>, message: String): Boolean {
-        return if (results.any { it.isFailure }) {
-            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
-            false
-        } else {
-            true
         }
     }
 
     companion object {
-        private const val TAG = "EditFilterActivity"
         const val FILTER_TO_EDIT = "FilterToEdit"
 
         // Mastodon *stores* the absolute date in the filter,
