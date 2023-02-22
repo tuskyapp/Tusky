@@ -131,7 +131,8 @@ rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3"
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
-exoplayer = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }
+exoplayer-core = { module = "com.google.android.exoplayer:exoplayer-core", version.ref = "exoplayer" }
+exoplayer-ui = { module = "com.google.android.exoplayer:exoplayer-ui", version.ref = "exoplayer" }
 
 [bundles]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",

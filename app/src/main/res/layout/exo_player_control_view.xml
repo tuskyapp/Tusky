@@ -140,14 +140,12 @@
         <ImageButton android:id="@id/exo_prev"
             style="@style/ExoStyledControls.Button.Center.Previous"/>
 
-        <ImageButton android:id="@id/exo_rew"
-                    style="@style/ExoMediaButton.Rewind"/>
+        <include layout="@layout/exo_player_control_rewind_button" />
 
         <ImageButton android:id="@id/exo_play_pause"
             style="@style/ExoStyledControls.Button.Center.PlayPause"/>
 
-        <ImageButton android:id="@id/exo_ffwd"
-                    style="@style/ExoMediaButton.FastForward"/>
+        <include layout="@layout/exo_player_control_ffwd_button" />
 
         <ImageButton android:id="@id/exo_next"
             style="@style/ExoStyledControls.Button.Center.Next"/>

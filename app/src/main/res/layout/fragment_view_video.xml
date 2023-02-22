@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some media description" />
 
-    <com.google.android.exoplayer2.ui.StyledPlayerView
+    <androidx.media3.ui.PlayerView
         android:id="@+id/videoView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -34,8 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:use_controller="false"
         app:show_previous_button="false"
-        app:show_next_button="false"
-        app:controller_layout_id="@layout/exo_player_control_view" />
+        app:show_next_button="false" />
 
     <ProgressBar
         android:id="@+id/progressBar"
