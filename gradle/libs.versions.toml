@@ -48,7 +48,6 @@ rxkotlin3 = "3.0.1"
 photoview = "2.3.0"
 sparkbutton = "4.1.0"
 unified-push = "2.1.1"
-exoplayer = "2.18.3"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -131,8 +130,6 @@ rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3"
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
-exoplayer-core = { module = "com.google.android.exoplayer:exoplayer-core", version.ref = "exoplayer" }
-exoplayer-ui = { module = "com.google.android.exoplayer:exoplayer-ui", version.ref = "exoplayer" }
 
 [bundles]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",
