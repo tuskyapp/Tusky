@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
@@ -32,6 +33,7 @@ import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -298,6 +300,23 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val toolbarBackground = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
         toolbarBackground.fillColor = ColorStateList.valueOf(Color.TRANSPARENT)
         binding.accountToolbar.background = toolbarBackground
+
+        // Provide a non-transparent background to the navigation and overflow icons to ensure
+        // they remain visible over whatever the profile background image might be.
+        val backgroundCircle = AppCompatResources.getDrawable(this, R.drawable.background_circle)!!
+        backgroundCircle.alpha = 210 // Any lower than this and the backgrounds interfere
+        binding.accountToolbar.navigationIcon = LayerDrawable(
+            arrayOf(
+                backgroundCircle,
+                binding.accountToolbar.navigationIcon
+            )
+        )
+        binding.accountToolbar.overflowIcon = LayerDrawable(
+            arrayOf(
+                backgroundCircle,
+                binding.accountToolbar.overflowIcon
+            )
+        )
 
         binding.accountHeaderInfoContainer.background = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
 
