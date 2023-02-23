@@ -35,7 +35,7 @@ The attributes are set to get a specific behaviour:
     android:clickable="true"
     android:focusable="true">
 
-    <com.keylesspalace.tusky.view.ZigZagView
+    <com.keylesspalace.tusky.view.GradientLineView
         android:foreground="@color/dividerColor"
         android:background="@color/dividerColorOther"
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@ The attributes are set to get a specific behaviour:
         android:textStyle="bold"
         android:textSize="?attr/status_text_large" />
 
-    <com.keylesspalace.tusky.view.ZigZagView
+    <com.keylesspalace.tusky.view.GradientLineView
         android:foreground="@color/dividerColorOther"
         android:background="@color/dividerColor"
         android:layout_width="match_parent"
