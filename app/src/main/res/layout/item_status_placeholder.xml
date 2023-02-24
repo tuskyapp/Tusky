@@ -35,12 +35,11 @@ The attributes are set to get a specific behaviour:
     android:clickable="true"
     android:focusable="true">
 
-    <com.keylesspalace.tusky.view.GradientLineView
-        android:foreground="@color/dividerColor"
-        android:background="@color/dividerColorOther"
+    <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:layout_gravity="top" />
+        android:layout_gravity="top"
+        android:background="@drawable/placeholder_gradient_north"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_load_more"
@@ -56,10 +55,9 @@ The attributes are set to get a specific behaviour:
         android:textStyle="bold"
         android:textSize="?attr/status_text_large" />
 
-    <com.keylesspalace.tusky.view.GradientLineView
-        android:foreground="@color/dividerColorOther"
-        android:background="@color/dividerColor"
+    <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
+        android:background="@drawable/placeholder_gradient_south"
         android:layout_gravity="bottom" />
 </FrameLayout>
