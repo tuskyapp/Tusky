@@ -283,8 +283,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (statusDisplayOptions.showBotOverlay() && isBot) {
                 avatarInset.setVisibility(View.VISIBLE);
                 Glide.with(avatarInset)
-                        // passing the drawable id directly into .load() ignores night mode https://github.com/bumptech/glide/issues/4692
-                        .load(ContextCompat.getDrawable(avatarInset.getContext(), R.drawable.bot_badge))
+                        .load(R.drawable.bot_badge)
                         .into(avatarInset);
             } else {
                 avatarInset.setVisibility(View.GONE);
@@ -1115,7 +1114,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setScaleType(ImageView.ScaleType.CENTER);
 
                 Glide.with(cardImage.getContext())
-                        .load(ContextCompat.getDrawable(cardImage.getContext(), R.drawable.card_image_placeholder))
+                        .load(R.drawable.card_image_placeholder)
                         .into(cardImage);
             }
 
