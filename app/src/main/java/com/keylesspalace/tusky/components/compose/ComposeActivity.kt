@@ -51,6 +51,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.res.use
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -571,9 +572,9 @@ class ComposeActivity :
 
     private fun setupAvatar(activeAccount: AccountEntity) {
         val actionBarSizeAttr = intArrayOf(androidx.appcompat.R.attr.actionBarSize)
-        val a = obtainStyledAttributes(null, actionBarSizeAttr)
-        val avatarSize = a.getDimensionPixelSize(0, 1)
-        a.recycle()
+        val avatarSize = obtainStyledAttributes(null, actionBarSizeAttr).use { a ->
+            a.getDimensionPixelSize(0, 1)
+        }
 
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
         loadAvatar(
