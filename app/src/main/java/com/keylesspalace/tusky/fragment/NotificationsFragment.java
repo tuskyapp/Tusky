@@ -63,6 +63,7 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent;
 import com.keylesspalace.tusky.appstore.PinEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
 import com.keylesspalace.tusky.appstore.ReblogEvent;
+import com.keylesspalace.tusky.components.notifications.NotificationHelper;
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -1210,6 +1211,9 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onResume() {
         super.onResume();
+
+        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager);
+
         String rawAccountNotificationFilter = accountManager.getActiveAccount().getNotificationsFilter();
         Set<Notification.Type> accountNotificationFilter = NotificationTypeConverterKt.deserialize(rawAccountNotificationFilter);
         if (!notificationFilter.equals(accountNotificationFilter)) {
