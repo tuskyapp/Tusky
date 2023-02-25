@@ -49,7 +49,7 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.makeIcon
@@ -197,7 +197,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 listPreference {
-                    val locales = getLocaleList(getInitialLanguage(null, accountManager.activeAccount))
+                    val locales = getLocaleList(getInitialLanguages(null, accountManager.activeAccount))
                     setTitle(R.string.pref_default_post_language)
                     // Explicitly add "System default" to the start of the list
                     entries = (
