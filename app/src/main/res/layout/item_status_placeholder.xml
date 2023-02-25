@@ -35,18 +35,12 @@ The attributes are set to get a specific behaviour:
     android:clickable="true"
     android:focusable="true">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_gravity="top"
-        android:background="@drawable/placeholder_gradient_north"/>
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_load_more"
         style="@style/TuskyButton.TextButton.Icon"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:clickable="false"
         app:iconGravity="textStart"
         android:background="@android:color/transparent"
@@ -54,10 +48,4 @@ The attributes are set to get a specific behaviour:
         android:text="@string/load_more_placeholder_text"
         android:textStyle="bold"
         android:textSize="?attr/status_text_large" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@drawable/placeholder_gradient_south"
-        android:layout_gravity="bottom" />
 </FrameLayout>
