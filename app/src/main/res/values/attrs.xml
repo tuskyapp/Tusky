@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="ClickableSpanTextView">
+        <!-- Necessary to support tools:text in Android Studio layout designer -->
+        <attr name="android:text"/>
+    </declare-styleable>
+
     <declare-styleable name="LicenseCard">
         <attr name="name" format="string|reference" />
         <attr name="license" format="string|reference" />
