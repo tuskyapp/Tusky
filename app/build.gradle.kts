@@ -1,6 +1,5 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
 import java.io.ByteArrayOutputStream
-import javax.inject.Inject
 
 plugins {
     alias(libs.plugins.android.application)
@@ -105,7 +104,7 @@ android {
     applicationVariants.configureEach {
         outputs.configureEach {
             (this as? ApkVariantOutputImpl)?.outputFileName =
-                "Tusky_${versionName}_${versionCode}" + "_${gitSha}_${flavorName}_${buildType.name}.apk"
+                "Tusky_${versionName}_$versionCode" + "_${gitSha}_${flavorName}_${buildType.name}.apk"
         }
     }
 }
@@ -176,7 +175,8 @@ dependencies {
 
 // Must wrap this in a ValueSource in order to get well-defined fail behavior without confusing Gradle on repeat builds.
 abstract class GitShaValueSource : ValueSource<String, ValueSourceParameters.None> {
-    @Inject abstract fun getExecOperations(): ExecOperations
+    @Inject
+    abstract fun getExecOperations(): ExecOperations
 
     override fun obtain(): String {
         try {
