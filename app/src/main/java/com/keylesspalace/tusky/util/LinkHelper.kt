@@ -347,7 +347,5 @@ object NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
         return super.onTouchEvent(widget, buffer, event)
     }
 
-    fun getInstance(): NoTrailingSpaceLinkMovementMethod {
-        return NoTrailingSpaceLinkMovementMethod
-    }
+    fun getInstance() = NoTrailingSpaceLinkMovementMethod
 }
