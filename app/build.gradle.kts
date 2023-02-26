@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,9 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-apply(from = "getGitSha.gradle.kts")
-
-val gitSha = project.extra["getGitSha"]
+val gitSha = providers.of(GitShaValueSource::class) {}.get()
 
 // The app name
 val APP_NAME = "Tusky"
@@ -172,4 +172,24 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.test.junit)
+}
+
+// Must wrap this in a ValueSource in order to get well-defined fail behavior without confusing Gradle on repeat builds.
+abstract class GitShaValueSource : ValueSource<String, ValueSourceParameters.None> {
+    @Inject abstract fun getExecOperations(): ExecOperations
+
+    override fun obtain(): String {
+        try {
+            val output = ByteArrayOutputStream()
+
+            getExecOperations().exec {
+                commandLine("git", "rev-parse", "--short=8", "HEAD")
+                standardOutput = output
+            }
+            return output.toString().trim()
+        } catch (ignore: GradleException) {
+            // Git executable unavailable, or we are not building in a git repo. Fall through:
+        }
+        return "unknown"
+    }
 }
