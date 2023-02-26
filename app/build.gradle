@@ -5,9 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-apply from: 'getGitSha.gradle'
+apply from: 'getGitSha.gradle.kts'
 
-final def gitSha = ext.getGitSha()
+final def gitSha = ext.getGitSha
 
 // The app name
 final def APP_NAME = "Tusky"
