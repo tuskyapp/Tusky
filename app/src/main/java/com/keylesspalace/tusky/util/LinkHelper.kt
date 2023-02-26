@@ -331,9 +331,8 @@ private const val TAG = "LinkHelper"
  * See https://github.com/tuskyapp/Tusky/issues/1567.
  */
 class NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
-    override fun onTouchEvent(widget: TextView?, buffer: Spannable?, event: MotionEvent?): Boolean {
-        widget ?: return super.onTouchEvent(widget, buffer, event)
-        val action = event?.action ?: return super.onTouchEvent(widget, buffer, event)
+    override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
+        val action = event.action
         if (action != ACTION_UP) return super.onTouchEvent(widget, buffer, event)
 
         val x = event.x.toInt()
