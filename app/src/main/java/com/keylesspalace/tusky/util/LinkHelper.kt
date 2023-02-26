@@ -330,7 +330,7 @@ private const val TAG = "LinkHelper"
  *
  * See https://github.com/tuskyapp/Tusky/issues/1567.
  */
-class NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
+object NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
     override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
         val action = event.action
         if (action != ACTION_UP) return super.onTouchEvent(widget, buffer, event)
@@ -347,15 +347,7 @@ class NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
         return super.onTouchEvent(widget, buffer, event)
     }
 
-    companion object {
-        private var instance: NoTrailingSpaceLinkMovementMethod? = null
-
-        fun getInstance(): NoTrailingSpaceLinkMovementMethod {
-            if (instance == null) {
-                instance = NoTrailingSpaceLinkMovementMethod()
-            }
-
-            return instance!!
-        }
+    fun getInstance(): NoTrailingSpaceLinkMovementMethod {
+        return NoTrailingSpaceLinkMovementMethod
     }
 }
