@@ -183,7 +183,7 @@ abstract class GitShaValueSource : ValueSource<String, ValueSourceParameters.Non
             val output = ByteArrayOutputStream()
 
             getExecOperations().exec {
-                commandLine("git", "rev-parse", "--short=8", "HEAD")
+                commandLine("git", "rev-parse", "--short=7", "HEAD")
                 standardOutput = output
             }
             return output.toString().trim()
