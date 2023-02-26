@@ -10,10 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven("https://jitpack.io")
     }
 }
 
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
-include ':app'
+include(":app")
