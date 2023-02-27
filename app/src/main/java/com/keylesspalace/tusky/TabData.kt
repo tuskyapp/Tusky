@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.trending.TrendingFragment
 import com.keylesspalace.tusky.fragment.NotificationsFragment
+import java.util.Objects
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
 
@@ -56,11 +57,7 @@ data class TabData(
         return true
     }
 
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + arguments.hashCode()
-        return result
-    }
+    override fun hashCode() = Objects.hash(id, arguments)
 }
 
 fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
