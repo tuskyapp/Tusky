@@ -41,7 +41,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023021501
+const val SCHEMA_VERSION = 2023022701
 
 object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give

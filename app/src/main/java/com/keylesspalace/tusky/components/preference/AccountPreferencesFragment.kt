@@ -36,13 +36,13 @@ import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.AccountPreferenceHandler
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -85,7 +85,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
                 }
                 setOnPreferenceClickListener {
-                    openNotificationPrefs()
+                    openNotificationSystemPrefs()
                     true
                 }
             }
@@ -184,8 +184,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
                     setSummaryProvider { entry }
-                    val visibility = accountManager.activeAccount?.defaultPostPrivacy
-                        ?: Status.Visibility.PUBLIC
+                    val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.serverString()
                     setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
@@ -224,8 +223,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setIcon(R.drawable.ic_eye_24dp)
                     key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
                     isSingleLineTitle = false
-                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity
-                        ?: false
+                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity ?: false
                     setDefaultValue(sensitivity)
                     setIcon(getIconForSensitivity(sensitivity))
                     setOnPreferenceChangeListener { _, newValue ->
@@ -238,40 +236,29 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             }
 
             preferenceCategory(R.string.pref_title_timelines) {
+                // TODO having no activeAccount in this fragment does not really make sense, enforce it?
+                //   All other locations here make it optional, however.
+                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, eventHub)
+
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
                     setTitle(R.string.pref_title_show_media_preview)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.mediaPreviewEnabled ?: true
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.mediaPreviewEnabled = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceHandler
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
                     setTitle(R.string.pref_title_alway_show_sensitive_media)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.alwaysShowSensitiveMedia = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceHandler
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_OPEN_SPOILER
                     setTitle(R.string.pref_title_alway_open_spoiler)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysOpenSpoiler ?: false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.alwaysOpenSpoiler = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceHandler
                 }
             }
 
@@ -279,10 +266,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_public_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.PUBLIC,
-                            R.string.pref_title_public_filter_keywords
-                        )
+                        launchFilterActivity(Filter.PUBLIC, R.string.pref_title_public_filter_keywords)
                         true
                     }
                 }
@@ -306,10 +290,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 preference {
                     setTitle(R.string.pref_title_thread_filter_keywords)
                     setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.THREAD,
-                            R.string.pref_title_thread_filter_keywords
-                        )
+                        launchFilterActivity(Filter.THREAD, R.string.pref_title_thread_filter_keywords)
                         true
                     }
                 }
@@ -330,7 +311,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         requireActivity().setTitle(R.string.action_view_account_preferences)
     }
 
-    private fun openNotificationPrefs() {
+    private fun openNotificationSystemPrefs() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val intent = Intent()
             intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
@@ -345,14 +326,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    private inline fun updateAccount(changer: (AccountEntity) -> Unit) {
-        accountManager.activeAccount?.let { account ->
-            changer(account)
-            accountManager.saveAccount(account)
-        }
-    }
-
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null, language: String? = null) {
+        // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issue #3204
+
         mastodonApi.accountUpdateSource(visibility, sensitive, language)
             .enqueue(object : Callback<Account> {
                 override fun onResponse(call: Call<Account>, response: Response<Account>) {
