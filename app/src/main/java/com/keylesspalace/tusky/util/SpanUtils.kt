@@ -147,12 +147,12 @@ fun highlightSpans(text: Spannable, colour: Int) {
     val length = text.length
     var start = 0
     var end = 0
-    while (end >= 0 && end < length && start >= 0) {
+    while (end in 0 until length && start >= 0) {
         // Search for url first because it can contain the other characters
         val found = findPattern(string, end)
         start = found.start
         end = found.end
-        if (start >= 0 && end > start) {
+        if (start in 0 until end) {
             text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             start += finders[found.matchType]!!.searchPrefixWidth
         }

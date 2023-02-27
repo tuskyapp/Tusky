@@ -29,10 +29,12 @@ import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.unsafeLazy
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -65,7 +67,7 @@ class SendStatusService : Service(), Injectable {
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
     private val sendJobs = ConcurrentHashMap<Int, Job>()
 
-    private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+    private val notificationManager by unsafeLazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -190,6 +192,14 @@ class SendStatusService : Service(), Injectable {
                 scheduledAt = statusToSend.scheduledAt,
                 poll = statusToSend.poll,
                 language = statusToSend.language,
+                mediaAttributes = media.map { media ->
+                    MediaAttribute(
+                        id = media.id!!,
+                        description = media.description,
+                        focus = media.focus?.toMastodonApiString(),
+                        thumbnail = null,
+                    )
+                },
             )
 
             val sendResult = if (statusToSend.statusId == null) {

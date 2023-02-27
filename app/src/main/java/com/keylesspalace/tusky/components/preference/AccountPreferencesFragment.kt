@@ -49,10 +49,11 @@ import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.makeIcon
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -72,7 +73,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var eventHub: EventHub
 
-    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
@@ -195,7 +196,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 listPreference {
-                    val locales = getLocaleList(getInitialLanguage(null, accountManager.activeAccount))
+                    val locales = getLocaleList(getInitialLanguages(null, accountManager.activeAccount))
                     setTitle(R.string.pref_default_post_language)
                     // Explicitly add "System default" to the start of the list
                     entries = (
