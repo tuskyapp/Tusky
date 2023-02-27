@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
 import com.mikepenz.iconics.IconicsDrawable
@@ -68,8 +69,8 @@ class AnnouncementsActivity :
 
     private lateinit var adapter: AnnouncementAdapter
 
-    private val picker by lazy { EmojiPicker(this) }
-    private val pickerDialog by lazy {
+    private val picker by unsafeLazy { EmojiPicker(this) }
+    private val pickerDialog by unsafeLazy {
         PopupWindow(this)
             .apply {
                 contentView = picker

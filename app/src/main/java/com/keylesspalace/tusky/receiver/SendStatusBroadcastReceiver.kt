@@ -117,7 +117,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
                 builder.setOnlyAlertOnce(true)
 
-                notificationManager.notify(notificationId, builder.build())
+                // There is a separate "I am sending" notification, so simply remove the handled one.
+                notificationManager.cancel(notificationId)
             }
         }
     }

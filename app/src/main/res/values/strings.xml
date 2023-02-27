@@ -58,6 +58,9 @@
     <string name="title_followed_hashtags">Followed hashtags</string>
     <string name="title_edits">Edits</string>
 
+    <string name="dialog_follow_hashtag_title">Follow hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s boosted</string>
     <string name="post_sensitive_media_title">Sensitive content</string>

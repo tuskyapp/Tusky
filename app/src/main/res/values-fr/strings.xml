@@ -220,6 +220,7 @@
     <string name="notification_summary_small">%1$s et %2$s</string>
     <plurals name="notification_title_summary">
         <item quantity="one">%d nouvelle interaction</item>
+        <item quantity="many">%d nouvelles interactions</item>
         <item quantity="other">%d nouvelles interactions</item>
     </plurals>
     <string name="description_account_locked">Compte verrouillé</string>
@@ -348,6 +349,7 @@
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
     <plurals name="max_tab_number_reached">
         <item quantity="one">maximum de %1$d onglet atteint</item>
+        <item quantity="many">maximum de %1$d onglets atteint</item>
         <item quantity="other">maximum de %1$d onglets atteint</item>
     </plurals>
     <string name="description_post_media">Média : %s</string>
@@ -361,8 +363,7 @@
     <string name="description_visibility_unlisted">Non listé</string>
     <string name="description_visibility_private">        Abonné·e·s
     </string>
-    <string name="description_visibility_direct">        Direct
-    </string>
+    <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="edit_hashtag_hint">Hashtag sans #</string>
     <string name="notifications_clear">Nettoyer</string>
@@ -383,18 +384,22 @@
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d jour restant</item>
+        <item quantity="many">%d jours restants</item>
         <item quantity="other">%d jours restants</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d heure restante</item>
+        <item quantity="many">%d heures restantes</item>
         <item quantity="other">%d heures restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minute restante</item>
+        <item quantity="many">%d minutes restantes</item>
         <item quantity="other">%d minutes restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d seconde restante</item>
+        <item quantity="many">%d secondes restantes</item>
         <item quantity="other">%d secondes restantes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
@@ -476,11 +481,13 @@
     <string name="action_unmute_desc">Ne plus masquer %s</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s personne</item>
+        <item quantity="many">%s personnes</item>
         <item quantity="other">%s personnes</item>
     </plurals>
     <string name="pref_title_hide_top_toolbar">Cacher le titre de la barre d’outils supérieure</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voix</item>
+        <item quantity="many">%s voix</item>
         <item quantity="other">%s voix</item>
     </plurals>
     <string name="account_note_saved">Sauvegardé !</string>
@@ -500,6 +507,7 @@
     <string name="notification_subscription_name">Nouveaux messages</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Vous ne pouvez pas téléverser plus d’ %1$d pièce jointe.</item>
+        <item quantity="many">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>

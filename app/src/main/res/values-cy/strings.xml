@@ -14,7 +14,7 @@
     <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen y cyfrwng hwn.</string>
     <string name="error_media_download_permission">Rhaid cael caniatâd i gadw\'r cyfrwng hwn.</string>
     <string name="error_media_upload_image_or_video">Ni allwch atodi delweddau a fideos i\'r un neges.</string>
-    <string name="error_media_upload_sending">Methodd yr lanlwytho.</string>
+    <string name="error_media_upload_sending">Methodd yr uwchlwytho.</string>
     <string name="error_sender_account_gone">Bu gwall wrth anfon y neges.</string>
     <string name="title_home">Hafan</string>
     <string name="title_notifications">Hysbysiadau</string>
@@ -52,7 +52,7 @@
     <string name="action_favourite">Ffefryn</string>
     <string name="action_more">Mwy</string>
     <string name="action_compose">Creu</string>
-    <string name="action_login">Mewngofnodi â Thusky</string>
+    <string name="action_login">Mewngofnodi â Tusky</string>
     <string name="action_logout">Allgofnodi</string>
     <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s?</string>
     <string name="action_follow">Dilyn</string>
@@ -675,4 +675,8 @@
     <string name="action_post_failed_detail_plural">Methodd eich negeseuon â lanlwytho ac mae wedi\'u cadw i ddrafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y negeseuon.</string>
+    <string name="title_public_trending_hashtags">Hashnodau tueddiadol</string>
+    <string name="accessibility_talking_about_tag">Siarada %1$d o bobl am hashnod %2$s</string>
+    <string name="total_usage">Defnydd cyfan</string>
+    <string name="total_accounts">Cyfrifon cyfan</string>
 </resources>

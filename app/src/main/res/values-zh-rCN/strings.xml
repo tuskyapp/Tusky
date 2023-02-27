@@ -622,4 +622,10 @@
     <string name="action_post_failed_detail">你的嘟文上传失败，已被保存到草稿。
 \n
 \n要么是无法联系服务器，要么是服务器拒绝了它。</string>
+    <string name="accessibility_talking_about_tag">%1$d 人正谈论话题标签 %2$s</string>
+    <string name="title_public_trending_hashtags">热门话题标签</string>
+    <string name="total_usage">总使用</string>
+    <string name="total_accounts">总账户</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="dialog_follow_hashtag_title">关注话题标签</string>
 </resources>
