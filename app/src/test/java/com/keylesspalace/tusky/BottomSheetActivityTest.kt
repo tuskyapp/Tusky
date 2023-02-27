@@ -46,6 +46,7 @@ class BottomSheetActivityTest {
     private lateinit var apiMock: MastodonApi
     private val accountQuery = "http://mastodon.foo.bar/@User"
     private val statusQuery = "http://mastodon.foo.bar/@User/345678"
+    private val nonexistentStatusQuery = "http://mastodon.foo.bar/@User/345678000"
     private val nonMastodonQuery = "http://medium.com/@correspondent/345678"
     private val emptyCallback = Single.just(SearchResult(emptyList(), emptyList(), emptyList()))
     private val testScheduler = TestScheduler()
@@ -55,7 +56,7 @@ class BottomSheetActivityTest {
         localUsername = "admin",
         username = "admin",
         displayName = "Ad Min",
-        url = "http://mastodon.foo.bar",
+        url = "http://mastodon.foo.bar/@User",
         avatar = ""
     )
     private val accountSingle = Single.just(SearchResult(listOf(account), emptyList(), emptyList()))
@@ -101,6 +102,7 @@ class BottomSheetActivityTest {
         apiMock = mock {
             on { searchObservable(eq(accountQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountSingle
             on { searchObservable(eq(statusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn statusSingle
+            on { searchObservable(eq(nonexistentStatusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountSingle
             on { searchObservable(eq(nonMastodonQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn emptyCallback
         }
 
@@ -185,6 +187,14 @@ class BottomSheetActivityTest {
     }
 
     @Test
+    fun search_doesNotRespectUnrelatedResult() {
+        activity.viewUrl(nonexistentStatusQuery)
+        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
+        assertEquals(nonexistentStatusQuery, activity.link)
+        assertEquals(null, activity.accountId)
+    }
+
+    @Test
     fun search_withCancellation_doesNotLoadUrl_forAccount() {
         activity.viewUrl(accountQuery)
         assertTrue(activity.isSearching())
@@ -237,7 +247,6 @@ class BottomSheetActivityTest {
 
         init {
             mastodonApi = api
-            @Suppress("UNCHECKED_CAST")
             bottomSheet = mock()
         }
 

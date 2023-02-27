@@ -3,11 +3,11 @@
     <string name="error_generic">خطایی رخ داد.</string>
     <string name="error_empty">این نمی‌تواند خالی باشد.</string>
     <string name="error_invalid_domain">دامنهٔ نامعتبر وارد شده</string>
-    <string name="error_failed_app_registration">احراز هویت با این نمونه شکست خورد.</string>
+    <string name="error_failed_app_registration">احراز هویت با این نمونه شکست خورد. اگر مشکل ادامه داشت، ورود در مرورگر را از فهرست بیازمایید.</string>
     <string name="error_no_web_browser_found">مرورگری برای استفاده پیدا نشد.</string>
-    <string name="error_authorization_unknown">خطای احراز هویت ناشناخته‌ای رخ داد.</string>
-    <string name="error_authorization_denied">احراز هویت رد شد.</string>
-    <string name="error_retrieving_oauth_token">دریافت ژتون ورود شکست خورد.</string>
+    <string name="error_authorization_unknown">خطای احراز هویت ناشناخته‌ای رخ داد. اگر مشکل ادامه داشت، ورود در مرورگر را از فهرست بیازمایید.</string>
+    <string name="error_authorization_denied">احراز هویت رد شد. اگر مطمئنید که اطّلاعات را درست وارد کرده‌اید، ورود در مرورگر را از فهرست بیازمایید.</string>
+    <string name="error_retrieving_oauth_token">دریافت ژتون ورود شکست خورد. اگر مشکل ادامه داشت، ورود در مرورگر را از فهرست بیازمایید.</string>
     <string name="error_compose_character_limit">فرسته خیلی طولانی است!</string>
     <string name="error_media_upload_type">این گونهٔ پرونده نمی‌تواند بارگذاری شود.</string>
     <string name="error_media_upload_opening">این پرونده نتوانست گشوده شود.</string>
@@ -52,7 +52,7 @@
     <string name="action_favourite">برگزیدن</string>
     <string name="action_more">بیش‌تر</string>
     <string name="action_compose">ایجاد</string>
-    <string name="action_login">ورود با ماستودون</string>
+    <string name="action_login">ورود با تاسکی</string>
     <string name="action_logout">خروج</string>
     <string name="action_follow">پیگیری</string>
     <string name="action_unfollow">ناپیگیری</string>
@@ -364,7 +364,7 @@
     <string name="description_post_reblogged">تقویت شده</string>
     <string name="description_post_favourited">برگزیده</string>
     <string name="description_visibility_public">عمومی</string>
-    <string name="description_visibility_unlisted">فهرست‌نشده</string>
+    <string name="description_visibility_unlisted">فهرست نشده</string>
     <string name="description_visibility_private">پی‌گیران</string>
     <string name="description_visibility_direct">مستقیم</string>
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
@@ -592,4 +592,41 @@
     <string name="post_media_alt">متن جایگزین</string>
     <string name="post_edited">%s را ویراست</string>
     <string name="error_status_source_load">شکست در بار کردن مبدأ وضعیت از کارساز.</string>
+    <string name="a11y_label_loading_thread">بار کردن رشته</string>
+    <string name="title_edits">ویرایش‌ها</string>
+    <string name="pref_summary_http_proxy_missing">&lt;تنظیم نشده&gt;</string>
+    <string name="pref_summary_http_proxy_disabled">از کار افتاده</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
+    <string name="pref_title_reading_order">ترتیب خواندن</string>
+    <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
+    <string name="status_edit_info">%1$s %2$s را ویراست</string>
+    <string name="status_created_info">%1$s %2$s را ایجاد کرد</string>
+    <string name="action_post_failed">بارگذاری شکست خورد</string>
+    <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
+    <string name="action_post_failed_do_nothing">رد کردن</string>
+    <string name="action_post_failed_detail">بارگذاری فرسته‌تان شکست خورد و در پیش‌نویس‌ها ذخیره شد.
+\n
+\nارتباط با کارساز برقرار نشد یا فرسته را رد کرد.</string>
+    <string name="action_post_failed_detail_plural">بارگذاری فرسته‌هایتان شکست خورد و در پیش‌نویس‌ها ذخیره شد.
+\n
+\nارتباط با کارساز برقرار نشد یا فرسته‌ها را رد کرد.</string>
+    <string name="description_login">در بیش‌تر حالت‌ها کار می‌کند. هیچ داده‌ای به دیگر کاره‌ها نشت نمی‌کند.</string>
+    <string name="pref_reading_order_oldest_first">نخست قدیمی‌ترین</string>
+    <string name="description_browser_login">ممکن است از روش‌های تأیید خویت اضافی پشتیبانی کند؛ ولی نیازمند مرورگری پشتیبانی شده است.</string>
+    <string name="action_discard">دور انداختن تغییرات</string>
+    <string name="action_continue_edit">ادامهٔ ویرایش</string>
+    <string name="action_browser_login">ورود با مرورگر</string>
+    <string name="compose_unsaved_changes">تغییراتی ذخیره نشده دارید.</string>
+    <string name="action_share_account_link">هم‌رسانی پیوند به حساب</string>
+    <string name="action_share_account_username">هم‌رسانی نام کاربری حساب</string>
+    <string name="send_account_link_to">هم‌رسانی نشانی حساب به…</string>
+    <string name="send_account_username_to">هم‌رسانی نام کاربری حساب به…</string>
+    <string name="account_username_copied">نام کاربری رونوشت شد</string>
+    <string name="mute_notifications_switch">خموشی آگاهی‌ها</string>
+    <string name="title_public_trending_hashtags">برچسب‌های داغ</string>
+    <string name="accessibility_talking_about_tag">%1$d نفر دارند دربارهٔ برچسب %2$s حرف می‌زنند</string>
+    <string name="total_usage">استفادهٔ کل</string>
+    <string name="total_accounts">مجموع حساب‌ها</string>
+    <string name="dialog_follow_hashtag_title">پی‌گیری برچسب</string>
+    <string name="dialog_follow_hashtag_hint">#برچسب</string>
 </resources>

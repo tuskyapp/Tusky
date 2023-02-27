@@ -38,7 +38,7 @@ class ListStatusAccessibilityDelegate(
 
     private val context: Context get() = recyclerView.context
 
-    private val itemDelegate = object : RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
+    private val itemDelegate = object : ItemDelegate(this) {
         override fun onInitializeAccessibilityNodeInfo(
             host: View,
             info: AccessibilityNodeInfoCompat

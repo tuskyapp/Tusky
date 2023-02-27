@@ -52,7 +52,7 @@
     <string name="action_follow">Seguir</string>
     <string name="action_logout_confirm">Tes a certeza de que queres pechar sesión da conta %1$s\?</string>
     <string name="action_logout">Pechar sesión</string>
-    <string name="action_login">Accede con Mastodon</string>
+    <string name="action_login">Acceder con Tusky</string>
     <string name="action_compose">Redactar</string>
     <string name="action_more">Máis</string>
     <string name="action_unfavourite">Eliminar favorito</string>
@@ -111,11 +111,11 @@
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
     <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
-    <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
-    <string name="error_authorization_denied">A autorización foi rexeitada.</string>
-    <string name="error_authorization_unknown">Aconteceu un erro non identificado de autorización.</string>
+    <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso. Se persiste, inténtao desde Acceder no Navegador.</string>
+    <string name="error_authorization_denied">A autorización foi rexeitada. Se tes a certeza de que as credenciais son correctas, inténtao desde Acceder no Navegador no menú.</string>
+    <string name="error_authorization_unknown">Aconteceu un erro non identificado de autorización. Se persiste, inténtao desde Acceder no Navedor.</string>
     <string name="error_no_web_browser_found">Non se atopou un navegador para utilizar.</string>
-    <string name="error_failed_app_registration">Fallou a autenticación nesta instancia.</string>
+    <string name="error_failed_app_registration">Fallou a autenticación nesta instancia. Se persiste, inténtao desde Acceder no Navegador no menú.</string>
     <string name="error_invalid_domain">O dominio escrito non é válido</string>
     <string name="error_empty">Esto non pode estar baleiro.</string>
     <string name="error_network">Houbo un fallo na rede! Comproba a túa conexión e inténtao outra vez!</string>
@@ -598,4 +598,26 @@
     <string name="send_account_link_to">Compartir URL da conta en…</string>
     <string name="send_account_username_to">Compartir identificador da conta en…</string>
     <string name="account_username_copied">Identificador copiado</string>
+    <string name="pref_title_reading_order">Orde de lectura</string>
+    <string name="pref_reading_order_oldest_first">Antigo primeiro</string>
+    <string name="pref_reading_order_newest_first">Novidades primeiro</string>
+    <string name="pref_summary_http_proxy_missing">&lt;non establecido&gt;</string>
+    <string name="pref_summary_http_proxy_disabled">Desactivado</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;non válido&gt;</string>
+    <string name="action_post_failed">Fallou a subida</string>
+    <string name="action_post_failed_detail">Fallou a subida da publicación e gardouse non borradores.
+\n
+\nPode que o servidor non estive accesible ou que rexeitase a publicación.</string>
+    <string name="action_post_failed_detail_plural">Fallou a subida das túas publicacións e gardáronse nos borradores.
+\n
+\nPode que o servidor non estivese accesible ou que rexeitase as publicacións.</string>
+    <string name="action_post_failed_show_drafts">Mostrar borradores</string>
+    <string name="action_post_failed_do_nothing">Desbotar</string>
+    <string name="action_browser_login">Acceder no Navegador</string>
+    <string name="description_browser_login">Pode ter soporte para métodos adicionais de autenticación, pero require un navegador soportado.</string>
+    <string name="description_login">Funciona case sempre. Non se filtran datos a outras apps.</string>
+    <string name="accessibility_talking_about_tag">%1$d persoas están falando acerca do cancelo %2$s</string>
+    <string name="title_public_trending_hashtags">Cancelos en voga</string>
+    <string name="total_usage">Uso total</string>
+    <string name="total_accounts">Total de contas</string>
 </resources>

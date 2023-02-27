@@ -44,8 +44,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private TextView statusInfo;
-    private Button contentCollapseButton;
+    private final TextView statusInfo;
+    private final Button contentCollapseButton;
 
     public StatusViewHolder(View itemView) {
         super(itemView);

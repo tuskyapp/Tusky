@@ -207,9 +207,9 @@
     <string name="post_text_size_medium">标准</string>
     <string name="post_text_size_large">大</string>
     <string name="post_text_size_largest">最大</string>
-    <string name="notification_mention_name">提及</string>
+    <string name="notification_mention_name">新提及</string>
     <string name="notification_mention_descriptions">当有用户在嘟文中提及我时</string>
-    <string name="notification_follow_name">关注</string>
+    <string name="notification_follow_name">新关注者</string>
     <string name="notification_follow_description">当有用户关注我时</string>
     <string name="notification_boost_name">转嘟</string>
     <string name="notification_boost_description">当我的嘟文被转发时通知</string>
@@ -622,4 +622,10 @@
     <string name="action_post_failed_detail">你的嘟文上传失败，已被保存到草稿。
 \n
 \n要么是无法联系服务器，要么是服务器拒绝了它。</string>
+    <string name="accessibility_talking_about_tag">%1$d 人正谈论话题标签 %2$s</string>
+    <string name="title_public_trending_hashtags">热门话题标签</string>
+    <string name="total_usage">总使用</string>
+    <string name="total_accounts">总账户</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="dialog_follow_hashtag_title">关注话题标签</string>
 </resources>

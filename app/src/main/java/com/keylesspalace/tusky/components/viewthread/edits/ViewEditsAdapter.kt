@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
 
@@ -72,7 +73,7 @@ class ViewEditsAdapter(
 
         binding.statusEditInfo.text = context.getString(
             infoStringRes,
-            edit.account.name,
+            edit.account.name.unicodeWrap(),
             timestamp
         ).emojify(edit.account.emojis, binding.statusEditInfo, animateEmojis)
 

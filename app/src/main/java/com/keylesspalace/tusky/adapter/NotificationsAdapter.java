@@ -67,7 +67,7 @@ import java.util.List;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 
-public class NotificationsAdapter extends RecyclerView.Adapter {
+public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface AdapterDataSource<T> {
         int getItemCount();
@@ -87,12 +87,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
     private static final InputFilter[] NO_INPUT_FILTER = new InputFilter[0];
 
-    private String accountId;
+    private final String accountId;
     private StatusDisplayOptions statusDisplayOptions;
-    private StatusActionListener statusListener;
-    private NotificationActionListener notificationActionListener;
-    private AccountActionListener accountActionListener;
-    private AdapterDataSource<NotificationViewData> dataSource;
+    private final StatusActionListener statusListener;
+    private final NotificationActionListener notificationActionListener;
+    private final AccountActionListener accountActionListener;
+    private final AdapterDataSource<NotificationViewData> dataSource;
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     public NotificationsAdapter(String accountId,
@@ -164,11 +164,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List payloads) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List<Object> payloads) {
         bindViewHolder(viewHolder, position, payloads);
     }
 
-    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List payloads) {
+    private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List<Object> payloads) {
         Object payloadForHolder = payloads != null && !payloads.isEmpty() ? payloads.get(0) : null;
         if (position < this.dataSource.getItemCount()) {
             NotificationViewData notification = dataSource.getItemAt(position);
@@ -234,7 +234,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
                                 concreteNotification.getId());
                     } else {
                         if (payloadForHolder instanceof List)
-                            for (Object item : (List) payloadForHolder) {
+                            for (Object item : (List<?>) payloadForHolder) {
                                 if (StatusBaseViewHolder.Key.KEY_CREATED.equals(item) && statusViewData != null) {
                                     holder.setCreatedAt(statusViewData.getStatus().getActionableStatus().getCreatedAt());
                                 }
@@ -353,11 +353,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
     }
 
     private static class FollowViewHolder extends RecyclerView.ViewHolder {
-        private TextView message;
-        private TextView usernameView;
-        private TextView displayNameView;
-        private ImageView avatar;
-        private StatusDisplayOptions statusDisplayOptions;
+        private final TextView message;
+        private final TextView usernameView;
+        private final TextView displayNameView;
+        private final ImageView avatar;
+        private final StatusDisplayOptions statusDisplayOptions;
 
         FollowViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
@@ -414,7 +414,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private final TextView contentWarningDescriptionTextView;
         private final Button contentWarningButton;
         private final Button contentCollapseButton; // TODO: This code SHOULD be based on StatusBaseViewHolder
-        private StatusDisplayOptions statusDisplayOptions;
+        private final StatusDisplayOptions statusDisplayOptions;
         private final AbsoluteTimeFormatter absoluteTimeFormatter;
 
         private String accountId;
@@ -422,9 +422,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter {
         private NotificationActionListener notificationActionListener;
         private StatusViewData.Concrete statusViewData;
 
-        private int avatarRadius48dp;
-        private int avatarRadius36dp;
-        private int avatarRadius24dp;
+        private final int avatarRadius48dp;
+        private final int avatarRadius36dp;
+        private final int avatarRadius24dp;
 
         StatusNotificationViewHolder(
             View itemView,

@@ -51,6 +51,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.res.use
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -90,7 +91,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.afterTextChanged
-import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
@@ -100,6 +101,7 @@ import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
@@ -139,7 +141,7 @@ class ComposeActivity :
 
     private var photoUploadUri: Uri? = null
 
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     @VisibleForTesting
     var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
@@ -266,7 +268,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupLanguageSpinner(getInitialLanguage(composeOptions?.language, accountManager.activeAccount))
+        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, accountManager.activeAccount))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -542,7 +544,7 @@ class ComposeActivity :
         )
     }
 
-    private fun setupLanguageSpinner(initialLanguage: String) {
+    private fun setupLanguageSpinner(initialLanguages: List<String>) {
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
@@ -553,7 +555,7 @@ class ComposeActivity :
             }
         }
         binding.composePostLanguageButton.apply {
-            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguage))
+            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguages))
             setSelection(0)
         }
     }
@@ -570,9 +572,9 @@ class ComposeActivity :
 
     private fun setupAvatar(activeAccount: AccountEntity) {
         val actionBarSizeAttr = intArrayOf(androidx.appcompat.R.attr.actionBarSize)
-        val a = obtainStyledAttributes(null, actionBarSizeAttr)
-        val avatarSize = a.getDimensionPixelSize(0, 1)
-        a.recycle()
+        val avatarSize = obtainStyledAttributes(null, actionBarSizeAttr).use { a ->
+            a.getDimensionPixelSize(0, 1)
+        }
 
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
         loadAvatar(
@@ -697,7 +699,7 @@ class ComposeActivity :
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
-                if (media.description == null || media.description.isEmpty()) {
+                if (media.description.isNullOrEmpty()) {
                     oneMediaWithoutDescription = true
                     break
                 }

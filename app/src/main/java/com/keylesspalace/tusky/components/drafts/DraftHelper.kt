@@ -44,7 +44,7 @@ import javax.inject.Inject
 
 class DraftHelper @Inject constructor(
     val context: Context,
-    val okHttpClient: OkHttpClient,
+    private val okHttpClient: OkHttpClient,
     db: AppDatabase
 ) {
 
@@ -140,7 +140,7 @@ class DraftHelper @Inject constructor(
         }
     }
 
-    suspend fun deleteDraftAndAttachments(draft: DraftEntity) {
+    private suspend fun deleteDraftAndAttachments(draft: DraftEntity) {
         deleteAttachments(draft)
         draftDao.delete(draft.id)
     }

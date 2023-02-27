@@ -642,4 +642,10 @@
     <string name="action_post_failed_detail_plural">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
 \n
 \nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
+    <string name="accessibility_talking_about_tag">%1$d людей обговорюють хештеґ %2$s</string>
+    <string name="title_public_trending_hashtags">Популярні хештеґи</string>
+    <string name="total_usage">Усього використано</string>
+    <string name="total_accounts">Усього облікових записів</string>
+    <string name="dialog_follow_hashtag_title">Стежити за хештегом</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
 </resources>

@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
@@ -32,6 +33,7 @@ import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -82,6 +84,7 @@ import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
@@ -109,7 +112,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private lateinit var accountFieldAdapter: AccountFieldAdapter
 
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
@@ -297,6 +300,23 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val toolbarBackground = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
         toolbarBackground.fillColor = ColorStateList.valueOf(Color.TRANSPARENT)
         binding.accountToolbar.background = toolbarBackground
+
+        // Provide a non-transparent background to the navigation and overflow icons to ensure
+        // they remain visible over whatever the profile background image might be.
+        val backgroundCircle = AppCompatResources.getDrawable(this, R.drawable.background_circle)!!
+        backgroundCircle.alpha = 210 // Any lower than this and the backgrounds interfere
+        binding.accountToolbar.navigationIcon = LayerDrawable(
+            arrayOf(
+                backgroundCircle,
+                binding.accountToolbar.navigationIcon
+            )
+        )
+        binding.accountToolbar.overflowIcon = LayerDrawable(
+            arrayOf(
+                backgroundCircle,
+                binding.accountToolbar.overflowIcon
+            )
+        )
 
         binding.accountHeaderInfoContainer.background = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
 
@@ -488,16 +508,21 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 .centerCrop()
                 .into(binding.accountHeaderImageView)
 
-            binding.accountAvatarImageView.setOnClickListener { avatarView ->
-                val intent =
-                    ViewMediaActivity.newSingleImageIntent(avatarView.context, account.avatar)
-
-                avatarView.transitionName = account.avatar
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, avatarView, account.avatar)
-
-                startActivity(intent, options.toBundle())
+            binding.accountAvatarImageView.setOnClickListener { view ->
+                viewImage(view, account.avatar)
+            }
+            binding.accountHeaderImageView.setOnClickListener { view ->
+                viewImage(view, account.header)
             }
         }
+    }
+
+    private fun viewImage(view: View, uri: String) {
+        view.transitionName = uri
+        startActivity(
+            ViewMediaActivity.newSingleImageIntent(view.context, uri),
+            ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, uri).toBundle()
+        )
     }
 
     /**
@@ -941,13 +966,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private fun getFullUsername(account: Account): String {
-        if (account.isRemote()) {
-            return "@" + account.username
+        return if (account.isRemote()) {
+            "@" + account.username
         } else {
             val localUsername = account.localUsername
             // Note: !! here will crash if this pane is ever shown to a logged-out user. With AccountActivity this is believed to be impossible.
             val domain = accountManager.activeAccount!!.domain
-            return "@$localUsername@$domain"
+            "@$localUsername@$domain"
         }
     }
 
