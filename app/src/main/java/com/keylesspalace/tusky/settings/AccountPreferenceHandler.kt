@@ -6,8 +6,6 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 
-// TODO this must be possible with DI / @Inject somehow?
-
 class AccountPreferenceHandler(
     private val account: AccountEntity,
     private val accountManager: AccountManager,
@@ -34,10 +32,4 @@ class AccountPreferenceHandler(
 
         eventHub.dispatch(PreferenceChangedEvent(key))
     }
-
-//    companion object {
-//        fun newInstance(accountE: AccountEntity): AccountPreferenceDataStore {
-//            return AccountPreferenceDataStore().apply { account = accountE }
-//        }
-//    }
 }
