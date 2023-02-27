@@ -629,4 +629,6 @@
     <string name="accessibility_talking_about_tag">%1$d persones parlen del hashtag %2$s</string>
     <string name="total_usage">Ús total</string>
     <string name="total_accounts">Total de comptes</string>
+    <string name="dialog_follow_hashtag_title">Segueix hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
 </resources>
