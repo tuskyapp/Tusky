@@ -43,63 +43,81 @@ data class TabData(
     val fragment: (List<String>) -> Fragment,
     val arguments: List<String> = emptyList(),
     val title: (Context) -> String = { context -> context.getString(text) }
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TabData
+
+        if (id != other.id) return false
+        if (arguments != other.arguments) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + arguments.hashCode()
+        return result
+    }
+}
 
 fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
 
 fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
     return when (id) {
         HOME -> TabData(
-            HOME,
-            R.string.title_home,
-            R.drawable.ic_home_24dp,
-            { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
+            id = HOME,
+            text = R.string.title_home,
+            icon = R.drawable.ic_home_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
         )
         NOTIFICATIONS -> TabData(
-            NOTIFICATIONS,
-            R.string.title_notifications,
-            R.drawable.ic_notifications_24dp,
-            { NotificationsFragment.newInstance() }
+            id = NOTIFICATIONS,
+            text = R.string.title_notifications,
+            icon = R.drawable.ic_notifications_24dp,
+            fragment = { NotificationsFragment.newInstance() }
         )
         LOCAL -> TabData(
-            LOCAL,
-            R.string.title_public_local,
-            R.drawable.ic_local_24dp,
-            { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
+            id = LOCAL,
+            text = R.string.title_public_local,
+            icon = R.drawable.ic_local_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
         )
         FEDERATED -> TabData(
-            FEDERATED,
-            R.string.title_public_federated,
-            R.drawable.ic_public_24dp,
-            { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
+            id = FEDERATED,
+            text = R.string.title_public_federated,
+            icon = R.drawable.ic_public_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
         )
         DIRECT -> TabData(
-            DIRECT,
-            R.string.title_direct_messages,
-            R.drawable.ic_reblog_direct_24dp,
-            { ConversationsFragment.newInstance() }
+            id = DIRECT,
+            text = R.string.title_direct_messages,
+            icon = R.drawable.ic_reblog_direct_24dp,
+            fragment = { ConversationsFragment.newInstance() }
         )
         TRENDING -> TabData(
-            TRENDING,
-            R.string.title_public_trending_hashtags,
-            R.drawable.ic_trending_up_24px,
-            { TrendingFragment.newInstance() }
+            id = TRENDING,
+            text = R.string.title_public_trending_hashtags,
+            icon = R.drawable.ic_trending_up_24px,
+            fragment = { TrendingFragment.newInstance() }
         )
         HASHTAG -> TabData(
-            HASHTAG,
-            R.string.hashtags,
-            R.drawable.ic_hashtag,
-            { args -> TimelineFragment.newHashtagInstance(args) },
-            arguments,
-            { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
+            id = HASHTAG,
+            text = R.string.hashtags,
+            icon = R.drawable.ic_hashtag,
+            fragment = { args -> TimelineFragment.newHashtagInstance(args) },
+            arguments = arguments,
+            title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
         )
         LIST -> TabData(
-            LIST,
-            R.string.list,
-            R.drawable.ic_list,
-            { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
-            arguments,
-            { arguments.getOrNull(1).orEmpty() }
+            id = LIST,
+            text = R.string.list,
+            icon = R.drawable.ic_list,
+            fragment = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
+            arguments = arguments,
+            title = { arguments.getOrNull(1).orEmpty() }
         )
         else -> throw IllegalArgumentException("unknown tab type")
     }
