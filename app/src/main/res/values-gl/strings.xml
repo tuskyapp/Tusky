@@ -620,4 +620,6 @@
     <string name="title_public_trending_hashtags">Cancelos en voga</string>
     <string name="total_usage">Uso total</string>
     <string name="total_accounts">Total de contas</string>
+    <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
+    <string name="dialog_follow_hashtag_hint">#cancelo</string>
 </resources>
