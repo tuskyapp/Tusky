@@ -69,9 +69,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
-        // Migrate shared preference keys and defaults from version to version. The last
-        // version that did not have a SCHEMA_VERSION was 100, so that's the default.
-        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 100)
+        // Migrate shared preference keys and defaults from version to version.
+        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 0)
         if (oldVersion != SCHEMA_VERSION) {
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }
@@ -105,22 +104,16 @@ class TuskyApplication : Application(), HasAndroidInjector {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
         val editor = sharedPreferences.edit()
 
-        for (version in oldVersion + 1..newVersion) {
-            when (version) {
-                101 -> upgradeSharedPreferences100to101(editor)
-            }
+        if (oldVersion < 2023022701) {
+            // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
+
+            editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
+            editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
+            editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
         }
 
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
-    }
-
-    private fun upgradeSharedPreferences100to101(editor: SharedPreferences.Editor) {
-        // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
-
-        editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
-        editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
-        editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
     }
 
     companion object {
