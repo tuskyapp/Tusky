@@ -24,7 +24,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ViewComposeScheduleBinding
@@ -143,7 +142,6 @@ class ComposeScheduleView
 //        val picker = pickerBuilder.build()
 //        picker.addOnPositiveButtonClickListener { onTimeSet(picker.hour, picker.minute) }
 //        picker.show((context as AppCompatActivity).supportFragmentManager, "time_picker")
-
 
         val timePickerDialog = TimePickerDialog(
             context,
