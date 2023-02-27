@@ -306,11 +306,14 @@ class TimelineFragment :
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.fragment_timeline, menu)
-        menu.findItem(R.id.action_refresh)?.apply {
-            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+        if (isSwipeToRefreshEnabled) {
+            menuInflater.inflate(R.menu.fragment_timeline, menu)
+            menu.findItem(R.id.action_refresh)?.apply {
+                icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                    sizeDp = 20
+                    colorInt =
+                        MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+                }
             }
         }
     }
@@ -318,9 +321,14 @@ class TimelineFragment :
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                refreshContent()
-                true
+                if (isSwipeToRefreshEnabled) {
+                    binding.swipeRefreshLayout.isRefreshing = true
+
+                    refreshContent()
+                    true
+                } else {
+                    false
+                }
             }
             else -> false
         }

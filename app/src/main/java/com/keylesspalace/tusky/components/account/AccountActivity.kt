@@ -90,6 +90,10 @@ import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.text.NumberFormat
@@ -800,6 +804,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         if (!viewModel.isSelf && followState != FollowState.FOLLOWING) {
             menu.removeItem(R.id.action_add_or_remove_from_list)
         }
+
+        menu.findItem(R.id.action_search)?.apply {
+            icon = IconicsDrawable(this@AccountActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.collapsingToolbar, android.R.attr.textColorPrimary)
+            }
+        }
     }
 
     private fun showFollowRequestPendingDialog() {
@@ -950,6 +961,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             }
             R.id.action_show_reblogs -> {
                 viewModel.changeShowReblogsState()
+                return true
+            }
+            R.id.action_refresh -> {
+                binding.swipeToRefreshLayout.isRefreshing = true
+                onRefresh()
                 return true
             }
             R.id.action_report -> {
