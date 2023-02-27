@@ -599,7 +599,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (statusDisplayOptions.showBotOverlay() && isBot) {
                 notificationAvatar.setVisibility(View.VISIBLE);
                 Glide.with(notificationAvatar)
-                        .load(ContextCompat.getDrawable(notificationAvatar.getContext(), R.drawable.bot_badge))
+                        .load(R.drawable.bot_badge)
                         .into(notificationAvatar);
 
             } else {
