@@ -136,8 +136,11 @@ class SpanUtilsTest {
         }
 
         override fun <T : Any> getSpans(start: Int, end: Int, type: Class<T>): Array<T> {
-            return spans.filter { it.start >= start && it.end <= end && type.isInstance(it) }
+            @Suppress("UNCHECKED_CAST")
+            return spans.asSequence()
+                .filter { it.start >= start && it.end <= end && type.isInstance(it) }
                 .map { it.span }
+                .toList()
                 .toTypedArray() as Array<T>
         }
 

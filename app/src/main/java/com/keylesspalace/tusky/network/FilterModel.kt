@@ -59,7 +59,7 @@ class FilterModel @Inject constructor() {
         val now = Date()
         val nonExpiredFilters = filters.filter { it.expiresAt?.before(now) != true }
         if (nonExpiredFilters.isEmpty()) return null
-        val tokens = nonExpiredFilters
+        val tokens = nonExpiredFilters.asSequence()
             .map { filterToRegexToken(it) }
 
         return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE)

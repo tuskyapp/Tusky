@@ -63,8 +63,10 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
     }
 
     fun getSelected(): List<Int> {
-        return pollOptions.filter { it.selected }
+        return pollOptions.asSequence()
+            .filter { it.selected }
             .map { pollOptions.indexOf(it) }
+            .toList()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemPollBinding> {

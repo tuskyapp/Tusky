@@ -59,7 +59,8 @@ class AnnouncementsViewModel @Inject constructor(
                 .fold(
                     {
                         announcementsMutable.postValue(Success(it))
-                        it.filter { announcement -> !announcement.read }
+                        it.asSequence()
+                            .filter { announcement -> !announcement.read }
                             .forEach { announcement ->
                                 mastodonApi.dismissAnnouncement(announcement.id)
                                     .fold(

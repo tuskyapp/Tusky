@@ -389,13 +389,14 @@ class ComposeViewModel @Inject constructor(
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
 
-                return emojiList.filter { emoji ->
-                    emoji.shortcode.contains(incomplete, ignoreCase = true)
-                }.sortedBy { emoji ->
-                    emoji.shortcode.indexOf(incomplete, ignoreCase = true)
-                }.map { emoji ->
-                    AutocompleteResult.EmojiResult(emoji)
-                }
+                return emojiList.asSequence()
+                    .filter { emoji ->
+                        emoji.shortcode.contains(incomplete, ignoreCase = true)
+                    }.sortedBy { emoji ->
+                        emoji.shortcode.indexOf(incomplete, ignoreCase = true)
+                    }.map { emoji ->
+                        AutocompleteResult.EmojiResult(emoji)
+                    }.toList()
             }
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")
