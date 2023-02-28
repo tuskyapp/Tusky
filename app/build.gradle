@@ -72,6 +72,7 @@ android {
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
+            systemProperty 'robolectric.lazyload', 'ON'
         }
     }
     sourceSets {
