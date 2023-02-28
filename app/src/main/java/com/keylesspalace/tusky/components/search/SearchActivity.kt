@@ -109,7 +109,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
-            viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY) ?: ""
+            viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY).orEmpty()
             viewModel.search(viewModel.currentQuery)
         }
     }
