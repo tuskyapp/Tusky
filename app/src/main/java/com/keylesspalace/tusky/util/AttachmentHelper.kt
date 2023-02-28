@@ -3,6 +3,7 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import android.content.res.Resources
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import kotlin.math.roundToInt
@@ -27,10 +28,16 @@ private fun formatDuration(durationInSeconds: Double): String {
 }
 
 fun List<Attachment>.aspectRatios(): List<Double> {
+    val displayMetrics = Resources.getSystem().displayMetrics
+    val deviceIsHigher = displayMetrics.heightPixels > displayMetrics.widthPixels
+
+    val minAspect = if (deviceIsHigher) 0.5 else 1.2
+    val maxAspect = if (deviceIsHigher) 2.0 else 3.0
+
     return map { attachment ->
-        // clamp ratio between 2:1 & 1:2, defaulting to 16:9
+        // clamp ratio between min & max, defaulting to 16:9 if there is no metadata
         val size = (attachment.meta?.small ?: attachment.meta?.original) ?: return@map 1.7778
         val aspect = if (size.aspect > 0) size.aspect else size.width.toDouble() / size.height
-        aspect.coerceIn(0.5, 2.0)
+        aspect.coerceIn(minAspect, maxAspect)
     }
 }
