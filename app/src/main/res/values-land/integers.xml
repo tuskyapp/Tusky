@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="image_aspect_min_tenth">12</integer>
+    <integer name="image_aspect_max_tenth">30</integer>
+</resources>

@@ -27,13 +27,7 @@ private fun formatDuration(durationInSeconds: Double): String {
     return "%d:%02d:%02d".format(hours, minutes, seconds)
 }
 
-fun List<Attachment>.aspectRatios(): List<Double> {
-    val displayMetrics = Resources.getSystem().displayMetrics
-    val deviceIsHigher = displayMetrics.heightPixels > displayMetrics.widthPixels
-
-    val minAspect = if (deviceIsHigher) 0.5 else 1.2
-    val maxAspect = if (deviceIsHigher) 2.0 else 3.0
-
+fun List<Attachment>.aspectRatios(minAspect: Double, maxAspect: Double): List<Double> {
     return map { attachment ->
         // clamp ratio between min & max, defaulting to 16:9 if there is no metadata
         val size = (attachment.meta?.small ?: attachment.meta?.original) ?: return@map 1.7778
