@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.text.Spannable
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -56,6 +57,8 @@ import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -90,7 +93,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.PickMediaFiles
-import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
@@ -98,7 +100,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -370,7 +371,7 @@ class ComposeActivity :
         if (startingContentWarning != null) {
             binding.composeContentWarningField.setText(startingContentWarning)
         }
-        binding.composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
+        binding.composeContentWarningField.doOnTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
     private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
@@ -393,8 +394,8 @@ class ComposeActivity :
 
         val mentionColour = binding.composeEditField.linkTextColors.defaultColor
         highlightSpans(binding.composeEditField.text, mentionColour)
-        binding.composeEditField.afterTextChanged { editable ->
-            highlightSpans(editable, mentionColour)
+        binding.composeEditField.doAfterTextChanged { editable ->
+            highlightSpans(editable as Spannable, mentionColour)
             updateVisibleCharactersLeft()
         }
 

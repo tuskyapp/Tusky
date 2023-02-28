@@ -24,7 +24,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -40,6 +39,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
+import androidx.core.widget.doAfterTextChanged
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -72,7 +72,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
@@ -645,21 +644,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 subscribing = relation.subscribing
         }
 
-        // remove the listener so it doesn't fire on non-user changes
-        binding.accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
-
         binding.accountNoteTextInputLayout.visible(relation.note != null)
         binding.accountNoteTextInputLayout.editText?.setText(relation.note)
 
-        binding.accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
-
-        updateButtons()
-    }
-
-    private val noteWatcher = object : DefaultTextWatcher() {
-        override fun afterTextChanged(s: Editable) {
+        binding.accountNoteTextInputLayout.editText?.doAfterTextChanged { s ->
             viewModel.noteChanged(s.toString())
         }
+
+        updateButtons()
     }
 
     private fun updateFollowButton() {
