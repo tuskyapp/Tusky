@@ -23,7 +23,6 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.aspectRatios
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
-
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText

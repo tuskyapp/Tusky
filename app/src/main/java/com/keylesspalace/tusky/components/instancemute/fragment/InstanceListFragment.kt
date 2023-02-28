@@ -19,7 +19,6 @@ import com.keylesspalace.tusky.databinding.FragmentInstanceListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
-
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

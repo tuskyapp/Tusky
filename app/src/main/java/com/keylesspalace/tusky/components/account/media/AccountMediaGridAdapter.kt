@@ -19,7 +19,6 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.getFormattedDescription
-
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 

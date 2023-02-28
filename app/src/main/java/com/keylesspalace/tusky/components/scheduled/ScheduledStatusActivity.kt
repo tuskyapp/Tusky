@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

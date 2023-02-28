@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
-
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 import kotlinx.coroutines.flow.collectLatest

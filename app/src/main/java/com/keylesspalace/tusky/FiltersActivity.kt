@@ -14,7 +14,6 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
-
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.getSecondsForDurationIndex
 import com.keylesspalace.tusky.view.setupEditDialogForFilter

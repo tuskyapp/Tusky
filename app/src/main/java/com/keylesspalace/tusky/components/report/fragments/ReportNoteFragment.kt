@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-
 import com.keylesspalace.tusky.util.viewBinding
 import java.io.IOException
 import javax.inject.Inject

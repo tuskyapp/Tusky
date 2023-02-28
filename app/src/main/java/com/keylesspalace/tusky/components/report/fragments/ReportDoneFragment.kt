@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.databinding.FragmentReportDoneBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
-
 import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
 

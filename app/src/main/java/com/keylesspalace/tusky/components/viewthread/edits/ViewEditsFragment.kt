@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
-
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.launch
 import java.io.IOException

@@ -45,7 +45,6 @@ import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
-
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
