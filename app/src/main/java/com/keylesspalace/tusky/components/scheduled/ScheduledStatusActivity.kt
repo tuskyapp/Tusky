@@ -35,7 +35,7 @@ import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
-import com.keylesspalace.tusky.util.hide
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -83,7 +83,7 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Error) {
-                binding.progressBar.hide()
+                binding.progressBar.isVisible = false
                 binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                     refreshStatuses()
                 }
@@ -93,12 +93,12 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
                 binding.swipeRefreshLayout.isRefreshing = false
             }
             if (loadState.refresh is LoadState.NotLoading) {
-                binding.progressBar.hide()
+                binding.progressBar.isVisible = false
                 if (adapter.itemCount == 0) {
                     binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_posts)
                     binding.errorMessageView.isVisible = true
                 } else {
-                    binding.errorMessageView.hide()
+                    binding.errorMessageView.isVisible = false
                 }
             }
         }

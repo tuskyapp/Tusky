@@ -34,6 +34,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -41,7 +42,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.launch
@@ -140,7 +140,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
-                binding.loginProgress.hide()
+                binding.loginProgress.isVisible = false
             }
 
             override fun onReceivedError(

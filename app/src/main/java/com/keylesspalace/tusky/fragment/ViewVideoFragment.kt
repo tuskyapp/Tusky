@@ -31,10 +31,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.isVisible
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
 import kotlin.math.abs
@@ -54,7 +54,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         // Hoist toolbar hiding to activity so it can track state across different fragments
         // This is explicitly stored as runnable so that we pass it to the handler later for cancellation
         mediaActivity.onPhotoTap()
-        mediaController.hide()
+        mediaController.isVisible = false
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private lateinit var mediaController: MediaController
@@ -86,7 +86,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         if (_binding != null) {
             handler.removeCallbacks(hideToolbar)
             binding.videoView.pause()
-            mediaController.hide()
+            mediaController.isVisible = false
         }
     }
 
@@ -171,7 +171,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                 mediaController.show()
             }
 
-            binding.progressBar.hide()
+            binding.progressBar.isVisible = false
             mp.isLooping = true
         }
 

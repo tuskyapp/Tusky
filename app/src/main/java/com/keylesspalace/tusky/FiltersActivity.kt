@@ -14,7 +14,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.getSecondsForDurationIndex
 import com.keylesspalace.tusky.view.setupEditDialogForFilter
@@ -144,14 +144,14 @@ class FiltersActivity : BaseActivity() {
 
     private fun loadFilters() {
 
-        binding.filterMessageView.hide()
-        binding.filtersView.hide()
-        binding.addFilterButton.hide()
+        binding.filterMessageView.isVisible = false
+        binding.filtersView.isVisible = false
+        binding.addFilterButton.isVisible = false
         binding.filterProgressBar.isVisible = true
 
         lifecycleScope.launch {
             val newFilters = api.getFilters().getOrElse {
-                binding.filterProgressBar.hide()
+                binding.filterProgressBar.isVisible = false
                 binding.filterMessageView.isVisible = true
                 if (it is IOException) {
                     binding.filterMessageView.setup(
@@ -172,7 +172,7 @@ class FiltersActivity : BaseActivity() {
 
             binding.filtersView.isVisible = true
             binding.addFilterButton.show()
-            binding.filterProgressBar.hide()
+            binding.filterProgressBar.isVisible = false
         }
     }
 

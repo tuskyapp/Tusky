@@ -39,7 +39,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
@@ -103,7 +102,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
                 adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 
                 when (state.accounts) {
-                    is Either.Right -> binding.messageView.hide()
+                    is Either.Right -> binding.messageView.isVisible = false
                     is Either.Left -> handleError(state.accounts.value)
                 }
 
@@ -131,7 +130,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     private fun setupSearchView(state: State) {
         if (state.searchResult == null) {
             searchAdapter.submitList(listOf())
-            binding.accountsSearchRecycler.hide()
+            binding.accountsSearchRecycler.isVisible = false
             binding.accountsRecycler.isVisible = true
         } else {
             val listAccounts = state.accounts.asRightOrNull() ?: listOf()
@@ -140,14 +139,14 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             }
             searchAdapter.submitList(newList)
             binding.accountsSearchRecycler.isVisible = true
-            binding.accountsRecycler.hide()
+            binding.accountsRecycler.isVisible = false
         }
     }
 
     private fun handleError(error: Throwable) {
         binding.messageView.isVisible = true
         val retryAction = { _: View ->
-            binding.messageView.hide()
+            binding.messageView.isVisible = false
             viewModel.load(listId)
         }
         if (error is IOException) {
@@ -184,11 +183,12 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(AccountDiffer) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
-            val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             val holder = BindingHolder(binding)
 
-            binding.notificationTextView.hide()
-            binding.acceptButton.hide()
+            binding.notificationTextView.isVisible = false
+            binding.acceptButton.isVisible = false
             binding.rejectButton.setOnClickListener {
                 onRemoveFromList(getItem(holder.bindingAdapterPosition).id)
             }
@@ -219,11 +219,12 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     inner class SearchAdapter : ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(SearchDiffer) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
-            val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             val holder = BindingHolder(binding)
 
-            binding.notificationTextView.hide()
-            binding.acceptButton.hide()
+            binding.notificationTextView.isVisible = false
+            binding.acceptButton.isVisible = false
             binding.rejectButton.setOnClickListener {
                 val (account, inAList) = getItem(holder.bindingAdapterPosition)
                 if (inAList) {

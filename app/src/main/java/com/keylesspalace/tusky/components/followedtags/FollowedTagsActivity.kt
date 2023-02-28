@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
@@ -90,7 +90,7 @@ class FollowedTagsActivity :
             binding.followedTagsView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     if (dy > 0 && binding.fab.isShown) {
-                        binding.fab.hide()
+                        binding.fab.isVisible = false
                     } else if (dy < 0 && !binding.fab.isShown) {
                         binding.fab.show()
                     }
@@ -105,7 +105,7 @@ class FollowedTagsActivity :
                 binding.followedTagsProgressBar.visible(loadState.refresh == LoadState.Loading && itemCount == 0)
 
                 if (loadState.refresh is LoadState.Error) {
-                    binding.followedTagsView.hide()
+                    binding.followedTagsView.isVisible = false
                     binding.followedTagsMessageView.isVisible = true
                     val errorState = loadState.refresh as LoadState.Error
                     if (errorState.error is IOException) {
@@ -116,7 +116,7 @@ class FollowedTagsActivity :
                     Log.w(TAG, "error loading followed hashtags", errorState.error)
                 } else {
                     binding.followedTagsView.isVisible = true
-                    binding.followedTagsMessageView.hide()
+                    binding.followedTagsMessageView.isVisible = false
                 }
             }
         }

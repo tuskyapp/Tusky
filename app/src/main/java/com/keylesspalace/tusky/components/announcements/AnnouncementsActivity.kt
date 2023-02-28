@@ -38,7 +38,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
@@ -98,21 +98,21 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         viewModel.announcements.observe(this) {
             when (it) {
                 is Success -> {
-                    binding.progressBar.hide()
+                    binding.progressBar.isVisible = false
                     binding.swipeRefreshLayout.isRefreshing = false
                     if (it.data.isNullOrEmpty()) {
                         binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_announcements)
                         binding.errorMessageView.isVisible = true
                     } else {
-                        binding.errorMessageView.hide()
+                        binding.errorMessageView.isVisible = false
                     }
                     adapter.updateList(it.data ?: listOf())
                 }
                 is Loading -> {
-                    binding.errorMessageView.hide()
+                    binding.errorMessageView.isVisible = false
                 }
                 is Error -> {
-                    binding.progressBar.hide()
+                    binding.progressBar.isVisible = false
                     binding.swipeRefreshLayout.isRefreshing = false
                     binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                         refreshAnnouncements()

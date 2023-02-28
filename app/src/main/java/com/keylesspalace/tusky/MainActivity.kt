@@ -94,7 +94,6 @@ import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.updateShortcut
@@ -672,11 +671,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
             val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
-            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
-            binding.topNav.hide()
+            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
+                actionBarSize + fabMargin
+            binding.topNav.isVisible = false
             binding.bottomTabLayout
         } else {
-            binding.bottomNav.hide()
+            binding.bottomNav.isVisible = false
             (binding.viewPager.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
             (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).anchorId = R.id.viewPager
             binding.tabLayout
@@ -759,7 +759,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 if (fragment.isFabVisible()) {
                     binding.composeButton.show()
                 } else {
-                    binding.composeButton.hide()
+                    binding.composeButton.isVisible = false
                 }
             } else {
                 binding.composeButton.show()
@@ -807,11 +807,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .setTitle(R.string.action_logout)
                 .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
                 .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                    binding.appBar.hide()
-                    binding.viewPager.hide()
+                    binding.appBar.isVisible = false
+                    binding.viewPager.isVisible = false
                     binding.progressBar.isVisible = true
-                    binding.bottomNav.hide()
-                    binding.composeButton.hide()
+                    binding.bottomNav.isVisible = false
+                    binding.composeButton.isVisible = false
 
                     lifecycleScope.launch {
                         val otherAccountAvailable = logoutUsecase.logout()
@@ -896,8 +896,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
         } else {
 
-            binding.bottomNavAvatar.hide()
-            binding.topNavAvatar.hide()
+            binding.bottomNavAvatar.isVisible = false
+            binding.topNavAvatar.isVisible = false
 
             val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 

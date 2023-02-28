@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceBinding
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setDrawableTint
 
 interface ItemInteractionListener {
@@ -144,7 +143,7 @@ class TabAdapter(
                     listener.onActionChipClicked(tab, holder.bindingAdapterPosition)
                 }
             } else {
-                binding.chipGroup.hide()
+                binding.chipGroup.isVisible = false
             }
         }
     }

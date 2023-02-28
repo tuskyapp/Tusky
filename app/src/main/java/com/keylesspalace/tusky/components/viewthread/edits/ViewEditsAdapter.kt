@@ -23,7 +23,7 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.aspectRatios
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
@@ -78,8 +78,8 @@ class ViewEditsAdapter(
         ).emojify(edit.account.emojis, binding.statusEditInfo, animateEmojis)
 
         if (edit.spoilerText.isEmpty()) {
-            binding.statusEditContentWarningDescription.hide()
-            binding.statusEditContentWarningSeparator.hide()
+            binding.statusEditContentWarningDescription.isVisible = false
+            binding.statusEditContentWarningSeparator.isVisible = false
         } else {
             binding.statusEditContentWarningDescription.isVisible = true
             binding.statusEditContentWarningSeparator.isVisible = true
@@ -94,8 +94,8 @@ class ViewEditsAdapter(
         setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
 
         if (edit.poll == null) {
-            binding.statusEditPollOptions.hide()
-            binding.statusEditPollDescription.hide()
+            binding.statusEditPollOptions.isVisible = false
+            binding.statusEditPollDescription.isVisible = false
         } else {
             binding.statusEditPollOptions.isVisible = true
 
@@ -124,8 +124,8 @@ class ViewEditsAdapter(
         }
 
         if (edit.mediaAttachments.isEmpty()) {
-            binding.statusEditMediaPreview.hide()
-            binding.statusEditMediaSensitivity.hide()
+            binding.statusEditMediaPreview.isVisible = false
+            binding.statusEditMediaSensitivity.isVisible = false
         } else {
             binding.statusEditMediaPreview.isVisible = true
             binding.statusEditMediaPreview.aspectRatios = edit.mediaAttachments.aspectRatios()

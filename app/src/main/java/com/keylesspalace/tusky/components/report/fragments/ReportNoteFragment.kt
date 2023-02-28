@@ -31,7 +31,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import java.io.IOException
 import javax.inject.Inject
@@ -68,8 +68,8 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
             binding.checkIsNotifyRemote.isVisible = true
             binding.reportDescriptionRemoteInstance.isVisible = true
         } else {
-            binding.checkIsNotifyRemote.hide()
-            binding.reportDescriptionRemoteInstance.hide()
+            binding.checkIsNotifyRemote.isVisible = false
+            binding.reportDescriptionRemoteInstance.isVisible = false
         }
 
         if (viewModel.isRemoteAccount)
@@ -92,7 +92,7 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
         binding.checkIsNotifyRemote.isEnabled = true
         binding.buttonReport.isEnabled = true
         binding.buttonBack.isEnabled = true
-        binding.progressBar.hide()
+        binding.progressBar.isVisible = false
 
         Snackbar.make(binding.buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
             .setAction(R.string.action_retry) {

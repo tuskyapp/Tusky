@@ -35,7 +35,7 @@ import com.keylesspalace.tusky.databinding.ItemAddOrRemoveFromListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
@@ -84,7 +84,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.states.collectLatest { states ->
-                binding.progressBar.hide()
+                binding.progressBar.isVisible = false
                 if (states.isEmpty()) {
                     binding.messageView.isVisible = true
                     binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.no_lists) {
@@ -99,8 +99,8 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loadError.collectLatest { error ->
-                binding.progressBar.hide()
-                binding.listsView.hide()
+                binding.progressBar.isVisible = false
+                binding.listsView.isVisible = false
                 binding.messageView.apply {
                     isVisible = true
 
@@ -147,8 +147,8 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
 
     private fun load() {
         binding.progressBar.isVisible = true
-        binding.listsView.hide()
-        binding.messageView.hide()
+        binding.listsView.isVisible = false
+        binding.messageView.isVisible = false
         viewModel.load()
     }
 

@@ -45,7 +45,7 @@ import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -164,7 +164,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         adapter.submitList(state.lists)
         binding.progressBar.visible(state.loadingState == LOADING)
         when (state.loadingState) {
-            INITIAL, LOADING -> binding.messageView.hide()
+            INITIAL, LOADING -> binding.messageView.isVisible = false
             ERROR_NETWORK -> {
                 binding.messageView.isVisible = true
                 binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -185,7 +185,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                         null
                     )
                 } else {
-                    binding.messageView.hide()
+                    binding.messageView.isVisible = false
                 }
         }
     }

@@ -47,7 +47,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
@@ -156,8 +156,8 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                     is ThreadUiState.Loading -> {
                         updateRevealButton(RevealButtonState.NO_BUTTON)
 
-                        binding.recyclerView.hide()
-                        binding.statusView.hide()
+                        binding.recyclerView.isVisible = false
+                        binding.statusView.isVisible = false
 
                         initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
                         initialProgressBar.start()
@@ -179,7 +179,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.isVisible = true
-                        binding.statusView.hide()
+                        binding.statusView.isVisible = false
                     }
                     is ThreadUiState.Error -> {
                         Log.w(TAG, "failed to load status", uiState.throwable)
@@ -189,7 +189,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         updateRevealButton(RevealButtonState.NO_BUTTON)
                         binding.swipeRefreshLayout.isRefreshing = false
 
-                        binding.recyclerView.hide()
+                        binding.recyclerView.isVisible = false
                         binding.statusView.isVisible = true
 
                         if (uiState.throwable is IOException) {
@@ -224,7 +224,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.isVisible = true
-                        binding.statusView.hide()
+                        binding.statusView.isVisible = false
                     }
                     is ThreadUiState.Refreshing -> {
                         threadProgressBar.cancel()
@@ -265,7 +265,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             view.isVisible = true
             awaitCancellation()
         } finally {
-            view.hide()
+            view.isVisible = false
         }
     }
 

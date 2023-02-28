@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -108,17 +107,22 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 binding.swipeRefreshLayout.isRefreshing = false
             }
 
-            binding.statusView.hide()
-            binding.progressBar.hide()
+            binding.statusView.isVisible = false
+            binding.progressBar.isVisible = false
 
             if (adapter.itemCount == 0) {
                 when (loadState.refresh) {
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.isVisible = true
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
                         }
                     }
+
                     is LoadState.Error -> {
                         binding.statusView.isVisible = true
 
@@ -154,7 +158,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 if (composeButton != null) {
                     if (hideFab) {
                         if (dy > 0 && composeButton.isShown) {
-                            composeButton.hide() // hides the button if we're scrolling down
+                            composeButton.isVisible =
+                                false // hides the button if we're scrolling down
                         } else if (dy < 0 && !composeButton.isShown) {
                             composeButton.show() // shows it if we are scrolling up
                         }

@@ -48,7 +48,7 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 import kotlinx.coroutines.flow.collectLatest
@@ -205,7 +205,7 @@ class TrendingFragment :
 
         if (viewData.isEmpty()) {
             adapter.submitList(emptyList())
-            binding.recyclerView.hide()
+            binding.recyclerView.isVisible = false
             binding.messageView.isVisible = true
             binding.messageView.setup(
                 R.drawable.elephant_friend_empty, R.string.message_empty,
@@ -217,27 +217,27 @@ class TrendingFragment :
             adapter.submitList(viewDataWithDates)
 
             binding.recyclerView.isVisible = true
-            binding.messageView.hide()
+            binding.messageView.isVisible = false
         }
-        binding.progressBar.hide()
+        binding.progressBar.isVisible = false
     }
 
     private fun applyLoadingState() {
-        binding.recyclerView.hide()
-        binding.messageView.hide()
+        binding.recyclerView.isVisible = false
+        binding.messageView.isVisible = false
         binding.progressBar.isVisible = true
     }
 
     private fun clearLoadingState() {
         binding.swipeRefreshLayout.isRefreshing = false
-        binding.progressBar.hide()
-        binding.messageView.hide()
+        binding.progressBar.isVisible = false
+        binding.messageView.isVisible = false
     }
 
     private fun networkError() {
-        binding.recyclerView.hide()
+        binding.recyclerView.isVisible = false
         binding.messageView.isVisible = true
-        binding.progressBar.hide()
+        binding.progressBar.isVisible = false
 
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
@@ -247,9 +247,9 @@ class TrendingFragment :
     }
 
     private fun otherError() {
-        binding.recyclerView.hide()
+        binding.recyclerView.isVisible = false
         binding.messageView.isVisible = true
-        binding.progressBar.hide()
+        binding.progressBar.isVisible = false
 
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
@@ -278,7 +278,7 @@ class TrendingFragment :
 
         if (actionButtonPresent()) {
             val composeButton = (activity as ActionButtonActivity).actionButton
-            composeButton?.hide()
+            composeButton?.isVisible = false
         }
     }
 

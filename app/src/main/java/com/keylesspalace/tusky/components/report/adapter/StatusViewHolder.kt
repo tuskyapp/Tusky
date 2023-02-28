@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FI
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setClickableMentions
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.shouldTrimStatus
@@ -102,9 +101,16 @@ class StatusViewHolder(
             )
 
             if (viewdata.spoilerText.isBlank()) {
-                setTextVisible(true, viewdata.content, viewdata.status.mentions, viewdata.status.tags, viewdata.status.emojis, adapterHandler)
-                binding.statusContentWarningButton.hide()
-                binding.statusContentWarningDescription.hide()
+                setTextVisible(
+                    true,
+                    viewdata.content,
+                    viewdata.status.mentions,
+                    viewdata.status.tags,
+                    viewdata.status.emojis,
+                    adapterHandler
+                )
+                binding.statusContentWarningButton.isVisible = false
+                binding.statusContentWarningDescription.isVisible = false
             } else {
                 val emojiSpoiler = viewdata.spoilerText.emojify(viewdata.status.emojis, binding.statusContentWarningDescription, statusDisplayOptions.animateEmojis)
                 binding.statusContentWarningDescription.text = emojiSpoiler
@@ -148,7 +154,7 @@ class StatusViewHolder(
             setClickableMentions(binding.statusContent, mentions, listener)
         }
         if (binding.statusContent.text.isNullOrBlank()) {
-            binding.statusContent.hide()
+            binding.statusContent.isVisible = false
         } else {
             binding.statusContent.isVisible = true
         }
@@ -188,7 +194,7 @@ class StatusViewHolder(
                 binding.statusContent.filters = NO_INPUT_FILTER
             }
         } else {
-            binding.buttonToggleContent.hide()
+            binding.buttonToggleContent.isVisible = false
             binding.statusContent.filters = NO_INPUT_FILTER
         }
     }

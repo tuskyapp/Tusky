@@ -36,7 +36,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -80,16 +80,16 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                 when (uiState) {
                     EditsUiState.Initial -> {}
                     EditsUiState.Loading -> {
-                        binding.recyclerView.hide()
-                        binding.statusView.hide()
+                        binding.recyclerView.isVisible = false
+                        binding.statusView.isVisible = false
                         binding.initialProgressBar.isVisible = true
                     }
                     is EditsUiState.Error -> {
                         Log.w(TAG, "failed to load edits", uiState.throwable)
 
-                        binding.recyclerView.hide()
+                        binding.recyclerView.isVisible = false
                         binding.statusView.isVisible = true
-                        binding.initialProgressBar.hide()
+                        binding.initialProgressBar.isVisible = false
 
                         if (uiState.throwable is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -103,8 +103,8 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                     }
                     is EditsUiState.Success -> {
                         binding.recyclerView.isVisible = true
-                        binding.statusView.hide()
-                        binding.initialProgressBar.hide()
+                        binding.statusView.isVisible = false
+                        binding.initialProgressBar.isVisible = false
 
                         binding.recyclerView.adapter = ViewEditsAdapter(
                             edits = uiState.edits,

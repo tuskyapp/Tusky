@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemDraftBinding
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.visible
 
 interface DraftActionListener {
@@ -84,7 +84,7 @@ class DraftsAdapter(
                 holder.binding.draftPoll.isVisible = true
                 holder.binding.draftPoll.setPoll(draft.poll)
             } else {
-                holder.binding.draftPoll.hide()
+                holder.binding.draftPoll.isVisible = false
             }
         }
     }

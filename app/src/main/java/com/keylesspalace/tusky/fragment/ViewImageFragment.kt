@@ -26,6 +26,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -35,7 +36,6 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
@@ -267,7 +267,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 photoActionsListener.onBringUp()
             }
             // Hide progress bar only on fail request from internet
-            if (!isCacheRequest && _binding != null) binding.progressBar.hide()
+            if (!isCacheRequest && _binding != null) binding.progressBar.isVisible = false
             // We don't want to overwrite preview with null when main image fails to load
             return !isCacheRequest
         }
@@ -281,7 +281,7 @@ class ViewImageFragment : ViewMediaFragment() {
             isFirstResource: Boolean
         ): Boolean {
             if (_binding != null) {
-                binding.progressBar.hide() // Always hide the progress bar on success
+                binding.progressBar.isVisible = false // Always hide the progress bar on success
             }
 
             if (!startedTransition || !shouldStartTransition) {

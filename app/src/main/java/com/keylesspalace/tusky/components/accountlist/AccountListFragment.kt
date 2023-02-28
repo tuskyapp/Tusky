@@ -50,7 +50,7 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -344,7 +344,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
                 null
             )
         } else {
-            binding.messageView.hide()
+            binding.messageView.isVisible = false
         }
     }
 
@@ -372,12 +372,12 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             binding.messageView.isVisible = true
             if (throwable is IOException) {
                 binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    binding.messageView.hide()
+                    binding.messageView.isVisible = false
                     this.fetchAccounts(null)
                 }
             } else {
                 binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    binding.messageView.hide()
+                    binding.messageView.isVisible = false
                     this.fetchAccounts(null)
                 }
             }

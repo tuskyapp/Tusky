@@ -94,7 +94,7 @@ import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
@@ -254,7 +254,7 @@ class ComposeActivity :
             )
             binding.composeUsernameView.isVisible = true
         } else {
-            binding.composeUsernameView.hide()
+            binding.composeUsernameView.isVisible = false
         }
 
         setupReplyViews(composeOptions?.replyingStatusAuthor, composeOptions?.replyingStatusContent)
@@ -351,7 +351,7 @@ class ComposeActivity :
                 TransitionManager.beginDelayedTransition(binding.composeReplyContentView.parent as ViewGroup)
 
                 if (binding.composeReplyContentView.isVisible) {
-                    binding.composeReplyContentView.hide()
+                    binding.composeReplyContentView.isVisible = false
                     binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
                 } else {
                     binding.composeReplyContentView.isVisible = true
@@ -676,8 +676,8 @@ class ComposeActivity :
 
     private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
         if (viewModel.media.value.isEmpty()) {
-            binding.composeHideMediaButton.hide()
-            binding.descriptionMissingWarningButton.hide()
+            binding.composeHideMediaButton.isVisible = false
+            binding.descriptionMissingWarningButton.isVisible = false
         } else {
             binding.composeHideMediaButton.isVisible = true
             @ColorInt val color = if (contentWarningShown) {
@@ -872,7 +872,7 @@ class ComposeActivity :
 
     private fun removePoll() {
         viewModel.poll.value = null
-        binding.pollPreview.hide()
+        binding.pollPreview.isVisible = false
     }
 
     override fun onVisibilityChanged(visibility: Status.Visibility) {
@@ -1078,7 +1078,7 @@ class ComposeActivity :
             binding.composeContentWarningField.requestFocus()
             getColor(R.color.tusky_blue)
         } else {
-            binding.composeContentWarningBar.hide()
+            binding.composeContentWarningBar.isVisible = false
             binding.composeEditField.requestFocus()
             MaterialColors.getColor(binding.composeContentWarningButton, android.R.attr.textColorTertiary)
         }

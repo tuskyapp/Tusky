@@ -27,7 +27,7 @@ import com.keylesspalace.tusky.databinding.FragmentReportDoneBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
 
@@ -52,8 +52,8 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
                 binding.buttonMute.isVisible = true
                 binding.progressMute.isVisible = true
             } else {
-                binding.buttonMute.hide()
-                binding.progressMute.hide()
+                binding.buttonMute.isVisible = false
+                binding.progressMute.isVisible = false
             }
 
             binding.buttonMute.setText(
@@ -69,8 +69,8 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
                 binding.buttonBlock.isVisible = true
                 binding.progressBlock.isVisible = true
             } else {
-                binding.buttonBlock.hide()
-                binding.progressBlock.hide()
+                binding.buttonBlock.isVisible = false
+                binding.progressBlock.isVisible = false
             }
             binding.buttonBlock.setText(
                 when (it.data) {

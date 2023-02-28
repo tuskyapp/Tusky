@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -105,17 +104,22 @@ class AccountMediaFragment :
         }
 
         adapter.addLoadStateListener { loadState ->
-            binding.statusView.hide()
-            binding.progressBar.hide()
+            binding.statusView.isVisible = false
+            binding.progressBar.isVisible = false
 
             if (adapter.itemCount == 0) {
                 when (loadState.refresh) {
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.isVisible = true
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
                         }
                     }
+
                     is LoadState.Error -> {
                         binding.statusView.isVisible = true
 

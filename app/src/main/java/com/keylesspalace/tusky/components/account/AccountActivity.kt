@@ -79,7 +79,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
@@ -171,7 +171,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if (viewModel.isSelf) {
             updateButtons()
-            binding.saveNoteInfo.hide()
+            binding.saveNoteInfo.isVisible = false
         } else {
             binding.saveNoteInfo.visibility = View.INVISIBLE
         }
@@ -193,10 +193,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
      */
     private fun setupAccountViews() {
         // Initialise the default UI states.
-        binding.accountFloatingActionButton.hide()
-        binding.accountFollowButton.hide()
-        binding.accountMuteButton.hide()
-        binding.accountFollowsYouTextView.hide()
+        binding.accountFloatingActionButton.isVisible = false
+        binding.accountFollowButton.isVisible = false
+        binding.accountMuteButton.isVisible = false
+        binding.accountFollowsYouTextView.isVisible = false
 
         // setup the RecyclerView for the account fields
         accountFieldAdapter = AccountFieldAdapter(this, animateEmojis)
@@ -229,9 +229,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
 
         if (wellbeingEnabled) {
-            binding.accountStatuses.hide()
-            binding.accountFollowers.hide()
-            binding.accountFollowing.hide()
+            binding.accountStatuses.isVisible = false
+            binding.accountFollowers.isVisible = false
+            binding.accountFollowing.isVisible = false
         }
     }
 
@@ -350,7 +350,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                         binding.accountFloatingActionButton.show()
                     }
                     if (verticalOffset < oldOffset) {
-                        binding.accountFloatingActionButton.hide()
+                        binding.accountFloatingActionButton.isVisible = false
                     }
                 }
 
@@ -688,13 +688,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         if (muting) {
             binding.accountMuteButton.setIconResource(R.drawable.ic_unmute_24dp)
         } else {
-            binding.accountMuteButton.hide()
+            binding.accountMuteButton.isVisible = false
         }
     }
 
     private fun updateSubscribeButton() {
         if (followState != FollowState.FOLLOWING) {
-            binding.accountSubscribeButton.hide()
+            binding.accountSubscribeButton.isVisible = false
         }
 
         if (subscribing) {
@@ -716,18 +716,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             updateSubscribeButton()
 
             if (blocking) {
-                binding.accountFloatingActionButton.hide()
-                binding.accountMuteButton.hide()
+                binding.accountFloatingActionButton.isVisible = false
+                binding.accountMuteButton.isVisible = false
             } else {
                 binding.accountFloatingActionButton.show()
                 binding.accountMuteButton.visible(muting)
                 updateMuteButton()
             }
         } else {
-            binding.accountFloatingActionButton.hide()
-            binding.accountFollowButton.hide()
-            binding.accountMuteButton.hide()
-            binding.accountSubscribeButton.hide()
+            binding.accountFloatingActionButton.isVisible = false
+            binding.accountFollowButton.isVisible = false
+            binding.accountMuteButton.isVisible = false
+            binding.accountSubscribeButton.isVisible = false
         }
     }
 

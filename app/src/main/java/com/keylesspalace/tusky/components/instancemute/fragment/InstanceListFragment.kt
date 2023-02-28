@@ -19,7 +19,7 @@ import com.keylesspalace.tusky.databinding.FragmentInstanceListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -132,7 +132,7 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
 
     private fun onFetchInstancesSuccess(instances: List<String>, linkHeader: String?) {
         adapter.bottomLoading = false
-        binding.instanceProgressBar.hide()
+        binding.instanceProgressBar.isVisible = false
 
         val links = HttpHeaderLink.parse(linkHeader)
         val next = HttpHeaderLink.findByRelationType(links, "next")
@@ -149,25 +149,25 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
                 null
             )
         } else {
-            binding.messageView.hide()
+            binding.messageView.isVisible = false
         }
     }
 
     private fun onFetchInstancesFailure(throwable: Throwable) {
         fetching = false
-        binding.instanceProgressBar.hide()
+        binding.instanceProgressBar.isVisible = false
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
             binding.messageView.isVisible = true
             if (throwable is IOException) {
                 binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    binding.messageView.hide()
+                    binding.messageView.isVisible = false
                     this.fetchInstances(null)
                 }
             } else {
                 binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    binding.messageView.hide()
+                    binding.messageView.isVisible = false
                     this.fetchInstances(null)
                 }
             }

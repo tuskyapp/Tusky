@@ -19,7 +19,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.getFormattedDescription
-import com.keylesspalace.tusky.util.hide
+
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
@@ -70,7 +70,7 @@ class AccountMediaGridAdapter(
             }
 
             if (item.attachment.type == Attachment.Type.AUDIO) {
-                overlay.hide()
+                overlay.isVisible = false
 
                 imageView.setPadding(context.resources.getDimensionPixelSize(R.dimen.profile_media_audio_icon_padding))
 
@@ -97,7 +97,7 @@ class AccountMediaGridAdapter(
                     overlay.isVisible = true
                     overlay.setImageDrawable(videoIndicator)
                 } else {
-                    overlay.hide()
+                    overlay.isVisible = false
                 }
 
                 imageView.setPadding(0)

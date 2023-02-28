@@ -20,11 +20,11 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.res.use
+import androidx.core.view.isVisible
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.CardLicenseBinding
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 
 class LicenseCard
@@ -52,7 +52,7 @@ class LicenseCard
         binding.licenseCardName.text = name
         binding.licenseCardLicense.text = license
         if (link.isNullOrBlank()) {
-            binding.licenseCardLink.hide()
+            binding.licenseCardLink.isVisible = false
         } else {
             binding.licenseCardLink.text = link
             setOnClickListener { context.openLink(link) }
