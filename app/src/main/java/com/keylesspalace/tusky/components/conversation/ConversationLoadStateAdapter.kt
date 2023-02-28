@@ -17,11 +17,11 @@ package com.keylesspalace.tusky.components.conversation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import com.keylesspalace.tusky.databinding.ItemNetworkStateBinding
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.visible
 
 class ConversationLoadStateAdapter(
     private val retryCallback: () -> Unit
@@ -29,14 +29,14 @@ class ConversationLoadStateAdapter(
 
     override fun onBindViewHolder(holder: BindingHolder<ItemNetworkStateBinding>, loadState: LoadState) {
         val binding = holder.binding
-        binding.progressBar.visible(loadState == LoadState.Loading)
-        binding.retryButton.visible(loadState is LoadState.Error)
+        binding.progressBar.isVisible = (loadState == LoadState.Loading)
+        binding.retryButton.isVisible = (loadState is LoadState.Error)
         val msg = if (loadState is LoadState.Error) {
             loadState.error.message
         } else {
             null
         }
-        binding.errorMsg.visible(msg != null)
+        binding.errorMsg.isVisible = (msg != null)
         binding.errorMsg.text = msg
         binding.retryButton.setOnClickListener {
             retryCallback()

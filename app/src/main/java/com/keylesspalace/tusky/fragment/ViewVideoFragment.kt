@@ -35,7 +35,6 @@ import androidx.core.view.isVisible
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
 import kotlin.math.abs
 
@@ -98,7 +97,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         showingDescription: Boolean
     ) {
         binding.mediaDescription.text = description
-        binding.mediaDescription.visible(showingDescription)
+        binding.mediaDescription.isVisible = showingDescription
         binding.mediaDescription.movementMethod = ScrollingMovementMethod()
 
         // Ensure the description is visible over the video
@@ -260,14 +259,14 @@ class ViewVideoFragment : ViewMediaFragment() {
         if (isDescriptionVisible) {
             // If to be visible, need to make visible immediately and animate alpha
             binding.mediaDescription.alpha = 0.0f
-            binding.mediaDescription.visible(isDescriptionVisible)
+            binding.mediaDescription.isVisible = isDescriptionVisible
         }
 
         binding.mediaDescription.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     if (_binding != null) {
-                        binding.mediaDescription.visible(isDescriptionVisible)
+                        binding.mediaDescription.isVisible = isDescriptionVisible
                     }
                     animation.removeListener(this)
                 }

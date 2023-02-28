@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -46,7 +47,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -140,9 +140,10 @@ class ReportStatusesFragment : Fragment(R.layout.fragment_report_statuses), Inje
                 showError()
             }
 
-            binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
-            binding.progressBarTop.visible(loadState.prepend == LoadState.Loading)
-            binding.progressBarLoading.visible(loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing)
+            binding.progressBarBottom.isVisible = (loadState.append == LoadState.Loading)
+            binding.progressBarTop.isVisible = (loadState.prepend == LoadState.Loading)
+            binding.progressBarLoading.isVisible =
+                (loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing)
 
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false

@@ -23,6 +23,7 @@ import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -48,7 +49,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -215,9 +215,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         }
 
         TransitionManager.beginDelayedTransition(binding.root, transition)
-        binding.actionButton.visible(!expand)
-        binding.sheet.visible(expand)
-        binding.scrim.visible(expand)
+        binding.actionButton.isVisible = !expand
+        binding.sheet.isVisible = expand
+        binding.scrim.isVisible = expand
 
         onFabDismissedCallback.isEnabled = expand
     }
@@ -328,7 +328,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         addTabAdapter.updateData(addableTabs)
 
-        binding.maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
+        binding.maxTabsInfo.isVisible = (addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
         currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > MIN_TAB_COUNT)
     }
 

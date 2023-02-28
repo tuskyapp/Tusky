@@ -26,9 +26,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
-
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -102,7 +100,8 @@ class FollowedTagsActivity :
     private fun setupAdapter(): FollowedTagsAdapter {
         return FollowedTagsAdapter(this, viewModel).apply {
             addLoadStateListener { loadState ->
-                binding.followedTagsProgressBar.visible(loadState.refresh == LoadState.Loading && itemCount == 0)
+                binding.followedTagsProgressBar.isVisible =
+                    (loadState.refresh == LoadState.Loading && itemCount == 0)
 
                 if (loadState.refresh is LoadState.Error) {
                     binding.followedTagsView.isVisible = false

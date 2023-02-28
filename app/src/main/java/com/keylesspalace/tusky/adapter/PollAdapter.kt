@@ -18,13 +18,13 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemPollBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.PollOptionViewData
 import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
@@ -82,9 +82,9 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         val radioButton = holder.binding.statusPollRadioButton
         val checkBox = holder.binding.statusPollCheckbox
 
-        resultTextView.visible(mode == RESULT)
-        radioButton.visible(mode == SINGLE)
-        checkBox.visible(mode == MULTIPLE)
+        resultTextView.isVisible = (mode == RESULT)
+        radioButton.isVisible = (mode == SINGLE)
+        checkBox.isVisible = (mode == MULTIPLE)
 
         radioButton.isEnabled = enabled
         checkBox.isEnabled = enabled
@@ -92,8 +92,9 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         when (mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, votersCount, voteCount)
-                resultTextView.text = buildDescription(option.title, percent, option.voted, resultTextView.context)
-                    .emojify(emojis, resultTextView, animateEmojis)
+                resultTextView.text =
+                    buildDescription(option.title, percent, option.voted, resultTextView.context)
+                        .emojify(emojis, resultTextView, animateEmojis)
 
                 val level = percent * 100
                 val optionColor = if (option.voted) {

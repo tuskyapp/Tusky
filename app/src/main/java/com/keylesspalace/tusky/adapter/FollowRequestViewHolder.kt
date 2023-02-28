@@ -19,6 +19,7 @@ import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
@@ -27,7 +28,6 @@ import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
-import com.keylesspalace.tusky.util.visible
 
 class FollowRequestViewHolder(
     private val binding: ItemFollowRequestBinding,
@@ -49,12 +49,12 @@ class FollowRequestViewHolder(
                 setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }.emojify(account.emojis, itemView, animateEmojis)
         }
-        binding.notificationTextView.visible(showHeader)
+        binding.notificationTextView.isVisible = showHeader
         val formattedUsername = itemView.context.getString(R.string.post_username_format, account.username)
         binding.usernameTextView.text = formattedUsername
         val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.avatar, avatarRadius, animateAvatar)
-        binding.avatarBadge.visible(showBotOverlay && account.bot)
+        binding.avatarBadge.isVisible = (showBotOverlay && account.bot)
     }
 
     fun setupActionListener(listener: AccountActionListener, accountId: String) {

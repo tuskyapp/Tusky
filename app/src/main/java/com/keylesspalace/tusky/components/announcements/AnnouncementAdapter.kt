@@ -21,6 +21,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,7 +35,6 @@ import com.keylesspalace.tusky.util.EmojiSpan
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.visible
 import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
@@ -75,7 +75,7 @@ class AnnouncementAdapter(
         }
 
         // hide button if announcement badge limit is already reached
-        addReactionChip.visible(item.reactions.size < 8)
+        addReactionChip.isVisible = (item.reactions.size < 8)
 
         item.reactions.forEachIndexed { i, reaction ->
             (

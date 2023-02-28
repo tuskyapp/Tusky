@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.entity.MastoList
 
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.Event
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.ERROR_NETWORK
@@ -162,7 +161,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun update(state: ListsViewModel.State) {
         adapter.submitList(state.lists)
-        binding.progressBar.visible(state.loadingState == LOADING)
+        binding.progressBar.isVisible = (state.loadingState == LOADING)
         when (state.loadingState) {
             INITIAL, LOADING -> binding.messageView.isVisible = false
             ERROR_NETWORK -> {

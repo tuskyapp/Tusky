@@ -22,6 +22,7 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.annotation.WorkerThread
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
@@ -31,7 +32,6 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.visible
 
 class ComposeAutoCompleteAdapter(
     private val autocompletionProvider: AutocompletionProvider,
@@ -115,7 +115,7 @@ class ComposeAutoCompleteAdapter(
                     avatarRadius,
                     animateAvatar
                 )
-                binding.avatarBadge.visible(showBotBadge && account.bot)
+                binding.avatarBadge.isVisible = (showBotBadge && account.bot)
             }
             is ItemAutocompleteHashtagBinding -> {
                 val result = getItem(position) as AutocompleteResult.HashtagResult

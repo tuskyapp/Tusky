@@ -18,13 +18,13 @@ package com.keylesspalace.tusky.components.accountlist.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemMutedUserBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.visible
 
 /** Displays a list of muted accounts with mute/unmute account button and mute/unmute notifications switch */
 class MutesAdapter(
@@ -62,7 +62,7 @@ class MutesAdapter(
         val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.mutedUserAvatar, avatarRadius, animateAvatar)
 
-        binding.mutedUserBotBadge.visible(showBotOverlay && account.bot)
+        binding.mutedUserBotBadge.isVisible = (showBotOverlay && account.bot)
 
         val unmuteString = context.getString(R.string.action_unmute_desc, formattedUsername)
         binding.mutedUserUnmute.contentDescription = unmuteString

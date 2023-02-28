@@ -22,6 +22,7 @@ import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +37,6 @@ import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -85,7 +85,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
         }
 
         adapter.addLoadStateListener {
-            binding.draftsErrorMessageView.visible(adapter.itemCount == 0)
+            binding.draftsErrorMessageView.isVisible = (adapter.itemCount == 0)
         }
 
         // If a failed post is saved to drafts while this activity is up, do nothing; the user is already in the drafts view.

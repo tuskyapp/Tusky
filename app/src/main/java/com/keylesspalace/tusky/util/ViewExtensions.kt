@@ -19,14 +19,9 @@ package com.keylesspalace.tusky.util
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-
-fun View.visible(visible: Boolean, or: Int = View.GONE) {
-    this.visibility = if (visible) View.VISIBLE else or
-}
 
 open class DefaultTextWatcher : TextWatcher {
     override fun afterTextChanged(s: Editable) {

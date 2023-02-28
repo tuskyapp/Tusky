@@ -36,7 +36,6 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
 
@@ -74,7 +73,7 @@ class ViewImageFragment : ViewMediaFragment() {
     ) {
         binding.photoView.transitionName = url
         binding.mediaDescription.text = description
-        binding.captionSheet.visible(showingDescription)
+        binding.captionSheet.isVisible = (showingDescription)
 
         startedTransition = false
         loadImageFromNetwork(url, previewUrl, binding.photoView)
@@ -184,7 +183,7 @@ class ViewImageFragment : ViewMediaFragment() {
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     if (_binding != null) {
-                        binding.captionSheet.visible(isDescriptionVisible)
+                        binding.captionSheet.isVisible = isDescriptionVisible
                     }
                     animation.removeListener(this)
                 }

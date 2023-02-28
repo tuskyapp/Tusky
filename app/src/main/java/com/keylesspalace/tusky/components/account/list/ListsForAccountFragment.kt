@@ -35,9 +35,7 @@ import com.keylesspalace.tusky.databinding.ItemAddOrRemoveFromListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.BindingHolder
-
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -183,13 +181,13 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             val item = getItem(position)
             holder.binding.listNameView.text = item.list.title
             holder.binding.addButton.apply {
-                visible(!item.includesAccount)
+                isVisible = !item.includesAccount
                 setOnClickListener {
                     viewModel.addAccountToList(item.list.id)
                 }
             }
             holder.binding.removeButton.apply {
-                visible(item.includesAccount)
+                isVisible = item.includesAccount
                 setOnClickListener {
                     viewModel.removeAccountFromList(item.list.id)
                 }

@@ -26,8 +26,6 @@ import com.keylesspalace.tusky.databinding.ItemDraftBinding
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.util.BindingHolder
 
-import com.keylesspalace.tusky.util.visible
-
 interface DraftActionListener {
     fun onOpenDraft(draft: DraftEntity)
     fun onDeleteDraft(draft: DraftEntity)
@@ -71,13 +69,13 @@ class DraftsAdapter(
             holder.binding.deleteButton.setOnClickListener {
                 listener.onDeleteDraft(draft)
             }
-            holder.binding.draftSendingInfo.visible(draft.failedToSend)
+            holder.binding.draftSendingInfo.isVisible = draft.failedToSend
 
-            holder.binding.contentWarning.visible(!draft.contentWarning.isNullOrEmpty())
+            holder.binding.contentWarning.isVisible = !draft.contentWarning.isNullOrEmpty()
             holder.binding.contentWarning.text = draft.contentWarning
             holder.binding.content.text = draft.content
 
-            holder.binding.draftMediaPreview.visible(draft.attachments.isNotEmpty())
+            holder.binding.draftMediaPreview.isVisible = draft.attachments.isNotEmpty()
             (holder.binding.draftMediaPreview.adapter as DraftMediaAdapter).submitList(draft.attachments)
 
             if (draft.poll != null) {

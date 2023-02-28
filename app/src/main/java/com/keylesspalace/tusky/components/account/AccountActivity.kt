@@ -39,6 +39,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.preference.PreferenceManager
@@ -79,14 +80,12 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
-
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -359,7 +358,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 binding.accountAvatarImageView.scaleX = scaledAvatarSize
                 binding.accountAvatarImageView.scaleY = scaledAvatarSize
 
-                binding.accountAvatarImageView.visible(scaledAvatarSize > 0)
+                binding.accountAvatarImageView.isVisible = (scaledAvatarSize > 0)
 
                 val transparencyPercent = (abs(verticalOffset) / titleVisibleHeight.toFloat()).coerceAtMost(1f)
 
@@ -407,7 +406,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
         }
         viewModel.noteSaved.observe(this) {
-            binding.saveNoteInfo.visible(it, View.INVISIBLE)
+            binding.saveNoteInfo.isInvisible = !it
         }
 
         // "Post failed" dialog should display in this activity
@@ -451,15 +450,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             }
         }
 
-        val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
+        val emojifiedNote = account.note.parseAsMastodonHtml()
+            .emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
         accountFieldAdapter.fields = account.fields ?: emptyList()
         accountFieldAdapter.emojis = account.emojis ?: emptyList()
         accountFieldAdapter.notifyDataSetChanged()
 
-        binding.accountLockedImageView.visible(account.locked)
-        binding.accountBadgeTextView.visible(account.bot)
+        binding.accountLockedImageView.isVisible = account.locked
+        binding.accountBadgeTextView.isVisible = account.bot
 
         updateAccountAvatar()
         updateToolbar()
@@ -628,7 +628,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
 
-        binding.accountFollowsYouTextView.visible(relation.followedBy && !wellbeingEnabled)
+        binding.accountFollowsYouTextView.isVisible = (relation.followedBy && !wellbeingEnabled)
 
         // because subscribing is Pleroma extension, enable it __only__ when we have non-null subscribing field
         // it's also now supported in Mastodon 3.3.0rc but called notifying and use different API call
@@ -648,7 +648,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         // remove the listener so it doesn't fire on non-user changes
         binding.accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
 
-        binding.accountNoteTextInputLayout.visible(relation.note != null)
+        binding.accountNoteTextInputLayout.isVisible = (relation.note != null)
         binding.accountNoteTextInputLayout.editText?.setText(relation.note)
 
         binding.accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
@@ -720,7 +720,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 binding.accountMuteButton.isVisible = false
             } else {
                 binding.accountFloatingActionButton.show()
-                binding.accountMuteButton.visible(muting)
+                binding.accountMuteButton.isVisible = (muting)
                 updateMuteButton()
             }
         } else {

@@ -8,9 +8,9 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ViewBackgroundMessageBinding
-import com.keylesspalace.tusky.util.visible
 
 /**
  * This view is used for screens with downloadable content which may fail.
@@ -45,6 +45,6 @@ class BackgroundMessageView @JvmOverloads constructor(
         binding.messageTextView.setText(messageRes)
         binding.imageView.setImageResource(imageRes)
         binding.button.setOnClickListener(clickListener)
-        binding.button.visible(clickListener != null)
+        binding.button.isVisible = (clickListener != null)
     }
 }

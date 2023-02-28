@@ -17,14 +17,13 @@ package com.keylesspalace.tusky.components.compose.dialog
 
 import android.text.InputFilter
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAddPollOptionBinding
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.onTextChanged
-import com.keylesspalace.tusky.util.visible
 
 class AddPollOptionsAdapter(
     private var options: MutableList<String>,
@@ -64,7 +63,7 @@ class AddPollOptionsAdapter(
 
         holder.binding.optionTextInputLayout.hint = holder.binding.root.context.getString(R.string.poll_new_choice_hint, position + 1)
 
-        holder.binding.deleteButton.visible(position > 1, View.INVISIBLE)
+        holder.binding.deleteButton.isInvisible = (position <= 1)
 
         holder.binding.deleteButton.setOnClickListener {
             holder.binding.optionEditText.clearFocus()

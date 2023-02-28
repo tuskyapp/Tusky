@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
@@ -196,7 +195,7 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
 
         lifecycleScope.launch {
             viewModel.instanceRules.collect { instanceRules ->
-                binding.loginRules.visible(instanceRules.isNotEmpty())
+                binding.loginRules.isVisible = instanceRules.isNotEmpty()
                 binding.loginRules.setOnClickListener {
                     AlertDialog.Builder(this@LoginWebViewActivity)
                         .setTitle(getString(R.string.instance_rule_title, data.domain))

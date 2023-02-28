@@ -94,7 +94,6 @@ import com.keylesspalace.tusky.util.afterTextChanged
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
-
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
@@ -102,7 +101,6 @@ import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -434,14 +432,14 @@ class ComposeActivity :
             viewModel.media.collect { media ->
                 mediaAdapter.submitList(media)
 
-                binding.composeMediaPreviewBar.visible(media.isNotEmpty())
+                binding.composeMediaPreviewBar.isVisible = media.isNotEmpty()
                 updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value, viewModel.showContentWarning.value)
             }
         }
 
         lifecycleScope.launch {
             viewModel.poll.collect { poll ->
-                binding.pollPreview.visible(poll != null)
+                binding.pollPreview.isVisible = (poll != null)
                 poll?.let(binding.pollPreview::setPoll)
             }
         }
@@ -515,7 +513,8 @@ class ComposeActivity :
         val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).apply { colorInt = textColor; sizeDp = 18 }
         binding.addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
 
-        binding.actionPhotoTake.visible(Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null)
+        binding.actionPhotoTake.isVisible =
+            (Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null)
 
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }

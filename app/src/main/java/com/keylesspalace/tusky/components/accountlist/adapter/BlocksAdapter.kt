@@ -17,13 +17,13 @@ package com.keylesspalace.tusky.components.accountlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemBlockedUserBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.visible
 
 /** Displays a list of blocked accounts. */
 class BlocksAdapter(
@@ -56,7 +56,7 @@ class BlocksAdapter(
         val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.blockedUserAvatar, avatarRadius, animateAvatar)
 
-        binding.blockedUserBotBadge.visible(showBotOverlay && account.bot)
+        binding.blockedUserBotBadge.isVisible = (showBotOverlay && account.bot)
 
         binding.blockedUserUnblock.setOnClickListener {
             accountActionListener.onBlock(false, account.id, position)
