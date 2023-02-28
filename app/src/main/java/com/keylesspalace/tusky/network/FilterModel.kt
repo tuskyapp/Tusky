@@ -61,8 +61,9 @@ class FilterModel @Inject constructor() {
         if (nonExpiredFilters.isEmpty()) return null
         val tokens = nonExpiredFilters.asSequence()
             .map { filterToRegexToken(it) }
+            .joinToString("|")
 
-        return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE)
+        return Pattern.compile(tokens, Pattern.CASE_INSENSITIVE)
     }
 
     companion object {
