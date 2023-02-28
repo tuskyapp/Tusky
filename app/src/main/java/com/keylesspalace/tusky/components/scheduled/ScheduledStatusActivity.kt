@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -35,7 +36,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -87,7 +87,7 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
                 binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                     refreshStatuses()
                 }
-                binding.errorMessageView.show()
+                binding.errorMessageView.isVisible = true
             }
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -96,7 +96,7 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
                 binding.progressBar.hide()
                 if (adapter.itemCount == 0) {
                     binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_posts)
-                    binding.errorMessageView.show()
+                    binding.errorMessageView.isVisible = true
                 } else {
                     binding.errorMessageView.hide()
                 }

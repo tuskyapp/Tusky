@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -19,7 +20,6 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.getFormattedDescription
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
@@ -81,7 +81,7 @@ class AccountMediaGridAdapter(
 
                 imageView.contentDescription = item.attachment.getFormattedDescription(context)
             } else if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
-                overlay.show()
+                overlay.isVisible = true
                 overlay.setImageDrawable(mediaHiddenDrawable)
 
                 imageView.setPadding(0)
@@ -94,7 +94,7 @@ class AccountMediaGridAdapter(
                 imageView.contentDescription = imageView.context.getString(R.string.post_media_hidden_title)
             } else {
                 if (item.attachment.type == Attachment.Type.VIDEO || item.attachment.type == Attachment.Type.GIFV) {
-                    overlay.show()
+                    overlay.isVisible = true
                     overlay.setImageDrawable(videoIndicator)
                 } else {
                     overlay.hide()

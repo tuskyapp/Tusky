@@ -5,6 +5,7 @@ import android.text.format.DateUtils
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
@@ -14,7 +15,6 @@ import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.getSecondsForDurationIndex
 import com.keylesspalace.tusky.view.setupEditDialogForFilter
@@ -147,12 +147,12 @@ class FiltersActivity : BaseActivity() {
         binding.filterMessageView.hide()
         binding.filtersView.hide()
         binding.addFilterButton.hide()
-        binding.filterProgressBar.show()
+        binding.filterProgressBar.isVisible = true
 
         lifecycleScope.launch {
             val newFilters = api.getFilters().getOrElse {
                 binding.filterProgressBar.hide()
-                binding.filterMessageView.show()
+                binding.filterMessageView.isVisible = true
                 if (it is IOException) {
                     binding.filterMessageView.setup(
                         R.drawable.elephant_offline,
@@ -170,7 +170,7 @@ class FiltersActivity : BaseActivity() {
             filters = newFilters.filter { it.context.contains(context) }.toMutableList()
             refreshFilterDisplay()
 
-            binding.filtersView.show()
+            binding.filtersView.isVisible = true
             binding.addFilterButton.show()
             binding.filterProgressBar.hide()
         }

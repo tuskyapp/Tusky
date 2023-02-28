@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -46,7 +47,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.onTextChanged
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
@@ -166,20 +166,20 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         when (state.loadingState) {
             INITIAL, LOADING -> binding.messageView.hide()
             ERROR_NETWORK -> {
-                binding.messageView.show()
+                binding.messageView.isVisible = true
                 binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                     viewModel.retryLoading()
                 }
             }
             ERROR_OTHER -> {
-                binding.messageView.show()
+                binding.messageView.isVisible = true
                 binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                     viewModel.retryLoading()
                 }
             }
             LOADED ->
                 if (state.lists.isEmpty()) {
-                    binding.messageView.show()
+                    binding.messageView.isVisible = true
                     binding.messageView.setup(
                         R.drawable.elephant_friend_empty, R.string.message_empty,
                         null

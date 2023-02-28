@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.components.report.adapter
 import android.text.Spanned
 import android.text.TextUtils
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
@@ -37,7 +38,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setClickableMentions
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.shouldTrimStatus
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.toViewData
 import java.util.Date
@@ -108,8 +108,8 @@ class StatusViewHolder(
             } else {
                 val emojiSpoiler = viewdata.spoilerText.emojify(viewdata.status.emojis, binding.statusContentWarningDescription, statusDisplayOptions.animateEmojis)
                 binding.statusContentWarningDescription.text = emojiSpoiler
-                binding.statusContentWarningDescription.show()
-                binding.statusContentWarningButton.show()
+                binding.statusContentWarningDescription.isVisible = true
+                binding.statusContentWarningButton.isVisible = true
                 setContentWarningButtonText(viewState.isContentShow(viewdata.id, true))
                 binding.statusContentWarningButton.setOnClickListener {
                     viewdata()?.let { viewdata ->
@@ -150,7 +150,7 @@ class StatusViewHolder(
         if (binding.statusContent.text.isNullOrBlank()) {
             binding.statusContent.hide()
         } else {
-            binding.statusContent.show()
+            binding.statusContent.isVisible = true
         }
     }
 
@@ -179,7 +179,7 @@ class StatusViewHolder(
                 }
             }
 
-            binding.buttonToggleContent.show()
+            binding.buttonToggleContent.isVisible = true
             if (collapsed) {
                 binding.buttonToggleContent.setText(R.string.post_content_show_more)
                 binding.statusContent.filters = COLLAPSE_INPUT_FILTER

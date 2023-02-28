@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.drafts
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,6 @@ import com.keylesspalace.tusky.databinding.ItemDraftBinding
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
 
 interface DraftActionListener {
@@ -81,7 +81,7 @@ class DraftsAdapter(
             (holder.binding.draftMediaPreview.adapter as DraftMediaAdapter).submitList(draft.attachments)
 
             if (draft.poll != null) {
-                holder.binding.draftPoll.show()
+                holder.binding.draftPoll.isVisible = true
                 holder.binding.draftPoll.setPoll(draft.poll)
             } else {
                 holder.binding.draftPoll.hide()

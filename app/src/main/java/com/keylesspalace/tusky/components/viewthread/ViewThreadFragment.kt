@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.CheckResult
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -48,7 +49,6 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -178,7 +178,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         updateRevealButton(uiState.revealButton)
                         binding.swipeRefreshLayout.isRefreshing = false
 
-                        binding.recyclerView.show()
+                        binding.recyclerView.isVisible = true
                         binding.statusView.hide()
                     }
                     is ThreadUiState.Error -> {
@@ -190,7 +190,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.hide()
-                        binding.statusView.show()
+                        binding.statusView.isVisible = true
 
                         if (uiState.throwable is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -223,7 +223,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         updateRevealButton(uiState.revealButton)
                         binding.swipeRefreshLayout.isRefreshing = false
 
-                        binding.recyclerView.show()
+                        binding.recyclerView.isVisible = true
                         binding.statusView.hide()
                     }
                     is ThreadUiState.Refreshing -> {
@@ -262,7 +262,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     ) {
         try {
             delay(delayMs)
-            view.show()
+            view.isVisible = true
             awaitCancellation()
         } finally {
             view.hide()

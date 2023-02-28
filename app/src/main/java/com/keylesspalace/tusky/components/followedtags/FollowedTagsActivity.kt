@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -26,7 +27,6 @@ import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
@@ -106,7 +106,7 @@ class FollowedTagsActivity :
 
                 if (loadState.refresh is LoadState.Error) {
                     binding.followedTagsView.hide()
-                    binding.followedTagsMessageView.show()
+                    binding.followedTagsMessageView.isVisible = true
                     val errorState = loadState.refresh as LoadState.Error
                     if (errorState.error is IOException) {
                         binding.followedTagsMessageView.setup(R.drawable.elephant_offline, R.string.error_network) { retry() }
@@ -115,7 +115,7 @@ class FollowedTagsActivity :
                     }
                     Log.w(TAG, "error loading followed hashtags", errorState.error)
                 } else {
-                    binding.followedTagsView.show()
+                    binding.followedTagsView.isVisible = true
                     binding.followedTagsMessageView.hide()
                 }
             }

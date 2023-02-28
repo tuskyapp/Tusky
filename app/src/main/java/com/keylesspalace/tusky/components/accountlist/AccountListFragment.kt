@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.components.accountlist
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -50,7 +51,6 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -337,7 +337,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         fetching = false
 
         if (adapter.itemCount == 0) {
-            binding.messageView.show()
+            binding.messageView.isVisible = true
             binding.messageView.setup(
                 R.drawable.elephant_friend_empty,
                 R.string.message_empty,
@@ -369,7 +369,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
-            binding.messageView.show()
+            binding.messageView.isVisible = true
             if (throwable is IOException) {
                 binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                     binding.messageView.hide()

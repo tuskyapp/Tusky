@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +37,6 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import kotlinx.coroutines.flow.collectLatest
@@ -112,12 +112,12 @@ class AccountMediaFragment :
                 when (loadState.refresh) {
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
-                            binding.statusView.show()
+                            binding.statusView.isVisible = true
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
                         }
                     }
                     is LoadState.Error -> {
-                        binding.statusView.show()
+                        binding.statusView.isVisible = true
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
@@ -126,7 +126,7 @@ class AccountMediaFragment :
                         }
                     }
                     is LoadState.Loading -> {
-                        binding.progressBar.show()
+                        binding.progressBar.isVisible = true
                     }
                 }
             }

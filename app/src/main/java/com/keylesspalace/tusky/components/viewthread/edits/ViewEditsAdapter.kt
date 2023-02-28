@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,7 +27,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
@@ -81,8 +81,8 @@ class ViewEditsAdapter(
             binding.statusEditContentWarningDescription.hide()
             binding.statusEditContentWarningSeparator.hide()
         } else {
-            binding.statusEditContentWarningDescription.show()
-            binding.statusEditContentWarningSeparator.show()
+            binding.statusEditContentWarningDescription.isVisible = true
+            binding.statusEditContentWarningSeparator.isVisible = true
             binding.statusEditContentWarningDescription.text = edit.spoilerText.emojify(
                 edit.emojis,
                 binding.statusEditContentWarningDescription,
@@ -97,7 +97,7 @@ class ViewEditsAdapter(
             binding.statusEditPollOptions.hide()
             binding.statusEditPollDescription.hide()
         } else {
-            binding.statusEditPollOptions.show()
+            binding.statusEditPollOptions.isVisible = true
 
             // not used for now since not reported by the api
             // https://github.com/mastodon/mastodon/issues/22571
@@ -127,7 +127,7 @@ class ViewEditsAdapter(
             binding.statusEditMediaPreview.hide()
             binding.statusEditMediaSensitivity.hide()
         } else {
-            binding.statusEditMediaPreview.show()
+            binding.statusEditMediaPreview.isVisible = true
             binding.statusEditMediaPreview.aspectRatios = edit.mediaAttachments.aspectRatios()
 
             binding.statusEditMediaPreview.forEachIndexed { index, imageView, descriptionIndicator ->

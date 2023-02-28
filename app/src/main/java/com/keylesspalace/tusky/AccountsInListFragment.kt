@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +41,6 @@ import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
@@ -132,20 +132,20 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         if (state.searchResult == null) {
             searchAdapter.submitList(listOf())
             binding.accountsSearchRecycler.hide()
-            binding.accountsRecycler.show()
+            binding.accountsRecycler.isVisible = true
         } else {
             val listAccounts = state.accounts.asRightOrNull() ?: listOf()
             val newList = state.searchResult.map { acc ->
                 acc to listAccounts.contains(acc)
             }
             searchAdapter.submitList(newList)
-            binding.accountsSearchRecycler.show()
+            binding.accountsSearchRecycler.isVisible = true
             binding.accountsRecycler.hide()
         }
     }
 
     private fun handleError(error: Throwable) {
-        binding.messageView.show()
+        binding.messageView.isVisible = true
         val retryAction = { _: View ->
             binding.messageView.hide()
             viewModel.load(listId)

@@ -45,7 +45,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.mikepenz.iconics.IconicsDrawable
@@ -234,7 +233,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 glide.into(imageView)
             }
 
-            imageView.show()
+            imageView.isVisible = true
         }
     }
 

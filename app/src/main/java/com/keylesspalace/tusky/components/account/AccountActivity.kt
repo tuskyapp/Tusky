@@ -39,6 +39,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,7 +84,6 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -541,7 +541,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun updateMovedAccount() {
         loadedAccount?.moved?.let { movedAccount ->
 
-            binding.accountMovedView.show()
+            binding.accountMovedView.isVisible = true
 
             binding.accountMovedView.setOnClickListener {
                 onViewAccount(movedAccount.id)
@@ -564,7 +564,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     private fun updateRemoteAccount() {
         loadedAccount?.let { account ->
             if (account.isRemote()) {
-                binding.accountRemoveView.show()
+                binding.accountRemoveView.isVisible = true
                 binding.accountRemoveView.setOnClickListener {
                     openLink(account.url)
                 }
@@ -635,7 +635,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         if (!viewModel.isSelf && followState == FollowState.FOLLOWING &&
             (relation.subscribing != null || relation.notifying != null)
         ) {
-            binding.accountSubscribeButton.show()
+            binding.accountSubscribeButton.isVisible = true
             binding.accountSubscribeButton.setOnClickListener {
                 viewModel.changeSubscribingState()
             }
@@ -711,7 +711,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
         if (loadedAccount?.moved == null) {
 
-            binding.accountFollowButton.show()
+            binding.accountFollowButton.isVisible = true
             updateFollowButton()
             updateSubscribeButton()
 

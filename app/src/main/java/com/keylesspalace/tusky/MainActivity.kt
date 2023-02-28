@@ -40,6 +40,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -95,7 +96,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
@@ -809,7 +809,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                     binding.appBar.hide()
                     binding.viewPager.hide()
-                    binding.progressBar.show()
+                    binding.progressBar.isVisible = true
                     binding.bottomNav.hide()
                     binding.composeButton.hide()
 
@@ -875,10 +875,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
 
             val avatarView = if (navOnBottom) {
-                binding.bottomNavAvatar.show()
+                binding.bottomNavAvatar.isVisible = true
                 binding.bottomNavAvatar
             } else {
-                binding.topNavAvatar.show()
+                binding.topNavAvatar.isVisible = true
                 binding.topNavAvatar
             }
 

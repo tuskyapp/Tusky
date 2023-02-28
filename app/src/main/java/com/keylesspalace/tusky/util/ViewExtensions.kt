@@ -24,10 +24,6 @@ import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
-fun View.show() {
-    this.visibility = View.VISIBLE
-}
-
 fun View.hide() {
     this.visibility = View.GONE
 }

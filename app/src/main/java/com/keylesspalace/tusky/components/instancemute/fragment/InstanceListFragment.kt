@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.components.instancemute.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,7 +20,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -105,7 +105,7 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
             return
         }
         fetching = true
-        binding.instanceProgressBar.show()
+        binding.instanceProgressBar.isVisible = true
 
         if (id != null) {
             binding.recyclerView.post { adapter.bottomLoading = true }
@@ -142,7 +142,7 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
         fetching = false
 
         if (adapter.itemCount == 0) {
-            binding.messageView.show()
+            binding.messageView.isVisible = true
             binding.messageView.setup(
                 R.drawable.elephant_friend_empty,
                 R.string.message_empty,
@@ -159,7 +159,7 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {
-            binding.messageView.show()
+            binding.messageView.isVisible = true
             if (throwable is IOException) {
                 binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                     binding.messageView.hide()

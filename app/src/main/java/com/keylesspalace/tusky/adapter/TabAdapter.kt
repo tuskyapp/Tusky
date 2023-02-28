@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -31,7 +32,6 @@ import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setDrawableTint
-import com.keylesspalace.tusky.util.show
 
 interface ItemInteractionListener {
     fun onTabAdded(tab: TabData)
@@ -107,7 +107,7 @@ class TabAdapter(
             )
 
             if (tab.id == HASHTAG) {
-                binding.chipGroup.show()
+                binding.chipGroup.isVisible = true
 
                 /*
                  * The chip group will always contain the actionChip (it is defined in the xml layout).

@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -49,7 +50,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -115,12 +115,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                 when (loadState.refresh) {
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
-                            binding.statusView.show()
+                            binding.statusView.isVisible = true
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
                         }
                     }
                     is LoadState.Error -> {
-                        binding.statusView.show()
+                        binding.statusView.isVisible = true
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
                             binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
@@ -129,7 +129,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                         }
                     }
                     is LoadState.Loading -> {
-                        binding.progressBar.show()
+                        binding.progressBar.isVisible = true
                     }
                 }
             }

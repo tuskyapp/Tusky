@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +36,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
@@ -86,12 +86,12 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             viewModel.states.collectLatest { states ->
                 binding.progressBar.hide()
                 if (states.isEmpty()) {
-                    binding.messageView.show()
+                    binding.messageView.isVisible = true
                     binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.no_lists) {
                         load()
                     }
                 } else {
-                    binding.listsView.show()
+                    binding.listsView.isVisible = true
                     adapter.submitList(states)
                 }
             }
@@ -102,7 +102,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
                 binding.progressBar.hide()
                 binding.listsView.hide()
                 binding.messageView.apply {
-                    show()
+                    isVisible = true
 
                     if (error is IOException) {
                         setup(R.drawable.elephant_offline, R.string.error_network) {
@@ -146,7 +146,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     }
 
     private fun load() {
-        binding.progressBar.show()
+        binding.progressBar.isVisible = true
         binding.listsView.hide()
         binding.messageView.hide()
         viewModel.load()

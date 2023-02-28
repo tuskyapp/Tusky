@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.report.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.keylesspalace.tusky.R
@@ -27,7 +28,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
 
@@ -49,8 +49,8 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
     private fun subscribeObservables() {
         viewModel.muteState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
-                binding.buttonMute.show()
-                binding.progressMute.show()
+                binding.buttonMute.isVisible = true
+                binding.progressMute.isVisible = true
             } else {
                 binding.buttonMute.hide()
                 binding.progressMute.hide()
@@ -66,8 +66,8 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
 
         viewModel.blockState.observe(viewLifecycleOwner) {
             if (it !is Loading) {
-                binding.buttonBlock.show()
-                binding.progressBlock.show()
+                binding.buttonBlock.isVisible = true
+                binding.progressBlock.isVisible = true
             } else {
                 binding.buttonBlock.hide()
                 binding.progressBlock.hide()

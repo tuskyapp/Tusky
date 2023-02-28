@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +39,6 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
@@ -102,7 +102,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
                     binding.swipeRefreshLayout.isRefreshing = false
                     if (it.data.isNullOrEmpty()) {
                         binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_announcements)
-                        binding.errorMessageView.show()
+                        binding.errorMessageView.isVisible = true
                     } else {
                         binding.errorMessageView.hide()
                     }
@@ -117,7 +117,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
                     binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                         refreshAnnouncements()
                     }
-                    binding.errorMessageView.show()
+                    binding.errorMessageView.isVisible = true
                 }
             }
         }
@@ -127,7 +127,7 @@ class AnnouncementsActivity : BottomSheetActivity(), AnnouncementActionListener,
         }
 
         viewModel.load()
-        binding.progressBar.show()
+        binding.progressBar.isVisible = true
     }
 
     private fun refreshAnnouncements() {

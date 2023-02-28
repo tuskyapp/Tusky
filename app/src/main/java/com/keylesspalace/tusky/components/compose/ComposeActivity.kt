@@ -100,7 +100,6 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.setDrawableTint
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -253,7 +252,7 @@ class ComposeActivity :
                 R.string.compose_active_account_description,
                 activeAccount.fullName
             )
-            binding.composeUsernameView.show()
+            binding.composeUsernameView.isVisible = true
         } else {
             binding.composeUsernameView.hide()
         }
@@ -341,7 +340,7 @@ class ComposeActivity :
 
     private fun setupReplyViews(replyingStatusAuthor: String?, replyingStatusContent: String?) {
         if (replyingStatusAuthor != null) {
-            binding.composeReplyView.show()
+            binding.composeReplyView.isVisible = true
             binding.composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
             val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).apply { sizeDp = 12 }
 
@@ -355,7 +354,7 @@ class ComposeActivity :
                     binding.composeReplyContentView.hide()
                     binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
                 } else {
-                    binding.composeReplyContentView.show()
+                    binding.composeReplyContentView.isVisible = true
                     val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).apply { sizeDp = 12 }
 
                     setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
@@ -680,7 +679,7 @@ class ComposeActivity :
             binding.composeHideMediaButton.hide()
             binding.descriptionMissingWarningButton.hide()
         } else {
-            binding.composeHideMediaButton.show()
+            binding.composeHideMediaButton.isVisible = true
             @ColorInt val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
@@ -1074,7 +1073,7 @@ class ComposeActivity :
     private fun showContentWarning(show: Boolean) {
         TransitionManager.beginDelayedTransition(binding.composeContentWarningBar.parent as ViewGroup)
         @ColorInt val color = if (show) {
-            binding.composeContentWarningBar.show()
+            binding.composeContentWarningBar.isVisible = true
             binding.composeContentWarningField.setSelection(binding.composeContentWarningField.text.length)
             binding.composeContentWarningField.requestFocus()
             getColor(R.color.tusky_blue)

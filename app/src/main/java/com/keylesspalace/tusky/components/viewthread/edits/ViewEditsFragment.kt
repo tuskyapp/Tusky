@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +37,6 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -82,13 +82,13 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                     EditsUiState.Loading -> {
                         binding.recyclerView.hide()
                         binding.statusView.hide()
-                        binding.initialProgressBar.show()
+                        binding.initialProgressBar.isVisible = true
                     }
                     is EditsUiState.Error -> {
                         Log.w(TAG, "failed to load edits", uiState.throwable)
 
                         binding.recyclerView.hide()
-                        binding.statusView.show()
+                        binding.statusView.isVisible = true
                         binding.initialProgressBar.hide()
 
                         if (uiState.throwable is IOException) {
@@ -102,7 +102,7 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                         }
                     }
                     is EditsUiState.Success -> {
-                        binding.recyclerView.show()
+                        binding.recyclerView.isVisible = true
                         binding.statusView.hide()
                         binding.initialProgressBar.hide()
 

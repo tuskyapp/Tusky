@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.report.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -31,7 +32,6 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import java.io.IOException
 import javax.inject.Inject
@@ -65,8 +65,8 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
         binding.editNote.setText(viewModel.reportNote)
 
         if (viewModel.isRemoteAccount) {
-            binding.checkIsNotifyRemote.show()
-            binding.reportDescriptionRemoteInstance.show()
+            binding.checkIsNotifyRemote.isVisible = true
+            binding.reportDescriptionRemoteInstance.isVisible = true
         } else {
             binding.checkIsNotifyRemote.hide()
             binding.reportDescriptionRemoteInstance.hide()
@@ -110,7 +110,7 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
         binding.buttonBack.isEnabled = false
         binding.editNote.isEnabled = false
         binding.checkIsNotifyRemote.isEnabled = false
-        binding.progressBar.show()
+        binding.progressBar.isVisible = true
     }
 
     private fun handleClicks() {
