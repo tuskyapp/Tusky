@@ -153,9 +153,9 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
             it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
-            it.defaultPostLanguage = account.source?.language ?: ""
+            it.defaultPostLanguage = account.source?.language.orEmpty()
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
-            it.emojis = account.emojis ?: emptyList()
+            it.emojis = account.emojis.orEmpty()
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)

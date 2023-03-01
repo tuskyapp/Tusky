@@ -114,7 +114,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.searchView.isSubmitButtonEnabled = true
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.search(query ?: "")
+                viewModel.search(query.orEmpty())
                 return true
             }
 
