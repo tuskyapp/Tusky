@@ -8,6 +8,15 @@
         <attr name="description" format="string|reference" />
     </declare-styleable>
 
+    <declare-styleable name="GraphView">
+        <attr name="primaryLineColor" format="reference|color" />
+        <attr name="secondaryLineColor" format="reference|color" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="graphColor" format="reference|color" />
+        <attr name="metaColor" format="reference|color" />
+        <attr name="proportionalTrending" format="boolean" />
+    </declare-styleable>
+
     <!--Themed Attributes-->
     <attr name="colorBackgroundAccent" format="reference|color" />
     <attr name="colorBackgroundHighlight" format="reference|color" />

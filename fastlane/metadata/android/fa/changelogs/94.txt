@@ -1,0 +1,9 @@
+تاسکی ۱۹٫۰
+
+- Support for Unified Push. To activate the support you will have to relogin into your accounts.
+- The number of responses to a post is now indicated in timelines.
+- Images can now by cropped while composing a post.
+- Profiles now show the date when they were created.
+- When viewing a list the title is now displayed in the toolbar.
+- A lot of bugfixes
+- Translation improvements

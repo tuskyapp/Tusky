@@ -23,6 +23,7 @@ import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.SCHEMA_VERSION
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
@@ -71,11 +72,10 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
-        // Migrate shared preference keys and defaults from version to version. The last
-        // version that did not have a SCHEMA_VERSION was 97, so that's the default.
-        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 97)
-        if (oldVersion != BuildConfig.VERSION_CODE) {
-            upgradeSharedPreferences(oldVersion, BuildConfig.VERSION_CODE)
+        // Migrate shared preference keys and defaults from version to version.
+        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 0)
+        if (oldVersion != SCHEMA_VERSION) {
+            upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }
 
         // In this case, we want to have the emoji preferences merged with the other ones
@@ -107,7 +107,13 @@ class TuskyApplication : Application(), HasAndroidInjector {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
         val editor = sharedPreferences.edit()
 
-        // Future upgrade code goes here
+        if (oldVersion < 2023022701) {
+            // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
+
+            editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
+            editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
+            editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
+        }
 
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()

@@ -256,7 +256,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
      * When started the job will wait `delayMs` then show `view`. If the job is cancelled at
      * any time `view` is hidden.
      */
-    @CheckResult()
+    @CheckResult
     private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
         start = CoroutineStart.LAZY
     ) {

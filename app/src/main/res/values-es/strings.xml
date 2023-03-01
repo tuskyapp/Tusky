@@ -4,11 +4,11 @@
     <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
-    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
+    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
-    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
-    <string name="error_authorization_denied">La autorización falló.</string>
-    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login.</string>
+    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
+    <string name="error_authorization_denied">La autorización falló. Si estás seguro de que has suministrado las credenciales correctas, prueba en el menú Iniciar sesión con el navegador.</string>
+    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
     <string name="error_compose_character_limit">¡La publicación es demasiado larga!</string>
     <string name="error_media_upload_type">No se admite este tipo de archivo.</string>
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
@@ -21,7 +21,7 @@
     <string name="title_notifications">Notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
-    <string name="title_direct_messages">Mensajes Directos</string>
+    <string name="title_direct_messages">Mensajes directos</string>
     <string name="title_tab_preferences">Pestañas</string>
     <string name="title_view_thread">Hilo</string>
     <string name="title_posts">Estados</string>
@@ -157,7 +157,7 @@
     <string name="pref_title_notification_filter_reblogs">mis posts son impulsados</string>
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
-    <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_app_theme">Tema de la app</string>
     <string name="pref_title_timelines">Cronologia</string>
     <string name="app_them_dark">Oscuro</string>
     <string name="app_theme_light">Claro</string>
@@ -559,7 +559,7 @@
     <string name="duration_14_days">14 días</string>
     <string name="duration_365_days">365 días</string>
     <string name="tips_push_notification_migration">Inicia sesión de nuevo en todas las cuentas para activar las notificaciones push.</string>
-    <string name="dialog_push_notification_migration">Para poder usar las notificaciones push con UnifiedPush, Tusky necesita permiso para suscribirse a las notificaciones de tu servidor de Mastodon. Es necesario volver a acceder para cambiar los parámetros OAuth concedidos a Tusky. Usar aquí, o en las Preferencias de la Cuenta, la opción de volver a acceder conservarás los borradores y la caché.</string>
+    <string name="dialog_push_notification_migration">Para poder usar las notificaciones push con UnifiedPush, Tusky necesita permiso para suscribirse a las notificaciones de tu servidor de Mastodon. Es necesario volver a acceder para cambiar los parámetros OAuth concedidos a Tusky. Usar aquí, o en las Preferencias de la cuenta, la opción de volver a acceder conservará los borradores y la caché.</string>
     <string name="failed_to_pin">Fallo al fijar</string>
     <string name="failed_to_unpin">Fallo al quitarlo</string>
     <string name="pref_show_self_username_disambiguate">Cuando se utilizan varias cuentas</string>
@@ -618,4 +618,32 @@
     <string name="action_post_failed">La subida falló</string>
     <string name="action_post_failed_do_nothing">Descartar</string>
     <string name="action_browser_login">Iniciar sesión con el navegador</string>
+    <string name="a11y_label_loading_thread">Cargando hilo</string>
+    <string name="mute_notifications_switch">Silenciar notificaciones</string>
+    <string name="pref_title_reading_order">Orden de lectura</string>
+    <string name="pref_reading_order_oldest_first">Más antiguas primero</string>
+    <string name="pref_reading_order_newest_first">Más recientes primero</string>
+    <string name="status_edit_info">%1$s ha editado %2$s</string>
+    <string name="status_created_info">%1$s ha editado %2$s</string>
+    <string name="pref_summary_http_proxy_disabled">Desactivado</string>
+    <string name="pref_summary_http_proxy_missing">&lt;sin establecer&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;inválido&gt;</string>
+    <string name="action_post_failed_detail">No se ha podido subir tu publicación y se ha guardado en Borradores.
+\n
+\nO no se ha podido contactar con el servidor, o ha rechazado tu publicación.</string>
+    <string name="action_post_failed_detail_plural">Tus publicaciones no se han podido subir y se han guardado en Borradores.
+\n
+\nO no se ha podido contactar con el servidor o, o ha rechazado tus publicaciones.</string>
+    <string name="action_post_failed_show_drafts">Mostrar borradores</string>
+    <string name="send_account_username_to">Compartir nombre de usuario de la cuenta a…</string>
+    <string name="account_username_copied">Nombre de usuario copiado</string>
+    <string name="description_browser_login">Puede soportar métodos de autenticación adicionales, pero hace falta un navegador soportado.</string>
+    <string name="description_login">Funcionar en la mayoría de los casos. No se comparten datos con otras apps.</string>
+    <string name="action_share_account_username">Compartir el nombre de usuario de la cuenta</string>
+    <string name="send_account_link_to">Compartir URL de la cuenta con…</string>
+    <string name="action_share_account_link">Compartir enlace a la cuenta</string>
+    <string name="title_public_trending_hashtags">Hashtags en tendencia</string>
+    <string name="accessibility_talking_about_tag">%1$d personas están hablando de #%2$s</string>
+    <string name="total_usage">Uso total</string>
+    <string name="total_accounts">Cuentas totales</string>
 </resources>

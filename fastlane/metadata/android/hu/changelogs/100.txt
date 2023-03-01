@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Támogatás bejegyzések szerkesztéséhez
+- Új beállítás az előnyben részesített olvasási irány állításához
+- Nagyobb médiaelőnézetek és új áfedés a leírásokkal rendelkező média jelzéséhez
+- Már lehetséges fiókokat hozzáadni listákhoz a profilnézetből is
+és sok más

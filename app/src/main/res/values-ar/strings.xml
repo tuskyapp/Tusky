@@ -25,7 +25,7 @@
     <string name="title_tab_preferences">الألسنة</string>
     <string name="title_view_thread">خيط</string>
     <string name="title_posts">المنشورات</string>
-    <string name="title_posts_with_replies">التبويقات والردود</string>
+    <string name="title_posts_with_replies">بالردود</string>
     <string name="title_posts_pinned">المدبّسة</string>
     <string name="title_follows">المتابَعون</string>
     <string name="title_followers">المتابِعون</string>
@@ -37,7 +37,7 @@
     <string name="title_drafts">المسودات</string>
     <string name="title_licenses">الرّخص</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">تم مشاركة %s</string>
+    <string name="post_boosted_format">شاركه %s</string>
     <string name="post_sensitive_media_title">محتوى حساس</string>
     <string name="post_media_hidden_title">وسائط مخفية</string>
     <string name="post_sensitive_media_directions">اضغط للعرض</string>
@@ -280,19 +280,18 @@
     <string name="compose_active_account_description">النشر بإسم %1$s</string>
     <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="zero">وصف لضعاف البصر 
+        <item quantity="zero">وصف لضعاف البصر
 \n(%d أحرف على أقصى تقدير)</item>
-        <item quantity="one">وصف لضعاف البصر 
-\n(%d أحرف على أقصى تقدير)</item>
-        <item quantity="two">وصف لضعاف البصر 
-\n(%d أحرف على أقصى تقدير)</item>
-        <item quantity="few">وصف لضعاف البصر 
-\n(%d أحرف على أقصى تقدير)</item>
-        <item quantity="many">وصف لضعاف البصر 
-\n(%d أحرف على أقصى تقدير)</item>
-        <item quantity="other">وصف لضعاف البصر 
-\n(%d أحرف على أقصى تقدير)
-\n(%d أحرف على أقصى تقدير)</item>
+        <item quantity="one">وصف لضعاف البصر
+\n(حرف واحد على أقصى تقدير)</item>
+        <item quantity="two">وصف لضعاف البصر
+\n(حرفان على أقصى تقدير)</item>
+        <item quantity="few">وصف لضعاف البصر
+\n(%d حروف على أقصى تقدير)</item>
+        <item quantity="many">وصف لضعاف البصر
+\n(%d حرفًا على أقصى تقدير)</item>
+        <item quantity="other">وصف لضعاف البصر
+\n(%d حرف على أقصى تقدير)</item>
     </plurals>
     <string name="action_set_caption">إضافة شرح</string>
     <string name="action_remove">حذف</string>
@@ -301,7 +300,7 @@
     <string name="compose_save_draft">هل تود الإحتفاظ بالمسودة ؟</string>
     <string name="send_post_notification_title">جارٍ إرسال التبويق…</string>
     <string name="send_post_notification_error_title">خطأ أثناء عملية إرسال التبويق</string>
-    <string name="send_post_notification_channel_name">إرسال التبويقات</string>
+    <string name="send_post_notification_channel_name">إرسال المنشورات</string>
     <string name="send_post_notification_cancel_title">أُلغيَ الإرسال</string>
     <string name="send_post_notification_saved_content">تم الاحتفاظ بنسخة مِن التبويق في مسوداتك</string>
     <string name="action_compose_shortcut">حرر</string>
@@ -477,9 +476,9 @@
     <string name="edit_poll">تعديل</string>
     <string name="filter_dialog_whole_word_description">عندما تكون الكلمة أو العبارة أبجدية رقمية فقط ، فلن يتم تطبيقها إلا إذا كانت مطابقة للكلمة بأكملها</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="title_scheduled_posts">التبويقات المبَرمَجة</string>
+    <string name="title_scheduled_posts">المنشورات المُبَرمَجة</string>
     <string name="action_edit">تعديل</string>
-    <string name="action_access_scheduled_posts">التبويقات المبَرمَجة</string>
+    <string name="action_access_scheduled_posts">المنشورات المُبَرمَجة</string>
     <string name="action_schedule_post">برمجة تبويق</string>
     <string name="action_reset_schedule">صفّر</string>
     <string name="post_lookup_error_format">خطأ أثناء البحث عن منشور %s</string>
@@ -566,7 +565,7 @@
     <string name="hint_media_description_missing">يجب أن تضع وصف للوسائط.</string>
     <string name="error_multimedia_size_limit">لا يمكن أن يتجاوز حجم ملفات الفيديو والصوت %s ميغا بايت.</string>
     <string name="error_image_edit_failed">لا يمكن تحرير الصورة.</string>
-    <string name="title_edits">عمليات التحرير</string>
+    <string name="title_edits">التعديلات</string>
     <string name="pref_title_notification_filter_reports">هناك شكوى جديدة</string>
     <string name="pref_show_self_username_never">أبداً</string>
     <string name="notification_subscription_description">تشغيل الاشعارات عندما يقوم شخص انت مشترك معه بنشر منشور جديد</string>
@@ -635,7 +634,7 @@
     <string name="error_failed_set_focus">فشل في تعيين نقطة التركيز</string>
     <string name="action_add_reaction">إضافة رد فعل</string>
     <string name="action_share_account_link">مشاركة رابط الحساب</string>
-    <string name="action_share_account_username">مشراكة اسم المستخدم</string>
+    <string name="action_share_account_username">مشاركة اسم مستخدم الحساب</string>
     <string name="send_account_link_to">شارك رابط الحساب الى…</string>
     <string name="send_account_username_to">شارك اسم المستجدم الخاص بالحساب الى…</string>
     <string name="account_username_copied">تم نسج اسم المستخدم</string>
@@ -652,11 +651,11 @@
     <string name="dialog_push_notification_migration">من أجل استخدام الإشعارات عبر UnifiedPush ، يحتاج Tusky إلى إذن للإشتراك في الإشعارات على خادم Mastodon الخاص بك. يتطلب هذا إعادة تسجيل الدخول لتغيير نطاقات OAuth الممنوحة لـ Tusky. سيؤدي استخدام خيار إعادة تسجيل الدخول هنا أو في اعدادات الحساب إلى الاحتفاظ بجميع المسودات المحلية وذاكرة التخزين المؤقت.</string>
     <string name="pref_title_wellbeing_mode">الرفاهية</string>
     <string name="account_date_joined">انضم في %1$s</string>
-    <string name="title_migration_relogin">اعد تسجيل الدخول لوصل الاشعارات.</string>
+    <string name="title_migration_relogin">أعد تسجيل الدخول لاستلام الاشعارات</string>
     <string name="action_dismiss">تجاهل</string>
     <string name="action_details">تفاصيل</string>
     <string name="pref_title_notification_filter_updates">المنشور الذي تفاعلت معه تم تعديله</string>
-    <string name="error_loading_account_details">فشل الوصل الى بيانات الحساب.</string>
+    <string name="error_loading_account_details">فشلت عملية تحميل تفاصيل الحساب</string>
     <string name="error_could_not_load_login_page">فشل الوصول الى صفحة تسجيل الدخول.</string>
     <string name="action_post_failed">فشل التحميل</string>
     <string name="action_post_failed_show_drafts">إظهار المسودات</string>
@@ -666,4 +665,5 @@
     <string name="pref_reading_order_oldest_first">الأقدم أولاً</string>
     <string name="pref_reading_order_newest_first">الأحدث أولاً</string>
     <string name="action_browser_login">الولوج باستخدام متصفح</string>
+    <string name="title_public_trending_hashtags">الوسوم المتداولة</string>
 </resources>
