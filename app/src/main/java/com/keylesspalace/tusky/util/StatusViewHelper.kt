@@ -179,8 +179,8 @@ class StatusViewHelper(private val itemView: View) {
                 context.getString(R.string.post_media_hidden_title)
             }
 
-            sensitiveMediaWarning.visibility = if (showingContent) View.GONE else View.VISIBLE
-            sensitiveMediaShow.visibility = if (showingContent) View.VISIBLE else View.GONE
+            sensitiveMediaWarning.isVisible = !showingContent
+            sensitiveMediaShow.isVisible = showingContent
             sensitiveMediaShow.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(false)
                 v.isVisible = false

@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -73,7 +74,7 @@ class ComposeScheduleView
     private fun updateScheduleUi() {
         if (scheduleDateTime == null) {
             binding.scheduledDateTime.text = ""
-            binding.invalidScheduleWarning.visibility = GONE
+            binding.invalidScheduleWarning.isVisible = false
             return
         }
 
@@ -169,7 +170,7 @@ class ComposeScheduleView
         } else {
             true
         }
-        binding.invalidScheduleWarning.visibility = if (valid) GONE else VISIBLE
+        binding.invalidScheduleWarning.isVisible = !valid
         return valid
     }
 

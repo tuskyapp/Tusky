@@ -178,18 +178,17 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             listener(isToolbarVisible)
         }
 
-        val visibility = if (isToolbarVisible) View.VISIBLE else View.INVISIBLE
         val alpha = if (isToolbarVisible) 1.0f else 0.0f
         if (isToolbarVisible) {
             // If to be visible, need to make visible immediately and animate alpha
             binding.toolbar.alpha = 0.0f
-            binding.toolbar.visibility = visibility
+            binding.toolbar.isVisible = isToolbarVisible
         }
 
         binding.toolbar.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    binding.toolbar.visibility = visibility
+                    binding.toolbar.isVisible = isToolbarVisible
                     animation.removeListener(this)
                 }
             })

@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.components.viewthread.edits
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -139,7 +138,7 @@ class ViewEditsAdapter(
                     imageView.contentDescription =
                         imageView.context.getString(R.string.action_view_media)
                 }
-                descriptionIndicator.visibility = if (hasDescription) View.VISIBLE else View.GONE
+                descriptionIndicator.isVisible = hasDescription
 
                 val blurhash = attachment.blurhash
 

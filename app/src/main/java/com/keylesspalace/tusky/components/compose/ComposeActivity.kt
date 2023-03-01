@@ -702,7 +702,7 @@ class ComposeActivity :
                     break
                 }
             }
-            binding.descriptionMissingWarningButton.visibility = if (oneMediaWithoutDescription) View.VISIBLE else View.GONE
+            binding.descriptionMissingWarningButton.isVisible = oneMediaWithoutDescription
         }
     }
 

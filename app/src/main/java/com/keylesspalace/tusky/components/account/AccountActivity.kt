@@ -172,7 +172,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             updateButtons()
             binding.saveNoteInfo.isVisible = false
         } else {
-            binding.saveNoteInfo.visibility = View.INVISIBLE
+            binding.saveNoteInfo.isInvisible = true
         }
     }
 
@@ -477,14 +477,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private fun updateAccountJoinedDate() {
         loadedAccount?.let { account ->
-            try {
+            binding.accountDateJoined.isVisible = try {
                 binding.accountDateJoined.text = resources.getString(
                     R.string.account_date_joined,
                     SimpleDateFormat("MMMM, yyyy", Locale.getDefault()).format(account.createdAt)
                 )
-                binding.accountDateJoined.isVisible = true
+                true
             } catch (e: ParseException) {
-                binding.accountDateJoined.isVisible = false
+                false
             }
         }
     }
