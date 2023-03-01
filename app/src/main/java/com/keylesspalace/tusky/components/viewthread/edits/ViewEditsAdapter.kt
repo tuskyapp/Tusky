@@ -42,7 +42,6 @@ import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
 import org.xml.sax.XMLReader
 
-
 class ViewEditsAdapter(
     private val edits: List<StatusEdit>,
     private val animateAvatars: Boolean,
@@ -199,7 +198,6 @@ class ViewEditsAdapter(
     }
 
     override fun getItemCount() = edits.size
-
 }
 
 /**
