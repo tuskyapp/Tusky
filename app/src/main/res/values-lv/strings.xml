@@ -574,4 +574,16 @@
 \n - Sekotāju/ierakstu skaitu profilos
 \n
 \n Pašpiegādātie paziņojumi netiks ietekmēti, bet paziņojumu preferences var pārskatīt manuāli.</string>
+    <string name="description_browser_login">Var atbalstīt papildu autentifikācijas metodes, bet ir nepieciešama atbalstīta pārlūkprogramma.</string>
+    <string name="dialog_whats_an_instance">Šeit var ievadīt jebkuras instances adresi vai domēnu, piemēram, mastodon.social, icosahedron.website, social.tchncs.de un <a href="https://instances.social">citus!</a>
+\n
+\nJa tev vēl nav konta, vari ievadīt tās instances nosaukumu, kurai vēlies pievienoties un izveidot kontu.
+\n
+\nInstance ir vieta, kur tiek mitināts tavs konts, taču tu vari viegli sazināties ar cilvēkiem citās instancēs un sekot tiem, it kā atrastos tajā pašā vietnē.
+\n
+\nVairāk informācijas var atrast <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="failed_fetch_posts">Neizdevās iegūt ierakstus</string>
+    <string name="accessibility_talking_about_tag">%1$d cilvēki runā par tēmturi %2$s</string>
+    <string name="total_usage">Kopējais lietojums</string>
+    <string name="total_accounts">Konti kopā</string>
 </resources>

@@ -624,4 +624,8 @@
     <string name="action_browser_login">Bejelentkezés Böngészővel</string>
     <string name="description_login">A legtöbb esetben működik. Nem szivárog ki adat más alkalmazások számára.</string>
     <string name="description_browser_login">Támogathat más hitelesítési módozatokat is, de ehhez támogatott böngészőre van szükség.</string>
+    <string name="title_public_trending_hashtags">Népszerű hashtagek</string>
+    <string name="accessibility_talking_about_tag">%1$d ember beszél a %2$s hashtagről</string>
+    <string name="total_usage">Összes használat</string>
+    <string name="total_accounts">Összes fiók</string>
 </resources>

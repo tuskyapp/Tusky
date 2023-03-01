@@ -96,6 +96,7 @@ import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -162,7 +163,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private var unreadAnnouncementsCount = 0
 
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private lateinit var glide: RequestManager
 
@@ -354,7 +355,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     override fun onResume() {
         super.onResume()
-        NotificationHelper.clearNotificationsForActiveAccount(this, accountManager)
         val currentEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
         if (currentEmojiPack != selectedEmojiPack) {
             Log.d(
@@ -726,10 +726,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                if (tab.position == notificationTabPosition) {
-                    NotificationHelper.clearNotificationsForActiveAccount(this@MainActivity, accountManager)
-                }
-
                 binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
 
                 refreshComposeButtonState(tabAdapter, tab.position)

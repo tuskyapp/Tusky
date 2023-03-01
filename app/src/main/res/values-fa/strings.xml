@@ -627,4 +627,6 @@
     <string name="accessibility_talking_about_tag">%1$d نفر دارند دربارهٔ برچسب %2$s حرف می‌زنند</string>
     <string name="total_usage">استفادهٔ کل</string>
     <string name="total_accounts">مجموع حساب‌ها</string>
+    <string name="dialog_follow_hashtag_title">پی‌گیری برچسب</string>
+    <string name="dialog_follow_hashtag_hint">#برچسب</string>
 </resources>

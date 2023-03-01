@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_login">Skrá inn með Mastodon</string>
+    <string name="action_login">Skrá inn með Tusky</string>
     <string name="link_whats_an_instance">Hvað er tilvik\?</string>
     <string name="title_favourites">Eftirlæti</string>
     <string name="title_drafts">Drög</string>
@@ -16,11 +16,11 @@
     <string name="error_network">Villa í netkerfi: Athugaðu nettenginguna þína og prófaðu svo aftur!</string>
     <string name="error_empty">Þetta má ekki vera tómt.</string>
     <string name="error_invalid_domain">Ógilt lén sett inn</string>
-    <string name="error_failed_app_registration">Mistókst að auðkenna gagnvart þessu tilviki.</string>
+    <string name="error_failed_app_registration">Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
     <string name="error_no_web_browser_found">Gat ekki fundið neinn vafra til að nota.</string>
-    <string name="error_authorization_unknown">Óskilgreind auðkenningarvilla kom upp.</string>
-    <string name="error_authorization_denied">Heimild var hafnað.</string>
-    <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn.</string>
+    <string name="error_authorization_unknown">Óskilgreind auðkenningarvilla kom upp. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
+    <string name="error_authorization_denied">Heimild var hafnað. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
+    <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
     <string name="error_compose_character_limit">Færslan er of löng!</string>
     <string name="error_media_upload_type">Þessa tegund skrár er ekki hægt að senda inn.</string>
     <string name="error_media_upload_opening">Ekki var hægt að opna skrána.</string>
@@ -604,4 +604,20 @@
     <string name="send_account_username_to">Deila notandanafni aðgangs til…</string>
     <string name="account_username_copied">Notandanafn afritað</string>
     <string name="mute_notifications_switch">Þagga tilkynningar</string>
+    <string name="title_public_trending_hashtags">Vinsæl myllumerki</string>
+    <string name="accessibility_talking_about_tag">%1$d manns eru að tala um myllumerkið %2$s</string>
+    <string name="action_post_failed">Innsending mistókst</string>
+    <string name="action_post_failed_show_drafts">Birta drög</string>
+    <string name="action_post_failed_do_nothing">Afgreiða</string>
+    <string name="action_post_failed_detail">Ekki tókst að senda inn færsluna þína og hefur hún verið vistuð í Drög.
+\n
+\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunni.</string>
+    <string name="action_post_failed_detail_plural">Ekki tókst að senda inn færslurnar þína og hafa þær verið vistaðar í Drög.
+\n
+\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunum.</string>
+    <string name="action_browser_login">Skrá inn í vafra</string>
+    <string name="description_login">Virkar í flestum tilvikum. Engum gögnum er lekið til annarra forrita.</string>
+    <string name="description_browser_login">Gæti stutt fleiri aðferðir til auðkenningar, en krefst studds vafra.</string>
+    <string name="total_usage">Heildarnotkun</string>
+    <string name="total_accounts">Aðgangar alls</string>
 </resources>

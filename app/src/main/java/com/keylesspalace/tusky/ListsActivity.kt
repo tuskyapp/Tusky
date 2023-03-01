@@ -113,7 +113,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
         lifecycleScope.launch {
             viewModel.events.collect { event ->
-                @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                 when (event) {
                     Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
                     Event.RENAME_ERROR -> showMessage(R.string.error_rename_list)

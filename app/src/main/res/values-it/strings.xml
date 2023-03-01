@@ -29,7 +29,7 @@
     <string name="title_posts_pinned">Fissati</string>
     <string name="title_follows">Seguiti</string>
     <string name="title_followers">Seguaci</string>
-    <string name="title_favourites">Preferiti</string>
+    <string name="title_favourites">Apprezzati</string>
     <string name="title_mutes">Utenti silenziati</string>
     <string name="title_blocks">Utenti bloccati</string>
     <string name="title_follow_requests">Richieste di seguirti</string>
@@ -48,7 +48,7 @@
     <string name="message_empty">Qui non c\'è nulla.</string>
     <string name="footer_empty">Qui non c\'è nulla. Trascina verso il basso per aggiornare!</string>
     <string name="notification_reblog_format">%s ha condiviso il tuo post</string>
-    <string name="notification_favourite_format">%s ha messo il tuo messaggio nei preferiti</string>
+    <string name="notification_favourite_format">%s ha apprezzato il tuo post</string>
     <string name="notification_follow_format">%s ti segue</string>
     <string name="report_username_format">Segnala @%s</string>
     <string name="report_comment_hint">Commenti aggiuntivi?</string>
@@ -56,8 +56,8 @@
     <string name="action_reply">Rispondi</string>
     <string name="action_reblog">Condividi</string>
     <string name="action_unreblog">Rimuovi condivisione</string>
-    <string name="action_favourite">Aggiungi ai preferiti</string>
-    <string name="action_unfavourite">Rimuovi preferito</string>
+    <string name="action_favourite">Aggiungi ai post apprezzati</string>
+    <string name="action_unfavourite">Rimuovi apprezzamento</string>
     <string name="action_more">Di più</string>
     <string name="action_compose">Componi</string>
     <string name="action_login">Accedi con Tusky</string>
@@ -78,7 +78,7 @@
     <string name="action_view_profile">Profilo</string>
     <string name="action_view_preferences">Preferenze</string>
     <string name="action_view_account_preferences">Preferenze account</string>
-    <string name="action_view_favourites">Preferiti</string>
+    <string name="action_view_favourites">Apprezzati</string>
     <string name="action_view_mutes">Utenti silenziati</string>
     <string name="action_view_blocks">Utenti bloccati</string>
     <string name="action_view_follow_requests">Richieste di seguirti</string>
@@ -165,7 +165,7 @@
     <string name="pref_title_notification_filter_mentions">vengo menzionato</string>
     <string name="pref_title_notification_filter_follows">vengo seguito</string>
     <string name="pref_title_notification_filter_reblogs">i miei messaggi vengono condivisi</string>
-    <string name="pref_title_notification_filter_favourites">i miei messaggi vengono messi nei preferiti</string>
+    <string name="pref_title_notification_filter_favourites">i miei messaggi vengono messi negli apprezzamenti</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
     <string name="pref_title_timelines">Timeline</string>
@@ -208,8 +208,8 @@
     <string name="notification_follow_description">Notifiche su nuovi seguaci</string>
     <string name="notification_boost_name">Ricondivisioni</string>
     <string name="notification_boost_description">Notifiche sui tuoi messaggi che vengono condivisi</string>
-    <string name="notification_favourite_name">Preferiti</string>
-    <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come preferiti</string>
+    <string name="notification_favourite_name">Apprezzati</string>
+    <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come apprezzati</string>
     <string name="notification_mention_format">%s ti ha menzionato</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d altri</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
@@ -341,7 +341,7 @@
         <item quantity="other"><b>%s</b> ricondivisioni</item>
     </plurals>
     <string name="title_reblogged_by">Condiviso da</string>
-    <string name="title_favourited_by">Aggiunto ai preferiti da</string>
+    <string name="title_favourited_by">Aggiunto ai post apprezzati da</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
@@ -354,7 +354,7 @@
     <string name="description_post_cw">Contenuto sensibile: %s</string>
     <string name="description_post_media_no_description_placeholder">Nessuna descrizione</string>
     <string name="description_post_reblogged">Ribloggato</string>
-    <string name="description_post_favourited">Messo nei preferiti</string>
+    <string name="description_post_favourited">Messo nei post apprezzati</string>
     <string name="description_visibility_public">        Pubblico
     </string>
     <string name="description_visibility_unlisted">Non in elenco</string>

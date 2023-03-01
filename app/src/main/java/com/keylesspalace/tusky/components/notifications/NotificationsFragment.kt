@@ -469,6 +469,11 @@ class NotificationsFragment :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
+    }
+
     override fun onReply(position: Int) {
         val status = adapter.peek(position)?.statusViewData?.status ?: return
         super.reply(status)

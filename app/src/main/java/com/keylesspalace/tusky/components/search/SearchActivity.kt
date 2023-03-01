@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.databinding.ActivitySearchBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -47,7 +48,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private val binding by viewBinding(ActivitySearchBinding::inflate)
 
-    private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

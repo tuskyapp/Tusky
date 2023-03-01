@@ -61,6 +61,7 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -86,7 +87,7 @@ class TimelineFragment :
     @Inject
     lateinit var eventHub: EventHub
 
-    private val viewModel: TimelineViewModel by lazy {
+    private val viewModel: TimelineViewModel by unsafeLazy {
         if (kind == TimelineViewModel.Kind.HOME) {
             ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
         } else {

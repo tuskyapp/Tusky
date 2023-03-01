@@ -209,12 +209,7 @@ internal class StatusNotificationViewHolder(
         if (showBotOverlay && isBot) {
             binding.notificationNotificationAvatar.visibility = View.VISIBLE
             Glide.with(binding.notificationNotificationAvatar)
-                .load(
-                    ContextCompat.getDrawable(
-                        binding.notificationNotificationAvatar.context,
-                        R.drawable.bot_badge
-                    )
-                )
+                .load(R.drawable.bot_badge)
                 .into(binding.notificationNotificationAvatar)
         } else {
             binding.notificationNotificationAvatar.visibility = View.GONE

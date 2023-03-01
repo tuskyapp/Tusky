@@ -22,6 +22,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.use
 import com.google.android.material.color.MaterialColors
 
 /**
@@ -37,10 +38,9 @@ private const val THEME_SYSTEM = "auto_system"
 const val APP_THEME_DEFAULT = THEME_NIGHT
 
 fun getDimension(context: Context, @AttrRes attribute: Int): Int {
-    val array = context.obtainStyledAttributes(intArrayOf(attribute))
-    val dimen = array.getDimensionPixelSize(0, -1)
-    array.recycle()
-    return dimen
+    return context.obtainStyledAttributes(intArrayOf(attribute)).use { array ->
+        array.getDimensionPixelSize(0, -1)
+    }
 }
 
 fun setDrawableTint(context: Context, drawable: Drawable, @AttrRes attribute: Int) {

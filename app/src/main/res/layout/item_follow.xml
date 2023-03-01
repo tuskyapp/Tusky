@@ -28,17 +28,15 @@
 
     <ImageView
         android:id="@+id/notification_avatar"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/action_view_profile"
         android:scaleType="centerCrop"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="@id/notification_username"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/notification_display_name"
+        app:layout_constraintTop_toBottomOf="@+id/notification_text"
         tools:src="@drawable/avatar_default" />
 
     <TextView
@@ -46,28 +44,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@id/notification_username"
         app:layout_constraintStart_toEndOf="@id/notification_avatar"
-        app:layout_constraintTop_toBottomOf="@id/notification_text"
-        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@+id/notification_text"
         tools:text="Test User" />
 
     <TextView
         android:id="@+id/notification_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/notification_avatar"
+        app:layout_constraintStart_toStartOf="@+id/notification_display_name"
         app:layout_constraintTop_toBottomOf="@id/notification_display_name"
         tools:text="\@testuser" />
 
