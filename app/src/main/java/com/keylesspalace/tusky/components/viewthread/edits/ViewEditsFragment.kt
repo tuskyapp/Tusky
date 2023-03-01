@@ -17,15 +17,22 @@ package com.keylesspalace.tusky.components.viewthread.edits
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
@@ -38,11 +45,20 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener, Injectable {
+class ViewEditsFragment :
+    Fragment(R.layout.fragment_view_thread),
+    LinkListener,
+    OnRefreshListener,
+    MenuProvider,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -54,12 +70,10 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
     private lateinit var statusId: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
-        binding.toolbar.title = getString(R.string.title_edits)
-        binding.swipeRefreshLayout.isEnabled = false
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -84,9 +98,11 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                         binding.statusView.hide()
                         binding.initialProgressBar.show()
                     }
+                    EditsUiState.Refreshing -> {}
                     is EditsUiState.Error -> {
                         Log.w(TAG, "failed to load edits", uiState.throwable)
 
+                        binding.swipeRefreshLayout.isRefreshing = false
                         binding.recyclerView.hide()
                         binding.statusView.show()
                         binding.initialProgressBar.hide()
@@ -102,6 +118,7 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                         }
                     }
                     is EditsUiState.Success -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         binding.recyclerView.show()
                         binding.statusView.hide()
                         binding.initialProgressBar.hide()
@@ -119,6 +136,36 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
         }
 
         viewModel.loadEdits(statusId)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_view_edits, menu)
+        menu.findItem(R.id.action_refresh)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                onRefresh()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().title = getString(R.string.title_edits)
+    }
+
+    override fun onRefresh() {
+        viewModel.loadEdits(statusId, force = true, refreshing = true)
     }
 
     override fun onViewAccount(id: String) {

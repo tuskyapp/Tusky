@@ -27,6 +27,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -39,6 +42,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.arch.core.util.Function;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.util.Pair;
+import androidx.core.view.MenuProvider;
 import androidx.lifecycle.Lifecycle;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.AsyncDifferConfig;
@@ -120,7 +124,9 @@ public class NotificationsFragment extends SFragment implements
         StatusActionListener,
         NotificationsAdapter.NotificationActionListener,
         AccountActionListener,
-        Injectable, ReselectableFragment {
+        Injectable,
+        MenuProvider,
+        ReselectableFragment {
     private static final String TAG = "NotificationF"; // logging tag
 
     private static final int LOAD_AT_ONCE = 30;
@@ -205,6 +211,8 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        requireActivity().addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
         binding = FragmentTimelineNotificationsBinding.inflate(inflater, container, false);
 
         @NonNull Context context = inflater.getContext(); // from inflater to silence warning
@@ -285,6 +293,22 @@ public class NotificationsFragment extends SFragment implements
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.fragment_notifications, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.action_refresh) {
+            binding.swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
+            return true;
+        }
+
+        return false;
     }
 
     private void updateFilterVisibility() {

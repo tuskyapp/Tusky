@@ -730,6 +730,7 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
+    <string name="action_refresh">Refresh</string>
     <string name="mute_notifications_switch">Mute notifications</string>
 
     <!-- Reading order preference -->
