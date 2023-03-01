@@ -482,7 +482,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                     R.string.account_date_joined,
                     SimpleDateFormat("MMMM, yyyy", Locale.getDefault()).format(account.createdAt)
                 )
-                binding.accountDateJoined.visibility = View.VISIBLE
+                binding.accountDateJoined.isVisible = true
             } catch (e: ParseException) {
                 binding.accountDateJoined.visibility = View.GONE
             }

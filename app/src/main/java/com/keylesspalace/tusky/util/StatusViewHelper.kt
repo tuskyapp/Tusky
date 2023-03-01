@@ -24,6 +24,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
@@ -102,7 +103,7 @@ class StatusViewHelper(private val itemView: View) {
                 mediaPreviews[i].contentDescription = description
             }
 
-            mediaPreviews[i].visibility = View.VISIBLE
+            mediaPreviews[i].isVisible = true
 
             if (TextUtils.isEmpty(previewUrl)) {
                 Glide.with(mediaPreviews[i])
@@ -149,7 +150,7 @@ class StatusViewHelper(private val itemView: View) {
             if (showingContent &&
                 (type === Attachment.Type.VIDEO) or (type === Attachment.Type.GIFV)
             ) {
-                mediaOverlays[i].visibility = View.VISIBLE
+                mediaOverlays[i].isVisible = true
             } else {
                 mediaOverlays[i].visibility = View.GONE
             }
@@ -183,7 +184,7 @@ class StatusViewHelper(private val itemView: View) {
             sensitiveMediaShow.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(false)
                 v.visibility = View.GONE
-                sensitiveMediaWarning.visibility = View.VISIBLE
+                sensitiveMediaWarning.isVisible = true
                 setMediasPreview(
                     statusDisplayOptions, attachments, sensitive, previewListener,
                     false, mediaPreviewHeight
@@ -192,7 +193,7 @@ class StatusViewHelper(private val itemView: View) {
             sensitiveMediaWarning.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(true)
                 v.visibility = View.GONE
-                sensitiveMediaShow.visibility = View.VISIBLE
+                sensitiveMediaShow.isVisible = true
                 setMediasPreview(
                     statusDisplayOptions, attachments, sensitive, previewListener,
                     true, mediaPreviewHeight
@@ -216,7 +217,7 @@ class StatusViewHelper(private val itemView: View) {
             mediaLabel.visibility = View.GONE
             return
         }
-        mediaLabel.visibility = View.VISIBLE
+        mediaLabel.isVisible = true
 
         // Set the label's text.
         val context = mediaLabel.context
@@ -273,7 +274,7 @@ class StatusViewHelper(private val itemView: View) {
 
             setupPollResult(poll, emojis, pollResults, statusDisplayOptions.animateEmojis)
 
-            pollDescription.visibility = View.VISIBLE
+            pollDescription.isVisible = true
             pollDescription.text = getPollInfoText(timestamp, poll, pollDescription, statusDisplayOptions.useAbsoluteTime)
         }
     }
@@ -310,7 +311,7 @@ class StatusViewHelper(private val itemView: View) {
 
                 val pollOptionText = buildDescription(options[i].title, percent, options[i].voted, pollResults[i].context)
                 pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
-                pollResults[i].visibility = View.VISIBLE
+                pollResults[i].isVisible = true
 
                 val level = percent * 100
                 val optionColor = if (options[i].voted) {

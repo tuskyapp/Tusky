@@ -188,7 +188,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     finish()
                 }
                 is Loading -> {
-                    binding.saveProgressBar.visibility = View.VISIBLE
+                    binding.saveProgressBar.isVisible = true
                 }
                 is Error -> {
                     onSaveFailure(it.errorMessage)

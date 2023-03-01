@@ -39,6 +39,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -275,7 +276,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
     private fun shareImage(directory: File, url: String) {
         isCreating = true
-        binding.progressBarShare.visibility = View.VISIBLE
+        binding.progressBarShare.isVisible = true
         invalidateOptionsMenu()
         val file = File(directory, getTemporaryMediaFilename("png"))
         val futureTask: FutureTarget<Bitmap> =

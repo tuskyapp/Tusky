@@ -26,6 +26,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
@@ -322,11 +323,11 @@ class LoginActivity : BaseActivity(), Injectable {
 
     private fun setLoading(loadingState: Boolean) {
         if (loadingState) {
-            binding.loginLoadingLayout.visibility = View.VISIBLE
+            binding.loginLoadingLayout.isVisible = true
             binding.loginInputLayout.visibility = View.GONE
         } else {
             binding.loginLoadingLayout.visibility = View.GONE
-            binding.loginInputLayout.visibility = View.VISIBLE
+            binding.loginInputLayout.isVisible = true
             binding.loginButton.isEnabled = true
         }
     }
