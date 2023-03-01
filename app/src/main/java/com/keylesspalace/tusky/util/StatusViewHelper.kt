@@ -147,13 +147,8 @@ class StatusViewHelper(private val itemView: View) {
             }
 
             val type = attachment.type
-            if (showingContent &&
+            mediaOverlays[i].isVisible = showingContent &&
                 (type === Attachment.Type.VIDEO) or (type === Attachment.Type.GIFV)
-            ) {
-                mediaOverlays[i].isVisible = true
-            } else {
-                mediaOverlays[i].isVisible = false
-            }
 
             mediaPreviews[i].setOnClickListener { v ->
                 previewListener.onViewMedia(v, i)

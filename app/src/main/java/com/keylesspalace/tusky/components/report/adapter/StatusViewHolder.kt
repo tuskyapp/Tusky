@@ -153,11 +153,7 @@ class StatusViewHolder(
         } else {
             setClickableMentions(binding.statusContent, mentions, listener)
         }
-        if (binding.statusContent.text.isNullOrBlank()) {
-            binding.statusContent.isVisible = false
-        } else {
-            binding.statusContent.isVisible = true
-        }
+        binding.statusContent.isVisible = !binding.statusContent.text.isNullOrBlank()
     }
 
     private fun setCreatedAt(createdAt: Date?) {
