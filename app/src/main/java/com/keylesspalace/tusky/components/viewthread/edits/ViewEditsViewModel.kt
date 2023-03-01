@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.components.viewthread.edits
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.components.viewthread.edits.TuskyTagHandler.Companion.DELETED_TEXT_EL
+import com.keylesspalace.tusky.components.viewthread.edits.TuskyTagHandler.Companion.INSERTED_TEXT_EL
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.Dispatchers
@@ -120,7 +122,7 @@ sealed interface EditsUiState {
 }
 
 /**
- * Add `ins` and `del` elements wrapping inserted or deleted content.
+ * Add elements wrapping inserted or deleted content.
  */
 class HtmlDiffOutput : XMLDiffOutput {
     /** XML Output */
@@ -162,10 +164,10 @@ class HtmlDiffOutput : XMLDiffOutput {
             XMLTokenType.START_ELEMENT -> token.toXML(xml)
             XMLTokenType.END_ELEMENT -> token.toXML(xml)
             XMLTokenType.TEXT -> {
-                // wrap the characters in a <ins/del> element
+                // wrap the characters in a <tusky-ins/tusky-del> element
                 when (operator) {
-                    Operator.INS -> "ins"
-                    Operator.DEL -> "del"
+                    Operator.DEL -> DELETED_TEXT_EL
+                    Operator.INS -> INSERTED_TEXT_EL
                     else -> null
                 }?.let {
                     xml.openElement(it, false)

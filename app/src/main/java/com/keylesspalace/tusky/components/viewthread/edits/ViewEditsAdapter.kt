@@ -1,7 +1,17 @@
 package com.keylesspalace.tusky.components.viewthread.edits
 
+import android.content.Context
+import android.graphics.Typeface.DEFAULT_BOLD
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.Html
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.style.CharacterStyle
+import android.text.style.UpdateAppearance
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +40,8 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
+import org.xml.sax.XMLReader
+
 
 class ViewEditsAdapter(
     private val edits: List<StatusEdit>,
@@ -41,21 +53,12 @@ class ViewEditsAdapter(
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
-    /** CSS colour string to set as background for deleted content */
-    private lateinit var cssDeletedBackground: String
-
-    /** CSS colour string to set as background for inserted content */
-    private lateinit var cssInsertedBackground: String
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BindingHolder<ItemStatusEditBinding> {
         val binding = ItemStatusEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         binding.statusEditMediaPreview.clipToOutline = true
-
-        cssDeletedBackground = binding.root.context.getString(R.string.view_edits_background_delete)
-        cssInsertedBackground = binding.root.context.getString(R.string.view_edits_background_insert)
 
         return BindingHolder(binding)
     }
@@ -99,16 +102,10 @@ class ViewEditsAdapter(
             )
         }
 
-        // The view model inserts <ins> / <del> elements wrapping content that has been
-        // inserted or deleted. Replace that with spans styled with the appropriate background
-        // colour.
-        val content = edit.content
-            .replace("<ins>", "<span style=\"background:$cssInsertedBackground\">")
-            .replace("</ins>", "</span>")
-            .replace("<del>", "<span style=\"background:$cssDeletedBackground\">")
-            .replace("</del>", "</span>")
-
-        val emojifiedText = content.parseAsMastodonHtml().emojify(edit.emojis, binding.statusEditContent, animateEmojis)
+        val emojifiedText = edit
+            .content
+            .parseAsMastodonHtml(TuskyTagHandler(context))
+            .emojify(edit.emojis, binding.statusEditContent, animateEmojis)
 
         setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
 
@@ -202,4 +199,105 @@ class ViewEditsAdapter(
     }
 
     override fun getItemCount() = edits.size
+
+}
+
+/**
+ * Handle XML tags created by [ViewEditsViewModel] and create custom spans to display inserted or
+ * deleted text.
+ */
+class TuskyTagHandler(val context: Context) : Html.TagHandler {
+    /** Class to mark the start of a span of deleted text */
+    class Del
+
+    /** Class to mark the start of a span of inserted text */
+    class Ins
+
+    override fun handleTag(opening: Boolean, tag: String, output: Editable, xmlReader: XMLReader) {
+        when (tag) {
+            DELETED_TEXT_EL -> {
+                if (opening) {
+                    start(output as SpannableStringBuilder, Del())
+                } else {
+                    end(
+                        output as SpannableStringBuilder,
+                        Del::class.java,
+                        DeletedTextSpan(context)
+                    )
+                }
+            }
+            INSERTED_TEXT_EL -> {
+                if (opening) {
+                    start(output as SpannableStringBuilder, Ins())
+                } else {
+                    end(
+                        output as SpannableStringBuilder,
+                        Ins::class.java,
+                        InsertedTextSpan(context)
+                    )
+                }
+            }
+        }
+    }
+
+    /** @return the last span in [text] of type [kind], or null if that kind is not in text */
+    private fun <T> getLast(text: Spanned, kind: Class<T>): Any? {
+        val spans = text.getSpans(0, text.length, kind)
+        return spans?.get(spans.size - 1)
+    }
+
+    /**
+     * Mark the start of a span of [text] with [mark] so it can be discovered later by [end].
+     */
+    private fun start(text: SpannableStringBuilder, mark: Any) {
+        val len = text.length
+        text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK)
+    }
+
+    /**
+     * Set a [span] over the [text] most from the point recently marked with [mark] to the end
+     * of the text.
+     */
+    private fun <T> end(text: SpannableStringBuilder, mark: Class<T>, span: Any) {
+        val len = text.length
+        val obj = getLast(text, mark)
+        val where = text.getSpanStart(obj)
+        text.removeSpan(obj)
+        if (where != len) {
+            text.setSpan(span, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    /** Span that signifies deleted text */
+    class DeletedTextSpan(context: Context) : CharacterStyle(), UpdateAppearance {
+        val background = context.getColor(R.color.view_edits_background_delete)
+
+        override fun updateDrawState(tp: TextPaint) {
+            tp.isStrikeThruText = true
+            tp.alpha = 128
+            tp.bgColor = background
+        }
+    }
+
+    /** Span that signifies inserted text */
+    class InsertedTextSpan(context: Context) : CharacterStyle(), UpdateAppearance {
+        val background = context.getColor(R.color.view_edits_background_insert)
+
+        override fun updateDrawState(tp: TextPaint) {
+            tp.typeface = DEFAULT_BOLD
+            tp.bgColor = background
+        }
+    }
+
+    companion object {
+        /** XML element to represent text that has been deleted */
+        // Can't be an element that Android's HTML parser recognises, otherwise the tagHandler
+        // won't be called for it.
+        const val DELETED_TEXT_EL = "tusky-del"
+
+        /** XML element to represet text that has been inserted */
+        // Can't be an element that Android's HTML parser recognises, otherwise the tagHandler
+        // won't be called for it.
+        const val INSERTED_TEXT_EL = "tusky-ins"
+    }
 }

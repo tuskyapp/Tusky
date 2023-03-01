@@ -256,8 +256,4 @@
         <item>OLDEST_FIRST</item>
         <item>NEWEST_FIRST</item>
     </string-array>
-
-    <!-- Strings that will be used as CSS colours, not Android colours -->
-    <string name="view_edits_background_insert">#CCFFD8</string>
-    <string name="view_edits_background_delete">#FFC0C0</string>
 </resources>
