@@ -95,7 +95,7 @@ class AccountMediaFragment :
 
         binding.swipeRefreshLayout.isEnabled = false
 
-        binding.statusView.visibility = View.GONE
+        binding.statusView.isVisible = false
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.media.collectLatest { pagingData ->

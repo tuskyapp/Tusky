@@ -484,7 +484,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 )
                 binding.accountDateJoined.isVisible = true
             } catch (e: ParseException) {
-                binding.accountDateJoined.visibility = View.GONE
+                binding.accountDateJoined.isVisible = false
             }
         }
     }

@@ -70,7 +70,7 @@ class AnnouncementAdapter(
         if (wellbeingEnabled) {
             // Since reactions are not visible in wellbeing mode,
             // we shouldn't be able to add any ourselves.
-            addReactionChip.visibility = View.GONE
+            addReactionChip.isVisible = false
             return
         }
 

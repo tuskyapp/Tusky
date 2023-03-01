@@ -306,14 +306,14 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                     Log.d(TAG, "Download image result: $result")
                     isCreating = false
                     invalidateOptionsMenu()
-                    binding.progressBarShare.visibility = View.GONE
+                    binding.progressBarShare.isVisible = false
                     if (result)
                         shareFile(file, "image/png")
                 },
                 { error ->
                     isCreating = false
                     invalidateOptionsMenu()
-                    binding.progressBarShare.visibility = View.GONE
+                    binding.progressBarShare.isVisible = false
                     Log.e(TAG, "Failed to download image", error)
                 }
             )

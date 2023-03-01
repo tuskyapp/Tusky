@@ -75,16 +75,16 @@ class StatusViewHelper(private val itemView: View) {
         val mediaLabel = itemView.findViewById<TextView>(R.id.status_media_label)
         if (statusDisplayOptions.mediaPreviewEnabled) {
             // Hide the unused label.
-            mediaLabel.visibility = View.GONE
+            mediaLabel.isVisible = false
         } else {
             setMediaLabel(mediaLabel, attachments, sensitive, previewListener)
             // Hide all unused views.
-            mediaPreviews[0].visibility = View.GONE
-            mediaPreviews[1].visibility = View.GONE
-            mediaPreviews[2].visibility = View.GONE
-            mediaPreviews[3].visibility = View.GONE
-            sensitiveMediaWarning.visibility = View.GONE
-            sensitiveMediaShow.visibility = View.GONE
+            mediaPreviews[0].isVisible = false
+            mediaPreviews[1].isVisible = false
+            mediaPreviews[2].isVisible = false
+            mediaPreviews[3].isVisible = false
+            sensitiveMediaWarning.isVisible = false
+            sensitiveMediaShow.isVisible = false
             return
         }
 
@@ -152,7 +152,7 @@ class StatusViewHelper(private val itemView: View) {
             ) {
                 mediaOverlays[i].isVisible = true
             } else {
-                mediaOverlays[i].visibility = View.GONE
+                mediaOverlays[i].isVisible = false
             }
 
             mediaPreviews[i].setOnClickListener { v ->
@@ -170,8 +170,8 @@ class StatusViewHelper(private val itemView: View) {
             }
         }
         if (attachments.isEmpty()) {
-            sensitiveMediaWarning.visibility = View.GONE
-            sensitiveMediaShow.visibility = View.GONE
+            sensitiveMediaWarning.isVisible = false
+            sensitiveMediaShow.isVisible = false
         } else {
             sensitiveMediaWarning.text = if (sensitive) {
                 context.getString(R.string.post_sensitive_media_title)
@@ -183,7 +183,7 @@ class StatusViewHelper(private val itemView: View) {
             sensitiveMediaShow.visibility = if (showingContent) View.VISIBLE else View.GONE
             sensitiveMediaShow.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(false)
-                v.visibility = View.GONE
+                v.isVisible = false
                 sensitiveMediaWarning.isVisible = true
                 setMediasPreview(
                     statusDisplayOptions, attachments, sensitive, previewListener,
@@ -192,7 +192,7 @@ class StatusViewHelper(private val itemView: View) {
             }
             sensitiveMediaWarning.setOnClickListener { v ->
                 previewListener.onContentHiddenChange(true)
-                v.visibility = View.GONE
+                v.isVisible = false
                 sensitiveMediaShow.isVisible = true
                 setMediasPreview(
                     statusDisplayOptions, attachments, sensitive, previewListener,
@@ -203,7 +203,7 @@ class StatusViewHelper(private val itemView: View) {
 
         // Hide any of the placeholder previews beyond the ones set.
         for (i in n until Status.MAX_MEDIA_ATTACHMENTS) {
-            mediaPreviews[i].visibility = View.GONE
+            mediaPreviews[i].isVisible = false
         }
     }
 
@@ -214,7 +214,7 @@ class StatusViewHelper(private val itemView: View) {
         listener: MediaPreviewListener
     ) {
         if (attachments.isEmpty()) {
-            mediaLabel.visibility = View.GONE
+            mediaLabel.isVisible = false
             return
         }
         mediaLabel.isVisible = true
@@ -266,9 +266,9 @@ class StatusViewHelper(private val itemView: View) {
 
         if (poll == null) {
             for (pollResult in pollResults) {
-                pollResult.visibility = View.GONE
+                pollResult.isVisible = false
             }
-            pollDescription.visibility = View.GONE
+            pollDescription.isVisible = false
         } else {
             val timestamp = System.currentTimeMillis()
 
@@ -323,7 +323,7 @@ class StatusViewHelper(private val itemView: View) {
                 pollResults[i].background.level = level
                 pollResults[i].background.setTint(pollResults[i].context.getColor(optionColor))
             } else {
-                pollResults[i].visibility = View.GONE
+                pollResults[i].isVisible = false
             }
         }
     }

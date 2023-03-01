@@ -324,9 +324,9 @@ class LoginActivity : BaseActivity(), Injectable {
     private fun setLoading(loadingState: Boolean) {
         if (loadingState) {
             binding.loginLoadingLayout.isVisible = true
-            binding.loginInputLayout.visibility = View.GONE
+            binding.loginInputLayout.isVisible = false
         } else {
-            binding.loginLoadingLayout.visibility = View.GONE
+            binding.loginLoadingLayout.isVisible = false
             binding.loginInputLayout.isVisible = true
             binding.loginButton.isEnabled = true
         }

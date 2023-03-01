@@ -294,7 +294,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
     private fun onSaveFailure(msg: String?) {
         val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
         Snackbar.make(binding.avatarButton, errorMsg, Snackbar.LENGTH_LONG).show()
-        binding.saveProgressBar.visibility = View.GONE
+        binding.saveProgressBar.isVisible = false
     }
 
     private fun onPickFailure(throwable: Throwable?) {

@@ -139,7 +139,7 @@ class TrendingFragment :
         }
 
         if (activity is ActionButtonActivity) {
-            (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
+            (activity as ActionButtonActivity).actionButton?.isVisible = false
         }
     }
 
