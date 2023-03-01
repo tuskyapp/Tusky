@@ -144,7 +144,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
         editText.doOnTextChanged { s, _, _, _ ->
-            positiveButton.isEnabled = s.isNullOrBlank()
+            positiveButton.isEnabled = s?.isNotBlank() == true
         }
         editText.setText(list?.title)
         editText.text?.let { editText.setSelection(it.length) }
