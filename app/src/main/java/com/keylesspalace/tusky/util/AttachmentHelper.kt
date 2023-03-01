@@ -3,7 +3,6 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
-import android.content.res.Resources
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import kotlin.math.roundToInt
