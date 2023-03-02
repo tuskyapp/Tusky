@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 
 data class Conversation(
     val id: String,

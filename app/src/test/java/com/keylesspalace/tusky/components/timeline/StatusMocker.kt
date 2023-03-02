@@ -1,11 +1,10 @@
 package com.keylesspalace.tusky.components.timeline
 
 import com.google.gson.Gson
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import java.util.ArrayList
 import java.util.Date
 
 private val fixedDate = Date(1638889052000)

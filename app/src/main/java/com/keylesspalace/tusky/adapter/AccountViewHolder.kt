@@ -2,8 +2,8 @@ package com.keylesspalace.tusky.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.databinding.ItemAccountBinding
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.emojify

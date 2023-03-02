@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import java.util.Date
 
 data class StatusEdit(
