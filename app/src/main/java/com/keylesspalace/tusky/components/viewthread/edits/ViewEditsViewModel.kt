@@ -56,8 +56,6 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
             viewModelScope.launch {
                 api.statusEdits(statusId).fold(
                     { edits ->
-                        val sortedEdits = edits.sortedBy { edit -> edit.createdAt }.reversed().toMutableList()
-
                         // Diff each status' content against the previous version, producing new
                         // content with additional `ins` or `del` elements marking inserted or
                         // deleted content.
@@ -65,6 +63,10 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                         // This can be CPU intensive depending on the number of edits and the size
                         // of each, so don't run this on Dispatchers.Main.
                         viewModelScope.launch(Dispatchers.Default) {
+                            val sortedEdits = edits.sortedBy { it.createdAt }
+                                .reversed()
+                                .toMutableList()
+
                             val loader = SAXLoader()
                             loader.config = DiffConfig(
                                 false,
