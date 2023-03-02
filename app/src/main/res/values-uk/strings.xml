@@ -648,4 +648,5 @@
     <string name="total_accounts">Усього облікових записів</string>
     <string name="dialog_follow_hashtag_title">Стежити за хештегом</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Оновити</string>
 </resources>
