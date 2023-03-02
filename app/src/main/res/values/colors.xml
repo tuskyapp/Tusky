@@ -44,8 +44,4 @@
     <!-- colors used in the app icon -->
     <color name="icon_background">#09497b</color>
     <color name="icon_highlight">#39acff</color>
-
-    <!-- colors used to show inserted/deleted text -->
-    <color name="view_edits_background_insert">#CCFFD8</color>
-    <color name="view_edits_background_delete">#FFC0C0</color>
 </resources>

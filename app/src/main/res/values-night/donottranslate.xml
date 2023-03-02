@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="view_edits_background_insert">#00731B</string>
-    <string name="view_edits_background_delete">#DF0000</string>
-</resources>
