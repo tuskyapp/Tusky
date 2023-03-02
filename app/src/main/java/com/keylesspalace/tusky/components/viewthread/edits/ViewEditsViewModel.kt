@@ -71,6 +71,7 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                             .reversed()
                             .toMutableList()
 
+                        SAXLoader.setXMLReaderClass("org.xmlpull.v1.sax2.Driver")
                         val loader = SAXLoader()
                         loader.config = DiffConfig(
                             false,

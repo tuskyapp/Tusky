@@ -63,9 +63,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
 //        }
         super.onCreate()
 
-        // Required for XML parsing in ViewEditsViewModel
-        System.setProperty("org.xml.sax.driver", "org.xmlpull.v1.sax2.Driver")
-
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         AutoDisposePlugins.setHideProxies(false) // a small performance optimization
