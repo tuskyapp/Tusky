@@ -26,6 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.pageseeder.diffx.api.LoadingException
 import org.pageseeder.diffx.api.Operator
 import org.pageseeder.diffx.config.DiffConfig
 import org.pageseeder.diffx.config.TextGranularity
@@ -74,29 +75,36 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                             processor.setCoalesce(true)
                             val output = HtmlDiffOutput()
 
-                            // The XML processor expects `br` to be closed
-                            var currentContent =
-                                loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
-                            var previousContent =
-                                loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
+                            try {
+                                // The XML processor expects `br` to be closed
+                                var currentContent =
+                                    loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
+                                var previousContent =
+                                    loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
 
-                            for (i in 1 until sortedEdits.size) {
-                                processor.diff(previousContent, currentContent, output)
-                                sortedEdits[i - 1] = sortedEdits[i - 1].copy(
-                                    content = output.xml.toString()
-                                )
-
-                                if (i < sortedEdits.size - 1) {
-                                    currentContent = previousContent
-                                    previousContent = loader.load(
-                                        sortedEdits[i + 1].content.replace(
-                                            "<br>",
-                                            "<br/>"
-                                        )
+                                for (i in 1 until sortedEdits.size) {
+                                    processor.diff(previousContent, currentContent, output)
+                                    sortedEdits[i - 1] = sortedEdits[i - 1].copy(
+                                        content = output.xml.toString()
                                     )
+
+                                    if (i < sortedEdits.size - 1) {
+                                        currentContent = previousContent
+                                        previousContent = loader.load(
+                                            sortedEdits[i + 1].content.replace(
+                                                "<br>",
+                                                "<br/>"
+                                            )
+                                        )
+                                    }
                                 }
+                                _uiState.value = EditsUiState.Success(sortedEdits)
+                            } catch (_: LoadingException) {
+                                // Something failed parsing the XML from the server. Rather than
+                                // show an error just return the sorted edits so the user can at
+                                // least visually scan the differences.
+                                _uiState.value = EditsUiState.Success(sortedEdits)
                             }
-                            _uiState.value = EditsUiState.Success(sortedEdits)
                         }
                     },
                     { throwable ->
