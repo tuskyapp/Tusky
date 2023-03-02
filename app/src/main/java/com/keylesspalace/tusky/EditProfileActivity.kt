@@ -136,7 +136,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                         binding.noteEditText.setText(me.source?.note)
                         binding.lockedCheckBox.isChecked = me.locked
 
-                        accountFieldEditAdapter.setFields(me.source?.fields ?: emptyList())
+                        accountFieldEditAdapter.setFields(me.source?.fields.orEmpty())
                         binding.addFieldButton.isVisible =
                             (me.source?.fields?.size ?: 0) < maxAccountFields
 

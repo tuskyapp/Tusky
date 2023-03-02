@@ -207,7 +207,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
                     icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
-                    value = accountManager.activeAccount?.defaultPostLanguage ?: ""
+                    value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
                     setSummaryProvider { entry }
 
@@ -339,7 +339,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                             it.defaultPostPrivacy = account.source?.privacy
                                 ?: Status.Visibility.PUBLIC
                             it.defaultMediaSensitivity = account.source?.sensitive ?: false
-                            it.defaultPostLanguage = language ?: ""
+                            it.defaultPostLanguage = language.orEmpty()
                             accountManager.saveAccount(it)
                         }
                     } else {
