@@ -54,7 +54,7 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
 
     private fun handleChanges() {
         binding.editNote.doAfterTextChanged {
-            viewModel.reportNote = it?.toString() ?: ""
+            viewModel.reportNote = it?.toString().orEmpty()
         }
         binding.checkIsNotifyRemote.setOnCheckedChangeListener { _, isChecked ->
             viewModel.isRemoteNotify = isChecked

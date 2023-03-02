@@ -72,7 +72,7 @@ class TrendingAdapter(
             is TrendingViewData.Tag -> {
                 val maxTrendingValue = currentList
                     .flatMap { trendingViewData ->
-                        trendingViewData.asTagOrNull()?.tag?.history ?: emptyList()
+                        trendingViewData.asTagOrNull()?.tag?.history.orEmpty()
                     }
                     .mapNotNull { it.uses.toLongOrNull() }
                     .maxOrNull() ?: 1

@@ -60,7 +60,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                                 @Nullable Object payloads) {
         if (payloads == null) {
 
-            setupCollapsedState(status, listener);
+            boolean sensitive = !TextUtils.isEmpty(status.getActionable().getSpoilerText());
+            boolean expanded = status.isExpanded();
+
+            setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
             if (reblogging == null) {
@@ -74,7 +77,6 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
         }
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
-
     }
 
     private void setRebloggedByDisplayName(final CharSequence name,
@@ -103,9 +105,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setVisibility(View.GONE);
     }
 
-    private void setupCollapsedState(final StatusViewData.Concrete status, final StatusActionListener listener) {
+    private void setupCollapsedState(boolean sensitive,
+                                     boolean expanded,
+                                     final StatusViewData.Concrete status,
+                                     final StatusActionListener listener) {
         /* input filter for TextViews have to be set before text */
-        if (status.isCollapsible() && (status.isExpanded() || TextUtils.isEmpty(status.getSpoilerText()))) {
+        if (status.isCollapsible() && (!sensitive || expanded)) {
             contentCollapseButton.setOnClickListener(view -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION)
@@ -129,5 +134,17 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     public void showStatusContent(boolean show) {
         super.showStatusContent(show);
         contentCollapseButton.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected void toggleExpandedState(boolean sensitive,
+                                       boolean expanded,
+                                       @NonNull StatusViewData.Concrete status,
+                                       @NonNull StatusDisplayOptions statusDisplayOptions,
+                                       @NonNull final StatusActionListener listener) {
+
+        setupCollapsedState(sensitive, expanded, status, listener);
+
+        super.toggleExpandedState(sensitive, expanded, status, statusDisplayOptions, listener);
     }
 }

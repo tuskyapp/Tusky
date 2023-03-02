@@ -586,4 +586,6 @@
     <string name="accessibility_talking_about_tag">%1$d cilvēki runā par tēmturi %2$s</string>
     <string name="total_usage">Kopējais lietojums</string>
     <string name="total_accounts">Konti kopā</string>
+    <string name="dialog_follow_hashtag_title">Sekot tēmturim</string>
+    <string name="dialog_follow_hashtag_hint">#tēmturis</string>
 </resources>
