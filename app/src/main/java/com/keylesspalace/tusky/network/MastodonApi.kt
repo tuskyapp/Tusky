@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.network
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.NewStatus
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Announcement
@@ -30,7 +31,6 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
-import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll

@@ -21,8 +21,8 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PreviewPollOptionsAdapter
+import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.databinding.ViewPollPreviewBinding
-import com.keylesspalace.tusky.entity.NewPoll
 
 class PollPreviewView @JvmOverloads constructor(
     context: Context?,
