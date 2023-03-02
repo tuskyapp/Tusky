@@ -20,8 +20,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.util.BindingHolder
 import java.util.Locale
 
@@ -31,7 +31,7 @@ class EmojiAdapter(
     private val animate: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
-    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker?.and(true) ?: true }
         .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
 
     override fun getItemCount() = emojiList.size

@@ -19,8 +19,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.databinding.ItemAccountFieldBinding
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Field
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder

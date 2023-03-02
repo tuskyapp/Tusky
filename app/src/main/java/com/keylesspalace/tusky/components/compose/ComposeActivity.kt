@@ -79,13 +79,13 @@ import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.databinding.ActivityComposeBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT

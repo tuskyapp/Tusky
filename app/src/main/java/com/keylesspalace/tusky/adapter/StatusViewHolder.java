@@ -27,7 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.core.database.model.Emoji;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;

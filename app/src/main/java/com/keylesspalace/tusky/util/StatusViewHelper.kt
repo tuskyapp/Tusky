@@ -28,7 +28,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.core.database.model.Attachment
-import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 import com.keylesspalace.tusky.viewdata.PollViewData

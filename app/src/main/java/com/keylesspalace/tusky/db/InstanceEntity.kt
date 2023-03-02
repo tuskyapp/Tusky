@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.core.database.model.Emoji
 
 @Entity
 @TypeConverters(Converters::class)
