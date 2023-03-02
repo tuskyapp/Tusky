@@ -175,8 +175,7 @@ class NetworkTimelineViewModel @Inject constructor(
                     val overlappedTo = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false }
 
                     if (overlappedFrom < overlappedTo) {
-                        data.asSequence()
-                            .mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
+                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
                             .filter { (_, oldStatus) -> oldStatus != null }
                             .forEach { (i, oldStatus) ->
                                 data[i] = data[i].asStatusOrNull()!!

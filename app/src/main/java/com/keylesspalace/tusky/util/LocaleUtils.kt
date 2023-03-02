@@ -64,8 +64,7 @@ fun getInitialLanguages(language: String? = null, activeAccount: AccountEntity? 
     val system = AppCompatDelegate.getApplicationLocales().toList() +
         LocaleListCompat.getDefault().toList()
 
-    return (selected + system.map { it.language })
-        .asSequence().distinct().filter { it.isNotEmpty() }.toList()
+    return (selected + system.map { it.language }).distinct().filter { it.isNotEmpty() }
 }
 
 fun getLocaleList(initialLanguages: List<String>): List<Locale> {
