@@ -235,7 +235,10 @@ class TimelineFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            if (kind == TimelineViewModel.Kind.HOME) {
+                                binding.statusView.showHelp(R.string.help_empty_home)
+                            }
                         }
                     }
                     is LoadState.Error -> {
