@@ -24,6 +24,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -146,6 +147,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     }
 
     private lateinit var adapter: AccountPagerAdapter
+
+    private var noteWatcher: TextWatcher? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -644,10 +647,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 subscribing = relation.subscribing
         }
 
+        // remove the listener so it doesn't fire on non-user changes
+        binding.accountNoteTextInputLayout.editText?.removeTextChangedListener(noteWatcher)
+
         binding.accountNoteTextInputLayout.visible(relation.note != null)
         binding.accountNoteTextInputLayout.editText?.setText(relation.note)
 
-        binding.accountNoteTextInputLayout.editText?.doAfterTextChanged { s ->
+        noteWatcher = binding.accountNoteTextInputLayout.editText?.doAfterTextChanged { s ->
             viewModel.noteChanged(s.toString())
         }
 
