@@ -20,6 +20,7 @@ import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import java.util.Date
 

@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.components.conversation
 
-import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
 data class ConversationViewData(

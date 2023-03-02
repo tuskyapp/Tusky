@@ -15,10 +15,9 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.entity
+package com.keylesspalace.tusky.core.database.model
 
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.core.database.model.NewPoll
 import java.util.Date
 
 data class Poll(

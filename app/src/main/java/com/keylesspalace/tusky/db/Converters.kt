@@ -24,9 +24,9 @@ import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.NewPoll
+import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import java.net.URLDecoder
 import java.net.URLEncoder
