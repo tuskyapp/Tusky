@@ -19,6 +19,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Card
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.Poll
