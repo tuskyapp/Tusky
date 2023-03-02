@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.network
 
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Announcement
@@ -25,7 +26,6 @@ import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList

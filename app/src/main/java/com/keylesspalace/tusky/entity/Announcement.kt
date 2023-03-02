@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.core.database.model.HashTag
 import java.util.Date
 
 data class Announcement(

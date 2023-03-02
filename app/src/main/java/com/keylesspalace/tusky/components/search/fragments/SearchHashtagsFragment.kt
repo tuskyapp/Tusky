@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.components.search.fragments
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import com.keylesspalace.tusky.components.search.adapter.SearchHashtagsAdapter
-import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.core.database.model.HashTag
 import kotlinx.coroutines.flow.Flow
 
 class SearchHashtagsFragment : SearchFragment<HashTag>() {

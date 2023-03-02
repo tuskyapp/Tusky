@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.keylesspalace.tusky.core.database.model.HashTag
+
 data class SearchResult(
     val accounts: List<TimelineAccount>,
     val statuses: List<Status>,
