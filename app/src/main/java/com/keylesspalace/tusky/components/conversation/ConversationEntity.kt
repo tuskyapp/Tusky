@@ -145,7 +145,7 @@ fun TimelineAccount.toEntity() =
         username = username,
         displayName = name,
         avatar = avatar,
-        emojis = emojis ?: emptyList()
+        emojis = emojis.orEmpty()
     )
 
 fun Status.toEntity(

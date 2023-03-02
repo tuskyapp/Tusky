@@ -23,8 +23,9 @@ import com.keylesspalace.tusky.components.viewthread.edits.TuskyTagHandler.Compa
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.pageseeder.diffx.api.LoadingException
 import org.pageseeder.diffx.api.Operator
@@ -45,75 +46,77 @@ import javax.inject.Inject
 class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 
     private val _uiState: MutableStateFlow<EditsUiState> = MutableStateFlow(EditsUiState.Initial)
-    val uiState: Flow<EditsUiState>
-        get() = _uiState
+    val uiState: StateFlow<EditsUiState> = _uiState.asStateFlow()
 
     fun loadEdits(statusId: String, force: Boolean = false, refreshing: Boolean = false) {
-        if (force || _uiState.value is EditsUiState.Initial) {
-            if (!refreshing) {
-                _uiState.value = EditsUiState.Loading
-            }
-            viewModelScope.launch {
-                api.statusEdits(statusId).fold(
-                    { edits ->
-                        // Diff each status' content against the previous version, producing new
-                        // content with additional `ins` or `del` elements marking inserted or
-                        // deleted content.
-                        //
-                        // This can be CPU intensive depending on the number of edits and the size
-                        // of each, so don't run this on Dispatchers.Main.
-                        viewModelScope.launch(Dispatchers.Default) {
-                            val sortedEdits = edits.sortedBy { it.createdAt }
-                                .reversed()
-                                .toMutableList()
+        if (!force && _uiState.value !is EditsUiState.Initial) return
 
-                            val loader = SAXLoader()
-                            loader.config = DiffConfig(
-                                false,
-                                WhiteSpaceProcessing.PRESERVE,
-                                TextGranularity.SPACE_WORD
-                            )
-                            val processor = OptimisticXMLProcessor()
-                            processor.setCoalesce(true)
-                            val output = HtmlDiffOutput()
+        if (refreshing) {
+            _uiState.value = EditsUiState.Refreshing
+        } else {
+            _uiState.value = EditsUiState.Loading
+        }
 
-                            try {
-                                // The XML processor expects `br` to be closed
-                                var currentContent =
-                                    loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
-                                var previousContent =
-                                    loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
+        viewModelScope.launch {
+            api.statusEdits(statusId).fold(
+                { edits ->
+                    // Diff each status' content against the previous version, producing new
+                    // content with additional `ins` or `del` elements marking inserted or
+                    // deleted content.
+                    //
+                    // This can be CPU intensive depending on the number of edits and the size
+                    // of each, so don't run this on Dispatchers.Main.
+                    viewModelScope.launch(Dispatchers.Default) {
+                        val sortedEdits = edits.sortedBy { it.createdAt }
+                            .reversed()
+                            .toMutableList()
 
-                                for (i in 1 until sortedEdits.size) {
-                                    processor.diff(previousContent, currentContent, output)
-                                    sortedEdits[i - 1] = sortedEdits[i - 1].copy(
-                                        content = output.xml.toString()
-                                    )
+                        val loader = SAXLoader()
+                        loader.config = DiffConfig(
+                            false,
+                            WhiteSpaceProcessing.PRESERVE,
+                            TextGranularity.SPACE_WORD
+                        )
+                        val processor = OptimisticXMLProcessor()
+                        processor.setCoalesce(true)
+                        val output = HtmlDiffOutput()
 
-                                    if (i < sortedEdits.size - 1) {
-                                        currentContent = previousContent
-                                        previousContent = loader.load(
-                                            sortedEdits[i + 1].content.replace(
-                                                "<br>",
-                                                "<br/>"
-                                            )
+                        try {
+                            // The XML processor expects `br` to be closed
+                            var currentContent =
+                                loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
+                            var previousContent =
+                                loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
+
+                            for (i in 1 until sortedEdits.size) {
+                                processor.diff(previousContent, currentContent, output)
+                                sortedEdits[i - 1] = sortedEdits[i - 1].copy(
+                                    content = output.xml.toString()
+                                )
+
+                                if (i < sortedEdits.size - 1) {
+                                    currentContent = previousContent
+                                    previousContent = loader.load(
+                                        sortedEdits[i + 1].content.replace(
+                                            "<br>",
+                                            "<br/>"
                                         )
-                                    }
+                                    )
                                 }
-                                _uiState.value = EditsUiState.Success(sortedEdits)
-                            } catch (_: LoadingException) {
-                                // Something failed parsing the XML from the server. Rather than
-                                // show an error just return the sorted edits so the user can at
-                                // least visually scan the differences.
-                                _uiState.value = EditsUiState.Success(sortedEdits)
                             }
+                            _uiState.value = EditsUiState.Success(sortedEdits)
+                        } catch (_: LoadingException) {
+                            // Something failed parsing the XML from the server. Rather than
+                            // show an error just return the sorted edits so the user can at
+                            // least visually scan the differences.
+                            _uiState.value = EditsUiState.Success(sortedEdits)
                         }
-                    },
-                    { throwable ->
-                        _uiState.value = EditsUiState.Error(throwable)
                     }
-                )
-            }
+                },
+                { throwable ->
+                    _uiState.value = EditsUiState.Error(throwable)
+                }
+            )
         }
     }
 
@@ -125,6 +128,10 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
 sealed interface EditsUiState {
     object Initial : EditsUiState
     object Loading : EditsUiState
+
+    // "Refreshing" state is necessary, otherwise a refresh state transition is Success -> Success,
+    // and state flows don't emit repeated states, so the UI never updates.
+    object Refreshing : EditsUiState
     class Error(val throwable: Throwable) : EditsUiState
     data class Success(
         val edits: List<StatusEdit>
