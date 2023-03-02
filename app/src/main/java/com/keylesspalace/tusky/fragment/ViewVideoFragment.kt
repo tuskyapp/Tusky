@@ -32,8 +32,8 @@ import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.core.view.GestureDetectorCompat
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView

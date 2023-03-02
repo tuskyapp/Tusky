@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.os.Parcelable
-import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize

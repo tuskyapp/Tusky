@@ -1,7 +1,7 @@
 package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
 import java.time.Instant
-import java.util.ArrayList
 import java.util.Date
 
 @Config(sdk = [28])

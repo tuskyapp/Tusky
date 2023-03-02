@@ -123,6 +123,7 @@ dependencies {
 
     implementation libs.bundles.androidx
     implementation libs.bundles.room
+    implementation project(path: ':core:database')
     kapt libs.androidx.room.compiler
 
     implementation libs.android.material

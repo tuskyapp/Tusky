@@ -27,8 +27,8 @@ import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.search.SearchType
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status

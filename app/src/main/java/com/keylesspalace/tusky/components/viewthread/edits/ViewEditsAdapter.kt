@@ -13,8 +13,8 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PollAdapter
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.MULTIPLE
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.SINGLE
+import com.keylesspalace.tusky.core.database.model.Attachment.Focus
 import com.keylesspalace.tusky.databinding.ItemStatusEditBinding
-import com.keylesspalace.tusky.entity.Attachment.Focus
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter

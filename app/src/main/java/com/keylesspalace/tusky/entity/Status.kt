@@ -18,8 +18,8 @@ package com.keylesspalace.tusky.entity
 import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import java.util.ArrayList
 import java.util.Date
 
 data class Status(

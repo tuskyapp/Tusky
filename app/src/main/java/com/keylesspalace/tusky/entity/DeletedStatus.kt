@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
-import java.util.ArrayList
+import com.keylesspalace.tusky.core.database.model.Attachment
 import java.util.Date
 
 data class DeletedStatus(

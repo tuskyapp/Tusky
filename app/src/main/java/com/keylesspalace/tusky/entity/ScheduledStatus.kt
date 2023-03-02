@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.core.database.model.Attachment
 
 data class ScheduledStatus(
     val id: String,

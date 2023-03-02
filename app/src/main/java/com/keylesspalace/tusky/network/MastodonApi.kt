@@ -16,11 +16,11 @@
 package com.keylesspalace.tusky.network
 
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.entity.AppCredentials
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji

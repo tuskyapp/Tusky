@@ -33,8 +33,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
 import io.reactivex.rxjava3.subjects.BehaviorSubject

@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.databinding.ItemAccountMediaBinding
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.getFormattedDescription

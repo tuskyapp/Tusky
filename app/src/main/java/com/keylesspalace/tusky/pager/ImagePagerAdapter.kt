@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.pager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.ViewMediaAdapter
-import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.fragment.ViewMediaFragment
 import java.lang.ref.WeakReference
 

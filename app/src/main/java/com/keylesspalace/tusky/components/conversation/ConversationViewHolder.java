@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
-import com.keylesspalace.tusky.entity.Attachment;
+import com.keylesspalace.tusky.core.database.model.Attachment;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;

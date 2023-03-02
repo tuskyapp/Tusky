@@ -18,8 +18,8 @@ package com.keylesspalace.tusky.components.conversation
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.TypeConverters
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.HashTag
