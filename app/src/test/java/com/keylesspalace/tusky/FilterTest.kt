@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.PollOption
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.view.getSecondsForDurationIndex
 import org.junit.Assert.assertFalse

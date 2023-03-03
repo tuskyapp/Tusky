@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.entity
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Status
 import java.util.Date
 
 data class Announcement(

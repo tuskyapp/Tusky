@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.components.report.adapter
 
 import android.view.View
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 interface AdapterHandler : LinkListener {

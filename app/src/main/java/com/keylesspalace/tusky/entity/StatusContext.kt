@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.keylesspalace.tusky.core.database.model.Status
+
 data class StatusContext(
     val ancestors: List<Status>,
     val descendants: List<Status>

@@ -2,7 +2,7 @@ package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals

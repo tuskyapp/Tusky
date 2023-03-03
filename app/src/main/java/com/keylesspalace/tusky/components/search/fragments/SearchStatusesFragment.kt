@@ -48,10 +48,10 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.Status.Mention
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -246,8 +246,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     menu.add(0, R.id.pin, 1, textId)
                 }
                 StatusVisibility.PRIVATE -> {
-                    var reblogged = status.reblogged
-                    if (status.reblog != null) reblogged = status.reblog.reblogged
+                    val reblogged = status.reblog?.reblogged ?: status.reblogged
                     menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
                     menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
                 }

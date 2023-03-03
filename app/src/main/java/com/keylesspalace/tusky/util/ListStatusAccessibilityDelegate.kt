@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
+import com.keylesspalace.tusky.core.database.model.Status.Companion.MAX_MEDIA_ATTACHMENTS
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlin.math.min

@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation(project(':core:text'))
     implementation libs.gson
     implementation libs.bundles.androidx
 

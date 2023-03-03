@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky.network
 
 import android.text.TextUtils
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Status
 import java.util.Date
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -25,8 +25,8 @@ class FilterModel @Inject constructor() {
         // Patterns are expensive and thread-safe, matchers are neither.
         val matcher = pattern?.matcher("") ?: return false
 
-        if (status.poll != null) {
-            val pollMatches = status.poll.options.any { matcher.reset(it.title).find() }
+        status.poll?.let {
+            val pollMatches = it.options.any { matcher.reset(it.title).find() }
             if (pollMatches) return true
         }
 

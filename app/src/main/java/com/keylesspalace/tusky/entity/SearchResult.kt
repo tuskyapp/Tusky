@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.entity
 
 import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 
 data class SearchResult(
