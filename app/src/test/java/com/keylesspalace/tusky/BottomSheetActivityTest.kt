@@ -17,6 +17,7 @@ package com.keylesspalace.tusky
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
