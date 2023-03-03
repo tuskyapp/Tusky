@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.entity
+package com.keylesspalace.tusky.core.database.model
 
 /**
  * The same as Attachment, except the url is null - see https://docs.joinmastodon.org/methods/statuses/media/
