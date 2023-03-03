@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.db.TimelineAccountEntity
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
@@ -89,7 +90,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         bookmarked = false,
         sensitive = false,
         spoilerText = "",
-        visibility = Status.Visibility.UNKNOWN,
+        visibility = StatusVisibility.UNKNOWN,
         attachments = null,
         mentions = null,
         tags = null,

@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -160,10 +161,10 @@ abstract class SFragment : Fragment(), Injectable {
             popup.inflate(R.menu.status_more_for_user)
             val menu = popup.menu
             when (status.visibility) {
-                Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
+                StatusVisibility.PUBLIC, StatusVisibility.UNLISTED -> {
                     menu.add(0, R.id.pin, 1, getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action))
                 }
-                Status.Visibility.PRIVATE -> {
+                StatusVisibility.PRIVATE -> {
                     val reblogged = status.reblog?.reblogged ?: status.reblogged
                     menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
                     menu.findItem(R.id.status_unreblog_private).isVisible = reblogged

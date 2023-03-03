@@ -24,7 +24,7 @@ data class DeletedStatus(
     val text: String?,
     @SerializedName("in_reply_to_id") val inReplyToId: String?,
     @SerializedName("spoiler_text") val spoilerText: String,
-    val visibility: Status.Visibility,
+    val visibility: StatusVisibility,
     val sensitive: Boolean,
     @SerializedName("media_attachments") val attachments: ArrayList<Attachment>?,
     val poll: Poll?,

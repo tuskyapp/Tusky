@@ -40,7 +40,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceHandler
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -184,11 +184,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
                     setSummaryProvider { entry }
-                    val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
+                    val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: StatusVisibility.PUBLIC
                     value = visibility.serverString()
                     setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
+                        setIcon(getIconForVisibility(StatusVisibility.byString(newValue as String)))
                         syncWithServer(visibility = newValue)
                         eventHub.dispatch(PreferenceChangedEvent(key))
                         true
@@ -337,7 +337,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                         accountManager.activeAccount?.let {
                             it.defaultPostPrivacy = account.source?.privacy
-                                ?: Status.Visibility.PUBLIC
+                                ?: StatusVisibility.PUBLIC
                             it.defaultMediaSensitivity = account.source?.sensitive ?: false
                             it.defaultPostLanguage = language.orEmpty()
                             accountManager.saveAccount(it)
@@ -364,11 +364,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     @DrawableRes
-    private fun getIconForVisibility(visibility: Status.Visibility): Int {
+    private fun getIconForVisibility(visibility: StatusVisibility): Int {
         return when (visibility) {
-            Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
+            StatusVisibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
 
-            Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
+            StatusVisibility.UNLISTED -> R.drawable.ic_lock_open_24dp
 
             else -> R.drawable.ic_public_24dp
         }

@@ -7,7 +7,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.entity.Status
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -450,7 +449,7 @@ class TimelineDaoTest {
             bookmarked = false,
             sensitive = even,
             spoilerText = "spoiler$statusId",
-            visibility = Status.Visibility.PRIVATE,
+            visibility = StatusVisibility.PRIVATE,
             attachments = "attachments$accountId",
             mentions = "mentions$accountId",
             tags = "tags$accountId",

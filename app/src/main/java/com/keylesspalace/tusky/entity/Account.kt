@@ -50,7 +50,7 @@ data class Account(
 }
 
 data class AccountSource(
-    val privacy: Status.Visibility?,
+    val privacy: StatusVisibility?,
     val sensitive: Boolean?,
     val note: String?,
     val fields: List<StringField>?,

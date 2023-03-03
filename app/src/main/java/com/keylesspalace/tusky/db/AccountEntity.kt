@@ -22,7 +22,7 @@ import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.defaultTabs
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 
 @Entity(
     indices = [
@@ -58,7 +58,7 @@ data class AccountEntity(
     var notificationSound: Boolean = true,
     var notificationVibration: Boolean = true,
     var notificationLight: Boolean = true,
-    var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
+    var defaultPostPrivacy: StatusVisibility = StatusVisibility.PUBLIC,
     var defaultMediaSensitivity: Boolean = false,
     var defaultPostLanguage: String = "",
     var alwaysShowSensitiveMedia: Boolean = false,

@@ -267,7 +267,7 @@ class FilterTest {
             bookmarked = false,
             sensitive = false,
             spoilerText = spoilerText,
-            visibility = Status.Visibility.PUBLIC,
+            visibility = StatusVisibility.PUBLIC,
             attachments = if (attachmentsDescriptions != null) {
                 ArrayList(
                     attachmentsDescriptions.map {

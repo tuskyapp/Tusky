@@ -46,7 +46,7 @@ data class Status(
     val bookmarked: Boolean,
     val sensitive: Boolean,
     @SerializedName("spoiler_text") val spoilerText: String,
-    val visibility: Visibility,
+    val visibility: StatusVisibility,
     @SerializedName("media_attachments") val attachments: ArrayList<Attachment>,
     val mentions: List<Mention>,
     val tags: List<HashTag>?,
@@ -71,57 +71,8 @@ data class Status(
     fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
     fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
 
-    enum class Visibility(val num: Int) {
-        UNKNOWN(0),
-        @SerializedName("public")
-        PUBLIC(1),
-        @SerializedName("unlisted")
-        UNLISTED(2),
-        @SerializedName("private")
-        PRIVATE(3),
-        @SerializedName("direct")
-        DIRECT(4);
-
-        fun serverString(): String {
-            return when (this) {
-                PUBLIC -> "public"
-                UNLISTED -> "unlisted"
-                PRIVATE -> "private"
-                DIRECT -> "direct"
-                UNKNOWN -> "unknown"
-            }
-        }
-
-        companion object {
-
-            @JvmStatic
-            fun byNum(num: Int): Visibility {
-                return when (num) {
-                    4 -> DIRECT
-                    3 -> PRIVATE
-                    2 -> UNLISTED
-                    1 -> PUBLIC
-                    0 -> UNKNOWN
-                    else -> UNKNOWN
-                }
-            }
-
-            @JvmStatic
-            fun byString(s: String): Visibility {
-                return when (s) {
-                    "public" -> PUBLIC
-                    "unlisted" -> UNLISTED
-                    "private" -> PRIVATE
-                    "direct" -> DIRECT
-                    "unknown" -> UNKNOWN
-                    else -> UNKNOWN
-                }
-            }
-        }
-    }
-
     fun rebloggingAllowed(): Boolean {
-        return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
+        return (visibility != StatusVisibility.DIRECT && visibility != StatusVisibility.UNKNOWN)
     }
 
     fun isPinned(): Boolean {

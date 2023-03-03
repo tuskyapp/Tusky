@@ -80,7 +80,7 @@ class BottomSheetActivityTest {
         bookmarked = false,
         sensitive = false,
         spoilerText = "",
-        visibility = Status.Visibility.PUBLIC,
+        visibility = StatusVisibility.PUBLIC,
         attachments = ArrayList(),
         mentions = emptyList(),
         tags = emptyList(),

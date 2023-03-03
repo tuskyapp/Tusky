@@ -20,7 +20,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 
 /**
  * We're trying to play smart here. Server sends us reblogs as two entities one embedded into
@@ -68,7 +68,7 @@ data class TimelineStatusEntity(
     val favourited: Boolean,
     val sensitive: Boolean,
     val spoilerText: String,
-    val visibility: Status.Visibility,
+    val visibility: StatusVisibility,
     val attachments: String?,
     val mentions: String?,
     val tags: String?,

@@ -32,7 +32,7 @@ import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.core.text.randomAlphanumericString
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient
@@ -72,7 +72,7 @@ class ComposeViewModel @Inject constructor(
     private var startingContentWarning: String = ""
     private var inReplyToId: String? = null
     private var originalStatusId: String? = null
-    private var startingVisibility: Status.Visibility = Status.Visibility.UNKNOWN
+    private var startingVisibility: StatusVisibility = StatusVisibility.UNKNOWN
 
     private var contentWarningStateChanged: Boolean = false
     private var modifiedInitialState: Boolean = false
@@ -87,7 +87,7 @@ class ComposeViewModel @Inject constructor(
     val markMediaAsSensitive: MutableStateFlow<Boolean> =
         MutableStateFlow(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
 
-    val statusVisibility: MutableStateFlow<Status.Visibility> = MutableStateFlow(Status.Visibility.UNKNOWN)
+    val statusVisibility: MutableStateFlow<StatusVisibility> = MutableStateFlow(StatusVisibility.UNKNOWN)
     val showContentWarning: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val poll: MutableStateFlow<NewPoll?> = MutableStateFlow(null)
     val scheduledAt: MutableStateFlow<String?> = MutableStateFlow(null)
@@ -414,8 +414,8 @@ class ComposeViewModel @Inject constructor(
 
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
-        val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
-        startingVisibility = Status.Visibility.byNum(
+        val replyVisibility = composeOptions?.replyVisibility ?: StatusVisibility.UNKNOWN
+        startingVisibility = StatusVisibility.byNum(
             preferredVisibility.num.coerceAtLeast(replyVisibility.num)
         )
 
@@ -456,8 +456,8 @@ class ComposeViewModel @Inject constructor(
         startingText = composeOptions?.content
         postLanguage = composeOptions?.language
 
-        val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
-        if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
+        val tootVisibility = composeOptions?.visibility ?: StatusVisibility.UNKNOWN
+        if (tootVisibility.num != StatusVisibility.UNKNOWN.num) {
             startingVisibility = tootVisibility
         }
         statusVisibility.value = startingVisibility

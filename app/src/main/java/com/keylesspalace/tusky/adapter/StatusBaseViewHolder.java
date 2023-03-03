@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.core.database.model.Card;
 import com.keylesspalace.tusky.core.database.model.Emoji;
 import com.keylesspalace.tusky.core.database.model.HashTag;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.StatusVisibility;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
@@ -389,13 +390,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     // This should only be called after setReblogged, in order to override the tint correctly.
-    private void setRebloggingEnabled(boolean enabled, Status.Visibility visibility) {
-        reblogButton.setEnabled(enabled && visibility != Status.Visibility.PRIVATE);
+    private void setRebloggingEnabled(boolean enabled, StatusVisibility visibility) {
+        reblogButton.setEnabled(enabled && visibility != StatusVisibility.PRIVATE);
 
         if (enabled) {
             int inactiveId;
             int activeId;
-            if (visibility == Status.Visibility.PRIVATE) {
+            if (visibility == StatusVisibility.PRIVATE) {
                 inactiveId = R.drawable.ic_reblog_private_24dp;
                 activeId = R.drawable.ic_reblog_private_active_24dp;
             } else {
@@ -406,7 +407,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             reblogButton.setActiveImage(activeId);
         } else {
             int disabledId;
-            if (visibility == Status.Visibility.DIRECT) {
+            if (visibility == StatusVisibility.DIRECT) {
                 disabledId = R.drawable.ic_reblog_direct_24dp;
             } else {
                 disabledId = R.drawable.ic_reblog_private_24dp;
@@ -859,7 +860,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
+    protected static CharSequence getVisibilityDescription(Context context, StatusVisibility visibility) {
 
         if (visibility == null) {
             return "";

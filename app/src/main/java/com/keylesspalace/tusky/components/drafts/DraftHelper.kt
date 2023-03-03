@@ -27,7 +27,7 @@ import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.db.DraftEntity
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.util.copyToFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -57,7 +57,7 @@ class DraftHelper @Inject constructor(
         content: String?,
         contentWarning: String?,
         sensitive: Boolean,
-        visibility: Status.Visibility,
+        visibility: StatusVisibility,
         mediaUris: List<String>,
         mediaDescriptions: List<String?>,
         mediaFocus: List<Attachment.Focus?>,

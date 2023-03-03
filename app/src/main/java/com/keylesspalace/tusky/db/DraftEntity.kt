@@ -24,7 +24,7 @@ import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.NewPoll
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import kotlinx.parcelize.Parcelize
 
 @Entity
@@ -36,7 +36,7 @@ data class DraftEntity(
     val content: String?,
     val contentWarning: String?,
     val sensitive: Boolean,
-    val visibility: Status.Visibility,
+    val visibility: StatusVisibility,
     val attachments: List<DraftAttachment>,
     val poll: NewPoll?,
     val failedToSend: Boolean,

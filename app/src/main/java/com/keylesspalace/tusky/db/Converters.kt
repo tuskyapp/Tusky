@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Date
@@ -51,13 +52,13 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun visibilityToInt(visibility: Status.Visibility?): Int {
-        return visibility?.num ?: Status.Visibility.UNKNOWN.num
+    fun visibilityToInt(visibility: StatusVisibility?): Int {
+        return visibility?.num ?: StatusVisibility.UNKNOWN.num
     }
 
     @TypeConverter
-    fun intToVisibility(visibility: Int): Status.Visibility {
-        return Status.Visibility.byNum(visibility)
+    fun intToVisibility(visibility: Int): StatusVisibility {
+        return StatusVisibility.byNum(visibility)
     }
 
     @TypeConverter

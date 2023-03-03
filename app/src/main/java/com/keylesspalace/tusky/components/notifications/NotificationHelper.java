@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.StatusVisibility;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
@@ -315,7 +316,7 @@ public class NotificationHelper {
 
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
-        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        StatusVisibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         List<Status.Mention> mentions = actionableStatus.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
@@ -350,7 +351,7 @@ public class NotificationHelper {
         String citedText = parseAsMastodonHtml(status.getContent()).toString();
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
-        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        StatusVisibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         List<Status.Mention> mentions = actionableStatus.getMentions();
         Set<String> mentionedUsernames = new LinkedHashSet<>();

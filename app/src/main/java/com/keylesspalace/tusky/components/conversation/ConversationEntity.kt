@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
@@ -120,7 +121,7 @@ data class ConversationStatusEntity(
                 bookmarked = bookmarked,
                 sensitive = sensitive,
                 spoilerText = spoilerText,
-                visibility = Status.Visibility.DIRECT,
+                visibility = StatusVisibility.DIRECT,
                 attachments = attachments,
                 mentions = mentions,
                 tags = tags,
