@@ -23,6 +23,9 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.core.database.model.Instance
+import com.keylesspalace.tusky.core.database.model.InstanceConfiguration
+import com.keylesspalace.tusky.core.database.model.StatusConfiguration
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -30,9 +33,6 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceDao
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Instance
-import com.keylesspalace.tusky.entity.InstanceConfiguration
-import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.core.database.model.DeletedStatus
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Instance
 import com.keylesspalace.tusky.core.database.model.Marker
 import com.keylesspalace.tusky.core.database.model.MastoList
 import com.keylesspalace.tusky.core.database.model.MediaUploadResult
@@ -41,7 +42,6 @@ import com.keylesspalace.tusky.core.database.model.StatusEdit
 import com.keylesspalace.tusky.core.database.model.StatusSource
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.core.database.model.TrendingTag
-import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Relationship
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
