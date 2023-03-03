@@ -353,6 +353,17 @@
         sparkbutton:primaryColor="@color/tusky_blue"
         sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
+    <TextView
+        android:id="@+id/status_insets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/status_inset"
+        app:layout_constraintStart_toStartOf="@id/status_inset"
+        app:layout_constraintTop_toTopOf="@id/status_inset"
+        tools:text="1+" />
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
         android:layout_width="52dp"
@@ -370,6 +381,17 @@
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
+    <TextView
+        android:id="@+id/status_favourites_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/status_inset"
+        app:layout_constraintStart_toStartOf="@id/status_favourite"
+        app:layout_constraintTop_toTopOf="@id/status_inset"
+        tools:text="" />
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_bookmark"
         android:layout_width="52dp"
@@ -379,7 +401,7 @@
         android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/status_more"
-        app:layout_constraintStart_toEndOf="@id/status_favourite"
+        app:layout_constraintStart_toEndOf="@id/status_favourites_count"
         app:layout_constraintTop_toTopOf="@id/status_reply"
         sparkbutton:activeImage="@drawable/ic_bookmark_active_24dp"
         sparkbutton:iconSize="28dp"

@@ -80,7 +80,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton replyButton;
     private final TextView replyCountLabel;
     private final SparkButton reblogButton;
+    private final TextView reblogsCountLabel;
     private final SparkButton favouriteButton;
+    private final TextView favouritedCountLabel;
     private final SparkButton bookmarkButton;
     private final ImageButton moreButton;
     private final ConstraintLayout mediaContainer;
@@ -127,8 +129,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
         replyCountLabel = itemView.findViewById(R.id.status_replies);
+        reblogsCountLabel = itemView.findViewById(R.id.status_insets);
         reblogButton = itemView.findViewById(R.id.status_inset);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
+        favouritedCountLabel = itemView.findViewById(R.id.status_favourites_count);
         bookmarkButton = itemView.findViewById(R.id.status_bookmark);
         moreButton = itemView.findViewById(R.id.status_more);
 
@@ -380,7 +384,19 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setReplyCount(int repliesCount) {
         // This label only exists in the non-detailed view (to match the web ui)
         if (replyCountLabel != null) {
-            replyCountLabel.setText((repliesCount > 1 ? replyCountLabel.getContext().getString(R.string.status_count_one_plus) : Integer.toString(repliesCount)));
+            replyCountLabel.setText(Integer.toString(repliesCount));
+        }
+    }
+
+    private void setReblogsCount(int reblogsCount) {
+        if (reblogsCountLabel != null) {
+            reblogsCountLabel.setText(Integer.toString(reblogsCount));
+        }
+    }
+
+    private void setFavouritedCount(int favouritedCount) {
+        if (favouritedCountLabel != null) {
+            favouritedCountLabel.setText(Integer.toString(favouritedCount));
         }
     }
 
@@ -733,6 +749,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
+            setReblogsCount(actionable.getReblogsCount());
+            setFavouritedCount(actionable.getFavouritesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
                     actionable.getAccount().getBot(), statusDisplayOptions);
             setReblogged(actionable.getReblogged());
