@@ -40,10 +40,10 @@ import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.core.database.model.MastoList
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show

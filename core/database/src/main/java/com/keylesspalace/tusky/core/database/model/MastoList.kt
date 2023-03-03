@@ -14,7 +14,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.entity
+package com.keylesspalace.tusky.core.database.model
 
 /**
  * Created by charlag on 1/4/18.

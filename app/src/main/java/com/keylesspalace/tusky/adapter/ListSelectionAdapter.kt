@@ -21,8 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.MastoList
 import com.keylesspalace.tusky.databinding.ItemPickerListBinding
-import com.keylesspalace.tusky.entity.MastoList
 
 class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, R.layout.item_picker_list) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
