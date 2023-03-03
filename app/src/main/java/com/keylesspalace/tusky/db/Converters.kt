@@ -19,7 +19,6 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.Emoji
@@ -28,6 +27,7 @@ import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.TabData
 import com.keylesspalace.tusky.createTabDataFromId
 import java.net.URLDecoder
 import java.net.URLEncoder

@@ -25,7 +25,7 @@ import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.core.database.model.TabData
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceBinding
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
 import com.keylesspalace.tusky.util.BindingHolder

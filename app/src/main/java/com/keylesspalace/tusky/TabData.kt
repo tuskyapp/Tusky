@@ -15,18 +15,12 @@
 
 package com.keylesspalace.tusky
 
-import android.content.Context
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.trending.TrendingFragment
+import com.keylesspalace.tusky.core.database.model.TabData
 import com.keylesspalace.tusky.fragment.NotificationsFragment
-import java.util.Objects
-
-/** this would be a good case for a sealed class, but that does not work nice with Room */
 
 const val HOME = "Home"
 const val NOTIFICATIONS = "Notifications"
@@ -36,29 +30,6 @@ const val DIRECT = "Direct"
 const val TRENDING = "Trending"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
-
-data class TabData(
-    val id: String,
-    @StringRes val text: Int,
-    @DrawableRes val icon: Int,
-    val fragment: (List<String>) -> Fragment,
-    val arguments: List<String> = emptyList(),
-    val title: (Context) -> String = { context -> context.getString(text) }
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as TabData
-
-        if (id != other.id) return false
-        if (arguments != other.arguments) return false
-
-        return true
-    }
-
-    override fun hashCode() = Objects.hash(id, arguments)
-}
 
 fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
 

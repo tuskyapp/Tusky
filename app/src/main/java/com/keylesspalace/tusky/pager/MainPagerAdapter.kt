@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.pager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.core.database.model.TabData
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
 class MainPagerAdapter(var tabs: List<TabData>, activity: FragmentActivity) : CustomFragmentStateAdapter(activity) {
