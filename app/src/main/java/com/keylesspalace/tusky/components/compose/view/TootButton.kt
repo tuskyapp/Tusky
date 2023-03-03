@@ -20,7 +20,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import com.google.android.material.button.MaterialButton
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt

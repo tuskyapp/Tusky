@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.entity
+package com.keylesspalace.tusky.core.database.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.core.database.model.Card
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import java.util.Date

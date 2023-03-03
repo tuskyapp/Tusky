@@ -19,7 +19,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.RadioGroup
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 
 class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RadioGroup(context, attrs) {
 

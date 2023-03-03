@@ -21,8 +21,8 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.defaultTabs
-import com.keylesspalace.tusky.entity.StatusVisibility
 
 @Entity(
     indices = [

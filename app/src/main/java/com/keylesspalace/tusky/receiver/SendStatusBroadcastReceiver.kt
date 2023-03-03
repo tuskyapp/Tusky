@@ -24,9 +24,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.text.randomAlphanumericString
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.service.SendStatusService
 import com.keylesspalace.tusky.service.StatusToSend
 import dagger.android.AndroidInjection

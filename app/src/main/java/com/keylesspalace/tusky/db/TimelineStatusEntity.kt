@@ -20,7 +20,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
-import com.keylesspalace.tusky.entity.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 
 /**
  * We're trying to play smart here. Server sends us reblogs as two entities one embedded into

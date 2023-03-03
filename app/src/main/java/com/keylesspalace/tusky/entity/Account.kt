@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import java.util.Date
 
 data class Account(

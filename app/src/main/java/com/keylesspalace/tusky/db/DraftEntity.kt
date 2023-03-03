@@ -24,7 +24,7 @@ import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.NewPoll
-import com.keylesspalace.tusky.entity.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import kotlinx.parcelize.Parcelize
 
 @Entity

@@ -30,9 +30,9 @@ import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.NewPoll
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.text.randomAlphanumericString
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient

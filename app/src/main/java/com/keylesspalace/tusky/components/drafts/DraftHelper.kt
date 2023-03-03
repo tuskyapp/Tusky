@@ -24,10 +24,10 @@ import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.NewPoll
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.db.DraftEntity
-import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.util.copyToFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

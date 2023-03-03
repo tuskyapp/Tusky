@@ -48,10 +48,10 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
-import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys

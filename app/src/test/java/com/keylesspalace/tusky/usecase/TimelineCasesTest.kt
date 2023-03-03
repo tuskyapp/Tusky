@@ -3,8 +3,8 @@ package com.keylesspalace.tusky.usecase
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PinEvent
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.StatusVisibility
 import com.keylesspalace.tusky.network.MastodonApi
 import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody.Companion.toResponseBody
