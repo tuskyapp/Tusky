@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,18 +12,16 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky.entity
+package com.keylesspalace.tusky.core.database.model
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
-import com.keylesspalace.tusky.core.database.model.Report
-import com.keylesspalace.tusky.core.database.model.Status
-import com.keylesspalace.tusky.core.database.model.TimelineAccount
 
 data class Notification(
     val type: Type,

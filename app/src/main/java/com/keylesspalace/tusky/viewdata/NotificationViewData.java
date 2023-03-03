@@ -17,9 +17,9 @@ package com.keylesspalace.tusky.viewdata;
 
 import androidx.annotation.Nullable;
 
+import com.keylesspalace.tusky.core.database.model.Notification;
 import com.keylesspalace.tusky.core.database.model.Report;
 import com.keylesspalace.tusky.core.database.model.TimelineAccount;
-import com.keylesspalace.tusky.entity.Notification;
 
 import java.util.Objects;
 

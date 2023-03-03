@@ -81,10 +81,10 @@ import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.core.database.model.Account
+import com.keylesspalace.tusky.core.database.model.Notification
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.FabFragment

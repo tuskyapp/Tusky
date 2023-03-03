@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.util
 
-import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.core.database.model.Notification
 import org.json.JSONArray
 
 /**
