@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData

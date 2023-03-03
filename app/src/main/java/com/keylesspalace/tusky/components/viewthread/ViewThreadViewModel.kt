@@ -31,10 +31,10 @@ import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases

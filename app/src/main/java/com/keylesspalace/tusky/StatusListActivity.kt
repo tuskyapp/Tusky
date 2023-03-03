@@ -29,8 +29,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

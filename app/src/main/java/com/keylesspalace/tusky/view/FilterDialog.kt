@@ -5,8 +5,8 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
-import com.keylesspalace.tusky.entity.Filter
 import java.util.Date
 
 fun showAddFilterDialog(activity: FiltersActivity) {

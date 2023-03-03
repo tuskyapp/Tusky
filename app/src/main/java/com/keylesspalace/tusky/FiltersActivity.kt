@@ -10,8 +10,8 @@ import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -123,20 +123,18 @@ class FiltersActivity : BaseActivity() {
             this,
             android.R.layout.simple_list_item_1,
             filters.map { filter ->
-                if (filter.expiresAt == null) {
-                    filter.phrase
-                } else {
+                filter.expiresAt?.let {
                     getString(
                         R.string.filter_expiration_format,
                         filter.phrase,
                         DateUtils.getRelativeTimeSpanString(
-                            filter.expiresAt.time,
+                            it.time,
                             System.currentTimeMillis(),
                             DateUtils.MINUTE_IN_MILLIS,
                             DateUtils.FORMAT_ABBREV_RELATIVE
                         )
                     )
-                }
+                } ?: filter.phrase
             }
         )
         binding.filtersView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> setupEditDialogForFilter(this, filters[position], position) }
