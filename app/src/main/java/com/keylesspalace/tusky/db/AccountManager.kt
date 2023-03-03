@@ -18,8 +18,8 @@ package com.keylesspalace.tusky.db
 import android.content.Context
 import android.util.Log
 import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.settings.PrefKeys
 import java.util.Locale
 import javax.inject.Inject

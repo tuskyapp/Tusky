@@ -20,8 +20,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.core.database.model.StringField
 import com.keylesspalace.tusky.databinding.ItemEditFieldBinding
-import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.util.BindingHolder
 
 class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {

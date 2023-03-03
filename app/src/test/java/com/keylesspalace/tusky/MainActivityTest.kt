@@ -12,9 +12,9 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

@@ -36,10 +36,10 @@ import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
+import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceHandler

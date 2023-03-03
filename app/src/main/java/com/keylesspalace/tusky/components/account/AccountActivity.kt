@@ -63,12 +63,12 @@ import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
+import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
