@@ -24,10 +24,8 @@ import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
-import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -39,17 +37,7 @@ data class ConversationEntity(
     val accounts: List<ConversationAccountEntity>,
     val unread: Boolean,
     @Embedded(prefix = "s_") val lastStatus: ConversationStatusEntity
-) {
-    fun toViewData(): ConversationViewData {
-        return ConversationViewData(
-            id = id,
-            order = order,
-            accounts = accounts,
-            unread = unread,
-            lastStatus = lastStatus.toViewData()
-        )
-    }
-}
+)
 
 data class ConversationAccountEntity(
     val id: String,
@@ -68,6 +56,17 @@ data class ConversationAccountEntity(
             url = "",
             avatar = avatar,
             emojis = emojis,
+        )
+    }
+
+    companion object {
+        fun from(timelineAccount: TimelineAccount) = ConversationAccountEntity(
+            id = timelineAccount.id,
+            localUsername = timelineAccount.localUsername,
+            username = timelineAccount.username,
+            displayName = timelineAccount.name,
+            avatar = timelineAccount.avatar,
+            emojis = timelineAccount.emojis.orEmpty()
         )
     }
 }
@@ -98,56 +97,7 @@ data class ConversationStatusEntity(
     val muted: Boolean,
     val poll: Poll?,
     val language: String?,
-) {
-
-    fun toViewData(): StatusViewData.Concrete {
-        return StatusViewData.Concrete(
-            status = Status(
-                id = id,
-                url = url,
-                account = account.toAccount(),
-                inReplyToId = inReplyToId,
-                inReplyToAccountId = inReplyToAccountId,
-                content = content,
-                reblog = null,
-                createdAt = createdAt,
-                editedAt = editedAt,
-                emojis = emojis,
-                reblogsCount = 0,
-                favouritesCount = favouritesCount,
-                repliesCount = repliesCount,
-                reblogged = false,
-                favourited = favourited,
-                bookmarked = bookmarked,
-                sensitive = sensitive,
-                spoilerText = spoilerText,
-                visibility = StatusVisibility.DIRECT,
-                attachments = attachments,
-                mentions = mentions,
-                tags = tags,
-                application = null,
-                pinned = false,
-                muted = muted,
-                poll = poll,
-                card = null,
-                language = language,
-            ),
-            isExpanded = expanded,
-            isShowingContent = showingHiddenContent,
-            isCollapsed = collapsed
-        )
-    }
-}
-
-fun TimelineAccount.toEntity() =
-    ConversationAccountEntity(
-        id = id,
-        localUsername = localUsername,
-        username = username,
-        displayName = name,
-        avatar = avatar,
-        emojis = emojis.orEmpty()
-    )
+)
 
 fun Status.toEntity(
     expanded: Boolean,
@@ -159,7 +109,7 @@ fun Status.toEntity(
         url = url,
         inReplyToId = inReplyToId,
         inReplyToAccountId = inReplyToAccountId,
-        account = account.toEntity(),
+        account = ConversationAccountEntity.from(account),
         content = content,
         createdAt = createdAt,
         editedAt = editedAt,
@@ -192,7 +142,7 @@ fun Conversation.toEntity(
         accountId = accountId,
         id = id,
         order = order,
-        accounts = accounts.map { it.toEntity() },
+        accounts = accounts.map { ConversationAccountEntity.from(it) },
         unread = unread,
         lastStatus = lastStatus!!.toEntity(
             expanded = expanded,

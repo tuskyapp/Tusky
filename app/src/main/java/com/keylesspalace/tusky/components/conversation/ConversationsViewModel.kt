@@ -55,7 +55,7 @@ class ConversationsViewModel @Inject constructor(
     )
         .flow
         .map { pagingData ->
-            pagingData.map { conversation -> conversation.toViewData() }
+            pagingData.map { conversation -> ConversationViewData.from(conversation) }
         }
         .cachedIn(viewModelScope)
 

@@ -52,6 +52,16 @@ data class ConversationViewData(
             )
         )
     }
+
+    companion object {
+        fun from(entity: ConversationEntity) = ConversationViewData(
+            id = entity.id,
+            order = entity.order,
+            accounts = entity.accounts,
+            unread = entity.unread,
+            lastStatus = StatusViewData.from(entity.lastStatus)
+        )
+    }
 }
 
 fun StatusViewData.Concrete.toConversationStatusEntity(
@@ -68,7 +78,7 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         url = status.url,
         inReplyToId = status.inReplyToId,
         inReplyToAccountId = status.inReplyToAccountId,
-        account = status.account.toEntity(),
+        account = ConversationAccountEntity.from(status.account),
         content = status.content,
         createdAt = status.createdAt,
         editedAt = status.editedAt,
