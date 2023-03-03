@@ -2,10 +2,10 @@ package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
 import android.util.Log
+import com.keylesspalace.tusky.core.database.model.Marker
 import com.keylesspalace.tusky.core.text.isLessThan
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject

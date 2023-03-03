@@ -26,12 +26,12 @@ import com.keylesspalace.tusky.core.database.model.DeletedStatus
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Marker
 import com.keylesspalace.tusky.core.database.model.NewStatus
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.entity.Instance
-import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.Notification
