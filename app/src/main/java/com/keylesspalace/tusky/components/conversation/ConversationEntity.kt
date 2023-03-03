@@ -19,6 +19,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Conversation
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.Poll
@@ -26,7 +27,6 @@ import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 

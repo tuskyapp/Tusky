@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.database.model.Announcement
 import com.keylesspalace.tusky.core.database.model.AppCredentials
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Conversation
 import com.keylesspalace.tusky.core.database.model.DeletedStatus
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
@@ -28,7 +29,6 @@ import com.keylesspalace.tusky.core.database.model.NewStatus
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
-import com.keylesspalace.tusky.entity.Conversation
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
