@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.core.database.model.MastoList
 import com.keylesspalace.tusky.core.database.model.MediaUploadResult
 import com.keylesspalace.tusky.core.database.model.NewStatus
 import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.ScheduledStatus
 import com.keylesspalace.tusky.core.database.model.SearchResult
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusContext
@@ -41,7 +42,6 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.TrendingTag
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody

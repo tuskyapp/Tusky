@@ -19,8 +19,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.keylesspalace.tusky.core.database.model.ScheduledStatus
 import com.keylesspalace.tusky.databinding.ItemScheduledStatusBinding
-import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.BindingHolder
 
 interface ScheduledStatusActionListener {
