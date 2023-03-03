@@ -1,4 +1,5 @@
-/* Copyright 2017 Andrew Dawson
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,13 +12,10 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky.entity
-
-import com.keylesspalace.tusky.core.database.model.HashTag
-import com.keylesspalace.tusky.core.database.model.Status
-import com.keylesspalace.tusky.core.database.model.TimelineAccount
+package com.keylesspalace.tusky.core.database.model
 
 data class SearchResult(
     val accounts: List<TimelineAccount>,

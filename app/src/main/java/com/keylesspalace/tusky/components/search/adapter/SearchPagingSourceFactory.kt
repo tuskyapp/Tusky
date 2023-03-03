@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.components.search.adapter
 
 import com.keylesspalace.tusky.components.search.SearchType
-import com.keylesspalace.tusky.entity.SearchResult
+import com.keylesspalace.tusky.core.database.model.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
 
 class SearchPagingSourceFactory<T : Any>(
