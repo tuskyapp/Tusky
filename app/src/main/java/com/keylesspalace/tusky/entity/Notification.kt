@@ -20,6 +20,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
+import com.keylesspalace.tusky.core.database.model.Report
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 
