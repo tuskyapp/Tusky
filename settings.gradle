@@ -18,4 +18,5 @@ enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 include ':app'
 include ':core:database'
+include ':core:network'
 include ':core:text'

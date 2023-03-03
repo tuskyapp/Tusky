@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.core.database.model.NewStatus
 import com.keylesspalace.tusky.core.database.model.Notification
 import com.keylesspalace.tusky.core.database.model.NotificationSubscribeResult
 import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.Relationship
 import com.keylesspalace.tusky.core.database.model.ScheduledStatus
 import com.keylesspalace.tusky.core.database.model.SearchResult
 import com.keylesspalace.tusky.core.database.model.Status
@@ -42,7 +43,6 @@ import com.keylesspalace.tusky.core.database.model.StatusEdit
 import com.keylesspalace.tusky.core.database.model.StatusSource
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.core.database.model.TrendingTag
-import com.keylesspalace.tusky.entity.Relationship
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

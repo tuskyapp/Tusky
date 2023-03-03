@@ -119,6 +119,7 @@ kapt {
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
 dependencies {
     implementation project(path: ':core:database')
+    implementation project(path: ':core:network')
     implementation project(path: ':core:text')
 
     implementation libs.kotlinx.coroutines.android

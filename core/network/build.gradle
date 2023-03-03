@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.keylesspalace.tusky.core.database'
+    namespace 'com.keylesspalace.tusky.core.network'
     compileSdk 33
 
     defaultConfig {
@@ -32,11 +32,9 @@ android {
 }
 
 dependencies {
-    implementation(project(':core:network'))
-    implementation(project(':core:text'))
+    implementation libs.bundles.androidx
 
     implementation libs.gson
-    implementation libs.bundles.androidx
 
     testImplementation libs.androidx.test.junit
 
