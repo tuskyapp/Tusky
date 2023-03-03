@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
@@ -300,6 +301,9 @@ class TimelineFragment :
                     is StatusComposedEvent -> {
                         val status = event.status
                         handleStatusComposeEvent(status)
+                    }
+                    is StatusEditedEvent -> {
+                        handleStatusComposeEvent(event.status)
                     }
                 }
             }

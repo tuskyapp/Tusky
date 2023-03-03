@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.compose.UploadEvent
@@ -202,16 +203,17 @@ class SendStatusService : Service(), Injectable {
                 },
             )
 
-            val sendResult = if (statusToSend.statusId == null) {
-                mastodonApi.createStatus(
+            val editing = (statusToSend.statusId != null)
+            val sendResult = if (editing) {
+                mastodonApi.editStatus(
+                    statusToSend.statusId!!,
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
                     newStatus
                 )
             } else {
-                mastodonApi.editStatus(
-                    statusToSend.statusId,
+                mastodonApi.createStatus(
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
@@ -232,6 +234,8 @@ class SendStatusService : Service(), Injectable {
 
                 if (scheduled) {
                     eventHub.dispatch(StatusScheduledEvent(sentStatus))
+                } else if (editing) {
+                    eventHub.dispatch(StatusEditedEvent(statusToSend.statusId!!, sentStatus))
                 } else {
                     eventHub.dispatch(StatusComposedEvent(sentStatus))
                 }
