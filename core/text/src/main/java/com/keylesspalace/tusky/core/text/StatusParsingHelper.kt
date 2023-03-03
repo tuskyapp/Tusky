@@ -1,4 +1,5 @@
-/* Copyright 2022 Tusky Contributors
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,10 +12,11 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
 @file:JvmName("StatusParsingHelper")
-package com.keylesspalace.tusky.util
+package com.keylesspalace.tusky.core.text
 
 import android.text.SpannableStringBuilder
 import android.text.Spanned

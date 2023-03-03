@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import static com.keylesspalace.tusky.core.text.StringUtils.unicodeWrap;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -57,7 +59,6 @@ import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.viewdata.NotificationViewData;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -372,7 +373,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             Context context = message.getContext();
 
             String format = context.getString(isSignUp ? R.string.notification_sign_up_format : R.string.notification_follow_format);
-            String wrappedDisplayName = StringUtils.unicodeWrap(account.getName());
+            String wrappedDisplayName = unicodeWrap(account.getName());
             String wholeMessage = String.format(format, wrappedDisplayName);
             CharSequence emojifiedMessage = CustomEmojiHelper.emojify(
                     wholeMessage, account.getEmojis(), message, statusDisplayOptions.animateEmojis()
@@ -517,7 +518,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
-            String displayName = StringUtils.unicodeWrap(notificationViewData.getAccount().getName());
+            String displayName = unicodeWrap(notificationViewData.getAccount().getName());
             Notification.Type type = notificationViewData.getType();
 
             Context context = message.getContext();

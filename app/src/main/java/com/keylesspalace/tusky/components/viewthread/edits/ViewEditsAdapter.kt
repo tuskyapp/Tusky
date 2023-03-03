@@ -14,6 +14,8 @@ import com.keylesspalace.tusky.adapter.PollAdapter
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.MULTIPLE
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.SINGLE
 import com.keylesspalace.tusky.core.database.model.Attachment.Focus
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
+import com.keylesspalace.tusky.core.text.unicodeWrap
 import com.keylesspalace.tusky.databinding.ItemStatusEditBinding
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -24,10 +26,8 @@ import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
 

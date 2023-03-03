@@ -16,7 +16,7 @@
 
 package com.keylesspalace.tusky.components.notifications;
 
-import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
+import static com.keylesspalace.tusky.core.text.StatusParsingHelper.parseAsMastodonHtml;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
 import android.app.NotificationChannel;
@@ -52,13 +52,13 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
 import com.keylesspalace.tusky.core.database.model.Poll;
 import com.keylesspalace.tusky.core.database.model.PollOption;
+import com.keylesspalace.tusky.core.text.StringUtils;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
-import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import java.util.ArrayList;

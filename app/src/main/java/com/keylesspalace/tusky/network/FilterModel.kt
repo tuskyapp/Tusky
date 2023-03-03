@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky.network
 
 import android.text.TextUtils
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import java.util.Date
 import java.util.regex.Pattern
 import javax.inject.Inject

@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.fragment;
 
-import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
+import static com.keylesspalace.tusky.core.text.StringUtils.isLessThan;
 import static autodispose2.AutoDispose.autoDisposable;
 import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
