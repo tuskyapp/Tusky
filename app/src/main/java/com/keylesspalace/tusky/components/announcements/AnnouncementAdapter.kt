@@ -26,9 +26,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Announcement
 import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.databinding.ItemAnnouncementBinding
-import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.EmojiSpan
