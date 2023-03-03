@@ -17,8 +17,8 @@
 package com.keylesspalace.tusky.util
 
 import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.TrendingTag
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData

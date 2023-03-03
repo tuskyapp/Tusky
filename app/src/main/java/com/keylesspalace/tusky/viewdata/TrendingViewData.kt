@@ -15,9 +15,9 @@
 
 package com.keylesspalace.tusky.viewdata
 
-import com.keylesspalace.tusky.entity.TrendingTag
-import com.keylesspalace.tusky.entity.end
-import com.keylesspalace.tusky.entity.start
+import com.keylesspalace.tusky.core.database.model.TrendingTag
+import com.keylesspalace.tusky.core.database.model.end
+import com.keylesspalace.tusky.core.database.model.start
 import java.util.Date
 
 sealed class TrendingViewData {

@@ -39,10 +39,10 @@ import com.keylesspalace.tusky.core.database.model.StatusContext
 import com.keylesspalace.tusky.core.database.model.StatusEdit
 import com.keylesspalace.tusky.core.database.model.StatusSource
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.TrendingTag
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.entity.TrendingTag
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

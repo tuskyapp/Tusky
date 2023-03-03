@@ -17,8 +17,8 @@ package com.keylesspalace.tusky.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.TrendingTagHistory
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
-import com.keylesspalace.tusky.entity.TrendingTagHistory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 import java.text.NumberFormat
