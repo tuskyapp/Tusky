@@ -401,7 +401,7 @@
         android:importantForAccessibility="no"
         android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@id/status_more"
-        app:layout_constraintStart_toEndOf="@id/status_favourites_count"
+        app:layout_constraintStart_toEndOf="@id/status_favourite"
         app:layout_constraintTop_toTopOf="@id/status_reply"
         sparkbutton:activeImage="@drawable/ic_bookmark_active_24dp"
         sparkbutton:iconSize="28dp"
