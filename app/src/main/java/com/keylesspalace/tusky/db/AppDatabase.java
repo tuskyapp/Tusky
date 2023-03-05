@@ -21,8 +21,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.keylesspalace.tusky.TabDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
+import com.keylesspalace.tusky.core.database.model.TabKind;
 
 import java.io.File;
 
@@ -173,10 +173,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_11_12 = new Migration(11, 12) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            String defaultTabs = TabDataKt.HOME + ";" +
-                    TabDataKt.NOTIFICATIONS + ";" +
-                    TabDataKt.LOCAL + ";" +
-                    TabDataKt.FEDERATED;
+            String defaultTabs = TabKind.HOME.getRepr() + ";" +
+                    TabKind.NOTIFICATIONS.getRepr() + ";" +
+                    TabKind.LOCAL.getRepr() + ";" +
+                    TabKind.FEDERATED.getRepr();
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
 
             database.execSQL("CREATE TABLE IF NOT EXISTS `ConversationEntity` (" +
@@ -339,7 +339,7 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `muted` INTEGER");
         }
     };
-    
+
     public static final Migration MIGRATION_23_24 = new Migration(23, 24) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {

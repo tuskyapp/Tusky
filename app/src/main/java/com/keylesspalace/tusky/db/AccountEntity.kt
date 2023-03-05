@@ -22,7 +22,7 @@ import androidx.room.TypeConverters
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TabData
-import com.keylesspalace.tusky.defaultTabs
+import com.keylesspalace.tusky.core.database.model.defaultTabs
 
 @Entity(
     indices = [

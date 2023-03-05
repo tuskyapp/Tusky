@@ -17,32 +17,39 @@
 
 package com.keylesspalace.tusky.core.database.model
 
-import android.content.Context
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
-import java.util.Objects
+/**
+ * A tab's kind.
+ *
+ * @param repr String representation of the tab in the database
+ */
+enum class TabKind(val repr: String) {
+    HOME("Home"),
+    NOTIFICATIONS("Notifications"),
+    LOCAL("Local"),
+    FEDERATED("Federated"),
+    DIRECT("Direct"),
+    TRENDING("Trending"),
+    HASHTAG("Hashtag"),
+    LIST("List")
+}
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
-data class TabData(
-    val id: String,
-    @StringRes val text: Int,
-    @DrawableRes val icon: Int,
-    val fragment: (List<String>) -> Fragment,
-    val arguments: List<String> = emptyList(),
-    val title: (Context) -> String = { context -> context.getString(text) }
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
 
-        other as TabData
+data class TabData(val kind: TabKind, val arguments: List<String> = emptyList()) {
+    companion object {
+        fun from(kind: TabKind, arguments: List<String> = emptyList()) =
+            TabData(kind, arguments)
 
-        if (id != other.id) return false
-        if (arguments != other.arguments) return false
-
-        return true
+        fun from(kind: String, arguments: List<String> = emptyList()) =
+            TabData(TabKind.valueOf(kind.uppercase()), arguments)
     }
-
-    override fun hashCode() = Objects.hash(id, arguments)
 }
+
+fun defaultTabs() = listOf(
+    TabData.from(TabKind.HOME),
+    TabData.from(TabKind.NOTIFICATIONS),
+    TabData.from(TabKind.LOCAL),
+    TabData.from(TabKind.DIRECT)
+)
+
+fun List<TabData>.hasTab(kind: TabKind): Boolean = this.find { it.kind == kind } != null

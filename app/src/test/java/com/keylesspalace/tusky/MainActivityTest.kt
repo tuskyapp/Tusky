@@ -14,7 +14,9 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.TabKind
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.defaultTabs
 import com.keylesspalace.tusky.db.AccountEntity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -66,7 +68,7 @@ class MainActivityTest {
         val activity = startMainActivity(intent)
         val currentTab = activity.findViewById<ViewPager2>(R.id.viewPager).currentItem
 
-        val notificationTab = defaultTabs().indexOfFirst { it.id == NOTIFICATIONS }
+        val notificationTab = defaultTabs().indexOfFirst { it.kind == TabKind.NOTIFICATIONS }
 
         assertEquals(currentTab, notificationTab)
     }

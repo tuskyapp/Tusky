@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TabData
-import com.keylesspalace.tusky.createTabDataFromId
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Date
@@ -66,14 +65,14 @@ class Converters @Inject constructor(
         return str?.split(";")
             ?.map {
                 val data = it.split(":")
-                createTabDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
+                TabData.from(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
             }
     }
 
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
         // List name may include ":"
-        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
+        return tabData?.joinToString(";") { it.kind.repr + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
     }
 
     @TypeConverter
