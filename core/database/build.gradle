@@ -29,6 +29,13 @@ android {
     }
 }
 
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
+    }
+}
+
 dependencies {
     implementation(project(':core:network'))
     implementation(project(':core:text'))
