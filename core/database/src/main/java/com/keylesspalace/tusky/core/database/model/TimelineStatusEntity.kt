@@ -1,4 +1,5 @@
-/* Copyright 2021 Tusky Contributors
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,9 +12,10 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.core.database.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -21,7 +23,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.core.database.Converters
-import com.keylesspalace.tusky.core.database.model.StatusVisibility
 
 /**
  * We're trying to play smart here. Server sends us reblogs as two entities one embedded into

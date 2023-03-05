@@ -26,9 +26,9 @@ import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.database.model.TimelineAccount
-import com.keylesspalace.tusky.db.TimelineAccountEntity
-import com.keylesspalace.tusky.db.TimelineStatusEntity
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.core.database.model.TimelineAccountEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusWithAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
@@ -154,7 +154,8 @@ fun Status.toEntity(
 }
 
 fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
-    if (this.account == null) {
+    val account = this.account
+    if (account == null) {
         Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }

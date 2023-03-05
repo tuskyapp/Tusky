@@ -9,6 +9,9 @@ import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.core.database.Converters
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.TimelineAccountEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusWithAccount
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

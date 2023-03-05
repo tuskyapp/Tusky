@@ -20,6 +20,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import com.keylesspalace.tusky.core.database.model.TimelineAccountEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusWithAccount
 
 @Dao
 abstract class TimelineDao {
