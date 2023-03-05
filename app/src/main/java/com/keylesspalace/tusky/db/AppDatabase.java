@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.core.database.dao.AccountDao;
 import com.keylesspalace.tusky.core.database.dao.ConversationsDao;
 import com.keylesspalace.tusky.core.database.dao.DraftDao;
 import com.keylesspalace.tusky.core.database.dao.InstanceDao;
+import com.keylesspalace.tusky.core.database.dao.TimelineDao;
 import com.keylesspalace.tusky.core.database.model.AccountEntity;
 import com.keylesspalace.tusky.core.database.model.ConversationEntity;
 import com.keylesspalace.tusky.core.database.model.DraftEntity;
