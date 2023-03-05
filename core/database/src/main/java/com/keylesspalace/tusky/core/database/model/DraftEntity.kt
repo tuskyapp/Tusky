@@ -1,4 +1,5 @@
-/* Copyright 2020 Tusky Contributors
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,9 +12,10 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.core.database.model
 
 import android.net.Uri
 import android.os.Parcelable
@@ -22,9 +24,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.core.database.model.Attachment
-import com.keylesspalace.tusky.core.database.model.NewPoll
-import com.keylesspalace.tusky.core.database.model.StatusVisibility
+import com.keylesspalace.tusky.core.database.Converters
 import kotlinx.parcelize.Parcelize
 
 @Entity

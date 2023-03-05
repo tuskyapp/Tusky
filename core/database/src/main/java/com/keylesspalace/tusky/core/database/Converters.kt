@@ -1,4 +1,5 @@
-/* Copyright 2018 Conny Duck
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,16 +12,18 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.core.database
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.ConversationAccountEntity
+import com.keylesspalace.tusky.core.database.model.DraftAttachment
 import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.NewPoll

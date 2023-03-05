@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
 }
 
@@ -23,11 +24,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
@@ -37,6 +35,11 @@ dependencies {
 
     implementation libs.gson
     implementation libs.bundles.androidx
+    implementation libs.bundles.room
+    kapt libs.androidx.room.compiler
+
+    implementation libs.bundles.dagger
+    kapt libs.bundles.dagger.processors
 
     testImplementation libs.androidx.test.junit
 

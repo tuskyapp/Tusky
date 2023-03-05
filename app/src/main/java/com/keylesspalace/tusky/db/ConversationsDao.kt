@@ -20,7 +20,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.keylesspalace.tusky.components.conversation.ConversationEntity
+import com.keylesspalace.tusky.core.database.model.ConversationEntity
 
 @Dao
 interface ConversationsDao {

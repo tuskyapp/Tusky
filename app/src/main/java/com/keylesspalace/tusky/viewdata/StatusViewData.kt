@@ -16,7 +16,7 @@ package com.keylesspalace.tusky.viewdata
 
 import android.os.Build
 import android.text.Spanned
-import com.keylesspalace.tusky.components.conversation.ConversationStatusEntity
+import com.keylesspalace.tusky.core.database.model.ConversationStatusEntity
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.text.parseAsMastodonHtml

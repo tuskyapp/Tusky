@@ -21,8 +21,8 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.keylesspalace.tusky.TuskyApplication
+import com.keylesspalace.tusky.core.database.Converters
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.Converters
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

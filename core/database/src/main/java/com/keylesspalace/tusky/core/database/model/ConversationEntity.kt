@@ -1,4 +1,5 @@
-/* Copyright 2021 Tusky Contributors
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,21 +12,15 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky.components.conversation
+package com.keylesspalace.tusky.core.database.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.TypeConverters
-import com.keylesspalace.tusky.core.database.model.Attachment
-import com.keylesspalace.tusky.core.database.model.Conversation
-import com.keylesspalace.tusky.core.database.model.Emoji
-import com.keylesspalace.tusky.core.database.model.HashTag
-import com.keylesspalace.tusky.core.database.model.Poll
-import com.keylesspalace.tusky.core.database.model.Status
-import com.keylesspalace.tusky.core.database.model.TimelineAccount
-import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.core.database.Converters
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
