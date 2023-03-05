@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.TooltipCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
@@ -31,8 +32,57 @@ class EmojiAdapter(
     private val animate: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
-    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
-        .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
+    private val trueEmojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+        .sortedWith(compareBy<Emoji, String?>(nullsFirst()) { it.category?.lowercase(Locale.ROOT) }.thenBy { it.shortcode.lowercase(Locale.ROOT) })
+    private val emojiList = mutableListOf<EmojiGridItem>()
+    lateinit var emojiCategories: LinkedHashMap<String?, Int>
+        private set
+    private lateinit var emojiCategoryPositions: LinkedHashMap<String?, Int>
+
+    data class EmojiGridItem(val emoji: Emoji?, val trueIndex: Int?)
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+
+        val spanCount = (recyclerView.layoutManager as GridLayoutManager).spanCount
+
+        val catMap = LinkedHashMap<String?, Int>()
+        val catPosMap = LinkedHashMap<String?, Int>()
+        var currentCategory: String? = null
+        for (index in trueEmojiList.indices) {
+            val emoji = trueEmojiList[index]
+            if (emoji.category != currentCategory || index == 0) {
+                currentCategory = emoji.category
+                catMap[currentCategory] = index
+                if (index > 0) {
+                    val emojiListIndex = emojiList.size - 1
+                    repeat(2 * spanCount - (emojiListIndex % spanCount) - 1) {
+                        emojiList.add(EmojiGridItem(null, null))
+                    }
+                }
+                catPosMap[currentCategory] = emojiList.size
+            }
+            emojiList.add(EmojiGridItem(emoji, index))
+        }
+
+        emojiCategories = catMap
+        emojiCategoryPositions = catPosMap
+    }
+
+    fun getCategoryStartPosition(category: String?): Int {
+        return emojiCategoryPositions.getValue(category)
+    }
+
+    fun getCategoryForPosition(position: Int): String? {
+        var prevKey: String? = null
+        for (entry in emojiCategoryPositions) {
+            if (position < entry.value) {
+                return prevKey
+            }
+            prevKey = entry.key
+        }
+        return prevKey
+    }
 
     override fun getItemCount() = emojiList.size
 
@@ -42,8 +92,17 @@ class EmojiAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemEmojiButtonBinding>, position: Int) {
-        val emoji = emojiList[position]
+        val emojiGridItem = emojiList[position]
+        val emoji = emojiGridItem.emoji
         val emojiImageView = holder.binding.root
+        if (emoji == null) {
+            emojiImageView.background = null
+            Glide.with(emojiImageView).clear(emojiImageView)
+            emojiImageView.contentDescription = null
+            emojiImageView.setOnClickListener(null)
+            TooltipCompat.setTooltipText(emojiImageView, null)
+            return
+        }
 
         if (animate) {
             Glide.with(emojiImageView)

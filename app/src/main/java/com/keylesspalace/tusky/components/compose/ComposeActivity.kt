@@ -26,12 +26,15 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
@@ -40,6 +43,7 @@ import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -54,11 +58,15 @@ import androidx.core.content.FileProvider
 import androidx.core.content.res.use
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
+import androidx.core.view.forEach
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
@@ -485,7 +493,7 @@ class ComposeActivity :
         composeOptionsBehavior = BottomSheetBehavior.from(binding.composeOptionsBottomSheet)
         addMediaBehavior = BottomSheetBehavior.from(binding.addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(binding.composeScheduleView)
-        emojiBehavior = BottomSheetBehavior.from(binding.emojiView)
+        emojiBehavior = BottomSheetBehavior.from(binding.emojiBottomSheet)
 
         enableButton(binding.composeEmojiButton, clickable = false, colorActive = false)
 
@@ -1219,10 +1227,62 @@ class ComposeActivity :
         replaceTextAtCaret(":$shortcode: ")
     }
 
+    private fun setActiveEmojiCategory(categoryTextView: TextView) {
+        binding.emojiCategoryLinearLayout.forEach { view ->
+            (view as TextView).setTypeface(null, if (view == categoryTextView) Typeface.BOLD else Typeface.NORMAL)
+        }
+        binding.emojiCategoryScrollView.smoothScrollTo(categoryTextView.left, 0)
+    }
+
     private fun setEmojiList(emojiList: List<Emoji>?) {
         if (emojiList != null) {
             val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-            binding.emojiView.adapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
+            val emojiAdapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
+            binding.emojiView.adapter = emojiAdapter
+
+            val categoryTextViews = hashMapOf<String?, TextView>()
+
+            emojiAdapter.emojiCategories.keys.forEachIndexed { i: Int, s: String? ->
+                val categoryTextView = TextView(this)
+                categoryTextView.text = s ?: getString(R.string.custom_emoji_default_category_title)
+                val padding = (8 * resources.displayMetrics.density + 0.5f).toInt()
+                categoryTextView.setPadding(padding, padding, padding, padding)
+                val typedValue = TypedValue()
+                this.theme.resolveAttribute(R.attr.status_text_medium, typedValue, true)
+                categoryTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, typedValue.getDimension(resources.displayMetrics))
+                if (i == 0) categoryTextView.setTypeface(null, Typeface.BOLD)
+                categoryTextView.setOnClickListener {
+                    val p = emojiAdapter.getCategoryStartPosition(s)
+                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(binding.emojiView.context) {
+                        override fun getHorizontalSnapPreference(): Int {
+                            return SNAP_TO_START
+                        }
+                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float {
+                            return 2000f / binding.emojiView.computeHorizontalScrollRange()
+                        }
+                    }
+                    smoothScroller.targetPosition = p
+                    binding.emojiView.layoutManager?.startSmoothScroll(smoothScroller)
+
+                    setActiveEmojiCategory(it as TextView)
+                }
+                binding.emojiCategoryLinearLayout.addView(categoryTextView)
+                categoryTextViews[s] = categoryTextView
+            }
+            if (emojiAdapter.emojiCategories.isNotEmpty()) {
+                binding.emojiCategoryScrollView.visibility = View.VISIBLE
+
+                binding.emojiView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        if (binding.emojiView.layoutManager?.isSmoothScrolling == true) return // TODO needs to be improved
+                        val firstVisibleItemPosition = (binding.emojiView.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+                        val activeCategory = emojiAdapter.getCategoryForPosition(firstVisibleItemPosition)
+                        setActiveEmojiCategory(categoryTextViews.getValue(activeCategory))
+                    }
+                })
+            }
+
             enableButton(binding.composeEmojiButton, true, emojiList.isNotEmpty())
         }
     }
