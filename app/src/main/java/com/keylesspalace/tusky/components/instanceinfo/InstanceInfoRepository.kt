@@ -20,10 +20,10 @@ import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.EmojisEntity
+import com.keylesspalace.tusky.core.database.model.InstanceInfoEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.EmojisEntity
-import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

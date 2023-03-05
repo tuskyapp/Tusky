@@ -24,6 +24,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.keylesspalace.tusky.core.database.model.AccountEntity;
 import com.keylesspalace.tusky.core.database.model.ConversationEntity;
 import com.keylesspalace.tusky.core.database.model.DraftEntity;
+import com.keylesspalace.tusky.core.database.model.InstanceEntity;
 import com.keylesspalace.tusky.core.database.model.TabKind;
 import com.keylesspalace.tusky.core.database.model.TimelineAccountEntity;
 import com.keylesspalace.tusky.core.database.model.TimelineStatusEntity;

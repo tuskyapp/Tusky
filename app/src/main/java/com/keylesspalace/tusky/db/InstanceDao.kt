@@ -19,6 +19,9 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Upsert
+import com.keylesspalace.tusky.core.database.model.EmojisEntity
+import com.keylesspalace.tusky.core.database.model.InstanceEntity
+import com.keylesspalace.tusky.core.database.model.InstanceInfoEntity
 
 @Dao
 interface InstanceDao {
