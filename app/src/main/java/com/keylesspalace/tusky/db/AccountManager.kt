@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.db
 import android.content.Context
 import android.util.Log
 import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.core.database.dao.AccountDao
 import com.keylesspalace.tusky.core.database.model.Account
 import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
