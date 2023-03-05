@@ -23,10 +23,10 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.core.database.model.Instance
 import com.keylesspalace.tusky.core.database.model.InstanceConfiguration
 import com.keylesspalace.tusky.core.database.model.StatusConfiguration
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.EmojisEntity

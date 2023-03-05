@@ -14,8 +14,8 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.mockStatus
 import com.keylesspalace.tusky.components.timeline.mockStatusViewData
 import com.keylesspalace.tusky.core.database.Converters
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.core.database.model.StatusContext
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.FilterModel
