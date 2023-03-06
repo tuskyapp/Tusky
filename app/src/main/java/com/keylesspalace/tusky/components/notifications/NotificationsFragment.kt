@@ -392,8 +392,10 @@ class NotificationsFragment :
                     .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
                         binding.recyclerView.isVisible = true
+                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
+                            && !binding.swipeRefreshLayout.isRefreshing
                         binding.swipeRefreshLayout.isRefreshing =
-                            loadState.refresh is LoadState.Loading
+                            loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
 
                         binding.statusView.isVisible = false
                         if (loadState.refresh is LoadState.NotLoading) {
@@ -454,6 +456,7 @@ class NotificationsFragment :
     }
 
     override fun onRefresh() {
+        binding.progressBar.isVisible = false
         adapter.refresh()
     }
 
@@ -554,6 +557,7 @@ class NotificationsFragment :
 
     private fun clearNotifications() {
         binding.swipeRefreshLayout.isRefreshing = false
+        binding.progressBar.isVisible = false
         viewModel.accept(FallibleUiAction.ClearNotifications)
     }
 
