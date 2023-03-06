@@ -803,5 +803,8 @@
     <string name="filter_edit_keyword_title">Edit keyword</string>
     <string name="filter_description_format">%s: %s</string>
 
-    <string name="help_empty_home">This is your home timeline. It shows the recent posts of the accounts you follow.\n\nTo explore accounts you can either discover them in one of the other timelines. For example the local timeline of your instance [drawable ic_local_24dp]. Or you can search them by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="help_empty_home">This is your <b>home timeline</b>. It shows the recent posts of the accounts
+        you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
+        For example the local timeline of your instance [drawable ic_local_24dp]. Or you can search them
+        by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
 </resources>

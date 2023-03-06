@@ -1,10 +1,15 @@
 package com.keylesspalace.tusky.util
 
+import android.content.Context
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.CharacterStyle
-import android.text.style.ForegroundColorSpan
-import android.text.style.URLSpan
+import android.text.style.*
+import androidx.appcompat.content.res.AppCompatResources
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import java.util.regex.Pattern
 import kotlin.math.max
 
@@ -59,6 +64,64 @@ private class PatternFinder(
     val prefixValidator: (Int) -> Boolean
 ) {
     val pattern: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+}
+
+/**
+ * Takes text containing mentions and hashtags and urls and makes them the given colour.
+ */
+fun highlightSpans(text: Spannable, colour: Int) {
+    // Strip all existing colour spans.
+    for (spanClass in spanClasses) {
+        clearSpans(text, spanClass)
+    }
+
+    // Colour the mentions and hashtags.
+    val string = text.toString()
+    val length = text.length
+    var start = 0
+    var end = 0
+    while (end in 0 until length && start >= 0) {
+        // Search for url first because it can contain the other characters
+        val found = findPattern(string, end)
+        start = found.start
+        end = found.end
+        if (start in 0 until end) {
+            text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            start += finders[found.matchType]!!.searchPrefixWidth
+        }
+    }
+}
+
+fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): Spannable {
+    val alignment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) DynamicDrawableSpan.ALIGN_CENTER else DynamicDrawableSpan.ALIGN_BASELINE
+
+    val builder = SpannableStringBuilder(text)
+
+    val pattern = Pattern.compile("\\[(drawable|iconics) ([0-9a-z_]+)\\]")
+    val matcher = pattern.matcher(builder)
+    while (matcher.find()) {
+        val resourceType = matcher.group(1)
+        val resourceName = matcher.group(2)
+            ?: continue
+
+        val drawable: Drawable? = when(resourceType)  {
+            "iconics" -> IconicsDrawable(context, GoogleMaterial.getIcon(resourceName))
+            else -> {
+                val drawableResourceId = context.resources.getIdentifier(resourceName, "drawable", context.packageName)
+                if (drawableResourceId != 0) AppCompatResources.getDrawable(context, drawableResourceId) else null
+            }
+        }
+
+        if (drawable != null) {
+            // give it text size (bit bigger) and color
+            drawable.setBounds(0, 0, size, size)
+            drawable.setTint(color)
+
+            builder.setSpan(ImageSpan(drawable, alignment), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    return builder
 }
 
 private fun <T> clearSpans(text: Spannable, spanClass: Class<T>) {
@@ -133,30 +196,6 @@ private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, star
         FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end))
         FoundMatchType.MENTION -> MentionSpan(string.substring(start, end))
         else -> ForegroundColorSpan(colour)
-    }
-}
-
-/** Takes text containing mentions and hashtags and urls and makes them the given colour. */
-fun highlightSpans(text: Spannable, colour: Int) {
-    // Strip all existing colour spans.
-    for (spanClass in spanClasses) {
-        clearSpans(text, spanClass)
-    }
-
-    // Colour the mentions and hashtags.
-    val string = text.toString()
-    val length = text.length
-    var start = 0
-    var end = 0
-    while (end in 0 until length && start >= 0) {
-        // Search for url first because it can contain the other characters
-        val found = findPattern(string, end)
-        start = found.start
-        end = found.end
-        if (start in 0 until end) {
-            text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-            start += finders[found.matchType]!!.searchPrefixWidth
-        }
     }
 }
 

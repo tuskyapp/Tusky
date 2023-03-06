@@ -13,14 +13,11 @@
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.1"
         android:textColor="@color/textColorPrimary"
-        android:background="@color/colorBackgroundAccent"
+        android:background="@drawable/help_message_background"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:padding="16dp"
         android:textAlignment="viewStart"
-        android:textSize="?attr/status_text_medium"
-        android:text="@string/error_empty" />
+        android:textSize="?attr/status_text_medium" />
 
     <LinearLayout
         android:layout_width="match_parent"
