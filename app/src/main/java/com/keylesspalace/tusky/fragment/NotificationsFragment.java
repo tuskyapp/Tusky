@@ -257,7 +257,8 @@ public class NotificationsFragment extends SFragment implements
                 preferences.getBoolean("confirmReblogs", true),
                 preferences.getBoolean("confirmFavourites", false),
                 preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+                preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false)
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),

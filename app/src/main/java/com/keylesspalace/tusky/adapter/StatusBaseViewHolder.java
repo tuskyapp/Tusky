@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.NumberUtilsKt;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.util.TouchDelegateHelper;
@@ -384,19 +385,19 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private void setReplyCount(int repliesCount) {
         // This label only exists in the non-detailed view (to match the web ui)
         if (replyCountLabel != null) {
-            replyCountLabel.setText(Integer.toString(repliesCount));
+            replyCountLabel.setText(NumberUtilsKt.shortNumber(repliesCount));
         }
     }
 
     private void setReblogsCount(int reblogsCount) {
         if (reblogsCountLabel != null) {
-            reblogsCountLabel.setText(Integer.toString(reblogsCount));
+            reblogsCountLabel.setText(NumberUtilsKt.shortNumber(reblogsCount));
         }
     }
 
     private void setFavouritedCount(int favouritedCount) {
         if (favouritedCountLabel != null) {
-            favouritedCountLabel.setText(Integer.toString(favouritedCount));
+            favouritedCountLabel.setText(NumberUtilsKt.shortNumber(favouritedCount));
         }
     }
 
@@ -631,12 +632,21 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar.setOnClickListener(profileButtonClickListener);
         displayName.setOnClickListener(profileButtonClickListener);
 
+        if (replyCountLabel != null) {
+            replyCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        }
+
         replyButton.setOnClickListener(v -> {
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onReply(position);
             }
         });
+
+        if (reblogsCountLabel != null) {
+            reblogsCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        }
+
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
                 // return true to play animation
@@ -653,6 +663,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     return false;
                 }
             });
+        }
+
+        if (favouritedCountLabel != null) {
+            favouritedCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
         }
 
         favouriteButton.setEventListener((button, buttonState) -> {

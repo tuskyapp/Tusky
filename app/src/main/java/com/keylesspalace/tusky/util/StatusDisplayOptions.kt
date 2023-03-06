@@ -20,5 +20,7 @@ data class StatusDisplayOptions(
     @get:JvmName("hideStats")
     val hideStats: Boolean,
     @get:JvmName("animateEmojis")
-    val animateEmojis: Boolean
+    val animateEmojis: Boolean,
+    @get:JvmName("showStatsInline")
+    val showStatsInline: Boolean
 )

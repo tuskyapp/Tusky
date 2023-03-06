@@ -286,7 +286,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 statusDisplayOptions.confirmReblogs(),
                 statusDisplayOptions.confirmFavourites(),
                 statusDisplayOptions.hideStats(),
-                statusDisplayOptions.animateEmojis()
+                statusDisplayOptions.animateEmojis(),
+                statusDisplayOptions.showStatsInline()
         );
     }
 
