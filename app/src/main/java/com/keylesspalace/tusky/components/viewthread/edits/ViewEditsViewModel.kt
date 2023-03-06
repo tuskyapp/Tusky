@@ -20,8 +20,9 @@ import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,25 +31,27 @@ class ViewEditsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<EditsUiState> = MutableStateFlow(EditsUiState.Initial)
-    val uiState: Flow<EditsUiState>
-        get() = _uiState
+    val uiState: StateFlow<EditsUiState> = _uiState.asStateFlow()
 
     fun loadEdits(statusId: String, force: Boolean = false, refreshing: Boolean = false) {
-        if (force || _uiState.value is EditsUiState.Initial) {
-            if (!refreshing) {
-                _uiState.value = EditsUiState.Loading
-            }
-            viewModelScope.launch {
-                api.statusEdits(statusId).fold(
-                    { edits ->
-                        val sortedEdits = edits.sortedBy { edit -> edit.createdAt }.reversed()
-                        _uiState.value = EditsUiState.Success(sortedEdits)
-                    },
-                    { throwable ->
-                        _uiState.value = EditsUiState.Error(throwable)
-                    }
-                )
-            }
+        if (!force && _uiState.value !is EditsUiState.Initial) return
+
+        if (refreshing) {
+            _uiState.value = EditsUiState.Refreshing
+        } else {
+            _uiState.value = EditsUiState.Loading
+        }
+
+        viewModelScope.launch {
+            api.statusEdits(statusId).fold(
+                { edits ->
+                    val sortedEdits = edits.sortedBy { edit -> edit.createdAt }.reversed()
+                    _uiState.value = EditsUiState.Success(sortedEdits)
+                },
+                { throwable ->
+                    _uiState.value = EditsUiState.Error(throwable)
+                }
+            )
         }
     }
 }
@@ -56,6 +59,10 @@ class ViewEditsViewModel @Inject constructor(
 sealed interface EditsUiState {
     object Initial : EditsUiState
     object Loading : EditsUiState
+
+    // "Refreshing" state is necessary, otherwise a refresh state transition is Success -> Success,
+    // and state flows don't emit repeated states, so the UI never updates.
+    object Refreshing : EditsUiState
     class Error(val throwable: Throwable) : EditsUiState
     data class Success(
         val edits: List<StatusEdit>

@@ -474,7 +474,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                 val intent = ComposeActivity.startIntent(
                                     requireContext(),
                                     ComposeOptions(
-                                        content = redraftStatus.text ?: "",
+                                        content = redraftStatus.text.orEmpty(),
                                         inReplyToId = redraftStatus.inReplyToId,
                                         visibility = redraftStatus.visibility,
                                         contentWarning = redraftStatus.spoilerText,
