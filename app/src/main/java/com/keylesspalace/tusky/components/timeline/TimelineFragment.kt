@@ -183,6 +183,7 @@ class TimelineFragment :
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
+            showDescriptionBadge = preferences.getBoolean(PrefKeys.SHOW_DESCRIPTION_BADGE, true),
             cardViewMode = if (preferences.getBoolean(
                     PrefKeys.SHOW_CARDS_IN_TIMELINES,
                     false

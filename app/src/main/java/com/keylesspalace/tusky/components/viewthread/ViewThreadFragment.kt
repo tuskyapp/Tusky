@@ -104,6 +104,7 @@ class ViewThreadFragment :
             useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
             showBotOverlay = preferences.getBoolean("showBotOverlay", true),
             useBlurhash = preferences.getBoolean("useBlurhash", true),
+            showDescriptionBadge = preferences.getBoolean("showDescriptionBadge", true),
             cardViewMode = if (preferences.getBoolean("showCardsInTimelines", false)) {
                 CardViewMode.INDENTED
             } else {

@@ -152,6 +152,7 @@ class ReportStatusesFragment :
             useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false),
             showBotOverlay = false,
             useBlurhash = preferences.getBoolean("useBlurhash", true),
+            showDescriptionBadge = preferences.getBoolean("showDescriptionBadge", true),
             cardViewMode = CardViewMode.NONE,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
