@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ViewBackgroundMessageBinding
 import com.keylesspalace.tusky.util.addDrawables
 import com.keylesspalace.tusky.util.visible
@@ -32,7 +33,7 @@ class BackgroundMessageView @JvmOverloads constructor(
         orientation = VERTICAL
 
         if (isInEditMode) {
-            setup(com.keylesspalace.tusky.R.drawable.elephant_offline, com.keylesspalace.tusky.R.string.error_network) {}
+            setup(R.drawable.elephant_offline, R.string.error_network) {}
         }
     }
 

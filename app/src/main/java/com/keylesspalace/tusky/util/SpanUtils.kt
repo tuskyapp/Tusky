@@ -6,7 +6,11 @@ import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.*
+import android.text.style.CharacterStyle
+import android.text.style.DynamicDrawableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
+import android.text.style.URLSpan
 import androidx.appcompat.content.res.AppCompatResources
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -104,7 +108,7 @@ fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): S
         val resourceName = matcher.group(2)
             ?: continue
 
-        val drawable: Drawable? = when(resourceType)  {
+        val drawable: Drawable? = when (resourceType) {
             "iconics" -> IconicsDrawable(context, GoogleMaterial.getIcon(resourceName))
             else -> {
                 val drawableResourceId = context.resources.getIdentifier(resourceName, "drawable", context.packageName)
