@@ -96,6 +96,9 @@ fun highlightSpans(text: Spannable, colour: Int) {
     }
 }
 
+/**
+ * Replaces text of the form [drawabale name] or [iconics name] with their spanned counterparts (ImageSpan).
+ */
 fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): Spannable {
     val alignment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) DynamicDrawableSpan.ALIGN_CENTER else DynamicDrawableSpan.ALIGN_BASELINE
 
@@ -117,7 +120,6 @@ fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): S
         }
 
         if (drawable != null) {
-            // give it text size (bit bigger) and color
             drawable.setBounds(0, 0, size, size)
             drawable.setTint(color)
 
