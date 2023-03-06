@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
@@ -74,6 +75,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {
         public static final String KEY_CREATED = "created";
     }
+
+    private final String TAG = "StatusBaseViewHolder";
 
     private final TextView displayName;
     private final TextView username;
@@ -627,7 +630,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     if (statusDisplayOptions.confirmReblogs()) {
-                        showConfirmReblogDialog(listener, statusContent, buttonState, position);
+                        showConfirmReblog(listener, buttonState, position);
                         return false;
                     } else {
                         listener.onReblog(!buttonState, position);
@@ -644,7 +647,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 if (statusDisplayOptions.confirmFavourites()) {
-                    showConfirmFavouriteDialog(listener, statusContent, buttonState, position);
+                    showConfirmFavourite(listener, buttonState, position);
                     return false;
                 } else {
                     listener.onFavourite(!buttonState, position);
@@ -683,38 +686,46 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(viewThreadListener);
     }
 
-    private void showConfirmReblogDialog(StatusActionListener listener,
-                                         String statusContent,
-                                         boolean buttonState,
-                                         int position) {
-        int okButtonTextId = buttonState ? R.string.action_unreblog : R.string.action_reblog;
-        new AlertDialog.Builder(reblogButton.getContext())
-                .setMessage(statusContent)
-                .setPositiveButton(okButtonTextId, (__, ___) -> {
-                    listener.onReblog(!buttonState, position);
-                    if (!buttonState) {
-                        // Play animation only when it's reblog, not unreblog
-                        reblogButton.playAnimation();
-                    }
-                })
-                .show();
+    private void showConfirmReblog(StatusActionListener listener,
+                                   boolean buttonState,
+                                   int position) {
+        PopupMenu popup = new PopupMenu(itemView.getContext(), reblogButton);
+        popup.inflate(R.menu.status_reblog);
+        Menu menu = popup.getMenu();
+        if (buttonState) {
+            menu.findItem(R.id.menu_action_reblog).setVisible(false);
+        } else {
+            menu.findItem(R.id.menu_action_unreblog).setVisible(false);
+        }
+        popup.setOnMenuItemClickListener(item -> {
+            listener.onReblog(!buttonState, position);
+            if(!buttonState) {
+                reblogButton.playAnimation();
+            }
+            return true;
+        });
+        popup.show();
     }
 
-    private void showConfirmFavouriteDialog(StatusActionListener listener,
-                                            String statusContent,
-                                            boolean buttonState,
-                                            int position) {
-        int okButtonTextId = buttonState ? R.string.action_unfavourite : R.string.action_favourite;
-        new AlertDialog.Builder(favouriteButton.getContext())
-                .setMessage(statusContent)
-                .setPositiveButton(okButtonTextId, (__, ___) -> {
-                    listener.onFavourite(!buttonState, position);
-                    if (!buttonState) {
-                        // Play animation only when it's favourite, not unfavourite
-                        favouriteButton.playAnimation();
-                    }
-                })
-                .show();
+    private void showConfirmFavourite(StatusActionListener listener,
+                                      boolean buttonState,
+                                      int position) {
+        PopupMenu popup = new PopupMenu(itemView.getContext(), favouriteButton);
+        popup.inflate(R.menu.status_favourite);
+        Menu menu = popup.getMenu();
+        if (buttonState) {
+            menu.findItem(R.id.menu_action_favourite).setVisible(false);
+        } else {
+            menu.findItem(R.id.menu_action_unfavourite).setVisible(false);
+        }
+        popup.setOnMenuItemClickListener(item -> {
+            listener.onFavourite(!buttonState, position);
+            if(!buttonState) {
+                favouriteButton.playAnimation();
+            }
+            return true;
+        });
+        popup.show();
     }
 
     public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,

@@ -89,6 +89,8 @@
         <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
+
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
@@ -185,4 +187,7 @@
         <item name="cornerSize">12.5%</item>
     </style>
 
+    <style name="PopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="overlapAnchor">true</item>
+    </style>
 </resources>
