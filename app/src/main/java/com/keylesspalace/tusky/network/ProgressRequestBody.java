@@ -69,8 +69,6 @@ public final class ProgressRequestBody extends RequestBody {
             }
 
             uploadListener.onProgressUpdate((int)(100 * uploaded / contentLength));
-
-            //try { Thread.sleep(13000); } catch (InterruptedException ex) {}
         } finally {
             content.close();
         }
