@@ -322,9 +322,8 @@ class ComposeViewModel @Inject constructor(
         serviceClient.sendToot(tootToSend)
     }
 
-    // Updates a QueuedMedia item arbitrarily, then sends description and focus to server
-    private suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
-        val newMediaList = media.updateAndGet { mediaValue ->
+    private fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia) {
+        media.updateAndGet { mediaValue ->
             mediaValue.map { mediaItem ->
                 if (mediaItem.localId == localId) {
                     mutator(mediaItem)
@@ -333,33 +332,16 @@ class ComposeViewModel @Inject constructor(
                 }
             }
         }
-
-        if (!editing) {
-            // Updates to media for already-published statuses need to go through the status edit api
-            val updatedItem = newMediaList.find { it.localId == localId }
-            if (updatedItem?.id != null) {
-                val focus = updatedItem.focus
-                val focusString = if (focus != null) "${focus.x},${focus.y}" else null
-                return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
-                    .fold({
-                        true
-                    }, { throwable ->
-                        Log.w(TAG, "failed to update media", throwable)
-                        false
-                    })
-            }
-        }
-        return true
     }
 
-    suspend fun updateDescription(localId: Int, description: String): Boolean {
-        return updateMediaItem(localId) { mediaItem ->
+    fun updateDescription(localId: Int, description: String) {
+        updateMediaItem(localId) { mediaItem ->
             mediaItem.copy(description = description)
         }
     }
 
-    suspend fun updateFocus(localId: Int, focus: Attachment.Focus): Boolean {
-        return updateMediaItem(localId) { mediaItem ->
+    fun updateFocus(localId: Int, focus: Attachment.Focus) {
+        updateMediaItem(localId) { mediaItem ->
             mediaItem.copy(focus = focus)
         }
     }

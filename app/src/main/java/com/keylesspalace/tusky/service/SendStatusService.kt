@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
@@ -181,6 +182,20 @@ class SendStatusService : Service(), Injectable {
                 Log.w(TAG, "failed getting media status", e)
                 retrySending(statusId)
                 return@launch
+            }
+
+            media.forEach { mediaItem ->
+                if (mediaItem.processed) {
+                    val focus = mediaItem.focus
+                    val focusString = if (focus != null) "${focus.x},${focus.y}" else null
+                    Log.w(TAG, "updating media description on status send "+mediaItem.description )
+                    mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, focusString)
+                        .fold({
+                        }, { throwable ->
+                            Toast.makeText(applicationContext, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
+                            Log.e(TAG, "failed to update media on status send", throwable)
+                        })
+                }
             }
 
             // finally, send the new status

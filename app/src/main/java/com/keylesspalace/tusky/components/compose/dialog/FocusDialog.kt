@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 fun <T> T.makeFocusDialog(
     existingFocus: Focus?,
     previewUri: Uri,
-    onUpdateFocus: suspend (Focus) -> Boolean
+    onUpdateFocus: suspend (Focus) -> Unit
 ) where T : Activity, T : LifecycleOwner {
     val focus = existingFocus ?: Focus(0.0f, 0.0f) // Default to center
 
@@ -79,9 +79,7 @@ fun <T> T.makeFocusDialog(
 
     val okListener = { dialog: DialogInterface, _: Int ->
         lifecycleScope.launch {
-            if (!onUpdateFocus(dialogBinding.focusIndicator.getFocus())) {
-                showFailedFocusMessage()
-            }
+            onUpdateFocus(dialogBinding.focusIndicator.getFocus())
         }
         dialog.dismiss()
     }
@@ -98,8 +96,4 @@ fun <T> T.makeFocusDialog(
     )
 
     dialog.show()
-}
-
-private fun Activity.showFailedFocusMessage() {
-    Toast.makeText(this, R.string.error_failed_set_focus, Toast.LENGTH_SHORT).show()
 }
