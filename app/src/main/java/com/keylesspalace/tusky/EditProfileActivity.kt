@@ -34,7 +34,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
@@ -80,14 +82,18 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        if (result.isSuccessful) {
-            if (result.uriContent == viewModel.getAvatarUri()) {
-                viewModel.newAvatarPicked()
-            } else {
-                viewModel.newHeaderPicked()
-            }
+        if (result is CropImage.CancelledResult) {
+            return@registerForActivityResult
+        }
+
+        if (!result.isSuccessful) {
+            return@registerForActivityResult onPickFailure(result.error)
+        }
+
+        if (result.uriContent == viewModel.getAvatarUri()) {
+            viewModel.newAvatarPicked()
         } else {
-            onPickFailure(result.error)
+            viewModel.newHeaderPicked()
         }
     }
 
