@@ -184,17 +184,22 @@ class SendStatusService : Service(), Injectable {
                 return@launch
             }
 
-            media.forEach { mediaItem ->
-                if (mediaItem.processed) {
-                    val focus = mediaItem.focus
-                    val focusString = if (focus != null) "${focus.x},${focus.y}" else null
-                    Log.w(TAG, "updating media description on status send "+mediaItem.description )
-                    mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, focusString)
-                        .fold({
-                        }, { throwable ->
-                            Toast.makeText(applicationContext, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
-                            Log.e(TAG, "failed to update media on status send", throwable)
-                        })
+            val isEditing = statusToSend.statusId != null
+
+            if (!isEditing) {
+                media.forEach { mediaItem ->
+                    if (mediaItem.processed) {
+                        mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, mediaItem.focus?.toMastodonApiString())
+                            .fold({
+                            }, { throwable ->
+                                Toast.makeText(
+                                    applicationContext,
+                                    R.string.error_failed_set_caption,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.e(TAG, "failed to update media on status send", throwable)
+                            })
+                    }
                 }
             }
 
