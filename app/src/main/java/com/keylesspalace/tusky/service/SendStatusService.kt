@@ -184,9 +184,9 @@ class SendStatusService : Service(), Injectable {
                 return@launch
             }
 
-            val isEditing = statusToSend.statusId != null
+            val isNew = statusToSend.statusId == null
 
-            if (!isEditing) {
+            if (isNew) {
                 media.forEach { mediaItem ->
                     if (mediaItem.processed) {
                         mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, mediaItem.focus?.toMastodonApiString())
@@ -224,17 +224,16 @@ class SendStatusService : Service(), Injectable {
                 }
             )
 
-            val editing = (statusToSend.statusId != null)
-            val sendResult = if (editing) {
-                mastodonApi.editStatus(
-                    statusToSend.statusId!!,
+            val sendResult = if (isNew) {
+                mastodonApi.createStatus(
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
                     newStatus
                 )
             } else {
-                mastodonApi.createStatus(
+                mastodonApi.editStatus(
+                    statusToSend.statusId!!,
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
