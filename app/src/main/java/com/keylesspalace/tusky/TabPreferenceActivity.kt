@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -261,19 +264,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
-        lifecycleScope.launch {
-            mastodonApi.getLists().fold(
-                { lists ->
-                    adapter.addAll(lists)
-                },
-                { throwable ->
-                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
-                }
-            )
-        }
 
-        AlertDialog.Builder(this)
+        val dialogBuilder = AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
+            .setNegativeButton(android.R.string.cancel, null)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
                 val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
@@ -282,7 +276,33 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 updateAvailableTabs()
                 saveTabs()
             }
-            .show()
+
+        if (adapter.isEmpty) {
+            dialogBuilder.setTitle(R.string.select_list_title_empty)
+            dialogBuilder.setNeutralButton(R.string.select_list_create) { _, _ ->
+                val listIntent = Intent(applicationContext, ListsActivity::class.java)
+                startActivity(listIntent)
+            }
+        }
+
+        val dialog = dialogBuilder.show()
+
+        lifecycleScope.launch {
+            mastodonApi.getLists().fold(
+                { lists ->
+                    adapter.addAll(lists)
+                    if (lists.isNotEmpty()) {
+                        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).hide()
+                        dialog.setTitle(R.string.select_list_title)
+                    }
+                },
+                { throwable ->
+                    dialog.hide()
+                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                    Snackbar.make(binding.root, R.string.error_list_load, Snackbar.LENGTH_LONG).show()
+                }
+            )
+        }
     }
 
     private fun validateHashtag(input: CharSequence?): Boolean {
