@@ -392,8 +392,8 @@ class NotificationsFragment :
                     .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
                         binding.recyclerView.isVisible = true
-                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
-                            && !binding.swipeRefreshLayout.isRefreshing
+                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
+                            !binding.swipeRefreshLayout.isRefreshing
                         binding.swipeRefreshLayout.isRefreshing =
                             loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
 
