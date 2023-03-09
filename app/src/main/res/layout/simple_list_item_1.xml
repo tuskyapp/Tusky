@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<!-- Copied from platform so it will with view binding -->
+<!-- Copied from platform so it will work with view binding -->
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
