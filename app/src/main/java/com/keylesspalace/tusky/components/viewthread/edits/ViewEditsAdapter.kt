@@ -74,7 +74,7 @@ class ViewEditsAdapter(
 
         loadAvatar(edit.account.avatar, binding.statusEditAvatar, avatarRadius, animateAvatars)
 
-        val infoStringRes = if (position == edits.size - 1) {
+        val infoStringRes = if (position == 0) {
             R.string.status_created_info
         } else {
             R.string.status_edit_info
