@@ -22,6 +22,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo.Companion.DEFAULT_CHARACTERS_RESERVED_PER_URL
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo.Companion.DEFAULT_CHARACTER_LIMIT
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -34,6 +36,8 @@ import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.network.MastodonApiV1
+import com.keylesspalace.tusky.network.MastodonApiV2
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -60,6 +64,8 @@ class ComposeActivityTest {
     private lateinit var activity: ComposeActivity
     private lateinit var accountManagerMock: AccountManager
     private lateinit var apiMock: MastodonApi
+    private lateinit var apiV1Mock: MastodonApiV1
+    private lateinit var apiV2Mock: MastodonApiV2
 
     private val instanceDomain = "example.domain"
 
@@ -98,7 +104,20 @@ class ComposeActivityTest {
 
         apiMock = mock {
             onBlocking { getCustomEmojis() } doReturn NetworkResult.success(emptyList())
-            onBlocking { getInstance() } doReturn instanceResponseCallback?.invoke().let { instance ->
+        }
+
+        apiV1Mock = mock {
+            onBlocking { instance() } doReturn instanceResponseCallback?.invoke().let { instance ->
+                if (instance == null) {
+                    NetworkResult.failure(Throwable())
+                } else {
+                    NetworkResult.success(instance)
+                }
+            }
+        }
+
+        apiV2Mock = mock {
+            onBlocking { instance() } doReturn instanceResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
                     NetworkResult.failure(Throwable())
                 } else {
@@ -118,7 +137,7 @@ class ComposeActivityTest {
             on { instanceDao() } doReturn instanceDaoMock
         }
 
-        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock)
+        val instanceInfoRepo = InstanceInfoRepository(apiMock, apiV1Mock, apiV2Mock, dbMock, accountManagerMock)
 
         val viewModel = ComposeViewModel(
             apiMock,
@@ -191,7 +210,7 @@ class ComposeActivityTest {
     fun whenMaximumTootCharsIsNull_defaultLimitIsUsed() {
         instanceResponseCallback = { getInstanceWithCustomConfiguration(null) }
         setupActivity()
-        assertEquals(InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
+        assertEquals(DEFAULT_CHARACTER_LIMIT, activity.maximumTootCharacters)
     }
 
     @Test
@@ -242,7 +261,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL)
+        assertEquals(activity.calculateTextLength(), additionalContent.length + DEFAULT_CHARACTERS_RESERVED_PER_URL)
     }
 
     @Test
@@ -251,7 +270,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
     }
 
     @Test
@@ -259,7 +278,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
+        assertEquals(activity.calculateTextLength(), additionalContent.length + (DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
     }
 
     @Test

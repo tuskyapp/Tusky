@@ -27,6 +27,8 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.network.MastodonApiV1
+import com.keylesspalace.tusky.network.MastodonApiV2
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
@@ -127,6 +129,14 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun providesApiV1(retrofit: Retrofit): MastodonApiV1 = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun providesApiV2(retrofit: Retrofit): MastodonApiV2 = retrofit.create()
 
     @Provides
     @Singleton

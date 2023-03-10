@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
@@ -80,9 +79,6 @@ interface MastodonApi {
 
     @GET("/api/v1/custom_emojis")
     suspend fun getCustomEmojis(): NetworkResult<List<Emoji>>
-
-    @GET("api/v1/instance")
-    suspend fun getInstance(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<Instance>
 
     @GET("api/v1/filters")
     suspend fun getFilters(): NetworkResult<List<Filter>>
