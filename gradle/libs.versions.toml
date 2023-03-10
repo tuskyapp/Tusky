@@ -48,6 +48,8 @@ rxjava3 = "3.1.6"
 rxkotlin3 = "3.0.1"
 photoview = "2.3.0"
 sparkbutton = "4.1.0"
+truth = "1.1.3"
+turbine = "0.12.1"
 unified-push = "2.1.1"
 xmlwriter = "1.0.4"
 
@@ -132,6 +134,8 @@ rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rx
 rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
 xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }
 

@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
@@ -141,6 +142,14 @@ class TimelineCases @Inject constructor(
         return mastodonApi.voteInPoll(pollId, choices).doAfterSuccess {
             eventHub.dispatch(PollVoteEvent(statusId, it))
         }
+    }
+
+    fun acceptFollowRequest(accountId: String): Single<Relationship> {
+        return mastodonApi.authorizeFollowRequest(accountId)
+    }
+
+    fun rejectFollowRequest(accountId: String): Single<Relationship> {
+        return mastodonApi.rejectFollowRequest(accountId)
     }
 
     private fun <T : Any> convertError(e: Throwable): Single<T> {

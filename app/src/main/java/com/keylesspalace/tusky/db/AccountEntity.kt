@@ -64,6 +64,11 @@ data class AccountEntity(
     var alwaysShowSensitiveMedia: Boolean = false,
     /** True if content behind a content warning is shown by default */
     var alwaysOpenSpoiler: Boolean = false,
+
+    /**
+     * True if the "Download media previews" preference is true. This implies
+     * that media previews are shown as well as downloaded.
+     */
     var mediaPreviewEnabled: Boolean = true,
     var lastNotificationId: String = "0",
     var activeNotifications: String = "[]",

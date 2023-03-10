@@ -646,4 +646,6 @@
     <string name="accessibility_talking_about_tag">%1$d personas están hablando de #%2$s</string>
     <string name="total_usage">Uso total</string>
     <string name="total_accounts">Cuentas totales</string>
+    <string name="dialog_follow_hashtag_title">Seguir etiqueta</string>
+    <string name="dialog_follow_hashtag_hint">#etiqueta</string>
 </resources>

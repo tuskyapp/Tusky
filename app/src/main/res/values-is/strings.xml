@@ -620,4 +620,6 @@
     <string name="description_browser_login">Gæti stutt fleiri aðferðir til auðkenningar, en krefst studds vafra.</string>
     <string name="total_usage">Heildarnotkun</string>
     <string name="total_accounts">Aðgangar alls</string>
+    <string name="dialog_follow_hashtag_title">Fylgjast með myllumerki</string>
+    <string name="dialog_follow_hashtag_hint">#myllumerki</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.network
 
-import android.text.TextUtils
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
@@ -60,9 +59,11 @@ class FilterModel @Inject constructor() {
         val nonExpiredFilters = filters.filter { it.expiresAt?.before(now) != true }
         if (nonExpiredFilters.isEmpty()) return null
         val tokens = nonExpiredFilters
+            .asSequence()
             .map { filterToRegexToken(it) }
+            .joinToString("|")
 
-        return Pattern.compile(TextUtils.join("|", tokens), Pattern.CASE_INSENSITIVE)
+        return Pattern.compile(tokens, Pattern.CASE_INSENSITIVE)
     }
 
     companion object {

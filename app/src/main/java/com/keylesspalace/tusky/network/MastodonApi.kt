@@ -123,12 +123,22 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")
-    fun notifications(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?,
-        @Query("exclude_types[]") excludes: Set<Notification.Type>?
-    ): Single<Response<List<Notification>>>
+    suspend fun notifications(
+        /** Return results older than this ID */
+        @Query("max_id") maxId: String? = null,
+        /** Return results immediately newer than this ID */
+        @Query("min_id") minId: String? = null,
+        /** Maximum number of results to return. Defaults to 15, max is 30 */
+        @Query("limit") limit: Int? = null,
+        /** Types to excludes from the results */
+        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
+    ): Response<List<Notification>>
+
+    /** Fetch a single notification */
+    @GET("api/v1/notifications/{id}")
+    suspend fun notification(
+        @Path("id") id: String
+    ): Response<Notification>
 
     @GET("api/v1/markers")
     fun markersWithAuth(
@@ -145,7 +155,7 @@ interface MastodonApi {
     ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")
-    fun clearNotifications(): Single<ResponseBody>
+    suspend fun clearNotifications(): Response<ResponseBody>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
