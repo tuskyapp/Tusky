@@ -1,8 +1,6 @@
 package com.keylesspalace.tusky.components.viewthread.edits
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Typeface.DEFAULT_BOLD
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -11,7 +9,8 @@ import android.text.Html
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.ReplacementSpan
+import android.text.TextPaint
+import android.text.style.CharacterStyle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -266,98 +265,31 @@ class TuskyTagHandler(val context: Context) : Html.TagHandler {
         }
     }
 
-    /**
-     * A span that draws text with additional padding at the start/end of the text. The padding
-     * is the width of [separator].
-     *
-     * Note: The separator string is not included in the final text, so it will not be included
-     * if the user cuts or copies the text.
-     */
-    open class LRPaddedSpan(val separator: String = " ") : ReplacementSpan() {
-        /** The width of the separator string, used as padding */
-        var paddingWidth = 0f
-
-        /** Measured width of the span */
-        var spanWidth = 0f
-
-        override fun getSize(
-            paint: Paint,
-            text: CharSequence?,
-            start: Int,
-            end: Int,
-            fm: Paint.FontMetricsInt?
-        ): Int {
-            paddingWidth = paint.measureText(separator, 0, separator.length)
-            spanWidth = (paddingWidth * 2) + paint.measureText(text, start, end)
-            return spanWidth.toInt()
-        }
-
-        override fun draw(
-            canvas: Canvas,
-            text: CharSequence?,
-            start: Int,
-            end: Int,
-            x: Float,
-            top: Int,
-            y: Int,
-            bottom: Int,
-            paint: Paint
-        ) {
-            canvas.drawText(text?.subSequence(start, end).toString(), x + paddingWidth, y.toFloat(), paint)
-        }
-    }
-
     /** Span that signifies deleted text */
-    class DeletedTextSpan(context: Context) : LRPaddedSpan() {
-        private val bgPaint = Paint()
-        val radius: Float
+    class DeletedTextSpan(context: Context) : CharacterStyle() {
+        private var bgColor: Int
 
         init {
-            bgPaint.color = context.getColor(R.color.view_edits_background_delete)
-            radius = context.resources.getDimension(R.dimen.lrPaddedSpanRadius)
+            bgColor = context.getColor(R.color.view_edits_background_delete)
         }
 
-        override fun draw(
-            canvas: Canvas,
-            text: CharSequence?,
-            start: Int,
-            end: Int,
-            x: Float,
-            top: Int,
-            y: Int,
-            bottom: Int,
-            paint: Paint
-        ) {
-            canvas.drawRoundRect(x, top.toFloat(), x + spanWidth, bottom.toFloat(), radius, radius, bgPaint)
-            paint.isStrikeThruText = true
-            super.draw(canvas, text, start, end, x, top, y, bottom, paint)
+        override fun updateDrawState(tp: TextPaint) {
+            tp.bgColor = bgColor
+            tp.isStrikeThruText = true
         }
     }
 
     /** Span that signifies inserted text */
-    class InsertedTextSpan(context: Context) : LRPaddedSpan() {
-        val bgPaint = Paint()
-        val radius: Float
+    class InsertedTextSpan(context: Context) : CharacterStyle() {
+        private var bgColor: Int
 
         init {
-            bgPaint.color = context.getColor(R.color.view_edits_background_insert)
-            radius = context.resources.getDimension(R.dimen.lrPaddedSpanRadius)
+            bgColor = context.getColor(R.color.view_edits_background_insert)
         }
 
-        override fun draw(
-            canvas: Canvas,
-            text: CharSequence?,
-            start: Int,
-            end: Int,
-            x: Float,
-            top: Int,
-            y: Int,
-            bottom: Int,
-            paint: Paint
-        ) {
-            canvas.drawRoundRect(x, top.toFloat(), x + spanWidth, bottom.toFloat(), radius, radius, bgPaint)
-            paint.typeface = DEFAULT_BOLD
-            super.draw(canvas, text, start, end, x, top, y, bottom, paint)
+        override fun updateDrawState(tp: TextPaint) {
+            tp.bgColor = bgColor
+            tp.typeface = DEFAULT_BOLD
         }
     }
 
