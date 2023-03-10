@@ -330,7 +330,6 @@ class TuskyTagHandler(val context: Context) : Html.TagHandler {
         ) {
             canvas.drawRoundRect(x, top.toFloat(), x + spanWidth, bottom.toFloat(), radius, radius, bgPaint)
             paint.isStrikeThruText = true
-            paint.alpha = 128
             super.draw(canvas, text, start, end, x, top, y, bottom, paint)
         }
     }
