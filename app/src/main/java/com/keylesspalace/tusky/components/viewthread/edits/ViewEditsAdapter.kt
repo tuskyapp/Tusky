@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.style.CharacterStyle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +33,9 @@ import com.keylesspalace.tusky.util.aspectRatios
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.toViewData
 import org.xml.sax.XMLReader
@@ -51,12 +50,27 @@ class ViewEditsAdapter(
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
+    /** Size of large text in this theme, in px */
+    var largeTextSizePx: Float = 0f
+
+    /** Size of medium text in this theme, in px */
+    var mediumTextSizePx: Float = 0f
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BindingHolder<ItemStatusEditBinding> {
         val binding = ItemStatusEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
         binding.statusEditMediaPreview.clipToOutline = true
+
+        val typedValue = TypedValue()
+        val context = binding.root.context
+        val displayMetrics = context.resources.displayMetrics
+        context.theme.resolveAttribute(R.attr.status_text_large, typedValue, true)
+        largeTextSizePx = typedValue.getDimension(displayMetrics)
+        context.theme.resolveAttribute(R.attr.status_text_medium, typedValue, true)
+        mediumTextSizePx = typedValue.getDimension(displayMetrics)
 
         return BindingHolder(binding)
     }
@@ -68,24 +82,26 @@ class ViewEditsAdapter(
 
         val context = binding.root.context
 
-        val avatarRadius: Int = context.resources
-            .getDimensionPixelSize(R.dimen.avatar_radius_48dp)
-
-        loadAvatar(edit.account.avatar, binding.statusEditAvatar, avatarRadius, animateAvatars)
-
         val infoStringRes = if (position == 0) {
             R.string.status_created_info
         } else {
             R.string.status_edit_info
         }
 
+        // Show the most recent version of the status using large text to make it clearer for
+        // the user, and for similarity with thread view.
+        val variableTextSize = if (position == edits.lastIndex) {
+            largeTextSizePx
+        } else {
+            mediumTextSizePx
+        }
+        binding.statusEditContentWarningDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
+        binding.statusEditContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
+        binding.statusEditMediaSensitivity.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
+
         val timestamp = absoluteTimeFormatter.format(edit.createdAt, false)
 
-        binding.statusEditInfo.text = context.getString(
-            infoStringRes,
-            edit.account.name.unicodeWrap(),
-            timestamp
-        ).emojify(edit.account.emojis, binding.statusEditInfo, animateEmojis)
+        binding.statusEditInfo.text = context.getString(infoStringRes, timestamp)
 
         if (edit.spoilerText.isEmpty()) {
             binding.statusEditContentWarningDescription.hide()
@@ -197,6 +213,11 @@ class ViewEditsAdapter(
     }
 
     override fun getItemCount() = edits.size
+
+    companion object {
+        private const val VIEW_TYPE_EDITS_NEWEST = 0
+        private const val VIEW_TYPE_EDITS = 1
+    }
 }
 
 /**
