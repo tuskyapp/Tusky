@@ -24,6 +24,7 @@ bouncycastle = "1.70"
 conscrypt = "2.5.2"
 coroutines = "1.6.4"
 dagger = "2.45"
+diffx = "1.1.1"
 emoji2 = "1.2.0"
 espresso = "3.5.1"
 filemoji-compat = "3.2.7"
@@ -50,6 +51,7 @@ sparkbutton = "4.1.0"
 truth = "1.1.3"
 turbine = "0.12.1"
 unified-push = "2.1.1"
+xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -99,6 +101,7 @@ dagger-android-processor = { module = "com.google.dagger:dagger-android-processo
 dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dagger-core = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+diffx = { module = "org.pageseeder.diffx:pso-diffx", version.ref = "diffx" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filemoji-compat" }
 filemojicompat-defaults = { module = "de.c1710:filemojicompat-defaults", version.ref = "filemoji-compat" }
@@ -134,6 +137,7 @@ sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "spar
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
+xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }
 
 [bundles]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",
@@ -153,3 +157,4 @@ okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
 retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
+xmldiff = ["diffx", "xmlwriter"]
