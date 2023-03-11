@@ -337,7 +337,7 @@ class FilterV1Test {
                 } else null,
                 card = null,
                 language = null,
-            filtered = null,
+                filtered = null,
             )
         }
     }
