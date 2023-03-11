@@ -331,8 +331,8 @@
     <string name="notification_poll_name">Polau</string>
     <string name="notification_sign_up_name">Cofrestriadau</string>
     <string name="pref_title_public_filter_keywords">Ffrydiau cyhoeddus</string>
-    <string name="filter_addition_dialog_title">Ychwanegu hidlydd</string>
-    <string name="filter_edit_dialog_title">Golygu hidlydd</string>
+    <string name="filter_addition_title">Ychwanegu hidlydd</string>
+    <string name="filter_edit_title">Golygu hidlydd</string>
     <string name="filter_dialog_update_button">Diweddaru</string>
     <string name="pref_title_notification_filter_updates">golygwyd neges rwy wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>

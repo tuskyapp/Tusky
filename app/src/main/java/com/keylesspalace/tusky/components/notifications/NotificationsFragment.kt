@@ -555,6 +555,9 @@ class NotificationsFragment :
         onContentCollapsedChange(isCollapsed, position)
     }
 
+    override fun clearWarningAction(position: Int) {
+    }
+
     private fun clearNotifications() {
         binding.swipeRefreshLayout.isRefreshing = false
         binding.progressBar.isVisible = false

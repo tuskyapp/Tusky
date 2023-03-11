@@ -352,6 +352,9 @@ class ConversationsFragment :
         }
     }
 
+    override fun clearWarningAction(position: Int) {
+    }
+
     override fun onReselect() {
         if (isAdded) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)

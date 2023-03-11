@@ -190,6 +190,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
+    override fun clearWarningAction(position: Int) {}
+
     private fun removeItem(position: Int) {
         searchAdapter.peek(position)?.let {
             viewModel.removeItem(it)

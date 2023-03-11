@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
@@ -100,7 +101,7 @@ class CachedTimelineViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
                 timelineStatus.toViewData(gson)
             }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
@@ -149,6 +150,12 @@ class CachedTimelineViewModel @Inject constructor(
     override fun removeAllByInstance(instance: String) {
         viewModelScope.launch {
             db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+        }
+    }
+
+    override fun clearWarning(status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
         }
     }
 
