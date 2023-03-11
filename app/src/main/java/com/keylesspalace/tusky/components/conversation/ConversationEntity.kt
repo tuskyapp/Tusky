@@ -130,10 +130,11 @@ data class ConversationStatusEntity(
                 poll = poll,
                 card = null,
                 language = language,
+                filtered = null,
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
-            isCollapsed = collapsed
+            isCollapsed = collapsed,
         )
     }
 }

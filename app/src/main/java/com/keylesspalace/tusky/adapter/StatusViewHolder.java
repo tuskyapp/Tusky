@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -66,7 +67,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            if (reblogging == null) {
+            if (reblogging == null || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
                 String rebloggedByDisplayName = reblogging.getAccount().getName();

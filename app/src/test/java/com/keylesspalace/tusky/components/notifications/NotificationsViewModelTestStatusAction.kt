@@ -19,7 +19,7 @@ package com.keylesspalace.tusky.components.notifications
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.keylesspalace.tusky.FilterTest.Companion.mockStatus
+import com.keylesspalace.tusky.FilterV1Test.Companion.mockStatus
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi

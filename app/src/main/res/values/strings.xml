@@ -412,6 +412,8 @@
     <string name="post_media_attachments">Attachments</string>
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">now</string>
+    <string name="status_filtered_show_anyway">Show anyway</string>
+    <string name="status_filter_placeholder_label_format">Filtered: %s</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
@@ -436,8 +438,9 @@
 
     <string name="pref_title_public_filter_keywords">Public timelines</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Add filter</string>
-    <string name="filter_edit_dialog_title">Edit filter</string>
+    <string name="pref_title_account_filter_keywords">Profiles</string>
+    <string name="filter_addition_title">Add filter</string>
+    <string name="filter_edit_title">Edit filter</string>
     <string name="filter_dialog_remove_button">Remove</string>
     <string name="filter_dialog_update_button">Update</string>
     <string name="filter_dialog_whole_word">Whole word</string>
@@ -760,7 +763,6 @@
     <string name="status_edit_info">%1$s edited %2$s</string>
     <!--@Tusky created 19th December 2022 13:12 -->
     <string name="status_created_info">%1$s created %2$s</string>
-
     <string name="a11y_label_loading_thread">Loading thread</string>
 
     <!--@knossos@fosstodon.org created 2023-01-07 -->
@@ -784,4 +786,19 @@
     <!-- Success messages, displayed in snackbars, when an action succeeded -->
     <string name="ui_success_accepted_follow_request">Follow request accepted</string>
     <string name="ui_success_rejected_follow_request">Follow request blocked</string>
+
+    <string name="hint_filter_title">My filter</string>
+    <string name="label_filter_title">Title</string>
+    <string name="filter_action_warn">Warn</string>
+    <string name="filter_action_hide">Hide</string>
+    <string name="filter_description_warn">Hide with a warning</string>
+    <string name="filter_description_hide">Hide completely</string>
+    <string name="label_filter_action">Filter action</string>
+    <string name="label_filter_context">Filter contexts</string>
+    <string name="label_filter_keywords">Keywords or phrases to filter</string>
+    <string name="action_add">Add</string>
+    <string name="filter_keyword_display_format">%s (whole word)</string>
+    <string name="filter_keyword_addition_title">Add keyword</string>
+    <string name="filter_edit_keyword_title">Edit keyword</string>
+    <string name="filter_description_format">%s: %s</string>
 </resources>
