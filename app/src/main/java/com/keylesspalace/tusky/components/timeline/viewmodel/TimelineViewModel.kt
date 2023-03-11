@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -59,6 +60,8 @@ abstract class TimelineViewModel(
     private val filterModel: FilterModel
 ) : ViewModel() {
 
+    // While refactoring the ViewData type (VDT) inside PagingData differs from subclass to
+    // subclass, so TimelineViewModel is generic over that. This is temporary.
     abstract val statuses: Flow<PagingData<StatusViewData>>
 
     var kind: Kind = Kind.HOME
@@ -68,8 +71,11 @@ abstract class TimelineViewModel(
     var tags: List<String> = emptyList()
         private set
 
+    /** The [TimelineKind] equivalent of [kind] */
+    lateinit var timelineKind: TimelineKind
+
     protected var alwaysShowSensitiveMedia = false
-    private var alwaysOpenSpoilers = false
+    protected var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
@@ -82,6 +88,19 @@ abstract class TimelineViewModel(
         this.kind = kind
         this.id = id
         this.tags = tags
+
+        timelineKind = when (kind) {
+            Kind.HOME -> TimelineKind.Home
+            Kind.PUBLIC_LOCAL -> TimelineKind.PublicLocal
+            Kind.PUBLIC_FEDERATED -> TimelineKind.PublicFederated
+            Kind.TAG -> TimelineKind.Tag(tags)
+            Kind.USER -> TimelineKind.User(id!!)
+            Kind.USER_PINNED -> TimelineKind.UserPinned(id!!)
+            Kind.USER_WITH_REPLIES -> TimelineKind.UserReplies(id!!)
+            Kind.FAVOURITES -> TimelineKind.Favourites
+            Kind.LIST -> TimelineKind.UserList(id!!)
+            Kind.BOOKMARKS -> TimelineKind.Bookmarks
+        }
 
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
@@ -181,8 +200,8 @@ abstract class TimelineViewModel(
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 
-    protected fun shouldFilterStatus(statusViewData: StatusViewData): Boolean {
-        val status = statusViewData.asStatusOrNull()?.status ?: return false
+    protected fun shouldFilterStatus(status: Status?): Boolean {
+        status ?: return false
         return status.inReplyToId != null && filterRemoveReplies ||
             status.reblog != null && filterRemoveReblogs ||
             filterModel.shouldFilterStatus(status.actionableStatus)

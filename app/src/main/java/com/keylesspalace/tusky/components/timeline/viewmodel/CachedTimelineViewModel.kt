@@ -100,7 +100,7 @@ class CachedTimelineViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
                 timelineStatus.toViewData(gson)
             }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+                !shouldFilterStatus(statusViewData.asStatusOrNull()?.status)
             }
         }
         .flowOn(Dispatchers.Default)

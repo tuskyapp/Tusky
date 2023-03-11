@@ -16,19 +16,17 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.filter
+import androidx.paging.map
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -36,15 +34,12 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.getDomain
-import com.keylesspalace.tusky.util.isLessThan
-import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -64,25 +59,36 @@ class NetworkTimelineViewModel @Inject constructor(
 
     var currentSource: NetworkTimelinePagingSource? = null
 
-    val statusData: MutableList<StatusViewData> = mutableListOf()
+    val statusData: MutableList<Status> = mutableListOf()
 
     var nextKey: String? = null
 
-    @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
         pagingSourceFactory = {
             NetworkTimelinePagingSource(
-                viewModel = this
+                api, timelineKind
             ).also { source ->
                 currentSource = source
             }
         },
-        remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
     ).flow
         .map { pagingData ->
-            pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+            pagingData.filter(Dispatchers.Default.asExecutor()) { status ->
+                !shouldFilterStatus(status)
+            }.map {
+                // TODO: The previous code in RemoteMediator checked the states against the
+                // previous version of the status to make sure they were replicated. This will
+                // need to be reimplemented (probably as a map of StatusId -> ViewStates.
+                // For now, just use the user's preferences.
+
+                val contentShowing = alwaysShowSensitiveMedia || !it.actionableStatus.sensitive
+
+                // TODO: Have to use `as` here even though it's reported as redundant. If you don't
+                // the type is `StatusViewData.Concrete`, and `Flow<PagingData<StatusViewData.Concrete>>`
+                // is not assignable to a `Flow<PagingData<StatusViewData>>`, which is the type of
+                // `status`. This'll be fixed later in the refactoring.
+                it.toViewData(contentShowing, alwaysOpenSpoilers, true) as StatusViewData
             }
         }
         .flowOn(Dispatchers.Default)
@@ -113,110 +119,104 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun removeAllByAccountId(accountId: String) {
-        statusData.removeAll { vd ->
-            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+        statusData.removeAll { status ->
             status.account.id == accountId || status.actionableStatus.account.id == accountId
         }
         currentSource?.invalidate()
     }
 
     override fun removeAllByInstance(instance: String) {
-        statusData.removeAll { vd ->
-            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+        statusData.removeAll { status ->
             getDomain(status.account.url) == instance
         }
         currentSource?.invalidate()
     }
 
     override fun removeStatusWithId(id: String) {
-        statusData.removeAll { vd ->
-            val status = vd.asStatusOrNull()?.status ?: return@removeAll false
+        statusData.removeAll { status ->
             status.id == id || status.reblog?.id == id
         }
         currentSource?.invalidate()
     }
 
     override fun loadMore(placeholderId: String) {
-        viewModelScope.launch {
-            try {
-                val placeholderIndex =
-                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-                statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
-
-                val idAbovePlaceholder = statusData.getOrNull(placeholderIndex - 1)?.id
-
-                val statusResponse = fetchStatusesForKind(
-                    fromId = idAbovePlaceholder,
-                    uptoId = null,
-                    limit = 20
-                )
-
-                val statuses = statusResponse.body()
-                if (!statusResponse.isSuccessful || statuses == null) {
-                    loadMoreFailed(placeholderId, HttpException(statusResponse))
-                    return@launch
-                }
-
-                statusData.removeAt(placeholderIndex)
-
-                val activeAccount = accountManager.activeAccount!!
-                val data: MutableList<StatusViewData> = statuses.map { status ->
-                    status.toViewData(
-                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
-                        isExpanded = activeAccount.alwaysOpenSpoiler,
-                        isCollapsed = true
-                    )
-                }.toMutableList()
-
-                if (statuses.isNotEmpty()) {
-                    val firstId = statuses.first().id
-                    val lastId = statuses.last().id
-                    val overlappedFrom = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false }
-                    val overlappedTo = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false }
-
-                    if (overlappedFrom < overlappedTo) {
-                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
-                            .filter { (_, oldStatus) -> oldStatus != null }
-                            .forEach { (i, oldStatus) ->
-                                data[i] = data[i].asStatusOrNull()!!
-                                    .copy(
-                                        isShowingContent = oldStatus!!.isShowingContent,
-                                        isExpanded = oldStatus.isExpanded,
-                                        isCollapsed = oldStatus.isCollapsed,
-                                    )
-                            }
-
-                        statusData.removeAll { status ->
-                            when (status) {
-                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
-                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
-                            }
-                        }
-                    } else {
-                        data[data.size - 1] = StatusViewData.Placeholder(statuses.last().id, isLoading = false)
-                    }
-                }
-
-                statusData.addAll(placeholderIndex, data)
-
-                currentSource?.invalidate()
-            } catch (e: Exception) {
-                ifExpected(e) {
-                    loadMoreFailed(placeholderId, e)
-                }
-            }
-        }
+//        viewModelScope.launch {
+//            try {
+//                val placeholderIndex =
+//                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+//                statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
+//
+//                val idAbovePlaceholder = statusData.getOrNull(placeholderIndex - 1)?.id
+//
+//                val statusResponse = fetchStatusesForKind(
+//                    fromId = idAbovePlaceholder,
+//                    uptoId = null,
+//                    limit = 20
+//                )
+//
+//                val statuses = statusResponse.body()
+//                if (!statusResponse.isSuccessful || statuses == null) {
+//                    loadMoreFailed(placeholderId, HttpException(statusResponse))
+//                    return@launch
+//                }
+//
+//                statusData.removeAt(placeholderIndex)
+//
+//                val activeAccount = accountManager.activeAccount!!
+//                val data: MutableList<StatusViewData> = statuses.map { status ->
+//                    status.toViewData(
+//                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+//                        isExpanded = activeAccount.alwaysOpenSpoiler,
+//                        isCollapsed = true
+//                    )
+//                }.toMutableList()
+//
+//                if (statuses.isNotEmpty()) {
+//                    val firstId = statuses.first().id
+//                    val lastId = statuses.last().id
+//                    val overlappedFrom = statusData.indexOfFirst { it.id.isLessThanOrEqual(firstId) ?: false }
+//                    val overlappedTo = statusData.indexOfFirst { it.id.isLessThan(lastId) ?: false }
+//
+//                    if (overlappedFrom < overlappedTo) {
+//                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.id == status.id }?.asStatusOrNull() }
+//                            .filter { (_, oldStatus) -> oldStatus != null }
+//                            .forEach { (i, oldStatus) ->
+//                                data[i] = data[i].asStatusOrNull()!!
+//                                    .copy(
+//                                        isShowingContent = oldStatus!!.isShowingContent,
+//                                        isExpanded = oldStatus.isExpanded,
+//                                        isCollapsed = oldStatus.isCollapsed,
+//                                    )
+//                            }
+//
+//                        statusData.removeAll { status ->
+//                            lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
+//                        }
+//                    } else {
+//                        data[data.size - 1] = StatusViewData.Placeholder(statuses.last().id, isLoading = false)
+//                    }
+//                }
+//
+//                statusData.addAll(placeholderIndex, data)
+//
+//                currentSource?.invalidate()
+//            } catch (e: Exception) {
+//                ifExpected(e) {
+//                    loadMoreFailed(placeholderId, e)
+//                }
+//            }
+//        }
     }
 
-    private fun loadMoreFailed(placeholderId: String, e: Exception) {
-        Log.w("NetworkTimelineVM", "failed loading statuses", e)
-
-        val index =
-            statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-        statusData[index] = StatusViewData.Placeholder(placeholderId, isLoading = false)
-
-        currentSource?.invalidate()
-    }
+//    private fun loadMoreFailed(placeholderId: String, e: Exception) {
+//        Log.w("NetworkTimelineVM", "failed loading statuses", e)
+//
+//        val index =
+//            statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+//        statusData[index] = StatusViewData.Placeholder(placeholderId, isLoading = false)
+//
+//        currentSource?.invalidate()
+//    }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
         updateStatusById(reblogEvent.statusId) {
@@ -243,7 +243,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun fullReload() {
-        nextKey = statusData.firstOrNull { it is StatusViewData.Concrete }?.asStatusOrNull()?.id
+        nextKey = statusData.firstOrNull()?.id
         statusData.clear()
         currentSource?.invalidate()
     }
@@ -301,41 +301,41 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     private fun StatusViewData.Concrete.update() {
-        val position = statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
-        statusData[position] = this
-        currentSource?.invalidate()
+//        val position = statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
+//        statusData[position] = this
+//        currentSource?.invalidate()
     }
 
     private inline fun updateStatusById(
         id: String,
         updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
     ) {
-        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
+        val pos = statusData.indexOfFirst { it.id == id }
         if (pos == -1) return
-        updateViewDataAt(pos, updater)
+//        updateViewDataAt(pos, updater)
     }
 
     private inline fun updateActionableStatusById(
         id: String,
         updater: (Status) -> Status
     ) {
-        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
+        val pos = statusData.indexOfFirst { it.id == id }
         if (pos == -1) return
-        updateViewDataAt(pos) { vd ->
-            if (vd.status.reblog != null) {
-                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
-            } else {
-                vd.copy(status = updater(vd.status))
-            }
-        }
+//        updateViewDataAt(pos) { vd ->
+//            if (vd.status.reblog != null) {
+//                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
+//            } else {
+//                vd.copy(status = updater(vd.status))
+//            }
+//        }
     }
 
-    private inline fun updateViewDataAt(
-        position: Int,
-        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
-    ) {
-        val status = statusData.getOrNull(position)?.asStatusOrNull() ?: return
-        statusData[position] = updater(status)
-        currentSource?.invalidate()
-    }
+//    private inline fun updateViewDataAt(
+//        position: Int,
+//        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+//    ) {
+//        val status = statusData.getOrNull(position)?.asStatusOrNull() ?: return
+//        statusData[position] = updater(status)
+//        currentSource?.invalidate()
+//    }
 }
