@@ -1,3 +1,20 @@
+<!--
+  ~ Copyright 2023 Tusky Contributors
+  ~
+  ~ This file is a part of Tusky.
+  ~
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the
+  ~ GNU General Public License as published by the Free Software Foundation; either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+  ~ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+  ~ Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Tusky; if not,
+  ~ see <http://www.gnu.org/licenses>.
+  -->
+
 <resources>
 
     <string name="error_generic">An error occurred.</string>
@@ -352,6 +369,7 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
+    <string name="notification_unknown_name">Unknown</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -750,4 +768,21 @@
     <string name="accessibility_talking_about_tag">%1$d people are talking about hashtag %2$s</string>
     <string name="total_usage">Total usage</string>
     <string name="total_accounts">Total accounts</string>
+
+    <!-- User friendly error messages for different network errors -->
+    <string name="socket_timeout_exception">Contacting your server took too long</string>
+
+    <!-- Error messages, displayed in snackbars, when something failed -->
+    <string name="ui_error_unknown">unknown reason</string>
+    <string name="ui_error_bookmark">Bookmarking post failed: %s</string>
+    <string name="ui_error_clear_notifications">Clearing notifications failed: %s</string>
+    <string name="ui_error_favourite">Favoriting post failed: %s</string>
+    <string name="ui_error_reblog">Boosting post failed: %s</string>
+    <string name="ui_error_vote">Voting in poll failed: %s</string>
+    <string name="ui_error_accept_follow_request">Accepting follow request failed: %s</string>
+    <string name="ui_error_reject_follow_request">Rejecting follow request failed: %s</string>
+
+    <!-- Success messages, displayed in snackbars, when an action succeeded -->
+    <string name="ui_success_accepted_follow_request">Follow request accepted</string>
+    <string name="ui_success_rejected_follow_request">Follow request blocked</string>
 </resources>

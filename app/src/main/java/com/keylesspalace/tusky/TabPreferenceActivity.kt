@@ -24,6 +24,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.updatePadding
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -45,7 +46,6 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -255,7 +255,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
             .create()
 
-        editText.onTextChanged { s, _, _, _ ->
+        editText.doOnTextChanged { s, _, _, _ ->
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(s)
         }
 

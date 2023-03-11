@@ -160,6 +160,8 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
+    implementation libs.bundles.xmldiff
+
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
     testImplementation libs.bundles.mockito
@@ -167,6 +169,8 @@ dependencies {
     testImplementation libs.androidx.core.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
+    testImplementation libs.truth
+    testImplementation libs.turbine
 
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing

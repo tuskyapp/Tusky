@@ -93,7 +93,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     // don't use this on the same ViewHolder as setRebloggedByDisplayName, will cause recycling issues as paddings are changed
-    void setPollInfo(final boolean ownPoll) {
+    protected void setPollInfo(final boolean ownPoll) {
         statusInfo.setText(ownPoll ? R.string.poll_ended_created : R.string.poll_ended_voted);
         statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0);
         statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.getContext(), 10));
@@ -101,7 +101,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setVisibility(View.VISIBLE);
     }
 
-    void hideStatusInfo() {
+    protected void hideStatusInfo() {
         statusInfo.setVisibility(View.GONE);
     }
 

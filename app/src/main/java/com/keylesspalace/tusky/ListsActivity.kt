@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -45,7 +46,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -143,8 +143,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             .show()
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
-        editText.onTextChanged { s, _, _, _ ->
-            positiveButton.isEnabled = s.isNotBlank()
+        editText.doOnTextChanged { s, _, _, _ ->
+            positiveButton.isEnabled = s?.isNotBlank() == true
         }
         editText.setText(list?.title)
         editText.text?.let { editText.setSelection(it.length) }
