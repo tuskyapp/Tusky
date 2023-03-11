@@ -63,8 +63,6 @@ abstract class TimelineViewModel(
     private val filterModel: FilterModel
 ) : ViewModel() {
 
-    // While refactoring the ViewData type (VDT) inside PagingData differs from subclass to
-    // subclass, so TimelineViewModel is generic over that. This is temporary.
     abstract val statuses: Flow<PagingData<StatusViewData>>
 
     var kind: Kind = Kind.HOME
@@ -83,7 +81,8 @@ abstract class TimelineViewModel(
     private var filterRemoveReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
-    fun init(
+    protected open fun init(
+    open fun init(
         kind: Kind,
         id: String?,
         tags: List<String>

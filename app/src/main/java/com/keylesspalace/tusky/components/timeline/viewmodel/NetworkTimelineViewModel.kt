@@ -16,10 +16,7 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
+import androidx.paging.PagingData
 import androidx.paging.filter
 import androidx.paging.map
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -27,6 +24,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.components.timeline.NetworkTimelineRepository
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
@@ -37,9 +35,7 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import retrofit2.Response
@@ -50,6 +46,7 @@ import javax.inject.Inject
  * TimelineViewModel that caches all statuses in an in-memory list
  */
 class NetworkTimelineViewModel @Inject constructor(
+    private val repository: NetworkTimelineRepository,
     timelineCases: TimelineCases,
     private val api: MastodonApi,
     eventHub: EventHub,
@@ -64,36 +61,39 @@ class NetworkTimelineViewModel @Inject constructor(
 
     var nextKey: String? = null
 
-    override val statuses = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        pagingSourceFactory = {
-            NetworkTimelinePagingSource(
-                api, timelineKind
-            ).also { source ->
-                currentSource = source
-            }
-        },
-    ).flow
-        .map { pagingData ->
-            pagingData.filter(Dispatchers.Default.asExecutor()) { status ->
-                shouldFilterStatus(status) != Filter.Action.HIDE
-            }.map {
-                // TODO: The previous code in RemoteMediator checked the states against the
-                // previous version of the status to make sure they were replicated. This will
-                // need to be reimplemented (probably as a map of StatusId -> ViewStates.
-                // For now, just use the user's preferences.
+    // TODO: This is janky because timelineKind isn't valid until init() is run, and is needed
+    // to know what timeline to get. Hence the lateinit in here and the need to override init()
+    // afterwards.
 
-                val contentShowing = alwaysShowSensitiveMedia || !it.actionableStatus.sensitive
+    override lateinit var statuses: Flow<PagingData<StatusViewData>>
 
-                // TODO: Have to use `as` here even though it's reported as redundant. If you don't
-                // the type is `StatusViewData.Concrete`, and `Flow<PagingData<StatusViewData.Concrete>>`
-                // is not assignable to a `Flow<PagingData<StatusViewData>>`, which is the type of
-                // `status`. This'll be fixed later in the refactoring.
-                it.toViewData(contentShowing, alwaysOpenSpoilers, true) as StatusViewData
+    override fun init(kind: Kind, id: String?, tags: List<String>) {
+        super.init(kind, id, tags)
+        statuses = getStatuses(timelineKind)
+    }
+
+    /** @return FLow of statuses that make up the timeline of [kind] */
+    private fun getStatuses(
+        kind: TimelineKind,
+        initialKey: String? = null
+    ): Flow<PagingData<StatusViewData>> {
+        return repository.getStatusStream(kind = kind, initialKey = initialKey)
+            .map { pagingData ->
+                pagingData.filter {
+                    shouldFilterStatus(it) != Filter.Action.HIDE
+                }.map {
+                    // TODO: The previous code in RemoteMediator checked the states against the
+                    // previous version of the status to make sure they were replicated. This will
+                    // need to be reimplemented (probably as a map of StatusId -> ViewStates.
+                    // For now, just use the user's preferences.
+                    it.toViewData(
+                        isShowingContent = alwaysShowSensitiveMedia || !it.actionableStatus.sensitive,
+                        isExpanded = alwaysOpenSpoilers,
+                        isCollapsed = true
+                    )
+                }
             }
-        }
-        .flowOn(Dispatchers.Default)
-        .cachedIn(viewModelScope)
+    }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         status.copy(
