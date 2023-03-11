@@ -71,6 +71,9 @@ data class StatusDisplayOptions(
         PrefKeys.USE_BLURHASH -> copy(
             useBlurhash = preferences.getBoolean(key, true)
         )
+        PrefKeys.SHOW_CARDS_IN_TIMELINES -> copy(
+            cardViewMode = if (preferences.getBoolean(key, false)) CardViewMode.INDENTED else CardViewMode.NONE
+        )
         PrefKeys.CONFIRM_FAVOURITES -> copy(
             confirmFavourites = preferences.getBoolean(key, false)
         )
@@ -115,7 +118,11 @@ data class StatusDisplayOptions(
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = CardViewMode.NONE,
+            cardViewMode = if (preferences.getBoolean(PrefKeys.SHOW_CARDS_IN_TIMELINES, false)) {
+                CardViewMode.INDENTED
+           } else {
+                CardViewMode.NONE
+            },
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),

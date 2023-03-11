@@ -46,9 +46,12 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
@@ -64,6 +67,9 @@ abstract class TimelineViewModel(
 ) : ViewModel() {
 
     abstract val statuses: Flow<PagingData<StatusViewData>>
+
+    /** Flow of changes to statusDisplayOptions, for use by the UI */
+    val statusDisplayOptions: StateFlow<StatusDisplayOptions>
 
     var kind: Kind = Kind.HOME
         private set
@@ -81,7 +87,19 @@ abstract class TimelineViewModel(
     private var filterRemoveReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
-    protected open fun init(
+    init {
+        // Set initial status display options from the user's preferences.
+        //
+        // Then collect future preference changes and emit new values in to
+        // statusDisplayOptions if necessary.
+        statusDisplayOptions = MutableStateFlow(
+            StatusDisplayOptions.from(
+                sharedPreferences,
+                accountManager.activeAccount!!
+            )
+        )
+    }
+
     open fun init(
         kind: Kind,
         id: String?,

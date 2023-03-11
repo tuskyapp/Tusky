@@ -62,9 +62,7 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
-import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -178,26 +176,8 @@ class TimelineFragment :
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
-        val statusDisplayOptions = StatusDisplayOptions(
-            animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
-            useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
-            showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
-            useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = if (preferences.getBoolean(
-                    PrefKeys.SHOW_CARDS_IN_TIMELINES,
-                    false
-                )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
-            hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
-            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
-            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
-        )
         adapter = TimelinePagingAdapter(
-            statusDisplayOptions,
+            viewModel.statusDisplayOptions.value,
             this
         )
     }
