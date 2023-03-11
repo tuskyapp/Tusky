@@ -247,8 +247,8 @@
     <string name="action_set_caption">कैप्शन सेट करें</string>
     <string name="add_account_name">खाता जोड़ो</string>
     <string name="filter_dialog_whole_word">पूरा शब्द</string>
-    <string name="filter_edit_dialog_title">फ़िल्टर संपादित करें</string>
-    <string name="filter_addition_dialog_title">फिल्टर लगाएं</string>
+    <string name="filter_edit_title">फ़िल्टर संपादित करें</string>
+    <string name="filter_addition_title">फिल्टर लगाएं</string>
     <string name="pref_title_public_filter_keywords">सार्वजनिक टाइमलाइन</string>
     <string name="load_more_placeholder_text">और लोड करें</string>
     <string name="pref_title_show_cards_in_timelines">टाइमलाइन में लिंक प्रीव्यू दिखाएं</string>

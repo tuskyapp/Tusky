@@ -328,8 +328,8 @@
     <string name="notification_poll_description">Sona eren anketlerle ilgili bildirimler</string>
     <string name="pref_title_public_filter_keywords">Genel zaman çizelgesi</string>
     <string name="pref_title_thread_filter_keywords">Konuşmalar</string>
-    <string name="filter_addition_dialog_title">Filtre ekle</string>
-    <string name="filter_edit_dialog_title">Filtreyi düzenle</string>
+    <string name="filter_addition_title">Filtre ekle</string>
+    <string name="filter_edit_title">Filtreyi düzenle</string>
     <string name="filter_dialog_remove_button">Kaldır</string>
     <string name="filter_dialog_update_button">Güncelle</string>
     <string name="filter_dialog_whole_word">Tüm dünya</string>

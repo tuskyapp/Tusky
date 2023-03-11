@@ -51,6 +51,7 @@ data class Status(
     val poll: Poll?,
     val card: Card?,
     val language: String?,
+    val filtered: List<FilterResult>?,
 ) {
 
     val actionableId: String

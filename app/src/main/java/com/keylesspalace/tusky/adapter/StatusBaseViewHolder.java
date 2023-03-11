@@ -43,6 +43,8 @@ import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Filter;
+import com.keylesspalace.tusky.entity.FilterResult;
 import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -108,6 +110,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView cardDescription;
     private final TextView cardUrl;
     private final PollAdapter pollAdapter;
+    protected LinearLayout filteredPlaceholder;
+    protected TextView filteredPlaceholderLabel;
+    protected Button filteredPlaceholderShowButton;
+    protected ConstraintLayout statusContainer;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
@@ -159,6 +165,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         cardTitle = itemView.findViewById(R.id.card_title);
         cardDescription = itemView.findViewById(R.id.card_description);
         cardUrl = itemView.findViewById(R.id.card_link);
+
+        filteredPlaceholder = itemView.findViewById(R.id.status_filtered_placeholder);
+        filteredPlaceholderLabel = itemView.findViewById(R.id.status_filter_label);
+        filteredPlaceholderShowButton = itemView.findViewById(R.id.status_filter_show_anyway);
+        statusContainer = itemView.findViewById(R.id.status_container);
 
         pollAdapter = new PollAdapter();
         pollOptions.setAdapter(pollAdapter);
@@ -287,7 +298,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setAvatar(String url,
-                           @Nullable String rebloggedUrl,
+                          @Nullable String rebloggedUrl,
                            boolean isBot,
                            StatusDisplayOptions statusDisplayOptions) {
 
@@ -765,6 +776,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setSpoilerAndContent(status, statusDisplayOptions, listener);
 
+            setupFilterPlaceholder(status, listener, statusDisplayOptions);
+
             setDescriptionForStatus(status, statusDisplayOptions);
 
             // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
@@ -782,6 +795,31 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
 
         }
+    }
+
+    private void setupFilterPlaceholder(StatusViewData.Concrete status, StatusActionListener listener, StatusDisplayOptions displayOptions) {
+        if (status.getFilterAction() != Filter.Action.WARN) {
+            showFilteredPlaceholder(false);
+            return;
+        }
+
+        showFilteredPlaceholder(true);
+
+        String matchedKeyword = null;
+
+        for (FilterResult result : status.getActionable().getFiltered()) {
+            Filter filter = result.getFilter();
+            List<String> keywords = result.getKeywordMatches();
+            if (filter.getAction() == Filter.Action.WARN && !keywords.isEmpty()) {
+                matchedKeyword = keywords.get(0);
+                break;
+            }
+        }
+
+        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedKeyword));
+        filteredPlaceholderShowButton.setOnClickListener(view -> {
+            listener.clearWarningAction(getBindingAdapterPosition());
+        });
     }
 
     protected static boolean hasPreviewableAttachment(List<Attachment> attachments) {
@@ -1169,5 +1207,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setVisibility(visibility);
         bookmarkButton.setVisibility(visibility);
         moreButton.setVisibility(visibility);
+    }
+
+    public void showFilteredPlaceholder(boolean show) {
+        if (statusContainer != null) {
+            statusContainer.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+        if (filteredPlaceholder != null) {
+            filteredPlaceholder.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 }

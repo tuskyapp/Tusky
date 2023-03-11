@@ -97,6 +97,7 @@ class TimelineCasesTest {
             poll = null,
             card = null,
             language = null,
+            filtered = null,
         )
     }
 }

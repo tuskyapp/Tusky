@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.network
 
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import java.util.Date
@@ -15,36 +16,48 @@ import javax.inject.Inject
  */
 class FilterModel @Inject constructor() {
     private var pattern: Pattern? = null
+    private var v1 = false
+    lateinit var kind: Filter.Kind
 
-    fun initWithFilters(filters: List<Filter>) {
+    fun initWithFilters(filters: List<FilterV1>) {
+        v1 = true
         this.pattern = makeFilter(filters)
     }
 
-    fun shouldFilterStatus(status: Status): Boolean {
-        // Patterns are expensive and thread-safe, matchers are neither.
-        val matcher = pattern?.matcher("") ?: return false
+    fun shouldFilterStatus(status: Status): Filter.Action {
+        if (v1) {
+            // Patterns are expensive and thread-safe, matchers are neither.
+            val matcher = pattern?.matcher("") ?: return Filter.Action.NONE
 
-        if (status.poll != null) {
-            val pollMatches = status.poll.options.any { matcher.reset(it.title).find() }
-            if (pollMatches) return true
+            if (status.poll?.options?.any { matcher.reset(it.title).find() } == true)
+                return Filter.Action.HIDE
+
+            val spoilerText = status.actionableStatus.spoilerText
+            val attachmentsDescriptions = status.attachments.mapNotNull { it.description }
+
+            return if (
+                matcher.reset(status.actionableStatus.content.parseAsMastodonHtml().toString()).find() ||
+                (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
+                (attachmentsDescriptions.isNotEmpty() && matcher.reset(attachmentsDescriptions.joinToString("\n")).find())
+            ) {
+                Filter.Action.HIDE
+            } else {
+                Filter.Action.NONE
+            }
         }
 
-        val spoilerText = status.actionableStatus.spoilerText
-        val attachmentsDescriptions = status.attachments
-            .mapNotNull { it.description }
+        val matchingKind = status.filtered?.filter { result ->
+            result.filter.kinds.contains(kind)
+        }
 
-        return (
-            matcher.reset(status.actionableStatus.content.parseAsMastodonHtml().toString()).find() ||
-                (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
-                (
-                    attachmentsDescriptions.isNotEmpty() &&
-                        matcher.reset(attachmentsDescriptions.joinToString("\n"))
-                            .find()
-                    )
-            )
+        return if (matchingKind.isNullOrEmpty()) {
+            Filter.Action.NONE
+        } else {
+            matchingKind.maxOf { it.filter.action }
+        }
     }
 
-    private fun filterToRegexToken(filter: Filter): String? {
+    private fun filterToRegexToken(filter: FilterV1): String? {
         val phrase = filter.phrase
         val quotedPhrase = Pattern.quote(phrase)
         return if (filter.wholeWord && ALPHANUMERIC.matcher(phrase).matches()) {
@@ -54,7 +67,7 @@ class FilterModel @Inject constructor() {
         }
     }
 
-    private fun makeFilter(filters: List<Filter>): Pattern? {
+    private fun makeFilter(filters: List<FilterV1>): Pattern? {
         val now = Date()
         val nonExpiredFilters = filters.filter { it.expiresAt?.before(now) != true }
         if (nonExpiredFilters.isEmpty()) return null

@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
@@ -75,7 +76,7 @@ class NetworkTimelineViewModel @Inject constructor(
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { status ->
-                !shouldFilterStatus(status)
+                shouldFilterStatus(status) != Filter.Action.HIDE
             }.map {
                 // TODO: The previous code in RemoteMediator checked the states against the
                 // previous version of the status to make sure they were replicated. This will
@@ -246,6 +247,12 @@ class NetworkTimelineViewModel @Inject constructor(
         nextKey = statusData.firstOrNull()?.id
         statusData.clear()
         currentSource?.invalidate()
+    }
+
+    override fun clearWarning(status: StatusViewData.Concrete) {
+        updateActionableStatusById(status.actionableId) {
+            it.copy(filtered = null)
+        }
     }
 
     override suspend fun invalidate() {

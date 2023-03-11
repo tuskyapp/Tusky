@@ -80,11 +80,15 @@ class TrendingViewModel @Inject constructor(
             }
 
             val homeFilters = deferredFilters.await().getOrNull()?.filter {
-                it.context.contains(Filter.HOME)
+                it.context.contains(Filter.Kind.HOME.kind)
             }
 
             val tags = response.body()!!
-                .filter { homeFilters?.none { filter -> filter.phrase.equals(it.name, ignoreCase = true) } ?: false }
+                .filter {
+                    homeFilters?.none { filter ->
+                        filter.keywords.any { keyword -> keyword.keyword.equals(it.name, ignoreCase = true) }
+                    } ?: false
+                }
                 .sortedBy { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
                 .map { it.toViewData() }
                 .asReversed()

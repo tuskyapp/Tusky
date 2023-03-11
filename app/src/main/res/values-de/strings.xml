@@ -246,8 +246,8 @@
     <string name="replying_to">Antworten an @%s</string>
     <string name="load_more_placeholder_text">mehr laden</string>
     <string name="pref_title_thread_filter_keywords">Konversationen</string>
-    <string name="filter_addition_dialog_title">Filter hinzufügen</string>
-    <string name="filter_edit_dialog_title">Filter bearbeiten</string>
+    <string name="filter_addition_title">Filter hinzufügen</string>
+    <string name="filter_edit_title">Filter bearbeiten</string>
     <string name="filter_dialog_remove_button">Entfernen</string>
     <string name="filter_dialog_update_button">Aktualisieren</string>
     <string name="add_account_name">Konto hinzufügen</string>

@@ -264,8 +264,8 @@
     <string name="load_more_placeholder_text">加载更多</string>
     <string name="pref_title_public_filter_keywords">公共时间轴</string>
     <string name="pref_title_thread_filter_keywords">对话</string>
-    <string name="filter_addition_dialog_title">添加新的过滤器</string>
-    <string name="filter_edit_dialog_title">编辑过滤器</string>
+    <string name="filter_addition_title">添加新的过滤器</string>
+    <string name="filter_edit_title">编辑过滤器</string>
     <string name="filter_dialog_remove_button">移除</string>
     <string name="filter_dialog_update_button">更新</string>
     <string name="filter_add_description">需要过滤的文字</string>
