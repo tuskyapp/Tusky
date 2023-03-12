@@ -29,8 +29,8 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
@@ -61,7 +60,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -74,11 +72,13 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TimelineFragment :
@@ -110,8 +110,9 @@ class TimelineFragment :
 
     private lateinit var adapter: TimelinePagingAdapter
 
+    private lateinit var layoutManager: LinearLayoutManager
+
     private var isSwipeToRefreshEnabled = true
-    private var hideFab = false
 
     /**
      * Adapter position of the placeholder that was most recently clicked to "Load more". If null
@@ -142,9 +143,6 @@ class TimelineFragment :
     // The user can then scroll up to read the new statuses.
     private var statusIdBelowLoadMore: String? = null
 
-    /** The user's preferred reading order */
-    private lateinit var readingOrder: ReadingOrder
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -173,9 +171,6 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
-
         adapter = TimelinePagingAdapter(
             viewModel.statusDisplayOptions.value,
             this
@@ -192,6 +187,8 @@ class TimelineFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        layoutManager = LinearLayoutManager(context)
 
         setupSwipeRefreshLayout()
         setupRecyclerView()
@@ -239,7 +236,7 @@ class TimelineFragment :
                         }
                     }
                 }
-                if (readingOrder == ReadingOrder.OLDEST_FIRST) {
+                if (viewModel.uiState.value.readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst()
                 }
             }
@@ -252,13 +249,11 @@ class TimelineFragment :
         }
 
         if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            hideFab = preferences.getBoolean("fabHide", false)
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                     val composeButton = (activity as ActionButtonActivity).actionButton
                     if (composeButton != null) {
-                        if (hideFab) {
+                        if (!viewModel.uiState.value.showFabWhileScrolling) {
                             if (dy > 0 && composeButton.isShown) {
                                 composeButton.hide() // hides the button if we're scrolling down
                             } else if (dy < 0 && !composeButton.isShown) {
@@ -272,14 +267,71 @@ class TimelineFragment :
             })
         }
 
+        /**
+         * Collect this flow to notify the adapter that the timestamps of the visible items have
+         * changed
+         */
+        // TODO: Copied from NotificationsFragment
+        val updateTimestampFlow = flow {
+            while (true) { delay(60000); emit(Unit) }
+        }.onEach {
+            layoutManager.findFirstVisibleItemPosition().let { first ->
+                first == RecyclerView.NO_POSITION && return@let
+                val count = layoutManager.findLastVisibleItemPosition() - first
+                adapter.notifyItemRangeChanged(
+                    first,
+                    count,
+                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                )
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.uiState.collectLatest {
+                        // showMediaPreview changed?
+                        val previousMediaPreview = adapter.mediaPreviewEnabled
+                        if (previousMediaPreview != it.showMediaPreview) {
+                            adapter.mediaPreviewEnabled = it.showMediaPreview
+                            adapter.notifyItemRangeChanged(0, adapter.itemCount)
+                        }
+                    }
+                }
+
+                // Update status display from statusDisplayOptions. If the new options request
+                // relative time display collect the flow to periodically re-bind the UI.
+                // TODO: Copied from NotificationsFragment
+                launch {
+                    viewModel.statusDisplayOptions
+                        .collectLatest {
+                            // TODO: TimelinePagingAdapter doesn't handle statusDisplayOptions
+                            // the same way NotificationsPagingAdapter does. Investigate bringing
+                            // the two classes in to alignment.
+//                            adapter.statusDisplayOptions = it
+//                            layoutManager.findFirstVisibleItemPosition().let { first ->
+//                                first == RecyclerView.NO_POSITION && return@let
+//                                val count = layoutManager.findLastVisibleItemPosition() - first
+//                                adapter.notifyItemRangeChanged(
+//                                    first,
+//                                    count,
+//                                    null
+//                                )
+//                            }
+
+                            if (!it.useAbsoluteTime) {
+                                updateTimestampFlow.collect()
+                            }
+                        }
+                }
+            }
+        }
+
         eventHub.events
             .observeOn(AndroidSchedulers.mainThread())
             .autoDispose(this, Lifecycle.Event.ON_DESTROY)
             .subscribe { event ->
                 when (event) {
-                    is PreferenceChangedEvent -> {
-                        onPreferenceChanged(event.preferenceKey)
-                    }
                     is StatusComposedEvent -> {
                         val status = event.status
                         handleStatusComposeEvent(status)
@@ -364,7 +416,7 @@ class TimelineFragment :
             }
         )
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.layoutManager = layoutManager
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
 
@@ -491,28 +543,6 @@ class TimelineFragment :
         super.viewAccount(id)
     }
 
-    private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
-                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
-                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
-                if (enabled != oldMediaPreviewEnabled) {
-                    adapter.mediaPreviewEnabled = enabled
-                    adapter.notifyItemRangeChanged(0, adapter.itemCount)
-                }
-            }
-            PrefKeys.READING_ORDER -> {
-                readingOrder = ReadingOrder.from(
-                    sharedPreferences.getString(PrefKeys.READING_ORDER, null)
-                )
-            }
-        }
-    }
-
     private fun handleStatusComposeEvent(status: Status) {
         when (kind) {
             TimelineViewModel.Kind.HOME,
@@ -554,25 +584,6 @@ class TimelineFragment :
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
-        }
-        startUpdateTimestamp()
-    }
-
-    /**
-     * Start to update adapter every minute to refresh timestamp
-     * If setting absoluteTimeView is false
-     * Auto dispose observable on pause
-     */
-    private fun startUpdateTimestamp() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-        if (!useAbsoluteTime) {
-            Observable.interval(0, 1, TimeUnit.MINUTES)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_PAUSE)
-                .subscribe {
-                    adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
-                }
         }
     }
 

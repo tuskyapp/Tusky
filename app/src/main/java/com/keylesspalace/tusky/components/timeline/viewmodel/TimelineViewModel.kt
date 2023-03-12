@@ -17,11 +17,13 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
@@ -50,12 +52,46 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
+
+data class UiState(
+    /** The user's preferred reading order */
+    val readingOrder: ReadingOrder = ReadingOrder.NEWEST_FIRST,
+
+    /** True if the FAB should be shown while scrolling */
+    val showFabWhileScrolling: Boolean = true,
+
+    /** True if media previews should be shown */
+    val showMediaPreview: Boolean = true,
+)
+
+/** Preferences the UI reacts to */
+data class UiPrefs(
+    val readingOrder: ReadingOrder,
+    val showFabWhileScrolling: Boolean,
+    val showMediaPreview: Boolean
+) {
+    companion object {
+        /** Relevant preference keys. Changes to any of these trigger a display update */
+        val prefKeys = setOf(
+            PrefKeys.FAB_HIDE,
+            PrefKeys.READING_ORDER,
+            PrefKeys.MEDIA_PREVIEW_ENABLED
+        )
+    }
+}
 
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
@@ -65,6 +101,7 @@ abstract class TimelineViewModel(
     private val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
 ) : ViewModel() {
+    val uiState: StateFlow<UiState>
 
     abstract val statuses: Flow<PagingData<StatusViewData>>
 
@@ -98,7 +135,51 @@ abstract class TimelineViewModel(
                 accountManager.activeAccount!!
             )
         )
+
+        viewModelScope.launch {
+            eventHub.events.asFlow()
+                .filterIsInstance<PreferenceChangedEvent>()
+                .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
+                .map {
+                    statusDisplayOptions.value.make(
+                        sharedPreferences,
+                        it.preferenceKey,
+                        accountManager.activeAccount!!
+                    )
+                }
+                .collect {
+                    statusDisplayOptions.emit(it)
+                }
+        }
+
+        uiState = getUiPrefs().map { prefs ->
+            UiState(
+                readingOrder = prefs.readingOrder,
+                showFabWhileScrolling = prefs.showFabWhileScrolling,
+                showMediaPreview = prefs.showMediaPreview
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+            initialValue = UiState()
+        )
     }
+
+    /**
+     * @return Flow of relevant preferences that change the UI
+     */
+    // TODO: Preferences should be in a repository
+    private fun getUiPrefs() = eventHub.events.asFlow()
+        .filterIsInstance<PreferenceChangedEvent>()
+        .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
+        .map { toPrefs() }
+        .onStart { emit(toPrefs()) }
+
+    private fun toPrefs() = UiPrefs(
+        readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null)),
+        showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false),
+        showMediaPreview = accountManager.activeAccount!!.mediaPreviewEnabled
+    )
 
     open fun init(
         kind: Kind,
