@@ -39,6 +39,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
@@ -47,9 +48,11 @@ import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
+import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -75,6 +78,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -289,6 +293,87 @@ class TimelineFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    // Show errors from the view model as snack bars.
+                    //
+                    // Errors are shown:
+                    // - Indefinitely, so the user has a chance to read and understand
+                    //   the message
+                    // - With a max of 5 text lines, to allow space for longer errors.
+                    //   E.g., on a typical device, an error message like "Bookmarking
+                    //   post failed: Unable to resolve host 'mastodon.social': No
+                    //   address associated with hostname" is 3 lines.
+                    // - With a "Retry" option if the error included a UiAction to retry.
+                    // TODO: Very similar to same code in NotificationsFragment
+                    launch {
+                        viewModel.uiError.collect { error ->
+                            Log.d(TAG, error.toString())
+                            val message = getString(
+                                error.message,
+                                error.exception.localizedMessage
+                                    ?: getString(R.string.ui_error_unknown)
+                            )
+                            val snackbar = Snackbar.make(
+                                // Without this the FAB will not move out of the way
+                                (activity as ActionButtonActivity).actionButton ?: binding.root,
+                                message,
+                                Snackbar.LENGTH_INDEFINITE
+                            ).setTextMaxLines(5)
+                            error.action?.let { action ->
+                                snackbar.setAction(R.string.action_retry) {
+                                    viewModel.accept(action)
+                                }
+                            }
+                            snackbar.show()
+
+                            // The status view has pre-emptively updated its state to show
+                            // that the action succeeded. Since it hasn't, re-bind the view
+                            // to show the correct data.
+                            error.action?.let { action ->
+                                if (action !is StatusAction) return@let
+
+                                val position = adapter.snapshot().indexOfFirst {
+                                    it?.id == action.statusViewData.id
+                                }
+                                if (position != RecyclerView.NO_POSITION) {
+                                    adapter.notifyItemChanged(position)
+                                }
+                            }
+                        }
+                    }
+
+                    // Update adapter data when status actions are successful, and re-bind to update
+                    // the UI.
+                    launch {
+                        viewModel.uiSuccess
+                            .filterIsInstance<StatusActionSuccess>()
+                            .collect {
+                                val indexedViewData = adapter.snapshot()
+                                    .withIndex()
+                                    .firstOrNull { indexed ->
+                                        indexed.value?.id == it.action.statusViewData.id
+                                    } ?: return@collect
+
+                                val statusViewData=
+                                    indexedViewData.value as? StatusViewData.Concrete ?: return@collect
+
+                                val status = when (it) {
+                                    is StatusActionSuccess.Bookmark ->
+                                        statusViewData.status.copy(bookmarked = it.action.state)
+                                    is StatusActionSuccess.Favourite ->
+                                        statusViewData.status.copy(favourited = it.action.state)
+                                    is StatusActionSuccess.Reblog ->
+                                        statusViewData.status.copy(reblogged = it.action.state)
+                                    is StatusActionSuccess.VoteInPoll ->
+                                        statusViewData.status.copy(
+                                            poll = it.action.poll.votedCopy(it.action.choices)
+                                        )
+                                }
+                                (indexedViewData.value as StatusViewData.Concrete).status = status
+
+                                adapter.notifyItemChanged(indexedViewData.index)
+                            }
+                    }
+
                     viewModel.uiState.collectLatest {
                         // showMediaPreview changed?
                         val previousMediaPreview = adapter.mediaPreviewEnabled
@@ -437,23 +522,24 @@ class TimelineFragment :
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        viewModel.reblog(reblog, status)
+        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        viewModel.accept(StatusAction.Reblog(reblog, statusViewData))
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        viewModel.favorite(favourite, status)
+        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        viewModel.accept(StatusAction.Favourite(favourite, statusViewData))
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        viewModel.bookmark(bookmark, status)
+        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        viewModel.accept(StatusAction.Bookmark(bookmark, statusViewData))
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        viewModel.voteInPoll(choices, status)
+        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        val poll = statusViewData.status.poll ?: return
+        viewModel.accept(StatusAction.VoteInPoll(poll, choices, statusViewData))
     }
 
     override fun clearWarningAction(position: Int) {

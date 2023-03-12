@@ -50,12 +50,13 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
@@ -93,6 +94,153 @@ data class UiPrefs(
     }
 }
 
+// TODO: Ui* classes are copied from NotificationsViewModel. Not yet sure whether these actions
+// are "global" across all timelines (including notifications) or whether notifications are
+// sufficiently different to warrant having a duplicate set. Keeping them duplicated for the
+// moment.
+
+/** Parent class for all UI actions, fallible or infallible. */
+sealed class UiAction
+
+/** Actions the user can trigger from the UI. These actions may fail. */
+sealed class FallibleUiAction : UiAction() {
+    /** Clear all notifications */
+//    object ClearNotifications : FallibleUiAction()
+}
+
+/**
+ * Actions the user can trigger from the UI that either cannot fail, or if they do fail,
+ * do not show an error.
+ */
+sealed class InfallibleUiAction : UiAction() {
+    /**
+     * User is leaving the fragment, save the ID of the visible status.
+     *
+     * Infallible because if it fails there's nowhere to show the error, and nothing the user
+     * can do.
+     */
+    data class SaveVisibleId(val visibleId: String) : InfallibleUiAction()
+}
+
+/** Actions the user can trigger on an individual notification. These may fail. */
+//sealed class NotificationAction : FallibleUiAction() {
+//    data class AcceptFollowRequest(val accountId: String) : NotificationAction()
+//
+//    data class RejectFollowRequest(val accountId: String) : NotificationAction()
+//}
+
+sealed class UiSuccess {
+    // These three are from menu items on the status. Currently they don't come to the
+    // viewModel as actions, they're noticed when events are posted. That will change,
+    // but for the moment we can still report them to the UI. Typically, receiving any
+    // of these three should trigger the UI to refresh.
+
+    /** A user was blocked */
+    object Block : UiSuccess()
+
+    /** A user was muted */
+    object Mute : UiSuccess()
+
+    /** A conversation was muted */
+    object MuteConversation : UiSuccess()
+}
+
+/** Actions the user can trigger on an individual status */
+sealed class StatusAction(open val statusViewData: StatusViewData.Concrete): FallibleUiAction() {
+    /** Set the bookmark state for a status */
+    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusAction(statusViewData)
+
+    /** Set the favourite state for a status */
+    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusAction(statusViewData)
+
+    /** Set the reblog state for a status */
+    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+        StatusAction(statusViewData)
+
+    /** Vote in a poll */
+    data class VoteInPoll(
+        val poll: Poll,
+        val choices: List<Int>,
+        override val statusViewData: StatusViewData.Concrete
+    ) : StatusAction(statusViewData)
+}
+
+/** Changes to a status' visible state after API calls */
+sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess() {
+    data class Bookmark(override val action: StatusAction.Bookmark) :
+        StatusActionSuccess(action)
+
+    data class Favourite(override val action: StatusAction.Favourite) :
+        StatusActionSuccess(action)
+
+    data class Reblog(override val action: StatusAction.Reblog) :
+        StatusActionSuccess(action)
+
+    data class VoteInPoll(override val action: StatusAction.VoteInPoll) :
+        StatusActionSuccess(action)
+
+    companion object {
+        fun from(action: StatusAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(action)
+            is StatusAction.Favourite -> Favourite(action)
+            is StatusAction.Reblog -> Reblog(action)
+            is StatusAction.VoteInPoll -> VoteInPoll(action)
+        }
+    }
+}
+
+// TODO: Similar to UiError in NotificationsViewModel, but without ClearNotifications,
+// AcceptFollowRequest, and RejectFollowRequest.
+//
+// Possibly indicates the need for UiStatusError and UiNotificationError subclasses so these
+// can be shared.
+//
+// Need to think about how that would work with sealed classes.
+
+/** Errors from fallible view model actions that the UI will need to show */
+sealed class UiError(
+    /** The exception associated with the error */
+    open val exception: Exception,
+
+    /** String resource with an error message to show the user */
+    @StringRes val message: Int,
+
+    /** The action that failed. Can be resent to retry the action */
+    open val action: UiAction? = null
+) {
+    data class Bookmark(
+        override val exception: Exception,
+        override val action: StatusAction.Bookmark
+    ) : UiError(exception, R.string.ui_error_bookmark, action)
+
+    data class Favourite(
+        override val exception: Exception,
+        override val action: StatusAction.Favourite
+    ) : UiError(exception, R.string.ui_error_favourite, action)
+
+    data class Reblog(
+        override val exception: Exception,
+        override val action: StatusAction.Reblog
+    ) : UiError(exception, R.string.ui_error_reblog, action)
+
+    data class VoteInPoll(
+        override val exception: Exception,
+        override val action: StatusAction.VoteInPoll
+    ) : UiError(exception, R.string.ui_error_vote, action)
+
+    companion object {
+        fun make(exception: Exception, action: FallibleUiAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(exception, action)
+            is StatusAction.Favourite -> Favourite(exception, action)
+            is StatusAction.Reblog -> Reblog(exception, action)
+            is StatusAction.VoteInPoll -> VoteInPoll(exception, action)
+        }
+    }
+}
+
+@OptIn(FlowPreview::class)
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
     private val api: MastodonApi,
@@ -107,6 +255,24 @@ abstract class TimelineViewModel(
 
     /** Flow of changes to statusDisplayOptions, for use by the UI */
     val statusDisplayOptions: StateFlow<StatusDisplayOptions>
+
+    /** Flow of user actions received from the UI */
+    private val uiAction = MutableSharedFlow<UiAction>()
+
+    /** Flow of successful action results */
+    // Note: These are a SharedFlow instead of a StateFlow because success or error state does not
+    // need to be retained. A message is shown once to a user and then dismissed. Re-collecting the
+    // flow (e.g., after a device orientation change) should not re-show the most recent success or
+    // error message, as it will be confusing to the user.
+    val uiSuccess = MutableSharedFlow<UiSuccess>()
+
+    /** Flow of transient errors for the UI to present */
+    val uiError = MutableSharedFlow<UiError>()
+
+    /** Accept UI actions in to actionStateFlow */
+    val accept: (UiAction) -> Unit = { action ->
+        viewModelScope.launch { uiAction.emit(action) }
+    }
 
     var kind: Kind = Kind.HOME
         private set
@@ -149,6 +315,46 @@ abstract class TimelineViewModel(
                 }
                 .collect {
                     statusDisplayOptions.emit(it)
+                }
+        }
+
+        // Handle StatusAction.*
+        viewModelScope.launch {
+            uiAction.filterIsInstance<StatusAction>()
+                // TODO: Not sure that debouncing is the right thing here, since that will wait
+                // DEBOUNCE_TIMEOUT_MS before acting. The right thing to do here (and in
+                // NotificationsFragment) is to take the first one, and ignore any others that
+                // arrive in the next N milliseconds).
+                .debounce(DEBOUNCE_TIMEOUT_MS) // avoid double-taps
+                .collect { action ->
+                    try {
+                        when (action) {
+                            is StatusAction.Bookmark ->
+                                timelineCases.bookmark(
+                                    action.statusViewData.actionableId,
+                                    action.state
+                                ).await()
+                            is StatusAction.Favourite ->
+                                timelineCases.favourite(
+                                    action.statusViewData.actionableId,
+                                    action.state
+                                ).await()
+                            is StatusAction.Reblog ->
+                                timelineCases.reblog(
+                                    action.statusViewData.actionableId,
+                                    action.state
+                                ).await()
+                            is StatusAction.VoteInPoll ->
+                                timelineCases.voteInPoll(
+                                    action.statusViewData.actionableId,
+                                    action.poll.id,
+                                    action.choices
+                                ).await()
+                        }
+                        uiSuccess.emit(StatusActionSuccess.from(action))
+                    } catch (e: Exception) {
+                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
+                    }
                 }
         }
 
@@ -223,54 +429,6 @@ abstract class TimelineViewModel(
         }
 
         reloadFilters()
-    }
-
-    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        try {
-            timelineCases.reblog(status.actionableId, reblog).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
-            }
-        }
-    }
-
-    fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        try {
-            timelineCases.favourite(status.actionableId, favorite).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
-            }
-        }
-    }
-
-    fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        try {
-            timelineCases.bookmark(status.actionableId, bookmark).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
-            }
-        }
-    }
-
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = status.status.actionableStatus.poll ?: run {
-            Log.w(TAG, "No poll on status ${status.id}")
-            return@launch
-        }
-
-        val votedPoll = poll.votedCopy(choices)
-        updatePoll(votedPoll, status)
-
-        try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
-            }
-        }
     }
 
     abstract fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete)
@@ -429,6 +587,7 @@ abstract class TimelineViewModel(
     companion object {
         private const val TAG = "TimelineVM"
         internal const val LOAD_AT_ONCE = 30
+        private const val DEBOUNCE_TIMEOUT_MS = 500L
 
         fun filterContextMatchesKind(
             kind: Kind,

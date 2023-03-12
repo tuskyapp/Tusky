@@ -279,10 +279,10 @@ class NotificationsFragment :
                         // that the action succeeded. Since it hasn't, re-bind the view
                         // to show the correct data.
                         error.action?.let { action ->
-                            action is StatusAction || return@let
+                            if (action !is StatusAction) return@let
 
                             val position = adapter.snapshot().indexOfFirst {
-                                it?.statusViewData?.status?.id == (action as StatusAction).statusViewData.id
+                                it?.statusViewData?.status?.id == action.statusViewData.id
                             }
                             if (position != RecyclerView.NO_POSITION) {
                                 adapter.notifyItemChanged(position)

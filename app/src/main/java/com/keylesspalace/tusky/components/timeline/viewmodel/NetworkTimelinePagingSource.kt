@@ -94,6 +94,7 @@ class NetworkTimelinePagingSource @Inject constructor(
         minId: String? = null,
         limit: Int
     ): Response<List<Status>> {
+        // TODO: These probably shouldn't be `sinceId` but `minId` in the API calls
         return when (kind) {
             is TimelineKind.Home -> api.homeTimeline(maxId = maxId, sinceId = minId, limit = limit)
             is TimelineKind.PublicFederated -> api.publicTimeline(null, maxId, minId, limit)

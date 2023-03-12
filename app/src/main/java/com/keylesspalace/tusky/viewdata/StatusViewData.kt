@@ -33,7 +33,7 @@ sealed class StatusViewData {
     var filterAction: Filter.Action = Filter.Action.NONE
 
     data class Concrete(
-        val status: Status,
+        var status: Status,
         val isExpanded: Boolean,
         val isShowingContent: Boolean,
         /**
