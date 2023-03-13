@@ -36,7 +36,7 @@ fun Closeable?.closeQuietly() {
 
 fun Uri.copyToFile(
     contentResolver: ContentResolver,
-    file: File,
+    file: File
 ): Boolean {
     val from: InputStream?
     val to: FileOutputStream

@@ -95,7 +95,7 @@ class TrendingFragment :
         super.onCreate(savedInstanceState)
 
         adapter = TrendingAdapter(
-            this,
+            this
         )
     }
 
@@ -208,7 +208,8 @@ class TrendingFragment :
             binding.recyclerView.hide()
             binding.messageView.show()
             binding.messageView.setup(
-                R.drawable.elephant_friend_empty, R.string.message_empty,
+                R.drawable.elephant_friend_empty,
+                R.string.message_empty,
                 null
             )
         } else {
@@ -242,7 +243,7 @@ class TrendingFragment :
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
             R.drawable.elephant_offline,
-            R.string.error_network,
+            R.string.error_network
         ) { refreshContent() }
     }
 
@@ -254,7 +255,7 @@ class TrendingFragment :
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
             R.drawable.elephant_error,
-            R.string.error_generic,
+            R.string.error_generic
         ) { refreshContent() }
     }
 

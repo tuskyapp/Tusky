@@ -170,7 +170,7 @@ class TimelineFragment :
         viewModel.init(
             kind,
             id,
-            tags,
+            tags
         )
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
@@ -188,7 +188,11 @@ class TimelineFragment :
                     PrefKeys.SHOW_CARDS_IN_TIMELINES,
                     false
                 )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
+            ) {
+                CardViewMode.INDENTED
+            } else {
+                CardViewMode.NONE
+            },
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
@@ -255,7 +259,9 @@ class TimelineFragment :
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
                                 binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                            } else binding.recyclerView.scrollToPosition(0)
+                            } else {
+                                binding.recyclerView.scrollToPosition(0)
+                            }
                         }
                     }
                 }

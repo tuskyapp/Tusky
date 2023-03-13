@@ -55,7 +55,7 @@ class EditFilterActivity : BaseActivity() {
                 filterContextNotifications to Filter.Kind.NOTIFICATIONS,
                 filterContextPublic to Filter.Kind.PUBLIC,
                 filterContextThread to Filter.Kind.THREAD,
-                filterContextAccount to Filter.Kind.ACCOUNT,
+                filterContextAccount to Filter.Kind.ACCOUNT
             )
         }
 
@@ -213,7 +213,7 @@ class EditFilterActivity : BaseActivity() {
                     FilterKeyword(
                         "",
                         binding.phraseEditText.text.toString(),
-                        binding.phraseWholeWord.isChecked,
+                        binding.phraseWholeWord.isChecked
                     )
                 )
             }
@@ -234,7 +234,7 @@ class EditFilterActivity : BaseActivity() {
                     keyword,
                     keyword.copy(
                         keyword = binding.phraseEditText.text.toString(),
-                        wholeWord = binding.phraseWholeWord.isChecked,
+                        wholeWord = binding.phraseWholeWord.isChecked
                     )
                 )
             }

@@ -34,7 +34,6 @@ class InstanceSwitchAuthInterceptor(private val accountManager: AccountManager) 
 
         // only switch domains if the request comes from retrofit
         return if (originalRequest.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
-
             val builder: Request.Builder = originalRequest.newBuilder()
             val instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
 

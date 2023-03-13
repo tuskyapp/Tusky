@@ -204,7 +204,6 @@ class CachedTimelineViewModel @Inject constructor(
                 }
 
                 db.withTransaction {
-
                     timelineDao.delete(activeAccount.id, placeholderId)
 
                     val overlappedStatuses = if (statuses.isNotEmpty()) {

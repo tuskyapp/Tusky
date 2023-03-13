@@ -207,7 +207,7 @@ class ViewImageFragment : ViewMediaFragment() {
             .dontAnimate()
             .onlyRetrieveFromCache(true)
             .let {
-                if (previewUrl != null)
+                if (previewUrl != null) {
                     it.thumbnail(
                         glide
                             .load(previewUrl)
@@ -216,7 +216,9 @@ class ViewImageFragment : ViewMediaFragment() {
                             .centerInside()
                             .addListener(ImageRequestListener(true, isThumbnailRequest = true))
                     )
-                else it
+                } else {
+                    it
+                }
             }
             // Request image from the network on fail load image from cache
             .error(

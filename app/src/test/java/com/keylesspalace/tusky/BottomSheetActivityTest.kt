@@ -90,13 +90,12 @@ class BottomSheetActivityTest {
         poll = null,
         card = null,
         language = null,
-        filtered = null,
+        filtered = null
     )
     private val statusSingle = Single.just(SearchResult(emptyList(), listOf(status), emptyList()))
 
     @Before
     fun setup() {
-
         RxJavaPlugins.setIoSchedulerHandler { testScheduler }
         RxAndroidPlugins.setMainThreadSchedulerHandler { testScheduler }
 

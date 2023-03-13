@@ -12,7 +12,7 @@ data class Filter(
     val context: List<String>,
     @SerializedName("expires_at") val expiresAt: Date?,
     @SerializedName("filter_action") private val filterAction: String,
-    val keywords: List<FilterKeyword>,
+    val keywords: List<FilterKeyword>
     // val statuses: List<FilterStatus>,
 ) : Parcelable {
     enum class Action(val action: String) {

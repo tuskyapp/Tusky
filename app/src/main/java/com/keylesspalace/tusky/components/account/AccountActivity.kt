@@ -107,8 +107,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     @Inject
     lateinit var draftsAlert: DraftsAlert
 
@@ -134,14 +136,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     // fields for scroll animation
     private var hideFab: Boolean = false
     private var oldOffset: Int = 0
+
     @ColorInt
     private var toolbarColor: Int = 0
+
     @ColorInt
     private var statusBarColorTransparent: Int = 0
+
     @ColorInt
     private var statusBarColorOpaque: Int = 0
 
     private var avatarSize: Float = 0f
+
     @Px
     private var titleVisibleHeight: Int = 0
     private lateinit var domain: String
@@ -342,7 +348,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         binding.accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-
                 if (verticalOffset == oldOffset) {
                     return
                 }
@@ -650,10 +655,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             binding.accountSubscribeButton.setOnClickListener {
                 viewModel.changeSubscribingState()
             }
-            if (relation.notifying != null)
+            if (relation.notifying != null) {
                 subscribing = relation.notifying
-            else if (relation.subscribing != null)
+            } else if (relation.subscribing != null) {
                 subscribing = relation.subscribing
+            }
         }
 
         // remove the listener so it doesn't fire on non-user changes
@@ -717,7 +723,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         invalidateOptionsMenu()
 
         if (loadedAccount?.moved == null) {
-
             binding.accountFollowButton.show()
             updateFollowButton()
             updateSubscribeButton()
@@ -750,7 +755,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         }
 
         if (!viewModel.isSelf) {
-
             val block = menu.findItem(R.id.action_block)
             block.title = if (blocking) {
                 getString(R.string.action_unblock)
@@ -908,7 +912,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             R.id.action_open_as -> {
                 loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
-                        item.title, false,
+                        item.title,
+                        false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
                                 openAsAccount(loadedAccount.url, account)
@@ -979,7 +984,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     override fun getActionButton(): FloatingActionButton? {
         return if (!blocking) {
             binding.accountFloatingActionButton
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun getFullUsername(account: Account): String {

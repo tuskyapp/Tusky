@@ -274,7 +274,7 @@ class ComposeViewModel @Inject constructor(
             failedToSendAlert = false,
             scheduledAt = scheduledAt.value,
             language = postLanguage,
-            statusId = originalStatusId,
+            statusId = originalStatusId
         )
     }
 
@@ -286,7 +286,6 @@ class ComposeViewModel @Inject constructor(
         content: String,
         spoilerText: String
     ) {
-
         if (!scheduledTootId.isNullOrEmpty()) {
             api.deleteScheduledStatus(scheduledTootId!!)
         }
@@ -405,7 +404,6 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
-
         if (setupComplete) {
             return
         }
@@ -440,14 +438,16 @@ class ComposeViewModel @Inject constructor(
                     pickMedia(attachment.uri, attachment.description, attachment.focus)
                 }
             }
-        } else composeOptions?.mediaAttachments?.forEach { a ->
-            // when coming from redraft or ScheduledTootActivity
-            val mediaType = when (a.type) {
-                Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
-                Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
-                Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
+        } else {
+            composeOptions?.mediaAttachments?.forEach { a ->
+                // when coming from redraft or ScheduledTootActivity
+                val mediaType = when (a.type) {
+                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
+                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
+                    Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
+                }
+                addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
             }
-            addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
         }
 
         draftId = composeOptions?.draftId ?: 0

@@ -85,7 +85,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
 data class LoginData(
     val domain: String,
     val url: Uri,
-    val oauthRedirectUrl: Uri,
+    val oauthRedirectUrl: Uri
 ) : Parcelable
 
 sealed class LoginResult : Parcelable {

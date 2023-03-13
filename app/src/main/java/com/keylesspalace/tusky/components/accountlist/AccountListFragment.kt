@@ -63,6 +63,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     @Inject
     lateinit var api: MastodonApi
+
     @Inject
     lateinit var accountManager: AccountManager
 
@@ -83,7 +84,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager
@@ -227,7 +227,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         accountId: String,
         position: Int
     ) {
-
         if (accept) {
             api.authorizeFollowRequest(accountId)
         } else {

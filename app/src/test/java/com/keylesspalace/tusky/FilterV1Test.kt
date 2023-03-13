@@ -100,7 +100,7 @@ class FilterV1Test {
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = false
-            ),
+            )
         )
 
         filterModel.initWithFilters(filters)
@@ -191,7 +191,7 @@ class FilterV1Test {
                 mockStatus(
                     content = "should not be filtered",
                     spoilerText = "should not be filtered",
-                    attachmentsDescriptions = listOf("should not be filtered", "badWord"),
+                    attachmentsDescriptions = listOf("should not be filtered", "badWord")
                 )
             )
         )
@@ -314,7 +314,9 @@ class FilterV1Test {
                             )
                         }
                     )
-                } else arrayListOf(),
+                } else {
+                    arrayListOf()
+                },
                 mentions = listOf(),
                 tags = listOf(),
                 application = null,
@@ -334,10 +336,12 @@ class FilterV1Test {
                         voted = false,
                         ownVotes = null
                     )
-                } else null,
+                } else {
+                    null
+                },
                 card = null,
                 language = null,
-                filtered = null,
+                filtered = null
             )
         }
     }

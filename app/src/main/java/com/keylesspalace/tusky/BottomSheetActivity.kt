@@ -177,5 +177,5 @@ abstract class BottomSheetActivity : BaseActivity() {
 
 enum class PostLookupFallbackBehavior {
     OPEN_IN_BROWSER,
-    DISPLAY_ERROR,
+    DISPLAY_ERROR
 }

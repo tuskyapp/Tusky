@@ -29,11 +29,13 @@ data class TimelineAccount(
     val url: String,
     val avatar: String,
     val bot: Boolean = false,
-    val emojis: List<Emoji>? = emptyList(), // nullable for backward compatibility
+    val emojis: List<Emoji>? = emptyList() // nullable for backward compatibility
 ) {
 
     val name: String
         get() = if (displayName.isNullOrEmpty()) {
             localUsername
-        } else displayName
+        } else {
+            displayName
+        }
 }

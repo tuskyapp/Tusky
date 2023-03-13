@@ -136,7 +136,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 is Success -> {
                     val me = profileRes.data
                     if (me != null) {
-
                         binding.displayNameEditText.setText(me.displayName)
                         binding.noteEditText.setText(me.source?.note)
                         binding.lockedCheckBox.isChecked = me.locked

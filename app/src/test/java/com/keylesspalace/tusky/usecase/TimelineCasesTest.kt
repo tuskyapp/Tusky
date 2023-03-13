@@ -30,7 +30,6 @@ class TimelineCasesTest {
 
     @Before
     fun setup() {
-
         api = mock()
         eventHub = EventHub()
         timelineCases = TimelineCases(api, eventHub)
@@ -97,7 +96,7 @@ class TimelineCasesTest {
             poll = null,
             card = null,
             language = null,
-            filtered = null,
+            filtered = null
         )
     }
 }
