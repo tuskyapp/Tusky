@@ -32,7 +32,7 @@
     <string name="title_favourites">Favoriten</string>
     <string name="title_mutes">Stummgeschaltete Profile</string>
     <string name="title_blocks">Blockierte Profile</string>
-    <string name="title_follow_requests">Follower-Anfragen</string>
+    <string name="title_follow_requests">Folgeanfragen</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="title_drafts">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
@@ -58,7 +58,7 @@
     <string name="action_reblog">Teilen</string>
     <string name="action_unreblog">Teilen rückgängig machen</string>
     <string name="action_favourite">Favorisieren</string>
-    <string name="action_unfavourite">Favorisierung entfernen</string>
+    <string name="action_unfavourite">Aus Favoriten entfernen</string>
     <string name="action_more">Mehr</string>
     <string name="action_compose">Beitrag erstellen</string>
     <string name="action_login">Mit Tusky anmelden</string>
@@ -82,7 +82,7 @@
     <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_mutes">Stummgeschaltete Profile</string>
     <string name="action_view_blocks">Blockierte Profile</string>
-    <string name="action_view_follow_requests">Follower-Anfragen</string>
+    <string name="action_view_follow_requests">Folgeanfrage</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_add_media">Mediendateien hinzufügen</string>
@@ -437,9 +437,9 @@
     <string name="no_drafts">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
-    <string name="notification_follow_request_description">Benachrichtigungen über neue Follower-Anfragen</string>
+    <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
     <string name="pref_title_notification_filter_follow_requests">Anfrage zum Folgen gesendet</string>
-    <string name="notification_follow_request_name">Follower-Anfragen</string>
+    <string name="notification_follow_request_name">Folgeanfragen</string>
     <string name="dialog_mute_warning">Bist du dir sicher, dass du @%s stummschalten möchtest\?</string>
     <string name="dialog_block_warning">Bist du dir sicher, dass du @%s blockieren möchtest\?</string>
     <string name="action_unmute_conversation">Stummschaltung der Unterhaltung aufheben</string>
@@ -631,4 +631,16 @@
     <string name="dialog_follow_hashtag_title">Hashtag folgen</string>
     <string name="dialog_follow_hashtag_hint">#Hashtag</string>
     <string name="action_refresh">Aktualisieren</string>
+    <string name="socket_timeout_exception">Kontaktaufnahme mit dem Server dauerte zu lange</string>
+    <string name="ui_error_bookmark">Beitrag konnte nicht als Lesezeichen gespeichert werden: %s</string>
+    <string name="ui_error_reblog">Beitrag konnte nicht geteilt werden: %s</string>
+    <string name="ui_error_favourite">Beitrag konnte nicht favorisiert werden: %s</string>
+    <string name="ui_error_vote">Abstimmen bei der Umfrage schlug fehl: %s</string>
+    <string name="ui_error_accept_follow_request">Akzeptieren der Folgeanfrage schlug fehl: %s</string>
+    <string name="ui_success_accepted_follow_request">Folgeanfrage akzeptiert</string>
+    <string name="ui_success_rejected_follow_request">Folgeanfrage blockiert</string>
+    <string name="notification_unknown_name">Unbekannt</string>
+    <string name="ui_error_unknown">Unbekannter Grund</string>
+    <string name="ui_error_clear_notifications">Löschen der Benachrichtigungen schlug fehl: %s</string>
+    <string name="ui_error_reject_follow_request">Ablehnen der Folgeanfrage schlug fehl: %s</string>
 </resources>
