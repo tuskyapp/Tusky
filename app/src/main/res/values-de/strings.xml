@@ -245,7 +245,7 @@
     <string name="title_media">Medien</string>
     <string name="replying_to">Antworten an @%s</string>
     <string name="load_more_placeholder_text">mehr laden</string>
-    <string name="pref_title_thread_filter_keywords">Konversationen</string>
+    <string name="pref_title_thread_filter_keywords">Unterhaltungen</string>
     <string name="filter_addition_title">Filter hinzufügen</string>
     <string name="filter_edit_title">Filter bearbeiten</string>
     <string name="filter_dialog_remove_button">Entfernen</string>
@@ -326,7 +326,7 @@
     <string name="hint_list_name">Listenname</string>
     <string name="download_media">Dateien herunterladen</string>
     <string name="downloading_media">Dateien werden heruntergeladen</string>
-    <string name="filter_add_description">zu filternde Phrase</string>
+    <string name="filter_add_description">zu filternder Ausdruck</string>
     <string name="error_create_list">Liste konnte nicht erstellt werden</string>
     <string name="error_rename_list">Liste konnte nicht umbenannt werden</string>
     <string name="error_delete_list">Liste konnte nicht gelöscht werden</string>
@@ -390,7 +390,7 @@
     <string name="mute_domain_warning_dialog_ok">Ganze Domain verbergen</string>
     <string name="pref_title_animate_gif_avatars">GIF-Profilbilder animieren</string>
     <string name="filter_dialog_whole_word">Ganzes Wort</string>
-    <string name="filter_dialog_whole_word_description">Wenn das Schlagwort nur aus Buchstaben und Zahlen besteht, wird es nur angewendet, wenn es dem ganzen Wort entspricht</string>
+    <string name="filter_dialog_whole_word_description">Wenn das Wort oder die Formulierung nur aus Buchstaben oder Zahlen besteht, tritt der Filter nur dann in Kraft, wenn er exakt dieser Zeichenfolge entspricht</string>
     <string name="button_continue">Weiter</string>
     <string name="button_back">Zurück</string>
     <string name="button_done">Fertig</string>
@@ -471,7 +471,7 @@
     <string name="abbreviated_years_ago">%d J.</string>
     <string name="account_note_saved">Gespeichert!</string>
     <string name="account_note_hint">Private Notiz über diesen Account</string>
-    <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation verstecken</string>
+    <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation ausblenden</string>
     <string name="no_announcements">Im Moment gibt es keine Ankündigungen.</string>
     <string name="title_announcements">Ankündigungen</string>
     <string name="drafts_post_reply_removed">Der Beitrag, auf den du antworten wolltest, wurde gelöscht</string>
@@ -643,4 +643,21 @@
     <string name="ui_error_unknown">Unbekannter Grund</string>
     <string name="ui_error_clear_notifications">Löschen der Benachrichtigungen schlug fehl: %s</string>
     <string name="ui_error_reject_follow_request">Ablehnen der Folgeanfrage schlug fehl: %s</string>
+    <string name="status_filter_placeholder_label_format">Gefiltert: %s</string>
+    <string name="pref_title_account_filter_keywords">Profile</string>
+    <string name="hint_filter_title">Mein Filter</string>
+    <string name="label_filter_title">Titel</string>
+    <string name="filter_action_warn">Warnen</string>
+    <string name="filter_action_hide">Ausblenden</string>
+    <string name="filter_description_warn">Warnung ausblenden</string>
+    <string name="filter_description_hide">Vollständig ausblenden</string>
+    <string name="label_filter_context">Nach Bereich filtern</string>
+    <string name="label_filter_action">Filteraktion</string>
+    <string name="label_filter_keywords">Schlagwörter oder Ausdrücke zum Filtern</string>
+    <string name="action_add">Hinzufügen</string>
+    <string name="filter_keyword_display_format">%s (ganzes Wort)</string>
+    <string name="filter_keyword_addition_title">Schlagwort hinzufügen</string>
+    <string name="filter_edit_keyword_title">Schlagwort bearbeiten</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="status_filtered_show_anyway">Trotzdem anzeigen</string>
 </resources>
