@@ -679,4 +679,7 @@
     <string name="accessibility_talking_about_tag">Siarada %1$d o bobl am hashnod %2$s</string>
     <string name="total_usage">Defnydd cyfan</string>
     <string name="total_accounts">Cyfrifon cyfan</string>
+    <string name="dialog_follow_hashtag_title">Dilyn hashnod</string>
+    <string name="dialog_follow_hashtag_hint">#hashnod</string>
+    <string name="action_refresh">Adnewyddu</string>
 </resources>
