@@ -630,4 +630,5 @@
     <string name="total_accounts">Konten insgesamt</string>
     <string name="dialog_follow_hashtag_title">Hashtag folgen</string>
     <string name="dialog_follow_hashtag_hint">#Hashtag</string>
+    <string name="action_refresh">Aktualisieren</string>
 </resources>
