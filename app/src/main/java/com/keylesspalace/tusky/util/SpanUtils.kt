@@ -131,6 +131,7 @@ private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, star
     return when (matchType) {
         FoundMatchType.HTTP_URL -> NoUnderlineURLSpan(string.substring(start, end))
         FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end))
+        FoundMatchType.MENTION -> MentionSpan(string.substring(start, end))
         else -> ForegroundColorSpan(colour)
     }
 }

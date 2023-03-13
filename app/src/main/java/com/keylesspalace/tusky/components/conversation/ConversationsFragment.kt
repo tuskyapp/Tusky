@@ -28,6 +28,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -189,11 +190,17 @@ class ConversationsFragment :
             }
         }
 
-        lifecycleScope.launchWhenResumed {
-            val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-            while (!useAbsoluteTime) {
-                adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
-                delay(1.toDuration(DurationUnit.MINUTES))
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
+                while (!useAbsoluteTime) {
+                    adapter.notifyItemRangeChanged(
+                        0,
+                        adapter.itemCount,
+                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    )
+                    delay(1.toDuration(DurationUnit.MINUTES))
+                }
             }
         }
 
