@@ -122,13 +122,6 @@ sealed class InfallibleUiAction : UiAction() {
     data class SaveVisibleId(val visibleId: String) : InfallibleUiAction()
 }
 
-/** Actions the user can trigger on an individual notification. These may fail. */
-//sealed class NotificationAction : FallibleUiAction() {
-//    data class AcceptFollowRequest(val accountId: String) : NotificationAction()
-//
-//    data class RejectFollowRequest(val accountId: String) : NotificationAction()
-//}
-
 sealed class UiSuccess {
     // These three are from menu items on the status. Currently they don't come to the
     // viewModel as actions, they're noticed when events are posted. That will change,
@@ -146,7 +139,7 @@ sealed class UiSuccess {
 }
 
 /** Actions the user can trigger on an individual status */
-sealed class StatusAction(open val statusViewData: StatusViewData.Concrete): FallibleUiAction() {
+sealed class StatusAction(open val statusViewData: StatusViewData.Concrete) : FallibleUiAction() {
     /** Set the bookmark state for a status */
     data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
         StatusAction(statusViewData)
@@ -274,15 +267,8 @@ abstract class TimelineViewModel(
         viewModelScope.launch { uiAction.emit(action) }
     }
 
-    var kind: Kind = Kind.HOME
+    var timelineKind: TimelineKind = TimelineKind.Home
         private set
-    var id: String? = null
-        private set
-    var tags: List<String> = emptyList()
-        private set
-
-    /** The [TimelineKind] equivalent of [kind] */
-    lateinit var timelineKind: TimelineKind
 
     protected var alwaysShowSensitiveMedia = false
     protected var alwaysOpenSpoilers = false
@@ -387,30 +373,12 @@ abstract class TimelineViewModel(
         showMediaPreview = accountManager.activeAccount!!.mediaPreviewEnabled
     )
 
-    open fun init(
-        kind: Kind,
-        id: String?,
-        tags: List<String>
-    ) {
-        this.kind = kind
-        this.id = id
-        this.tags = tags
-        filterModel.kind = kind.toFilterKind()
+    open fun init(timelineKind: TimelineKind) {
+        this.timelineKind = timelineKind
 
-        timelineKind = when (kind) {
-            Kind.HOME -> TimelineKind.Home
-            Kind.PUBLIC_LOCAL -> TimelineKind.PublicLocal
-            Kind.PUBLIC_FEDERATED -> TimelineKind.PublicFederated
-            Kind.TAG -> TimelineKind.Tag(tags)
-            Kind.USER -> TimelineKind.User(id!!)
-            Kind.USER_PINNED -> TimelineKind.UserPinned(id!!)
-            Kind.USER_WITH_REPLIES -> TimelineKind.UserReplies(id!!)
-            Kind.FAVOURITES -> TimelineKind.Favourites
-            Kind.LIST -> TimelineKind.UserList(id!!)
-            Kind.BOOKMARKS -> TimelineKind.Bookmarks
-        }
+        filterModel.kind = Filter.Kind.from(timelineKind)
 
-        if (kind == Kind.HOME) {
+        if (timelineKind is TimelineKind.Home) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
@@ -482,7 +450,7 @@ abstract class TimelineViewModel(
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
                 val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
                 val oldRemoveReplies = filterRemoveReplies
-                filterRemoveReplies = kind == Kind.HOME && !filter
+                filterRemoveReplies = timelineKind is TimelineKind.Home && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
                     fullReload()
                 }
@@ -490,13 +458,13 @@ abstract class TimelineViewModel(
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
                 val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
                 val oldRemoveReblogs = filterRemoveReblogs
-                filterRemoveReblogs = kind == Kind.HOME && !filter
+                filterRemoveReblogs = timelineKind is TimelineKind.Home && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
                     fullReload()
                 }
             }
             FilterV1.HOME, FilterV1.NOTIFICATIONS, FilterV1.THREAD, FilterV1.PUBLIC, FilterV1.ACCOUNT -> {
-                if (filterContextMatchesKind(kind, listOf(key))) {
+                if (filterContextMatchesKind(timelineKind, listOf(key))) {
                     reloadFilters()
                 }
             }
@@ -519,31 +487,31 @@ abstract class TimelineViewModel(
             is PinEvent -> handlePinEvent(event)
             is MuteConversationEvent -> fullReload()
             is UnfollowEvent -> {
-                if (kind == Kind.HOME) {
+                if (timelineKind is TimelineKind.Home) {
                     val id = event.accountId
                     removeAllByAccountId(id)
                 }
             }
             is BlockEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                if (timelineKind !is TimelineKind.User) {
                     val id = event.accountId
                     removeAllByAccountId(id)
                 }
             }
             is MuteEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                if (timelineKind !is TimelineKind.User) {
                     val id = event.accountId
                     removeAllByAccountId(id)
                 }
             }
             is DomainMuteEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                if (timelineKind !is TimelineKind.User) {
                     val instance = event.instance
                     removeAllByInstance(instance)
                 }
             }
             is StatusDeletedEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                if (timelineKind !is TimelineKind.User) {
                     removeStatusWithId(event.statusId)
                 }
             }
@@ -570,7 +538,7 @@ abstract class TimelineViewModel(
                         }
                         filterModel.initWithFilters(
                             filters.filter {
-                                filterContextMatchesKind(kind, it.context)
+                                filterContextMatchesKind(timelineKind, it.context)
                             }
                         )
                         // After the filters are loaded we need to reload displayed content to apply them.
@@ -585,28 +553,15 @@ abstract class TimelineViewModel(
     }
 
     companion object {
-        private const val TAG = "TimelineVM"
+        private const val TAG = "TimelineViewModel"
         internal const val LOAD_AT_ONCE = 30
         private const val DEBOUNCE_TIMEOUT_MS = 500L
 
         fun filterContextMatchesKind(
-            kind: Kind,
+            timelineKind: TimelineKind,
             filterContext: List<String>
         ): Boolean {
-            return filterContext.contains(kind.toFilterKind().kind)
-        }
-    }
-
-    enum class Kind {
-        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS;
-
-        fun toFilterKind(): Filter.Kind {
-            return when (valueOf(name)) {
-                HOME, LIST -> Filter.Kind.HOME
-                PUBLIC_FEDERATED, PUBLIC_LOCAL, TAG, FAVOURITES -> Filter.Kind.PUBLIC
-                USER, USER_WITH_REPLIES, USER_PINNED -> Filter.Kind.ACCOUNT
-                else -> Filter.Kind.PUBLIC
-            }
+            return filterContext.contains(Filter.Kind.from(timelineKind).kind)
         }
     }
 }

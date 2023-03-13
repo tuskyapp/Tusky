@@ -37,9 +37,6 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -67,8 +64,8 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override lateinit var statuses: Flow<PagingData<StatusViewData>>
 
-    override fun init(kind: Kind, id: String?, tags: List<String>) {
-        super.init(kind, id, tags)
+    override fun init(timelineKind: TimelineKind) {
+        super.init(timelineKind)
         statuses = getStatuses(timelineKind)
     }
 
@@ -257,54 +254,6 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override suspend fun invalidate() {
         currentSource?.invalidate()
-    }
-
-    @Throws(IOException::class, HttpException::class)
-    suspend fun fetchStatusesForKind(
-        fromId: String?,
-        uptoId: String?,
-        limit: Int
-    ): Response<List<Status>> {
-        return when (kind) {
-            Kind.HOME -> api.homeTimeline(maxId = fromId, sinceId = uptoId, limit = limit)
-            Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
-            Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
-            Kind.TAG -> {
-                val firstHashtag = tags[0]
-                val additionalHashtags = tags.subList(1, tags.size)
-                api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
-            }
-            Kind.USER -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = true,
-                onlyMedia = null,
-                pinned = null
-            )
-            Kind.USER_PINNED -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = true
-            )
-            Kind.USER_WITH_REPLIES -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = null
-            )
-            Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
-            Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
-            Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
-        }
     }
 
     private fun StatusViewData.Concrete.update() {

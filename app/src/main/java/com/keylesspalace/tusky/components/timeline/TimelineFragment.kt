@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesFragment.Reading
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -101,7 +102,7 @@ class TimelineFragment :
     lateinit var eventHub: EventHub
 
     private val viewModel: TimelineViewModel by unsafeLazy {
-        if (kind == TimelineViewModel.Kind.HOME) {
+        if (timelineKind == TimelineKind.Home) {
             ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
         } else {
             ViewModelProvider(this, viewModelFactory)[NetworkTimelineViewModel::class.java]
@@ -110,7 +111,7 @@ class TimelineFragment :
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
-    private lateinit var kind: TimelineViewModel.Kind
+    private lateinit var timelineKind: TimelineKind
 
     private lateinit var adapter: TimelinePagingAdapter
 
@@ -151,34 +152,14 @@ class TimelineFragment :
         super.onCreate(savedInstanceState)
 
         val arguments = requireArguments()
-        kind = TimelineViewModel.Kind.valueOf(arguments.getString(KIND_ARG)!!)
-        val id: String? = if (kind == TimelineViewModel.Kind.USER ||
-            kind == TimelineViewModel.Kind.USER_PINNED ||
-            kind == TimelineViewModel.Kind.USER_WITH_REPLIES ||
-            kind == TimelineViewModel.Kind.LIST
-        ) {
-            arguments.getString(ID_ARG)!!
-        } else {
-            null
-        }
 
-        val tags = if (kind == TimelineViewModel.Kind.TAG) {
-            arguments.getStringArrayList(HASHTAGS_ARG)!!
-        } else {
-            listOf()
-        }
-        viewModel.init(
-            kind,
-            id,
-            tags,
-        )
+        timelineKind = arguments.getParcelable(KIND_ARG)!!
+
+        viewModel.init(timelineKind)
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        adapter = TimelinePagingAdapter(
-            viewModel.statusDisplayOptions.value,
-            this
-        )
+        adapter = TimelinePagingAdapter(viewModel.statusDisplayOptions.value, this)
     }
 
     override fun onCreateView(
@@ -353,7 +334,7 @@ class TimelineFragment :
                                         indexed.value?.id == it.action.statusViewData.id
                                     } ?: return@collect
 
-                                val statusViewData=
+                                val statusViewData =
                                     indexedViewData.value as? StatusViewData.Concrete ?: return@collect
 
                                 val status = when (it) {
@@ -606,43 +587,41 @@ class TimelineFragment :
     }
 
     override fun onViewTag(tag: String) {
-        if (viewModel.kind == TimelineViewModel.Kind.TAG && viewModel.tags.size == 1 &&
-            viewModel.tags.contains(tag)
-        ) {
-            // If already viewing a tag page, then ignore any request to view that tag again.
+        val timelineKind = viewModel.timelineKind
+
+        // If already viewing a tag page, then ignore any request to view that tag again.
+        if (timelineKind is TimelineKind.Tag && timelineKind.tags.contains(tag)) {
             return
         }
+
         super.viewTag(tag)
     }
 
     override fun onViewAccount(id: String) {
-        if ((
-            viewModel.kind == TimelineViewModel.Kind.USER ||
-                viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
-            ) &&
-            viewModel.id == id
-        ) {
-            /* If already viewing an account page, then any requests to view that account page
-             * should be ignored. */
+        val timelineKind = viewModel.timelineKind
+
+        // Ignore request to view the account page we're currently viewing
+        if (timelineKind is TimelineKind.User && timelineKind.id == id) {
             return
         }
+
         super.viewAccount(id)
     }
 
     private fun handleStatusComposeEvent(status: Status) {
-        when (kind) {
-            TimelineViewModel.Kind.HOME,
-            TimelineViewModel.Kind.PUBLIC_FEDERATED,
-            TimelineViewModel.Kind.PUBLIC_LOCAL -> adapter.refresh()
-            TimelineViewModel.Kind.USER,
-            TimelineViewModel.Kind.USER_WITH_REPLIES -> if (status.account.id == viewModel.id) {
+        when (timelineKind) {
+            is TimelineKind.User.Pinned -> return
+
+            is TimelineKind.Home,
+            is TimelineKind.PublicFederated,
+            is TimelineKind.PublicLocal -> adapter.refresh()
+            is TimelineKind.User -> if (status.account.id == (timelineKind as TimelineKind.User).id) {
                 adapter.refresh()
             }
-            TimelineViewModel.Kind.TAG,
-            TimelineViewModel.Kind.FAVOURITES,
-            TimelineViewModel.Kind.LIST,
-            TimelineViewModel.Kind.BOOKMARKS,
-            TimelineViewModel.Kind.USER_PINNED -> return
+            is TimelineKind.Bookmarks,
+            is TimelineKind.Favourites,
+            is TimelineKind.Tag,
+            is TimelineKind.UserList -> return
         }
     }
 
@@ -652,9 +631,9 @@ class TimelineFragment :
     }
 
     private fun actionButtonPresent(): Boolean {
-        return viewModel.kind != TimelineViewModel.Kind.TAG &&
-            viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
-            viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
+        return viewModel.timelineKind !is TimelineKind.Tag &&
+            viewModel.timelineKind !is TimelineKind.Favourites &&
+            viewModel.timelineKind !is TimelineKind.Bookmarks &&
             activity is ActionButtonActivity
     }
 
@@ -685,33 +664,18 @@ class TimelineFragment :
     }
 
     companion object {
-        private const val TAG = "TimelineF" // logging tag
+        private const val TAG = "TimelineFragment" // logging tag
         private const val KIND_ARG = "kind"
-        private const val ID_ARG = "id"
-        private const val HASHTAGS_ARG = "hashtags"
         private const val ARG_ENABLE_SWIPE_TO_REFRESH = "enableSwipeToRefresh"
 
         fun newInstance(
-            kind: TimelineViewModel.Kind,
-            hashtagOrId: String? = null,
+            timelineKind: TimelineKind,
             enableSwipeToRefresh: Boolean = true
         ): TimelineFragment {
             val fragment = TimelineFragment()
-            val arguments = Bundle(3)
-            arguments.putString(KIND_ARG, kind.name)
-            arguments.putString(ID_ARG, hashtagOrId)
+            val arguments = Bundle(2)
+            arguments.putParcelable(KIND_ARG, timelineKind)
             arguments.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, enableSwipeToRefresh)
-            fragment.arguments = arguments
-            return fragment
-        }
-
-        @JvmStatic
-        fun newHashtagInstance(hashtags: List<String>): TimelineFragment {
-            val fragment = TimelineFragment()
-            val arguments = Bundle(3)
-            arguments.putString(KIND_ARG, TimelineViewModel.Kind.TAG.name)
-            arguments.putStringArrayList(HASHTAGS_ARG, ArrayList(hashtags))
-            arguments.putBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
             fragment.arguments = arguments
             return fragment
         }

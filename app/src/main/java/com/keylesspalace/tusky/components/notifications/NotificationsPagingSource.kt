@@ -58,7 +58,7 @@ class NotificationsPagingSource @Inject constructor(
             }
 
             if (!response.isSuccessful) {
-                return LoadResult.Error(Throwable(response.errorBody().toString()))
+                return LoadResult.Error(Throwable(response.errorBody()?.string()))
             }
 
             val links = getPageLinks(response.headers()["link"])

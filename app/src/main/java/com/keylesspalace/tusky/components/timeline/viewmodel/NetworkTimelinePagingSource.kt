@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -23,6 +24,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.parcelize.Parcelize
 import okhttp3.Headers
 import retrofit2.HttpException
 import retrofit2.Response
@@ -37,17 +39,25 @@ import javax.inject.Inject
 data class Links(val next: String?, val prev: String?)
 
 /** A timeline's type. Hold's data necessary to display that timeline. */
-sealed class TimelineKind {
+@Parcelize
+sealed class TimelineKind : Parcelable {
     object Home : TimelineKind()
     object PublicFederated : TimelineKind()
     object PublicLocal : TimelineKind()
     data class Tag(val tags: List<String>) : TimelineKind()
-    data class User(val id: String) : TimelineKind()
-    data class UserPinned(val id: String) : TimelineKind()
-    data class UserReplies(val id: String) : TimelineKind()
+    /** Any timeline showing statuses from a single user */
+    @Parcelize
+    sealed class User(open val id: String) : TimelineKind() {
+        /** Timeline showing just the user's statuses (no replies) */
+        data class Posts(override val id: String) : User(id)
+        /** Timeline showing the user's pinned statuses */
+        data class Pinned(override val id: String) : User(id)
+        /** Timeline showing the user's top-level statuses and replies they have made */
+        data class Replies(override val id: String) : User(id)
+    }
     object Favourites : TimelineKind()
     object Bookmarks : TimelineKind()
-    data class UserList(val id: String) : TimelineKind()
+    data class UserList(val id: String, val title: String) : TimelineKind()
 }
 
 /** [PagingSource] for Mastodon Status, identified by the Status ID */
@@ -74,7 +84,7 @@ class NetworkTimelinePagingSource @Inject constructor(
             }
 
             if (!response.isSuccessful) {
-                return LoadResult.Error(Throwable(response.errorBody().toString()))
+                return LoadResult.Error(Throwable(response.errorBody()?.string()))
             }
 
             val links = getPageLinks(response.headers()["link"])
@@ -104,7 +114,7 @@ class NetworkTimelinePagingSource @Inject constructor(
                 val additionalHashtags = kind.tags.subList(1, kind.tags.size)
                 api.hashtagTimeline(firstHashtag, additionalHashtags, null, maxId, minId, limit)
             }
-            is TimelineKind.User -> api.accountStatuses(
+            is TimelineKind.User.Posts -> api.accountStatuses(
                 kind.id,
                 maxId,
                 minId,
@@ -113,7 +123,7 @@ class NetworkTimelinePagingSource @Inject constructor(
                 onlyMedia = null,
                 pinned = null
             )
-            is TimelineKind.UserPinned -> api.accountStatuses(
+            is TimelineKind.User.Pinned -> api.accountStatuses(
                 kind.id,
                 maxId,
                 minId,
@@ -122,7 +132,7 @@ class NetworkTimelinePagingSource @Inject constructor(
                 onlyMedia = null,
                 pinned = true
             )
-            is TimelineKind.UserReplies -> api.accountStatuses(
+            is TimelineKind.User.Replies -> api.accountStatuses(
                 kind.id,
                 maxId,
                 minId,
@@ -195,7 +205,6 @@ class NetworkTimelinePagingSource @Inject constructor(
                 .build()
 
             return@coroutineScope Response.success(statuses, headers)
-
         }
 
         // The user's last read status was missing or is filtered. Use the page of

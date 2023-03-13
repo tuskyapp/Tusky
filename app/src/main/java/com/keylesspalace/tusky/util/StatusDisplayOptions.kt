@@ -120,7 +120,7 @@ data class StatusDisplayOptions(
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
             cardViewMode = if (preferences.getBoolean(PrefKeys.SHOW_CARDS_IN_TIMELINES, false)) {
                 CardViewMode.INDENTED
-           } else {
+            } else {
                 CardViewMode.NONE
             },
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),

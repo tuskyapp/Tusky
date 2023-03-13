@@ -32,7 +32,7 @@ import javax.inject.Inject
 class NetworkTimelineRepository @Inject constructor(
     private val mastodonApi: MastodonApi
 ) {
-    private var factory: InvalidatingPagingSourceFactory<String, Status>?  = null
+    private var factory: InvalidatingPagingSourceFactory<String, Status>? = null
 
     /** @return flow of Mastodon [Status], loaded in [pageSize] increments. */
     fun getStatusStream(
