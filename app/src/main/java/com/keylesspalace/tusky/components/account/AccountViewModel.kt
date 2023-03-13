@@ -147,7 +147,7 @@ class AccountViewModel @Inject constructor(
 
     fun unblockDomain(instance: String) {
         viewModelScope.launch {
-            mastodonApi.blockDomain(instance).fold({
+            mastodonApi.unblockDomain(instance).fold({
                 val relation = relationshipData.value?.data
                 if (relation != null) {
                     relationshipData.postValue(Success(relation.copy(blockingDomain = false)))
