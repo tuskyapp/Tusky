@@ -36,7 +36,9 @@ class FollowRequestsAdapter(
 
     override fun createAccountViewHolder(parent: ViewGroup): FollowRequestViewHolder {
         val binding = ItemFollowRequestBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return FollowRequestViewHolder(
             binding,

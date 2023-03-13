@@ -62,7 +62,7 @@ class FiltersViewModel @Inject constructor(
                             },
                             {
                                 Snackbar.make(parent, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
-                            },
+                            }
                         )
                     } else {
                         Snackbar.make(parent, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()

@@ -54,7 +54,7 @@ fun mockStatus(
     poll = null,
     card = null,
     language = null,
-    filtered = null,
+    filtered = null
 )
 
 fun mockStatusViewData(
@@ -110,7 +110,7 @@ fun mockStatusEntityWithAccount(
 
 fun mockPlaceholderEntityWithAccount(
     id: String,
-    userId: Long = 1,
+    userId: Long = 1
 ): TimelineStatusWithAccount {
     return TimelineStatusWithAccount(
         status = Placeholder(id, false).toEntity(userId)

@@ -82,7 +82,7 @@ data class AccountEntity(
     var pushPubKey: String = "",
     var pushPrivKey: String = "",
     var pushAuth: String = "",
-    var pushServerKey: String = "",
+    var pushServerKey: String = ""
 ) {
 
     val identifier: String

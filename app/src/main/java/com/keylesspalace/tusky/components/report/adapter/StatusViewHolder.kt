@@ -85,8 +85,11 @@ class StatusViewHolder(
         val sensitive = viewData.status.sensitive
 
         statusViewHelper.setMediasPreview(
-            statusDisplayOptions, viewData.status.attachments,
-            sensitive, previewListener, viewState.isMediaShow(viewData.id, viewData.status.sensitive),
+            statusDisplayOptions,
+            viewData.status.attachments,
+            sensitive,
+            previewListener,
+            viewState.isMediaShow(viewData.id, viewData.status.sensitive),
             mediaViewHeight
         )
 
@@ -97,8 +100,10 @@ class StatusViewHolder(
     private fun updateTextView() {
         viewdata()?.let { viewdata ->
             setupCollapsedState(
-                shouldTrimStatus(viewdata.content), viewState.isCollapsed(viewdata.id, true),
-                viewState.isContentShow(viewdata.id, viewdata.status.sensitive), viewdata.spoilerText
+                shouldTrimStatus(viewdata.content),
+                viewState.isCollapsed(viewdata.id, true),
+                viewState.isContentShow(viewdata.id, viewdata.status.sensitive),
+                viewdata.spoilerText
             )
 
             if (viewdata.spoilerText.isBlank()) {

@@ -194,7 +194,7 @@ interface MastodonApi {
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
         @Header("Idempotency-Key") idempotencyKey: String,
-        @Body editedStatus: NewStatus,
+        @Body editedStatus: NewStatus
     ): NetworkResult<Status>
 
     @GET("api/v1/statuses/{id}")
@@ -298,7 +298,7 @@ interface MastodonApi {
     @GET("api/v1/accounts/verify_credentials")
     suspend fun accountVerifyCredentials(
         @Header(DOMAIN_HEADER) domain: String? = null,
-        @Header("Authorization") auth: String? = null,
+        @Header("Authorization") auth: String? = null
     ): NetworkResult<Account>
 
     @FormUrlEncoded
@@ -306,7 +306,7 @@ interface MastodonApi {
     fun accountUpdateSource(
         @Field("source[privacy]") privacy: String?,
         @Field("source[sensitive]") sensitive: Boolean?,
-        @Field("source[language]") language: String?,
+        @Field("source[language]") language: String?
     ): Call<Account>
 
     @Multipart
@@ -607,7 +607,7 @@ interface MastodonApi {
         @Field("title") title: String,
         @Field("context[]") context: List<String>,
         @Field("filter_action") filterAction: String,
-        @Field("expires_in") expiresInSeconds: Int?,
+        @Field("expires_in") expiresInSeconds: Int?
     ): NetworkResult<Filter>
 
     @FormUrlEncoded
@@ -617,7 +617,7 @@ interface MastodonApi {
         @Field("title") title: String? = null,
         @Field("context[]") context: List<String>? = null,
         @Field("filter_action") filterAction: String? = null,
-        @Field("expires_in") expiresInSeconds: Int? = null,
+        @Field("expires_in") expiresInSeconds: Int? = null
     ): NetworkResult<Filter>
 
     @DELETE("api/v2/filters/{id}")
@@ -630,7 +630,7 @@ interface MastodonApi {
     suspend fun addFilterKeyword(
         @Path("filterId") filterId: String,
         @Field("keyword") keyword: String,
-        @Field("whole_word") wholeWord: Boolean,
+        @Field("whole_word") wholeWord: Boolean
     ): NetworkResult<FilterKeyword>
 
     @FormUrlEncoded
@@ -638,12 +638,12 @@ interface MastodonApi {
     suspend fun updateFilterKeyword(
         @Path("keywordId") keywordId: String,
         @Field("keyword") keyword: String,
-        @Field("whole_word") wholeWord: Boolean,
+        @Field("whole_word") wholeWord: Boolean
     ): NetworkResult<FilterKeyword>
 
     @DELETE("api/v2/filters/keywords/{keywordId}")
     suspend fun deleteFilterKeyword(
-        @Path("keywordId") keywordId: String,
+        @Path("keywordId") keywordId: String
     ): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
@@ -751,7 +751,7 @@ interface MastodonApi {
     @DELETE("api/v1/push/subscription")
     suspend fun unsubscribePushNotifications(
         @Header("Authorization") auth: String,
-        @Header(DOMAIN_HEADER) domain: String,
+        @Header(DOMAIN_HEADER) domain: String
     ): NetworkResult<ResponseBody>
 
     @GET("api/v1/tags/{name}")
@@ -762,7 +762,7 @@ interface MastodonApi {
         @Query("min_id") minId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("max_id") maxId: String? = null,
-        @Query("limit") limit: Int? = null,
+        @Query("limit") limit: Int? = null
     ): Response<List<HashTag>>
 
     @POST("api/v1/tags/{name}/follow")

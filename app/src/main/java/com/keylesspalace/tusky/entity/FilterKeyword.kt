@@ -8,5 +8,5 @@ import kotlinx.parcelize.Parcelize
 data class FilterKeyword(
     val id: String,
     val keyword: String,
-    @SerializedName("whole_word") val wholeWord: Boolean,
+    @SerializedName("whole_word") val wholeWord: Boolean
 ) : Parcelable

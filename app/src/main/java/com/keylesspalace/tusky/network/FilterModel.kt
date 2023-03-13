@@ -29,8 +29,9 @@ class FilterModel @Inject constructor() {
             // Patterns are expensive and thread-safe, matchers are neither.
             val matcher = pattern?.matcher("") ?: return Filter.Action.NONE
 
-            if (status.poll?.options?.any { matcher.reset(it.title).find() } == true)
+            if (status.poll?.options?.any { matcher.reset(it.title).find() } == true) {
                 return Filter.Action.HIDE
+            }
 
             val spoilerText = status.actionableStatus.spoilerText
             val attachmentsDescriptions = status.attachments.mapNotNull { it.description }

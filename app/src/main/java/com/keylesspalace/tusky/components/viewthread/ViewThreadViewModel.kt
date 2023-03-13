@@ -165,7 +165,7 @@ class ViewThreadViewModel @Inject constructor(
                 _uiState.value = ThreadUiState.Success(
                     statusViewData = listOf(detailedStatus),
                     detailedStatusPosition = 0,
-                    revealButton = RevealButtonState.NO_BUTTON,
+                    revealButton = RevealButtonState.NO_BUTTON
                 )
             })
         }

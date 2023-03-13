@@ -295,7 +295,6 @@ abstract class SFragment : Fragment(), Injectable {
     }
 
     private fun onMute(accountId: String, accountUsername: String) {
-
         showMuteAccountDialog(this.requireActivity(), accountUsername) { notifications: Boolean?, duration: Int? ->
             lifecycleScope.launch {
                 timelineCases.mute(accountId, notifications == true, duration)
@@ -325,7 +324,8 @@ abstract class SFragment : Fragment(), Injectable {
                     view.transitionName = url
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         requireActivity(),
-                        view, url
+                        view,
+                        url
                     )
                     startActivity(intent, options.toBundle())
                 } else {

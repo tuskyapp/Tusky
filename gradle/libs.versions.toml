@@ -9,6 +9,7 @@ androidx-core = "1.9.0"
 androidx-exifinterface = "1.3.6"
 androidx-fragment = "1.5.5"
 androidx-junit = "1.1.5"
+androidx-lifecycle = "2.6.0"
 androidx-paging = "3.1.1"
 androidx-preference = "1.2.0"
 androidx-recyclerview = "1.2.1"
@@ -33,7 +34,6 @@ glide-animation-plugin = "2.24.0"
 gson = "2.10.1"
 kotlin = "1.8.10"
 image-cropper = "4.3.2"
-lifecycle = "2.5.1"
 material = "1.8.0"
 material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
@@ -58,7 +58,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.3.1"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -75,10 +75,10 @@ androidx-emoji2-views-core = { module = "androidx.emoji2:emoji2-views", version.
 androidx-emoji2-view-helper = { module = "androidx.emoji2:emoji2-views-helper", version.ref = "emoji2" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
-androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "androidx-paging" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }

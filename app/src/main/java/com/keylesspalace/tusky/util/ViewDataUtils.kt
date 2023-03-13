@@ -67,13 +67,13 @@ fun Notification.toViewData(
         this.id,
         this.account,
         this.status?.toViewData(isShowingContent, isExpanded, isCollapsed),
-        this.report,
+        this.report
     )
 }
 
 @JvmName("tagToViewData")
 fun TrendingTag.toViewData(): TrendingViewData.Tag {
     return TrendingViewData.Tag(
-        tag = this,
+        tag = this
     )
 }

@@ -77,7 +77,6 @@ class ConversationsViewModel @Inject constructor(
     fun bookmark(bookmark: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             timelineCases.bookmark(conversation.lastStatus.id, bookmark).fold({
-
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
                     bookmarked = bookmark

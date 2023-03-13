@@ -131,8 +131,10 @@ class TimelinePagingAdapter(
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
                     listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                } else // If items are different - update the whole view holder
+                } else {
+                    // If items are different - update the whole view holder
                     null
+                }
             }
         }
     }

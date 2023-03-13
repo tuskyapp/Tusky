@@ -98,7 +98,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
             title = title,
             context = contexts,
             filterAction = action,
-            expiresInSeconds = expiresInSeconds,
+            expiresInSeconds = expiresInSeconds
         ).fold(
             { newFilter ->
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
@@ -123,7 +123,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
             title = title,
             context = contexts,
             filterAction = action,
-            expiresInSeconds = expiresInSeconds,
+            expiresInSeconds = expiresInSeconds
         ).fold(
             {
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
@@ -175,7 +175,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
                     context = context,
                     irreversible = false,
                     wholeWord = keyword.wholeWord,
-                    expiresInSeconds = expiresInSeconds,
+                    expiresInSeconds = expiresInSeconds
                 )
             }
         }

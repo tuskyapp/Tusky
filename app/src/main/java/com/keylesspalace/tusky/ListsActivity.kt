@@ -134,8 +134,11 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         val dialog = AlertDialog.Builder(this)
             .setView(layout)
             .setPositiveButton(
-                if (list == null) R.string.action_create_list
-                else R.string.action_rename_list
+                if (list == null) {
+                    R.string.action_create_list
+                } else {
+                    R.string.action_rename_list
+                }
             ) { _, _ ->
                 onPickedDialogName(editText.text, list?.id)
             }
@@ -181,7 +184,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                 if (state.lists.isEmpty()) {
                     binding.messageView.show()
                     binding.messageView.setup(
-                        R.drawable.elephant_friend_empty, R.string.message_empty,
+                        R.drawable.elephant_friend_empty,
+                        R.string.message_empty,
                         null
                     )
                 } else {
@@ -192,7 +196,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun showMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.listsRecycler, messageId, Snackbar.LENGTH_SHORT
+            binding.listsRecycler,
+            messageId,
+            Snackbar.LENGTH_SHORT
         ).show()
     }
 
