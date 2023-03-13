@@ -183,7 +183,7 @@ class NetworkTimelineViewModel @Inject constructor(
                                     .copy(
                                         isShowingContent = oldStatus!!.isShowingContent,
                                         isExpanded = oldStatus.isExpanded,
-                                        isCollapsed = oldStatus.isCollapsed,
+                                        isCollapsed = oldStatus.isCollapsed
                                     )
                             }
 

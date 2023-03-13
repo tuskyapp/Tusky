@@ -57,7 +57,7 @@ data class FilterV1(
                 FilterKeyword(
                     id = id,
                     keyword = phrase,
-                    wholeWord = wholeWord,
+                    wholeWord = wholeWord
                 )
             )
         )

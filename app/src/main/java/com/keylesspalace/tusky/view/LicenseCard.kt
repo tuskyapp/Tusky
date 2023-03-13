@@ -40,12 +40,15 @@ class LicenseCard
         setCardBackgroundColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK))
 
         val (name, license, link) = context.theme.obtainStyledAttributes(
-            attrs, R.styleable.LicenseCard, 0, 0
+            attrs,
+            R.styleable.LicenseCard,
+            0,
+            0
         ).use { a ->
             Triple(
                 a.getString(R.styleable.LicenseCard_name),
                 a.getString(R.styleable.LicenseCard_license),
-                a.getString(R.styleable.LicenseCard_link),
+                a.getString(R.styleable.LicenseCard_link)
             )
         }
 

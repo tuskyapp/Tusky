@@ -153,12 +153,14 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         if (error is IOException) {
             binding.messageView.setup(
                 R.drawable.elephant_offline,
-                R.string.error_network, retryAction
+                R.string.error_network,
+                retryAction
             )
         } else {
             binding.messageView.setup(
                 R.drawable.elephant_error,
-                R.string.error_generic, retryAction
+                R.string.error_generic,
+                retryAction
             )
         }
     }

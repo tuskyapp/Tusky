@@ -30,7 +30,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowViewHolder(
     private val binding: ItemFollowBinding,
-    private val notificationActionListener: NotificationActionListener,
+    private val notificationActionListener: NotificationActionListener
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
     private val avatarRadius42dp = itemView.context.resources.getDimensionPixelSize(
         R.dimen.avatar_radius_42dp

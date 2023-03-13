@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.entity.MastoList
 
 class ListSelectionAdapter(context: Context) : ArrayAdapter<MastoList>(context, R.layout.item_picker_list) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-
         val binding = if (convertView == null) {
             ItemPickerListBinding.inflate(LayoutInflater.from(context), parent, false)
         } else {

@@ -15,7 +15,7 @@ import retrofit2.HttpException
 class ConversationsRemoteMediator(
     private val api: MastodonApi,
     private val db: AppDatabase,
-    accountManager: AccountManager,
+    accountManager: AccountManager
 ) : RemoteMediator<Int, ConversationEntity>() {
 
     private var nextKey: String? = null
@@ -28,7 +28,6 @@ class ConversationsRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, ConversationEntity>
     ): MediatorResult {
-
         if (loadType == LoadType.PREPEND) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
@@ -47,7 +46,6 @@ class ConversationsRemoteMediator(
             }
 
             db.withTransaction {
-
                 if (loadType == LoadType.REFRESH) {
                     db.conversationDao().deleteForAccount(activeAccount.id)
                 }

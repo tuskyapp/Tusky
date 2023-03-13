@@ -59,6 +59,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+
     @Inject
     lateinit var eventHub: EventHub
 
@@ -161,7 +162,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onTabAdded(tab: TabData) {
-
         if (currentTabs.size >= MAX_TAB_COUNT) {
             return
         }
@@ -223,7 +223,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
-
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)

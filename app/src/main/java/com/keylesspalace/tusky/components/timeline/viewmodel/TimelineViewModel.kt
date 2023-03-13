@@ -302,7 +302,7 @@ abstract class TimelineViewModel(
                     } else {
                         Log.e(TAG, "Error getting filters", throwable)
                     }
-                },
+                }
             )
         }
     }
