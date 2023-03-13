@@ -43,7 +43,7 @@ sealed class StatusViewData {
          * @return Whether the post is collapsed or fully expanded.
          */
         val isCollapsed: Boolean,
-        val isDetailed: Boolean = false,
+        val isDetailed: Boolean = false
     ) : StatusViewData() {
         override val id: String
             get() = status.id

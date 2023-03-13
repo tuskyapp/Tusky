@@ -75,7 +75,7 @@ data class UiState(
     val showFabWhileScrolling: Boolean = true,
 
     /** True if media previews should be shown */
-    val showMediaPreview: Boolean = true,
+    val showMediaPreview: Boolean = true
 )
 
 /** Preferences the UI reacts to */
@@ -547,7 +547,7 @@ abstract class TimelineViewModel(
                     } else {
                         Log.e(TAG, "Error getting filters", throwable)
                     }
-                },
+                }
             )
         }
     }

@@ -28,7 +28,7 @@ data class Notification(
     val id: String,
     val account: TimelineAccount,
     val status: Status?,
-    val report: Report?,
+    val report: Report?
 ) {
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */
@@ -70,8 +70,9 @@ data class Notification(
             @JvmStatic
             fun byString(s: String): Type {
                 values().forEach {
-                    if (s == it.presentation)
+                    if (s == it.presentation) {
                         return it
+                    }
                 }
                 return UNKNOWN
             }
@@ -115,7 +116,11 @@ data class Notification(
             return if (status.mentions.any {
                 it.id == accountId
             }
-            ) this else copy(type = Type.STATUS)
+            ) {
+                this
+            } else {
+                copy(type = Type.STATUS)
+            }
         }
         return this
     }

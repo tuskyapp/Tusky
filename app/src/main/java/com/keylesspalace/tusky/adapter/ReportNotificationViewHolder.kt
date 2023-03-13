@@ -35,7 +35,7 @@ import java.util.Date
 
 class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding,
-    private val notificationActionListener: NotificationActionListener,
+    private val notificationActionListener: NotificationActionListener
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
 
     override fun bind(

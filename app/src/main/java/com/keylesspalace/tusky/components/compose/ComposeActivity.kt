@@ -809,25 +809,26 @@ class ComposeActivity :
     }
 
     private fun onMediaPick() {
-        addMediaBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                // Wait until bottom sheet is not collapsed and show next screen after
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    addMediaBehavior.removeBottomSheetCallback(this)
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(
-                            this@ComposeActivity,
-                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-                        )
-                    } else {
-                        pickMediaFile.launch(true)
+        addMediaBehavior.addBottomSheetCallback(
+            object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    // Wait until bottom sheet is not collapsed and show next screen after
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        addMediaBehavior.removeBottomSheetCallback(this)
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(
+                                this@ComposeActivity,
+                                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                            )
+                        } else {
+                            pickMediaFile.launch(true)
+                        }
                     }
                 }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        }
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            }
         )
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -959,7 +960,6 @@ class ComposeActivity :
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
-
             lifecycleScope.launch {
                 viewModel.sendStatus(contentText, spoilerText)
                 deleteDraftAndFinish()
@@ -978,7 +978,8 @@ class ComposeActivity :
                 pickMediaFile.launch(true)
             } else {
                 Snackbar.make(
-                    binding.activityCompose, R.string.error_media_upload_permission,
+                    binding.activityCompose,
+                    R.string.error_media_upload_permission,
                     Snackbar.LENGTH_SHORT
                 ).apply {
                     setAction(R.string.action_retry) { onMediaPick() }
@@ -1012,9 +1013,13 @@ class ComposeActivity :
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
         setDrawableTint(
-            this, button.drawable,
-            if (colorActive) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled
+            this,
+            button.drawable,
+            if (colorActive) {
+                android.R.attr.textColorTertiary
+            } else {
+                R.attr.textColorDisabled
+            }
         )
     }
 
@@ -1022,8 +1027,11 @@ class ComposeActivity :
         binding.addPollTextActionTextView.isEnabled = enable
         val textColor = MaterialColors.getColor(
             binding.addPollTextActionTextView,
-            if (enable) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled
+            if (enable) {
+                android.R.attr.textColorTertiary
+            } else {
+                R.attr.textColorDisabled
+            }
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
@@ -1199,8 +1207,11 @@ class ComposeActivity :
         lifecycleScope.launch {
             val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
                 ProgressDialog.show(
-                    this@ComposeActivity, null,
-                    getString(R.string.saving_draft), true, false
+                    this@ComposeActivity,
+                    null,
+                    getString(R.string.saving_draft),
+                    true,
+                    false
                 )
             } else {
                 null

@@ -48,7 +48,6 @@ class TootButton
 
     fun setStatusVisibility(visibility: Status.Visibility) {
         if (!smallStyle) {
-
             icon = when (visibility) {
                 Status.Visibility.PUBLIC -> {
                     setText(R.string.action_send_public)

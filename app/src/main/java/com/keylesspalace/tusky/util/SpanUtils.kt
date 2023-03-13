@@ -43,7 +43,7 @@ private enum class FoundMatchType {
     HTTP_URL,
     HTTPS_URL,
     TAG,
-    MENTION,
+    MENTION
 }
 
 private class FindCharsResult {

@@ -215,7 +215,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 } else {
                     // No account was provided, show the chooser
                     showAccountChooserDialog(
-                        getString(R.string.action_share_as), true,
+                        getString(R.string.action_share_as),
+                        true,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
                                 val requestedId = account.id
@@ -295,7 +296,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TRENDING),
+                            addTrendingButton = !event.newTabs.hasTab(TRENDING)
                         )
 
                         setupTabs(false)
@@ -407,7 +408,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             // FIXME: blackberry keyONE raises SHIFT key event even CTRL IS PRESSED
             when (keyCode) {
                 KeyEvent.KEYCODE_N -> {
-
                     // open compose activity by pressing SHIFT + N (or CTRL + N)
                     val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
                     startActivity(composeIntent)
@@ -444,7 +444,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         addSearchButton: Boolean,
         addTrendingButton: Boolean
     ) {
-
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)
@@ -708,7 +707,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         tabAdapter.notifyItemRangeChanged(0, tabs.size)
 
         tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
-            tab: TabLayout.Tab, position: Int ->
+                tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
             tab.contentDescription = when (tabs[position].id) {
                 LIST -> tabs[position].arguments[1]
@@ -881,7 +880,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
-
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
@@ -909,7 +907,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     .into(avatarView)
             }
         } else {
-
             binding.bottomNavAvatar.hide()
             binding.topNavAvatar.hide()
 
@@ -1040,7 +1037,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.setActiveProfile(accountManager.activeAccount!!.id)
         binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername(this)) {
             accountManager.activeAccount!!.fullName
-        } else null
+        } else {
+            null
+        }
     }
 
     override fun getActionButton() = binding.composeButton

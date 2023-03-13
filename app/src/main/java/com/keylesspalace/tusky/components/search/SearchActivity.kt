@@ -75,7 +75,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
         binding.pages.isUserInputEnabled = enableSwipeForTabs
 
         TabLayoutMediator(binding.tabs, binding.pages) {
-            tab, position ->
+                tab, position ->
             tab.text = getPageTitle(position)
         }.attach()
     }

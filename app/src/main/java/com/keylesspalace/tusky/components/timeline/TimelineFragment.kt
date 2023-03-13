@@ -217,7 +217,9 @@ class TimelineFragment :
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
                                 binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                            } else binding.recyclerView.scrollToPosition(0)
+                            } else {
+                                binding.recyclerView.scrollToPosition(0)
+                            }
                         }
                     }
                 }

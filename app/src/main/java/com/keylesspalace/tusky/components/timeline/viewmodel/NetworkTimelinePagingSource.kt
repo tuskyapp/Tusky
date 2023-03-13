@@ -45,13 +45,16 @@ sealed class TimelineKind : Parcelable {
     object PublicFederated : TimelineKind()
     object PublicLocal : TimelineKind()
     data class Tag(val tags: List<String>) : TimelineKind()
+
     /** Any timeline showing statuses from a single user */
     @Parcelize
     sealed class User(open val id: String) : TimelineKind() {
         /** Timeline showing just the user's statuses (no replies) */
         data class Posts(override val id: String) : User(id)
+
         /** Timeline showing the user's pinned statuses */
         data class Pinned(override val id: String) : User(id)
+
         /** Timeline showing the user's top-level statuses and replies they have made */
         data class Replies(override val id: String) : User(id)
     }
@@ -75,11 +78,11 @@ class NetworkTimelinePagingSource @Inject constructor(
                 }
                 is LoadParams.Append -> fetchStatusesForKind(
                     maxId = params.key,
-                    limit = params.loadSize,
+                    limit = params.loadSize
                 )
                 is LoadParams.Prepend -> fetchStatusesForKind(
                     minId = params.key,
-                    limit = params.loadSize,
+                    limit = params.loadSize
                 )
             }
 
