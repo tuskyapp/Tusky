@@ -25,7 +25,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -34,8 +33,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -49,8 +46,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -341,13 +337,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun saveTabs() {
         accountManager.activeAccount?.let {
-            Single.fromCallable {
+            lifecycleScope.launch(Dispatchers.IO) {
                 it.tabPreferences = currentTabs
                 accountManager.saveAccount(it)
             }
-                .subscribeOn(Schedulers.io())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe()
         }
         tabsChanged = true
     }
