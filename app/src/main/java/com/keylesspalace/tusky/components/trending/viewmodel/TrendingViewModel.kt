@@ -55,7 +55,7 @@ class TrendingViewModel @Inject constructor(
         // or deleted. Unfortunately, there's nothing in the event to determine if it's a filter
         // that was modified, so refresh on every preference change.
         viewModelScope.launch {
-            eventHub.events.asFlow()
+            eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .collect {
                     invalidate()

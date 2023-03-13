@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import javax.inject.Inject
 
 class CacheUpdater @Inject constructor(
@@ -24,7 +23,7 @@ class CacheUpdater @Inject constructor(
         val timelineDao = appDatabase.timelineDao()
 
         scope.launch {
-            eventHub.events.asFlow().collect { event ->
+            eventHub.events.collect { event ->
                 val accountId = accountManager.activeAccount?.id ?: return@collect
                 when (event) {
                     is FavoriteEvent ->

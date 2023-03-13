@@ -197,14 +197,13 @@ class ConversationsFragment :
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {
                     onPreferenceChanged(event.preferenceKey)
                 }
             }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

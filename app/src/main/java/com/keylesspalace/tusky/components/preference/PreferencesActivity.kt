@@ -23,6 +23,7 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -38,6 +39,7 @@ import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.setAppNightMode
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PreferencesActivity :
@@ -155,8 +157,9 @@ class PreferencesActivity :
                 restartActivitiesOnBackPressedCallback.isEnabled = true
             }
         }
-
-        eventHub.dispatch(PreferenceChangedEvent(key))
+        lifecycleScope.launch {
+            eventHub.dispatch(PreferenceChangedEvent(key))
+        }
     }
 
     private fun restartCurrentActivity() {

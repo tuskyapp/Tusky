@@ -235,54 +235,54 @@ interface MastodonApi {
     ): NetworkResult<DeletedStatus>
 
     @POST("api/v1/statuses/{id}/reblog")
-    fun reblogStatus(
+    suspend fun reblogStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unreblog")
-    fun unreblogStatus(
+    suspend fun unreblogStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/favourite")
-    fun favouriteStatus(
+    suspend fun favouriteStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unfavourite")
-    fun unfavouriteStatus(
+    suspend fun unfavouriteStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/bookmark")
-    fun bookmarkStatus(
+    suspend fun bookmarkStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unbookmark")
-    fun unbookmarkStatus(
+    suspend fun unbookmarkStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/pin")
-    fun pinStatus(
+    suspend fun pinStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unpin")
-    fun unpinStatus(
+    suspend fun unpinStatus(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/mute")
-    fun muteConversation(
+    suspend fun muteConversation(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unmute")
-    fun unmuteConversation(
+    suspend fun unmuteConversation(
         @Path("id") statusId: String
-    ): Single<Status>
+    ): NetworkResult<Status>
 
     @GET("api/v1/scheduled_statuses")
     fun scheduledStatuses(
@@ -450,14 +450,14 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/domain_blocks")
-    fun blockDomain(
+    suspend fun blockDomain(
         @Field("domain") domain: String
-    ): Call<Any>
+    ): NetworkResult<Unit>
 
     @FormUrlEncoded
     // @DELETE doesn't support fields
     @HTTP(method = "DELETE", path = "api/v1/domain_blocks", hasBody = true)
-    fun unblockDomain(@Field("domain") domain: String): Call<Any>
+    suspend fun unblockDomain(@Field("domain") domain: String): NetworkResult<Unit>
 
     @GET("api/v1/favourites")
     suspend fun favourites(
@@ -648,10 +648,10 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/polls/{id}/votes")
-    fun voteInPoll(
+    suspend fun voteInPoll(
         @Path("id") id: String,
         @Field("choices[]") choices: List<Int>
-    ): Single<Poll>
+    ): NetworkResult<Poll>
 
     @GET("api/v1/announcements")
     suspend fun listAnnouncements(

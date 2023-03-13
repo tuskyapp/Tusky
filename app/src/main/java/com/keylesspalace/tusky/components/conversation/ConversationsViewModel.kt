@@ -23,6 +23,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
@@ -30,7 +31,6 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
 class ConversationsViewModel @Inject constructor(
@@ -61,25 +61,22 @@ class ConversationsViewModel @Inject constructor(
 
     fun favourite(favourite: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
-            try {
-                timelineCases.favourite(conversation.lastStatus.id, favourite).await()
-
+            timelineCases.favourite(conversation.lastStatus.id, favourite).fold({
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
                     favourited = favourite
                 )
 
                 saveConversationToDb(newConversation)
-            } catch (e: Exception) {
+            }, { e ->
                 Log.w(TAG, "failed to favourite status", e)
-            }
+            })
         }
     }
 
     fun bookmark(bookmark: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
-            try {
-                timelineCases.bookmark(conversation.lastStatus.id, bookmark).await()
+            timelineCases.bookmark(conversation.lastStatus.id, bookmark).fold({
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
@@ -87,25 +84,25 @@ class ConversationsViewModel @Inject constructor(
                 )
 
                 saveConversationToDb(newConversation)
-            } catch (e: Exception) {
+            }, { e ->
                 Log.w(TAG, "failed to bookmark status", e)
-            }
+            })
         }
     }
 
     fun voteInPoll(choices: List<Int>, conversation: ConversationViewData) {
         viewModelScope.launch {
-            try {
-                val poll = timelineCases.voteInPoll(conversation.lastStatus.id, conversation.lastStatus.status.poll?.id!!, choices).await()
-                val newConversation = conversation.toEntity(
-                    accountId = accountManager.activeAccount!!.id,
-                    poll = poll
-                )
+            timelineCases.voteInPoll(conversation.lastStatus.id, conversation.lastStatus.status.poll?.id!!, choices)
+                .fold({ poll ->
+                    val newConversation = conversation.toEntity(
+                        accountId = accountManager.activeAccount!!.id,
+                        poll = poll
+                    )
 
-                saveConversationToDb(newConversation)
-            } catch (e: Exception) {
-                Log.w(TAG, "failed to vote in poll", e)
-            }
+                    saveConversationToDb(newConversation)
+                }, { e ->
+                    Log.w(TAG, "failed to vote in poll", e)
+                })
         }
     }
 
@@ -160,7 +157,7 @@ class ConversationsViewModel @Inject constructor(
                 timelineCases.muteConversation(
                     conversation.lastStatus.id,
                     !(conversation.lastStatus.status.muted ?: false)
-                ).await()
+                )
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,

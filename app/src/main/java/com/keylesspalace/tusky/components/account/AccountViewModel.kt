@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.components.account
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -21,9 +22,6 @@ import com.keylesspalace.tusky.util.Success
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -47,12 +45,13 @@ class AccountViewModel @Inject constructor(
     private var noteDisposable: Disposable? = null
 
     init {
-        eventHub.events
-            .subscribe { event ->
+        viewModelScope.launch {
+            eventHub.events.collect { event ->
                 if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
                     accountData.postValue(Success(event.newProfileData))
                 }
-            }.autoDispose()
+            }
+        }
     }
 
     private fun obtainAccount(reload: Boolean = false) {
@@ -134,42 +133,30 @@ class AccountViewModel @Inject constructor(
     }
 
     fun blockDomain(instance: String) {
-        mastodonApi.blockDomain(instance).enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                if (response.isSuccessful) {
-                    eventHub.dispatch(DomainMuteEvent(instance))
-                    val relation = relationshipData.value?.data
-                    if (relation != null) {
-                        relationshipData.postValue(Success(relation.copy(blockingDomain = true)))
-                    }
-                } else {
-                    Log.e(TAG, "Error muting %s".format(instance))
+        viewModelScope.launch {
+            mastodonApi.blockDomain(instance).fold({
+                eventHub.dispatch(DomainMuteEvent(instance))
+                val relation = relationshipData.value?.data
+                if (relation != null) {
+                    relationshipData.postValue(Success(relation.copy(blockingDomain = true)))
                 }
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.e(TAG, "Error muting %s".format(instance), t)
-            }
-        })
+            }, { e ->
+                Log.e(TAG, "Error muting $instance", e)
+            })
+        }
     }
 
     fun unblockDomain(instance: String) {
-        mastodonApi.unblockDomain(instance).enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                if (response.isSuccessful) {
-                    val relation = relationshipData.value?.data
-                    if (relation != null) {
-                        relationshipData.postValue(Success(relation.copy(blockingDomain = false)))
-                    }
-                } else {
-                    Log.e(TAG, "Error unmuting %s".format(instance))
+        viewModelScope.launch {
+            mastodonApi.blockDomain(instance).fold({
+                val relation = relationshipData.value?.data
+                if (relation != null) {
+                    relationshipData.postValue(Success(relation.copy(blockingDomain = false)))
                 }
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.e(TAG, "Error unmuting %s".format(instance), t)
-            }
-        })
+            }, { e ->
+                Log.e(TAG, "Error unmuting $instance", e)
+            })
+        }
     }
 
     fun changeShowReblogsState() {
