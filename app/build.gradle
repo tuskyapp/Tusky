@@ -58,8 +58,12 @@ android {
     }
 
     lint {
-        disable 'MissingTranslation'
+        lintConfig file("lint.xml")
+        // Regenerate by deleting app/lint-baseline.xml, then run:
+        //   ./gradlew lintBlueDebug
+        baseline = file("lint-baseline.xml")
     }
+
     buildFeatures {
         buildConfig true
         resValues true
