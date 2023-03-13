@@ -142,5 +142,4 @@ class NotificationsPagingSourceTest {
             (loadResult as PagingSource.LoadResult.Error).throwable.message
         )
     }
-
 }

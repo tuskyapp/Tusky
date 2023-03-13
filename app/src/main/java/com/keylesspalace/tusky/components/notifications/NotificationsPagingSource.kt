@@ -37,7 +37,7 @@ data class Links(val next: String?, val prev: String?)
 class NotificationsPagingSource @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val gson: Gson,
-    private val notificationFilter: Set<Notification.Type>,
+    private val notificationFilter: Set<Notification.Type>
 ) : PagingSource<String, Notification>() {
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Notification> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
