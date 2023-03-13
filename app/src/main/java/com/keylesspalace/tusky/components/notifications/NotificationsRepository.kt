@@ -23,6 +23,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
+import com.google.gson.Gson
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +32,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class NotificationsRepository @Inject constructor(
-    private val mastodonApi: MastodonApi
+    private val mastodonApi: MastodonApi,
+    private val gson: Gson
 ) {
     private var factory: InvalidatingPagingSourceFactory<String, Notification>? = null
 
@@ -47,7 +49,7 @@ class NotificationsRepository @Inject constructor(
         Log.d(TAG, "getNotificationsStream(), filtering: $filter")
 
         factory = InvalidatingPagingSourceFactory {
-            NotificationsPagingSource(mastodonApi, filter)
+            NotificationsPagingSource(mastodonApi, gson, filter)
         }
 
         return Pager(
