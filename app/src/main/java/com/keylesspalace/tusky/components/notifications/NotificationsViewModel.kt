@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.R
@@ -505,13 +506,28 @@ class NotificationsViewModel @Inject constructor(
         )
     }
 
+    // Status id -> (highest) Notification id
+    val seenFavorites = HashMap<String, String>()
+
     private fun getNotifications(
         filters: Set<Notification.Type>,
         initialKey: String? = null
     ): Flow<PagingData<NotificationViewData>> {
         return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
-                pagingData.map { notification ->
+                pagingData.filter { notification ->
+                    val status = notification.status
+                        ?: return@filter true
+
+                    return@filter if (hasNewestNotificationId(notification.type, status.id, notification.id)) {
+                        seenFavorites[status.id] = notification.id // TODO move to hasNewestNotificationId?
+
+                        true
+                    } else {
+                        false
+                    }
+                }
+               .map { notification ->
                     notification.toViewData(
                         isShowingContent = statusDisplayOptions.value.showSensitiveMedia ||
                             !(notification.status?.actionableStatus?.sensitive ?: false),
@@ -531,6 +547,29 @@ class NotificationsViewModel @Inject constructor(
         }
         Log.d(TAG, "Restoring at $initialKey")
         return initialKey
+    }
+
+    fun hasNewestNotificationId(type: Notification.Type, statusId: String, notificationId: String): Boolean {
+        if (type != Notification.Type.FAVOURITE) {
+            return true
+        }
+
+        val highestNotificationId = seenFavorites[statusId]
+
+        return highestNotificationId == null || isEqualOrNewer(notificationId, highestNotificationId)
+    }
+
+    /**
+     * NOTE this currently assumes that the ids are integers. Can that change? If it does all notifications are unequal.
+     */
+    fun isEqualOrNewer(thisId: String, idToCompare: String): Boolean {
+        try {
+            return thisId.toInt() >= idToCompare.toInt()
+        } catch (exc: NumberFormatException) {
+            Log.e(TAG, "Cannot compare ids; not numbers: "+thisId+"/"+idToCompare)
+
+            return false
+        }
     }
 
     /**
