@@ -444,22 +444,18 @@ class NotificationsFragment :
     private fun removeDuplicateOlderEntries(positionStart: Int) {
         val dataList = adapter.snapshot().items
 
-        Log.w(TAG, "found elements in adapter "+dataList.size)
-
-        for (pos in dataList.size - 1 downTo  positionStart) {
+        for (pos in dataList.lastIndex downTo  positionStart) {
             val notificationViewData = dataList[pos]
 
             val status = notificationViewData.statusViewData?.status
                 ?: continue
 
             if (!viewModel.hasNewestNotificationId(notificationViewData.type, status.id, notificationViewData.id)) {
-                Log.w(TAG, "Removing old notification at "+pos+" for "+status.id)
+                Log.d(TAG, "Removing old notification at "+pos+" for "+status.id+" at "+status.createdAt)
 
                 adapter.notifyItemRemoved(pos)
             }
         }
-
-        Log.w(TAG, "elements after second "+ adapter.snapshot().size)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

@@ -507,7 +507,8 @@ class NotificationsViewModel @Inject constructor(
     }
 
     // Status id -> (highest) Notification id
-    val seenFavorites = HashMap<String, String>()
+    private val seenFavorites = HashMap<String, String>()
+    private val seenBoosts = HashMap<String, String>()
 
     private fun getNotifications(
         filters: Set<Notification.Type>,
@@ -520,10 +521,9 @@ class NotificationsViewModel @Inject constructor(
                         ?: return@filter true
 
                     return@filter if (hasNewestNotificationId(notification.type, status.id, notification.id)) {
-                        seenFavorites[status.id] = notification.id // TODO move to hasNewestNotificationId?
-
                         true
                     } else {
+                        Log.d(TAG, "Filtering notification for "+status.id+" at "+status.createdAt)
                         false
                     }
                 }
@@ -550,13 +550,25 @@ class NotificationsViewModel @Inject constructor(
     }
 
     fun hasNewestNotificationId(type: Notification.Type, statusId: String, notificationId: String): Boolean {
-        if (type != Notification.Type.FAVOURITE) {
-            return true
+        val trackerArray = when(type) {
+            Notification.Type.FAVOURITE -> seenFavorites
+            Notification.Type.REBLOG -> seenBoosts
+            else -> null
+        } ?: return true
+
+        val highestNotificationId = trackerArray[statusId]
+
+        return if (highestNotificationId == null || isEqualOrNewer(notificationId, highestNotificationId)) {
+            trackerArray[statusId] = notificationId
+
+            true
+        } else {
+            // TODO edge case: a newer favorite has been removed: the old notification will not be added again
+            //    (because the removed id is still in the seen array)
+            //    The code could find this out only heuristically: "looking at these notification ids (range), one in the array is not amongst them"
+
+            false
         }
-
-        val highestNotificationId = seenFavorites[statusId]
-
-        return highestNotificationId == null || isEqualOrNewer(notificationId, highestNotificationId)
     }
 
     /**
