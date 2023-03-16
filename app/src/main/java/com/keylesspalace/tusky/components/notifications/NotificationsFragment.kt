@@ -19,6 +19,7 @@ package com.keylesspalace.tusky.components.notifications
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -217,22 +218,14 @@ class NotificationsFragment :
             }
         })
 
-        /**
-         * Collect this flow to notify the adapter that the timestamps of the visible items have
-         * changed
-         */
+        // update post timestamps
         val updateTimestampFlow = flow {
-            while (true) { delay(60000); emit(Unit) }
-        }.onEach {
-            layoutManager.findFirstVisibleItemPosition().let { first ->
-                first == RecyclerView.NO_POSITION && return@let
-                val count = layoutManager.findLastVisibleItemPosition() - first
-                adapter.notifyItemRangeChanged(
-                    first,
-                    count,
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                )
+            while (true) {
+                delay(60000);
+                emit(Unit)
             }
+        }.onEach {
+            adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -366,24 +359,19 @@ class NotificationsFragment :
                 }
 
                 // Update status display from statusDisplayOptions. If the new options request
-                // relative time display collect the flow to periodically re-bind the UI.
+                // relative time display collect the flow to periodically update the timestamp in the list gui elements.
                 launch {
                     viewModel.statusDisplayOptions
                         .collectLatest {
+                            // NOTE this this also triggered (emitted?) on resume.
+
                             adapter.statusDisplayOptions = it
-                            layoutManager.findFirstVisibleItemPosition().let { first ->
-                                first == RecyclerView.NO_POSITION && return@let
-                                val count = layoutManager.findLastVisibleItemPosition() - first
-                                adapter.notifyItemRangeChanged(
-                                    first,
-                                    count,
-                                    null
-                                )
-                            }
+                            adapter.notifyItemRangeChanged(0, adapter.itemCount, null)
 
                             if (!it.useAbsoluteTime) {
                                 updateTimestampFlow.collect()
                             }
+                            // TODO there is a way to stop this?
                         }
                 }
 
