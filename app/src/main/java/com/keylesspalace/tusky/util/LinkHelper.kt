@@ -156,7 +156,7 @@ private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, list
 }
 
 private fun getCustomSpanForMentionUrl(url: String, mentionId: String, listener: LinkListener): ClickableSpan {
-    return object : NoUnderlineURLSpan(url) {
+    return object : MentionSpan(url) {
         override fun onClick(view: View) = listener.onViewAccount(mentionId)
     }
 }

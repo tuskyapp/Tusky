@@ -231,8 +231,8 @@
     <string name="load_more_placeholder_text">last mer</string>
     <string name="pref_title_public_filter_keywords">Offentlige tidslinjer</string>
     <string name="pref_title_thread_filter_keywords">Samtaler</string>
-    <string name="filter_addition_dialog_title">Legg til filter</string>
-    <string name="filter_edit_dialog_title">Endre filter</string>
+    <string name="filter_addition_title">Legg til filter</string>
+    <string name="filter_edit_title">Endre filter</string>
     <string name="filter_dialog_remove_button">Fjern</string>
     <string name="filter_dialog_update_button">Oppdater</string>
     <string name="filter_add_description">Filtrer frase</string>

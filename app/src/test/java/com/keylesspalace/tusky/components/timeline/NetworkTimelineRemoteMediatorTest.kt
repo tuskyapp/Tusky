@@ -47,7 +47,6 @@ class NetworkTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should return error when network call returns error code`() {
-
         val timelineViewModel: NetworkTimelineViewModel = mock {
             on { statusData } doReturn mutableListOf()
             onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
@@ -65,7 +64,6 @@ class NetworkTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should return error when network call fails`() {
-
         val timelineViewModel: NetworkTimelineViewModel = mock {
             on { statusData } doReturn mutableListOf()
             onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
@@ -94,7 +92,8 @@ class NetworkTimelineRemoteMediatorTest {
                     mockStatus("5")
                 ),
                 Headers.headersOf(
-                    "Link", "<https://mastodon.example/api/v1/favourites?limit=20&max_id=4>; rel=\"next\", <https://mastodon.example/api/v1/favourites?limit=20&min_id=8>; rel=\"prev\""
+                    "Link",
+                    "<https://mastodon.example/api/v1/favourites?limit=20&max_id=4>; rel=\"next\", <https://mastodon.example/api/v1/favourites?limit=20&min_id=8>; rel=\"prev\""
                 )
             )
         }
@@ -116,7 +115,7 @@ class NetworkTimelineRemoteMediatorTest {
         val newStatusData = mutableListOf(
             mockStatusViewData("7"),
             mockStatusViewData("6"),
-            mockStatusViewData("5"),
+            mockStatusViewData("5")
         )
 
         verify(timelineViewModel).nextKey = "4"
@@ -131,7 +130,7 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("3"),
             mockStatusViewData("2"),
-            mockStatusViewData("1"),
+            mockStatusViewData("1")
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
@@ -154,7 +153,7 @@ class NetworkTimelineRemoteMediatorTest {
                     data = listOf(
                         mockStatusViewData("3"),
                         mockStatusViewData("2"),
-                        mockStatusViewData("1"),
+                        mockStatusViewData("1")
                     ),
                     prevKey = null,
                     nextKey = "0"
@@ -169,7 +168,7 @@ class NetworkTimelineRemoteMediatorTest {
             mockStatusViewData("4"),
             mockStatusViewData("3"),
             mockStatusViewData("2"),
-            mockStatusViewData("1"),
+            mockStatusViewData("1")
         )
 
         assertTrue(result is RemoteMediator.MediatorResult.Success)
@@ -183,7 +182,7 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("3"),
             mockStatusViewData("2"),
-            mockStatusViewData("1"),
+            mockStatusViewData("1")
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
@@ -206,7 +205,7 @@ class NetworkTimelineRemoteMediatorTest {
                     data = listOf(
                         mockStatusViewData("3"),
                         mockStatusViewData("2"),
-                        mockStatusViewData("1"),
+                        mockStatusViewData("1")
                     ),
                     prevKey = null,
                     nextKey = "0"
@@ -222,7 +221,7 @@ class NetworkTimelineRemoteMediatorTest {
             StatusViewData.Placeholder("7", false),
             mockStatusViewData("3"),
             mockStatusViewData("2"),
-            mockStatusViewData("1"),
+            mockStatusViewData("1")
         )
 
         assertTrue(result is RemoteMediator.MediatorResult.Success)
@@ -236,7 +235,7 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("8"),
             mockStatusViewData("7"),
-            mockStatusViewData("5"),
+            mockStatusViewData("5")
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
@@ -259,7 +258,7 @@ class NetworkTimelineRemoteMediatorTest {
                     data = listOf(
                         mockStatusViewData("8"),
                         mockStatusViewData("7"),
-                        mockStatusViewData("5"),
+                        mockStatusViewData("5")
                     ),
                     prevKey = null,
                     nextKey = "3"
@@ -275,7 +274,7 @@ class NetworkTimelineRemoteMediatorTest {
             mockStatusViewData("5"),
             mockStatusViewData("3"),
             mockStatusViewData("2"),
-            mockStatusViewData("1"),
+            mockStatusViewData("1")
         )
 
         assertTrue(result is RemoteMediator.MediatorResult.Success)
@@ -289,7 +288,7 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("8"),
             mockStatusViewData("7"),
-            mockStatusViewData("5"),
+            mockStatusViewData("5")
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
@@ -302,7 +301,8 @@ class NetworkTimelineRemoteMediatorTest {
                     mockStatus("1")
                 ),
                 Headers.headersOf(
-                    "Link", "<https://mastodon.example/api/v1/favourites?limit=20&max_id=0>; rel=\"next\", <https://mastodon.example/api/v1/favourites?limit=20&min_id=4>; rel=\"prev\""
+                    "Link",
+                    "<https://mastodon.example/api/v1/favourites?limit=20&max_id=0>; rel=\"next\", <https://mastodon.example/api/v1/favourites?limit=20&min_id=4>; rel=\"prev\""
                 )
             )
         }
@@ -315,7 +315,7 @@ class NetworkTimelineRemoteMediatorTest {
                     data = listOf(
                         mockStatusViewData("8"),
                         mockStatusViewData("7"),
-                        mockStatusViewData("5"),
+                        mockStatusViewData("5")
                     ),
                     prevKey = null,
                     nextKey = "3"
@@ -331,7 +331,7 @@ class NetworkTimelineRemoteMediatorTest {
             mockStatusViewData("5"),
             mockStatusViewData("3"),
             mockStatusViewData("2"),
-            mockStatusViewData("1"),
+            mockStatusViewData("1")
         )
         verify(timelineViewModel).nextKey = "0"
         assertTrue(result is RemoteMediator.MediatorResult.Success)
@@ -345,7 +345,7 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("8"),
             mockStatusViewData("7"),
-            mockStatusViewData("5"),
+            mockStatusViewData("5")
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
@@ -361,7 +361,7 @@ class NetworkTimelineRemoteMediatorTest {
                     data = listOf(
                         mockStatusViewData("8"),
                         mockStatusViewData("7"),
-                        mockStatusViewData("5"),
+                        mockStatusViewData("5")
                     ),
                     prevKey = null,
                     nextKey = null

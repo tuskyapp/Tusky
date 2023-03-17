@@ -1,4 +1,5 @@
-/* Copyright 2018 charlag
+/*
+ * Copyright 2018 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,15 +12,17 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.compose.ComposeActivity
 
 import android.content.Intent
 import android.os.Looper.getMainLooper
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository

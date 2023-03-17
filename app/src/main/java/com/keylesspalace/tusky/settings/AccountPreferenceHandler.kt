@@ -9,7 +9,7 @@ import com.keylesspalace.tusky.db.AccountManager
 class AccountPreferenceHandler(
     private val account: AccountEntity,
     private val accountManager: AccountManager,
-    private val eventHub: EventHub,
+    private val eventHub: EventHub
 ) : PreferenceDataStore() {
 
     override fun getBoolean(key: String, defValue: Boolean): Boolean {

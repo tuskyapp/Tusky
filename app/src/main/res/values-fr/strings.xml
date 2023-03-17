@@ -265,8 +265,8 @@
     <string name="load_more_placeholder_text">en charger plus</string>
     <string name="pref_title_public_filter_keywords">Fils publics</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Ajouter un filtre</string>
-    <string name="filter_edit_dialog_title">Modifier un filtre</string>
+    <string name="filter_addition_title">Ajouter un filtre</string>
+    <string name="filter_edit_title">Modifier un filtre</string>
     <string name="filter_dialog_remove_button">Supprimer</string>
     <string name="filter_dialog_update_button">Mettre à jour</string>
     <string name="filter_add_description">Phrase à filtrer</string>

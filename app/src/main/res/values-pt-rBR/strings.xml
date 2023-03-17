@@ -311,8 +311,8 @@
     <string name="notification_poll_description">Notificar sobre enquetes que já terminaram</string>
     <string name="pref_title_public_filter_keywords">Linhas públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
-    <string name="filter_addition_dialog_title">Criar filtro</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_addition_title">Criar filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_dialog_remove_button">Excluir</string>
     <string name="filter_dialog_update_button">Atualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>

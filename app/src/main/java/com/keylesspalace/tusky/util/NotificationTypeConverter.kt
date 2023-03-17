@@ -37,8 +37,9 @@ fun deserialize(data: String?): Set<Notification.Type> {
         for (i in 0 until array.length()) {
             val item = array.getString(i)
             val type = Notification.Type.byString(item)
-            if (type != Notification.Type.UNKNOWN)
+            if (type != Notification.Type.UNKNOWN) {
                 ret.add(type)
+            }
         }
     }
     return ret

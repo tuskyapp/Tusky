@@ -16,6 +16,7 @@ package com.keylesspalace.tusky.viewdata
 
 import android.os.Build
 import android.text.Spanned
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.replaceCrashingCharacters
@@ -29,6 +30,7 @@ import com.keylesspalace.tusky.util.shouldTrimStatus
  */
 sealed class StatusViewData {
     abstract val id: String
+    var filterAction: Filter.Action = Filter.Action.NONE
 
     data class Concrete(
         val status: Status,

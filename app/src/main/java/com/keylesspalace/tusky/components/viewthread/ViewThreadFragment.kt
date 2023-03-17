@@ -437,6 +437,10 @@ class ViewThreadFragment :
         }
     }
 
+    override fun clearWarningAction(position: Int) {
+        viewModel.clearWarning(adapter.currentList[position])
+    }
+
     companion object {
         private const val TAG = "ViewThreadFragment"
 

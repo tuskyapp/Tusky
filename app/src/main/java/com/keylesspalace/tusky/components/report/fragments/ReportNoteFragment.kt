@@ -72,8 +72,9 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
             binding.reportDescriptionRemoteInstance.hide()
         }
 
-        if (viewModel.isRemoteAccount)
+        if (viewModel.isRemoteAccount) {
             binding.checkIsNotifyRemote.text = getString(R.string.report_remote_instance, viewModel.remoteServer)
+        }
         binding.checkIsNotifyRemote.isChecked = viewModel.isRemoteNotify
     }
 

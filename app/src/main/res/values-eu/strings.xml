@@ -329,8 +329,8 @@
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="pref_title_alway_open_spoiler">Beti zabaldu edukien abisuekin markatutako tootak</string>
     <string name="pref_title_thread_filter_keywords">Elkarrizketak</string>
-    <string name="filter_addition_dialog_title">Gehitu iragazkia</string>
-    <string name="filter_edit_dialog_title">Editatu iragazkia</string>
+    <string name="filter_addition_title">Gehitu iragazkia</string>
+    <string name="filter_edit_title">Editatu iragazkia</string>
     <string name="filter_dialog_remove_button">Ezabatu</string>
     <string name="filter_dialog_update_button">Eguneratu</string>
     <string name="filter_dialog_whole_word">Hitz osoa</string>

@@ -18,15 +18,15 @@
 package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.view.getSecondsForDurationIndex
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,7 +37,7 @@ import java.util.Date
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
-class FilterTest {
+class FilterV1Test {
 
     private lateinit var filterModel: FilterModel
 
@@ -45,62 +45,62 @@ class FilterTest {
     fun setup() {
         filterModel = FilterModel()
         val filters = listOf(
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "badWord",
-                context = listOf(Filter.HOME),
+                context = listOf(FilterV1.HOME),
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = false
             ),
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "badWholeWord",
-                context = listOf(Filter.HOME, Filter.PUBLIC),
+                context = listOf(FilterV1.HOME, FilterV1.PUBLIC),
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = true
             ),
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "@twitter.com",
-                context = listOf(Filter.HOME),
+                context = listOf(FilterV1.HOME),
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = true
             ),
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "#hashtag",
-                context = listOf(Filter.HOME),
+                context = listOf(FilterV1.HOME),
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = true
             ),
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "expired",
-                context = listOf(Filter.HOME),
+                context = listOf(FilterV1.HOME),
                 expiresAt = Date.from(Instant.now().minusSeconds(10)),
                 irreversible = false,
                 wholeWord = true
             ),
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "unexpired",
-                context = listOf(Filter.HOME),
+                context = listOf(FilterV1.HOME),
                 expiresAt = Date.from(Instant.now().plusSeconds(3600)),
                 irreversible = false,
                 wholeWord = true
             ),
-            Filter(
+            FilterV1(
                 id = "123",
                 phrase = "href",
-                context = listOf(Filter.HOME),
+                context = listOf(FilterV1.HOME),
                 expiresAt = null,
                 irreversible = false,
                 wholeWord = false
-            ),
+            )
         )
 
         filterModel.initWithFilters(filters)
@@ -108,7 +108,8 @@ class FilterTest {
 
     @Test
     fun shouldNotFilter() {
-        assertFalse(
+        assertEquals(
+            Filter.Action.NONE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "should not be filtered")
             )
@@ -117,7 +118,8 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenContentMatchesBadWord() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWord three")
             )
@@ -126,7 +128,8 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenContentMatchesBadWordPart() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWordPart three")
             )
@@ -135,7 +138,8 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenContentMatchesBadWholeWord() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWholeWord three")
             )
@@ -144,7 +148,8 @@ class FilterTest {
 
     @Test
     fun shouldNotFilter_whenContentDoesNotMatchWholeWord() {
-        assertFalse(
+        assertEquals(
+            Filter.Action.NONE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWholeWordTest three")
             )
@@ -153,7 +158,8 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenSpoilerTextDoesMatch() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(
                     content = "should not be filtered",
@@ -165,7 +171,8 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenPollTextDoesMatch() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(
                     content = "should not be filtered",
@@ -178,12 +185,13 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenMediaDescriptionDoesMatch() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(
                     content = "should not be filtered",
                     spoilerText = "should not be filtered",
-                    attachmentsDescriptions = listOf("should not be filtered", "badWord"),
+                    attachmentsDescriptions = listOf("should not be filtered", "badWord")
                 )
             )
         )
@@ -191,7 +199,8 @@ class FilterTest {
 
     @Test
     fun shouldFilterPartialWord_whenWholeWordFilterContainsNonAlphanumericCharacters() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two someone@twitter.com three")
             )
@@ -200,7 +209,8 @@ class FilterTest {
 
     @Test
     fun shouldFilterHashtags() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "#hashtag one two three")
             )
@@ -209,7 +219,8 @@ class FilterTest {
 
     @Test
     fun shouldFilterHashtags_whenContentIsMarkedUp() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "<p><a href=\"https://foo.bar/tags/hashtag\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>hashtag</span></a>one two three</p>")
             )
@@ -218,7 +229,8 @@ class FilterTest {
 
     @Test
     fun shouldNotFilterHtmlAttributes() {
-        assertFalse(
+        assertEquals(
+            Filter.Action.NONE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "<p><a href=\"https://foo.bar/\">https://foo.bar/</a> one two three</p>")
             )
@@ -227,7 +239,8 @@ class FilterTest {
 
     @Test
     fun shouldNotFilter_whenFilterIsExpired() {
-        assertFalse(
+        assertEquals(
+            Filter.Action.NONE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "content matching expired filter should not be filtered")
             )
@@ -236,7 +249,8 @@ class FilterTest {
 
     @Test
     fun shouldFilter_whenFilterIsUnexpired() {
-        assertTrue(
+        assertEquals(
+            Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "content matching unexpired filter should be filtered")
             )
@@ -247,7 +261,7 @@ class FilterTest {
     fun unchangedExpiration_shouldBeNegative_whenFilterIsExpired() {
         val expiredBySeconds = 3600
         val expiredDate = Date.from(Instant.now().minusSeconds(expiredBySeconds.toLong()))
-        val updatedDuration = getSecondsForDurationIndex(-1, null, expiredDate)
+        val updatedDuration = EditFilterActivity.getSecondsForDurationIndex(-1, null, expiredDate)
         assert(updatedDuration != null && updatedDuration <= -expiredBySeconds)
     }
 
@@ -255,7 +269,7 @@ class FilterTest {
     fun unchangedExpiration_shouldBePositive_whenFilterIsUnexpired() {
         val expiresInSeconds = 3600
         val expiredDate = Date.from(Instant.now().plusSeconds(expiresInSeconds.toLong()))
-        val updatedDuration = getSecondsForDurationIndex(-1, null, expiredDate)
+        val updatedDuration = EditFilterActivity.getSecondsForDurationIndex(-1, null, expiredDate)
         assert(updatedDuration != null && updatedDuration > (expiresInSeconds - 60))
     }
 
@@ -300,7 +314,9 @@ class FilterTest {
                             )
                         }
                     )
-                } else arrayListOf(),
+                } else {
+                    arrayListOf()
+                },
                 mentions = listOf(),
                 tags = listOf(),
                 application = null,
@@ -320,9 +336,12 @@ class FilterTest {
                         voted = false,
                         ownVotes = null
                     )
-                } else null,
+                } else {
+                    null
+                },
                 card = null,
                 language = null,
+                filtered = null
             )
         }
     }

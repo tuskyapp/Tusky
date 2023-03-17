@@ -20,5 +20,5 @@ import com.google.gson.annotations.SerializedName
 data class StatusSource(
     val id: String,
     val text: String,
-    @SerializedName("spoiler_text") val spoilerText: String,
+    @SerializedName("spoiler_text") val spoilerText: String
 )

@@ -382,8 +382,8 @@
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
     <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversaciones</string>
-    <string name="filter_addition_dialog_title">Añadir filtro</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_addition_title">Añadir filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
     <string name="error_create_list">No se pudo crear la lista</string>
