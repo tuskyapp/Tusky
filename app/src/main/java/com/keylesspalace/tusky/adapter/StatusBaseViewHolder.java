@@ -385,14 +385,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setReblogsCount(int reblogsCount) {
-
-    }
-
-    protected void setFavouritedCount(int favouritedCount) {
-
-    }
-
     private void setReblogged(boolean reblogged) {
         reblogButton.setChecked(reblogged);
     }
@@ -749,8 +741,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount());
-            setReblogsCount(actionable.getReblogsCount());
-            setFavouritedCount(actionable.getFavouritesCount());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
                     actionable.getAccount().getBot(), statusDisplayOptions);
             setReblogged(actionable.getReblogged());

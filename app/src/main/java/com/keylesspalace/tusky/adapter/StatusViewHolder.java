@@ -84,6 +84,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
         reblogsCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
         favouritedCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        setFavouritedCount(status.getActionable().getFavouritesCount());
+        setReblogsCount(status.getActionable().getReblogsCount());
 
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
     }
@@ -110,12 +112,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setVisibility(View.VISIBLE);
     }
 
-    @Override
     protected void setReblogsCount(int reblogsCount) {
         reblogsCountLabel.setText(NumberUtils.shortNumber(reblogsCount));
     }
 
-    @Override
     protected void setFavouritedCount(int favouritedCount) {
         favouritedCountLabel.setText(NumberUtils.shortNumber(favouritedCount));
     }
