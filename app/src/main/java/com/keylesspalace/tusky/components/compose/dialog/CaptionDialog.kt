@@ -69,7 +69,7 @@ class CaptionDialog : DialogFragment() {
             .setNegativeButton(android.R.string.cancel, null)
             .create()
 
-        isCancelable = false
+        isCancelable = true
         val window = dialog.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
