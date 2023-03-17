@@ -26,17 +26,15 @@ class NumberUtilsTest {
 
     @Test
     fun bigNumbersShouldBeShortened() {
-
         var shortNumber = 1L
-        Assert.assertEquals("1", shortNumber(shortNumber) )
+        Assert.assertEquals("1", shortNumber(shortNumber))
         for (i in shortLetters.indices) {
             if (i == 0) {
                 continue
             }
             shortNumber = 1000.0.pow(i.toDouble()).toLong()
-            Assert.assertEquals("1.0" + shortLetters[i], shortNumber(shortNumber ))
+            Assert.assertEquals("1.0" + shortLetters[i], shortNumber(shortNumber))
         }
-
     }
 
     @Test
@@ -48,5 +46,4 @@ class NumberUtilsTest {
         Assert.assertEquals("-1.5K", shortNumber(-value))
         Assert.assertEquals("1.5K", shortNumber(value))
     }
-
 }
