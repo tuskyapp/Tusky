@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/imageDescriptionView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/post_media_image"/>
+
+    <EditText
+        android:id="@+id/imageDescriptionText"
+        android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorBackgroundAccent"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="?dialogPreferredPadding"
+        android:layout_marginRight="?dialogPreferredPadding"
+        android:gravity="start"
+        android:hint="@plurals/hint_describe_for_visually_impaired"
+        android:importantForAutofill="no"/>
+</LinearLayout>
