@@ -4,10 +4,10 @@ package com.keylesspalace.tusky.util
 
 import java.text.DecimalFormat
 import kotlin.math.abs
-import kotlin.math.sign
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
+import kotlin.math.sign
 
 val shortLetters = arrayOf(' ', 'K', 'M', 'B', 'T', 'P', 'E')
 
