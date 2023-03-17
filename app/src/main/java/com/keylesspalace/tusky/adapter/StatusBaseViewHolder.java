@@ -52,7 +52,7 @@ import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
-import com.keylesspalace.tusky.util.NumberUtilsKt;
+import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.util.TouchDelegateHelper;
@@ -81,9 +81,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton replyButton;
     private final TextView replyCountLabel;
     private final SparkButton reblogButton;
-    private final TextView reblogsCountLabel;
     private final SparkButton favouriteButton;
-    private final TextView favouritedCountLabel;
     private final SparkButton bookmarkButton;
     private final ImageButton moreButton;
     private final ConstraintLayout mediaContainer;
@@ -130,10 +128,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
         replyCountLabel = itemView.findViewById(R.id.status_replies);
-        reblogsCountLabel = itemView.findViewById(R.id.status_insets);
         reblogButton = itemView.findViewById(R.id.status_inset);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
-        favouritedCountLabel = itemView.findViewById(R.id.status_favourites_count);
         bookmarkButton = itemView.findViewById(R.id.status_bookmark);
         moreButton = itemView.findViewById(R.id.status_more);
 
@@ -382,23 +378,19 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private void setReplyCount(int repliesCount) {
+    protected void setReplyCount(int repliesCount) {
         // This label only exists in the non-detailed view (to match the web ui)
         if (replyCountLabel != null) {
-            replyCountLabel.setText(NumberUtilsKt.shortNumber(repliesCount));
+            replyCountLabel.setText(NumberUtils.shortNumber(repliesCount));
         }
     }
 
-    private void setReblogsCount(int reblogsCount) {
-        if (reblogsCountLabel != null) {
-            reblogsCountLabel.setText(NumberUtilsKt.shortNumber(reblogsCount));
-        }
+    protected void setReblogsCount(int reblogsCount) {
+
     }
 
-    private void setFavouritedCount(int favouritedCount) {
-        if (favouritedCountLabel != null) {
-            favouritedCountLabel.setText(NumberUtilsKt.shortNumber(favouritedCount));
-        }
+    protected void setFavouritedCount(int favouritedCount) {
+
     }
 
     private void setReblogged(boolean reblogged) {
@@ -643,9 +635,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        if (reblogsCountLabel != null) {
-            reblogsCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
-        }
 
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
@@ -665,9 +654,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             });
         }
 
-        if (favouritedCountLabel != null) {
-            favouritedCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
-        }
 
         favouriteButton.setEventListener((button, buttonState) -> {
             // return true to play animation
