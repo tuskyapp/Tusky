@@ -659,4 +659,5 @@
     <string name="filter_keyword_addition_title">افزودن کلیدواژه</string>
     <string name="filter_edit_keyword_title">ویرایش کلیدواژه</string>
     <string name="filter_description_format">%s: %s</string>
+    <string name="pref_title_show_stat_inline">نمایش آمار فرسته‌ها در خط زمانی</string>
 </resources>
