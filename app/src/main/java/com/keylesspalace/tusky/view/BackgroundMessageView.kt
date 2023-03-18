@@ -26,9 +26,6 @@ class BackgroundMessageView @JvmOverloads constructor(
     private val binding = ViewBackgroundMessageBinding.inflate(LayoutInflater.from(context), this)
 
     init {
-        // TODO this seems to be needed? Otherwise most parts are hidden?
-        // But why? This is exactly the same as specified in the xml.
-
         gravity = Gravity.CENTER_HORIZONTAL
         orientation = VERTICAL
 
