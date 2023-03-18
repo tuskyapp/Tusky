@@ -511,7 +511,7 @@
     <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
     <string name="action_delete_conversation">删除对话</string>
-    <string name="pref_title_confirm_favourites">喜欢前显示确认对话框</string>
+    <string name="pref_title_confirm_favourites">收藏前提示确认</string>
     <string name="action_unbookmark">删除书签</string>
     <string name="duration_30_days">30 天</string>
     <string name="duration_60_days">60 天</string>
@@ -658,4 +658,5 @@
     <string name="filter_description_format">%s: %s</string>
     <string name="filter_description_hide">完全隐藏</string>
     <string name="label_filter_keywords">关键词或短语过滤</string>
+    <string name="pref_title_show_stat_inline">在时间线中显示嘟文统计数字</string>
 </resources>
