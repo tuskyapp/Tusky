@@ -77,6 +77,7 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -299,10 +300,8 @@ class TimelineFragment :
             })
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 when (event) {
                     is PreferenceChangedEvent -> {
                         onPreferenceChanged(event.preferenceKey)
@@ -316,6 +315,7 @@ class TimelineFragment :
                     }
                 }
             }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

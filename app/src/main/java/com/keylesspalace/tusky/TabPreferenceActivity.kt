@@ -348,7 +348,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     override fun onPause() {
         super.onPause()
         if (tabsChanged) {
-            eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+            lifecycleScope.launch {
+                eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+            }
         }
     }
 

@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import at.connyduck.calladapter.networkresult.fold
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
@@ -23,9 +25,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
@@ -64,39 +64,25 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
     }
 
     override fun mute(mute: Boolean, instance: String, position: Int) {
-        if (mute) {
-            api.blockDomain(instance).enqueue(object : Callback<Any> {
-                override fun onFailure(call: Call<Any>, t: Throwable) {
-                    Log.e(TAG, "Error muting domain $instance")
-                }
-
-                override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                    if (response.isSuccessful) {
-                        adapter.addItem(instance)
-                    } else {
-                        Log.e(TAG, "Error muting domain $instance")
-                    }
-                }
-            })
-        } else {
-            api.unblockDomain(instance).enqueue(object : Callback<Any> {
-                override fun onFailure(call: Call<Any>, t: Throwable) {
-                    Log.e(TAG, "Error unmuting domain $instance")
-                }
-
-                override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                    if (response.isSuccessful) {
-                        adapter.removeItem(position)
-                        Snackbar.make(binding.recyclerView, getString(R.string.confirmation_domain_unmuted, instance), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.action_undo) {
-                                mute(true, instance, position)
-                            }
-                            .show()
-                    } else {
-                        Log.e(TAG, "Error unmuting domain $instance")
-                    }
-                }
-            })
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (mute) {
+                api.blockDomain(instance).fold({
+                    adapter.addItem(instance)
+                }, { e ->
+                    Log.e(TAG, "Error muting domain $instance", e)
+                })
+            } else {
+                api.unblockDomain(instance).fold({
+                    adapter.removeItem(position)
+                    Snackbar.make(binding.recyclerView, getString(R.string.confirmation_domain_unmuted, instance), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.action_undo) {
+                            mute(true, instance, position)
+                        }
+                        .show()
+                }, { e ->
+                    Log.e(TAG, "Error unmuting domain $instance", e)
+                })
+            }
         }
     }
 

@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
@@ -49,8 +50,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 
 abstract class TimelineViewModel(
@@ -101,7 +100,6 @@ abstract class TimelineViewModel(
 
         viewModelScope.launch {
             eventHub.events
-                .asFlow()
                 .collect { event -> handleEvent(event) }
         }
 
@@ -110,7 +108,7 @@ abstract class TimelineViewModel(
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.reblog(status.actionableId, reblog).await()
+            timelineCases.reblog(status.actionableId, reblog).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
@@ -120,7 +118,7 @@ abstract class TimelineViewModel(
 
     fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.favourite(status.actionableId, favorite).await()
+            timelineCases.favourite(status.actionableId, favorite).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
@@ -130,7 +128,7 @@ abstract class TimelineViewModel(
 
     fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.bookmark(status.actionableId, bookmark).await()
+            timelineCases.bookmark(status.actionableId, bookmark).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
@@ -148,7 +146,7 @@ abstract class TimelineViewModel(
         updatePoll(votedPoll, status)
 
         try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
+            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)

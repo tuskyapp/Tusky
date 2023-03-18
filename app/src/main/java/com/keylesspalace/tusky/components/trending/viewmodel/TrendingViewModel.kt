@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import okio.IOException
 import javax.inject.Inject
 
@@ -55,7 +54,7 @@ class TrendingViewModel @Inject constructor(
         // or deleted. Unfortunately, there's nothing in the event to determine if it's a filter
         // that was modified, so refresh on every preference change.
         viewModelScope.launch {
-            eventHub.events.asFlow()
+            eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .collect {
                     invalidate()

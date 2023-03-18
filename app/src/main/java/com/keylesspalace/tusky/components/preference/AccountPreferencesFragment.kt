@@ -21,6 +21,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
@@ -57,6 +58,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeRes
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -198,7 +200,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
                         syncWithServer(visibility = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -221,7 +222,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                     setOnPreferenceChangeListener { _, newValue ->
                         syncWithServer(language = (newValue as String))
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -237,7 +237,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForSensitivity(newValue as Boolean))
                         syncWithServer(sensitive = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -246,7 +245,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timelines) {
                 // TODO having no activeAccount in this fragment does not really make sense, enforce it?
                 //   All other locations here make it optional, however.
-                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, eventHub)
+                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, ::dispatchEvent)
 
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
@@ -352,6 +351,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         val intent = Intent(context, FiltersActivity::class.java)
         activity?.startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    private fun dispatchEvent(event: PreferenceChangedEvent) {
+        lifecycleScope.launch {
+            eventHub.dispatch(event)
+        }
     }
 
     companion object {
