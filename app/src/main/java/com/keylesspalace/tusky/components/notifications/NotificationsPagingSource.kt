@@ -20,6 +20,7 @@ package com.keylesspalace.tusky.components.notifications
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.google.gson.Gson
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
@@ -35,6 +36,7 @@ data class Links(val next: String?, val prev: String?)
 /** [PagingSource] for Mastodon Notifications, identified by the Notification ID */
 class NotificationsPagingSource @Inject constructor(
     private val mastodonApi: MastodonApi,
+    private val gson: Gson,
     private val notificationFilter: Set<Notification.Type>
 ) : PagingSource<String, Notification>() {
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Notification> {
@@ -58,7 +60,23 @@ class NotificationsPagingSource @Inject constructor(
             }
 
             if (!response.isSuccessful) {
-                return LoadResult.Error(Throwable(response.errorBody()?.string()))
+                val code = response.code()
+
+                val msg = response.errorBody()?.string()?.let { errorBody ->
+                    if (errorBody.isBlank()) return@let "no reason given"
+
+                    val error = try {
+                        gson.fromJson(errorBody, com.keylesspalace.tusky.entity.Error::class.java)
+                    } catch (e: Exception) {
+                        return@let "$errorBody ($e)"
+                    }
+
+                    when (val desc = error.error_description) {
+                        null -> error.error
+                        else -> "${error.error}: $desc"
+                    }
+                } ?: "no reason given"
+                return LoadResult.Error(Throwable("HTTP $code: $msg"))
             }
 
             val links = getPageLinks(response.headers()["link"])
