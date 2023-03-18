@@ -54,6 +54,7 @@ import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.TimestampUtils;
 import com.keylesspalace.tusky.util.TouchDelegateHelper;
@@ -388,10 +389,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private void setReplyCount(int repliesCount) {
+    protected void setReplyCount(int repliesCount) {
         // This label only exists in the non-detailed view (to match the web ui)
         if (replyCountLabel != null) {
-            replyCountLabel.setText((repliesCount > 1 ? replyCountLabel.getContext().getString(R.string.status_count_one_plus) : Integer.toString(repliesCount)));
+            replyCountLabel.setText(NumberUtils.shortNumber(repliesCount));
         }
     }
 
@@ -626,12 +627,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar.setOnClickListener(profileButtonClickListener);
         displayName.setOnClickListener(profileButtonClickListener);
 
+        if (replyCountLabel != null) {
+            replyCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        }
+
         replyButton.setOnClickListener(v -> {
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 listener.onReply(position);
             }
         });
+
+
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
                 // return true to play animation
@@ -649,6 +656,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
             });
         }
+
 
         favouriteButton.setEventListener((button, buttonState) -> {
             // return true to play animation
