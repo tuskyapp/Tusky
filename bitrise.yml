@@ -24,7 +24,7 @@ workflows:
         - apk_file_include_filter: '*.aab'
         - gradlew_path: ./gradlew
         - gradle_options: ""
-        - gradle_task: ktlintCheck testGreenReleaseUnitTest bundleGreenRelease
+        - gradle_task: ktlintCheck lint testGreenReleaseUnitTest bundleGreenRelease
     - sign-apk@1:
         inputs:
         - apk_path: $BITRISE_AAB_PATH
@@ -66,7 +66,7 @@ workflows:
         - retry_on_failure: "no"
         - gradlew_path: ./gradlew
         - gradle_options: --no-daemon
-        - gradle_task: ktlintCheck
+        - gradle_task: ktlintCheck lint
     - android-unit-test@1.0:
         inputs:
         - project_location: $PROJECT_LOCATION
