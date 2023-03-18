@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.calladapter.networkresult.fold
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
@@ -348,12 +349,12 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     private fun fetchRelationships(ids: List<String>) {
-        api.relationships(ids)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this))
-            .subscribe(::onFetchRelationshipsSuccess) { throwable ->
-                Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
-            }
+        lifecycleScope.launch {
+            api.relationships(ids)
+                .fold(::onFetchRelationshipsSuccess) { throwable ->
+                    Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
+                }
+        }
     }
 
     private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
