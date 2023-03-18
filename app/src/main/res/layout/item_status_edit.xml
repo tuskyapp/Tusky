@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="\@Tusky edited 18th December 2022" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_edit_content_warning_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
