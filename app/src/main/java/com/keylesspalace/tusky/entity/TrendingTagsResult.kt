@@ -29,7 +29,7 @@ data class TrendingTag(
     val name: String,
     val url: String,
     val history: List<TrendingTagHistory>,
-    val following: Boolean,
+    val following: Boolean
 )
 
 /**
@@ -42,7 +42,7 @@ data class TrendingTag(
 data class TrendingTagHistory(
     val day: String,
     val accounts: String,
-    val uses: String,
+    val uses: String
 )
 
 fun TrendingTag.start() = Date(history.last().day.toLong() * 1000L)

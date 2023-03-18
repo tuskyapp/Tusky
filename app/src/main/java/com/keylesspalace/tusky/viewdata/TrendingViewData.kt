@@ -25,7 +25,7 @@ sealed class TrendingViewData {
 
     data class Header(
         val start: Date,
-        val end: Date,
+        val end: Date
     ) : TrendingViewData() {
         override val id: String
             get() = start.toString() + end.toString()

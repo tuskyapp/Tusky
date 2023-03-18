@@ -261,8 +261,8 @@
     <string name="post_text_size_largest">Més grand</string>
     <string name="notification_poll_name">Enquestes</string>
     <string name="pref_title_thread_filter_keywords">Converses</string>
-    <string name="filter_addition_dialog_title">Afegir un filtre</string>
-    <string name="filter_edit_dialog_title">Modificar un filtre</string>
+    <string name="filter_addition_title">Afegir un filtre</string>
+    <string name="filter_edit_title">Modificar un filtre</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
     <string name="add_account_name">Afegir un compte</string>
     <string name="action_open_reblogger">Obre l\'autor de l\'impuls</string>
@@ -629,4 +629,13 @@
     <string name="accessibility_talking_about_tag">%1$d persones parlen del hashtag %2$s</string>
     <string name="total_usage">Ús total</string>
     <string name="total_accounts">Total de comptes</string>
+    <string name="dialog_follow_hashtag_title">Segueix hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Actualitzar</string>
+    <string name="notification_unknown_name">Desconegut</string>
+    <string name="status_filter_placeholder_label_format">Filtrat: %s</string>
+    <string name="pref_title_account_filter_keywords">Perfils</string>
+    <string name="status_filtered_show_anyway">Mostra de totes maneres</string>
+    <string name="socket_timeout_exception">El contacte amb el teu servidor ha trigat massa</string>
+    <string name="ui_error_unknown">motiu desconegut</string>
 </resources>

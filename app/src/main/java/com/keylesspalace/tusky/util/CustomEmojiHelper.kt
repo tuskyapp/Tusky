@@ -14,6 +14,7 @@
  * see <http://www.gnu.org/licenses>. */
 
 @file:JvmName("CustomEmojiHelper")
+
 package com.keylesspalace.tusky.util
 
 import android.graphics.Canvas
@@ -39,8 +40,9 @@ import java.util.regex.Pattern
  * @return the text with the shortcodes replaced by EmojiSpans
 */
 fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean): CharSequence {
-    if (emojis.isNullOrEmpty())
+    if (emojis.isNullOrEmpty()) {
         return this
+    }
 
     val builder = SpannableStringBuilder.valueOf(this)
 

@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 class TrendingAdapter(
-    private val trendingListener: LinkListener,
+    private val trendingListener: LinkListener
 ) : ListAdapter<TrendingViewData, RecyclerView.ViewHolder>(TrendingDifferCallback) {
 
     init {
@@ -72,7 +72,7 @@ class TrendingAdapter(
             is TrendingViewData.Tag -> {
                 val maxTrendingValue = currentList
                     .flatMap { trendingViewData ->
-                        trendingViewData.asTagOrNull()?.tag?.history ?: emptyList()
+                        trendingViewData.asTagOrNull()?.tag?.history.orEmpty()
                     }
                     .mapNotNull { it.uses.toLongOrNull() }
                     .maxOrNull() ?: 1

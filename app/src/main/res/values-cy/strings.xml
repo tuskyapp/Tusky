@@ -331,8 +331,8 @@
     <string name="notification_poll_name">Polau</string>
     <string name="notification_sign_up_name">Cofrestriadau</string>
     <string name="pref_title_public_filter_keywords">Ffrydiau cyhoeddus</string>
-    <string name="filter_addition_dialog_title">Ychwanegu hidlydd</string>
-    <string name="filter_edit_dialog_title">Golygu hidlydd</string>
+    <string name="filter_addition_title">Ychwanegu hidlydd</string>
+    <string name="filter_edit_title">Golygu hidlydd</string>
     <string name="filter_dialog_update_button">Diweddaru</string>
     <string name="pref_title_notification_filter_updates">golygwyd neges rwy wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>
@@ -647,7 +647,7 @@
     <string name="status_edit_info">Golygodd %1$s %2$s</string>
     <string name="status_created_info">Creodd %1$s %2$s</string>
     <string name="title_edits">Golygiadau</string>
-    <string name="post_media_alt">ALT</string>
+    <string name="post_media_alt">AMGEN</string>
     <string name="action_discard">Hepgor newidiadau</string>
     <string name="compose_unsaved_changes">Mae gennych newidiadau heb eu cadw.</string>
     <string name="mute_notifications_switch">Tewi hysbysiadau</string>
@@ -679,4 +679,7 @@
     <string name="accessibility_talking_about_tag">Siarada %1$d o bobl am hashnod %2$s</string>
     <string name="total_usage">Defnydd cyfan</string>
     <string name="total_accounts">Cyfrifon cyfan</string>
+    <string name="dialog_follow_hashtag_title">Dilyn hashnod</string>
+    <string name="dialog_follow_hashtag_hint">#hashnod</string>
+    <string name="action_refresh">Adnewyddu</string>
 </resources>

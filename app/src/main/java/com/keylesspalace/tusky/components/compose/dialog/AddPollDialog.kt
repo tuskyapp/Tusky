@@ -35,7 +35,6 @@ fun showAddPollDialog(
     maxDuration: Int,
     onUpdatePoll: (NewPoll) -> Unit
 ) {
-
     val binding = DialogAddPollBinding.inflate(LayoutInflater.from(context))
 
     val dialog = AlertDialog.Builder(context)

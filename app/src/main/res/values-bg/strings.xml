@@ -160,8 +160,8 @@
     <string name="filter_dialog_whole_word">Цяла дума</string>
     <string name="filter_dialog_update_button">Актуализиране</string>
     <string name="filter_dialog_remove_button">Премахване</string>
-    <string name="filter_edit_dialog_title">Редакция на филтър</string>
-    <string name="filter_addition_dialog_title">Добавяне на филтър</string>
+    <string name="filter_edit_title">Редакция на филтър</string>
+    <string name="filter_addition_title">Добавяне на филтър</string>
     <string name="pref_title_thread_filter_keywords">Разговори</string>
     <string name="pref_title_public_filter_keywords">Публични емисии</string>
     <string name="load_more_placeholder_text">зареждане на още</string>

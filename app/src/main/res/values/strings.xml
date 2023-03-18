@@ -1,3 +1,20 @@
+<!--
+  ~ Copyright 2023 Tusky Contributors
+  ~
+  ~ This file is a part of Tusky.
+  ~
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the
+  ~ GNU General Public License as published by the Free Software Foundation; either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+  ~ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+  ~ Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Tusky; if not,
+  ~ see <http://www.gnu.org/licenses>.
+  -->
+
 <resources>
 
     <string name="error_generic">An error occurred.</string>
@@ -352,6 +369,7 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
+    <string name="notification_unknown_name">Unknown</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -394,6 +412,8 @@
     <string name="post_media_attachments">Attachments</string>
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">now</string>
+    <string name="status_filtered_show_anyway">Show anyway</string>
+    <string name="status_filter_placeholder_label_format">Filtered: %s</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
@@ -418,8 +438,9 @@
 
     <string name="pref_title_public_filter_keywords">Public timelines</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Add filter</string>
-    <string name="filter_edit_dialog_title">Edit filter</string>
+    <string name="pref_title_account_filter_keywords">Profiles</string>
+    <string name="filter_addition_title">Add filter</string>
+    <string name="filter_edit_title">Edit filter</string>
     <string name="filter_dialog_remove_button">Remove</string>
     <string name="filter_dialog_update_button">Update</string>
     <string name="filter_dialog_whole_word">Whole word</string>
@@ -730,6 +751,7 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
+    <string name="action_refresh">Refresh</string>
     <string name="mute_notifications_switch">Mute notifications</string>
 
     <!-- Reading order preference -->
@@ -741,11 +763,42 @@
     <string name="status_edit_info">%1$s edited %2$s</string>
     <!--@Tusky created 19th December 2022 13:12 -->
     <string name="status_created_info">%1$s created %2$s</string>
-
     <string name="a11y_label_loading_thread">Loading thread</string>
 
     <!--@knossos@fosstodon.org created 2023-01-07 -->
     <string name="accessibility_talking_about_tag">%1$d people are talking about hashtag %2$s</string>
     <string name="total_usage">Total usage</string>
     <string name="total_accounts">Total accounts</string>
+
+    <!-- User friendly error messages for different network errors -->
+    <string name="socket_timeout_exception">Contacting your server took too long</string>
+
+    <!-- Error messages, displayed in snackbars, when something failed -->
+    <string name="ui_error_unknown">unknown reason</string>
+    <string name="ui_error_bookmark">Bookmarking post failed: %s</string>
+    <string name="ui_error_clear_notifications">Clearing notifications failed: %s</string>
+    <string name="ui_error_favourite">Favoriting post failed: %s</string>
+    <string name="ui_error_reblog">Boosting post failed: %s</string>
+    <string name="ui_error_vote">Voting in poll failed: %s</string>
+    <string name="ui_error_accept_follow_request">Accepting follow request failed: %s</string>
+    <string name="ui_error_reject_follow_request">Rejecting follow request failed: %s</string>
+
+    <!-- Success messages, displayed in snackbars, when an action succeeded -->
+    <string name="ui_success_accepted_follow_request">Follow request accepted</string>
+    <string name="ui_success_rejected_follow_request">Follow request blocked</string>
+
+    <string name="hint_filter_title">My filter</string>
+    <string name="label_filter_title">Title</string>
+    <string name="filter_action_warn">Warn</string>
+    <string name="filter_action_hide">Hide</string>
+    <string name="filter_description_warn">Hide with a warning</string>
+    <string name="filter_description_hide">Hide completely</string>
+    <string name="label_filter_action">Filter action</string>
+    <string name="label_filter_context">Filter contexts</string>
+    <string name="label_filter_keywords">Keywords or phrases to filter</string>
+    <string name="action_add">Add</string>
+    <string name="filter_keyword_display_format">%s (whole word)</string>
+    <string name="filter_keyword_addition_title">Add keyword</string>
+    <string name="filter_edit_keyword_title">Edit keyword</string>
+    <string name="filter_description_format">%s: %s</string>
 </resources>

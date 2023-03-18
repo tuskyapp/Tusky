@@ -66,7 +66,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         oauthScopes: String,
         newAccount: Account
     ) {
-
         activeAccount?.let {
             it.isActive = false
             Log.d(TAG, "addAccount: saving account with id " + it.id)
@@ -121,7 +120,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      * @return the new active account, or null if no other account was found
      */
     fun logActiveAccountOut(): AccountEntity? {
-
         return activeAccount?.let { account ->
 
             account.logout()
@@ -153,9 +151,9 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
             it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
-            it.defaultPostLanguage = account.source?.language ?: ""
+            it.defaultPostLanguage = account.source?.language.orEmpty()
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
-            it.emojis = account.emojis ?: emptyList()
+            it.emojis = account.emojis.orEmpty()
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)
@@ -167,7 +165,6 @@ class AccountManager @Inject constructor(db: AppDatabase) {
      * @param accountId the database id of the new active account
      */
     fun setActiveAccount(accountId: Long) {
-
         val newActiveAccount = accounts.find { (id) ->
             id == accountId
         } ?: return // invalid accountId passed, do nothing
@@ -237,10 +234,12 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     fun shouldDisplaySelfUsername(context: Context): Boolean {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val showUsernamePreference = sharedPreferences.getString(PrefKeys.SHOW_SELF_USERNAME, "disambiguate")
-        if (showUsernamePreference == "always")
+        if (showUsernamePreference == "always") {
             return true
-        if (showUsernamePreference == "never")
+        }
+        if (showUsernamePreference == "never") {
             return false
+        }
 
         return accounts.size > 1 // "disambiguate"
     }

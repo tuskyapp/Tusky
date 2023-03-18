@@ -318,8 +318,8 @@
     <string name="pref_title_alway_open_spoiler">Zawsze rozwijaj wpisy z ostrzeżeniami o zawartości</string>
     <string name="pref_title_public_filter_keywords">Publiczne osi czasu</string>
     <string name="pref_title_thread_filter_keywords">Konwersacje</string>
-    <string name="filter_addition_dialog_title">Dodaj filtr</string>
-    <string name="filter_edit_dialog_title">Edytuj filtr</string>
+    <string name="filter_addition_title">Dodaj filtr</string>
+    <string name="filter_edit_title">Edytuj filtr</string>
     <string name="filter_dialog_remove_button">Usuń</string>
     <string name="filter_dialog_update_button">Aktualizuj</string>
     <string name="filter_dialog_whole_word">Całe słowo</string>

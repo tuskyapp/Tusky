@@ -43,6 +43,8 @@ import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Filter;
+import com.keylesspalace.tusky.entity.FilterResult;
 import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
@@ -108,6 +110,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView cardDescription;
     private final TextView cardUrl;
     private final PollAdapter pollAdapter;
+    protected LinearLayout filteredPlaceholder;
+    protected TextView filteredPlaceholderLabel;
+    protected Button filteredPlaceholderShowButton;
+    protected ConstraintLayout statusContainer;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
@@ -160,6 +166,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         cardDescription = itemView.findViewById(R.id.card_description);
         cardUrl = itemView.findViewById(R.id.card_link);
 
+        filteredPlaceholder = itemView.findViewById(R.id.status_filtered_placeholder);
+        filteredPlaceholderLabel = itemView.findViewById(R.id.status_filter_label);
+        filteredPlaceholderShowButton = itemView.findViewById(R.id.status_filter_show_anyway);
+        statusContainer = itemView.findViewById(R.id.status_container);
+
         pollAdapter = new PollAdapter();
         pollOptions.setAdapter(pollAdapter);
         pollOptions.setLayoutManager(new LinearLayoutManager(pollOptions.getContext()));
@@ -191,16 +202,17 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningButton.performClick();
     }
 
-    protected void setSpoilerAndContent(boolean expanded,
-                                        @NonNull Spanned content,
-                                        @Nullable String spoilerText,
-                                        @Nullable List<Status.Mention> mentions,
-                                        @Nullable List<HashTag> tags,
-                                        @NonNull List<Emoji> emojis,
-                                        @Nullable PollViewData poll,
+    protected void setSpoilerAndContent(@NonNull StatusViewData.Concrete status,
                                         @NonNull StatusDisplayOptions statusDisplayOptions,
                                         final StatusActionListener listener) {
+
+        Status actionable = status.getActionable();
+        String spoilerText = status.getSpoilerText();
+        List<Emoji> emojis = actionable.getEmojis();
+
         boolean sensitive = !TextUtils.isEmpty(spoilerText);
+        boolean expanded = status.isExpanded();
+
         if (sensitive) {
             CharSequence emojiSpoiler = CustomEmojiHelper.emojify(
                     spoilerText, emojis, contentWarningDescription, statusDisplayOptions.animateEmojis()
@@ -209,20 +221,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             contentWarningDescription.setVisibility(View.VISIBLE);
             contentWarningButton.setVisibility(View.VISIBLE);
             setContentWarningButtonText(expanded);
-            contentWarningButton.setOnClickListener(view -> {
-                contentWarningDescription.invalidate();
-                if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onExpandedChange(!expanded, getBindingAdapterPosition());
-                }
-                setContentWarningButtonText(!expanded);
-
-                this.setTextVisible(sensitive, !expanded, content, mentions, tags, emojis, poll, statusDisplayOptions, listener);
-            });
-            this.setTextVisible(sensitive, expanded, content, mentions, tags, emojis, poll, statusDisplayOptions, listener);
+            contentWarningButton.setOnClickListener(view -> toggleExpandedState(true, !expanded, status, statusDisplayOptions, listener));
+            this.setTextVisible(true, expanded, status, statusDisplayOptions, listener);
         } else {
             contentWarningDescription.setVisibility(View.GONE);
             contentWarningButton.setVisibility(View.GONE);
-            this.setTextVisible(sensitive, true, content, mentions, tags, emojis, poll, statusDisplayOptions, listener);
+            this.setTextVisible(false, true, status, statusDisplayOptions, listener);
         }
     }
 
@@ -234,20 +238,42 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    protected void toggleExpandedState(boolean sensitive,
+                                       boolean expanded,
+                                       @NonNull final StatusViewData.Concrete status,
+                                       @NonNull final StatusDisplayOptions statusDisplayOptions,
+                                       @NonNull final StatusActionListener listener) {
+
+        contentWarningDescription.invalidate();
+        int adapterPosition = getBindingAdapterPosition();
+        if (adapterPosition != RecyclerView.NO_POSITION) {
+            listener.onExpandedChange(expanded, adapterPosition);
+        }
+        setContentWarningButtonText(expanded);
+
+        this.setTextVisible(sensitive, expanded, status, statusDisplayOptions, listener);
+
+        setupCard(status, expanded, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+    }
+
     private void setTextVisible(boolean sensitive,
                                 boolean expanded,
-                                Spanned content,
-                                List<Status.Mention> mentions,
-                                List<HashTag> tags,
-                                List<Emoji> emojis,
-                                @Nullable PollViewData poll,
-                                StatusDisplayOptions statusDisplayOptions,
+                                @NonNull final StatusViewData.Concrete status,
+                                @NonNull final StatusDisplayOptions statusDisplayOptions,
                                 final StatusActionListener listener) {
+
+        Status actionable = status.getActionable();
+        Spanned content = status.getContent();
+        List<Status.Mention> mentions = actionable.getMentions();
+        List<HashTag> tags =actionable.getTags();
+        List<Emoji> emojis = actionable.getEmojis();
+        PollViewData poll = PollViewDataKt.toViewData(actionable.getPoll());
+
         if (expanded) {
             CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, this.content, statusDisplayOptions.animateEmojis());
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, tags, listener);
             for (int i = 0; i < mediaLabels.length; ++i) {
-                updateMediaLabel(i, sensitive, expanded);
+                updateMediaLabel(i, sensitive, true);
             }
             if (poll != null) {
                 setupPoll(poll, emojis, statusDisplayOptions, listener);
@@ -272,7 +298,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setAvatar(String url,
-                           @Nullable String rebloggedUrl,
+                          @Nullable String rebloggedUrl,
                            boolean isBot,
                            StatusDisplayOptions statusDisplayOptions) {
 
@@ -283,8 +309,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (statusDisplayOptions.showBotOverlay() && isBot) {
                 avatarInset.setVisibility(View.VISIBLE);
                 Glide.with(avatarInset)
-                        // passing the drawable id directly into .load() ignores night mode https://github.com/bumptech/glide/issues/4692
-                        .load(ContextCompat.getDrawable(avatarInset.getContext(), R.drawable.bot_badge))
+                        .load(R.drawable.bot_badge)
                         .into(avatarInset);
             } else {
                 avatarInset.setVisibility(View.GONE);
@@ -743,18 +768,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 hideSensitiveMediaWarning();
             }
 
-            if (cardView != null) {
-                setupCard(status, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
-            }
+            setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
                     statusDisplayOptions);
             setRebloggingEnabled(actionable.rebloggingAllowed(), actionable.getVisibility());
 
-            setSpoilerAndContent(status.isExpanded(), status.getContent(), status.getSpoilerText(),
-                    actionable.getMentions(), actionable.getTags(), actionable.getEmojis(),
-                    PollViewDataKt.toViewData(actionable.getPoll()), statusDisplayOptions,
-                    listener);
+            setSpoilerAndContent(status, statusDisplayOptions, listener);
+
+            setupFilterPlaceholder(status, listener, statusDisplayOptions);
 
             setDescriptionForStatus(status, statusDisplayOptions);
 
@@ -773,6 +795,31 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
 
         }
+    }
+
+    private void setupFilterPlaceholder(StatusViewData.Concrete status, StatusActionListener listener, StatusDisplayOptions displayOptions) {
+        if (status.getFilterAction() != Filter.Action.WARN) {
+            showFilteredPlaceholder(false);
+            return;
+        }
+
+        showFilteredPlaceholder(true);
+
+        String matchedKeyword = null;
+
+        for (FilterResult result : status.getActionable().getFiltered()) {
+            Filter filter = result.getFilter();
+            List<String> keywords = result.getKeywordMatches();
+            if (filter.getAction() == Filter.Action.WARN && !keywords.isEmpty()) {
+                matchedKeyword = keywords.get(0);
+                break;
+            }
+        }
+
+        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedKeyword));
+        filteredPlaceholderShowButton.setOnClickListener(view -> {
+            listener.clearWarningAction(getBindingAdapterPosition());
+        });
     }
 
     protected static boolean hasPreviewableAttachment(List<Attachment> attachments) {
@@ -1009,20 +1056,27 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setupCard(
-            StatusViewData.Concrete status,
-            CardViewMode cardViewMode,
-            StatusDisplayOptions statusDisplayOptions,
+            final StatusViewData.Concrete status,
+            boolean expanded,
+            final CardViewMode cardViewMode,
+            final StatusDisplayOptions statusDisplayOptions,
             final StatusActionListener listener
     ) {
+        if (cardView == null) {
+            return;
+        }
+
         final Status actionable = status.getActionable();
         final Card card = actionable.getCard();
+
         if (cardViewMode != CardViewMode.NONE &&
-                actionable.getAttachments().size() == 0 &&
-                actionable.getPoll() == null &&
-                card != null &&
-                !TextUtils.isEmpty(card.getUrl()) &&
-                (!actionable.getSensitive() || status.isExpanded()) &&
-                (!status.isCollapsible() || !status.isCollapsed())) {
+            actionable.getAttachments().size() == 0 &&
+            actionable.getPoll() == null &&
+            card != null &&
+            !TextUtils.isEmpty(card.getUrl()) &&
+            (!actionable.getSensitive() || expanded) &&
+            (!status.isCollapsible() || !status.isCollapsed())) {
+
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());
             if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
@@ -1115,7 +1169,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setScaleType(ImageView.ScaleType.CENTER);
 
                 Glide.with(cardImage.getContext())
-                        .load(ContextCompat.getDrawable(cardImage.getContext(), R.drawable.card_image_placeholder))
+                        .load(R.drawable.card_image_placeholder)
                         .into(cardImage);
             }
 
@@ -1153,5 +1207,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setVisibility(visibility);
         bookmarkButton.setVisibility(visibility);
         moreButton.setVisibility(visibility);
+    }
+
+    public void showFilteredPlaceholder(boolean show) {
+        if (statusContainer != null) {
+            statusContainer.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+        if (filteredPlaceholder != null) {
+            filteredPlaceholder.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 }

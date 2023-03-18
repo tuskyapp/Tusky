@@ -90,10 +90,11 @@ class MediaPreviewAdapter(
             val imageView = holder.progressImageView
             val focus = item.focus
 
-            if (focus != null)
+            if (focus != null) {
                 imageView.setFocalPoint(focus)
-            else
+            } else {
                 imageView.removeFocalPoint() // Probably unnecessary since we have no UI for removal once added.
+            }
 
             var glide = Glide.with(holder.itemView.context)
                 .load(item.uri)
@@ -101,8 +102,9 @@ class MediaPreviewAdapter(
                 .dontAnimate()
                 .centerInside()
 
-            if (focus != null)
+            if (focus != null) {
                 glide = glide.addListener(imageView)
+            }
 
             glide.into(imageView)
         }

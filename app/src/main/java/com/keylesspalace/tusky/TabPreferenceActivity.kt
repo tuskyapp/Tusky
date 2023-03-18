@@ -24,7 +24,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.updatePadding
-import androidx.lifecycle.Lifecycle
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -33,8 +33,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -45,12 +43,10 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -59,6 +55,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+
     @Inject
     lateinit var eventHub: EventHub
 
@@ -161,7 +158,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onTabAdded(tab: TabData) {
-
         if (currentTabs.size >= MAX_TAB_COUNT) {
             return
         }
@@ -223,7 +219,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
-
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)
@@ -255,7 +250,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
             .create()
 
-        editText.onTextChanged { s, _, _, _ ->
+        editText.doOnTextChanged { s, _, _, _ ->
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(s)
         }
 
@@ -342,13 +337,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun saveTabs() {
         accountManager.activeAccount?.let {
-            Single.fromCallable {
+            lifecycleScope.launch(Dispatchers.IO) {
                 it.tabPreferences = currentTabs
                 accountManager.saveAccount(it)
             }
-                .subscribeOn(Schedulers.io())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe()
         }
         tabsChanged = true
     }

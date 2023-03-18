@@ -31,6 +31,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.text.Spanned
+import android.text.style.URLSpan
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -51,10 +53,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.res.use
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -88,16 +93,15 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
+import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
-import com.keylesspalace.tusky.util.afterTextChanged
-import com.keylesspalace.tusky.util.getInitialLanguage
+import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -267,7 +271,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupLanguageSpinner(getInitialLanguage(composeOptions?.language, accountManager.activeAccount))
+        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, accountManager.activeAccount))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -369,7 +373,7 @@ class ComposeActivity :
         if (startingContentWarning != null) {
             binding.composeContentWarningField.setText(startingContentWarning)
         }
-        binding.composeContentWarningField.onTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
+        binding.composeContentWarningField.doOnTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
     }
 
     private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
@@ -392,8 +396,8 @@ class ComposeActivity :
 
         val mentionColour = binding.composeEditField.linkTextColors.defaultColor
         highlightSpans(binding.composeEditField.text, mentionColour)
-        binding.composeEditField.afterTextChanged { editable ->
-            highlightSpans(editable, mentionColour)
+        binding.composeEditField.doAfterTextChanged { editable ->
+            highlightSpans(editable!!, mentionColour)
             updateVisibleCharactersLeft()
         }
 
@@ -543,7 +547,7 @@ class ComposeActivity :
         )
     }
 
-    private fun setupLanguageSpinner(initialLanguage: String) {
+    private fun setupLanguageSpinner(initialLanguages: List<String>) {
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
@@ -554,7 +558,7 @@ class ComposeActivity :
             }
         }
         binding.composePostLanguageButton.apply {
-            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguage))
+            adapter = LocaleAdapter(context, android.R.layout.simple_spinner_dropdown_item, getLocaleList(initialLanguages))
             setSelection(0)
         }
     }
@@ -571,9 +575,9 @@ class ComposeActivity :
 
     private fun setupAvatar(activeAccount: AccountEntity) {
         val actionBarSizeAttr = intArrayOf(androidx.appcompat.R.attr.actionBarSize)
-        val a = obtainStyledAttributes(null, actionBarSizeAttr)
-        val avatarSize = a.getDimensionPixelSize(0, 1)
-        a.recycle()
+        val avatarSize = obtainStyledAttributes(null, actionBarSizeAttr).use { a ->
+            a.getDimensionPixelSize(0, 1)
+        }
 
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
         loadAvatar(
@@ -808,25 +812,26 @@ class ComposeActivity :
     }
 
     private fun onMediaPick() {
-        addMediaBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                // Wait until bottom sheet is not collapsed and show next screen after
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    addMediaBehavior.removeBottomSheetCallback(this)
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(
-                            this@ComposeActivity,
-                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-                        )
-                    } else {
-                        pickMediaFile.launch(true)
+        addMediaBehavior.addBottomSheetCallback(
+            object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    // Wait until bottom sheet is not collapsed and show next screen after
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        addMediaBehavior.removeBottomSheetCallback(this)
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(
+                                this@ComposeActivity,
+                                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                            )
+                        } else {
+                            pickMediaFile.launch(true)
+                        }
                     }
                 }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        }
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            }
         )
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -882,20 +887,11 @@ class ComposeActivity :
 
     @VisibleForTesting
     fun calculateTextLength(): Int {
-        var offset = 0
-        val urlSpans = binding.composeEditField.urls
-        if (urlSpans != null) {
-            for (span in urlSpans) {
-                // it's expected that this will be negative
-                // when the url length is less than the reserved character count
-                offset += (span.url.length - charactersReservedPerUrl)
-            }
-        }
-        var length = binding.composeEditField.length() - offset
-        if (viewModel.showContentWarning.value) {
-            length += binding.composeContentWarningField.length()
-        }
-        return length
+        return statusLength(
+            binding.composeEditField.text,
+            binding.composeContentWarningField.text,
+            charactersReservedPerUrl
+        )
     }
 
     @VisibleForTesting
@@ -958,7 +954,6 @@ class ComposeActivity :
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
-
             lifecycleScope.launch {
                 viewModel.sendStatus(contentText, spoilerText)
                 deleteDraftAndFinish()
@@ -977,7 +972,8 @@ class ComposeActivity :
                 pickMediaFile.launch(true)
             } else {
                 Snackbar.make(
-                    binding.activityCompose, R.string.error_media_upload_permission,
+                    binding.activityCompose,
+                    R.string.error_media_upload_permission,
                     Snackbar.LENGTH_SHORT
                 ).apply {
                     setAction(R.string.action_retry) { onMediaPick() }
@@ -1011,9 +1007,13 @@ class ComposeActivity :
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
         setDrawableTint(
-            this, button.drawable,
-            if (colorActive) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled
+            this,
+            button.drawable,
+            if (colorActive) {
+                android.R.attr.textColorTertiary
+            } else {
+                R.attr.textColorDisabled
+            }
         )
     }
 
@@ -1021,8 +1021,11 @@ class ComposeActivity :
         binding.addPollTextActionTextView.isEnabled = enable
         val textColor = MaterialColors.getColor(
             binding.addPollTextActionTextView,
-            if (enable) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled
+            if (enable) {
+                android.R.attr.textColorTertiary
+            } else {
+                R.attr.textColorDisabled
+            }
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
@@ -1198,8 +1201,11 @@ class ComposeActivity :
         lifecycleScope.launch {
             val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
                 ProgressDialog.show(
-                    this@ComposeActivity, null,
-                    getString(R.string.saving_draft), true, false
+                    this@ComposeActivity,
+                    null,
+                    getString(R.string.saving_draft),
+                    true,
+                    false
                 )
             } else {
                 null
@@ -1350,6 +1356,54 @@ class ComposeActivity :
 
         fun canHandleMimeType(mimeType: String?): Boolean {
             return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
+        }
+
+        /**
+         * Calculate the effective status length.
+         *
+         * Some text is counted differently:
+         *
+         * In the status body:
+         *
+         * - URLs always count for [urlLength] characters irrespective of their actual length
+         *   (https://docs.joinmastodon.org/user/posting/#links)
+         * - Mentions ("@user@some.instance") only count the "@user" part
+         *   (https://docs.joinmastodon.org/user/posting/#mentions)
+         * - Hashtags are always treated as their actual length, including the "#"
+         *   (https://docs.joinmastodon.org/user/posting/#hashtags)
+         *
+         * Content warning text is always treated as its full length, URLs and other entities
+         * are not treated differently.
+         *
+         * @param body status body text
+         * @param contentWarning optional content warning text
+         * @param urlLength the number of characters attributed to URLs
+         * @return the effective status length
+         */
+        @JvmStatic
+        fun statusLength(body: Spanned, contentWarning: Spanned?, urlLength: Int): Int {
+            var length = body.length - body.getSpans(0, body.length, URLSpan::class.java)
+                .fold(0) { acc, span ->
+                    // Accumulate a count of characters to be *ignored* in the final length
+                    acc + when (span) {
+                        is MentionSpan -> {
+                            // Ignore everything from the second "@" (if present)
+                            span.url.length - (
+                                span.url.indexOf("@", 1).takeIf { it >= 0 }
+                                    ?: span.url.length
+                                )
+                        }
+                        else -> {
+                            // Expected to be negative if the URL length < maxUrlLength
+                            span.url.length - urlLength
+                        }
+                    }
+                }
+
+            // Content warning text is treated as is, URLs or mentions there are not special
+            contentWarning?.let { length += it.length }
+
+            return length
         }
     }
 }

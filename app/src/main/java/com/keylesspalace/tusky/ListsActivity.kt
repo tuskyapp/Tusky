@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -45,7 +46,6 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -134,8 +134,11 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         val dialog = AlertDialog.Builder(this)
             .setView(layout)
             .setPositiveButton(
-                if (list == null) R.string.action_create_list
-                else R.string.action_rename_list
+                if (list == null) {
+                    R.string.action_create_list
+                } else {
+                    R.string.action_rename_list
+                }
             ) { _, _ ->
                 onPickedDialogName(editText.text, list?.id)
             }
@@ -143,8 +146,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             .show()
 
         val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
-        editText.onTextChanged { s, _, _, _ ->
-            positiveButton.isEnabled = s.isNotBlank()
+        editText.doOnTextChanged { s, _, _, _ ->
+            positiveButton.isEnabled = s?.isNotBlank() == true
         }
         editText.setText(list?.title)
         editText.text?.let { editText.setSelection(it.length) }
@@ -181,7 +184,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                 if (state.lists.isEmpty()) {
                     binding.messageView.show()
                     binding.messageView.setup(
-                        R.drawable.elephant_friend_empty, R.string.message_empty,
+                        R.drawable.elephant_friend_empty,
+                        R.string.message_empty,
                         null
                     )
                 } else {
@@ -192,7 +196,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun showMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.listsRecycler, messageId, Snackbar.LENGTH_SHORT
+            binding.listsRecycler,
+            messageId,
+            Snackbar.LENGTH_SHORT
         ).show()
     }
 

@@ -67,7 +67,8 @@ class CaptionDialog : DialogFragment() {
         input = EditText(context)
         input.hint = resources.getQuantityString(
             R.plurals.hint_describe_for_visually_impaired,
-            MEDIA_DESCRIPTION_CHARACTER_LIMIT, MEDIA_DESCRIPTION_CHARACTER_LIMIT
+            MEDIA_DESCRIPTION_CHARACTER_LIMIT,
+            MEDIA_DESCRIPTION_CHARACTER_LIMIT
         )
         dialogLayout.addView(input)
         (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
@@ -105,7 +106,7 @@ class CaptionDialog : DialogFragment() {
 
                 override fun onResourceReady(
                     resource: Drawable,
-                    transition: Transition<in Drawable>?,
+                    transition: Transition<in Drawable>?
                 ) {
                     imageView.setImageDrawable(resource)
                 }
@@ -122,7 +123,7 @@ class CaptionDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View? {
         savedInstanceState?.getString(DESCRIPTION_KEY)?.let {
             input.setText(it)
@@ -143,12 +144,12 @@ class CaptionDialog : DialogFragment() {
         fun newInstance(
             localId: Int,
             existingDescription: String?,
-            previewUri: Uri,
+            previewUri: Uri
         ) = CaptionDialog().apply {
             arguments = bundleOf(
                 LOCAL_ID_ARG to localId,
                 EXISTING_DESCRIPTION_ARG to existingDescription,
-                PREVIEW_URI_ARG to previewUri,
+                PREVIEW_URI_ARG to previewUri
             )
         }
 

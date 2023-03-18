@@ -29,11 +29,13 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
@@ -50,6 +52,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class ViewThreadViewModel @Inject constructor(
@@ -92,6 +95,7 @@ class ViewThreadViewModel @Inject constructor(
                         is BlockEvent -> removeAllByAccountId(event.accountId)
                         is StatusComposedEvent -> handleStatusComposedEvent(event)
                         is StatusDeletedEvent -> handleStatusDeletedEvent(event)
+                        is StatusEditedEvent -> handleStatusEditedEvent(event)
                     }
                 }
         }
@@ -163,7 +167,7 @@ class ViewThreadViewModel @Inject constructor(
                 _uiState.value = ThreadUiState.Success(
                     statusViewData = listOf(detailedStatus),
                     detailedStatusPosition = 0,
-                    revealButton = RevealButtonState.NO_BUTTON,
+                    revealButton = RevealButtonState.NO_BUTTON
                 )
             })
         }
@@ -327,6 +331,20 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    private fun handleStatusEditedEvent(event: StatusEditedEvent) {
+        updateSuccess { uiState ->
+            uiState.copy(
+                statusViewData = uiState.statusViewData.map { status ->
+                    if (status.actionableId == event.originalId) {
+                        event.status.toViewData()
+                    } else {
+                        status
+                    }
+                }
+            )
+        }
+    }
+
     private fun handleStatusDeletedEvent(event: StatusDeletedEvent) {
         updateSuccess { uiState ->
             uiState.copy(
@@ -398,30 +416,48 @@ class ViewThreadViewModel @Inject constructor(
 
     private fun loadFilters() {
         viewModelScope.launch {
-            val filters = api.getFilters().getOrElse {
-                Log.w(TAG, "Failed to fetch filters", it)
-                return@launch
-            }
+            api.getFilters().fold(
+                {
+                    filterModel.kind = Filter.Kind.THREAD
+                    updateStatuses()
+                },
+                { throwable ->
+                    if (throwable is HttpException && throwable.code() == 404) {
+                        val filters = api.getFiltersV1().getOrElse {
+                            Log.w(TAG, "Failed to fetch filters", it)
+                            return@launch
+                        }
 
-            filterModel.initWithFilters(
-                filters.filter { filter ->
-                    filter.context.contains(Filter.THREAD)
+                        filterModel.initWithFilters(
+                            filters.filter { filter -> filter.context.contains(FilterV1.THREAD) }
+                        )
+                        updateStatuses()
+                    } else {
+                        Log.e(TAG, "Error getting filters", throwable)
+                    }
                 }
             )
+        }
+    }
 
-            updateSuccess { uiState ->
-                val statuses = uiState.statusViewData.filter()
-                uiState.copy(
-                    statusViewData = statuses,
-                    revealButton = statuses.getRevealButtonState()
-                )
-            }
+    private fun updateStatuses() {
+        updateSuccess { uiState ->
+            val statuses = uiState.statusViewData.filter()
+            uiState.copy(
+                statusViewData = statuses,
+                revealButton = statuses.getRevealButtonState()
+            )
         }
     }
 
     private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
         return filter { status ->
-            status.isDetailed || !filterModel.shouldFilterStatus(status.status)
+            if (status.isDetailed) {
+                true
+            } else {
+                status.filterAction = filterModel.shouldFilterStatus(status.status)
+                status.filterAction != Filter.Action.HIDE
+            }
         }
     }
 
@@ -466,6 +502,12 @@ class ViewThreadViewModel @Inject constructor(
             viewData.copy(
                 status = updater(viewData.status)
             )
+        }
+    }
+
+    fun clearWarning(viewData: StatusViewData.Concrete) {
+        updateStatus(viewData.id) { status ->
+            status.copy(filtered = null)
         }
     }
 

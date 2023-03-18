@@ -279,7 +279,7 @@
     <string name="notification_favourite_name">Suosikit</string>
     <string name="notification_poll_name">Äänestykset</string>
     <string name="notification_poll_description">Ilmoitukset päättyneistä äänestyksistä</string>
-    <string name="filter_edit_dialog_title">Muokkaa suodatinta</string>
+    <string name="filter_edit_title">Muokkaa suodatinta</string>
     <string name="action_add_reaction">lisää reaktio</string>
     <string name="confirmation_reported">Lähetetty!</string>
     <string name="post_sent">Lähetetty!</string>
@@ -302,7 +302,7 @@
     <string name="load_more_placeholder_text">lataa lisää</string>
     <string name="pref_title_public_filter_keywords">Julkiset aikajanat</string>
     <string name="pref_title_thread_filter_keywords">Keskustelut</string>
-    <string name="filter_addition_dialog_title">Lisää suodatin</string>
+    <string name="filter_addition_title">Lisää suodatin</string>
     <string name="later">Myöhemmin</string>
     <string name="description_post_cw">Sisältövaroitus: %s</string>
     <string name="pref_title_http_proxy_server">HTTP-välityspalvelin</string>
