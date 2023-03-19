@@ -220,7 +220,7 @@ class NotificationsFragment :
         // update post timestamps
         val updateTimestampFlow = flow {
             while (true) {
-                delay(60000);
+                delay(60000)
                 emit(Unit)
             }
         }.onEach {
