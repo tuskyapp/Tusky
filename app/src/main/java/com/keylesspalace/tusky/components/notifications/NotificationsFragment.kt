@@ -370,7 +370,6 @@ class NotificationsFragment :
                             if (!it.useAbsoluteTime) {
                                 updateTimestampFlow.collect()
                             }
-                            // TODO there is a way to stop this?
                         }
                 }
 
