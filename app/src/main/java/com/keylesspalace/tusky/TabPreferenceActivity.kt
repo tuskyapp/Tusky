@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
@@ -47,10 +48,14 @@ import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -266,9 +271,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
 
+        val progress = LinearProgressIndicator(this)
+        progress.visible(false)
+
         val dialogBuilder = AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
             .setNegativeButton(android.R.string.cancel, null)
+            .setView(progress)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
                 val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
@@ -278,12 +287,16 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 saveTabs()
             }
 
+        val loadListProgressBarJob = getProgressBarJob(progress, 500)
+
         if (adapter.isEmpty) {
             dialogBuilder.setTitle(R.string.select_list_title_empty)
             dialogBuilder.setNeutralButton(R.string.select_list_create) { _, _ ->
                 val listIntent = Intent(applicationContext, ListsActivity::class.java)
                 startActivity(listIntent)
             }
+
+            loadListProgressBarJob.start()
         }
 
         val dialog = dialogBuilder.show()
@@ -291,6 +304,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         lifecycleScope.launch {
             mastodonApi.getLists().fold(
                 { lists ->
+                    loadListProgressBarJob.cancel()
                     adapter.addAll(lists)
                     if (lists.isNotEmpty()) {
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).hide()
@@ -303,6 +317,21 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                     Snackbar.make(binding.root, R.string.error_list_load, Snackbar.LENGTH_LONG).show()
                 }
             )
+        }
+    }
+
+    // TODO this should be made general somewhere? (it is copied from ViewThreadFragment)
+    //   also: maybe it should have a callable instead of simply view.show()?
+    //   Everything above (empty title, show and hide button) should probably only show after this delay?
+    private fun getProgressBarJob(view: View, delayMs: Long) = this.lifecycleScope.launch(
+        start = CoroutineStart.LAZY
+    ) {
+        try {
+            delay(delayMs)
+            view.show()
+            awaitCancellation()
+        } finally {
+            view.hide()
         }
     }
 
