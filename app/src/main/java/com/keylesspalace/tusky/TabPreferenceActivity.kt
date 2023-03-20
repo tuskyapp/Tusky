@@ -15,11 +15,13 @@
 
 package com.keylesspalace.tusky
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
@@ -272,6 +274,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         val adapter = ListSelectionAdapter(this)
 
         val progress = LinearProgressIndicator(this)
+        val preferredPadding = getDimensionFromAttribute(this, androidx.appcompat.R.attr.dialogPreferredPadding)
+        progress.setPadding(preferredPadding, 0, preferredPadding, 0)
         progress.visible(false)
 
         val dialogBuilder = AlertDialog.Builder(this)
@@ -318,6 +322,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 }
             )
         }
+    }
+
+    private fun getDimensionFromAttribute(context: Context, attr: Int): Int {
+        val typedValue = TypedValue()
+        return if (context.theme.resolveAttribute(attr, typedValue, true))
+            TypedValue.complexToDimensionPixelSize(typedValue.data, context.resources.displayMetrics)
+        else 0
     }
 
     // TODO this should be made general somewhere? (it is copied from ViewThreadFragment)
