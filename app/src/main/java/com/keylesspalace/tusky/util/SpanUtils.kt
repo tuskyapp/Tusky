@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -97,34 +96,24 @@ fun highlightSpans(text: Spannable, colour: Int) {
 }
 
 /**
- * Replaces text of the form [drawabale name] or [iconics name] with their spanned counterparts (ImageSpan).
+ * Replaces text of the form [iconics name] with their spanned counterparts (ImageSpan).
  */
 fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): Spannable {
     val alignment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) DynamicDrawableSpan.ALIGN_CENTER else DynamicDrawableSpan.ALIGN_BASELINE
 
     val builder = SpannableStringBuilder(text)
 
-    val pattern = Pattern.compile("\\[(drawable|iconics) ([0-9a-z_]+)\\]")
+    val pattern = Pattern.compile("\\[iconics ([0-9a-z_]+)\\]")
     val matcher = pattern.matcher(builder)
     while (matcher.find()) {
-        val resourceType = matcher.group(1)
-        val resourceName = matcher.group(2)
+        val resourceName = matcher.group(1)
             ?: continue
 
-        val drawable: Drawable? = when (resourceType) {
-            "iconics" -> IconicsDrawable(context, GoogleMaterial.getIcon(resourceName))
-            else -> {
-                val drawableResourceId = context.resources.getIdentifier(resourceName, "drawable", context.packageName)
-                if (drawableResourceId != 0) AppCompatResources.getDrawable(context, drawableResourceId) else null
-            }
-        }
+        val drawable = IconicsDrawable(context, GoogleMaterial.getIcon(resourceName))
+        drawable.setBounds(0, 0, size, size)
+        drawable.setTint(color)
 
-        if (drawable != null) {
-            drawable.setBounds(0, 0, size, size)
-            drawable.setTint(color)
-
-            builder.setSpan(ImageSpan(drawable, alignment), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
+        builder.setSpan(ImageSpan(drawable, alignment), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
 
     return builder
