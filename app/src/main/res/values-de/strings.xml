@@ -662,7 +662,7 @@
     <string name="status_filtered_show_anyway">Trotzdem anzeigen</string>
     <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge der Accounts,
         denen du folgst.\n\nUm andere Accounts zu finden, kannst du entweder andere Timelines lesen.
-        Zum Beispiel die Lokale Timeline deiner Instanz [drawable ic_local_24dp]. Oder du kannst nach ihrem Namen suchen
+        Zum Beispiel die Lokale Timeline deiner Instanz [iconics gmd_group]. Oder du kannst nach ihrem Namen suchen
         [iconics gmd_search]; suche z. B. nach Tusky, um unseren Mastodon-Account zu finden.</string>
 </resources>
 
