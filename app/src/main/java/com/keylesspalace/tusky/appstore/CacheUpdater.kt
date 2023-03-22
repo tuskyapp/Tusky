@@ -26,12 +26,35 @@ class CacheUpdater @Inject constructor(
             eventHub.events.collect { event ->
                 val accountId = accountManager.activeAccount?.id ?: return@collect
                 when (event) {
-                    is FavoriteEvent ->
-                        timelineDao.setFavourited(accountId, event.statusId, event.favourite)
-                    is ReblogEvent ->
-                        timelineDao.setReblogged(accountId, event.statusId, event.reblog)
-                    is BookmarkEvent ->
-                        timelineDao.setBookmarked(accountId, event.statusId, event.bookmark)
+                    is StatusChangedEvent -> {
+                        val status = event.status
+
+                        timelineDao.update(
+                            accountId = accountId,
+                            statusId = status.id,
+                            content = status.content,
+                            editedAt = status.editedAt?.time,
+                            emojis = gson.toJson(status.emojis),
+                            reblogsCount = status.reblogsCount,
+                            favouritesCount = status.favouritesCount,
+                            repliesCount = status.repliesCount,
+                            reblogged = status.reblogged,
+                            bookmarked = status.bookmarked,
+                            favourited = status.favourited,
+                            sensitive = status.sensitive,
+                            spoilerText = status.spoilerText,
+                            visibility = status.visibility,
+                            attachments = gson.toJson(status.attachments),
+                            mentions = gson.toJson(status.mentions),
+                            tags = gson.toJson(status.tags),
+                            poll = gson.toJson(status.poll),
+                            muted = status.muted,
+                            pinned = status.pinned ?: false,
+                            card = gson.toJson(status.card),
+                            language = status.language,
+                            filtered = status.filtered
+                        )
+                    }
                     is UnfollowEvent ->
                         timelineDao.removeAllByUser(accountId, event.accountId)
                     is StatusDeletedEvent ->
@@ -40,8 +63,6 @@ class CacheUpdater @Inject constructor(
                         val pollString = gson.toJson(event.poll)
                         timelineDao.setVoted(accountId, event.statusId, pollString)
                     }
-                    is PinEvent ->
-                        timelineDao.setPinned(accountId, event.statusId, event.pinned)
                 }
             }
         }

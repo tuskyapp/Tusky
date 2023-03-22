@@ -22,15 +22,7 @@ import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import com.google.gson.Gson
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.BookmarkEvent
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.appstore.StatusComposedEvent
-import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.appstore.StatusEditedEvent
+import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -86,10 +78,7 @@ class ViewThreadViewModel @Inject constructor(
             eventHub.events
                 .collect { event ->
                     when (event) {
-                        is FavoriteEvent -> handleFavEvent(event)
-                        is ReblogEvent -> handleReblogEvent(event)
-                        is BookmarkEvent -> handleBookmarkEvent(event)
-                        is PinEvent -> handlePinEvent(event)
+                        is StatusChangedEvent -> handleStatusChangedEvent(event.status)
                         is BlockEvent -> removeAllByAccountId(event.accountId)
                         is StatusComposedEvent -> handleStatusComposedEvent(event)
                         is StatusDeletedEvent -> handleStatusDeletedEvent(event)
@@ -277,27 +266,13 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun handleFavEvent(event: FavoriteEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(favourited = event.favourite)
-        }
-    }
-
-    private fun handleReblogEvent(event: ReblogEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(reblogged = event.reblog)
-        }
-    }
-
-    private fun handleBookmarkEvent(event: BookmarkEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(bookmarked = event.bookmark)
-        }
-    }
-
-    private fun handlePinEvent(event: PinEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(pinned = event.pinned)
+    private fun handleStatusChangedEvent(status: Status) {
+        updateStatusViewData(status.id) { viewData ->
+            status.toViewData(
+                isShowingContent = viewData.isShowingContent,
+                isExpanded = viewData.isExpanded,
+                isCollapsed = viewData.isCollapsed
+            )
         }
     }
 

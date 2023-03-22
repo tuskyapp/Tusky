@@ -20,6 +20,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.TypeConverters
+import com.keylesspalace.tusky.entity.FilterResult
+import com.keylesspalace.tusky.entity.Status
 
 @Dao
 abstract class TimelineDao {
@@ -86,10 +89,56 @@ AND
     abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
 
     @Query(
-        """UPDATE TimelineStatusEntity SET favourited = :favourited
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+        """UPDATE TimelineStatusEntity
+           SET content = :content,
+           editedAt = :editedAt,
+           emojis = :emojis,
+           reblogsCount = :reblogsCount,
+           favouritesCount = :favouritesCount,
+           repliesCount = :repliesCount,
+           reblogged = :reblogged,
+           bookmarked = :bookmarked,
+           favourited = :favourited,
+           sensitive = :sensitive,
+           spoilerText = :spoilerText,
+           visibility = :visibility,
+           attachments = :attachments,
+           mentions = :mentions,
+           tags = :tags,
+           poll = :poll,
+           muted = :muted,
+           pinned = :pinned,
+           card = :card,
+           language = :language,
+           filtered = :filtered
+           WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
-    abstract suspend fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
+    @TypeConverters(Converters::class)
+    abstract suspend fun update(
+        accountId: Long,
+        statusId: String,
+        content: String?,
+        editedAt: Long?,
+        emojis: String?,
+        reblogsCount: Int,
+        favouritesCount: Int,
+        repliesCount: Int,
+        reblogged: Boolean,
+        bookmarked: Boolean,
+        favourited: Boolean,
+        sensitive: Boolean,
+        spoilerText: String,
+        visibility: Status.Visibility,
+        attachments: String?,
+        mentions: String?,
+        tags: String?,
+        poll: String?,
+        muted: Boolean?,
+        pinned: Boolean,
+        card: String?,
+        language: String?,
+        filtered: List<FilterResult>?
+    )
 
     @Query(
         """UPDATE TimelineStatusEntity SET bookmarked = :bookmarked
