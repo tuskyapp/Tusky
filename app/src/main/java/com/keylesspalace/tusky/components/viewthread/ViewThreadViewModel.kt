@@ -55,7 +55,7 @@ class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
     private val filterModel: FilterModel,
     private val timelineCases: TimelineCases,
-    eventHub: EventHub,
+    private val eventHub: EventHub,
     accountManager: AccountManager,
     private val db: AppDatabase,
     private val gson: Gson
@@ -125,6 +125,7 @@ class ViewThreadViewModel @Inject constructor(
                     _uiState.value = ThreadUiState.Error(exception)
                     return@launch
                 }
+                eventHub.dispatch(StatusChangedEvent(result))
                 result.toViewData(isDetailed = true)
             }
 
@@ -138,8 +139,11 @@ class ViewThreadViewModel @Inject constructor(
             // for the status. Ignore errors, the user still has a functioning UI if the fetch
             // failed.
             if (timelineStatus != null) {
-                val viewData = api.status(id).getOrNull()?.toViewData(isDetailed = true)
-                if (viewData != null) { detailedStatus = viewData }
+                val result = api.status(id).getOrNull()
+                if (result != null) {
+                    eventHub.dispatch(StatusChangedEvent(result))
+                    detailedStatus = result.toViewData(isDetailed = true)
+                }
             }
 
             val contextResult = contextCall.await()
@@ -276,7 +280,8 @@ class ViewThreadViewModel @Inject constructor(
             status.toViewData(
                 isShowingContent = viewData.isShowingContent,
                 isExpanded = viewData.isExpanded,
-                isCollapsed = viewData.isCollapsed
+                isCollapsed = viewData.isCollapsed,
+                isDetailed = viewData.isDetailed
             )
         }
     }
