@@ -254,7 +254,7 @@ class SendStatusService : Service(), Injectable {
 
                 if (scheduled) {
                     eventHub.dispatch(StatusScheduledEvent(sentStatus))
-                } else if (editing) {
+                } else if (!isNew) {
                     eventHub.dispatch(StatusEditedEvent(statusToSend.statusId!!, sentStatus))
                 } else {
                     eventHub.dispatch(StatusComposedEvent(sentStatus))
