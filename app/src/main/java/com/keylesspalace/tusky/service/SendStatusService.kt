@@ -187,9 +187,7 @@ class SendStatusService : Service(), Injectable {
 
             if (isNew) {
                 media.forEach { mediaItem ->
-                    if (mediaItem.processed) {
-                        // TODO only call this when there is something (description, different focus point) to send?
-
+                    if (mediaItem.processed && (mediaItem.description != null || mediaItem.focus != null)) {
                         mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, mediaItem.focus?.toMastodonApiString())
                             .fold({
                             }, { throwable ->
