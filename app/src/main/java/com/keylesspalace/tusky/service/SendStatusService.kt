@@ -13,7 +13,6 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
@@ -189,15 +188,15 @@ class SendStatusService : Service(), Injectable {
             if (isNew) {
                 media.forEach { mediaItem ->
                     if (mediaItem.processed) {
+                        // TODO only call this when there is something (description, different focus point) to send?
+
                         mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, mediaItem.focus?.toMastodonApiString())
                             .fold({
                             }, { throwable ->
-                                Toast.makeText(
-                                    applicationContext,
-                                    R.string.error_failed_set_caption,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Log.e(TAG, "failed to update media on status send", throwable)
+                                Log.w(TAG, "failed to update media on status send", throwable)
+                                failOrRetry(throwable, statusId)
+
+                                return@launch
                             })
                     }
                 }
@@ -263,15 +262,19 @@ class SendStatusService : Service(), Injectable {
                 notificationManager.cancel(statusId)
             }, { throwable ->
                 Log.w(TAG, "failed sending status", throwable)
-                if (throwable is HttpException) {
-                    // the server refused to accept the status, save status & show error message
-                    failSending(statusId)
-                } else {
-                    // a network problem occurred, let's retry sending the status
-                    retrySending(statusId)
-                }
+                failOrRetry(throwable, statusId)
             })
             stopSelfWhenDone()
+        }
+    }
+
+    private suspend fun failOrRetry(throwable: Throwable, statusId: Int) {
+        if (throwable is HttpException) {
+            // the server refused to accept, save status & show error message
+            failSending(statusId)
+        } else {
+            // a network problem occurred, let's retry sending the status
+            retrySending(statusId)
         }
     }
 
@@ -309,6 +312,9 @@ class SendStatusService : Service(), Injectable {
             notificationManager.cancel(statusId)
             notificationManager.notify(errorNotificationId++, notification)
         }
+
+        // NOTE only this removes the "Sending..." notification (added with startForeground() above)
+        stopSelfWhenDone()
     }
 
     private fun cancelSending(statusId: Int) = serviceScope.launch {
