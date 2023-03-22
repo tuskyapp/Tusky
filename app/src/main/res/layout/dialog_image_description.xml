@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,18 +13,27 @@
         android:layout_weight="1"
         android:contentDescription="@string/post_media_image"/>
 
-    <EditText
-        android:id="@+id/imageDescriptionText"
-        android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TuskyTextInput"
+        android:id="@+id/imageDescriptionTextLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/colorBackgroundAccent"
         android:layout_weight="1"
-        android:padding="4dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="?dialogPreferredPadding"
-        android:layout_marginRight="?dialogPreferredPadding"
-        android:gravity="start"
-        android:hint="@plurals/hint_describe_for_visually_impaired"
-        android:importantForAutofill="no"/>
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        app:hintEnabled="false"
+        app:counterEnabled="true"
+        app:counterTextColor="?android:textColorTertiary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imageDescriptionText"
+            android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/hint_description"
+            android:gravity="start"
+            android:importantForAutofill="no" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
