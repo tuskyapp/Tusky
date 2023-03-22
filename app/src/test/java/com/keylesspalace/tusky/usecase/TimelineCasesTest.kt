@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PinEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.runBlocking
@@ -39,15 +39,17 @@ class TimelineCasesTest {
     }
 
     @Test
-    fun `pin success emits PinEvent`() {
+    fun `pin success emits StatusChangedEvent`() {
+        val pinnedStatus = mockStatus(pinned = true)
+
         api.stub {
-            onBlocking { pinStatus(statusId) } doReturn NetworkResult.success(mockStatus(pinned = true))
+            onBlocking { pinStatus(statusId) } doReturn NetworkResult.success(pinnedStatus)
         }
 
         runBlocking {
             eventHub.events.test {
                 timelineCases.pin(statusId, true)
-                assertEquals(PinEvent(statusId, true), awaitItem())
+                assertEquals(StatusChangedEvent(pinnedStatus), awaitItem())
             }
         }
     }
