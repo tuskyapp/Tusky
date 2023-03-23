@@ -336,9 +336,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun getDimensionFromAttribute(context: Context, attr: Int): Int {
         val typedValue = TypedValue()
-        return if (context.theme.resolveAttribute(attr, typedValue, true))
+        return if (context.theme.resolveAttribute(attr, typedValue, true)) {
             TypedValue.complexToDimensionPixelSize(typedValue.data, context.resources.displayMetrics)
-        else 0
+        } else {
+            0
+        }
     }
 
     // TODO this should be made general somewhere? (it is copied from ViewThreadFragment)
