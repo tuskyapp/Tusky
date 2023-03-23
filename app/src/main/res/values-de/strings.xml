@@ -431,7 +431,7 @@
     <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
     <string name="description_post_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
-    <string name="select_list_title_empty">Du hast noch keine Listen</string>
+    <string name="select_list_empty">Du hast noch keine Listen</string>
     <string name="select_list_create">Erstellen</string>
     <string name="error_list_load">Fehler beim Laden der Listen</string>
     <string name="list">Liste</string>

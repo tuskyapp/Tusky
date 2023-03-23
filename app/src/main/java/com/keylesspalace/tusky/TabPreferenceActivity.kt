@@ -24,6 +24,9 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -37,7 +40,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
-import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
@@ -273,15 +275,28 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
 
-        val progress = LinearProgressIndicator(this)
+        val statusLayout = LinearLayout(this)
+        val progress = ProgressBar(this)
         val preferredPadding = getDimensionFromAttribute(this, androidx.appcompat.R.attr.dialogPreferredPadding)
         progress.setPadding(preferredPadding, 0, preferredPadding, 0)
         progress.visible(false)
 
+        val noListsText = TextView(this)
+        noListsText.setPadding(preferredPadding, 0, preferredPadding, 0)
+        noListsText.text = getText(R.string.select_list_empty)
+        noListsText.visible(false)
+
+        statusLayout.addView(progress)
+        statusLayout.addView(noListsText)
+
         val dialogBuilder = AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
+            .setNeutralButton(R.string.select_list_create) { _, _ ->
+                val listIntent = Intent(applicationContext, ListsActivity::class.java)
+                startActivity(listIntent)
+            }
             .setNegativeButton(android.R.string.cancel, null)
-            .setView(progress)
+            .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
                 val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
@@ -291,28 +306,21 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 saveTabs()
             }
 
-        val loadListProgressBarJob = getProgressBarJob(progress, 500)
-
-        if (adapter.isEmpty) {
-            dialogBuilder.setTitle(R.string.select_list_title_empty)
-            dialogBuilder.setNeutralButton(R.string.select_list_create) { _, _ ->
-                val listIntent = Intent(applicationContext, ListsActivity::class.java)
-                startActivity(listIntent)
-            }
-
-            loadListProgressBarJob.start()
-        }
+        val showProgressBarJob = getProgressBarJob(progress, 500)
+        showProgressBarJob.start()
 
         val dialog = dialogBuilder.show()
 
         lifecycleScope.launch {
             mastodonApi.getLists().fold(
                 { lists ->
-                    loadListProgressBarJob.cancel()
+                    showProgressBarJob.cancel()
                     adapter.addAll(lists)
                     if (lists.isNotEmpty()) {
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).hide()
                         dialog.setTitle(R.string.select_list_title)
+                    } else {
+                        noListsText.show()
                     }
                 },
                 { throwable ->
@@ -332,17 +340,15 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     // TODO this should be made general somewhere? (it is copied from ViewThreadFragment)
-    //   also: maybe it should have a callable instead of simply view.show()?
-    //   Everything above (empty title, show and hide button) should probably only show after this delay?
-    private fun getProgressBarJob(view: View, delayMs: Long) = this.lifecycleScope.launch(
+    private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
         start = CoroutineStart.LAZY
     ) {
         try {
             delay(delayMs)
-            view.show()
+            progressView.show()
             awaitCancellation()
         } finally {
-            view.hide()
+            progressView.hide()
         }
     }
 
