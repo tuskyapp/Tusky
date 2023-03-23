@@ -22,6 +22,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -276,6 +277,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         val adapter = ListSelectionAdapter(this)
 
         val statusLayout = LinearLayout(this)
+        statusLayout.gravity = Gravity.CENTER
         val progress = ProgressBar(this)
         val preferredPadding = getDimensionFromAttribute(this, androidx.appcompat.R.attr.dialogPreferredPadding)
         progress.setPadding(preferredPadding, 0, preferredPadding, 0)
