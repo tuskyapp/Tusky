@@ -36,7 +36,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadState
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,6 +52,8 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -61,6 +66,7 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -92,6 +98,9 @@ class NotificationsFragment :
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var eventHub: EventHub
+
     private val viewModel: NotificationsViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
@@ -99,6 +108,39 @@ class NotificationsFragment :
     private lateinit var adapter: NotificationsPagingAdapter
 
     private lateinit var layoutManager: LinearLayoutManager
+
+    private suspend fun handleNewNotifications(event: NewNotificationsEvent) {
+        if (event.accountId != accountManager.activeAccount!!.accountId) {
+            return
+        }
+
+        if (event.notifications.isEmpty()) {
+            return
+        }
+
+        val notificationViews = event.notifications.map { notification ->
+            notification.toViewData(
+                isShowingContent = viewModel.statusDisplayOptions.value.showSensitiveMedia ||
+                    !(notification.status?.actionableStatus?.sensitive ?: false),
+                isExpanded = viewModel.statusDisplayOptions.value.openSpoiler,
+                isCollapsed = true
+            )
+        }
+
+       val  factory = InvalidatingPagingSourceFactory {
+            NotificationsStaticPagingSource(notificationViews)
+        }
+
+        val pager = Pager(
+            config = PagingConfig(pageSize = notificationViews.size),
+            null,
+            pagingSourceFactory = factory
+        )
+
+        pager.flow.collectLatest { pagingData ->
+            adapter.submitData(pagingData)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -417,6 +459,15 @@ class NotificationsFragment :
                         }
                     }
             }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events
+                .collect { event ->
+                    when (event) {
+                        is NewNotificationsEvent -> handleNewNotifications(event)
+                    }
+                }
         }
     }
 
