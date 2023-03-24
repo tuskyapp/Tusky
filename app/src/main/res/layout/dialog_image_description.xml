@@ -22,7 +22,7 @@
         android:layout_marginTop="?dialogPreferredPadding"
         android:layout_marginEnd="?dialogPreferredPadding"
         app:hintEnabled="false"
-        app:counterEnabled="true"
+        app:counterEnabled="false"
         app:counterTextColor="?android:textColorTertiary">
 
         <com.google.android.material.textfield.TextInputEditText
