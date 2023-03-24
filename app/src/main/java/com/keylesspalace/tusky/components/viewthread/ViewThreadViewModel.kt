@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -87,7 +86,6 @@ class ViewThreadViewModel @Inject constructor(
                         is BlockEvent -> removeAllByAccountId(event.accountId)
                         is StatusComposedEvent -> handleStatusComposedEvent(event)
                         is StatusDeletedEvent -> handleStatusDeletedEvent(event)
-                        is StatusEditedEvent -> handleStatusEditedEvent(event)
                     }
                 }
         }
@@ -311,20 +309,6 @@ class ViewThreadViewModel @Inject constructor(
             } else {
                 uiState
             }
-        }
-    }
-
-    private fun handleStatusEditedEvent(event: StatusEditedEvent) {
-        updateSuccess { uiState ->
-            uiState.copy(
-                statusViewData = uiState.statusViewData.map { status ->
-                    if (status.actionableId == event.originalId) {
-                        event.status.toViewData()
-                    } else {
-                        status
-                    }
-                }
-            )
         }
     }
 
