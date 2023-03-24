@@ -15,13 +15,10 @@
 
 package com.keylesspalace.tusky
 
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -52,6 +49,7 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -279,7 +277,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         val statusLayout = LinearLayout(this)
         statusLayout.gravity = Gravity.CENTER
         val progress = ProgressBar(this)
-        val preferredPadding = getDimensionFromAttribute(this, androidx.appcompat.R.attr.dialogPreferredPadding)
+        val preferredPadding = getDimension(this, androidx.appcompat.R.attr.dialogPreferredPadding)
         progress.setPadding(preferredPadding, 0, preferredPadding, 0)
         progress.visible(false)
 
@@ -331,16 +329,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         }
     }
 
-    private fun getDimensionFromAttribute(context: Context, attr: Int): Int {
-        val typedValue = TypedValue()
-        return if (context.theme.resolveAttribute(attr, typedValue, true)) {
-            TypedValue.complexToDimensionPixelSize(typedValue.data, context.resources.displayMetrics)
-        } else {
-            0
-        }
-    }
-
-    // TODO this should be made general somewhere? (it is copied from ViewThreadFragment)
     private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
         start = CoroutineStart.LAZY
     ) {
