@@ -678,4 +678,8 @@
     <string name="filter_edit_keyword_title">Змінити ключове слово</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="hint_filter_title">Мій фільтр</string>
+    <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
+    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
+\n
+\nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
 </resources>
