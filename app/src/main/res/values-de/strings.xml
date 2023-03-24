@@ -132,6 +132,7 @@
     <string name="hint_display_name">Anzeigename</string>
     <string name="hint_note">Über mich</string>
     <string name="hint_search">Suchen …</string>
+    <string name="hint_description">Beschreibung</string>
     <string name="hint_media_description_missing">Medien sollten Beschreibungen haben.</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="label_quick_reply">Antworten …</string>
@@ -262,10 +263,8 @@
     <string name="compose_active_account_description">Veröffentlichen als %1$s</string>
     <string name="error_failed_set_caption">Fehler beim Speichern der Beschreibung</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Für Mensch mit Sehbehinderung beschreiben
-\n(%d Zeichen)</item>
-        <item quantity="other">Für Menschen mit Sehbehinderung beschreiben
-\n(%d Zeichen)</item>
+        <item quantity="one">Inhalte für Mensch mit Sehbehinderung beschreiben (%d Zeichen)</item>
+        <item quantity="other">Inhalte für Menschen mit Sehbehinderung beschreiben (%d Zeichen)</item>
     </plurals>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="action_remove">Entfernen</string>
@@ -665,4 +664,3 @@
         Zum Beispiel die Lokale Timeline deiner Instanz [iconics gmd_group]. Oder du kannst nach ihrem Namen suchen
         [iconics gmd_search]; suche z. B. nach Tusky, um unseren Mastodon-Account zu finden.</string>
 </resources>
-
