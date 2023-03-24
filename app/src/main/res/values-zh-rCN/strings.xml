@@ -659,4 +659,7 @@
     <string name="filter_description_hide">完全隐藏</string>
     <string name="label_filter_keywords">关键词或短语过滤</string>
     <string name="pref_title_show_stat_inline">在时间线中显示嘟文统计数字</string>
+    <string name="help_empty_home">这是你的 <b>主时间线</b>。它展示你所关注账户最近发表的嘟文。
+\n
+\n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
 </resources>
