@@ -293,7 +293,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         val dialogBuilder = AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
-            .setNeutralButton(R.string.select_list_create) { _, _ ->
+            .setNeutralButton(R.string.select_list_manage) { _, _ ->
                 val listIntent = Intent(applicationContext, ListsActivity::class.java)
                 startActivity(listIntent)
             }
@@ -318,10 +318,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 { lists ->
                     showProgressBarJob.cancel()
                     adapter.addAll(lists)
-                    if (lists.isNotEmpty()) {
-                        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).hide()
-                        dialog.setTitle(R.string.select_list_title)
-                    } else {
+                    if (lists.isEmpty()) {
                         noListsText.show()
                     }
                 },
