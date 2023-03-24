@@ -178,7 +178,11 @@ class ViewThreadFragment :
                         threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
                         threadProgressBar.start()
 
-                        adapter.submitList(listOf(uiState.statusViewDatum))
+                        if (viewModel.isInitialLoad) {
+                            adapter.submitList(listOf(uiState.statusViewDatum))
+
+                            // else this "submit one and then all on success below" will always center on the one
+                        }
 
                         revealButtonState = uiState.revealButton
                         binding.swipeRefreshLayout.isRefreshing = false
