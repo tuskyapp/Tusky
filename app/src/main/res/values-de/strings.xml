@@ -328,7 +328,7 @@
     <string name="description_post_reblogged">Geteilt</string>
     <string name="description_visibility_unlisted">Nicht gelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
-    <string name="dialog_redraft_post_warning">Diesen Beitrag löschen und neu erstellen\?</string>
+    <string name="dialog_redraft_post_warning">Diesen Beitrag löschen und neu erstellen?</string>
     <string name="notification_poll_name">Umfrageergebnisse</string>
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
     <string name="notifications_clear">Löschen</string>
@@ -381,7 +381,7 @@
     <string name="report_remote_instance">An %1$s weiterleiten</string>
     <string name="failed_report">Melden fehlgeschlagen</string>
     <string name="report_description_1">Die Meldung wird an die Moderator*innen deines Servers geschickt. Du kannst hier eine Erklärung angeben, warum du dieses Konto meldest:</string>
-    <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie der Meldung auch dorthin geschickt werden\?</string>
+    <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie der Meldung auch dorthin geschickt werden?</string>
     <string name="create_poll_title">Umfrage</string>
     <string name="duration_5_min">5 Minuten</string>
     <string name="duration_30_min">30 Minuten</string>
@@ -421,8 +421,8 @@
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Follower-Anfragen</string>
     <string name="notification_follow_request_name">Follower-Anfragen</string>
-    <string name="dialog_mute_warning">\@%1$s stummschalten\?</string>
-    <string name="dialog_block_warning">\@%1$s blockieren\?</string>
+    <string name="dialog_mute_warning">\@%1$s stummschalten?</string>
+    <string name="dialog_block_warning">\@%1$s blockieren?</string>
     <string name="action_unmute_conversation">Stummschaltung der Unterhaltung aufheben</string>
     <string name="action_mute_conversation">Unterhaltung stummschalten</string>
     <string name="notification_follow_request_format">%1$s möchte dir folgen</string>
