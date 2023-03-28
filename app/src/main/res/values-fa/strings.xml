@@ -230,10 +230,8 @@
     <string name="compose_active_account_description">فرستادن از طرف %1$s</string>
     <string name="error_failed_set_caption">شکست در تنظیم عنوان</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">توصیف برای کم‌بینایان
-\n(کران ۱ نویسه)</item>
-        <item quantity="other">توصیف برای کم‌بینایان
-\n(کران %d نویسه)</item>
+        <item quantity="one">توصیف محتوا برای کم‌بینایان (کران ۱ نویسه)</item>
+        <item quantity="other">توصیف محتوا برای کم‌بینایان (کران %d نویسه)</item>
     </plurals>
     <string name="action_set_caption">تنظیم عنوان</string>
     <string name="action_remove">برداشتن</string>
@@ -663,4 +661,6 @@
     <string name="help_empty_home">این <b>خط زمانی خانگیتان</b> است. فرسته‌های جدید را از حساب‌هایی که پی‌می‌گیرید نشان می‌دهد.
 \n
 \nبرای کاوش حساب‌ها می‌توانید آن‌ها را در دیگر خط‌های زمانی (برای نمونه خط زمانی محلّی نمونه‌تان [iconics gmd_group]) یافته یا با نام (برای نمونه Tusky برای حساب ماستودونمان) بجوییدشان [iconics gmd_search].</string>
+    <string name="hint_description">شرح</string>
+    <string name="post_media_image">تصویر</string>
 </resources>
