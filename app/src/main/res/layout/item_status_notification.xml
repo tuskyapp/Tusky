@@ -24,52 +24,59 @@
         android:textSize="?attr/status_text_medium"
         tools:text="Someone favourited your status" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/status_name_bar"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_top_text"
         android:layout_toEndOf="@+id/notification_status_avatar"
         android:paddingBottom="4dp">
 
-        <TextView
-            android:id="@+id/status_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingStart="0dp"
-            android:paddingEnd="@dimen/status_display_name_padding_end"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_medium"
-            android:textStyle="normal|bold"
-            tools:text="Ente" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/status_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/status_meta_info"
-            android:layout_toEndOf="@id/status_display_name"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="\@Entenhausen" />
+            <TextView
+                android:id="@+id/status_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/status_display_name_padding_end"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_medium"
+                android:textStyle="normal|bold"
+                tools:text="Ente" />
+
+            <TextView
+                android:id="@+id/status_username"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_medium"
+                tools:text="\@Entenhausen" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/status_meta_info"
             android:layout_width="wrap_content"
+            android:layout_weight="0"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_marginStart="4dp"
             android:textColor="?android:textColorTertiary"
             android:textSize="?attr/status_text_medium"
             tools:text="13:37" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/notification_content_warning_description"
