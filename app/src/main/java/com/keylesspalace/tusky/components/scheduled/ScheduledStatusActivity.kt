@@ -47,6 +47,7 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 class ScheduledStatusActivity :
@@ -98,10 +99,18 @@ class ScheduledStatusActivity :
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Error) {
                 binding.progressBar.hide()
-                binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    refreshStatuses()
-                }
                 binding.errorMessageView.show()
+
+                val errorState = loadState.refresh as LoadState.Error
+                if (errorState.error is IOException) {
+                    binding.errorMessageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                        refreshStatuses()
+                    }
+                } else {
+                    binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                        refreshStatuses()
+                    }
+                }
             }
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
