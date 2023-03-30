@@ -330,7 +330,6 @@
     <string name="action_add_to_list">Adicionar conta à lista</string>
     <string name="action_remove_from_list">Remover conta da lista</string>
     <string name="compose_active_account_description">Publicar com a conta %1$s</string>
-    <string name="error_failed_set_caption">Erro ao incluir descrição</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descrição para deficientes visuais
 \n(até %d letra)</item>
@@ -560,7 +559,6 @@
     <string name="description_post_language">Idioma da publicação</string>
     <string name="pref_title_show_self_username">Mostrar o nome de utilizador nas barras de ferramentas</string>
     <string name="error_multimedia_size_limit">Os ficheiros de áudio e vídeo não podem exceder os %s MB.</string>
-    <string name="error_failed_set_focus">Erro ao definir ponto de focagem</string>
     <string name="action_set_focus">Define o ponto de focagem</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Erro ao deixar de seguir #%s</string>

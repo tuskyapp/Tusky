@@ -285,7 +285,6 @@
     <string name="action_add_to_list">Afegir un compte a la llista</string>
     <string name="action_remove_from_list">Suprimir un compte de la llista</string>
     <string name="compose_active_account_description">"Publicar com a  %1$s"</string>
-    <string name="error_failed_set_caption">Error al afegir la llegenda</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descriu per a persones amb discapacitat visual
 \n(%d límit de caràcters)</item>
@@ -595,7 +594,6 @@
     <string name="compose_unsaved_changes">Tens canvis no desats.</string>
     <string name="set_focus_description">Toqueu o arrossegueu el cercle per triar el punt focal que sempre serà visible a les miniatures.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">No s\'ha pogut establir el punt d\'enfocament</string>
     <string name="pref_title_show_self_username">Mostra el nom d\'usuari a les barres d\'eines</string>
     <string name="action_set_focus">Estableix el punt d\'enfocament</string>
     <string name="description_login">Funciona en la majoria dels casos. No es filtra cap dada a altres aplicacions.</string>

@@ -234,7 +234,6 @@
     <string name="action_lists">Rhestrau</string>
     <string name="title_lists">Rhestrau</string>
     <string name="compose_active_account_description">Yn postio fel %1$s</string>
-    <string name="error_failed_set_caption">Methu gosod pennawd</string>
     <string name="action_set_caption">Gosod pennawd</string>
     <string name="action_remove">Dileu</string>
     <string name="lock_account_label">Cloi cyfrif</string>
@@ -546,7 +545,6 @@
     <string name="set_focus_description">Tapiwch neu lusgo\'r cylch i ddewis y canolbwynt a fydd bob amser yn weladwy mewn lluniau bach.</string>
     <string name="description_poll">Pôl gyda dewisiadau: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="list">Rhestr</string>
-    <string name="error_failed_set_focus">Wedi methu gosod pwynt ffocws</string>
     <string name="action_set_focus">Gosod pwynt ffocws</string>
     <string name="status_created_at_now">nawr</string>
     <string name="error_delete_list">Methu dileu\'r rhestr</string>
