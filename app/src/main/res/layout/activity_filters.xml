@@ -10,21 +10,27 @@
         android:id="@+id/includedToolbar"
         layout="@layout/toolbar_basic" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/filtersView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filtersList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.keylesspalace.tusky.view.BackgroundMessageView
-        android:id="@+id/filterMessageView"
+        android:id="@+id/messageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
     <ProgressBar
-        android:id="@+id/filterProgressBar"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
@@ -36,8 +42,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/filter_addition_title"
         android:src="@drawable/ic_plus_24dp"
-        app:layout_anchor="@id/filtersView"
+        app:layout_anchor="@id/filtersList"
         app:layout_anchorGravity="bottom|end" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

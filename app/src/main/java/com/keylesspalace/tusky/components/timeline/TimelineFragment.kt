@@ -245,9 +245,13 @@ class TimelineFragment :
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network)
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                onRefresh()
+                            }
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic)
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                onRefresh()
+                            }
                         }
                     }
                     is LoadState.Loading -> {
