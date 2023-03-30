@@ -622,4 +622,5 @@
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
     <string name="dialog_follow_hashtag_hint">#cancelo</string>
+    <string name="hint_description">Descrición</string>
 </resources>
