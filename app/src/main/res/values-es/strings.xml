@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ha ocurrido un error.</string>
-    <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
+    <string name="error_network">¡Se ha producido un error de red! Por favor, comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
     <string name="error_failed_app_registration">Fallo de autenticación con esta instancia. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
@@ -648,4 +648,14 @@
     <string name="total_accounts">Cuentas totales</string>
     <string name="dialog_follow_hashtag_title">Seguir etiqueta</string>
     <string name="dialog_follow_hashtag_hint">#etiqueta</string>
+    <string name="hint_description">Descripción</string>
+    <string name="post_media_image">Imagen</string>
+    <string name="pref_title_account_filter_keywords">Perfiles</string>
+    <string name="action_refresh">Volver a cargar</string>
+    <string name="notification_unknown_name">Desconocido</string>
+    <string name="status_filtered_show_anyway">Mostrar de todas formas</string>
+    <string name="status_filter_placeholder_label_format">Filtrado: %s</string>
+    <string name="pref_title_show_stat_inline">Mostrar estadísticas de la entrada en la línea de tiempo</string>
+    <string name="ui_error_unknown">razón desconocida</string>
+    <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
 </resources>
