@@ -463,6 +463,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             dividerBelowHeader = false
             closeDrawerOnProfileListClick = true
         }
+
         header.currentProfileName.maxLines = 1
         header.currentProfileName.ellipsize = TextUtils.TruncateAt.END
 
