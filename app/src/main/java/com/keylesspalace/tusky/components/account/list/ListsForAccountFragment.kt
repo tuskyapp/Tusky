@@ -54,6 +54,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     private val viewModel: ListsForAccountViewModel by viewModels { viewModelFactory }
 
     private var _binding: FragmentListsForAccountBinding? = null
+
     // This property is only valid between onCreateDialog and onDestroyView
     private val binding get() = _binding!!
 
