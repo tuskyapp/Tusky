@@ -320,6 +320,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                     showProgressBarJob.cancel()
                     adapter.addAll(lists)
                     if (lists.isEmpty()) {
+                        // TODO do like in ListsForAccountFragment (full binding in dialog with message view)
                         noListsText.show()
                     }
                 },
