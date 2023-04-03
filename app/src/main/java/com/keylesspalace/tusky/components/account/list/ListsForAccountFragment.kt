@@ -1,4 +1,4 @@
-/* Copyright 2022 kyori19
+/* Copyright Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -16,18 +16,20 @@
 
 package com.keylesspalace.tusky.components.account.list
 
+import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentListsForAccountBinding
 import com.keylesspalace.tusky.databinding.ItemAddOrRemoveFromListBinding
@@ -36,8 +38,10 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,7 +52,10 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel: ListsForAccountViewModel by viewModels { viewModelFactory }
-    private val binding by viewBinding(FragmentListsForAccountBinding::bind)
+
+    private var _binding: FragmentListsForAccountBinding? = null
+    // This property is only valid between onCreateDialog and onDestroyView
+    private val binding get() = _binding!!
 
     private val adapter = Adapter()
 
@@ -59,36 +66,34 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         viewModel.setup(requireArguments().getString(ARG_ACCOUNT_ID)!!)
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.apply {
-            window?.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-        }
-    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val context = requireContext()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_lists_for_account, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.listsView.layoutManager = LinearLayoutManager(view.context)
+        _binding = FragmentListsForAccountBinding.inflate(layoutInflater)
         binding.listsView.adapter = adapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .setTitle(R.string.select_list_title)
+            .setNeutralButton(R.string.select_list_manage) { _, _ ->
+                val listIntent = Intent(context, ListsActivity::class.java)
+                startActivity(listIntent)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+
+        val dialog = dialogBuilder.create()
+
+        val showProgressBarJob = getProgressBarJob(binding.progressBar, 500)
+        showProgressBarJob.start()
+
+        // TODO change this to a (single) LoadState like elsewhere?
+        lifecycleScope.launch {
             viewModel.states.collectLatest { states ->
                 binding.progressBar.hide()
+                showProgressBarJob.cancel()
                 if (states.isEmpty()) {
                     binding.messageView.show()
-                    binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.no_lists) {
-                        load()
-                    }
+                    binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.no_lists)
                 } else {
                     binding.listsView.show()
                     adapter.submitList(states)
@@ -96,9 +101,10 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.loadError.collectLatest { error ->
                 binding.progressBar.hide()
+                showProgressBarJob.cancel()
                 binding.listsView.hide()
                 binding.messageView.apply {
                     show()
@@ -107,7 +113,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.actionError.collectLatest { error ->
                 when (error.type) {
                     ActionError.Type.ADD -> {
@@ -128,11 +134,28 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             }
         }
 
-        binding.doneButton.setOnClickListener {
-            dismiss()
+        lifecycleScope.launch {
+            load()
         }
 
-        load()
+        return dialog
+    }
+
+    private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
+        start = CoroutineStart.LAZY
+    ) {
+        try {
+            delay(delayMs)
+            progressView.show()
+            awaitCancellation()
+        } finally {
+            progressView.hide()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun load() {

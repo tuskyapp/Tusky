@@ -79,10 +79,10 @@ class ListsForAccountViewModel @Inject constructor(
                 ).awaitAll()
 
                 _states.emit(
-                    all.getOrThrow().map { list ->
+                    all.getOrThrow().map { listState ->
                         AccountListState(
-                            list = list,
-                            includesAccount = includes.getOrThrow().any { it.id == list.id }
+                            list = listState,
+                            includesAccount = includes.getOrThrow().any { it.id == listState.id }
                         )
                     }
                 )
