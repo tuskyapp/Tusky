@@ -247,6 +247,8 @@ class EditFilterActivity : BaseActivity() {
     }
 
     private fun saveChanges() {
+        // TODO use a progress bar here (see EditProfileActivity/activity_edit_profile.xml for example)?
+
         lifecycleScope.launch {
             if (viewModel.saveChanges(this@EditFilterActivity)) {
                 finish()
