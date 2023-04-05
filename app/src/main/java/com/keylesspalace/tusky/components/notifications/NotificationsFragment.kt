@@ -161,7 +161,7 @@ class NotificationsFragment :
                 binding.recyclerView,
                 this
             ) { pos: Int ->
-                val notification = adapter.snapshot()[pos]
+                val notification = adapter.snapshot().getOrNull(pos)
                 // We support replies only for now
                 if (notification is NotificationViewData) {
                     notification.statusViewData

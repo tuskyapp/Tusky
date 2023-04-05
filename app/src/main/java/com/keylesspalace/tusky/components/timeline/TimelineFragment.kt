@@ -478,7 +478,7 @@ class TimelineFragment :
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
-        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
+        statusIdBelowLoadMore = if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
         viewModel.loadMore(placeholder.id)
     }
 
