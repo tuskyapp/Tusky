@@ -24,8 +24,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
+import com.keylesspalace.tusky.network.LogToDbInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
@@ -68,7 +70,8 @@ class NetworkModule {
     fun providesHttpClient(
         accountManager: AccountManager,
         context: Context,
-        preferences: SharedPreferences
+        preferences: SharedPreferences,
+        db: AppDatabase
     ): OkHttpClient {
         val httpProxyEnabled = preferences.getBoolean(HTTP_PROXY_ENABLED, false)
         val httpServer = preferences.getNonNullString(HTTP_PROXY_SERVER, "")
@@ -105,6 +108,10 @@ class NetworkModule {
                 addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                 if (BuildConfig.DEBUG) {
                     addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+//                    System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
+//                    System.setProperty(STACKTRACE_RECOVERY_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
+                    addInterceptor(LogToDbInterceptor(db.occurrenceDao(), accountManager.activeAccount?.id))
+                    // TODO probably not really the correct location / should be near Api? The account id here could be wrong with multiple reasons.
                 }
             }
             .build()

@@ -175,4 +175,15 @@ class Converters @Inject constructor(
     fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
         return gson.fromJson(filterResultListJson, object : TypeToken<List<FilterResult>>() {}.type)
     }
+
+    // TODO this (simple enum <-> string) does not work automatically?
+    @TypeConverter
+    fun occurrenceTypeToString(type: OccurrenceEntity.Type): String {
+        return type.name
+    }
+
+    @TypeConverter
+    fun stringToOccurrenceType(type: String): OccurrenceEntity.Type {
+        return OccurrenceEntity.Type.fromString(type)
+    }
 }
