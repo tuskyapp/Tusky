@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/code"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:lines="1"
+        android:textSize="?attr/status_text_large"
+        tools:text="500" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/what"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium"
+            android:textStyle="bold"
+            tools:text="Example crash" />
+
+        <TextView
+            android:id="@+id/whenDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="?attr/status_text_medium"
+            tools:text="2048:04:01" />
+    </LinearLayout>
+</LinearLayout>

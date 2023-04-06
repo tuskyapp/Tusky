@@ -28,7 +28,7 @@ interface OccurrenceDao {
 //    @Query("SELECT * FROM OccurrenceEntity WHERE accountId = :accountId ORDER BY id ASC")
 //    fun pagingSource(accountId: Long): PagingSource<Int, OccurrenceEntity>
 
-    @Query("SELECT * FROM OccurrenceEntity WHERE accountId = :accountId")
+    @Query("SELECT * FROM OccurrenceEntity WHERE accountId = :accountId ORDER BY startedAt DESC")
     suspend fun loadAll(accountId: Long): List<OccurrenceEntity>
 
     @Query("DELETE FROM OccurrenceEntity WHERE id = :id")
