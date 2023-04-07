@@ -18,12 +18,15 @@ package com.keylesspalace.tusky
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.databinding.ActivityOccurrencesBinding
 import com.keylesspalace.tusky.databinding.ItemOccurrenceBinding
 import com.keylesspalace.tusky.db.AccountManager
@@ -32,6 +35,7 @@ import com.keylesspalace.tusky.db.OccurrenceEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.getDurationStringAllowMillis
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -143,13 +147,62 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
         override fun onBindViewHolder(holder: BindingHolder<ItemOccurrenceBinding>, position: Int) {
             val occurrence = getItem(position)
 
-            holder.binding.code.text = occurrence.code.toString()
+            val defaultTextColor = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+
             holder.binding.what.text = occurrence.what
+
+            holder.binding.code.text = occurrence.code.toString()
+            holder.binding.code.setTextColor(
+                if (occurrence.code != null && occurrence.code > 0) {
+                    if (occurrence.code >= 400) {
+                        Color.RED
+                    } else if (occurrence.code >= 300) {
+                        Color.YELLOW
+                    } else {
+                        Color.GREEN
+                    }
+                } else {
+                    defaultTextColor
+                }
+            )
+
             holder.binding.whenDate.text =
                 getRelativeTimeSpanString(this@OccurrenceActivity.applicationContext, occurrence.startedAt.time, System.currentTimeMillis())
                 //dateFormat.format(occurrence.startedAt)
-
             // TODO or AbsoluteTimeFormatter?
+
+            // TODO how does one get the current locale /and/or format numbers here?
+            val currentLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                resources.configuration.locales[0]
+            } else {
+                resources.configuration.locale
+            }
+
+            var duration = ""
+            var durationMs = 0L
+            if (occurrence.finishedAt != null) {
+                durationMs = occurrence.finishedAt.time - occurrence.startedAt.time
+                duration = getDurationStringAllowMillis(currentLocale, durationMs)
+            }
+            holder.binding.duration.text = duration
+            holder.binding.duration.setTextColor(
+                if (durationMs >= 1000) {
+                    Color.RED
+                } else if (durationMs >= 400) {
+                    Color.YELLOW
+                } else {
+                    Color.GREEN
+                }
+            )
+
+            holder.binding.who.text = if (occurrence.accountId != null) {
+                val account = db.accountDao().get(occurrence.accountId)
+                account?.displayName ?: ""
+            } else {
+                ""
+            }
+
+            // TODO cache some objects here? For example that account is probably always the same; or different helper objects (locale, number format, ...)
         }
     }
 }

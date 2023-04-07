@@ -3,37 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:layout_margin="6dp">
 
     <TextView
-        android:id="@+id/code"
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
-        android:lines="1"
-        android:textSize="?attr/status_text_large"
-        tools:text="500" />
+        android:id="@+id/what"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"
+        tools:text="Example crash" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/what"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="?attr/status_text_medium"
-            android:textStyle="bold"
-            tools:text="Example crash" />
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:minWidth="50dp"
+            android:layout_height="match_parent"
+            android:lines="1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_large"
+            android:paddingEnd="6dp"
+            tools:text="500" />
 
         <TextView
             android:id="@+id/whenDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"
             android:textSize="?attr/status_text_medium"
+            android:paddingEnd="6dp"
             tools:text="2048:04:01" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="203ms" />
+
+        <TextView
+            android:id="@+id/who"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="Someone" />
     </LinearLayout>
 </LinearLayout>

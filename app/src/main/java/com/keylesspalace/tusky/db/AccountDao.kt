@@ -23,6 +23,9 @@ import androidx.room.Query
 
 @Dao
 interface AccountDao {
+    @Query("SELECT * FROM AccountEntity WHERE id = :id LIMIT 1")
+    fun get(id: Long): AccountEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(account: AccountEntity): Long
 
