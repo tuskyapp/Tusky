@@ -195,8 +195,10 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             holder.binding.duration.text = duration
             holder.binding.duration.setTextColor(
                 if (durationMs >= 1000) {
-                    Color.RED
+                    Color.MAGENTA
                 } else if (durationMs >= 400) {
+                    // TODO these colors are a bit of a problem: e. g. on light mode yellow is hardly visible and green is difficult
+
                     Color.YELLOW
                 } else {
                     Color.GREEN

@@ -9,10 +9,7 @@ import javax.inject.Inject
 import kotlin.math.min
 
 class OccurrenceRepository @Inject constructor(private val db: AppDatabase, private val accountManager: AccountManager) {
-    private val CLEANUP_INTERVAL = 5
-    private val MAXIMUM_ENTRIES = 100
-
-    private var lastApiCall: OccurrenceEntity? =  null
+    private var lastApiCalls = HashMap<Long, OccurrenceEntity>(13)
     private var apiCallsCounter = 0
 
     private val occurrenceDao = db.occurrenceDao()
@@ -47,7 +44,7 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
             entityId = occurrenceDao.insertOrReplace(occurrence)
         }
 
-        lastApiCall = occurrence.copy(id = entityId)
+        lastApiCalls[entityId] = occurrence.copy(id = entityId)
 
         if (++apiCallsCounter % CLEANUP_INTERVAL == 0) {
             runBlocking {
@@ -59,14 +56,15 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
     }
 
     fun handleApiCallFinish(id: Long, responseCode: Int) {
-        if (lastApiCall == null || lastApiCall!!.id != id) {
-            // TODO this is an error(?), or just try to fetch it from db again
-            Log.e(TAG, "Last occurrence entity not found in handleApiCallFinish: " + lastApiCall?.id)
+        val startedOccurrence = lastApiCalls[id]
+
+        if (startedOccurrence == null) {
+            Log.e(TAG, "Last occurrence entity not found in handleApiCallFinish for $id")
 
             return
         }
 
-        val occurrence = lastApiCall!!.copy(
+        val occurrence = startedOccurrence.copy(
             finishedAt = Calendar.getInstance().time,
             code = responseCode,
         )
@@ -75,7 +73,8 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
             occurrenceDao.insertOrReplace(occurrence)
         }
 
-        lastApiCall = null
+        lastApiCalls.remove(id)
+        // TODO that map can grow (lots of unfinished calls that are never removed)?
     }
 
     fun handleException(exception: Throwable) {
@@ -103,5 +102,7 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
 
     companion object {
         private const val TAG = "OccurrenceRepository"
+        private const val CLEANUP_INTERVAL = 5
+        private const val MAXIMUM_ENTRIES = 100
     }
 }

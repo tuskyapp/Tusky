@@ -34,7 +34,7 @@ class LogToDbInterceptor(private val occurrenceRespository: OccurrenceRepository
             occurrenceRespository.handleApiCallFinish(entityId, response.code)
         } catch (e: Exception) {
             // TODO this case is used? If so add its message to the occurrence entity?
-            occurrenceRespository.handleApiCallFinish(entityId, 600)
+            occurrenceRespository.handleApiCallFinish(entityId, 499)
 
             throw e
         }

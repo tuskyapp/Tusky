@@ -23,6 +23,9 @@ import com.keylesspalace.tusky.components.occurrence.OccurrenceEntity
 
 @Dao
 interface OccurrenceDao {
+    @Query("SELECT * FROM OccurrenceEntity WHERE id = :id LIMIT 1")
+    fun get(id: Long): OccurrenceEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrReplace(one: OccurrenceEntity): Long
 

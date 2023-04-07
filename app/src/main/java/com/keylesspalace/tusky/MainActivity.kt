@@ -73,6 +73,7 @@ import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.components.notifications.disableAllNotifications
 import com.keylesspalace.tusky.components.notifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNecessary
+import com.keylesspalace.tusky.components.occurrence.OccurrenceActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
@@ -632,20 +633,31 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         if (BuildConfig.DEBUG) {
-            // Add a "Developer tools" entry. Code that makes it easier to
-            // set the app state at runtime belongs here, it will never
-            // be exposed to users.
-            binding.mainDrawer.addItems(
-                DividerDrawerItem(),
-                secondaryDrawerItem {
-                    nameText = "Developer tools"
-                    isEnabled = true
-                    iconicsIcon = GoogleMaterial.Icon.gmd_developer_mode
-                    onClick = {
-                        buildDeveloperToolsDialog().show()
+            binding.mainDrawer.apply {
+                addItems(
+                    DividerDrawerItem(),
+                    secondaryDrawerItem {
+                        nameRes = R.string.action_occurrences
+                        isEnabled = true
+                        iconicsIcon = GoogleMaterial.Icon.gmd_event_note
+                        onClick = {
+                            startActivityWithSlideInAnimation(Intent(context, OccurrenceActivity::class.java))
+                        }
+                    },
+
+                    // Add a "Developer tools" entry. Code that makes it easier to
+                    // set the app state at runtime belongs here, it will never
+                    // be exposed to users.
+                    secondaryDrawerItem {
+                        nameText = "Developer tools"
+                        isEnabled = true
+                        iconicsIcon = GoogleMaterial.Icon.gmd_developer_mode
+                        onClick = {
+                            buildDeveloperToolsDialog().show()
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 

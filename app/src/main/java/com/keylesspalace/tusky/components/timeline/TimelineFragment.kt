@@ -41,8 +41,6 @@ import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
-import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.components.occurrence.OccurrenceActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
@@ -337,10 +335,6 @@ class TimelineFragment :
                         MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
                 }
             }
-
-            if (!BuildConfig.DEBUG) {
-                menu.removeItem(R.id.action_occurrences)
-            }
         }
     }
 
@@ -355,12 +349,6 @@ class TimelineFragment :
                 } else {
                     false
                 }
-            }
-            R.id.action_occurrences -> {
-                // TODO should/could be placed in main drawer?
-                startActivity(Intent(this.context, OccurrenceActivity::class.java))
-
-                true
             }
             else -> false
         }
