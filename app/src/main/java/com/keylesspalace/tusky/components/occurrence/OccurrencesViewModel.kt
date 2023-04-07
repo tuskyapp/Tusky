@@ -14,7 +14,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.viewmodel
+package com.keylesspalace.tusky.components.occurrence
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

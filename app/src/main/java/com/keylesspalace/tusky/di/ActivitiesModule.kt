@@ -21,7 +21,7 @@ import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.MainActivity
-import com.keylesspalace.tusky.OccurrenceActivity
+import com.keylesspalace.tusky.components.occurrence.OccurrenceActivity
 import com.keylesspalace.tusky.SplashActivity
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.TabPreferenceActivity

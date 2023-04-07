@@ -21,9 +21,7 @@ import android.util.Log
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
-import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.OccurrenceEntity
+import com.keylesspalace.tusky.components.occurrence.OccurrenceRepository
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
@@ -36,12 +34,9 @@ import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import kotlinx.coroutines.runBlocking
 import org.conscrypt.Conscrypt
 import java.security.Security
-import java.util.*
 import javax.inject.Inject
-import kotlin.math.min
 
 class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
@@ -57,10 +52,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
     lateinit var sharedPreferences: SharedPreferences
 
     @Inject
-    lateinit var db: AppDatabase
-
-    @Inject
-    lateinit var accountManager: AccountManager
+    lateinit var occurrenceRespository: OccurrenceRepository
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -77,25 +69,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         val existingUncaughtHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
-            runBlocking {
-                var rootCause = e
-                while (rootCause.cause != null && rootCause != rootCause.cause) {
-                    rootCause = rootCause.cause!!
-                }
-
-                val traceString = OccurrenceEntity.reduceTrace(rootCause.stackTrace)
-                var what = e.message
-                if (what == null && traceString.isNotEmpty()) {
-                    what = traceString.substring(0, min(200, traceString.length))
-                }
-                db.occurrenceDao().insertOrReplace(OccurrenceEntity(
-                    accountId = accountManager.activeAccount?.id,
-                    type = OccurrenceEntity.Type.CRASH,
-                    what = what ?: "CRASH",
-                    startedAt = Calendar.getInstance().time,
-                    callTrace = traceString
-                ))
-            }
+            occurrenceRespository.handleException(e)
 
             existingUncaughtHandler?.uncaughtException(t, e)
         }

@@ -153,7 +153,7 @@
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
         <activity android:name="com.keylesspalace.tusky.components.filters.EditFilterActivity" />
-        <activity android:name=".OccurrenceActivity" />
+        <activity android:name=".components.occurrence.OccurrenceActivity" />
 
         <receiver android:name=".receiver.NotificationClearBroadcastReceiver"
             android:exported="false" />

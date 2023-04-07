@@ -14,24 +14,26 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.components.occurrence
 
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import com.google.android.material.color.MaterialColors
+import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityOccurrencesBinding
 import com.keylesspalace.tusky.databinding.ItemOccurrenceBinding
-import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.OccurrenceEntity
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.BindingHolder
@@ -45,8 +47,6 @@ import kotlinx.coroutines.runBlocking
 import java.text.DateFormat
 import javax.inject.Inject
 
-// TODO should all this be in components/occurrence ?
-
 class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     @Inject
@@ -57,10 +57,10 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
-    lateinit var db: AppDatabase
+    lateinit var occurrenceRepository: OccurrenceRepository
 
     @Inject
-    lateinit var accountManager: AccountManager
+    lateinit var db: AppDatabase
 
 //    private val viewModel: ListsViewModel by viewModels { viewModelFactory }
 
@@ -105,17 +105,17 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
         // TODO well...
         runBlocking {
-            accountManager.activeAccount?.let {
-                binding.swipeRefreshLayout.isRefreshing = true
+            binding.swipeRefreshLayout.isRefreshing = true
 
-                val occurrences = db.occurrenceDao().loadAll(it.id)
-                adapter.submitList(occurrences)
+            val occurrences = occurrenceRepository.loadAll()
+            Log.i("OCA", "Found occurrences "+occurrences.size)
 
-                binding.messageView.visible(occurrences.isEmpty())
-                binding.occurrenceList.visible(occurrences.isNotEmpty())
+            adapter.submitList(occurrences)
 
-                binding.swipeRefreshLayout.isRefreshing = false
-            }
+            binding.messageView.visible(occurrences.isEmpty())
+            binding.occurrenceList.visible(occurrences.isNotEmpty())
+
+            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 
@@ -139,6 +139,7 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
         ListAdapter<OccurrenceEntity, BindingHolder<ItemOccurrenceBinding>>(OccurrenceDiffer) {
 
         private val dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT)
+        private var lastAccount: AccountEntity? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemOccurrenceBinding> {
             return BindingHolder(ItemOccurrenceBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -203,7 +204,7 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             )
 
             holder.binding.who.text = if (occurrence.accountId != null) {
-                val account = db.accountDao().get(occurrence.accountId)
+                val account = getAccount(occurrence.accountId)
                 account?.displayName ?: ""
             } else {
                 ""
@@ -212,7 +213,17 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             holder.binding.trace.visible(occurrence.callTrace.isNotEmpty())
             holder.binding.trace.text = occurrence.callTrace // TODO this could/should be normal multi-line
 
-            // TODO cache some objects here? For example that account is probably always the same; or different helper objects (locale, number format, ...)
+            // TODO cache some objects here? For example different helper objects (locale, number format, ...)
+        }
+
+        private fun getAccount(accountId: Long): AccountEntity? {
+            if (lastAccount?.id == accountId) {
+                return lastAccount
+            }
+
+            lastAccount = db.accountDao().get(accountId)
+
+            return lastAccount
         }
     }
 }

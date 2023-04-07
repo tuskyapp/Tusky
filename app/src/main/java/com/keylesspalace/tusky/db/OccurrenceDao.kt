@@ -19,6 +19,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.keylesspalace.tusky.components.occurrence.OccurrenceEntity
 
 @Dao
 interface OccurrenceDao {
@@ -28,9 +29,12 @@ interface OccurrenceDao {
 //    @Query("SELECT * FROM OccurrenceEntity WHERE accountId = :accountId ORDER BY id ASC")
 //    fun pagingSource(accountId: Long): PagingSource<Int, OccurrenceEntity>
 
-    @Query("SELECT * FROM OccurrenceEntity WHERE accountId = :accountId ORDER BY startedAt DESC")
-    suspend fun loadAll(accountId: Long): List<OccurrenceEntity>
+    @Query("SELECT * FROM OccurrenceEntity ORDER BY startedAt DESC")
+    suspend fun loadAll(): List<OccurrenceEntity>
 
-    @Query("DELETE FROM OccurrenceEntity WHERE id = :id")
-    suspend fun delete(id: Int)
+//    @Query("DELETE FROM OccurrenceEntity WHERE id = :id")
+//    suspend fun delete(id: Int)
+
+    @Query("DELETE FROM OccurrenceEntity WHERE id < :maxId")
+    suspend fun cleanup(maxId: Long)
 }

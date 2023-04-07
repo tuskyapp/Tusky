@@ -23,6 +23,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.keylesspalace.tusky.TabDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
+import com.keylesspalace.tusky.components.occurrence.OccurrenceEntity;
 
 import java.io.File;
 
