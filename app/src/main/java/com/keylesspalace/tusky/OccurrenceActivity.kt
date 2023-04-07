@@ -150,8 +150,15 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             val defaultTextColor = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
 
             holder.binding.what.text = occurrence.what
+            holder.binding.what.setTextColor(
+                if (occurrence.type == OccurrenceEntity.Type.CRASH) {
+                    Color.RED
+                } else {
+                    defaultTextColor
+                }
+            )
 
-            holder.binding.code.text = occurrence.code.toString()
+            holder.binding.code.text = occurrence.code?.toString() ?: ""
             holder.binding.code.setTextColor(
                 if (occurrence.code != null && occurrence.code > 0) {
                     if (occurrence.code >= 400) {
@@ -201,6 +208,9 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             } else {
                 ""
             }
+
+            holder.binding.trace.visible(occurrence.callTrace.isNotEmpty())
+            holder.binding.trace.text = occurrence.callTrace // TODO this could/should be normal multi-line
 
             // TODO cache some objects here? For example that account is probably always the same; or different helper objects (locale, number format, ...)
         }

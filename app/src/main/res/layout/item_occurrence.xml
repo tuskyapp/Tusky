@@ -58,4 +58,14 @@
             android:textSize="?attr/status_text_medium"
             tools:text="Someone" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/trace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        tools:text="Trace line 1" />
 </LinearLayout>
