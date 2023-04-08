@@ -656,4 +656,7 @@
     <string name="pref_title_show_stat_inline">Mostrar estatísticas da publicación na cronoloxía</string>
     <string name="filter_keyword_addition_title">Engadir palabra</string>
     <string name="filter_edit_keyword_title">Editar palabra</string>
+    <string name="select_list_empty">Aínda non tes listas</string>
+    <string name="select_list_manage">Xestionar listas</string>
+    <string name="error_list_load">Erro ao cargar as listas</string>
 </resources>
