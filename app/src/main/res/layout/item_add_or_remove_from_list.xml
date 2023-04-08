@@ -26,6 +26,7 @@
 
     <ImageButton
         android:id="@+id/addButton"
+        android:visibility="gone"
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -37,6 +38,7 @@
 
     <ImageButton
         android:id="@+id/removeButton"
+        android:visibility="gone"
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -44,7 +46,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_remove_from_list"
         android:padding="4dp"
-        android:src="@drawable/ic_clear_24dp"
-        android:visibility="gone" />
+        android:src="@drawable/ic_clear_24dp" />
 
 </LinearLayout>

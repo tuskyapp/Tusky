@@ -18,12 +18,14 @@ package com.keylesspalace.tusky.components.account.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -49,12 +51,12 @@ data class ActionError(
     }
 }
 
+// TODO this is basically the same as AccountsInListViewModel
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class ListsForAccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi
 ) : ViewModel() {
-
-    private lateinit var accountId: String
 
     private val _states = MutableSharedFlow<List<AccountListState>>(1)
     val states: SharedFlow<List<AccountListState>> = _states
@@ -65,35 +67,45 @@ class ListsForAccountViewModel @Inject constructor(
     private val _actionError = MutableSharedFlow<ActionError>(1)
     val actionError: SharedFlow<ActionError> = _actionError
 
-    fun setup(accountId: String) {
-        this.accountId = accountId
-    }
-
-    fun load() {
+    fun load(accountId: String?) {
         _loadError.resetReplayCache()
         viewModelScope.launch {
             runCatching {
-                val (all, includes) = listOf(
-                    async { mastodonApi.getLists() },
-                    async { mastodonApi.getListsIncludesAccount(accountId) }
-                ).awaitAll()
+                // TODO this is needlessly complicated
+
+                // This queries either only all lists or additionally the ones where "account" is part of
+                val allD = async { mastodonApi.getLists() }
+                var includesD: Deferred<NetworkResult<List<MastoList>>>? = null
+                val deferred = mutableListOf(allD)
+                if (accountId != null) {
+                    includesD = async { mastodonApi.getListsIncludesAccount(accountId) }
+                    deferred.add(includesD)
+                }
+
+                deferred.awaitAll()
+
+                val all = allD.getCompleted()
+                var includes: NetworkResult<List<MastoList>>? = null
+                if (includesD != null) {
+                    includes = includesD.getCompleted()
+                }
 
                 _states.emit(
                     all.getOrThrow().map { listState ->
                         AccountListState(
                             list = listState,
-                            includesAccount = includes.getOrThrow().any { it.id == listState.id }
+                            includesAccount = includes?.getOrThrow()?.any { it.id == listState.id } ?: false
                         )
                     }
                 )
             }
-                .onFailure {
-                    _loadError.emit(it)
-                }
+            .onFailure {
+                _loadError.emit(it)
+            }
         }
     }
 
-    fun addAccountToList(listId: String) {
+    fun addAccountToList(accountId: String, listId: String) {
         _actionError.resetReplayCache()
         viewModelScope.launch {
             mastodonApi.addAccountToList(listId, listOf(accountId))
@@ -114,7 +126,7 @@ class ListsForAccountViewModel @Inject constructor(
         }
     }
 
-    fun removeAccountFromList(listId: String) {
+    fun removeAccountFromList(accountId: String, listId: String) {
         _actionError.resetReplayCache()
         viewModelScope.launch {
             mastodonApi.deleteAccountFromList(listId, listOf(accountId))

@@ -20,6 +20,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// TODO rename
 class ListsForAccountFragment : DialogFragment(), Injectable {
 
     interface ListSelectionListener {
@@ -67,6 +69,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     private val adapter = Adapter()
 
     private var selectListener: ListSelectionListener? =  null
+    private var accountId: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,8 +79,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
-
-        viewModel.setup(requireArguments().getString(ARG_ACCOUNT_ID)!!)
+        accountId = requireArguments().getString(ARG_ACCOUNT_ID)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -117,6 +119,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
 
         lifecycleScope.launch {
             viewModel.loadError.collectLatest { error ->
+                Log.e(TAG, "failed to load lists", error)
                 binding.progressBar.hide()
                 showProgressBarJob.cancel()
                 binding.listsView.hide()
@@ -133,14 +136,14 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
                     ActionError.Type.ADD -> {
                         Snackbar.make(binding.root, R.string.failed_to_add_to_list, Snackbar.LENGTH_LONG)
                             .setAction(R.string.action_retry) {
-                                viewModel.addAccountToList(error.listId)
+                                viewModel.addAccountToList(accountId!!, error.listId)
                             }
                             .show()
                     }
                     ActionError.Type.REMOVE -> {
                         Snackbar.make(binding.root, R.string.failed_to_remove_from_list, Snackbar.LENGTH_LONG)
                             .setAction(R.string.action_retry) {
-                                viewModel.removeAccountFromList(error.listId)
+                                viewModel.removeAccountFromList(accountId!!, error.listId)
                             }
                             .show()
                     }
@@ -176,7 +179,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         binding.progressBar.show()
         binding.listsView.hide()
         binding.messageView.hide()
-        viewModel.load()
+        viewModel.load(accountId)
     }
 
     private object Differ : DiffUtil.ItemCallback<AccountListState>() {
@@ -209,18 +212,21 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         override fun onBindViewHolder(holder: BindingHolder<ItemAddOrRemoveFromListBinding>, position: Int) {
             val item = getItem(position)
             holder.binding.listNameView.text = item.list.title
-            holder.binding.addButton.apply {
-                visible(!item.includesAccount)
-                setOnClickListener {
-                    viewModel.addAccountToList(item.list.id)
+            accountId?.let { accountId ->
+                holder.binding.addButton.apply {
+                    visible(!item.includesAccount)
+                    setOnClickListener {
+                        viewModel.addAccountToList(accountId, item.list.id)
+                    }
+                }
+                holder.binding.removeButton.apply {
+                    visible(item.includesAccount)
+                    setOnClickListener {
+                        viewModel.removeAccountFromList(accountId, item.list.id)
+                    }
                 }
             }
-            holder.binding.removeButton.apply {
-                visible(item.includesAccount)
-                setOnClickListener {
-                    viewModel.removeAccountFromList(item.list.id)
-                }
-            }
+
             holder.itemView.setOnClickListener {
                 selectListener?.onListSelected(item.list)
             }
@@ -228,9 +234,10 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     }
 
     companion object {
+        private const val TAG = "ListsListFragment"
         private const val ARG_ACCOUNT_ID = "accountId"
 
-        fun newInstance(accountId: String): ListsForAccountFragment {
+        fun newInstance(accountId: String?): ListsForAccountFragment {
             val args = Bundle().apply {
                 putString(ARG_ACCOUNT_ID, accountId)
             }

@@ -78,9 +78,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, It
     lateinit var eventHub: EventHub
 
     @Inject
-    lateinit var accountManager: AccountManager
-
-    @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
@@ -280,8 +277,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, It
     private var listSelectDialog: ListsForAccountFragment? = null
 
     private fun showSelectListDialog() {
-        // TODO using an account here is not necessary (should not be)
-        listSelectDialog = ListsForAccountFragment.newInstance(accountManager.activeAccount!!.accountId)
+        listSelectDialog = ListsForAccountFragment.newInstance(null)
         listSelectDialog?.show(supportFragmentManager, null)
 
         return
