@@ -47,7 +47,9 @@ import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
@@ -57,6 +59,8 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
@@ -65,13 +69,19 @@ import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
+class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, ItemInteractionListener, ListsForAccountFragment.ListSelectionListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var accountManager: AccountManager
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
@@ -267,7 +277,16 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         editText.requestFocus()
     }
 
+    private var listSelectDialog: ListsForAccountFragment? = null
+
     private fun showSelectListDialog() {
+        // TODO using an account here is not necessary (should not be)
+        listSelectDialog = ListsForAccountFragment.newInstance(accountManager.activeAccount!!.accountId)
+        listSelectDialog?.show(supportFragmentManager, null)
+
+        return
+
+
         val adapter = object : ArrayAdapter<MastoList>(this, android.R.layout.simple_list_item_1) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
@@ -331,6 +350,17 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 }
             )
         }
+    }
+
+    override fun onListSelected(list: MastoList) {
+        listSelectDialog?.dismiss()
+        listSelectDialog = null
+
+        val newTab = createTabDataFromId(LIST, listOf(list.id, list.title))
+        currentTabs.add(newTab)
+        currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+        updateAvailableTabs()
+        saveTabs()
     }
 
     private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
@@ -419,6 +449,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
         }
     }
+
+    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         private const val MIN_TAB_COUNT = 2

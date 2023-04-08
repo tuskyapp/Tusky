@@ -17,6 +17,7 @@
 package com.keylesspalace.tusky.components.account.list
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ import com.keylesspalace.tusky.databinding.FragmentListsForAccountBinding
 import com.keylesspalace.tusky.databinding.ItemAddOrRemoveFromListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -48,6 +50,10 @@ import javax.inject.Inject
 
 class ListsForAccountFragment : DialogFragment(), Injectable {
 
+    interface ListSelectionListener {
+        fun onListSelected(list: MastoList)
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -59,6 +65,13 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     private val binding get() = _binding!!
 
     private val adapter = Adapter()
+
+    private var selectListener: ListSelectionListener? =  null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        selectListener = context as? ListSelectionListener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -207,6 +220,9 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
                 setOnClickListener {
                     viewModel.removeAccountFromList(item.list.id)
                 }
+            }
+            holder.itemView.setOnClickListener {
+                selectListener?.onListSelected(item.list)
             }
         }
     }
