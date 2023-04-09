@@ -395,7 +395,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected void setReplyCount(int repliesCount) {
         // This label only exists in the non-detailed view (to match the web ui)
         if (replyCountLabel != null) {
-            replyCountLabel.setText(NumberUtils.shortNumber(repliesCount));
+            replyCountLabel.setText(NumberUtils.formatNumber(repliesCount, 1000));
         }
     }
 
