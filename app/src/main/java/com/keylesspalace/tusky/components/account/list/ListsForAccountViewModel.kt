@@ -105,6 +105,8 @@ class ListsForAccountViewModel @Inject constructor(
         }
     }
 
+    // TODO there is no "progress" visible for these
+
     fun addAccountToList(accountId: String, listId: String) {
         _actionError.resetReplayCache()
         viewModelScope.launch {

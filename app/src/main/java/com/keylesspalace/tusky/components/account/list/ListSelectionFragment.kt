@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.databinding.FragmentListsForAccountBinding
+import com.keylesspalace.tusky.databinding.FragmentListsListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -60,7 +60,7 @@ class ListSelectionFragment : DialogFragment(), Injectable {
 
     private val viewModel: ListsForAccountViewModel by viewModels { viewModelFactory }
 
-    private var _binding: FragmentListsForAccountBinding? = null
+    private var _binding: FragmentListsListBinding? = null
 
     // This property is only valid between onCreateDialog and onDestroyView
     private val binding get() = _binding!!
@@ -84,7 +84,7 @@ class ListSelectionFragment : DialogFragment(), Injectable {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = requireContext()
 
-        _binding = FragmentListsForAccountBinding.inflate(layoutInflater)
+        _binding = FragmentListsListBinding.inflate(layoutInflater)
         binding.listsView.adapter = adapter
 
         val dialogBuilder = AlertDialog.Builder(context)
@@ -226,6 +226,14 @@ class ListSelectionFragment : DialogFragment(), Injectable {
 
             holder.itemView.setOnClickListener {
                 selectListener?.onListSelected(item.list)
+
+                accountId?.let { accountId ->
+                    if (item.includesAccount) {
+                        viewModel.removeAccountFromList(accountId, item.list.id)
+                    } else {
+                        viewModel.addAccountToList(accountId, item.list.id)
+                    }
+                }
             }
         }
     }

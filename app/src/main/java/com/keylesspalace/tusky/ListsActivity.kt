@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright Tusky contributors
  *
  * This file is a part of Tusky.
  *
@@ -65,9 +65,7 @@ import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Created by charlag on 1/4/18.
- */
+// TODO use the ListSelectionFragment (and/or its adapter or binding) here; but keep the LoadingState from here (?)
 
 class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
