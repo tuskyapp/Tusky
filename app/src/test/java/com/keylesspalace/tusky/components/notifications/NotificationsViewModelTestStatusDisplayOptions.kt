@@ -48,6 +48,7 @@ class NotificationsViewModelTestStatusDisplayOptions : NotificationsViewModelTes
         confirmFavourites = false,
         hideStats = false,
         animateEmojis = false,
+        showStatsInline = false,
         showSensitiveMedia = true, // setting in NotificationsViewModelTestBase
         openSpoiler = true // setting in NotificationsViewModelTestBase
     )

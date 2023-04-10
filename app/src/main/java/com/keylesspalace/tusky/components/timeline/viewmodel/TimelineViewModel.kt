@@ -24,19 +24,7 @@ import androidx.paging.PagingData
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.BookmarkEvent
-import com.keylesspalace.tusky.appstore.DomainMuteEvent
-import com.keylesspalace.tusky.appstore.Event
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.MuteConversationEvent
-import com.keylesspalace.tusky.appstore.MuteEvent
-import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.appstore.UnfollowEvent
+import com.keylesspalace.tusky.appstore.*
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -51,20 +39,8 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 
 data class UiState(
@@ -289,7 +265,7 @@ abstract class TimelineViewModel(
         )
 
         viewModelScope.launch {
-            eventHub.events.asFlow()
+            eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
                 .map {
@@ -319,23 +295,23 @@ abstract class TimelineViewModel(
                                 timelineCases.bookmark(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.Favourite ->
                                 timelineCases.favourite(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.Reblog ->
                                 timelineCases.reblog(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.VoteInPoll ->
                                 timelineCases.voteInPoll(
                                     action.statusViewData.actionableId,
                                     action.poll.id,
                                     action.choices
-                                ).await()
+                                )
                         }
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
@@ -361,7 +337,7 @@ abstract class TimelineViewModel(
      * @return Flow of relevant preferences that change the UI
      */
     // TODO: Preferences should be in a repository
-    private fun getUiPrefs() = eventHub.events.asFlow()
+    private fun getUiPrefs() = eventHub.events
         .filterIsInstance<PreferenceChangedEvent>()
         .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
         .map { toPrefs() }
@@ -392,7 +368,6 @@ abstract class TimelineViewModel(
 
         viewModelScope.launch {
             eventHub.events
-                .asFlow()
                 .collect { event -> handleEvent(event) }
         }
 

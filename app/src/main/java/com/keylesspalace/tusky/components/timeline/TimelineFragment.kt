@@ -17,12 +17,7 @@ package com.keylesspalace.tusky.components.timeline
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
@@ -37,7 +32,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -50,11 +44,7 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
-import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
-import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.*
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -64,24 +54,15 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.unsafeLazy
-import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.*
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
@@ -192,15 +173,22 @@ class TimelineFragment :
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                            if (timelineKind == TimelineKind.Home) {
+                                binding.statusView.showHelp(R.string.help_empty_home)
+                            }
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network)
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                onRefresh()
+                            }
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic)
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                onRefresh()
+                            }
                         }
                     }
                     is LoadState.Loading -> {
@@ -395,10 +383,8 @@ class TimelineFragment :
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 when (event) {
                     is StatusComposedEvent -> {
                         val status = event.status
@@ -409,6 +395,7 @@ class TimelineFragment :
                     }
                 }
             }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

@@ -75,8 +75,10 @@ fun showAddPollDialog(
         }
     }
 
+    val DAY_SECONDS = 60 * 60 * 24
+    val desiredDuration = poll?.expiresIn ?: DAY_SECONDS
     val pollDurationId = durations.indexOfLast {
-        it <= (poll?.expiresIn ?: 0)
+        it <= desiredDuration
     }
 
     binding.pollDurationSpinner.setSelection(pollDurationId)

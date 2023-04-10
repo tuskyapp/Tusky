@@ -42,10 +42,12 @@ data class StatusDisplayOptions(
     val hideStats: Boolean,
     @get:JvmName("animateEmojis")
     val animateEmojis: Boolean,
+    @get:JvmName("showStatsInline")
+    val showStatsInline: Boolean,
     @get:JvmName("showSensitiveMedia")
     val showSensitiveMedia: Boolean,
     @get:JvmName("openSpoiler")
-    val openSpoiler: Boolean
+    val openSpoiler: Boolean,
 ) {
 
     /**
@@ -92,6 +94,9 @@ data class StatusDisplayOptions(
         PrefKeys.ALWAYS_OPEN_SPOILER -> copy(
             openSpoiler = account.alwaysOpenSpoiler
         )
+        PrefKeys.SHOW_STATS_INLINE -> copy(
+            showStatsInline = preferences.getBoolean(key, false)
+        )
         else -> { this }
     }
 
@@ -108,7 +113,8 @@ data class StatusDisplayOptions(
             PrefKeys.MEDIA_PREVIEW_ENABLED,
             PrefKeys.SHOW_BOT_OVERLAY,
             PrefKeys.USE_BLURHASH,
-            PrefKeys.WELLBEING_HIDE_STATS_POSTS
+            PrefKeys.WELLBEING_HIDE_STATS_POSTS,
+            PrefKeys.SHOW_STATS_INLINE
         )
 
         fun from(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
@@ -126,6 +132,7 @@ data class StatusDisplayOptions(
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = account.alwaysShowSensitiveMedia,
             openSpoiler = account.alwaysOpenSpoiler
         )

@@ -67,6 +67,7 @@ object PrefKeys {
     const val CONFIRM_FAVOURITES = "confirmFavourites"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
     const val ANIMATE_CUSTOM_EMOJIS = "animateCustomEmojis"
+    const val SHOW_STATS_INLINE = "showStatsInline"
 
     const val CUSTOM_TABS = "customTabs"
     const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"

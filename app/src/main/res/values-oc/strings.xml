@@ -502,7 +502,7 @@
     <string name="wellbeing_hide_stats_posts">Amagar las estatisticas dels tuts</string>
     <string name="limit_notifications">Limitar las notificacions de la cronologia</string>
     <string name="pref_title_hide_top_toolbar">Amagar lo títol ennaut de la barra</string>
-    <string name="pref_title_confirm_reblogs">Afichar una fenèstra de confirmacion abans de partejar</string>
+    <string name="pref_title_confirm_reblogs">Afichar una confirmacion abans de partejar</string>
     <string name="action_unbookmark">Tirar dels marcapaginas</string>
     <string name="action_add_reaction">apondre una reaccion</string>
     <string name="notification_sign_up_name">Comptes novèls</string>
@@ -656,4 +656,6 @@
     <string name="filter_edit_keyword_title">Modificar mot clau</string>
     <string name="filter_description_format">%s : %s</string>
     <string name="label_filter_keywords">Mots clau o frasas de filtrar</string>
+    <string name="hint_description">Descripcion</string>
+    <string name="post_media_image">Imatge</string>
 </resources>

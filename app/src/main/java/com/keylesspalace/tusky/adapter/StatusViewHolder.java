@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
@@ -47,11 +48,15 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private final TextView statusInfo;
     private final Button contentCollapseButton;
+    private final TextView favouritedCountLabel;
+    private final TextView reblogsCountLabel;
 
     public StatusViewHolder(View itemView) {
         super(itemView);
         statusInfo = itemView.findViewById(R.id.status_info);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
+        favouritedCountLabel = itemView.findViewById(R.id.status_favourites_count);
+        reblogsCountLabel = itemView.findViewById(R.id.status_insets);
     }
 
     @Override
@@ -77,6 +82,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             }
 
         }
+
+        reblogsCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        favouritedCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        setFavouritedCount(status.getActionable().getFavouritesCount());
+        setReblogsCount(status.getActionable().getReblogsCount());
+
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
     }
 
@@ -100,6 +111,14 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.getContext(), 10));
         statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.getContext(), 28), 0, 0, 0);
         statusInfo.setVisibility(View.VISIBLE);
+    }
+
+    protected void setReblogsCount(int reblogsCount) {
+        reblogsCountLabel.setText(NumberUtils.shortNumber(reblogsCount));
+    }
+
+    protected void setFavouritedCount(int favouritedCount) {
+        favouritedCountLabel.setText(NumberUtils.shortNumber(favouritedCount));
     }
 
     protected void hideStatusInfo() {
