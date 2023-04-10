@@ -31,4 +31,9 @@
     <!-- colors used to show inserted/deleted text -->
     <color name="view_edits_background_insert">#CCFFD8</color>
     <color name="view_edits_background_delete">#FFC0C0</color>
+
+    <color name="colorSuccess">@color/tusky_green_dark</color>
+    <color name="colorWarning">@color/tusky_orange</color>
+    <color name="colorBad">@color/tusky_magenta</color>
+    <color name="colorError">@color/tusky_red</color>
 </resources>

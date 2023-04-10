@@ -164,11 +164,11 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             holder.binding.code.setTextColor(
                 if (occurrence.code != null && occurrence.code > 0) {
                     if (occurrence.code >= 400) {
-                        Color.RED
+                        baseContext.getColor(R.color.colorError)
                     } else if (occurrence.code >= 300) {
-                        Color.YELLOW
+                        baseContext.getColor(R.color.colorWarning)
                     } else {
-                        Color.GREEN
+                        baseContext.getColor(R.color.colorSuccess)
                     }
                 } else {
                     defaultTextColor
@@ -196,13 +196,11 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             holder.binding.duration.text = duration
             holder.binding.duration.setTextColor(
                 if (durationMs >= 1000) {
-                    Color.MAGENTA
+                    baseContext.getColor(R.color.colorBad)
                 } else if (durationMs >= 400) {
-                    // TODO these colors are a bit of a problem: e. g. on light mode yellow is hardly visible and green is difficult
-
-                    Color.YELLOW
+                    baseContext.getColor(R.color.colorWarning)
                 } else {
-                    Color.GREEN
+                    baseContext.getColor(R.color.colorSuccess)
                 }
             )
 
