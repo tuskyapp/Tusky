@@ -15,18 +15,12 @@
 
 package com.keylesspalace.tusky
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -38,22 +32,18 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
-import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
+import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -69,7 +59,7 @@ import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, ItemInteractionListener, ListsForAccountFragment.ListSelectionListener {
+class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, ItemInteractionListener, ListSelectionFragment.ListSelectionListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -274,10 +264,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, It
         editText.requestFocus()
     }
 
-    private var listSelectDialog: ListsForAccountFragment? = null
+    private var listSelectDialog: ListSelectionFragment? = null
 
     private fun showSelectListDialog() {
-        listSelectDialog = ListsForAccountFragment.newInstance(null)
+        listSelectDialog = ListSelectionFragment.newInstance(null)
         listSelectDialog?.show(supportFragmentManager, null)
 
         return

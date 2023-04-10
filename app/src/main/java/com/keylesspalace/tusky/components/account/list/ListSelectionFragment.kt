@@ -34,7 +34,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentListsForAccountBinding
-import com.keylesspalace.tusky.databinding.ItemAddOrRemoveFromListBinding
+import com.keylesspalace.tusky.databinding.ItemListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
@@ -49,8 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// TODO rename
-class ListsForAccountFragment : DialogFragment(), Injectable {
+class ListSelectionFragment : DialogFragment(), Injectable {
 
     interface ListSelectionListener {
         fun onListSelected(list: MastoList)
@@ -199,19 +198,17 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
     }
 
     inner class Adapter :
-        ListAdapter<AccountListState, BindingHolder<ItemAddOrRemoveFromListBinding>>(Differ) {
+        ListAdapter<AccountListState, BindingHolder<ItemListBinding>>(Differ) {
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): BindingHolder<ItemAddOrRemoveFromListBinding> {
-            val binding =
-                ItemAddOrRemoveFromListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return BindingHolder(binding)
+        ): BindingHolder<ItemListBinding> {
+            return BindingHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
 
-        override fun onBindViewHolder(holder: BindingHolder<ItemAddOrRemoveFromListBinding>, position: Int) {
+        override fun onBindViewHolder(holder: BindingHolder<ItemListBinding>, position: Int) {
             val item = getItem(position)
-            holder.binding.listNameView.text = item.list.title
+            holder.binding.listName.text = item.list.title
             accountId?.let { accountId ->
                 holder.binding.addButton.apply {
                     visible(!item.includesAccount)
@@ -237,11 +234,11 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         private const val TAG = "ListsListFragment"
         private const val ARG_ACCOUNT_ID = "accountId"
 
-        fun newInstance(accountId: String?): ListsForAccountFragment {
+        fun newInstance(accountId: String?): ListSelectionFragment {
             val args = Bundle().apply {
                 putString(ARG_ACCOUNT_ID, accountId)
             }
-            return ListsForAccountFragment().apply { arguments = args }
+            return ListSelectionFragment().apply { arguments = args }
         }
     }
 }

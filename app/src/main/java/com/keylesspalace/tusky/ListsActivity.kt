@@ -24,8 +24,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -39,10 +40,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
-import com.keylesspalace.tusky.databinding.DialogListBinding
+import com.keylesspalace.tusky.databinding.ItemListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
+import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -214,9 +216,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         ).show()
     }
 
-    private fun onListSelected(listId: String, listTitle: String) {
+    private fun onListSelected(list: MastoList) {
         startActivityWithSlideInAnimation(
-            StatusListActivity.newListIntent(this, listId, listTitle)
+            StatusListActivity.newListIntent(this, list.id, list.title)
         )
     }
 
@@ -255,42 +257,28 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     private inner class ListsAdapter :
-        ListAdapter<MastoList, ListsAdapter.ListViewHolder>(ListsDiffer) {
+        ListAdapter<MastoList, BindingHolder<ItemListBinding>>(ListsDiffer) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-            return LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
-                .let(this::ListViewHolder)
-                .apply {
-                    val iconColor = MaterialColors.getColor(nameTextView, android.R.attr.textColorTertiary)
-                    val context = nameTextView.context
-                    val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply { sizeDp = 20; colorInt = iconColor }
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): BindingHolder<ItemListBinding> {
+            return BindingHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }
 
-                    nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+        override fun onBindViewHolder(holder: BindingHolder<ItemListBinding>, position: Int) {
+            val item = getItem(position)
+            holder.binding.listName.text = item.title
+
+            holder.binding.moreButton.apply {
+                visible(true)
+                setOnClickListener {
+                    onMore(item, holder.binding.moreButton)
                 }
-        }
-
-        override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-            holder.nameTextView.text = getItem(position).title
-        }
-
-        private inner class ListViewHolder(view: View) :
-            RecyclerView.ViewHolder(view),
-            View.OnClickListener {
-            val nameTextView: TextView = view.findViewById(R.id.list_name_textview)
-            val moreButton: ImageButton = view.findViewById(R.id.editListButton)
-
-            init {
-                view.setOnClickListener(this)
-                moreButton.setOnClickListener(this)
             }
 
-            override fun onClick(v: View) {
-                if (v == itemView) {
-                    val list = getItem(bindingAdapterPosition)
-                    onListSelected(list.id, list.title)
-                } else {
-                    onMore(getItem(bindingAdapterPosition), v)
-                }
+            holder.itemView.setOnClickListener {
+                onListSelected(item)
             }
         }
     }
