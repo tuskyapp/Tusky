@@ -47,7 +47,7 @@ data class StatusDisplayOptions(
     @get:JvmName("showSensitiveMedia")
     val showSensitiveMedia: Boolean,
     @get:JvmName("openSpoiler")
-    val openSpoiler: Boolean,
+    val openSpoiler: Boolean
 ) {
 
     /**
