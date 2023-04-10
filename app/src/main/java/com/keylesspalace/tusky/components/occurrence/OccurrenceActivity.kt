@@ -21,9 +21,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
@@ -43,7 +43,7 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import javax.inject.Inject
 
@@ -52,7 +52,6 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    // TODO what's this?
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
@@ -67,6 +66,8 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
     private val binding by viewBinding(ActivityOccurrencesBinding::inflate)
 
     private val adapter = OccurrenceAdapter()
+
+    private var loading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,16 +100,15 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     private fun load() {
-//        if (binding.swipeRefreshLayout.isRefreshing) {
-//            return
-//        }
+        if (loading) {
+            return
+        }
 
-        // TODO well...
-        runBlocking {
+        lifecycleScope.launch {
             binding.swipeRefreshLayout.isRefreshing = true
+            loading = true
 
             val occurrences = occurrenceRepository.loadAll()
-            Log.i("OCA", "Found occurrences "+occurrences.size)
 
             adapter.submitList(occurrences)
 
@@ -116,6 +116,7 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             binding.occurrenceList.visible(occurrences.isNotEmpty())
 
             binding.swipeRefreshLayout.isRefreshing = false
+            loading = false
         }
     }
 
