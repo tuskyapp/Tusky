@@ -51,8 +51,6 @@ data class ActionError(
     }
 }
 
-// TODO this is basically the same as AccountsInListViewModel
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class ListsForAccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi
@@ -71,30 +69,17 @@ class ListsForAccountViewModel @Inject constructor(
         _loadError.resetReplayCache()
         viewModelScope.launch {
             runCatching {
-                // TODO this is needlessly complicated
-
-                // This queries either only all lists or additionally the ones where "account" is part of
-                val allD = async { mastodonApi.getLists() }
-                var includesD: Deferred<NetworkResult<List<MastoList>>>? = null
-                val deferred = mutableListOf(allD)
+                val all = mastodonApi.getLists().getOrThrow()
+                var includes: List<MastoList> = emptyList()
                 if (accountId != null) {
-                    includesD = async { mastodonApi.getListsIncludesAccount(accountId) }
-                    deferred.add(includesD)
-                }
-
-                deferred.awaitAll()
-
-                val all = allD.getCompleted()
-                var includes: NetworkResult<List<MastoList>>? = null
-                if (includesD != null) {
-                    includes = includesD.getCompleted()
+                    includes = mastodonApi.getListsIncludesAccount(accountId).getOrThrow()
                 }
 
                 _states.emit(
-                    all.getOrThrow().map { listState ->
+                    all.map { listState ->
                         AccountListState(
                             list = listState,
-                            includesAccount = includes?.getOrThrow()?.any { it.id == listState.id } ?: false
+                            includesAccount = includes.any { it.id == listState.id }
                         )
                     }
                 )
