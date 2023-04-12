@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="?dialogPreferredPadding"
+    android:paddingRight="?dialogPreferredPadding"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -19,6 +22,8 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:drawableStartCompat="@drawable/ic_list"
+        app:drawableTint="?android:attr/textColorSecondary"
         tools:text="Example list" />
 
     <ImageButton
@@ -27,9 +32,9 @@
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_more"
+        android:layout_marginLeft="8dp"
         android:src="@drawable/ic_more_horiz_24dp" />
 
     <ImageButton
@@ -38,11 +43,9 @@
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_margin="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_add_to_list"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:layout_marginLeft="8dp"
         android:src="@drawable/ic_plus_24dp" />
 
     <ImageButton
@@ -51,10 +54,8 @@
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_margin="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_remove_from_list"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:layout_marginLeft="8dp"
         android:src="@drawable/ic_clear_24dp" />
 </LinearLayout>

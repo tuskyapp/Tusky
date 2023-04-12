@@ -94,7 +94,11 @@ class ListSelectionFragment : DialogFragment(), Injectable {
                 val listIntent = Intent(context, ListsActivity::class.java)
                 startActivity(listIntent)
             }
-            .setNegativeButton(android.R.string.cancel, null)
+            .setNegativeButton(if (accountId != null) R.string.button_done else android.R.string.cancel, null)
+
+        if (accountId != null) {
+            dialogBuilder.setTitle(null)
+        }
 
         val dialog = dialogBuilder.create()
 
