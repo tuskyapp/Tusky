@@ -60,12 +60,14 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                 when (state.loadingState) {
                     FiltersViewModel.LoadingState.INITIAL, FiltersViewModel.LoadingState.LOADING -> binding.messageView.hide()
                     FiltersViewModel.LoadingState.ERROR_NETWORK -> {
+                        binding.filtersList.hide()
                         binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
                             loadFilters()
                         }
                         binding.messageView.show()
                     }
                     FiltersViewModel.LoadingState.ERROR_OTHER -> {
+                        binding.filtersList.hide()
                         binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
                             loadFilters()
                         }
@@ -73,6 +75,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                     }
                     FiltersViewModel.LoadingState.LOADED -> {
                         if (state.filters.isEmpty()) {
+                            binding.filtersList.hide()
                             binding.messageView.setup(
                                 R.drawable.elephant_friend_empty,
                                 R.string.message_empty,
@@ -81,8 +84,11 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                             binding.messageView.show()
                         } else {
                             binding.messageView.hide()
-                            binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                             binding.filtersList.show()
+                        }
+
+                        if (binding.filtersList.adapter == null || (binding.filtersList.adapter as FiltersAdapter).filters != state.filters) {
+                            binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         }
                     }
                 }
