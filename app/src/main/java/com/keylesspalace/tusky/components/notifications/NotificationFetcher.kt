@@ -2,24 +2,33 @@ package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
 import android.util.Log
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isLessThan
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
-    private val context: Context
+    private val context: Context,
+    private val eventHub: EventHub
 ) {
     fun fetchAndShow() {
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
                     val notifications = fetchNotifications(account)
+
+                    runBlocking {
+                        eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
+                    }
+
                     notifications.forEachIndexed { index, notification ->
                         NotificationHelper.make(context, notification, account, index == 0)
                     }

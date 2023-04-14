@@ -62,6 +62,7 @@ import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
@@ -83,6 +84,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.FabFragment
@@ -174,6 +176,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     /** Mediate between binding.viewPager and the chosen tab layout */
     private var tabLayoutMediator: TabLayoutMediator? = null
+    private val currentTabs = HashMap<String, TabLayout.Tab>(7)
 
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
@@ -300,6 +303,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is AnnouncementReadEvent -> {
                         unreadAnnouncementsCount--
                         updateAnnouncementsBadge()
+                    }
+
+                    is NewNotificationsEvent -> {
+                        if (event.accountId == accountManager.activeAccount?.accountId) {
+                            val hasDirectMessageNotification =
+                                event.notifications.any { it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT }
+
+                            if (hasDirectMessageNotification) {
+                                currentTabs[DIRECT]?.badge?.isVisible = true
+                            }
+                        }
                     }
                 }
             }
@@ -701,6 +715,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // Detach any existing mediator before changing tab contents and attaching a new mediator
         tabLayoutMediator?.detach()
+        currentTabs.clear()
 
         tabAdapter.tabs = tabs
         tabAdapter.notifyItemRangeChanged(0, tabs.size)
@@ -708,10 +723,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
                 tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
-            tab.contentDescription = when (tabs[position].id) {
+            tab.contentDescription = when (tabs[position].kind) {
                 LIST -> tabs[position].arguments[1]
                 else -> getString(tabs[position].text)
             }
+            if (tabs[position].kind == DIRECT) {
+                tab.orCreateBadge
+                tab.badge?.isVisible = false
+
+                // TODO! the badge state must also be stored ("there are still new messages even if you restart Tusky")
+            }
+
+            currentTabs[tabs[position].kind] = tab // TODO or keep the reference to the TabLayout (activeTabLayout)?
         }.also { it.attach() }
 
         // Selected tab is either
@@ -719,7 +742,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // - The previously selected tab (if it hasn't been removed)
         // - Left-most tab
         val position = if (selectNotificationTab) {
-            tabs.indexOfFirst { it.id == NOTIFICATIONS }
+            tabs.indexOfFirst { it.kind == NOTIFICATIONS }
         } else {
             previousTab?.let { tabs.indexOfFirst { it == previousTab } }
         }.takeIf { it != -1 } ?: 0
@@ -738,6 +761,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+
+                if (currentTabs[DIRECT] == tab) {
+                    tab.badge?.isVisible = false
+                }
 
                 refreshComposeButtonState(tabAdapter, tab.position)
             }

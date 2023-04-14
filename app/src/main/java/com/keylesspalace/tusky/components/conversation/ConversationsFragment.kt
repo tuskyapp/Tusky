@@ -154,6 +154,10 @@ class ConversationsFragment :
                         binding.progressBar.show()
                     }
                 }
+            } else {
+                if (loadState.refresh != LoadState.Loading) {
+                    // TODO! must remove tab badge
+                }
             }
         }
 
