@@ -66,7 +66,7 @@ class MainActivityTest {
         val activity = startMainActivity(intent)
         val currentTab = activity.findViewById<ViewPager2>(R.id.viewPager).currentItem
 
-        val notificationTab = defaultTabs().indexOfFirst { it.id == NOTIFICATIONS }
+        val notificationTab = defaultTabs().indexOfFirst { it.kind == NOTIFICATIONS }
 
         assertEquals(currentTab, notificationTab)
     }

@@ -80,7 +80,7 @@ class TabAdapter(
         } else {
             val binding = holder.binding as ItemTabPreferenceBinding
 
-            if (tab.id == LIST) {
+            if (tab.kind == LIST) {
                 binding.textView.text = tab.arguments.getOrNull(1).orEmpty()
             } else {
                 binding.textView.setText(tab.text)
@@ -106,7 +106,7 @@ class TabAdapter(
                 (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)
             )
 
-            if (tab.id == HASHTAG) {
+            if (tab.kind == HASHTAG) {
                 binding.chipGroup.show()
 
                 /*

@@ -73,7 +73,7 @@ class Converters @Inject constructor(
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
         // List name may include ":"
-        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
+        return tabData?.joinToString(";") { it.kind + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
     }
 
     @TypeConverter

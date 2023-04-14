@@ -176,12 +176,12 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         toggleFab(false)
 
-        if (tab.id == HASHTAG) {
+        if (tab.kind == HASHTAG) {
             showAddHashtagDialog()
             return
         }
 
-        if (tab.id == LIST) {
+        if (tab.kind == LIST) {
             showSelectListDialog()
             return
         }
