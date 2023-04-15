@@ -78,26 +78,19 @@ class TimelinePagingAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val status = getItem(position)
-        if (status is StatusViewData.Placeholder) {
-            val holder = viewHolder as PlaceholderViewHolder
-            holder.setup(statusListener, status.isLoading)
-        } else if (status is StatusViewData.Concrete) {
-            val holder = viewHolder as StatusViewHolder
-            holder.setupWithStatus(
-                status,
-                statusListener,
-                statusDisplayOptions,
-                if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
-            )
-        }
+        val status = getItem(position) ?: return
+        val holder = viewHolder as StatusViewHolder
+        holder.setupWithStatus(
+            status,
+            statusListener,
+            statusDisplayOptions,
+            if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
+        )
     }
 
     override fun getItemViewType(position: Int): Int {
         val viewData = getItem(position)
-        return if (viewData is StatusViewData.Placeholder) {
-            VIEW_TYPE_PLACEHOLDER
-        } else if (viewData?.filterAction == Filter.Action.WARN) {
+        return if (viewData?.filterAction == Filter.Action.WARN) {
             VIEW_TYPE_STATUS_FILTERED
         } else {
             VIEW_TYPE_STATUS

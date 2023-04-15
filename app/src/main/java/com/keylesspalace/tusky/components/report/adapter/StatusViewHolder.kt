@@ -47,7 +47,7 @@ class StatusViewHolder(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val viewState: StatusViewState,
     private val adapterHandler: AdapterHandler,
-    private val getStatusForPosition: (Int) -> StatusViewData.Concrete?
+    private val getStatusForPosition: (Int) -> StatusViewData?
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
@@ -77,7 +77,7 @@ class StatusViewHolder(
         binding.statusMediaPreviewContainer.clipToOutline = true
     }
 
-    fun bind(viewData: StatusViewData.Concrete) {
+    fun bind(viewData: StatusViewData) {
         binding.statusSelection.isChecked = adapterHandler.isStatusChecked(viewData.id)
 
         updateTextView()

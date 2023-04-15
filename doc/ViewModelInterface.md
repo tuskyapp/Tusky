@@ -293,7 +293,7 @@ sealed class NotificationAction : FallibleUiAction() {
 }
 
 sealed class StatusAction(
-    open val statusViewData: StatusViewData.Concrete
+    open val statusViewData: StatusViewData
 ) : FallibleUiAction() {
     // subclasses here
 }
@@ -429,13 +429,13 @@ looks like this:
 ```kotlin
 // In the View Model
 sealed class StatusAction(
-    open val statusViewData: StatusViewData.Concrete
+    open val statusViewData: StatusViewData
 ) : FallibleUiAction() {
     data class Bookmark(
         val state: Boolean,
-        override val statusViewData: StatusViewData.Concrete
+        override val statusViewData: StatusViewData
     ) : StatusAction(statusViewData)
-  
+
     // ... other actions here
 }
 

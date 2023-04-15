@@ -31,7 +31,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class ThreadAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusActionListener: StatusActionListener
-) : ListAdapter<StatusViewData.Concrete, StatusBaseViewHolder>(ThreadDifferCallback) {
+) : ListAdapter<StatusViewData, StatusBaseViewHolder>(ThreadDifferCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusBaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -71,24 +71,24 @@ class ThreadAdapter(
         private const val VIEW_TYPE_STATUS_DETAILED = 1
         private const val VIEW_TYPE_STATUS_FILTERED = 2
 
-        val ThreadDifferCallback = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
+        val ThreadDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
             override fun areItemsTheSame(
-                oldItem: StatusViewData.Concrete,
-                newItem: StatusViewData.Concrete
+                oldItem: StatusViewData,
+                newItem: StatusViewData
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: StatusViewData.Concrete,
-                newItem: StatusViewData.Concrete
+                oldItem: StatusViewData,
+                newItem: StatusViewData
             ): Boolean {
                 return false // Items are different always. It allows to refresh timestamp on every view holder update
             }
 
             override fun getChangePayload(
-                oldItem: StatusViewData.Concrete,
-                newItem: StatusViewData.Concrete
+                oldItem: StatusViewData,
+                newItem: StatusViewData
             ): Any? {
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only

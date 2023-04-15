@@ -29,9 +29,9 @@ class StatusesAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusViewState: StatusViewState,
     private val adapterHandler: AdapterHandler
-) : PagingDataAdapter<StatusViewData.Concrete, StatusViewHolder>(STATUS_COMPARATOR) {
+) : PagingDataAdapter<StatusViewData, StatusViewHolder>(STATUS_COMPARATOR) {
 
-    private val statusForPosition: (Int) -> StatusViewData.Concrete? = { position: Int ->
+    private val statusForPosition: (Int) -> StatusViewData? = { position: Int ->
         if (position != RecyclerView.NO_POSITION) getItem(position) else null
     }
 
@@ -53,11 +53,11 @@ class StatusesAdapter(
     }
 
     companion object {
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
-            override fun areContentsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
+        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData>() {
+            override fun areContentsTheSame(oldItem: StatusViewData, newItem: StatusViewData): Boolean =
                 oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
+            override fun areItemsTheSame(oldItem: StatusViewData, newItem: StatusViewData): Boolean =
                 oldItem.id == newItem.id
         }
     }

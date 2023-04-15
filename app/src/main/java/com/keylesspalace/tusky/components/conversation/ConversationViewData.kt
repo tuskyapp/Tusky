@@ -23,7 +23,7 @@ data class ConversationViewData(
     val order: Int,
     val accounts: List<ConversationAccountEntity>,
     val unread: Boolean,
-    val lastStatus: StatusViewData.Concrete
+    val lastStatus: StatusViewData
 ) {
     fun toEntity(
         accountId: Long,
@@ -54,7 +54,7 @@ data class ConversationViewData(
     }
 }
 
-fun StatusViewData.Concrete.toConversationStatusEntity(
+fun StatusViewData.toConversationStatusEntity(
     favourited: Boolean = status.favourited,
     bookmarked: Boolean = status.bookmarked,
     muted: Boolean = status.muted ?: false,

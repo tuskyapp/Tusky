@@ -305,7 +305,7 @@ class TimelineFragment :
                                     } ?: return@collect
 
                                 val statusViewData =
-                                    indexedViewData.value as? StatusViewData.Concrete ?: return@collect
+                                    indexedViewData.value ?: return@collect
 
                                 val status = when (it) {
                                     is StatusActionSuccess.Bookmark ->
@@ -319,7 +319,7 @@ class TimelineFragment :
                                             poll = it.action.poll.votedCopy(it.action.choices)
                                         )
                                 }
-                                (indexedViewData.value as StatusViewData.Concrete).status = status
+                                (indexedViewData.value as StatusViewData).status = status
 
                                 adapter.notifyItemChanged(indexedViewData.index)
                             }
@@ -525,82 +525,82 @@ class TimelineFragment :
     }
 
     override fun onReply(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         super.reply(status.status)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        val statusViewData = adapter.peek(position) ?: return
         viewModel.accept(StatusAction.Reblog(reblog, statusViewData))
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        val statusViewData = adapter.peek(position) ?: return
         viewModel.accept(StatusAction.Favourite(favourite, statusViewData))
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        val statusViewData = adapter.peek(position) ?: return
         viewModel.accept(StatusAction.Bookmark(bookmark, statusViewData))
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val statusViewData = adapter.peek(position) as? StatusViewData.Concrete ?: return
+        val statusViewData = adapter.peek(position) ?: return
         val poll = statusViewData.status.poll ?: return
         viewModel.accept(StatusAction.VoteInPoll(poll, choices, statusViewData))
     }
 
     override fun clearWarningAction(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         viewModel.clearWarning(status)
     }
 
     override fun onMore(view: View, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         super.more(status.status, view, position)
     }
 
     override fun onOpenReblog(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         super.openReblog(status.status)
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         viewModel.changeExpanded(expanded, status)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onShowReblogs(position: Int) {
-        val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
+        val statusId = adapter.peek(position)?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
-        val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
+        val statusId = adapter.peek(position)?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
     override fun onLoadMore(position: Int) {
-        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
-        loadMorePosition = position
-        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
-        viewModel.loadMore(placeholder.id)
+//        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+//        loadMorePosition = position
+//        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
+//        viewModel.loadMore(placeholder.id)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         viewModel.changeContentCollapsed(isCollapsed, status)
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         super.viewMedia(
             attachmentIndex,
             AttachmentViewData.list(status.actionable),
@@ -609,7 +609,7 @@ class TimelineFragment :
     }
 
     override fun onViewThread(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         super.viewThread(status.actionable.id, status.actionable.url)
     }
 
@@ -653,7 +653,7 @@ class TimelineFragment :
     }
 
     public override fun removeItem(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter.peek(position) ?: return
         viewModel.removeStatusWithId(status.id)
     }
 

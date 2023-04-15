@@ -169,25 +169,25 @@ sealed class NotificationActionSuccess(
 
 /** Actions the user can trigger on an individual status */
 sealed class StatusAction(
-    open val statusViewData: StatusViewData.Concrete
+    open val statusViewData: StatusViewData
 ) : FallibleUiAction() {
     /** Set the bookmark state for a status */
-    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Set the favourite state for a status */
-    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Set the reblog state for a status */
-    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Vote in a poll */
     data class VoteInPoll(
         val poll: Poll,
         val choices: List<Int>,
-        override val statusViewData: StatusViewData.Concrete
+        override val statusViewData: StatusViewData
     ) : StatusAction(statusViewData)
 }
 

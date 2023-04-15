@@ -103,7 +103,7 @@ class CachedTimelineViewModel @Inject constructor(
                 // type that is needed to do the filtering, so it has to be converted to a
                 // `StatusViewData` first.
                 it.filter {
-                    shouldFilterStatus(it.asStatusOrNull()?.status) != Filter.Action.HIDE
+                    shouldFilterStatus(it?.status) != Filter.Action.HIDE
                 }
             }
 
@@ -123,18 +123,18 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
+    override fun updatePoll(newPoll: Poll, status: StatusViewData) {
         // handled by CacheUpdater
     }
 
-    override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
+    override fun changeExpanded(expanded: Boolean, status: StatusViewData) {
         // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
             db.timelineDao().setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
         }
     }
 
-    override fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
+    override fun changeContentShowing(isShowing: Boolean, status: StatusViewData) {
         // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
             db.timelineDao()
@@ -142,7 +142,7 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
+    override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData) {
         // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
             db.timelineDao()
@@ -164,7 +164,7 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    override fun clearWarning(status: StatusViewData.Concrete) {
+    override fun clearWarning(status: StatusViewData) {
         // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
             db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)

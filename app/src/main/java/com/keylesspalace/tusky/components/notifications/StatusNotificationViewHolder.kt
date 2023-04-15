@@ -321,7 +321,7 @@ internal class StatusNotificationViewHolder(
 
     private fun setupContentAndSpoiler(
         listener: LinkListener,
-        statusViewData: StatusViewData.Concrete,
+        statusViewData: StatusViewData,
         animateEmojis: Boolean
     ) {
         val shouldShowContentIfSpoiler = statusViewData.isExpanded

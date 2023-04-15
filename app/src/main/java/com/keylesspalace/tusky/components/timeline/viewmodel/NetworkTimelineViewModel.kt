@@ -92,25 +92,25 @@ class NetworkTimelineViewModel @Inject constructor(
             }
     }
 
-    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
+    override fun updatePoll(newPoll: Poll, status: StatusViewData) {
         status.copy(
             status = status.status.copy(poll = newPoll)
         ).update()
     }
 
-    override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
+    override fun changeExpanded(expanded: Boolean, status: StatusViewData) {
         status.copy(
             isExpanded = expanded
         ).update()
     }
 
-    override fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
+    override fun changeContentShowing(isShowing: Boolean, status: StatusViewData) {
         status.copy(
             isShowingContent = isShowing
         ).update()
     }
 
-    override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
+    override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData) {
         status.copy(
             isCollapsed = isCollapsed
         ).update()
@@ -246,7 +246,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun clearWarning(status: StatusViewData.Concrete) {
+    override fun clearWarning(status: StatusViewData) {
         updateActionableStatusById(status.actionableId) {
             it.copy(filtered = null)
         }
@@ -256,7 +256,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    private fun StatusViewData.Concrete.update() {
+    private fun StatusViewData.update() {
 //        val position = statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
 //        statusData[position] = this
 //        currentSource?.invalidate()
@@ -264,7 +264,7 @@ class NetworkTimelineViewModel @Inject constructor(
 
     private inline fun updateStatusById(
         id: String,
-        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+        updater: (StatusViewData) -> StatusViewData
     ) {
         val pos = statusData.indexOfFirst { it.id == id }
         if (pos == -1) return
@@ -288,7 +288,7 @@ class NetworkTimelineViewModel @Inject constructor(
 
 //    private inline fun updateViewDataAt(
 //        position: Int,
-//        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+//        updater: (StatusViewData) -> StatusViewData
 //    ) {
 //        val status = statusData.getOrNull(position)?.asStatusOrNull() ?: return
 //        statusData[position] = updater(status)

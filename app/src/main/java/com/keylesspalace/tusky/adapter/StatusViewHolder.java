@@ -60,7 +60,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    public void setupWithStatus(@NonNull StatusViewData.Concrete status,
+    public void setupWithStatus(@NonNull StatusViewData status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
@@ -127,7 +127,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private void setupCollapsedState(boolean sensitive,
                                      boolean expanded,
-                                     final StatusViewData.Concrete status,
+                                     final StatusViewData status,
                                      final StatusActionListener listener) {
         /* input filter for TextViews have to be set before text */
         if (status.isCollapsible() && (!sensitive || expanded)) {
@@ -159,7 +159,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     @Override
     protected void toggleExpandedState(boolean sensitive,
                                        boolean expanded,
-                                       @NonNull StatusViewData.Concrete status,
+                                       @NonNull StatusViewData status,
                                        @NonNull StatusDisplayOptions statusDisplayOptions,
                                        @NonNull final StatusActionListener listener) {
 

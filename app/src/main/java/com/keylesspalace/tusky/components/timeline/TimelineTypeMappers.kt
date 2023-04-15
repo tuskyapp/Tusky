@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.timeline
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.TimelineAccountEntity
@@ -155,11 +154,6 @@ fun Status.toEntity(
 }
 
 fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
-    if (this.account == null) {
-        Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
-        return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
-    }
-
     val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
     val mentions: List<Status.Mention> = gson.fromJson(status.mentions, mentionListType) ?: emptyList()
     val tags: List<HashTag>? = gson.fromJson(status.tags, tagListType)
@@ -266,7 +260,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             filtered = status.filtered
         )
     }
-    return StatusViewData.Concrete(
+    return StatusViewData(
         status = status,
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,

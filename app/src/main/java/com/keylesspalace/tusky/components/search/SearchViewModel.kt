@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor(
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
     val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
-    private val loadedStatuses: MutableList<StatusViewData.Concrete> = mutableListOf()
+    private val loadedStatuses: MutableList<StatusViewData> = mutableListOf()
 
     private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
         it.statuses.map { status ->
@@ -101,7 +101,7 @@ class SearchViewModel @Inject constructor(
         hashtagsPagingSourceFactory.newSearch(query)
     }
 
-    fun removeItem(statusViewData: StatusViewData.Concrete) {
+    fun removeItem(statusViewData: StatusViewData) {
         viewModelScope.launch {
             if (timelineCases.delete(statusViewData.id).isSuccess) {
                 if (loadedStatuses.remove(statusViewData)) {
@@ -111,11 +111,11 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {
+    fun expandedChange(statusViewData: StatusViewData, expanded: Boolean) {
         updateStatusViewData(statusViewData.copy(isExpanded = expanded))
     }
 
-    fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
+    fun reblog(statusViewData: StatusViewData, reblog: Boolean) {
         viewModelScope.launch {
             timelineCases.reblog(statusViewData.id, reblog).fold({
                 updateStatus(
@@ -130,15 +130,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun contentHiddenChange(statusViewData: StatusViewData.Concrete, isShowing: Boolean) {
+    fun contentHiddenChange(statusViewData: StatusViewData, isShowing: Boolean) {
         updateStatusViewData(statusViewData.copy(isShowingContent = isShowing))
     }
 
-    fun collapsedChange(statusViewData: StatusViewData.Concrete, collapsed: Boolean) {
+    fun collapsedChange(statusViewData: StatusViewData, collapsed: Boolean) {
         updateStatusViewData(statusViewData.copy(isCollapsed = collapsed))
     }
 
-    fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: MutableList<Int>) {
+    fun voteInPoll(statusViewData: StatusViewData, choices: MutableList<Int>) {
         val votedPoll = statusViewData.status.actionableStatus.poll!!.votedCopy(choices)
         updateStatus(statusViewData.status.copy(poll = votedPoll))
         viewModelScope.launch {
@@ -147,14 +147,14 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
+    fun favorite(statusViewData: StatusViewData, isFavorited: Boolean) {
         updateStatus(statusViewData.status.copy(favourited = isFavorited))
         viewModelScope.launch {
             timelineCases.favourite(statusViewData.id, isFavorited)
         }
     }
 
-    fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
+    fun bookmark(statusViewData: StatusViewData, isBookmarked: Boolean) {
         updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
         viewModelScope.launch {
             timelineCases.bookmark(statusViewData.id, isBookmarked)
@@ -185,14 +185,14 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
+    fun muteConversation(statusViewData: StatusViewData, mute: Boolean) {
         updateStatus(statusViewData.status.copy(muted = mute))
         viewModelScope.launch {
             timelineCases.muteConversation(statusViewData.id, mute)
         }
     }
 
-    private fun updateStatusViewData(newStatusViewData: StatusViewData.Concrete) {
+    private fun updateStatusViewData(newStatusViewData: StatusViewData) {
         val idx = loadedStatuses.indexOfFirst { it.id == newStatusViewData.id }
         if (idx >= 0) {
             loadedStatuses[idx] = newStatusViewData

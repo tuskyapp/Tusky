@@ -364,7 +364,7 @@ class ViewThreadFragment :
     }
 
     override fun onViewUrl(url: String) {
-        val status: StatusViewData.Concrete? = viewModel.detailedStatus()
+        val status: StatusViewData? = viewModel.detailedStatus()
         if (status != null && status.status.url == url) {
             // already viewing the status with this url
             // probably just a preview federated and the user is clicking again to view more -> open the browser

@@ -137,24 +137,24 @@ sealed class UiSuccess {
 }
 
 /** Actions the user can trigger on an individual status */
-sealed class StatusAction(open val statusViewData: StatusViewData.Concrete) : FallibleUiAction() {
+sealed class StatusAction(open val statusViewData: StatusViewData) : FallibleUiAction() {
     /** Set the bookmark state for a status */
-    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Set the favourite state for a status */
-    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Set the reblog state for a status */
-    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Vote in a poll */
     data class VoteInPoll(
         val poll: Poll,
         val choices: List<Int>,
-        override val statusViewData: StatusViewData.Concrete
+        override val statusViewData: StatusViewData
     ) : StatusAction(statusViewData)
 }
 
@@ -396,13 +396,13 @@ abstract class TimelineViewModel(
         reloadFilters()
     }
 
-    abstract fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete)
+    abstract fun updatePoll(newPoll: Poll, status: StatusViewData)
 
-    abstract fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete)
+    abstract fun changeExpanded(expanded: Boolean, status: StatusViewData)
 
-    abstract fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete)
+    abstract fun changeContentShowing(isShowing: Boolean, status: StatusViewData)
 
-    abstract fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete)
+    abstract fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData)
 
     abstract fun removeAllByAccountId(accountId: String)
 
@@ -422,7 +422,7 @@ abstract class TimelineViewModel(
 
     abstract fun fullReload()
 
-    abstract fun clearWarning(status: StatusViewData.Concrete)
+    abstract fun clearWarning(status: StatusViewData)
 
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()

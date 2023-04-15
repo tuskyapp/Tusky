@@ -110,7 +110,7 @@ data class TimelineStatusWithAccount(
     @Embedded
     val status: TimelineStatusEntity,
     @Embedded(prefix = "a_")
-    val account: TimelineAccountEntity? = null, // null when placeholder
+    val account: TimelineAccountEntity,
     @Embedded(prefix = "rb_")
     val reblogAccount: TimelineAccountEntity? = null // null when no reblog
 )

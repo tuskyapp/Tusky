@@ -69,7 +69,7 @@ fun mockStatusViewData(
     reblogged: Boolean = false,
     favourited: Boolean = true,
     bookmarked: Boolean = true
-) = StatusViewData.Concrete(
+) = StatusViewData(
     status = mockStatus(
         id = id,
         inReplyToId = inReplyToId,

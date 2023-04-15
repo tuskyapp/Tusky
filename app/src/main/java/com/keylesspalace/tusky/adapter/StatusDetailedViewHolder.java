@@ -43,7 +43,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
 
         Status status = statusViewData.getActionable();
 
@@ -149,12 +149,12 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    public void setupWithStatus(@NonNull final StatusViewData.Concrete status,
+    public void setupWithStatus(@NonNull final StatusViewData status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
         // We never collapse statuses in the detail view
-        StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
+        StatusViewData uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
                 status.copyWithCollapsed(false) :
                 status;
 
