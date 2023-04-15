@@ -410,8 +410,6 @@ abstract class TimelineViewModel(
 
     abstract fun removeStatusWithId(id: String)
 
-    abstract fun loadMore(placeholderId: String)
-
     abstract fun handleReblogEvent(reblogEvent: ReblogEvent)
 
     abstract fun handleFavEvent(favEvent: FavoriteEvent)
