@@ -209,6 +209,10 @@ AND timelineUserId = :accountId
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
     abstract suspend fun getTopId(accountId: Long): String?
 
+    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId LIMIT 1")
+    abstract suspend fun getBottomId(accountId: Long): String?
+
+    // TODO: Part of placeholder code deletion
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
     abstract suspend fun getTopPlaceholderId(accountId: Long): String?
 

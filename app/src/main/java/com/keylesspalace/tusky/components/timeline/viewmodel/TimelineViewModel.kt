@@ -359,13 +359,13 @@ abstract class TimelineViewModel(
      * @return Flow of relevant preferences that change the UI
      */
     // TODO: Preferences should be in a repository
-    private fun getUiPrefs() = eventHub.events
+    protected fun getUiPrefs() = eventHub.events
         .filterIsInstance<PreferenceChangedEvent>()
         .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
         .map { toPrefs() }
         .onStart { emit(toPrefs()) }
 
-    private fun toPrefs() = UiPrefs(
+    protected fun toPrefs() = UiPrefs(
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null)),
         showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false),
         showMediaPreview = accountManager.activeAccount!!.mediaPreviewEnabled
@@ -442,6 +442,7 @@ abstract class TimelineViewModel(
         }
     }
 
+    // TODO: Update this so that the list of UIPrefs is correct
     private fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {

@@ -17,7 +17,12 @@ package com.keylesspalace.tusky.components.timeline
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
@@ -44,7 +49,11 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
-import com.keylesspalace.tusky.components.timeline.viewmodel.*
+import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -54,7 +63,11 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.*
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.mikepenz.iconics.IconicsDrawable
@@ -62,7 +75,12 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
@@ -159,45 +177,6 @@ class TimelineFragment :
         setupSwipeRefreshLayout()
         setupRecyclerView()
 
-        adapter.addLoadStateListener { loadState ->
-            if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
-                binding.swipeRefreshLayout.isRefreshing = false
-            }
-
-            binding.statusView.hide()
-            binding.progressBar.hide()
-
-            if (adapter.itemCount == 0) {
-                when (loadState.refresh) {
-                    is LoadState.NotLoading -> {
-                        if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
-                            binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
-                            if (timelineKind == TimelineKind.Home) {
-                                binding.statusView.showHelp(R.string.help_empty_home)
-                            }
-                        }
-                    }
-                    is LoadState.Error -> {
-                        binding.statusView.show()
-
-                        if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                onRefresh()
-                            }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                onRefresh()
-                            }
-                        }
-                    }
-                    is LoadState.Loading -> {
-                        binding.progressBar.show()
-                    }
-                }
-            }
-        }
-
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
@@ -211,17 +190,12 @@ class TimelineFragment :
                         }
                     }
                 }
+                // TODO: probably not necessary without placeholders/reading order.
                 if (viewModel.uiState.value.readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst()
                 }
             }
         })
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.statuses.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
-        }
 
         if (actionButtonPresent()) {
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -264,6 +238,12 @@ class TimelineFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.statuses.collectLatest { pagingData ->
+                            adapter.submitData(pagingData)
+                        }
+                    }
+
                     // Show errors from the view model as snack bars.
                     //
                     // Errors are shown:
@@ -345,6 +325,19 @@ class TimelineFragment :
                             }
                     }
 
+                    // Refresh adapter on mutes and blocks
+                    // TODO: Check that this makes sense and implement UiSuccess.* classes.
+//                    launch {
+//                        viewModel.uiSuccess.collectLatest {
+//                            when (it) {
+//                                is UiSuccess.Block, is UiSuccess.Mute, is UiSuccess.MuteConversation ->
+//                                    adapter.refresh()
+//                                else -> { /* nothing to do */
+//                                }
+//                            }
+//                        }
+//                    }
+
                     viewModel.uiState.collectLatest {
                         // showMediaPreview changed?
                         val previousMediaPreview = adapter.mediaPreviewEnabled
@@ -380,20 +373,65 @@ class TimelineFragment :
                             }
                         }
                 }
-            }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            eventHub.events.collect { event ->
-                when (event) {
-                    is StatusComposedEvent -> {
-                        val status = event.status
-                        handleStatusComposeEvent(status)
-                    }
-                    is StatusEditedEvent -> {
-                        handleStatusComposeEvent(event.status)
+                launch {
+                    eventHub.events.collect { event ->
+                        when (event) {
+                            is StatusComposedEvent -> {
+                                val status = event.status
+                                handleStatusComposeEvent(status)
+                            }
+                            is StatusEditedEvent -> {
+                                handleStatusComposeEvent(event.status)
+                            }
+                        }
                     }
                 }
+
+                // Update the UI from the combined load state
+                adapter.loadStateFlow
+                    .distinctUntilChangedBy { it.refresh }
+                    .collect { loadState ->
+                        Log.d(TAG, "loadState: $loadState")
+                        Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
+                        Log.d(TAG, "  refresh?: ${loadState.refresh}")
+                        if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
+                            binding.swipeRefreshLayout.isRefreshing = false
+                        }
+
+                        binding.statusView.hide()
+                        binding.progressBar.hide()
+
+                        if (adapter.itemCount == 0) {
+                            when (loadState.refresh) {
+                                is LoadState.NotLoading -> {
+                                    if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
+                                        binding.statusView.show()
+                                        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                                        if (timelineKind == TimelineKind.Home) {
+                                            binding.statusView.showHelp(R.string.help_empty_home)
+                                        }
+                                    }
+                                }
+                                is LoadState.Error -> {
+                                    binding.statusView.show()
+
+                                    if ((loadState.refresh as LoadState.Error).error is IOException) {
+                                        binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                            onRefresh()
+                                        }
+                                    } else {
+                                        binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                            onRefresh()
+                                        }
+                                    }
+                                }
+                                is LoadState.Loading -> {
+                                    binding.progressBar.show()
+                                }
+                            }
+                        }
+                    }
             }
         }
     }

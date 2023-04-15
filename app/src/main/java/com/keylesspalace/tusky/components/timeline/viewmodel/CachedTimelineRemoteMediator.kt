@@ -11,19 +11,19 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.google.gson.Gson
-import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusEntity
@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
+import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class CachedTimelineRemoteMediator(
@@ -39,8 +40,6 @@ class CachedTimelineRemoteMediator(
     private val db: AppDatabase,
     private val gson: Gson
 ) : RemoteMediator<Int, TimelineStatusWithAccount>() {
-
-    private var initialRefresh = false
 
     private val timelineDao = db.timelineDao()
     private val activeAccount = accountManager.activeAccount!!
@@ -53,72 +52,47 @@ class CachedTimelineRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = true)
         }
 
-        try {
-            var dbEmpty = false
+        Log.d(TAG, "load(), LoadType = $loadType")
 
-            val topPlaceholderId = if (loadType == LoadType.REFRESH) {
-                timelineDao.getTopPlaceholderId(activeAccount.id)
-            } else {
-                null // don't execute the query if it is not needed
-            }
-
-            if (!initialRefresh && loadType == LoadType.REFRESH) {
-                val topId = timelineDao.getTopId(activeAccount.id)
-                topId?.let { cachedTopId ->
-                    val statusResponse = api.homeTimeline(
-                        maxId = cachedTopId,
-                        sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
-                        limit = state.config.pageSize
-                    )
-
-                    val statuses = statusResponse.body()
-                    if (statusResponse.isSuccessful && statuses != null) {
-                        db.withTransaction {
-                            replaceStatusRange(statuses, state)
-                        }
-                    }
-                }
-                initialRefresh = true
-                dbEmpty = topId == null
-            }
-
-            val statusResponse = when (loadType) {
+        return try {
+            val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.homeTimeline(sinceId = topPlaceholderId, limit = state.config.pageSize)
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
+                    api.homeTimeline(minId = null, limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
-                    val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.status?.serverId
-                    api.homeTimeline(maxId = maxId, limit = state.config.pageSize)
+                    val bottomId = timelineDao.getBottomId(activeAccount.id)
+                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.d(TAG, "Loading from bottomId: $bottomId")
+                    api.homeTimeline(maxId = bottomId, limit = state.config.pageSize)
+                }
+                LoadType.PREPEND -> {
+                    val topId = timelineDao.getTopId(activeAccount.id)
+                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.d(TAG, "Loading from topId: $topId")
+                    api.homeTimeline(minId = topId, limit = state.config.pageSize)
                 }
             }
 
-            val statuses = statusResponse.body()
-            if (!statusResponse.isSuccessful || statuses == null) {
-                return MediatorResult.Error(HttpException(statusResponse))
+            val statuses = response.body()
+            if (!response.isSuccessful || statuses == null) {
+                return MediatorResult.Error(HttpException(response))
+            }
+
+            Log.d(TAG, "${statuses.size} - # statuses loaded")
+            if (statuses.isNotEmpty()) {
+                Log.d(TAG, "${statuses.first().id} - first ID")
+                Log.d(TAG, "${statuses.last().id} - last ID")
             }
 
             db.withTransaction {
-                val overlappedStatuses = replaceStatusRange(statuses, state)
+                replaceStatusRange(statuses, state)
+            }
 
-                /* In case we loaded a whole page and there was no overlap with existing statuses,
-                   we insert a placeholder because there might be even more unknown statuses */
-                if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && statuses.size == state.config.pageSize && !dbEmpty) {
-                    /* This overrides the last of the newly loaded statuses with a placeholder
-                       to guarantee the placeholder has an id that exists on the server as not all
-                       servers handle client generated ids as expected */
-                    timelineDao.insertStatus(
-                        Placeholder(statuses.last().id, loading = false).toEntity(activeAccount.id)
-                    )
-                }
-            }
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
-        } catch (e: Exception) {
-            return ifExpected(e) {
-                MediatorResult.Error(e)
-            }
+        } catch (e: IOException) {
+            MediatorResult.Error(e)
+        } catch (e: HttpException) {
+            MediatorResult.Error(e)
         }
     }
 
@@ -174,5 +148,9 @@ class CachedTimelineRemoteMediator(
             )
         }
         return overlappedStatuses
+    }
+
+    companion object {
+        private const val TAG = "CachedTimelineRemoteMediator"
     }
 }
