@@ -45,14 +45,14 @@ import javax.inject.Inject
 class NetworkTimelineViewModel @Inject constructor(
     private val repository: NetworkTimelineRepository,
     timelineCases: TimelineCases,
-    private val api: MastodonApi,
+    api: MastodonApi,
     eventHub: EventHub,
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel
 ) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
 
-    var currentSource: NetworkTimelinePagingSource? = null
+    private var currentSource: NetworkTimelinePagingSource? = null
 
     val statusData: MutableList<Status> = mutableListOf()
 

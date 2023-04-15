@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
@@ -32,7 +31,6 @@ import com.keylesspalace.tusky.components.timeline.CachedTimelineRepository
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
@@ -55,10 +53,10 @@ import kotlin.time.toDuration
 class CachedTimelineViewModel @Inject constructor(
     private val repository: CachedTimelineRepository,
     timelineCases: TimelineCases,
-    private val api: MastodonApi,
-    private val eventHub: EventHub,
+    api: MastodonApi,
+    eventHub: EventHub,
     accountManager: AccountManager,
-    private val preferences: SharedPreferences,
+    preferences: SharedPreferences,
     filterModel: FilterModel,
     private val db: AppDatabase,
     private val gson: Gson
@@ -70,8 +68,6 @@ class CachedTimelineViewModel @Inject constructor(
     preferences,
     filterModel
 ) {
-
-    private var currentPagingSource: PagingSource<Int, TimelineStatusWithAccount>? = null
 
     override lateinit var statuses: Flow<PagingData<StatusViewData>>
 
@@ -103,7 +99,7 @@ class CachedTimelineViewModel @Inject constructor(
                 // type that is needed to do the filtering, so it has to be converted to a
                 // `StatusViewData` first.
                 it.filter {
-                    shouldFilterStatus(it?.status) != Filter.Action.HIDE
+                    shouldFilterStatus(it.status) != Filter.Action.HIDE
                 }
             }
 

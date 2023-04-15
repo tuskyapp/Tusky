@@ -537,7 +537,7 @@ class CachedTimelineRemoteMediatorTest {
     private fun AppDatabase.insert(statuses: List<TimelineStatusWithAccount>) {
         runBlocking {
             statuses.forEach { statusWithAccount ->
-                statusWithAccount.account?.let { account ->
+                statusWithAccount.account.let { account ->
                     timelineDao().insertAccount(account)
                 }
                 statusWithAccount.reblogAccount?.let { account ->

@@ -660,7 +660,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 arrayOf(
                     "Clear home timeline cache",
                     "Remove first 40 statuses"
-                ),
+                )
             ) { _, which ->
                 Log.d(TAG, "Developer tools: $which")
                 when (which) {
