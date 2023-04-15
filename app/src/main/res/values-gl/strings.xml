@@ -283,7 +283,6 @@
     <string name="filter_addition_title">Engadir filtro</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="pref_title_public_filter_keywords">Cronoloxías públicas</string>
-    <string name="load_more_placeholder_text">cargar máis</string>
     <string name="replying_to">Respondendo a @%s</string>
     <string name="title_media">Multimedia</string>
     <string name="pref_title_alway_open_spoiler">Despregar sempre publicacións marcadas con avisos sobre o contido</string>

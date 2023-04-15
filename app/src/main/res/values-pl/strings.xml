@@ -223,7 +223,6 @@
     <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj wrażliwą zawartość</string>
     <string name="title_media">Zawartość multimedialna</string>
     <string name="replying_to">Odpowiadasz na wpis autorstwa @%s</string>
-    <string name="load_more_placeholder_text">załaduj więcej</string>
     <string name="add_account_name">Dodaj konto</string>
     <string name="add_account_description">Dodaj nowe Konto Mastodon</string>
     <string name="action_lists">Listy</string>

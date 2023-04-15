@@ -240,7 +240,6 @@
     <string name="pref_title_alway_show_sensitive_media">Sempre mostrar mídia sensível</string>
     <string name="title_media">Mídia</string>
     <string name="replying_to">Respondendo @%s</string>
-    <string name="load_more_placeholder_text">carregar mais</string>
     <string name="add_account_name">Adicionar conta</string>
     <string name="add_account_description">Adicionar nova conta Mastodon</string>
     <string name="action_lists">Listas</string>

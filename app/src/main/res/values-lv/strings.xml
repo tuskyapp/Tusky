@@ -231,7 +231,6 @@
     <string name="notification_follow_request_name">Sekošanas pieprasījumi</string>
     <string name="notification_subscription_name">Jauni ieraksti</string>
     <string name="follows_you">Seko tev</string>
-    <string name="load_more_placeholder_text">ielādēt vairāk</string>
     <string name="compose_save_draft">Saglabāt melnrakstu\?</string>
     <string name="download_failed">Lejupielāde neizdevās</string>
     <string name="duration_14_days">14 dienas</string>

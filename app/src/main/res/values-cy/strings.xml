@@ -228,7 +228,6 @@
     <string name="pref_title_alway_show_sensitive_media">Dangos cynnwys sensitif bob tro</string>
     <string name="title_media">Cyfryngau</string>
     <string name="replying_to">Yn ymateb i @%s</string>
-    <string name="load_more_placeholder_text">llwytho rhagor</string>
     <string name="add_account_name">Ychwanegu Cyfrif</string>
     <string name="add_account_description">Ychwanegu Cyfrif Mastodon newydd</string>
     <string name="action_lists">Rhestrau</string>

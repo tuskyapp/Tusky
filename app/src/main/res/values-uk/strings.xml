@@ -295,7 +295,6 @@
     <string name="filter_addition_title">Додати фільтр</string>
     <string name="pref_title_thread_filter_keywords">Розмови</string>
     <string name="pref_title_public_filter_keywords">Загальнодоступні стрічки</string>
-    <string name="load_more_placeholder_text">завантажити ще</string>
     <string name="replying_to">Відповідь для @%s</string>
     <string name="pref_title_alway_open_spoiler">Завжди розгортати допис, з попередженнями про вміст</string>
     <string name="follows_you">Підписники</string>

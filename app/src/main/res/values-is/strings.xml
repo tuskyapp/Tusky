@@ -274,7 +274,6 @@
     <string name="pref_title_alway_open_spoiler">Alltaf fletta út færslum sem eru með aðvörun vegna efnis</string>
     <string name="title_media">Gagnaskrár</string>
     <string name="replying_to">Svar til @%s</string>
-    <string name="load_more_placeholder_text">hlaða inn fleiru</string>
     <string name="pref_title_public_filter_keywords">Opinberar tímalínur</string>
     <string name="pref_title_thread_filter_keywords">Samtöl</string>
     <string name="filter_addition_title">Bæta við síu</string>

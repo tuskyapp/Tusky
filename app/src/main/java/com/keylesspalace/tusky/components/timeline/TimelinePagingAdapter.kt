@@ -21,7 +21,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Filter
@@ -51,9 +50,6 @@ class TimelinePagingAdapter(
         return when (viewType) {
             VIEW_TYPE_STATUS_FILTERED -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, viewGroup, false))
-            }
-            VIEW_TYPE_PLACEHOLDER -> {
-                PlaceholderViewHolder(inflater.inflate(R.layout.item_status_placeholder, viewGroup, false))
             }
             else -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status, viewGroup, false))
@@ -100,7 +96,6 @@ class TimelinePagingAdapter(
     companion object {
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_STATUS_FILTERED = 1
-        private const val VIEW_TYPE_PLACEHOLDER = 2
 
         val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
             override fun areItemsTheSame(

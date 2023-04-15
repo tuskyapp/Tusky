@@ -191,7 +191,6 @@
     <string name="pref_title_alway_show_sensitive_media">Mostra el contingut no apte (NSFW)</string>
     <string name="title_media">Multimèdia</string>
     <string name="replying_to">En resposta a @%s</string>
-    <string name="load_more_placeholder_text">carrega\'n més</string>
     <string name="poll_vote">Vota</string>
     <string name="error_sender_account_gone">S\'ha produït un error en publicar.</string>
     <string name="title_tab_preferences">Pestanyes</string>

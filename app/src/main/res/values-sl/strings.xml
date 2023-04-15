@@ -233,7 +233,6 @@
     <string name="pref_title_alway_show_sensitive_media">Vedno prikaži občutljivo vsebino</string>
     <string name="title_media">Mediji</string>
     <string name="replying_to">Odgovori @%s</string>
-    <string name="load_more_placeholder_text">naloži več</string>
     <string name="pref_title_public_filter_keywords">Javne časovnice</string>
     <string name="pref_title_thread_filter_keywords">Pogovori</string>
     <string name="filter_addition_title">Dodaj filter</string>

@@ -262,7 +262,6 @@
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher les contenus sensibles</string>
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%s</string>
-    <string name="load_more_placeholder_text">en charger plus</string>
     <string name="pref_title_public_filter_keywords">Fils publics</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
     <string name="filter_addition_title">Ajouter un filtre</string>

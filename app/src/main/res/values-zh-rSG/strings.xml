@@ -261,7 +261,6 @@
     <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>
     <string name="title_media">媒体</string>
     <string name="replying_to">回复 @%s</string>
-    <string name="load_more_placeholder_text">加载更多</string>
     <string name="pref_title_public_filter_keywords">公共时间轴</string>
     <string name="pref_title_thread_filter_keywords">对话</string>
     <string name="filter_addition_title">添加新的过滤器</string>

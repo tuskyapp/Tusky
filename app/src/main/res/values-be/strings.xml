@@ -338,7 +338,6 @@
     <string name="replying_to">Адказ для @%s</string>
     <string name="pref_title_public_filter_keywords">Публічныя стужкі</string>
     <string name="pref_title_thread_filter_keywords">Размовы</string>
-    <string name="load_more_placeholder_text">загрузіць больш</string>
     <string name="about_tusky_license">Tusky — свабодная праграма з адкрытым зыходным кодам. Зроблена пад GNU General Public License Version 3. Вы можаце паглядзець ліцэнзію тут: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_bug_feature_request_site">Справаздачы аб памылках і пажаданні:
 \n https://github.com/tuskyapp/Tusky/issues</string>
