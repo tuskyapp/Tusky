@@ -69,7 +69,7 @@ class NetworkTimelineViewModel @Inject constructor(
         statuses = getStatuses(timelineKind)
     }
 
-    /** @return FLow of statuses that make up the timeline of [kind] */
+    /** @return Flow of statuses that make up the timeline of [kind] */
     private fun getStatuses(
         kind: TimelineKind,
         initialKey: String? = null
