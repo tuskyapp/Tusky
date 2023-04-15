@@ -34,7 +34,7 @@ class NetworkTimelineRepository @Inject constructor(
 ) {
     private var factory: InvalidatingPagingSourceFactory<String, Status>? = null
 
-    /** @return flow of Mastodon [Status], loaded in [pageSize] increments. */
+    /** @return flow of Mastodon [Status], loaded in [pageSize] increments */
     fun getStatusStream(
         kind: TimelineKind,
         pageSize: Int = PAGE_SIZE,
