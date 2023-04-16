@@ -42,6 +42,9 @@ import javax.inject.Inject
 //
 // Re-writing the caching so that they can use the same types is the TODO.
 
+// TODO: Follow lifecycle recommendations in https://developer.android.com/topic/architecture/data-layer#make_an_operation_live_longer_than_the_screen
+// (ditto for the other repositories).
+
 class CachedTimelineRepository @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
@@ -75,8 +78,46 @@ class CachedTimelineRepository @Inject constructor(
         ).flow
     }
 
-    fun invalidate() {
+    suspend fun invalidate() {
+        // Invalidating when no statuses have been loaded can cause empty timelines because it
+        // cancels the network load.
+        if (appDatabase.timelineDao().getStatusCount(accountManager.activeAccount!!.id) < 1) {
+            return
+        }
+
         factory?.invalidate()
+    }
+
+    /** Set and store the "expanded" state of the given status, for the active account */
+    suspend fun setExpanded(expanded: Boolean, statusId: String) {
+        appDatabase.timelineDao().setExpanded(accountManager.activeAccount!!.id, statusId, expanded)
+    }
+
+    /** Set and store the "content showing" state of the given status, for the active account */
+    suspend fun setContentShowing(showing: Boolean, statusId: String) {
+        appDatabase.timelineDao()
+            .setContentShowing(accountManager.activeAccount!!.id, statusId, showing)
+    }
+
+    /** Set and store the "content collapsed" ("Show more") state of the given status, for the active account */
+    suspend fun setContentCollapsed(collapsed: Boolean, statusId: String) {
+        appDatabase.timelineDao()
+            .setContentCollapsed(accountManager.activeAccount!!.id, statusId, collapsed)
+    }
+
+    /** Remove all statuses authored/boosted by the given account, for the active account */
+    suspend fun removeAllByAccountId(accountId: String) {
+        appDatabase.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
+    }
+
+    /** Remove all statuses from the given instance, for the active account */
+    suspend fun removeAllByInstance(instance: String) {
+        appDatabase.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+    }
+
+    /** Clear the warning (remove the "filtered" setting) for the given status, for the active account */
+    suspend fun clearStatusWarning(statusId: String) {
+        appDatabase.timelineDao().clearWarning(accountManager.activeAccount!!.id, statusId)
     }
 
     companion object {

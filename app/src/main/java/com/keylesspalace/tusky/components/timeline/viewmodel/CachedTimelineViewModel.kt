@@ -74,8 +74,6 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun init(timelineKind: TimelineKind) {
         super.init(timelineKind)
-        // TODO: Got here -- need to make sure that the boosts/replies pref changes don't
-        // blow away the database.
         statuses = getUiPrefs()
             .flatMapLatest {
                 getStatuses(timelineKind)
@@ -104,7 +102,7 @@ class CachedTimelineViewModel @Inject constructor(
             }
 
         // TODO:
-        // - Does the above need a .flowOn(Dispatches.Default) and a .cachedIn(viewModelScope)?
+        // - Does the above need a .flowOn(Dispatches.Default)
         // - Ditto for the same code in NetworkTimelineViewModel (check NotificationsViewModel)
     }
 
@@ -124,46 +122,38 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun changeExpanded(expanded: Boolean, status: StatusViewData) {
-        // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
-            db.timelineDao().setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
+            repository.setExpanded(expanded, status.id)
         }
     }
 
     override fun changeContentShowing(isShowing: Boolean, status: StatusViewData) {
-        // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
-            db.timelineDao()
-                .setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
+            repository.setContentShowing(isShowing, status.id)
         }
     }
 
     override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData) {
-        // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
-            db.timelineDao()
-                .setContentCollapsed(accountManager.activeAccount!!.id, status.id, isCollapsed)
+            repository.setContentCollapsed(isCollapsed, status.id)
         }
     }
 
     override fun removeAllByAccountId(accountId: String) {
-        // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
-            db.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
+            repository.removeAllByAccountId(accountId)
         }
     }
 
     override fun removeAllByInstance(instance: String) {
-        // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
-            db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+            repository.removeAllByInstance(instance)
         }
     }
 
     override fun clearWarning(status: StatusViewData) {
-        // TODO: Don't touch the db directly, go through the repository
         viewModelScope.launch {
-            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
+            repository.clearStatusWarning(status.actionableId)
         }
     }
 
@@ -199,10 +189,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override suspend fun invalidate() {
-        // invalidating when we don't have statuses yet can cause empty timelines because it cancels the network load
-        if (db.timelineDao().getStatusCount(accountManager.activeAccount!!.id) > 0) {
-            repository.invalidate()
-        }
+        repository.invalidate()
     }
 
     companion object {
