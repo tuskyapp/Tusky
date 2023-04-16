@@ -325,10 +325,6 @@ class ConversationsFragment :
         }
     }
 
-    override fun onLoadMore(position: Int) {
-        // not using the old way of pagination
-    }
-
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         adapter.peek(position)?.let { conversation ->
             viewModel.collapseLongStatus(isCollapsed, conversation)

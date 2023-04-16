@@ -526,10 +526,6 @@ class NotificationsFragment :
         adapter.notifyItemChanged(position)
     }
 
-    override fun onLoadMore(position: Int) {
-        // Empty -- this fragment doesn't show placeholders
-    }
-
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         val notificationViewData = adapter.snapshot()[position] ?: return
         notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(

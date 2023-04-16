@@ -177,10 +177,6 @@ class SearchStatusesFragment : SearchFragment<StatusViewData>(), StatusActionLis
         }
     }
 
-    override fun onLoadMore(position: Int) {
-        // Not possible here
-    }
-
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         searchAdapter.peek(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)

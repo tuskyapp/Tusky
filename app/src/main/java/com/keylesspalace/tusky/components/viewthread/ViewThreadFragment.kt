@@ -387,10 +387,6 @@ class ViewThreadFragment :
         viewModel.changeContentShowing(isShowing, adapter.currentList[position])
     }
 
-    override fun onLoadMore(position: Int) {
-        // only used in timelines
-    }
-
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)

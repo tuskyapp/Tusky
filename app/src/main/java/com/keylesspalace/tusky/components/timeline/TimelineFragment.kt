@@ -526,13 +526,6 @@ class TimelineFragment :
         (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
     }
 
-    override fun onLoadMore(position: Int) {
-//        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
-//        loadMorePosition = position
-//        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
-//        viewModel.loadMore(placeholder.id)
-    }
-
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         val status = adapter.peek(position) ?: return
         viewModel.changeContentCollapsed(isCollapsed, status)
