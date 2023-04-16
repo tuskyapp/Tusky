@@ -212,7 +212,7 @@ class OccurrenceActivity : BaseActivity(), Injectable, HasAndroidInjector {
             }
 
             holder.binding.trace.visible(occurrence.callTrace.isNotEmpty())
-            holder.binding.trace.text = occurrence.callTrace // TODO this could/should be normal multi-line
+            holder.binding.trace.text = OccurrenceEntity.reduceTrace(occurrence.callTrace)
 
             // TODO cache some objects here? For example different helper objects (locale, number format, ...)
         }

@@ -187,4 +187,14 @@ class Converters @Inject constructor(
     fun stringToOccurrenceType(type: String): OccurrenceEntity.Type {
         return OccurrenceEntity.Type.fromString(type)
     }
+
+    @TypeConverter
+    fun stackTraceToJson(stackTrace: Array<StackTraceElement>): String {
+        return gson.toJson(stackTrace)
+    }
+
+    @TypeConverter
+    fun jsonToStackTrace(stackTraceJson: String): Array<StackTraceElement> {
+        return gson.fromJson(stackTraceJson, object : TypeToken<Array<StackTraceElement>>() {}.type)
+    }
 }

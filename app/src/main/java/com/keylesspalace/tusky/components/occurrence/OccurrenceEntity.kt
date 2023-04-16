@@ -31,12 +31,11 @@ data class OccurrenceEntity(
     val startedAt: Date, // TODO or use LocalDateTime (or Long)?
     val finishedAt: Date? = null,
     val code: Int? = null,
-    val callTrace: String,
+    val callTrace: Array<StackTraceElement>,
 ) {
     companion object {
         fun reduceTrace(stackTrace: Array<StackTraceElement>): String {
             // TODO conditions/transforms here are a bit arbitrary...
-            // TODO we could maybe record more (full stack?) in the db and only reduce it for display?
             // TODO probably keep at least the last non-Tusky location in the stack; and/or keep the information that some entries were removed
 
             var tuskyTrace = stackTrace.filter { it.className.startsWith("com.keylesspalace.tusky") && !it.methodName.contains("intercept") }

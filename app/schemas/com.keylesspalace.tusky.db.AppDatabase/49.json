@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 49,
-    "identityHash": "e5748dfe3c822a1305530005ac41f534",
+    "identityHash": "90c888ce17bbc144b95208b6ecc4e10a",
     "entities": [
       {
         "tableName": "DraftEntity",

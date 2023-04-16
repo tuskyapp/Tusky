@@ -35,8 +35,8 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
             type = OccurrenceEntity.Type.APICALL,
             what = what,
             startedAt = Calendar.getInstance().time,
-            callTrace = ""
-//            callTrace = OccurrenceEntity.reduceTrace(Throwable().stackTrace),
+            callTrace = emptyArray()
+//            callTrace = Throwable().stackTrace,
         )
         // TODO all stack traces here have no hint where they might have originated (always ThreadPool)
         //   found kotlinx.coroutines.stacktrace.recovery but that should be on by default?
@@ -99,7 +99,7 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
                 type = OccurrenceEntity.Type.CRASH,
                 what = what ?: "CRASH",
                 startedAt = Calendar.getInstance().time,
-                callTrace = traceString
+                callTrace = rootCause.stackTrace
             ))
         }
     }
