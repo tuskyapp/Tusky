@@ -33,11 +33,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.AutoDispose
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -61,7 +59,6 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -276,30 +273,19 @@ abstract class SFragment : Fragment(), Injectable {
                     return@setOnMenuItemClickListener true
                 }
                 R.id.pin -> {
-                    timelineCases.pin(status.id, !status.isPinned())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnError { e: Throwable ->
-                            val message = e.message ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
+                    lifecycleScope.launch {
+                        timelineCases.pin(status.id, !status.isPinned()).onFailure { e: Throwable ->
+                            val message = e.message
+                                ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
                             Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
                         }
-                        .to(
-                            AutoDispose.autoDisposable(
-                                AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                            )
-                        )
-                        .subscribe()
+                    }
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_mute_conversation -> {
-                    timelineCases.muteConversation(status.id, status.muted != true)
-                        .onErrorReturnItem(status)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .to(
-                            AutoDispose.autoDisposable(
-                                AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-                            )
-                        )
-                        .subscribe()
+                    lifecycleScope.launch {
+                        timelineCases.muteConversation(status.id, status.muted != true)
+                    }
                     return@setOnMenuItemClickListener true
                 }
             }

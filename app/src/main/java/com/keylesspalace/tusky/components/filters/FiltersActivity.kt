@@ -12,8 +12,8 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class FiltersActivity : BaseActivity(), FiltersListener {
@@ -33,9 +33,13 @@ class FiltersActivity : BaseActivity(), FiltersListener {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
         binding.addFilterButton.setOnClickListener {
             launchEditFilterActivity()
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener { loadFilters() }
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         setTitle(R.string.pref_title_timeline_filters)
     }
@@ -48,41 +52,46 @@ class FiltersActivity : BaseActivity(), FiltersListener {
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            viewModel.filters.collect { filters ->
-                binding.filtersView.show()
-                binding.addFilterButton.show()
-                binding.filterProgressBar.hide()
-                refreshFilterDisplay(filters)
-            }
-        }
+            viewModel.state.collect { state ->
+                binding.progressBar.visible(state.loadingState == FiltersViewModel.LoadingState.LOADING)
+                binding.swipeRefreshLayout.isRefreshing = state.loadingState == FiltersViewModel.LoadingState.LOADING
+                binding.addFilterButton.visible(state.loadingState == FiltersViewModel.LoadingState.LOADED)
 
-        lifecycleScope.launch {
-            viewModel.error.collect { error ->
-                if (error is IOException) {
-                    binding.filterMessageView.setup(
-                        R.drawable.elephant_offline,
-                        R.string.error_network
-                    ) { loadFilters() }
-                } else {
-                    binding.filterMessageView.setup(
-                        R.drawable.elephant_error,
-                        R.string.error_generic
-                    ) { loadFilters() }
+                when (state.loadingState) {
+                    FiltersViewModel.LoadingState.INITIAL, FiltersViewModel.LoadingState.LOADING -> binding.messageView.hide()
+                    FiltersViewModel.LoadingState.ERROR_NETWORK -> {
+                        binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                            loadFilters()
+                        }
+                        binding.messageView.show()
+                    }
+                    FiltersViewModel.LoadingState.ERROR_OTHER -> {
+                        binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                            loadFilters()
+                        }
+                        binding.messageView.show()
+                    }
+                    FiltersViewModel.LoadingState.LOADED -> {
+                        if (state.filters.isEmpty()) {
+                            binding.messageView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
+                            binding.messageView.show()
+                        } else {
+                            binding.messageView.hide()
+                            binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
+                            binding.filtersList.show()
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun refreshFilterDisplay(filters: List<Filter>) {
-        binding.filtersView.adapter = FiltersAdapter(this, filters)
-    }
-
     private fun loadFilters() {
-        binding.filterMessageView.hide()
-        binding.filtersView.hide()
-        binding.addFilterButton.hide()
-        binding.filterProgressBar.show()
-
+        binding.filtersList.hide()
         viewModel.load()
     }
 

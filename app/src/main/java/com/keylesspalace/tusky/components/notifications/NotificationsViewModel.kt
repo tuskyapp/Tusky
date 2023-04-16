@@ -62,7 +62,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -357,7 +356,7 @@ class NotificationsViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            eventHub.events.asFlow()
+            eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
                 .map {
@@ -420,23 +419,23 @@ class NotificationsViewModel @Inject constructor(
                                 timelineCases.bookmark(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.Favourite ->
                                 timelineCases.favourite(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.Reblog ->
                                 timelineCases.reblog(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.VoteInPoll ->
                                 timelineCases.voteInPoll(
                                     action.statusViewData.actionableId,
                                     action.poll.id,
                                     action.choices
-                                ).await()
+                                )
                         }
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
@@ -447,7 +446,7 @@ class NotificationsViewModel @Inject constructor(
 
         // Handle events that should refresh the list
         viewModelScope.launch {
-            eventHub.events.asFlow().collectLatest {
+            eventHub.events.collectLatest {
                 when (it) {
                     is BlockEvent -> uiSuccess.emit(UiSuccess.Block)
                     is MuteEvent -> uiSuccess.emit(UiSuccess.Mute)
@@ -504,7 +503,7 @@ class NotificationsViewModel @Inject constructor(
      * @return Flow of relevant preferences that change the UI
      */
     // TODO: Preferences should be in a repository
-    private fun getUiPrefs() = eventHub.events.asFlow()
+    private fun getUiPrefs() = eventHub.events
         .filterIsInstance<PreferenceChangedEvent>()
         .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
         .map { toPrefs() }

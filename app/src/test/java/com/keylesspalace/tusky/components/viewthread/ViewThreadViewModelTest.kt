@@ -221,9 +221,9 @@ class ViewThreadViewModelTest {
 
         viewModel.loadThread(threadId)
 
-        eventHub.dispatch(FavoriteEvent(statusId = "1", false))
-
         runBlocking {
+            eventHub.dispatch(FavoriteEvent(statusId = "1", false))
+
             assertEquals(
                 ThreadUiState.Success(
                     statusViewData = listOf(
@@ -245,9 +245,9 @@ class ViewThreadViewModelTest {
 
         viewModel.loadThread(threadId)
 
-        eventHub.dispatch(ReblogEvent(statusId = "2", true))
-
         runBlocking {
+            eventHub.dispatch(ReblogEvent(statusId = "2", true))
+
             assertEquals(
                 ThreadUiState.Success(
                     statusViewData = listOf(
@@ -269,9 +269,9 @@ class ViewThreadViewModelTest {
 
         viewModel.loadThread(threadId)
 
-        eventHub.dispatch(BookmarkEvent(statusId = "3", false))
-
         runBlocking {
+            eventHub.dispatch(BookmarkEvent(statusId = "3", false))
+
             assertEquals(
                 ThreadUiState.Success(
                     statusViewData = listOf(

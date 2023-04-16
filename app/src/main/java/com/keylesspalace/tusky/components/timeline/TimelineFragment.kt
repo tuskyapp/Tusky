@@ -77,6 +77,7 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -197,6 +198,7 @@ class TimelineFragment :
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
@@ -234,15 +236,22 @@ class TimelineFragment :
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                            if (kind == TimelineViewModel.Kind.HOME) {
+                                binding.statusView.showHelp(R.string.help_empty_home)
+                            }
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network)
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                onRefresh()
+                            }
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic)
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                onRefresh()
+                            }
                         }
                     }
                     is LoadState.Loading -> {
@@ -298,10 +307,8 @@ class TimelineFragment :
             })
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 when (event) {
                     is PreferenceChangedEvent -> {
                         onPreferenceChanged(event.preferenceKey)
@@ -315,6 +322,7 @@ class TimelineFragment :
                     }
                 }
             }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

@@ -221,6 +221,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
                     isSingleLineTitle = false
                 }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.SHOW_STATS_INLINE
+                    setTitle(R.string.pref_title_show_stat_inline)
+                    isSingleLineTitle = false
+                }
             }
 
             preferenceCategory(R.string.pref_title_browser_settings) {

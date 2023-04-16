@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -50,8 +51,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -85,7 +84,6 @@ class ViewThreadViewModel @Inject constructor(
 
         viewModelScope.launch {
             eventHub.events
-                .asFlow()
                 .collect { event ->
                     when (event) {
                         is FavoriteEvent -> handleFavEvent(event)
@@ -195,7 +193,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.reblog(status.actionableId, reblog).await()
+            timelineCases.reblog(status.actionableId, reblog).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
@@ -205,7 +203,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.favourite(status.actionableId, favorite).await()
+            timelineCases.favourite(status.actionableId, favorite).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
@@ -215,7 +213,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.bookmark(status.actionableId, bookmark).await()
+            timelineCases.bookmark(status.actionableId, bookmark).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
@@ -235,7 +233,7 @@ class ViewThreadViewModel @Inject constructor(
         }
 
         try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
+            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)

@@ -101,6 +101,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
 
+        binding.swipeRefreshLayout.setOnRefreshListener { viewModel.retryLoading() }
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+
         lifecycleScope.launch {
             viewModel.state.collect(this@ListsActivity::update)
         }
@@ -166,6 +169,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     private fun update(state: ListsViewModel.State) {
         adapter.submitList(state.lists)
         binding.progressBar.visible(state.loadingState == LOADING)
+        binding.swipeRefreshLayout.isRefreshing = state.loadingState == LOADING
         when (state.loadingState) {
             INITIAL, LOADING -> binding.messageView.hide()
             ERROR_NETWORK -> {

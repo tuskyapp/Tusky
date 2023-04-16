@@ -18,10 +18,10 @@
 package com.keylesspalace.tusky.components.notifications
 
 import app.cash.turbine.test
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.FilterV1Test.Companion.mockStatus
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -73,7 +73,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `bookmark succeeds && emits UiSuccess`() = runTest {
         // Given
-        timelineCases.stub { onBlocking { bookmark(any(), any()) } doReturn Single.just(status) }
+        timelineCases.stub { onBlocking { bookmark(any(), any()) } doReturn NetworkResult.success(status) }
 
         viewModel.uiSuccess.test {
             // When
@@ -111,7 +111,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     fun `favourite succeeds && emits UiSuccess`() = runTest {
         // Given
         timelineCases.stub {
-            onBlocking { favourite(any(), any()) } doReturn Single.just(status)
+            onBlocking { favourite(any(), any()) } doReturn NetworkResult.success(status)
         }
 
         viewModel.uiSuccess.test {
@@ -149,7 +149,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     @Test
     fun `reblog succeeds && emits UiSuccess`() = runTest {
         // Given
-        timelineCases.stub { onBlocking { reblog(any(), any()) } doReturn Single.just(status) }
+        timelineCases.stub { onBlocking { reblog(any(), any()) } doReturn NetworkResult.success(status) }
 
         viewModel.uiSuccess.test {
             // When
@@ -187,7 +187,7 @@ class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() 
     fun `voteinpoll succeeds && emits UiSuccess`() = runTest {
         // Given
         timelineCases.stub {
-            onBlocking { voteInPoll(any(), any(), any()) } doReturn Single.just(status.poll!!)
+            onBlocking { voteInPoll(any(), any(), any()) } doReturn NetworkResult.success(status.poll!!)
         }
 
         viewModel.uiSuccess.test {

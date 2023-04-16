@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Ikon Aplikasi Baru oleh Dzuk https://dzuk.zone/
+- Anda sekarang dapat mengikuti hashtag. Klik pada hashtag dan kemudian pada ikon di toolbar.
+- Dukungan untuk Android 13
+- Dropdown baru dalam tampilan tulis untuk mengatur bahasa posting
+- Tab media di profil sekarang menghormati media sensitif dan memuat lebih lancar.
+- Sekarang dimungkinkan untuk menetapkan titik fokus gambar sebelum memposting
+- Opsi baru untuk menampilkan nama pengguna lengkap Anda di toolbar

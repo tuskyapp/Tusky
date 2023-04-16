@@ -181,14 +181,10 @@
     <string name="lock_account_label_description">Вимагає затвердження підписників власноруч</string>
     <string name="action_set_caption">Додати підпис</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Опис для людей з вадами зору
-\n(обмеження %d символ)</item>
-        <item quantity="few">Опис для людей з вадами зору
-\n(обмеження %d символи)</item>
-        <item quantity="many">Опис для людей з вадами зору
-\n(обмеження %d символів)</item>
-        <item quantity="other">Опис для людей з вадами зору
-\n(обмеження %d символів)</item>
+        <item quantity="one">Опис матеріалів для людей з вадами зору (обмеження %d символ)</item>
+        <item quantity="few">Опис матеріалів для людей з вадами зору (обмеження %d символи)</item>
+        <item quantity="many">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
+        <item quantity="other">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
     </plurals>
     <string name="error_failed_set_caption">Не вдалося додати підпис</string>
     <string name="action_unsubscribe_account">Відписатися</string>
@@ -678,4 +674,13 @@
     <string name="filter_edit_keyword_title">Змінити ключове слово</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="hint_filter_title">Мій фільтр</string>
+    <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
+    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
+\n
+\nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
+    <string name="hint_description">Опис</string>
+    <string name="post_media_image">Зображення</string>
+    <string name="error_list_load">Помилка завантаження списків</string>
+    <string name="select_list_empty">У вас ще немає списків</string>
+    <string name="select_list_manage">Керувати списками</string>
 </resources>
