@@ -545,7 +545,6 @@ abstract class TimelineViewModel(
 
     companion object {
         private const val TAG = "TimelineViewModel"
-        internal const val LOAD_AT_ONCE = 30
         private const val DEBOUNCE_TIMEOUT_MS = 500L
 
         fun filterContextMatchesKind(
