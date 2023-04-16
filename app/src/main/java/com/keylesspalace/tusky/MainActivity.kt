@@ -184,6 +184,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
 
+        // TODO this works but seems a bit blunt for "intercept relevant log messages"?
+//        lifecycleScope.launch {
+//            Runtime.getRuntime().exec("logcat -c")
+//            Runtime.getRuntime().exec("logcat")
+//                .inputStream
+//                .bufferedReader()
+//                .useLines { lines -> lines.forEach {
+//                    val x = it
+//                    val y = 0
+//                }
+//                }
+//        }
+
         var showNotificationTab = false
         if (intent != null) {
             /** there are two possibilities the accountId can be passed to MainActivity:

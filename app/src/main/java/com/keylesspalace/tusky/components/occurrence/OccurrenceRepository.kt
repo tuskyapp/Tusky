@@ -23,6 +23,9 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
         return occurrences
     }
 
+    // TODO this could/should also record warning and error logs (from "Log").
+    //   However that seems not to be intercept-able? Also see commented code block in MainActivity.onCreate
+
     fun handleApiCallStart(what: String): Long {
 
         // TODO The account id here could be wrong (for worker tasks for example)
@@ -37,6 +40,7 @@ class OccurrenceRepository @Inject constructor(private val db: AppDatabase, priv
         )
         // TODO all stack traces here have no hint where they might have originated (always ThreadPool)
         //   found kotlinx.coroutines.stacktrace.recovery but that should be on by default?
+        //  There is also a kotlinx.coroutines.debug.DebugProbes. But that hangs on "install()".
 
         val entityId: Long
         runBlocking {
