@@ -42,9 +42,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.StatusComposedEvent
-import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
@@ -96,9 +93,6 @@ class TimelineFragment :
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var eventHub: EventHub
 
     private val viewModel: TimelineViewModel by unsafeLazy {
         if (timelineKind == TimelineKind.Home) {
@@ -296,10 +290,15 @@ class TimelineFragment :
                     launch {
                         viewModel.uiSuccess.collectLatest {
                             when (it) {
-                                is UiSuccess.Block, is UiSuccess.Mute, is UiSuccess.MuteConversation ->
+                                is UiSuccess.Block,
+                                is UiSuccess.Mute,
+                                is UiSuccess.MuteConversation ->
                                     adapter.refresh()
-                                else -> { /* nothing to do */
-                                }
+
+                                is UiSuccess.StatusSent -> handleStatusSentOrEdit(it.status)
+                                is UiSuccess.StatusEdited -> handleStatusSentOrEdit(it.status)
+
+                                else -> { /* nothing to do */ }
                             }
                         }
                     }
@@ -338,20 +337,6 @@ class TimelineFragment :
                                 updateTimestampFlow.collect()
                             }
                         }
-                }
-
-                launch {
-                    eventHub.events.collect { event ->
-                        when (event) {
-                            is StatusComposedEvent -> {
-                                val status = event.status
-                                handleStatusComposeEvent(status)
-                            }
-                            is StatusEditedEvent -> {
-                                handleStatusComposeEvent(event.status)
-                            }
-                        }
-                    }
                 }
 
                 // Update the UI from the combined load state
@@ -567,7 +552,16 @@ class TimelineFragment :
         super.viewAccount(id)
     }
 
-    private fun handleStatusComposeEvent(status: Status) {
+    /**
+     * A status the user has written has either:
+     *
+     * - Been successfully posted
+     * - Been edited by the user
+     *
+     * Depending on the timeline kind it may need refreshing to show the new status or the changes
+     * that have been made to it.
+     */
+    private fun handleStatusSentOrEdit(status: Status) {
         when (timelineKind) {
             is TimelineKind.User.Pinned -> return
 

@@ -35,7 +35,9 @@ import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -135,6 +137,12 @@ sealed class UiSuccess {
 
     /** A conversation was muted */
     object MuteConversation : UiSuccess()
+
+    /** A status the user wrote was successfully posted */
+    data class StatusSent(val status: Status) : UiSuccess()
+
+    /** A status the user wrote was successfully edited */
+    data class StatusEdited(val status: Status) : UiSuccess()
 }
 
 /** Actions the user can trigger on an individual status */
@@ -349,6 +357,8 @@ abstract class TimelineViewModel(
                     is BlockEvent -> uiSuccess.emit(UiSuccess.Block)
                     is MuteEvent -> uiSuccess.emit(UiSuccess.Mute)
                     is MuteConversationEvent -> uiSuccess.emit(UiSuccess.MuteConversation)
+                    is StatusComposedEvent -> uiSuccess.emit(UiSuccess.StatusSent(it.status))
+                    is StatusEditedEvent -> uiSuccess.emit(UiSuccess.StatusEdited(it.status))
                 }
             }
         }
