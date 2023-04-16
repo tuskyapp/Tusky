@@ -25,7 +25,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount

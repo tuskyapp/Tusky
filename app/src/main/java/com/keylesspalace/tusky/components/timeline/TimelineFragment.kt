@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.UiSuccess
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding

@@ -28,7 +28,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1

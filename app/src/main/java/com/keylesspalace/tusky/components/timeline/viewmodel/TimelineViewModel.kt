@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter

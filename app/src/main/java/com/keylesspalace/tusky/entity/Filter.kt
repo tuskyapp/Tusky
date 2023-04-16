@@ -2,7 +2,7 @@ package com.keylesspalace.tusky.entity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 

@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.components.trending.TrendingFragment
 import java.util.Objects
 

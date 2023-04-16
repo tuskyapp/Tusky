@@ -23,7 +23,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelinePagingSource
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow

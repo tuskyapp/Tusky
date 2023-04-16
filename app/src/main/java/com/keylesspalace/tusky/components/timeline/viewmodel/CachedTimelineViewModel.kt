@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.CachedTimelineRepository
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
