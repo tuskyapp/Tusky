@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineView
 import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineKind
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.UiSuccess
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -292,17 +293,16 @@ class TimelineFragment :
                     }
 
                     // Refresh adapter on mutes and blocks
-                    // TODO: Check that this makes sense and implement UiSuccess.* classes.
-//                    launch {
-//                        viewModel.uiSuccess.collectLatest {
-//                            when (it) {
-//                                is UiSuccess.Block, is UiSuccess.Mute, is UiSuccess.MuteConversation ->
-//                                    adapter.refresh()
-//                                else -> { /* nothing to do */
-//                                }
-//                            }
-//                        }
-//                    }
+                    launch {
+                        viewModel.uiSuccess.collectLatest {
+                            when (it) {
+                                is UiSuccess.Block, is UiSuccess.Mute, is UiSuccess.MuteConversation ->
+                                    adapter.refresh()
+                                else -> { /* nothing to do */
+                                }
+                            }
+                        }
+                    }
 
                     viewModel.uiState.collectLatest {
                         // showMediaPreview changed?
