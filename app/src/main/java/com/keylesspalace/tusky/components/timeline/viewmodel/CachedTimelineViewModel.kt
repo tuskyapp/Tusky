@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.CachedTimelineRepository
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
@@ -38,14 +37,11 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 /**
  * TimelineViewModel that caches all statuses in a local database
@@ -58,7 +54,6 @@ class CachedTimelineViewModel @Inject constructor(
     accountManager: AccountManager,
     preferences: SharedPreferences,
     filterModel: FilterModel,
-    private val db: AppDatabase,
     private val gson: Gson
 ) : TimelineViewModel(
     timelineCases,
@@ -104,17 +99,6 @@ class CachedTimelineViewModel @Inject constructor(
         // TODO:
         // - Does the above need a .flowOn(Dispatches.Default)
         // - Ditto for the same code in NetworkTimelineViewModel (check NotificationsViewModel)
-    }
-
-    init {
-        // TODO: This probably shouldn't be done here, but be a WorkManager job
-        viewModelScope.launch {
-            delay(5.toDuration(DurationUnit.SECONDS)) // delay so the db is not locked during initial ui refresh
-            accountManager.activeAccount?.id?.let { accountId ->
-                db.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE)
-                db.timelineDao().cleanupAccounts(accountId)
-            }
-        }
     }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData) {
