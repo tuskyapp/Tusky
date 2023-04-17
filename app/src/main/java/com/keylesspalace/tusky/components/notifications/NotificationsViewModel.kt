@@ -515,16 +515,22 @@ class NotificationsViewModel @Inject constructor(
         filters: Set<Notification.Type>,
         initialKey: String? = null
     ): Flow<PagingData<NotificationViewData>> {
+        var n = 0
+
         return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.filter { notification ->
                     val status = notification.status
                         ?: return@filter true
 
+                    n += 1
+
                     return@filter if (hasNewestNotificationId(notification.type, status.id, notification.id)) {
                         true
                     } else {
-                        Log.d(TAG, "Filtering notification for "+status.id+" at "+status.createdAt)
+                        // TODO this now leads sometimes (?) to a "List is empty" being displayed as first item.
+
+                        Log.d(TAG, "Filtering notification "+(n-1)+" for "+status.id+" at "+status.createdAt)
                         false
                     }
                 }
