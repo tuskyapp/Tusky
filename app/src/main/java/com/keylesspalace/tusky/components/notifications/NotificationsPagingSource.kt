@@ -93,6 +93,11 @@ class NotificationsPagingSource @Inject constructor(
                 return LoadResult.Error(Throwable("HTTP $code: $msg"))
             }
 
+            // TODO this is the only location with the "raw" data for answering the TODO in NotificationsViewModel.hasNewestNotificationId()?
+            //   However the heuristic there would need (at least) the full range of notification ids here (so multiple calls to this method)?
+            val apiNotificationIds = response.body()!!.map { it.id }
+            Log.w(TAG, "Got notifications from api "+apiNotificationIds.first()+"-"+apiNotificationIds.last())
+
             val links = Links.from(response.headers()["link"])
             return LoadResult.Page(
                 data = response.body()!!,

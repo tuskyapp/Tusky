@@ -387,6 +387,7 @@ class NotificationsViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
+            // TODO small: With this starting with filterIsInstance from a flow I cannot handle any other events?
             eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
