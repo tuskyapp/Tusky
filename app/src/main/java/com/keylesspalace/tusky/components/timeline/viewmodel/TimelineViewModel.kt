@@ -61,6 +61,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
@@ -284,6 +285,20 @@ abstract class TimelineViewModel(
     private var filterRemoveReblogs = false
 
     init {
+        // Save the visible status ID
+        // TODO: Implement following https://github.com/tuskyapp/Tusky/pull/3271
+        viewModelScope.launch {
+            uiAction
+                .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
+                .distinctUntilChanged()
+                .collectLatest { action ->
+                    Log.d(TAG, "Would save visible ID: ${action.visibleId}")
+                    accountManager.activeAccount?.let { account ->
+                        // TODO: Save the user's position
+                    }
+                }
+        }
+
         // Set initial status display options from the user's preferences.
         //
         // Then collect future preference changes and emit new values in to

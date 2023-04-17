@@ -44,10 +44,11 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
-import com.keylesspalace.tusky.components.notifications.StatusActionSuccess
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.InfallibleUiAction
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.StatusAction
+import com.keylesspalace.tusky.components.timeline.viewmodel.StatusActionSuccess
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.UiSuccess
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
@@ -601,6 +602,18 @@ class TimelineFragment :
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        // Save the ID of the first visible status in the list
+        val position = layoutManager.findLastVisibleItemPosition()
+        if (position != RecyclerView.NO_POSITION) {
+            adapter.snapshot()[position]?.id?.let { statusId ->
+                viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
+            }
         }
     }
 
