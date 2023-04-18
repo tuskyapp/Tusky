@@ -28,13 +28,13 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.CachedTimelineRepository
+import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,16 +50,16 @@ import javax.inject.Inject
 class CachedTimelineViewModel @Inject constructor(
     private val repository: CachedTimelineRepository,
     timelineCases: TimelineCases,
-    api: MastodonApi,
     eventHub: EventHub,
+    filtersRepository: FiltersRepository,
     accountManager: AccountManager,
     preferences: SharedPreferences,
     filterModel: FilterModel,
     private val gson: Gson
 ) : TimelineViewModel(
     timelineCases,
-    api,
     eventHub,
+    filtersRepository,
     accountManager,
     preferences,
     filterModel
@@ -83,18 +83,9 @@ class CachedTimelineViewModel @Inject constructor(
     ): Flow<PagingData<StatusViewData>> {
         return repository.getStatusStream(kind = kind, initialKey = initialKey)
             .map { pagingData ->
-                pagingData.map {
-                    it.toViewData(gson)
-                }
-            }.map {
-                // TODO: These operations happen in a sub-optimal order. Ideally we could do
-                // any filtering of the statuses before the cost of converting them to viewdata.
-                // However, TimelineStatusWithAccount does not provide access to the `Status`
-                // type that is needed to do the filtering, so it has to be converted to a
-                // `StatusViewData` first.
-                it.filter {
-                    shouldFilterStatus(it.status) != Filter.Action.HIDE
-                }
+                pagingData
+                    .map { it.toViewData(gson) }
+                    .filter { shouldFilterStatus(it) != Filter.Action.HIDE }
             }
 
         // TODO:

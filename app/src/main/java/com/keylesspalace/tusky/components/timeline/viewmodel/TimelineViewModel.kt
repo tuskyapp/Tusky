@@ -21,8 +21,6 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import at.connyduck.calladapter.networkresult.fold
-import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -40,6 +38,8 @@ import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
+import com.keylesspalace.tusky.components.timeline.FilterKind
+import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -48,12 +48,12 @@ import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,9 +66,9 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 data class UiState(
     /** The user's preferred reading order */
@@ -203,8 +203,8 @@ sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess() {
 
 /** Errors from fallible view model actions that the UI will need to show */
 sealed class UiError(
-    /** The exception associated with the error */
-    open val exception: Exception,
+    /** The throwable associated with the error */
+    open val throwable: Throwable,
 
     /** String resource with an error message to show the user */
     @StringRes val message: Int,
@@ -213,31 +213,35 @@ sealed class UiError(
     open val action: UiAction? = null
 ) {
     data class Bookmark(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Bookmark
-    ) : UiError(exception, R.string.ui_error_bookmark, action)
+    ) : UiError(throwable, R.string.ui_error_bookmark, action)
 
     data class Favourite(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Favourite
-    ) : UiError(exception, R.string.ui_error_favourite, action)
+    ) : UiError(throwable, R.string.ui_error_favourite, action)
 
     data class Reblog(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Reblog
-    ) : UiError(exception, R.string.ui_error_reblog, action)
+    ) : UiError(throwable, R.string.ui_error_reblog, action)
 
     data class VoteInPoll(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.VoteInPoll
-    ) : UiError(exception, R.string.ui_error_vote, action)
+    ) : UiError(throwable, R.string.ui_error_vote, action)
+
+    data class GetFilters(
+        override val throwable: Throwable,
+    ) : UiError(throwable, R.string.ui_error_filter_v1_load, null)
 
     companion object {
-        fun make(exception: Exception, action: FallibleUiAction) = when (action) {
-            is StatusAction.Bookmark -> Bookmark(exception, action)
-            is StatusAction.Favourite -> Favourite(exception, action)
-            is StatusAction.Reblog -> Reblog(exception, action)
-            is StatusAction.VoteInPoll -> VoteInPoll(exception, action)
+        fun make(throwable: Throwable, action: FallibleUiAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(throwable, action)
+            is StatusAction.Favourite -> Favourite(throwable, action)
+            is StatusAction.Reblog -> Reblog(throwable, action)
+            is StatusAction.VoteInPoll -> VoteInPoll(throwable, action)
         }
     }
 }
@@ -245,8 +249,8 @@ sealed class UiError(
 @OptIn(FlowPreview::class)
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
-    private val api: MastodonApi,
     private val eventHub: EventHub,
+    private val filtersRepository: FiltersRepository,
     protected val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
@@ -262,14 +266,21 @@ abstract class TimelineViewModel(
     private val uiAction = MutableSharedFlow<UiAction>()
 
     /** Flow of successful action results */
-    // Note: These are a SharedFlow instead of a StateFlow because success or error state does not
-    // need to be retained. A message is shown once to a user and then dismissed. Re-collecting the
-    // flow (e.g., after a device orientation change) should not re-show the most recent success or
-    // error message, as it will be confusing to the user.
+    // Note: Thisis a SharedFlow instead of a StateFlow because success state does not need to be
+    // retained. A message is shown once to a user and then dismissed. Re-collecting the flow
+    // (e.g., after a device orientation change) should not re-show the most recent success
+    // message, as it will be confusing to the user.
     val uiSuccess = MutableSharedFlow<UiSuccess>()
 
-    /** Flow of transient errors for the UI to present */
-    val uiError = MutableSharedFlow<UiError>()
+    /** Channel for error results */
+    // Errors are sent to a channel to ensure that any errors that occur *before* there are any
+    // subscribers are retained. If this was a SharedFlow any errors would be dropped, and if it
+    // was a StateFlow any errors would be retained, and there would need to be an explicit
+    // mechanism to dismiss them.
+    private val _uiErrorChannel = Channel<UiError>()
+
+    /** Expose UI errors as a flow */
+    val uiError = _uiErrorChannel.receiveAsFlow()
 
     /** Accept UI actions in to actionStateFlow */
     val accept: (UiAction) -> Unit = { action ->
@@ -285,6 +296,12 @@ abstract class TimelineViewModel(
     private var filterRemoveReblogs = false
 
     init {
+        viewModelScope.launch {
+            updateFiltersFromPreferences().collectLatest {
+                Log.d(TAG, "Filters updated")
+            }
+        }
+
         // Save the visible status ID
         // TODO: Implement following https://github.com/tuskyapp/Tusky/pull/3271
         viewModelScope.launch {
@@ -361,7 +378,7 @@ abstract class TimelineViewModel(
                         }
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
+                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, action)) }
                     }
                 }
         }
@@ -426,10 +443,17 @@ abstract class TimelineViewModel(
 
         viewModelScope.launch {
             eventHub.events
-                .collect { event -> handleEvent(event) }
+                .filterIsInstance<PreferenceChangedEvent>()
+                .filter { FilterPrefs.contains(it.preferenceKey) }
+                .distinctUntilChanged()
+                .map { getFilters() }
+                .onStart { getFilters() }
         }
 
-        reloadFilters()
+        viewModelScope.launch {
+            eventHub.events
+                .collect { event -> handleEvent(event) }
+        }
     }
 
     abstract fun updatePoll(newPoll: Poll, status: StatusViewData)
@@ -461,18 +485,65 @@ abstract class TimelineViewModel(
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 
-    protected fun shouldFilterStatus(status: Status?): Filter.Action {
-        status ?: return Filter.Action.NONE
+    protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter.Action {
+        val status = statusViewData.status
         return if (
             (status.inReplyToId != null && filterRemoveReplies) ||
             (status.reblog != null && filterRemoveReblogs)
         ) {
             return Filter.Action.HIDE
         } else {
-            // TODO: Check why this was saving the filter action choice in the viewdata, and migrate
-//            statusViewData.filterAction = filterModel.shouldFilterStatus(status.actionableStatus)
-//            statusViewData.filterAction
-            filterModel.shouldFilterStatus(status.actionableStatus)
+            statusViewData.filterAction = filterModel.shouldFilterStatus(status.actionableStatus)
+            statusViewData.filterAction
+        }
+    }
+
+    private val FilterPrefs = setOf(
+        FilterV1.HOME,
+        FilterV1.NOTIFICATIONS,
+        FilterV1.THREAD,
+        FilterV1.PUBLIC,
+        FilterV1.ACCOUNT
+    )
+
+    /** Updates the current set of filters if filter-related preferences change */
+    // TODO: https://github.com/tuskyapp/Tusky/issues/3546, and update if a v2 filter is
+    // updated as well.
+    private fun updateFiltersFromPreferences() = eventHub.events
+        .filterIsInstance<PreferenceChangedEvent>()
+        .filter { FilterPrefs.contains(it.preferenceKey) }
+        .filter { filterContextMatchesKind(timelineKind, listOf(it.preferenceKey)) }
+        .distinctUntilChanged()
+        .map { getFilters() }
+        .onStart { getFilters() }
+
+    /**
+     * Gets the current filters from the repository. Applies them locally if they are
+     * v1 filters.
+     *
+     * Whatever the filter kind, the current timeline is invalidated, so it updates with the
+     * most recent filters.
+     */
+    private fun getFilters() {
+        viewModelScope.launch {
+            Log.d(TAG, "getFilters()")
+            try {
+                when (val filters = filtersRepository.getFilters()) {
+                    is FilterKind.V1 -> {
+                        filterModel.initWithFilters(
+                            filters.filters.filter {
+                                filterContextMatchesKind(timelineKind, it.context)
+                            }
+                        )
+                        invalidate()
+                    }
+
+                    is FilterKind.V2 -> invalidate()
+                }
+            } catch (throwable: Throwable) {
+                Log.d(TAG, "updateFilter(): Error fetching filters: ${throwable.message}")
+                _uiErrorChannel.send(UiError.GetFilters(throwable))
+            }
         }
     }
 
@@ -493,11 +564,6 @@ abstract class TimelineViewModel(
                 filterRemoveReblogs = timelineKind is TimelineKind.Home && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
                     fullReload()
-                }
-            }
-            FilterV1.HOME, FilterV1.NOTIFICATIONS, FilterV1.THREAD, FilterV1.PUBLIC, FilterV1.ACCOUNT -> {
-                if (filterContextMatchesKind(timelineKind, listOf(key))) {
-                    reloadFilters()
                 }
             }
             PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
@@ -547,37 +613,6 @@ abstract class TimelineViewModel(
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)
             }
-        }
-    }
-
-    private fun reloadFilters() {
-        viewModelScope.launch {
-            api.getFilters().fold(
-                {
-                    // After the filters are loaded we need to reload displayed content to apply them.
-                    // It can happen during the usage or at startup, when we get statuses before filters.
-                    invalidate()
-                },
-                { throwable ->
-                    if (throwable is HttpException && throwable.code() == 404) {
-                        // Fallback to client-side filter code
-                        val filters = api.getFiltersV1().getOrElse {
-                            Log.e(TAG, "Failed to fetch filters", it)
-                            return@launch
-                        }
-                        filterModel.initWithFilters(
-                            filters.filter {
-                                filterContextMatchesKind(timelineKind, it.context)
-                            }
-                        )
-                        // After the filters are loaded we need to reload displayed content to apply them.
-                        // It can happen during the usage or at startup, when we get statuses before filters.
-                        invalidate()
-                    } else {
-                        Log.e(TAG, "Error getting filters", throwable)
-                    }
-                }
-            )
         }
     }
 

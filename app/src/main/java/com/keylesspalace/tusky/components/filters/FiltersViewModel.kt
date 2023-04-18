@@ -29,6 +29,7 @@ class FiltersViewModel @Inject constructor(
     val state: Flow<State> get() = _state
     private val _state = MutableStateFlow(State(emptyList(), LoadingState.INITIAL))
 
+    // TODO: Now that FilterRepository exists this code should be updated to use that.
     fun load() {
         this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.LOADING)
 

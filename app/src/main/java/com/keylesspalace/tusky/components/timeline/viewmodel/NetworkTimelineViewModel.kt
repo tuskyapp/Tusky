@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.components.timeline.NetworkTimelineRepository
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
@@ -31,7 +32,6 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.toViewData
@@ -46,12 +46,19 @@ import javax.inject.Inject
 class NetworkTimelineViewModel @Inject constructor(
     private val repository: NetworkTimelineRepository,
     timelineCases: TimelineCases,
-    api: MastodonApi,
     eventHub: EventHub,
+    filtersRepository: FiltersRepository,
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel
-) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
+) : TimelineViewModel(
+    timelineCases,
+    eventHub,
+    filtersRepository,
+    accountManager,
+    sharedPreferences,
+    filterModel
+) {
 
     private var currentSource: NetworkTimelinePagingSource? = null
 
@@ -77,9 +84,7 @@ class NetworkTimelineViewModel @Inject constructor(
     ): Flow<PagingData<StatusViewData>> {
         return repository.getStatusStream(kind = kind, initialKey = initialKey)
             .map { pagingData ->
-                pagingData.filter {
-                    shouldFilterStatus(it) != Filter.Action.HIDE
-                }.map {
+                pagingData.map {
                     // TODO: The previous code in RemoteMediator checked the states against the
                     // previous version of the status to make sure they were replicated. This will
                     // need to be reimplemented (probably as a map of StatusId -> ViewStates.
@@ -89,6 +94,8 @@ class NetworkTimelineViewModel @Inject constructor(
                         isExpanded = alwaysOpenSpoilers,
                         isCollapsed = true
                     )
+                }.filter {
+                    shouldFilterStatus(it) != Filter.Action.HIDE
                 }
             }
     }
