@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,6 +61,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
@@ -294,14 +296,21 @@ class NotificationsViewModel @Inject constructor(
     private val uiAction = MutableSharedFlow<UiAction>()
 
     /** Flow of successful action results */
-    // Note: These are a SharedFlow instead of a StateFlow because success or error state does not
-    // need to be retained. A message is shown once to a user and then dismissed. Re-collecting the
-    // flow (e.g., after a device orientation change) should not re-show the most recent success or
-    // error message, as it will be confusing to the user.
+    // Note: Thisis a SharedFlow instead of a StateFlow because success state does not need to be
+    // retained. A message is shown once to a user and then dismissed. Re-collecting the flow
+    // (e.g., after a device orientation change) should not re-show the most recent success
+    // message, as it will be confusing to the user.
     val uiSuccess = MutableSharedFlow<UiSuccess>()
 
-    /** Flow of transient errors for the UI to present */
-    val uiError = MutableSharedFlow<UiError>()
+    /** Channel for error results */
+    // Errors are sent to a channel to ensure that any errors that occur *before* there are any
+    // subscribers are retained. If this was a SharedFlow any errors would be dropped, and if it
+    // was a StateFlow any errors would be retained, and there would need to be an explicit
+    // mechanism to dismiss them.
+    private val _uiErrorChannel = Channel<UiError>()
+
+    /** Expose UI errors as a flow */
+    val uiError = _uiErrorChannel.receiveAsFlow()
 
     /** Accept UI actions in to actionStateFlow */
     val accept: (UiAction) -> Unit = { action ->
@@ -380,11 +389,11 @@ class NotificationsViewModel @Inject constructor(
                             if (this.isSuccessful) {
                                 repository.invalidate()
                             } else {
-                                uiError.emit(UiError.make(HttpException(this), it))
+                                _uiErrorChannel.send(UiError.make(HttpException(this), it))
                             }
                         }
                     } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, it)) }
+                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, it)) }
                     }
                 }
         }
@@ -403,7 +412,7 @@ class NotificationsViewModel @Inject constructor(
                         }
                         uiSuccess.emit(NotificationActionSuccess.from(action))
                     } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
+                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, action)) }
                     }
                 }
         }
@@ -439,7 +448,7 @@ class NotificationsViewModel @Inject constructor(
                         }
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
+                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, action)) }
                     }
                 }
         }
