@@ -49,6 +49,7 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.components.timeline.TimelineLoadStateAdapter
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -196,8 +197,8 @@ class NotificationsFragment :
         })
 
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = NotificationsLoadStateAdapter { adapter.retry() },
-            footer = NotificationsLoadStateAdapter { adapter.retry() }
+            header = TimelineLoadStateAdapter { adapter.retry() },
+            footer = TimelineLoadStateAdapter { adapter.retry() }
         )
 
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }

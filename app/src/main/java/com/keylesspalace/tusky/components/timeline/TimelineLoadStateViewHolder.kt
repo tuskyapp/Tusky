@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.components.notifications
+package com.keylesspalace.tusky.components.timeline
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.databinding.ItemNotificationsLoadStateFooterViewBinding
+import com.keylesspalace.tusky.databinding.ItemLoadStateFooterViewBinding
 import java.net.SocketTimeoutException
 
 /**
@@ -36,8 +36,8 @@ import java.net.SocketTimeoutException
  *
  * @param retry function to invoke if the user clicks the "retry" button
  */
-class NotificationsLoadStateViewHolder(
-    private val binding: ItemNotificationsLoadStateFooterViewBinding,
+class TimelineLoadStateViewHolder(
+    private val binding: ItemLoadStateFooterViewBinding,
     retry: () -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     init {
@@ -61,13 +61,13 @@ class NotificationsLoadStateViewHolder(
     }
 
     companion object {
-        fun create(parent: ViewGroup, retry: () -> Unit): NotificationsLoadStateViewHolder {
-            val binding = ItemNotificationsLoadStateFooterViewBinding.inflate(
+        fun create(parent: ViewGroup, retry: () -> Unit): TimelineLoadStateViewHolder {
+            val binding = ItemLoadStateFooterViewBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-            return NotificationsLoadStateViewHolder(binding, retry)
+            return TimelineLoadStateViewHolder(binding, retry)
         }
     }
 }

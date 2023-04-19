@@ -439,7 +439,11 @@ class TimelineFragment :
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        binding.recyclerView.adapter = adapter
+
+        binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = TimelineLoadStateAdapter { adapter.retry() },
+            footer = TimelineLoadStateAdapter { adapter.retry() }
+        )
     }
 
     override fun onRefresh() {
