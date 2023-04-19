@@ -119,6 +119,12 @@ class CachedTimelineRepository @Inject constructor(
         appDatabase.timelineDao().clearWarning(accountManager.activeAccount!!.id, statusId)
     }
 
+    /** Remove all statuses and invalidate the pager, for the active account */
+    suspend fun clearAndReload() {
+        appDatabase.timelineDao().removeAll(accountManager.activeAccount!!.id)
+        factory?.invalidate()
+    }
+
     companion object {
         private const val TAG = "CachedTimelineRepository"
         private const val PAGE_SIZE = 30

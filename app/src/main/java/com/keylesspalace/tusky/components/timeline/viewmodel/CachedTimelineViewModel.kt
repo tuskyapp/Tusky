@@ -154,21 +154,12 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun fullReload() {
-        // TODO: Don't touch the db directly, go through the repository
-//        viewModelScope.launch {
-//            val activeAccount = accountManager.activeAccount!!
-//            db.timelineDao().removeAll(activeAccount.id)
-//        }
         viewModelScope.launch {
-            invalidate()
+            repository.clearAndReload()
         }
     }
 
     override suspend fun invalidate() {
         repository.invalidate()
-    }
-
-    companion object {
-        private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }
