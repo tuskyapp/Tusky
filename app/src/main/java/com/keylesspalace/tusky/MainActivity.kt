@@ -518,17 +518,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                                 when (tabData.action) {
                                     is FragmentAction -> {
                                         startActivityWithSlideInAnimation(
-                                            TabActivity.getIntent(
-                                                context,
-                                                tabData
-                                            )
+                                            TabActivity.getIntent(context, tabData, accountLocked)
                                         )
                                     }
 
                                     is IntentAction -> {
                                         // Passing an intent action to the Tab Activity is likely an error. We can redirect
                                         // it to start a new activity directly, using the passed intent.
-                                        val intent = tabData.action.intent(this@MainActivity, tabData.arguments)
+                                        val intent = tabData.action.intent(this@MainActivity, tabData.arguments, accountLocked)
                                         startActivityWithSlideInAnimation(intent)
                                     }
                                 }

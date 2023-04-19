@@ -48,6 +48,7 @@ class TabActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjec
         setContentView(binding.root)
 
         val tabData = intent.getParcelableExtra<TabData>(TAB_DATA)!!
+        val accountLocked = intent.getBooleanExtra(ACCOUNT_LOCKED, false)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
@@ -71,7 +72,7 @@ class TabActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjec
             is IntentAction -> {
                 // Passing an intent action to the Tab Activity is likely an error. We can redirect
                 // it to start a new activity directly, using the passed intent.
-                val intent = tabData.action.intent(this@TabActivity, tabData.arguments)
+                val intent = tabData.action.intent(this@TabActivity, tabData.arguments, accountLocked)
                 startActivity(intent)
                 finish()
             }
@@ -87,11 +88,13 @@ class TabActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjec
     companion object {
         const val TAG = "TabActivity"
         private const val TAB_DATA = "tab_data"
+        private const val ACCOUNT_LOCKED = "account_locked"
 
         @JvmStatic
-        fun getIntent(context: Context, tabData: TabData) =
+        fun getIntent(context: Context, tabData: TabData, accountLocked: Boolean) =
             Intent(context, TabActivity::class.java).apply {
                 putExtra(TAB_DATA, tabData)
+                putExtra(ACCOUNT_LOCKED, accountLocked)
             }
     }
 }

@@ -80,8 +80,8 @@ data class TabData(
 
     @Parcelize
     sealed class Action : Parcelable {
-        data class FragmentAction(val fragment: (List<String>) -> Fragment) : Action()
-        data class IntentAction(val intent: (Context, List<String>) -> Intent) : Action()
+        data class FragmentAction(val fragment: (args: List<String>) -> Fragment) : Action()
+        data class IntentAction(val intent: (Context, args: List<String>, accountLocked: Boolean) -> Intent) : Action()
     }
 
     enum class AllowedContext {
@@ -149,7 +149,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.action_edit_profile,
             icon = Icon.gmd_person,
-            action = IntentAction { context, _ -> Intent(context, EditProfileActivity::class.java) },
+            action = IntentAction { context, _, _ -> Intent(context, EditProfileActivity::class.java) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
@@ -158,7 +158,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.action_view_favourites,
             icon = Icon.gmd_star,
-            action = IntentAction { context, _ -> StatusListActivity.newFavouritesIntent(context) },
+            action = IntentAction { context, _, _ -> StatusListActivity.newFavouritesIntent(context) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
@@ -166,16 +166,17 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.action_view_bookmarks,
             icon = Icon.gmd_bookmark,
-            action = IntentAction { context, _ -> StatusListActivity.newBookmarksIntent(context) },
+            action = IntentAction { context, _, _ -> StatusListActivity.newBookmarksIntent(context) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
-        // TODO: STOPSHIP: Add accountLocked = accountLocked
         FOLLOW_REQUESTS -> TabData(
             id = id,
             text = R.string.action_view_follow_requests,
             icon = Icon.gmd_person_add,
-            action = IntentAction { context, _ -> AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = false) },
+            action = IntentAction { context, args, accountLocked ->
+                AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+            },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
@@ -183,7 +184,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.action_lists,
             icon = Icon.gmd_list,
-            action = IntentAction { context, _ -> ListsActivity.newIntent(context) },
+            action = IntentAction { context, _, _ -> ListsActivity.newIntent(context) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
@@ -192,7 +193,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.action_access_drafts,
             icon = Icon.gmd_book,
-            action = IntentAction { context, _ -> DraftsActivity.newIntent(context) },
+            action = IntentAction { context, _, _ -> DraftsActivity.newIntent(context) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
@@ -200,7 +201,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.action_access_scheduled_posts,
             icon = Icon.gmd_schedule,
-            action = IntentAction { context, _ -> ScheduledStatusActivity.newIntent(context) },
+            action = IntentAction { context, _, _ -> ScheduledStatusActivity.newIntent(context) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
@@ -208,7 +209,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = id,
             text = R.string.title_announcements,
             icon = Icon.gmd_campaign,
-            action = IntentAction { context, _ -> AnnouncementsActivity.newIntent(context) },
+            action = IntentAction { context, _, _ -> AnnouncementsActivity.newIntent(context) },
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
