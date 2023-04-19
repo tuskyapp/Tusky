@@ -28,31 +28,10 @@ class CacheUpdater @Inject constructor(
                 when (event) {
                     is StatusChangedEvent -> {
                         val status = event.status
-
                         timelineDao.update(
                             accountId = accountId,
-                            statusId = status.id,
-                            content = status.content,
-                            editedAt = status.editedAt?.time,
-                            emojis = gson.toJson(status.emojis),
-                            reblogsCount = status.reblogsCount,
-                            favouritesCount = status.favouritesCount,
-                            repliesCount = status.repliesCount,
-                            reblogged = status.reblogged,
-                            bookmarked = status.bookmarked,
-                            favourited = status.favourited,
-                            sensitive = status.sensitive,
-                            spoilerText = status.spoilerText,
-                            visibility = status.visibility,
-                            attachments = gson.toJson(status.attachments),
-                            mentions = gson.toJson(status.mentions),
-                            tags = gson.toJson(status.tags),
-                            poll = gson.toJson(status.poll),
-                            muted = status.muted,
-                            pinned = status.pinned ?: false,
-                            card = gson.toJson(status.card),
-                            language = status.language,
-                            filtered = status.filtered
+                            status = status,
+                            gson = gson
                         )
                     }
                     is UnfollowEvent ->

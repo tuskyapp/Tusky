@@ -54,8 +54,8 @@ class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
     private val filterModel: FilterModel,
     private val timelineCases: TimelineCases,
-    private val eventHub: EventHub,
-    accountManager: AccountManager,
+    eventHub: EventHub,
+    private val accountManager: AccountManager,
     private val db: AppDatabase,
     private val gson: Gson
 ) : ViewModel() {
@@ -99,7 +99,7 @@ class ViewThreadViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "Finding status with: $id")
             val contextCall = async { api.statusContext(id) }
-            val timelineStatus = db.timelineDao().getStatus(id)
+            val timelineStatus = db.timelineDao().getStatus(accountManager.activeAccount!!.id, id)
 
             var detailedStatus = if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
@@ -123,7 +123,6 @@ class ViewThreadViewModel @Inject constructor(
                     _uiState.value = ThreadUiState.Error(exception)
                     return@launch
                 }
-                eventHub.dispatch(StatusChangedEvent(result))
                 result.toViewData(isDetailed = true)
             }
 
@@ -139,7 +138,11 @@ class ViewThreadViewModel @Inject constructor(
             if (timelineStatus != null) {
                 val result = api.status(id).getOrNull()
                 if (result != null) {
-                    eventHub.dispatch(StatusChangedEvent(result))
+                    db.timelineDao().update(
+                        accountId = accountManager.activeAccount!!.id,
+                        status = result,
+                        gson = gson
+                    )
                     detailedStatus = result.toViewData(isDetailed = true)
                 }
             }
