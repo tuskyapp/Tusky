@@ -141,9 +141,13 @@ class ConversationsFragment :
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                refreshContent()
+                            }
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                refreshContent()
+                            }
                         }
                     }
                     is LoadState.Loading -> {

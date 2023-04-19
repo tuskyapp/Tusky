@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.calladapter.networkresult.fold
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
@@ -88,8 +89,10 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         val layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+
+        binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts() }
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
         val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
@@ -286,6 +289,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             return
         }
         fetching = true
+        binding.swipeRefreshLayout.isRefreshing = true
 
         if (fromId != null) {
             binding.recyclerView.post { adapter.setBottomLoading(true) }
@@ -294,6 +298,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val response = getFetchCallByListType(fromId)
+
                 if (!response.isSuccessful) {
                     onFetchAccountsFailure(Exception(response.message()))
                     return@launch
@@ -316,6 +321,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     private fun onFetchAccountsSuccess(accounts: List<TimelineAccount>, linkHeader: String?) {
         adapter.setBottomLoading(false)
+        binding.swipeRefreshLayout.isRefreshing = false
 
         val links = HttpHeaderLink.parse(linkHeader)
         val next = HttpHeaderLink.findByRelationType(links, "next")
@@ -348,12 +354,12 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     private fun fetchRelationships(ids: List<String>) {
-        api.relationships(ids)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this))
-            .subscribe(::onFetchRelationshipsSuccess) { throwable ->
-                Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
-            }
+        lifecycleScope.launch {
+            api.relationships(ids)
+                .fold(::onFetchRelationshipsSuccess) { throwable ->
+                    Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
+                }
+        }
     }
 
     private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
@@ -365,6 +371,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     private fun onFetchAccountsFailure(throwable: Throwable) {
         fetching = false
+        binding.swipeRefreshLayout.isRefreshing = false
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {

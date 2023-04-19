@@ -444,6 +444,7 @@ class NotificationsFragment :
     override fun onRefresh() {
         binding.progressBar.isVisible = false
         adapter.refresh()
+        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
     }
 
     override fun onPause() {

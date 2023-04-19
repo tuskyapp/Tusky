@@ -288,8 +288,7 @@
     <string name="compose_active_account_description">以 %1$s 身份发布嘟文</string>
     <string name="error_failed_set_caption">设置图片标题失败</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">为视觉障碍用户提供的描述
-\n（限制 %d 字符）</item>
+        <item quantity="other">为视觉障碍用户描述内容（最多 %d 个字符）</item>
     </plurals>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove">移除</string>
@@ -659,4 +658,12 @@
     <string name="filter_description_hide">完全隐藏</string>
     <string name="label_filter_keywords">关键词或短语过滤</string>
     <string name="pref_title_show_stat_inline">在时间线中显示嘟文统计数字</string>
+    <string name="help_empty_home">这是你的 <b>主时间线</b>。它展示你所关注账户最近发表的嘟文。
+\n
+\n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
+    <string name="post_media_image">图片</string>
+    <string name="hint_description">描述</string>
+    <string name="select_list_manage">管理列表</string>
+    <string name="error_list_load">加载列表出错</string>
+    <string name="select_list_empty">你还没有列表</string>
 </resources>

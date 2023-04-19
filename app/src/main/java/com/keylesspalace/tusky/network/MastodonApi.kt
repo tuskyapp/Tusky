@@ -344,9 +344,9 @@ interface MastodonApi {
     ): NetworkResult<List<TimelineAccount>>
 
     @GET("api/v1/accounts/{id}")
-    fun account(
+    suspend fun account(
         @Path("id") accountId: String
-    ): Single<Account>
+    ): NetworkResult<Account>
 
     /**
      * Method to fetch statuses for the specified account.
@@ -386,22 +386,22 @@ interface MastodonApi {
         @Path("id") accountId: String,
         @Field("reblogs") showReblogs: Boolean? = null,
         @Field("notify") notify: Boolean? = null
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @POST("api/v1/accounts/{id}/unfollow")
     suspend fun unfollowAccount(
         @Path("id") accountId: String
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @POST("api/v1/accounts/{id}/block")
     suspend fun blockAccount(
         @Path("id") accountId: String
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @POST("api/v1/accounts/{id}/unblock")
     suspend fun unblockAccount(
         @Path("id") accountId: String
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/mute")
@@ -409,27 +409,27 @@ interface MastodonApi {
         @Path("id") accountId: String,
         @Field("notifications") notifications: Boolean? = null,
         @Field("duration") duration: Int? = null
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @POST("api/v1/accounts/{id}/unmute")
     suspend fun unmuteAccount(
         @Path("id") accountId: String
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @GET("api/v1/accounts/relationships")
-    fun relationships(
+    suspend fun relationships(
         @Query("id[]") accountIds: List<String>
-    ): Single<List<Relationship>>
+    ): NetworkResult<List<Relationship>>
 
     @POST("api/v1/pleroma/accounts/{id}/subscribe")
     suspend fun subscribeAccount(
         @Path("id") accountId: String
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @POST("api/v1/pleroma/accounts/{id}/unsubscribe")
     suspend fun unsubscribeAccount(
         @Path("id") accountId: String
-    ): Relationship
+    ): NetworkResult<Relationship>
 
     @GET("api/v1/blocks")
     suspend fun blocks(
@@ -677,12 +677,12 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/reports")
-    fun reportObservable(
+    fun report(
         @Field("account_id") accountId: String,
         @Field("status_ids[]") statusIds: List<String>,
         @Field("comment") comment: String,
         @Field("forward") isNotifyRemote: Boolean?
-    ): Single<ResponseBody>
+    ): NetworkResult<Unit>
 
     @GET("api/v1/accounts/{id}/statuses")
     fun accountStatusesObservable(
@@ -721,10 +721,10 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/accounts/{id}/note")
-    fun updateAccountNote(
+    suspend fun updateAccountNote(
         @Path("id") accountId: String,
         @Field("comment") note: String
-    ): Single<Relationship>
+    ): NetworkResult<Relationship>
 
     @FormUrlEncoded
     @POST("api/v1/push/subscription")

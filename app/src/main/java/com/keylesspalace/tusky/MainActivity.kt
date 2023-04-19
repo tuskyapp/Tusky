@@ -27,6 +27,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
@@ -462,6 +463,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             dividerBelowHeader = false
             closeDrawerOnProfileListClick = true
         }
+
+        header.currentProfileName.maxLines = 1
+        header.currentProfileName.ellipsize = TextUtils.TruncateAt.END
 
         header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(MaterialColors.getColor(header, R.attr.colorBackgroundAccent))

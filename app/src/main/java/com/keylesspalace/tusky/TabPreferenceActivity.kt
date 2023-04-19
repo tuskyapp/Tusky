@@ -15,11 +15,16 @@
 
 package com.keylesspalace.tusky
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -33,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -43,10 +49,16 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getDimension
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -261,19 +273,30 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
-        lifecycleScope.launch {
-            mastodonApi.getLists().fold(
-                { lists ->
-                    adapter.addAll(lists)
-                },
-                { throwable ->
-                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
-                }
-            )
-        }
 
-        AlertDialog.Builder(this)
+        val statusLayout = LinearLayout(this)
+        statusLayout.gravity = Gravity.CENTER
+        val progress = ProgressBar(this)
+        val preferredPadding = getDimension(this, androidx.appcompat.R.attr.dialogPreferredPadding)
+        progress.setPadding(preferredPadding, 0, preferredPadding, 0)
+        progress.visible(false)
+
+        val noListsText = TextView(this)
+        noListsText.setPadding(preferredPadding, 0, preferredPadding, 0)
+        noListsText.text = getText(R.string.select_list_empty)
+        noListsText.visible(false)
+
+        statusLayout.addView(progress)
+        statusLayout.addView(noListsText)
+
+        val dialogBuilder = AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
+            .setNeutralButton(R.string.select_list_manage) { _, _ ->
+                val listIntent = Intent(applicationContext, ListsActivity::class.java)
+                startActivity(listIntent)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
                 val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
@@ -282,7 +305,40 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 updateAvailableTabs()
                 saveTabs()
             }
-            .show()
+
+        val showProgressBarJob = getProgressBarJob(progress, 500)
+        showProgressBarJob.start()
+
+        val dialog = dialogBuilder.show()
+
+        lifecycleScope.launch {
+            mastodonApi.getLists().fold(
+                { lists ->
+                    showProgressBarJob.cancel()
+                    adapter.addAll(lists)
+                    if (lists.isEmpty()) {
+                        noListsText.show()
+                    }
+                },
+                { throwable ->
+                    dialog.hide()
+                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                    Snackbar.make(binding.root, R.string.error_list_load, Snackbar.LENGTH_LONG).show()
+                }
+            )
+        }
+    }
+
+    private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
+        start = CoroutineStart.LAZY
+    ) {
+        try {
+            delay(delayMs)
+            progressView.show()
+            awaitCancellation()
+        } finally {
+            progressView.hide()
+        }
     }
 
     private fun validateHashtag(input: CharSequence?): Boolean {

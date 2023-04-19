@@ -230,6 +230,7 @@
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
     <string name="hint_search">Search…</string>
+    <string name="hint_description">Description</string>
     <string name="hint_media_description_missing">Media should have a description.</string>
 
     <string name="search_no_results">No results</string>
@@ -406,6 +407,7 @@
 
     <string name="post_share_content">Share content of post</string>
     <string name="post_share_link">Share link to post</string>
+    <string name="post_media_image">Image</string>
     <string name="post_media_images">Images</string>
     <string name="post_media_video">Video</string>
     <string name="post_media_audio">Audio</string>
@@ -472,7 +474,7 @@
     <string name="error_failed_set_caption">Failed to set caption</string>
     <string name="error_failed_set_focus">Failed to set focus point</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Describe for visually impaired\n(%d character limit)</item>
+        <item quantity="other">Describe contents for visually impaired (%d character limit)</item>
     </plurals>
     <string name="set_focus_description">Tap or drag the circle to choose the focal point which will always be visible in thumbnails.</string>
     <string name="action_set_caption">Set caption</string>
@@ -601,6 +603,9 @@
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
+    <string name="select_list_empty">You have no lists, yet</string>
+    <string name="select_list_manage">Manage lists</string>
+    <string name="error_list_load">Error loading lists</string>
     <string name="list">List</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>
