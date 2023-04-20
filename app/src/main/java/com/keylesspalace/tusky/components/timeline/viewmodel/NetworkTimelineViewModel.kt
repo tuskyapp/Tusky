@@ -17,7 +17,9 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -75,7 +77,7 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override fun init(timelineKind: TimelineKind) {
         super.init(timelineKind)
-        statuses = getStatuses(timelineKind)
+        statuses = getStatuses(timelineKind).cachedIn(viewModelScope)
     }
 
     /** @return Flow of statuses that make up the timeline of [kind] */
