@@ -136,8 +136,7 @@ class ViewThreadViewModel @Inject constructor(
             // for the status. Ignore errors, the user still has a functioning UI if the fetch
             // failed.
             if (timelineStatus != null) {
-                val result = api.status(id).getOrNull()
-                if (result != null) {
+                api.status(id).getOrNull()?.let { result ->
                     db.timelineDao().update(
                         accountId = accountManager.activeAccount!!.id,
                         status = result,
