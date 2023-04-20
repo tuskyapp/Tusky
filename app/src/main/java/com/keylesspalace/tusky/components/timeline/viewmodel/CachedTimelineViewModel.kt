@@ -89,10 +89,6 @@ class CachedTimelineViewModel @Inject constructor(
                     .map { it.toViewData(gson) }
                     .filter { shouldFilterStatus(it) != Filter.Action.HIDE }
             }
-
-        // TODO:
-        // - Does the above need a .flowOn(Dispatches.Default)
-        // - Ditto for the same code in NetworkTimelineViewModel (check NotificationsViewModel)
     }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData) {
