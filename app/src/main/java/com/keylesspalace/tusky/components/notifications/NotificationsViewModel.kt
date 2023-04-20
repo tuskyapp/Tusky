@@ -495,6 +495,7 @@ class NotificationsViewModel @Inject constructor(
         filters: Set<Notification.Type>,
         initialKey: String? = null
     ): Flow<PagingData<NotificationViewData>> {
+        Log.d(TAG, "getNotifications: $initialKey")
         return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map { notification ->

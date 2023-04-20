@@ -70,7 +70,9 @@ class NetworkTimelinePagingSource @Inject constructor(
     private suspend fun fetchStatusPageByKind(params: LoadParams<String>): Response<List<Status>> {
         val (maxId, minId) = when (params) {
             is LoadParams.Refresh -> Pair(null, null)
+            // When appending fetch a page of statuses that are immediately *older* than the key
             is LoadParams.Append -> Pair(params.key, null)
+            // When prepending fetch a page of statuses that are immediately *newer* than the key
             is LoadParams.Prepend -> Pair(null, params.key)
         }
 

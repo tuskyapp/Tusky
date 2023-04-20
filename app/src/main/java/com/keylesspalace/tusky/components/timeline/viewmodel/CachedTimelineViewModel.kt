@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -81,6 +82,7 @@ class CachedTimelineViewModel @Inject constructor(
         kind: TimelineKind,
         initialKey: String? = null
     ): Flow<PagingData<StatusViewData>> {
+        Log.d(TAG, "getStatuses: kind: $kind, initialKey: $initialKey")
         return repository.getStatusStream(kind = kind, initialKey = initialKey)
             .map { pagingData ->
                 pagingData
@@ -161,5 +163,9 @@ class CachedTimelineViewModel @Inject constructor(
 
     override suspend fun invalidate() {
         repository.invalidate()
+    }
+
+    companion object {
+        private const val TAG = "CachedTimelineViewModel"
     }
 }

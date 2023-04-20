@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.paging.PagingData
 import androidx.paging.filter
 import androidx.paging.map
@@ -82,6 +83,7 @@ class NetworkTimelineViewModel @Inject constructor(
         kind: TimelineKind,
         initialKey: String? = null
     ): Flow<PagingData<StatusViewData>> {
+        Log.d(TAG, "getStatuses: kind: $kind, initialKey: $initialKey")
         return repository.getStatusStream(kind = kind, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map {
@@ -223,4 +225,8 @@ class NetworkTimelineViewModel @Inject constructor(
 //        statusData[position] = updater(status)
 //        currentSource?.invalidate()
 //    }
+
+    companion object {
+        private const val TAG = "NetworkTimelineViewModel"
+    }
 }
