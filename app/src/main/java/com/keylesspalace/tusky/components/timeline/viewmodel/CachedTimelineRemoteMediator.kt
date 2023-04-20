@@ -57,7 +57,7 @@ class CachedTimelineRemoteMediator(
         return try {
             val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.homeTimeline(minId = null, limit = state.config.pageSize)
+                    api.homeTimeline(limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
                     val bottomId = timelineDao.getBottomId(activeAccount.id)

@@ -47,17 +47,8 @@ class NetworkTimelinePagingSource @Inject constructor(
 
         try {
             val response = when (params) {
-                is LoadParams.Refresh -> {
-                    getInitialPage(params)
-                }
-                is LoadParams.Append -> fetchStatusesForKind(
-                    maxId = params.key,
-                    limit = params.loadSize
-                )
-                is LoadParams.Prepend -> fetchStatusesForKind(
-                    minId = params.key,
-                    limit = params.loadSize
-                )
+                is LoadParams.Refresh -> getInitialPage(params)
+                else -> fetchStatusPageByKind(params)
             }
 
             if (!response.isSuccessful) {
@@ -76,51 +67,52 @@ class NetworkTimelinePagingSource @Inject constructor(
     }
 
     @Throws(IOException::class, HttpException::class)
-    suspend fun fetchStatusesForKind(
-        maxId: String? = null,
-        minId: String? = null,
-        limit: Int
-    ): Response<List<Status>> {
-        // TODO: These probably shouldn't be `sinceId` but `minId` in the API calls
+    private suspend fun fetchStatusPageByKind(params: LoadParams<String>): Response<List<Status>> {
+        val (maxId, minId) = when (params) {
+            is LoadParams.Refresh -> Pair(null, null)
+            is LoadParams.Append -> Pair(params.key, null)
+            is LoadParams.Prepend -> Pair(null, params.key)
+        }
+
         return when (kind) {
-            is TimelineKind.Home -> api.homeTimeline(maxId = maxId, sinceId = minId, limit = limit)
-            is TimelineKind.PublicFederated -> api.publicTimeline(null, maxId, minId, limit)
-            is TimelineKind.PublicLocal -> api.publicTimeline(true, maxId, minId, limit)
+            TimelineKind.Bookmarks -> api.bookmarks(maxId = maxId, minId = minId, limit = params.loadSize)
+            TimelineKind.Favourites -> api.favourites(maxId = maxId, minId = minId, limit = params.loadSize)
+            TimelineKind.Home -> api.homeTimeline(maxId = maxId, minId = minId, limit = params.loadSize)
+            TimelineKind.PublicFederated -> api.publicTimeline(local = false, maxId = maxId, minId = minId, limit = params.loadSize)
+            TimelineKind.PublicLocal -> api.publicTimeline(local = true, maxId = maxId, minId = minId, limit = params.loadSize)
             is TimelineKind.Tag -> {
                 val firstHashtag = kind.tags.first()
                 val additionalHashtags = kind.tags.subList(1, kind.tags.size)
-                api.hashtagTimeline(firstHashtag, additionalHashtags, null, maxId, minId, limit)
+                api.hashtagTimeline(firstHashtag, additionalHashtags, null, maxId = maxId, minId = minId, limit = params.loadSize)
             }
-            is TimelineKind.User.Posts -> api.accountStatuses(
-                kind.id,
-                maxId,
-                minId,
-                limit,
-                excludeReplies = true,
-                onlyMedia = null,
-                pinned = null
-            )
             is TimelineKind.User.Pinned -> api.accountStatuses(
                 kind.id,
-                maxId,
-                minId,
-                limit,
+                maxId = maxId,
+                minId = minId,
+                limit = params.loadSize,
                 excludeReplies = null,
                 onlyMedia = null,
                 pinned = true
             )
+            is TimelineKind.User.Posts -> api.accountStatuses(
+                kind.id,
+                maxId = maxId,
+                minId = minId,
+                limit = params.loadSize,
+                excludeReplies = true,
+                onlyMedia = null,
+                pinned = null
+            )
             is TimelineKind.User.Replies -> api.accountStatuses(
                 kind.id,
-                maxId,
-                minId,
-                limit,
+                maxId = maxId,
+                minId = minId,
+                limit = params.loadSize,
                 excludeReplies = null,
                 onlyMedia = null,
                 pinned = null
             )
-            is TimelineKind.Favourites -> api.favourites(maxId, minId, limit)
-            is TimelineKind.Bookmarks -> api.bookmarks(maxId, minId, limit)
-            is TimelineKind.UserList -> api.listTimeline(kind.id, maxId, minId, limit)
+            is TimelineKind.UserList -> api.listTimeline(kind.id, maxId = maxId, minId = minId, limit = params.loadSize)
         }
     }
 
@@ -141,7 +133,7 @@ class NetworkTimelinePagingSource @Inject constructor(
     // NetworkResult, notifications returns Response
     private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Status>> = coroutineScope {
         // If the key is null this is straightforward, just return the most recent page
-        val key = params.key ?: return@coroutineScope fetchStatusesForKind(limit = params.loadSize)
+        val key = params.key ?: return@coroutineScope fetchStatusPageByKind(params)
 
         // It's important to return *something* from this state. If an empty page is returned
         // (even with next/prev links) Pager3 assumes there is no more data to load and stops.
@@ -158,7 +150,12 @@ class NetworkTimelinePagingSource @Inject constructor(
         // Make both requests, and wait for the first to complete.
         val deferredStatus = async { api.status(statusId = key) }
         val deferredStatusPage = async {
-            fetchStatusesForKind(maxId = key, limit = params.loadSize)
+            fetchStatusPageByKind(LoadParams.Append(
+                key = key,
+                loadSize = params.loadSize,
+                placeholdersEnabled = params.placeholdersEnabled
+            ))
+            //fetchStatusesForKind(maxId = key, limit = params.loadSize)
         }
 
         deferredStatus.await().getOrNull()?.let {
@@ -192,7 +189,12 @@ class NetworkTimelinePagingSource @Inject constructor(
 
         // There were no statuses older than the user's desired status. Return the page
         // of statuses immediately newer than their desired status.
-        return@coroutineScope fetchStatusesForKind(minId = key, limit = params.loadSize)
+        //return@coroutineScope fetchStatusesForKind(minId = key, limit = params.loadSize)
+        return@coroutineScope fetchStatusPageByKind(LoadParams.Prepend(
+            key = key,
+            loadSize = params.loadSize,
+            placeholdersEnabled = params.placeholdersEnabled
+        ))
     }
 
     private fun getPageLinks(linkHeader: String?): Links {

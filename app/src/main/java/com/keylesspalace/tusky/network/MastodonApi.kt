@@ -106,6 +106,7 @@ interface MastodonApi {
         @Query("local") local: Boolean? = null,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int? = null
     ): Response<List<Status>>
 
@@ -114,17 +115,19 @@ interface MastodonApi {
         @Path("hashtag") hashtag: String,
         @Query("any[]") any: List<String>?,
         @Query("local") local: Boolean?,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("limit") limit: Int? = null,
     ): Response<List<Status>>
 
     @GET("api/v1/timelines/list/{listId}")
     suspend fun listTimeline(
         @Path("listId") listId: String,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("limit") limit: Int? = null,
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")
@@ -362,6 +365,7 @@ interface MastodonApi {
         @Path("id") accountId: String,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int? = null,
         @Query("exclude_replies") excludeReplies: Boolean? = null,
         @Query("only_media") onlyMedia: Boolean? = null,
@@ -461,15 +465,17 @@ interface MastodonApi {
 
     @GET("api/v1/favourites")
     suspend fun favourites(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int?
     ): Response<List<Status>>
 
     @GET("api/v1/bookmarks")
     suspend fun bookmarks(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int?
     ): Response<List<Status>>
 
