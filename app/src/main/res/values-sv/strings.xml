@@ -139,7 +139,7 @@
     <string name="link_whats_an_instance">Vad är en instans?</string>
     <string name="login_connection">Ansluter…</string>
     <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges
-		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och
+		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
         <a href="https://instances.social"> mer! </a>
         \n\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
         \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser,
