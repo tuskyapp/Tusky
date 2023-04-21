@@ -27,13 +27,20 @@ import com.keylesspalace.tusky.util.shouldTrimStatus
  */
 data class StatusViewData(
     var status: Status,
+    /**
+     * If the status includes a non-empty content warning ([spoilerText]), specifies whether
+     * just the content warning is showing (false), or the whole status content is showing (true).
+     *
+     * Ignored if there is no content warning.
+     */
     val isExpanded: Boolean,
     val isShowingContent: Boolean,
+
     /**
-     * Specifies whether the content of this post is currently limited in visibility to the first
+     * Specifies whether the content of this status is currently limited in visibility to the first
      * 500 characters or not.
      *
-     * @return Whether the post is collapsed or fully expanded.
+     * @return Whether the status is collapsed or fully expanded.
      */
     val isCollapsed: Boolean,
     val isDetailed: Boolean = false
@@ -43,14 +50,16 @@ data class StatusViewData(
         get() = status.id
 
     /**
-     * Specifies whether the content of this post is long enough to be automatically
+     * Specifies whether the content of this status is long enough to be automatically
      * collapsed or if it should show all content regardless.
      *
-     * @return Whether the post is collapsible or never collapsed.
+     * @return Whether the status is collapsible or never collapsed.
      */
     val isCollapsible: Boolean
 
     val content: Spanned
+
+    /** The content warning, may be the empty string */
     val spoilerText: String
     val username: String
 
