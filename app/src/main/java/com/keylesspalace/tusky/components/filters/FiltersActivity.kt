@@ -87,7 +87,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                             binding.filtersList.show()
                         }
 
-                        if (binding.filtersList.adapter == null || (binding.filtersList.adapter as FiltersAdapter).filters != state.filters) {
+                        if ((binding.filtersList.adapter as? FiltersAdapter)?.filters != state.filters) {
                             binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         }
                     }
