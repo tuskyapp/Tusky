@@ -19,3 +19,4 @@ data class MainTabsChangedEvent(val newTabs: List<TabData>) : Event
 data class PollVoteEvent(val statusId: String, val poll: Poll) : Event
 data class DomainMuteEvent(val instance: String) : Event
 data class AnnouncementReadEvent(val announcementId: String) : Event
+data class FilterUpdatedEvent(val filterContext: List<String>) : Event

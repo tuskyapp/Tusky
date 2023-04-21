@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -262,6 +263,11 @@ abstract class TimelineViewModel(
             }
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)
+            }
+            is FilterUpdatedEvent -> {
+                if (filterContextMatchesKind(kind, event.filterContext)) {
+                    fullReload()
+                }
             }
         }
     }
