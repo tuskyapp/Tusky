@@ -296,7 +296,7 @@ class NotificationsViewModel @Inject constructor(
     private val uiAction = MutableSharedFlow<UiAction>()
 
     /** Flow of successful action results */
-    // Note: Thisis a SharedFlow instead of a StateFlow because success state does not need to be
+    // Note: This is a SharedFlow instead of a StateFlow because success state does not need to be
     // retained. A message is shown once to a user and then dismissed. Re-collecting the flow
     // (e.g., after a device orientation change) should not re-show the most recent success
     // message, as it will be confusing to the user.
