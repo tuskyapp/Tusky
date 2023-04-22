@@ -26,6 +26,8 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
+import com.keylesspalace.tusky.components.occurrence.LogToDbInterceptor
+import com.keylesspalace.tusky.components.occurrence.OccurrenceRepository
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
@@ -68,7 +70,8 @@ class NetworkModule {
     fun providesHttpClient(
         accountManager: AccountManager,
         context: Context,
-        preferences: SharedPreferences
+        preferences: SharedPreferences,
+        occurrenceRespository: OccurrenceRepository
     ): OkHttpClient {
         val httpProxyEnabled = preferences.getBoolean(HTTP_PROXY_ENABLED, false)
         val httpServer = preferences.getNonNullString(HTTP_PROXY_SERVER, "")
@@ -105,6 +108,7 @@ class NetworkModule {
                 addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                 if (BuildConfig.DEBUG) {
                     addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+                    addInterceptor(LogToDbInterceptor(occurrenceRespository))
                 }
             }
             .build()

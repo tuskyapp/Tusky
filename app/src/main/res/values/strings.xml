@@ -812,4 +812,7 @@
         you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+
+    <string name="action_occurrences">Occurrences (event log)</string>
+    <string name="title_occurrences">Occurrences</string>
 </resources>

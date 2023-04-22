@@ -21,6 +21,7 @@ import android.util.Log
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
+import com.keylesspalace.tusky.components.occurrence.OccurrenceRepository
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
@@ -50,6 +51,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    @Inject
+    lateinit var occurrenceRespository: OccurrenceRepository
+
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -62,6 +66,13 @@ class TuskyApplication : Application(), HasAndroidInjector {
 //                    .build())
 //        }
         super.onCreate()
+
+        val existingUncaughtHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            occurrenceRespository.handleException(e)
+
+            existingUncaughtHandler?.uncaughtException(t, e)
+        }
 
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 

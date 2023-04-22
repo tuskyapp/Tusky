@@ -6,7 +6,10 @@
     <color name="tusky_orange_light">#fab207</color>
     <color name="tusky_green">#19a341</color>
     <color name="tusky_green_light">#25d069</color>
-    <color name="tusky_red">#DF1553</color>
+    <color name="tusky_green_dark">#148033</color>
+    <color name="tusky_magenta">#df15c1</color>
+    <color name="tusky_red">#df1553</color>
+    <color name="tusky_red_light">#ed3b70</color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>

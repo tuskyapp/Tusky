@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.util
 
 import android.content.Context
 import com.keylesspalace.tusky.R
+import java.text.NumberFormat
+import java.util.*
 import kotlin.math.abs
 
 private const val SECOND_IN_MILLIS: Long = 1000
@@ -77,6 +79,17 @@ fun getRelativeTimeSpanString(context: Context, then: Long, now: Long): String {
         }
     }
     return context.getString(format, span)
+}
+
+fun getDurationStringAllowMillis(locale: Locale, durationMs: Long): String {
+    val formatter = NumberFormat.getInstance(locale)
+    formatter.maximumFractionDigits = 1
+
+    return if (abs(durationMs) < SECOND_IN_MILLIS) {
+        formatter.format(durationMs) + "ms"
+    } else {
+        formatter.format(durationMs / 1000.0f) + "s"
+    }
 }
 
 fun formatPollDuration(context: Context, then: Long, now: Long): String {

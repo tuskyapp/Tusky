@@ -21,6 +21,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
+import com.keylesspalace.tusky.components.occurrence.OccurrenceEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
@@ -174,5 +175,26 @@ class Converters @Inject constructor(
     @TypeConverter
     fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
         return gson.fromJson(filterResultListJson, object : TypeToken<List<FilterResult>>() {}.type)
+    }
+
+    // TODO this (simple enum <-> string) does not work automatically?
+    @TypeConverter
+    fun occurrenceTypeToString(type: OccurrenceEntity.Type): String {
+        return type.name
+    }
+
+    @TypeConverter
+    fun stringToOccurrenceType(type: String): OccurrenceEntity.Type {
+        return OccurrenceEntity.Type.fromString(type)
+    }
+
+    @TypeConverter
+    fun stackTraceToJson(stackTrace: Array<StackTraceElement>): String {
+        return gson.toJson(stackTrace)
+    }
+
+    @TypeConverter
+    fun jsonToStackTrace(stackTraceJson: String): Array<StackTraceElement> {
+        return gson.fromJson(stackTraceJson, object : TypeToken<Array<StackTraceElement>>() {}.type)
     }
 }

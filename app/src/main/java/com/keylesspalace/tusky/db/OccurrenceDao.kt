@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -16,22 +16,28 @@
 package com.keylesspalace.tusky.db
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.keylesspalace.tusky.components.occurrence.OccurrenceEntity
 
 @Dao
-interface AccountDao {
-    @Query("SELECT * FROM AccountEntity WHERE id = :id LIMIT 1")
-    fun get(id: Long): AccountEntity?
+interface OccurrenceDao {
+    @Query("SELECT * FROM OccurrenceEntity WHERE id = :id LIMIT 1")
+    fun get(id: Long): OccurrenceEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(account: AccountEntity): Long
+    suspend fun insertOrReplace(one: OccurrenceEntity): Long
 
-    @Delete
-    fun delete(account: AccountEntity)
+//    @Query("SELECT * FROM OccurrenceEntity WHERE accountId = :accountId ORDER BY id ASC")
+//    fun pagingSource(accountId: Long): PagingSource<Int, OccurrenceEntity>
 
-    @Query("SELECT * FROM AccountEntity ORDER BY id ASC")
-    fun loadAll(): List<AccountEntity>
+    @Query("SELECT * FROM OccurrenceEntity ORDER BY startedAt DESC")
+    suspend fun loadAll(): List<OccurrenceEntity>
+
+//    @Query("DELETE FROM OccurrenceEntity WHERE id = :id")
+//    suspend fun delete(id: Int)
+
+    @Query("DELETE FROM OccurrenceEntity WHERE id < :maxId")
+    suspend fun cleanup(maxId: Long)
 }
