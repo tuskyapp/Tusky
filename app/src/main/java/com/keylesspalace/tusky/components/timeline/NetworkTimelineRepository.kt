@@ -18,22 +18,48 @@
 package com.keylesspalace.tusky.components.timeline
 
 import android.util.Log
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelinePagingSource
+import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
+import java.util.TreeMap
 import javax.inject.Inject
 
+/** Timeline repository where the timeline information is backed by an in-memory cache. */
 class NetworkTimelineRepository @Inject constructor(
-    private val mastodonApi: MastodonApi
-) {
+    private val mastodonApi: MastodonApi,
+    // TODO: This needs to be recreated if the active account changes
+    private val accountManager: AccountManager,
+    ) {
+
+    /**
+     * Pages of statuses.
+     *
+     * Each page is keyed by the ID of the first status in that page, and stores the tokens
+     * use as `max_id` and `min_id` parameters in API calls to fetch pages before/after this
+     * one.
+     *
+     * In Pager3 parlance, an "append" operation is fetching a chronologically *older* page of
+     * statuses, a "prepend" operation is fetching a chronologically *newer* page of statuses.
+     */
+    // Storing the next/prev tokens in this structure is important, as you can't derive them from
+    // status IDs (e.g., the next/prev keys returned by the "favourites" API call *do not match*
+    // status IDs elsewhere). The tokens are discovered by the RemoteMediator but are used by the
+    // PagingSource, so they need to be available somewhere both components can access them.
+    private val pages = TreeMap<String, PagingSource.LoadResult.Page<String, Status>>()
+
     private var factory: InvalidatingPagingSourceFactory<String, Status>? = null
 
     /** @return flow of Mastodon [Status], loaded in [pageSize] increments */
+    @OptIn(ExperimentalPagingApi::class)
     fun getStatusStream(
         kind: TimelineKind,
         pageSize: Int = PAGE_SIZE,
@@ -42,12 +68,18 @@ class NetworkTimelineRepository @Inject constructor(
         Log.d(TAG, "getStatusStream(): key: $initialKey")
 
         factory = InvalidatingPagingSourceFactory {
-            NetworkTimelinePagingSource(mastodonApi, kind)
+            NetworkTimelinePagingSource(pages)
         }
 
         return Pager(
             config = PagingConfig(pageSize = pageSize),
-            initialKey = initialKey,
+            remoteMediator = NetworkTimelineRemoteMediator(
+                mastodonApi,
+                accountManager,
+                factory!!,
+                pages,
+                kind
+            ),
             pagingSourceFactory = factory!!
         ).flow
     }

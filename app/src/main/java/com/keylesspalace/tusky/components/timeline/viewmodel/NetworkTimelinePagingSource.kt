@@ -18,204 +18,67 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import okhttp3.Headers
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
+import java.util.TreeMap
 import javax.inject.Inject
-
-// TODO(https://github.com/tuskyapp/Tusky/issues/3432)
-// This is extremely similar to NotificationsPagingSource. Merging the code, or making it generic
-// over the type of data returned (Notification, Status, etc) is probably warranted.
-
-/** Models next/prev links from the "Links" header in an API response */
-data class Links(val next: String?, val prev: String?)
 
 /** [PagingSource] for Mastodon Status, identified by the Status ID */
 class NetworkTimelinePagingSource @Inject constructor(
-    private val api: MastodonApi,
-    private val kind: TimelineKind
+    private val pages: TreeMap<String, LoadResult.Page<String, Status>>
 ) : PagingSource<String, Status>() {
+
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
 
-        try {
-            val response = when (params) {
-                is LoadParams.Refresh -> getInitialPage(params)
-                else -> fetchStatusPageByKind(params)
+        synchronized(pages) {
+            Log.d(TAG, "Pages state:")
+            if (pages.isEmpty()) {
+                Log.d(TAG, "  **empty**")
+            } else {
+                pages.onEachIndexed { i, entry ->
+                    Log.d(TAG, "  $i: k: ${entry.key}, prev: ${entry.value.prevKey}, next: ${entry.value.nextKey}")
+                }
+            }
+        }
+
+        val page = synchronized(pages) {
+            if (pages.isEmpty()) {
+                return@synchronized null
             }
 
-            if (!response.isSuccessful) {
-                return LoadResult.Error(Throwable(response.errorBody()?.string()))
+            return@synchronized when (params) {
+                is LoadParams.Refresh -> {
+                    // If no key then return the latest page. Otherwise return the request page.
+                    if (params.key == null) {
+                        pages.lastEntry()?.value
+                    } else {
+                        pages[params.key]
+                    }
+                }
+                // Load the page immediately after the key
+                is LoadParams.Append -> pages.lowerEntry(params.key)?.value
+                // Load the page immediately before the key
+                is LoadParams.Prepend -> pages.higherEntry(params.key)?.value
             }
-
-            val links = getPageLinks(response.headers()["link"])
-            return LoadResult.Page(
-                data = response.body()!!,
-                nextKey = links.next,
-                prevKey = links.prev
-            )
-        } catch (e: Exception) {
-            return LoadResult.Error(e)
-        }
-    }
-
-    @Throws(IOException::class, HttpException::class)
-    private suspend fun fetchStatusPageByKind(params: LoadParams<String>): Response<List<Status>> {
-        val (maxId, minId) = when (params) {
-            is LoadParams.Refresh -> Pair(null, null)
-            // When appending fetch a page of statuses that are immediately *older* than the key
-            is LoadParams.Append -> Pair(params.key, null)
-            // When prepending fetch a page of statuses that are immediately *newer* than the key
-            is LoadParams.Prepend -> Pair(null, params.key)
         }
 
-        return when (kind) {
-            TimelineKind.Bookmarks -> api.bookmarks(maxId = maxId, minId = minId, limit = params.loadSize)
-            TimelineKind.Favourites -> api.favourites(maxId = maxId, minId = minId, limit = params.loadSize)
-            TimelineKind.Home -> api.homeTimeline(maxId = maxId, minId = minId, limit = params.loadSize)
-            TimelineKind.PublicFederated -> api.publicTimeline(local = false, maxId = maxId, minId = minId, limit = params.loadSize)
-            TimelineKind.PublicLocal -> api.publicTimeline(local = true, maxId = maxId, minId = minId, limit = params.loadSize)
-            is TimelineKind.Tag -> {
-                val firstHashtag = kind.tags.first()
-                val additionalHashtags = kind.tags.subList(1, kind.tags.size)
-                api.hashtagTimeline(firstHashtag, additionalHashtags, null, maxId = maxId, minId = minId, limit = params.loadSize)
-            }
-            is TimelineKind.User.Pinned -> api.accountStatuses(
-                kind.id,
-                maxId = maxId,
-                minId = minId,
-                limit = params.loadSize,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = true
-            )
-            is TimelineKind.User.Posts -> api.accountStatuses(
-                kind.id,
-                maxId = maxId,
-                minId = minId,
-                limit = params.loadSize,
-                excludeReplies = true,
-                onlyMedia = null,
-                pinned = null
-            )
-            is TimelineKind.User.Replies -> api.accountStatuses(
-                kind.id,
-                maxId = maxId,
-                minId = minId,
-                limit = params.loadSize,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = null
-            )
-            is TimelineKind.UserList -> api.listTimeline(kind.id, maxId = maxId, minId = minId, limit = params.loadSize)
+        if (page == null) {
+            Log.d(TAG, "  Returning empty page")
+        } else {
+            Log.d(TAG, "  Returning full page:")
+            Log.d(TAG, "     k: ${page.data.first().id}, prev: ${page.prevKey}, next: ${page.nextKey}")
         }
-    }
-
-    /**
-     * Fetch the initial page, using params.key as the ID of the initial item to fetch.
-     *
-     * - If there is no key the most recent page is returned
-     * - If the notification exists, and is not filtered, a page of notifications is returned
-     * - If the notification does not exist, or is filtered, the page of notifications immediately
-     *   before is returned
-     * - If there is no page of notifications immediately before then the page immediately after
-     *   is returned
-     */
-    // TODO: This is not directly usable from NotificationsPagingSource, as NotificationsPagingSource
-    // has to handle filtering results as well.
-    //
-    // In addition, the notification and status API calls return different types (statuses return
-    // NetworkResult, notifications returns Response
-    private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Status>> = coroutineScope {
-        // If the key is null this is straightforward, just return the most recent page
-        val key = params.key ?: return@coroutineScope fetchStatusPageByKind(params)
-
-        // It's important to return *something* from this state. If an empty page is returned
-        // (even with next/prev links) Pager3 assumes there is no more data to load and stops.
-        //
-        // In addition, the Mastodon API does not let you fetch a page that contains a given key.
-        // You can fetch the page immediately before the key, or the page immediately after, but
-        // you can not fetch the page itself.
-
-        // First, try and get the status itself, and the page of statuses immediately before
-        // it. This is so that a full page of results can be returned. Returning just the
-        // single status means the displayed list can jump around a bit as more data is
-        // loaded.
-        //
-        // Make both requests, and wait for the first to complete.
-        val deferredStatus = async { api.status(statusId = key) }
-        val deferredStatusPage = async {
-            fetchStatusPageByKind(LoadParams.Append(
-                key = key,
-                loadSize = params.loadSize,
-                placeholdersEnabled = params.placeholdersEnabled
-            ))
-            //fetchStatusesForKind(maxId = key, limit = params.loadSize)
-        }
-
-        deferredStatus.await().getOrNull()?.let {
-            val statuses = mutableListOf(it)
-
-            // The status() call returns a NetworkResult, the others return a Response (!)
-            // so convert between them.
-            deferredStatusPage.await().body()?.let {
-                statuses.addAll(it)
-            }
-
-            // "statuses" now contains at least one status we can return, and
-            // hopefully a full page.
-
-            // Build correct max_id and min_id links for the response. The "min_id" to use
-            // when fetching the next page is the same as "key". The "max_id" is the ID of
-            // the oldest status in the list.
-            val maxId = statuses.last().id
-            val headers = Headers.Builder()
-                .add("link: </?max_id=$maxId>; rel=\"next\", </?min_id=$key>; rel=\"prev\"")
-                .build()
-
-            return@coroutineScope Response.success(statuses, headers)
-        }
-
-        // The user's last read status was missing or is filtered. Use the page of
-        // statuses chronologically older than their desired status.
-        deferredStatusPage.await().apply {
-            if (this.isSuccessful) return@coroutineScope this
-        }
-
-        // There were no statuses older than the user's desired status. Return the page
-        // of statuses immediately newer than their desired status.
-        //return@coroutineScope fetchStatusesForKind(minId = key, limit = params.loadSize)
-        return@coroutineScope fetchStatusPageByKind(LoadParams.Prepend(
-            key = key,
-            loadSize = params.loadSize,
-            placeholdersEnabled = params.placeholdersEnabled
-        ))
-    }
-
-    private fun getPageLinks(linkHeader: String?): Links {
-        val links = HttpHeaderLink.parse(linkHeader)
-        return Links(
-            next = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter(
-                "max_id"
-            ),
-            prev = HttpHeaderLink.findByRelationType(links, "prev")?.uri?.getQueryParameter(
-                "min_id"
-            )
-        )
+        return LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
     }
 
     override fun getRefreshKey(state: PagingState<String, Status>): String? {
-        return state.anchorPosition?.let { anchorPosition ->
+        Log.d(TAG, "getRefreshKey(): anchorPosition: ${state.anchorPosition}")
+        val refreshKey = state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey ?: anchorPage?.nextKey
+            anchorPage?.data?.first()?.id
         }
+        Log.d(TAG, "  refreshKey = $refreshKey")
+        return refreshKey
     }
 
     companion object {

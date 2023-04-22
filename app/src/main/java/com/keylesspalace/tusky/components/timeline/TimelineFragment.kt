@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -142,21 +141,29 @@ class TimelineFragment :
         setupSwipeRefreshLayout()
         setupRecyclerView()
 
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
-                    binding.recyclerView.post {
-                        if (getView() != null) {
-                            if (isSwipeToRefreshEnabled) {
-                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                            } else {
-                                binding.recyclerView.scrollToPosition(0)
-                            }
-                        }
-                    }
-                }
-            }
-        })
+        // TODO: This is the wrong place to do this, since it bumps the list down by 30px
+        // every time a PREPEND call completes.
+        //
+        // The right thing to do is to use the loadstate flow (already used later in the code)
+        // and if the refresh has finished, and not at position 0, then bump the list down by
+        // the 30px.
+        //
+        // Temporarily disable while investigating other list behaviour.
+//        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+//                if (positionStart == 0 && adapter.itemCount != itemCount) {
+//                    binding.recyclerView.post {
+//                        if (getView() != null) {
+//                            if (isSwipeToRefreshEnabled) {
+//                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+//                            } else {
+//                                binding.recyclerView.scrollToPosition(0)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        })
 
         if (actionButtonPresent()) {
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -615,7 +622,7 @@ class TimelineFragment :
         // Save the ID of the first visible status in the list
         val position = layoutManager.findLastVisibleItemPosition()
         if (position != RecyclerView.NO_POSITION) {
-            adapter.snapshot()[position]?.id?.let { statusId ->
+            adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
             }
         }

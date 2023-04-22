@@ -24,7 +24,7 @@ class NetworkTimelinePagingSourceTest {
 
     @Test
     fun `should return empty list when params are Append`() {
-        val pagingSource = NetworkTimelinePagingSource(timelineViewModel)
+        val pagingSource = NetworkTimelinePagingSource(statusData)
 
         val params = PagingSource.LoadParams.Append("132", 20, false)
 
@@ -37,7 +37,7 @@ class NetworkTimelinePagingSourceTest {
 
     @Test
     fun `should return empty list when params are Prepend`() {
-        val pagingSource = NetworkTimelinePagingSource(timelineViewModel)
+        val pagingSource = NetworkTimelinePagingSource(statusData)
 
         val params = PagingSource.LoadParams.Prepend("132", 20, false)
 
@@ -50,7 +50,7 @@ class NetworkTimelinePagingSourceTest {
 
     @Test
     fun `should return full list when params are Refresh`() {
-        val pagingSource = NetworkTimelinePagingSource(timelineViewModel)
+        val pagingSource = NetworkTimelinePagingSource(statusData)
 
         val params = PagingSource.LoadParams.Refresh<String>(null, 20, false)
 

@@ -22,16 +22,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.gson.Gson
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.network.Links
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import okhttp3.Headers
 import retrofit2.Response
 import javax.inject.Inject
-
-/** Models next/prev links from the "Links" header in an API response */
-data class Links(val next: String?, val prev: String?)
 
 /** [PagingSource] for Mastodon Notifications, identified by the Notification ID */
 class NotificationsPagingSource @Inject constructor(
@@ -79,7 +76,7 @@ class NotificationsPagingSource @Inject constructor(
                 return LoadResult.Error(Throwable("HTTP $code: $msg"))
             }
 
-            val links = getPageLinks(response.headers()["link"])
+            val links = Links.from(response.headers()["link"])
             return LoadResult.Page(
                 data = response.body()!!,
                 nextKey = links.next,
@@ -174,18 +171,6 @@ class NotificationsPagingSource @Inject constructor(
             minId = key,
             limit = params.loadSize,
             excludes = notificationFilter
-        )
-    }
-
-    private fun getPageLinks(linkHeader: String?): Links {
-        val links = HttpHeaderLink.parse(linkHeader)
-        return Links(
-            next = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter(
-                "max_id"
-            ),
-            prev = HttpHeaderLink.findByRelationType(links, "prev")?.uri?.getQueryParameter(
-                "min_id"
-            )
         )
     }
 

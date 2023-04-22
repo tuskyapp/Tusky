@@ -62,16 +62,11 @@ class NetworkTimelineViewModel @Inject constructor(
     sharedPreferences,
     filterModel
 ) {
-
-    private var currentSource: NetworkTimelinePagingSource? = null
-
     val statusData: MutableList<Status> = mutableListOf()
 
     var nextKey: String? = null
 
-    // TODO: This is janky because timelineKind isn't valid until init() is run, and is needed
-    // to know what timeline to get. Hence the lateinit in here and the need to override init()
-    // afterwards.
+    private val modifiedViewData = mutableMapOf<String, StatusViewData>()
 
     override lateinit var statuses: Flow<PagingData<StatusViewData>>
 
@@ -93,7 +88,7 @@ class NetworkTimelineViewModel @Inject constructor(
                     // previous version of the status to make sure they were replicated. This will
                     // need to be reimplemented (probably as a map of StatusId -> ViewStates.
                     // For now, just use the user's preferences.
-                    it.toViewData(
+                    modifiedViewData[it.id] ?: it.toViewData(
                         isShowingContent = alwaysShowSensitiveMedia || !it.actionableStatus.sensitive,
                         isExpanded = alwaysOpenSpoilers,
                         isCollapsed = true
@@ -105,48 +100,54 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData) {
-        status.copy(
+        modifiedViewData[status.id] = status.copy(
             status = status.status.copy(poll = newPoll)
-        ).update()
+        )
+        repository.invalidate()
     }
 
     override fun changeExpanded(expanded: Boolean, status: StatusViewData) {
-        status.copy(
+        modifiedViewData[status.id] = status.copy(
             isExpanded = expanded
-        ).update()
+        )
+        repository.invalidate()
     }
 
     override fun changeContentShowing(isShowing: Boolean, status: StatusViewData) {
-        status.copy(
+        modifiedViewData[status.id] = status.copy(
             isShowingContent = isShowing
-        ).update()
+        )
+        repository.invalidate()
     }
 
     override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData) {
-        status.copy(
+        Log.d(TAG, "changeContentCollapsed: $isCollapsed")
+        Log.d(TAG, "  " + status.content)
+        modifiedViewData[status.id] = status.copy(
             isCollapsed = isCollapsed
-        ).update()
+        )
+        repository.invalidate()
     }
 
     override fun removeAllByAccountId(accountId: String) {
         statusData.removeAll { status ->
             status.account.id == accountId || status.actionableStatus.account.id == accountId
         }
-        currentSource?.invalidate()
+        repository.invalidate()
     }
 
     override fun removeAllByInstance(instance: String) {
         statusData.removeAll { status ->
             getDomain(status.account.url) == instance
         }
-        currentSource?.invalidate()
+        repository.invalidate()
     }
 
     override fun removeStatusWithId(id: String) {
         statusData.removeAll { status ->
             status.id == id || status.reblog?.id == id
         }
-        currentSource?.invalidate()
+        repository.invalidate()
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
@@ -176,7 +177,7 @@ class NetworkTimelineViewModel @Inject constructor(
     override fun fullReload() {
         nextKey = statusData.firstOrNull()?.id
         statusData.clear()
-        currentSource?.invalidate()
+        repository.invalidate()
     }
 
     override fun clearWarning(status: StatusViewData) {
@@ -186,7 +187,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override suspend fun invalidate() {
-        currentSource?.invalidate()
+        repository.invalidate()
     }
 
     private fun StatusViewData.update() {
