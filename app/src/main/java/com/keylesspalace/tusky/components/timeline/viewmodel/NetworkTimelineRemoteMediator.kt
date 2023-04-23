@@ -21,9 +21,9 @@ import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadType
-import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.keylesspalace.tusky.components.timeline.Page
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
@@ -40,7 +40,7 @@ class NetworkTimelineRemoteMediator(
     private val api: MastodonApi,
     accountManager: AccountManager,
     private val factory: InvalidatingPagingSourceFactory<String, Status>,
-    private val pages: TreeMap<String, PagingSource.LoadResult.Page<String, Status>>,
+    private val pages: TreeMap<String, Page<String, Status>>,
     private val timelineKind: TimelineKind
 ) : RemoteMediator<String, Status>() {
 
@@ -93,8 +93,8 @@ class NetworkTimelineRemoteMediator(
                 Log.d(TAG, "Inserting new page:")
                 Log.d(TAG, "     k: ${statuses.first().id}, prev: ${links.prev}, next: ${links.next}")
 
-                pages[statuses.first().id] = PagingSource.LoadResult.Page(
-                    data = statuses,
+                pages[statuses.first().id] = Page(
+                    data = statuses.toMutableList(),
                     nextKey = links.next,
                     prevKey = links.prev
                 )

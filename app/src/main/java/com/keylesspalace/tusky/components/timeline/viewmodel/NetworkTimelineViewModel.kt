@@ -33,14 +33,13 @@ import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -62,10 +61,6 @@ class NetworkTimelineViewModel @Inject constructor(
     sharedPreferences,
     filterModel
 ) {
-    val statusData: MutableList<Status> = mutableListOf()
-
-    var nextKey: String? = null
-
     private val modifiedViewData = mutableMapOf<String, StatusViewData>()
 
     override lateinit var statuses: Flow<PagingData<StatusViewData>>
@@ -130,104 +125,75 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun removeAllByAccountId(accountId: String) {
-        statusData.removeAll { status ->
-            status.account.id == accountId || status.actionableStatus.account.id == accountId
+        viewModelScope.launch {
+            repository.removeAllByAccountId(accountId)
         }
-        repository.invalidate()
     }
 
     override fun removeAllByInstance(instance: String) {
-        statusData.removeAll { status ->
-            getDomain(status.account.url) == instance
+        viewModelScope.launch {
+            repository.removeAllByInstance(instance)
         }
-        repository.invalidate()
     }
 
     override fun removeStatusWithId(id: String) {
-        statusData.removeAll { status ->
-            status.id == id || status.reblog?.id == id
+        viewModelScope.launch {
+            repository.removeStatusWithId(id)
         }
-        repository.invalidate()
     }
 
     override fun handleReblogEvent(reblogEvent: ReblogEvent) {
-        updateStatusById(reblogEvent.statusId) {
-            it.copy(status = it.status.copy(reblogged = reblogEvent.reblog))
+        viewModelScope.launch {
+            repository.updateStatusById(reblogEvent.statusId) {
+                it.copy(reblogged = reblogEvent.reblog)
+            }
         }
     }
 
     override fun handleFavEvent(favEvent: FavoriteEvent) {
-        updateActionableStatusById(favEvent.statusId) {
-            it.copy(favourited = favEvent.favourite)
+        viewModelScope.launch {
+            repository.updateActionableStatusById(favEvent.statusId) {
+                it.copy(favourited = favEvent.favourite)
+            }
         }
-    }
-
-    override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-        updateActionableStatusById(bookmarkEvent.statusId) {
-            it.copy(bookmarked = bookmarkEvent.bookmark)
-        }
-    }
-
-    override fun handlePinEvent(pinEvent: PinEvent) {
-        updateActionableStatusById(pinEvent.statusId) {
-            it.copy(pinned = pinEvent.pinned)
-        }
-    }
-
-    override fun fullReload() {
-        nextKey = statusData.firstOrNull()?.id
-        statusData.clear()
         repository.invalidate()
     }
 
+    override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
+        viewModelScope.launch {
+            repository.updateActionableStatusById(bookmarkEvent.statusId) {
+                it.copy(bookmarked = bookmarkEvent.bookmark)
+            }
+        }
+        repository.invalidate()
+    }
+
+    override fun handlePinEvent(pinEvent: PinEvent) {
+        viewModelScope.launch {
+            repository.updateActionableStatusById(pinEvent.statusId) {
+                it.copy(pinned = pinEvent.pinned)
+            }
+        }
+        repository.invalidate()
+    }
+
+    override fun fullReload() {
+        viewModelScope.launch {
+            repository.reload()
+        }
+    }
+
     override fun clearWarning(status: StatusViewData) {
-        updateActionableStatusById(status.actionableId) {
-            it.copy(filtered = null)
+        viewModelScope.launch {
+            repository.updateActionableStatusById(status.actionableId) {
+                it.copy(filtered = null)
+            }
         }
     }
 
     override suspend fun invalidate() {
         repository.invalidate()
     }
-
-    private fun StatusViewData.update() {
-//        val position = statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
-//        statusData[position] = this
-//        currentSource?.invalidate()
-    }
-
-    private inline fun updateStatusById(
-        id: String,
-        updater: (StatusViewData) -> StatusViewData
-    ) {
-        val pos = statusData.indexOfFirst { it.id == id }
-        if (pos == -1) return
-//        updateViewDataAt(pos, updater)
-    }
-
-    private inline fun updateActionableStatusById(
-        id: String,
-        updater: (Status) -> Status
-    ) {
-        val pos = statusData.indexOfFirst { it.id == id }
-        if (pos == -1) return
-//        updateViewDataAt(pos) { vd ->
-//            if (vd.status.reblog != null) {
-//                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
-//            } else {
-//                vd.copy(status = updater(vd.status))
-//            }
-//        }
-    }
-
-//    private inline fun updateViewDataAt(
-//        position: Int,
-//        updater: (StatusViewData) -> StatusViewData
-//    ) {
-//        val status = statusData.getOrNull(position)?.asStatusOrNull() ?: return
-//        statusData[position] = updater(status)
-//        currentSource?.invalidate()
-//    }
 
     companion object {
         private const val TAG = "NetworkTimelineViewModel"

@@ -18,13 +18,14 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.keylesspalace.tusky.components.timeline.Page
 import com.keylesspalace.tusky.entity.Status
 import java.util.TreeMap
 import javax.inject.Inject
 
 /** [PagingSource] for Mastodon Status, identified by the Status ID */
 class NetworkTimelinePagingSource @Inject constructor(
-    private val pages: TreeMap<String, LoadResult.Page<String, Status>>
+    private val pages: TreeMap<String, Page<String, Status>>
 ) : PagingSource<String, Status>() {
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {

@@ -29,9 +29,24 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemo
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getDomain
 import kotlinx.coroutines.flow.Flow
 import java.util.TreeMap
 import javax.inject.Inject
+
+data class Page<Key : Any, Value : Any> constructor(
+    /** Loaded data */
+    val data: MutableList<Value>,
+    /**
+     * [Key] for previous page if more data can be loaded in that direction, `null`
+     * otherwise.
+     */
+    val prevKey: Key?,
+    /**
+     * [Key] for next page if more data can be loaded in that direction, `null` otherwise.
+     */
+    val nextKey: Key?,
+)
 
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
 class NetworkTimelineRepository @Inject constructor(
@@ -48,13 +63,14 @@ class NetworkTimelineRepository @Inject constructor(
      * one.
      *
      * In Pager3 parlance, an "append" operation is fetching a chronologically *older* page of
-     * statuses, a "prepend" operation is fetching a chronologically *newer* page of statuses.
+     * statuses using `nextKey`, a "prepend" operation is fetching a chronologically *newer*
+     * page of statuses using `prevKey`.
      */
     // Storing the next/prev tokens in this structure is important, as you can't derive them from
     // status IDs (e.g., the next/prev keys returned by the "favourites" API call *do not match*
     // status IDs elsewhere). The tokens are discovered by the RemoteMediator but are used by the
     // PagingSource, so they need to be available somewhere both components can access them.
-    private val pages = TreeMap<String, PagingSource.LoadResult.Page<String, Status>>()
+    private val pages = TreeMap<String, Page<String, Status>>()
 
     private var factory: InvalidatingPagingSourceFactory<String, Status>? = null
 
@@ -87,6 +103,70 @@ class NetworkTimelineRepository @Inject constructor(
     /** Invalidate the active paging source, see [PagingSource.invalidate] */
     fun invalidate() {
         factory?.invalidate()
+    }
+
+    fun removeAllByAccountId(accountId: String) {
+        synchronized(pages) {
+            for (page in pages.values) {
+                page.data.removeAll { status ->
+                    status.account.id == accountId || status.actionableStatus.account.id == accountId
+                }
+            }
+        }
+        invalidate()
+    }
+
+    fun removeAllByInstance(instance: String) {
+        synchronized(pages) {
+            for (page in pages.values) {
+                page.data.removeAll { status -> getDomain(status.account.url) == instance }
+            }
+        }
+        invalidate()
+    }
+
+    fun removeStatusWithId(statusId: String) {
+        synchronized(pages) {
+            pages.floorEntry(statusId)?.value?.data?.removeAll { status ->
+                status.id == statusId || status.reblog?.id == statusId
+            }
+        }
+        invalidate()
+    }
+
+    fun updateStatusById(statusId: String, updater: (Status) -> Status) {
+        synchronized(pages) {
+            pages.floorEntry(statusId)?.value?.let { page ->
+                val index = page.data.indexOfFirst { it.id == statusId }
+                if (index != -1) {
+                    page.data[index] = updater(page.data[index])
+                }
+            }
+        }
+        invalidate()
+    }
+
+    fun updateActionableStatusById(statusId: String, updater: (Status) -> Status) {
+        synchronized(pages) {
+            pages.floorEntry(statusId)?.value?.let { page ->
+                val index = page.data.indexOfFirst { it.id == statusId }
+                if (index != -1) {
+                    val status = page.data[index]
+                    if (status.reblog != null) {
+                        page.data[index] = status.copy(reblog = updater(status.reblog))
+                    } else {
+                        page.data[index] = updater(status)
+                    }
+                }
+            }
+        }
+    }
+
+    fun reload() {
+        synchronized(pages) {
+            pages.clear()
+        }
+        invalidate()
     }
 
     companion object {
