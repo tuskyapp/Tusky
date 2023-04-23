@@ -458,7 +458,7 @@
     <string name="drafts_post_reply_removed">Der Beitrag, auf den du antworten wolltest, wurde gelöscht</string>
     <string name="draft_deleted">Entwurf gelöscht</string>
     <string name="drafts_post_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
-    <string name="dialog_delete_list_warning">Möchtest du die Liste %1$s wirklich löschen\?</string>
+    <string name="dialog_delete_list_warning">Möchtest du die Liste %1$s wirklich löschen?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kannst nicht mehr als %1$d Anhang hochladen.</item>
         <item quantity="other">Du kannst nicht mehr als %1$d Anhänge hochladen.</item>
