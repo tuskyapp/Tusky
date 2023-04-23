@@ -5,9 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-final def gitSha = providers.exec {
-    commandLine('git', 'rev-parse', '--short=7', 'HEAD')
-}.standardOutput.asText.get().trim()
+apply from: 'getGitSha.gradle'
+
+final def gitSha = ext.getGitSha()
 
 // The app name
 final def APP_NAME = "Tusky"
@@ -28,8 +28,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdk 23
         targetSdk 33
-        versionCode 100
-        versionName "21.0"
+        versionCode 102
+        versionName "21.0-test"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -45,7 +45,6 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug {}
     }
 
     flavorDimensions += "color"
@@ -59,8 +58,12 @@ android {
     }
 
     lint {
-        disable 'MissingTranslation'
+        lintConfig file("lint.xml")
+        // Regenerate by deleting app/lint-baseline.xml, then run:
+        //   ./gradlew lintBlueDebug
+        baseline = file("lint-baseline.xml")
     }
+
     buildFeatures {
         buildConfig true
         resValues true
@@ -73,6 +76,7 @@ android {
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
+            systemProperty 'robolectric.lazyload', 'ON'
         }
     }
     sourceSets {
@@ -95,12 +99,11 @@ android {
         includeInApk false
         includeInBundle false
     }
+    // Can remove this once https://issuetracker.google.com/issues/260059413 is fixed.
+    // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
     }
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
@@ -115,6 +118,13 @@ kapt {
         arg("room.schemaLocation", "$projectDir/schemas")
         arg("room.incremental", "true")
     }
+}
+
+configurations {
+    // JNI-only libraries don't play nicely with Robolectric
+    // see https://github.com/tuskyapp/Tusky/pull/3367
+    testImplementation.exclude group: "org.conscrypt", module: "conscrypt-android"
+    testRuntime.exclude group: "org.conscrypt", module: "conscrypt-android"
 }
 
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
@@ -161,6 +171,8 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
+    implementation libs.bundles.xmldiff
+
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
     testImplementation libs.bundles.mockito
@@ -168,6 +180,8 @@ dependencies {
     testImplementation libs.androidx.core.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
+    testImplementation libs.truth
+    testImplementation libs.turbine
 
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing

@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- Notifikasi tentang permintaan mengikuti baru ketika akun Anda terkunci
+- Fitur baru yang dapat dipilih di layar Preferensi:
+   - Nonaktifkan swipe antar tab
+   - Menampilkan dialog konfirmasi sebelum boosting sebuah toot
+   - Menampilkan pratinjau tautan dalam timeline
+- Percakapan sekarang dapat dimute
+- Hasil jajak pendapat sekarang akan dihitung berdasarkan jumlah pemilih dan bukan jumlah suara total yang membuat jajak pendapat multichoice lebih mudah dipahami
+- Banyak perbaikan bug, sebagian besar terkait dengan menyusun toot
+- Terjemahan yg diperbarui

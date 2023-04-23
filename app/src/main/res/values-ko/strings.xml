@@ -269,8 +269,8 @@
     <string name="load_more_placeholder_text">더 불러오기</string>
     <string name="pref_title_public_filter_keywords">공개 타임라인</string>
     <string name="pref_title_thread_filter_keywords">대화</string>
-    <string name="filter_addition_dialog_title">필터 추가</string>
-    <string name="filter_edit_dialog_title">필터 편집</string>
+    <string name="filter_addition_title">필터 추가</string>
+    <string name="filter_edit_title">필터 편집</string>
     <string name="filter_dialog_remove_button">삭제</string>
     <string name="filter_dialog_update_button">변경 사항 저장</string>
     <string name="filter_dialog_whole_word">단어 전체에 매칭</string>

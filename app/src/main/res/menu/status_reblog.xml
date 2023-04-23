@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_action_reblog"
+        android:icon="@drawable/ic_reblog_24dp"
+        android:title="@string/action_reblog" />
+    <item
+        android:id="@+id/menu_action_unreblog"
+        android:icon="@drawable/ic_reblog_24dp"
+        android:title="@string/action_unreblog" />
+</menu>

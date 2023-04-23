@@ -311,8 +311,8 @@
     <string name="load_more_placeholder_text">carregar mais</string>
     <string name="pref_title_public_filter_keywords">Timelines públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
-    <string name="filter_addition_dialog_title">Criar filtro</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_addition_title">Criar filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_dialog_remove_button">Remover</string>
     <string name="filter_dialog_whole_word_description">Se a palavra ou frase for alfanumérica, só será aplicado se corresponder à palavra completa</string>
     <string name="filter_add_description">Frase para filtrar</string>

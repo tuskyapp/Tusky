@@ -151,8 +151,8 @@
     <string name="filter_dialog_whole_word">ทั้งคำ</string>
     <string name="filter_dialog_update_button">อัปเดต</string>
     <string name="filter_dialog_remove_button">ลบ</string>
-    <string name="filter_edit_dialog_title">แก้ไขตัวคัดกรอง</string>
-    <string name="filter_addition_dialog_title">เพิ่มตัวคัดกรอง</string>
+    <string name="filter_edit_title">แก้ไขตัวคัดกรอง</string>
+    <string name="filter_addition_title">เพิ่มตัวคัดกรอง</string>
     <string name="pref_title_thread_filter_keywords">การสนทนา</string>
     <string name="pref_title_public_filter_keywords">ไทม์ไลน์สาธารณะ</string>
     <string name="load_more_placeholder_text">โหลดเพิ่ม</string>

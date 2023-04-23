@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Dukungan untuk mengedit postingan
+- Pengaturan baru untuk mengontrol arah bacaan yang diinginkan
+- Pratinjau media yang lebih besar dan tampilan overlay baru untuk menunjukkan media dengan deskripsi
+- Kini memungkinkan untuk menambahkan akun ke daftar dari profil mereka
+dan banyak lagi

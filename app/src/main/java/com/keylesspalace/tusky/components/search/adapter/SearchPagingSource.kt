@@ -54,7 +54,6 @@ class SearchPagingSource<T : Any>(
         val currentKey = params.key ?: 0
 
         try {
-
             val data = mastodonApi.searchObservable(
                 query = searchRequest,
                 type = searchType.apiParameter,

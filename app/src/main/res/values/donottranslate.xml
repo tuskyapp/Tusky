@@ -13,6 +13,7 @@
     <string name="emoji_shortcode_format" translatable="false">:%s:</string>
     <string name="post_timestamp_with_edited_indicator" translatable="false">%s *</string>
     <string name="metadata_joiner" translatable="false">" • "</string>
+    <string name="date_range" translatable="false">%1$s — %2$s</string>
 
     <string-array name="post_privacy_values">
         <item>public</item>
@@ -255,4 +256,18 @@
         <item>OLDEST_FIRST</item>
         <item>NEWEST_FIRST</item>
     </string-array>
+
+    <string-array name="filter_action_values">
+        <item>warn</item>
+        <item>hide</item>
+    </string-array>
+
+    <string-array name="filter_context_values">
+        <item>home</item>
+        <item>notifications</item>
+        <item>public</item>
+        <item>thread</item>
+        <item>account</item>
+    </string-array>
+
 </resources>

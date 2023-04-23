@@ -34,7 +34,6 @@ class AccountMediaRemoteMediator(
         loadType: LoadType,
         state: PagingState<String, AttachmentViewData>
     ): MediatorResult {
-
         try {
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {

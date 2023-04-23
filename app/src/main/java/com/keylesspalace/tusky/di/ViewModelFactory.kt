@@ -1,3 +1,20 @@
+/*
+ * Copyright 2023 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>.
+ */
+
 // from https://proandroiddev.com/viewmodel-with-dagger2-architecture-components-2e06f06c9455
 
 package com.keylesspalace.tusky.di
@@ -11,13 +28,17 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
+import com.keylesspalace.tusky.components.filters.EditFilterViewModel
+import com.keylesspalace.tusky.components.filters.FiltersViewModel
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
+import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
 import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsViewModel
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
@@ -39,7 +60,7 @@ class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Cl
 }
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 @MapKey
 internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
@@ -143,6 +164,26 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ListsForAccountViewModel::class)
     internal abstract fun listsForAccountViewModel(viewModel: ListsForAccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationsViewModel::class)
+    internal abstract fun notificationsViewModel(viewModel: NotificationsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TrendingViewModel::class)
+    internal abstract fun trendingViewModel(viewModel: TrendingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FiltersViewModel::class)
+    internal abstract fun filtersViewModel(viewModel: FiltersViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditFilterViewModel::class)
+    internal abstract fun editFilterViewModel(viewModel: EditFilterViewModel): ViewModel
 
     // Add more ViewModels here
 }

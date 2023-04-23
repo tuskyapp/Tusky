@@ -12,7 +12,7 @@
     <string name="title_favourites">Annsachdan</string>
     <string name="link_whats_an_instance">Dè a th’ ann an ionstans\?</string>
     <string name="edit_poll">Deasaich</string>
-    <string name="filter_edit_dialog_title">Deasaich a’ chriathrag</string>
+    <string name="filter_edit_title">Deasaich a’ chriathrag</string>
     <string name="action_edit_list">Deasaich an liosta</string>
     <string name="pref_title_edit_notification_settings">Brathan</string>
     <string name="action_edit_own_profile">Deasaich</string>
@@ -25,7 +25,7 @@
     <string name="hint_note">Sgeul-beatha</string>
     <string name="label_quick_reply">Freagair…</string>
     <string name="hint_search">Lorg…</string>
-    <string name="action_login">Clàraich a-steach le Mastodon</string>
+    <string name="action_login">Clàraich a-steach le Tusky</string>
     <string name="action_send_public">POSTAICH!</string>
     <string name="action_emoji_keyboard">Meur-chlàr Emoji</string>
     <string name="action_unfollow">Na lean tuilleadh</string>
@@ -307,7 +307,7 @@
     <string name="filter_dialog_whole_word">Facal slàn</string>
     <string name="filter_dialog_update_button">Ùraich</string>
     <string name="filter_dialog_remove_button">Thoir air falbh</string>
-    <string name="filter_addition_dialog_title">Cuir criathrag ris</string>
+    <string name="filter_addition_title">Cuir criathrag ris</string>
     <string name="pref_title_thread_filter_keywords">Còmhraidhean</string>
     <string name="pref_title_public_filter_keywords">Loidhnichean-ama poblach</string>
     <string name="load_more_placeholder_text">luchdaich barrachd dheth</string>
@@ -519,11 +519,11 @@
     <string name="error_media_upload_opening">Cha b’ urrainn dhuinn am faidhle sin fhosgladh.</string>
     <string name="error_media_upload_type">Cha ghabh an seòrsa de dh’fhaidhle seo a luchdadh suas.</string>
     <string name="error_compose_character_limit">Tha am post ro fhada!</string>
-    <string name="error_retrieving_oauth_token">Cha deach leinn tòcan clàraidh a-steach fhaighinn.</string>
-    <string name="error_authorization_denied">Chaidh an t-ùghdarrachadh a dhiùltadh.</string>
-    <string name="error_authorization_unknown">Thachair mearachd leis an ùghdarrachadh nach do dh’aithnich sinn.</string>
+    <string name="error_retrieving_oauth_token">Cha deach leinn tòcan clàraidh a-steach fhaighinn. Ma mhaireas an duilgheadas seo, feuch “Clàraich a-steach le brabhsair” on chlàr-taice.</string>
+    <string name="error_authorization_denied">Chaidh an t-ùghdarrachadh a dhiùltadh. Ma tha thu cinnteach gun do chuir thu a-steach an teisteas ceart, feuch “Clàraich a-steach le brabhsair” on chlàr-taice.</string>
+    <string name="error_authorization_unknown">Thachair mearachd leis an ùghdarrachadh nach do dh’aithnich sinn. Ma mhaireas an duilgheadas seo, feuch “Clàraich a-steach le brabhsair” on chlàr-taice.</string>
     <string name="error_no_web_browser_found">Cha do lorg sinn brabhsair-lìn a chleachdadh sinn.</string>
-    <string name="error_failed_app_registration">Dh’fhàillig leis an dearbhadh leis an ionstans ud.</string>
+    <string name="error_failed_app_registration">Dh’fhàillig leis an dearbhadh leis an ionstans ud. Ma mhaireas an duilgheadas seo, feuch “Clàraich a-steach le brabhsair” on chlàr-taice.</string>
     <string name="error_invalid_domain">Chuir thu a-steach àrainn-lìn mì-dhligheach</string>
     <string name="error_empty">Chan fhaod seo a bhith falamh.</string>
     <string name="error_network">Thachair mearachd leis an lìonra! Thoir sùil air a’ cheangal agad is feuch ris a-rithist!</string>
@@ -563,7 +563,7 @@
     <string name="error_unfollowing_hashtag_format">Mearachd a’ sgur de leantainn air #%s</string>
     <string name="error_loading_account_details">Mearachd a’ luchdadh fiosrachadh a’ chunntais</string>
     <string name="error_image_edit_failed">Cha b’ urrainn dhuinn an dealbh a dheasachadh.</string>
-    <string name="dialog_push_notification_migration">Airson brathan putaidh slighe UnifiedPush a chleachdadh, feumaidh Tusky cead airson fo-sgrìobhadh air brathan air an fhrithealaiche Mastodon agad fhaighinn. Bidh feum air clàradh a-steach às ùr airson na sgòpaichean OAuth a chaidh a cheadachadh dha Tusky atharrachadh. Ma nì thu clàradh a-steach às ùr an-seo no ann an roghainnean a’ chunntais, cumaidh sinn na dreachdan is an tasgadan ionadail agad.</string>
+    <string name="dialog_push_notification_migration">Airson brathan putaidh slighe UnifiedPush a chleachdadh, feumaidh Tusky cead airson fo-sgrìobhadh air brathan air an fhrithealaiche Mastodon agad fhaighinn. Bidh feum air clàradh a-steach às ùr airson na sgòpaichean OAuth a chaidh a cheadachadh dha Tusky atharrachadh. Ma nì thu clàradh a-steach às ùr an-seo no ann an “Roghainnean a’ chunntais”, cumaidh sinn na dreachdan is an tasgadan ionadail agad.</string>
     <string name="dialog_push_notification_migration_other_accounts">Rinn thu clàradh a-steach às ùr dhan chunntas làithreach agad airson cead fo-sgrìobhadh putaidh a thoirt dha Tusky. Gidheadh, cha cunntasan eile agad fhathast nach deach imrich air an dòigh sin. Geàrr leum thuca is dèan clàradh a-steach às ùr do gach fear dhiubh airson taic do bhrathan UnifiedPush a chur an comas dhaibh.</string>
     <string name="duration_no_change">(Gun atharrachadh)</string>
     <string name="pref_title_show_self_username">Seall an t-ainm-cleachdaiche air na bàraichean-inneal</string>
@@ -583,4 +583,63 @@
     <string name="failed_to_pin">Dh’fhàillig leis a’ phrìneachadh</string>
     <string name="failed_to_unpin">Dh’fhàillig leis an dì-phrìneachadh</string>
     <string name="compose_save_draft_loses_media">A bheil thu airson a shàbhaladh ’na dhreachd\? (Thèid na ceanglachain a luchdadh suas a-rithist nuair a dh’aisigeas tu an dreuchd.)</string>
+    <string name="a11y_label_loading_thread">A’ luchdadh an t-snàithlein</string>
+    <string name="pref_title_reading_order">Òrdugh an leughaidh</string>
+    <string name="pref_reading_order_oldest_first">As sine an toiseach</string>
+    <string name="pref_reading_order_newest_first">As ùire an toiseach</string>
+    <string name="action_unfollow_hashtag_format">A bheil thu airson sgur de #%s a leantainn\?</string>
+    <string name="mute_notifications_switch">Mùch na brathan</string>
+    <string name="hint_media_description_missing">Bu chòir do thuairisgeul a bhith aig a’ mheadhan.</string>
+    <string name="report_category_violation">Briseadh riaghailte</string>
+    <string name="report_category_spam">Spama</string>
+    <string name="report_category_other">Eile</string>
+    <string name="pref_summary_http_proxy_disabled">À comas</string>
+    <string name="pref_summary_http_proxy_missing">&lt;cha deach a shuidheachadh&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;mì-dhligheach&gt;</string>
+    <string name="failed_to_remove_from_list">Cha deach leinn an cunntas a thoirt air falbh on liosta</string>
+    <string name="title_edits">Deasachaidhean</string>
+    <string name="status_created_at_now">an-dràsta</string>
+    <string name="pref_default_post_language">Cànan bunaiteach nam post</string>
+    <string name="status_created_info">Chruthaich %1$s %2$s</string>
+    <string name="status_edit_info">Dheasaich %1$s %2$s</string>
+    <string name="no_lists">Chan eil liosta sam bith agad.</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="pref_title_http_proxy_port_message">Bu chòir dhan phort a bhith eadar %d is %d</string>
+    <string name="error_following_hashtags_unsupported">Cha chuir an t-ionstans seo taic ri leantainn thagaichean hais.</string>
+    <string name="error_muting_hashtag_format">Mearachd a’ mùchadh #%s</string>
+    <string name="error_unmuting_hashtag_format">Mearachd a’ dì-mhùchadh #%s</string>
+    <string name="title_followed_hashtags">Tagaichean hais ’gan leantainn</string>
+    <string name="notification_report_name">Gearanan</string>
+    <string name="notification_report_description">Brathan mu ghearanan na maorsainneachd</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="action_post_failed">Dh’fhàillig leis an luchdadh suas</string>
+    <string name="action_post_failed_detail_plural">Dh’fhàillig luchdadh suas nam postaichean agad is chaidh an sàbhaladh ’nan dreachdan.
+\n
+\nCha d’ fhuair sinn grèim air an fhrithealaiche no dhiùlt e na postaichean.</string>
+    <string name="action_post_failed_show_drafts">Seall na dreachdan</string>
+    <string name="action_post_failed_do_nothing">Leig seachad</string>
+    <string name="confirmation_hashtag_unfollowed">Chan eil #%s a’ leantainn tuilleadh</string>
+    <string name="description_post_edited">Chaidh a dheasachadh</string>
+    <string name="action_browser_login">Clàraich a-steach le brabhsair</string>
+    <string name="pref_title_notification_filter_reports">bhios gearan ùr ann</string>
+    <string name="action_add_or_remove_from_list">Cuir ris no thoir air falbh on liosta</string>
+    <string name="failed_to_add_to_list">Cha deach leinn an cunntas a chur ris an liosta</string>
+    <string name="description_login">Obraichidh seo mar as trice. Cha dèid dàta fhoillseachadh do dh’aplacaidean eile.</string>
+    <string name="description_browser_login">Dh’fhaoidte gun cuir seo taic ri dòighean dearbhaidh a bharrachd ach bi feum air brabhsair a chuireas taic ris.</string>
+    <string name="action_discard">Tilg air falbh na h-atharraichean</string>
+    <string name="action_continue_edit">Lean air an deasachadh</string>
+    <string name="post_edited">Air a dheasachadh %s</string>
+    <string name="notification_report_format">Gearan ùr air %s</string>
+    <string name="notification_header_report_format">Rinn %s gearan mu %s</string>
+    <string name="notification_summary_report_format">%s · Tha postaichean ris, %d dhiubh</string>
+    <string name="action_share_account_link">Co-roinn ceangal dhan chunntas</string>
+    <string name="account_username_copied">Chaidh lethbhreac a dhèanamh dhen ainm-chleachdaiche</string>
+    <string name="compose_unsaved_changes">Tha atharraichean gun sàbhaladh agad.</string>
+    <string name="error_status_source_load">Dh’fhàillig luchdadh bun-tùs a’ phuist on fhrithealaiche.</string>
+    <string name="action_post_failed_detail">Dh’fhàillig luchdadh suas a’ phuist agad is chaidh a shàbhaladh ’na dhreachd.
+\n
+\nCha d’ fhuair sinn grèim air an fhrithealaiche no dhiùlt e am post.</string>
+    <string name="action_share_account_username">Co-roinn ainm-cleachdaiche a’ chunntais</string>
+    <string name="send_account_link_to">Co-roinn URL a’ chunntais le…</string>
+    <string name="send_account_username_to">Co-roinn ainm-cleachdaiche a’ chunntais le…</string>
 </resources>

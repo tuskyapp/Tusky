@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.di
 import com.keylesspalace.tusky.AboutActivity
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.EditProfileActivity
-import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.LicenseActivity
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.MainActivity
@@ -31,6 +30,8 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
+import com.keylesspalace.tusky.components.filters.EditFilterActivity
+import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
@@ -39,6 +40,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
+import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -124,4 +126,10 @@ abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract fun contributesSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
+    abstract fun contributesTrendingActivity(): TrendingActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributesEditFilterActivity(): EditFilterActivity
 }

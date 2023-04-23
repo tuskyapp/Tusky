@@ -17,11 +17,13 @@ package com.keylesspalace.tusky.components.report
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
@@ -33,11 +35,8 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
-import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.toViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -48,7 +47,7 @@ import javax.inject.Inject
 class ReportViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
-) : RxAwareViewModel() {
+) : ViewModel() {
 
     private val navigationMutable = MutableLiveData<Screen?>()
     val navigation: LiveData<Screen?> = navigationMutable
@@ -128,10 +127,8 @@ class ReportViewModel @Inject constructor(
         val ids = listOf(accountId)
         muteStateMutable.value = Loading()
         blockStateMutable.value = Loading()
-        mastodonApi.relationships(ids)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
+        viewModelScope.launch {
+            mastodonApi.relationships(ids).fold(
                 { data ->
                     updateRelationship(data.getOrNull(0))
                 },
@@ -139,7 +136,7 @@ class ReportViewModel @Inject constructor(
                     updateRelationship(null)
                 }
             )
-            .autoDispose()
+        }
     }
 
     private fun updateRelationship(relationship: Relationship?) {
@@ -155,21 +152,22 @@ class ReportViewModel @Inject constructor(
     fun toggleMute() {
         val alreadyMuted = muteStateMutable.value?.data == true
         viewModelScope.launch {
-            try {
-                val relationship = if (alreadyMuted) {
-                    mastodonApi.unmuteAccount(accountId)
-                } else {
-                    mastodonApi.muteAccount(accountId)
+            if (alreadyMuted) {
+                mastodonApi.unmuteAccount(accountId)
+            } else {
+                mastodonApi.muteAccount(accountId)
+            }.fold(
+                { relationship ->
+                    val muting = relationship.muting
+                    muteStateMutable.value = Success(muting)
+                    if (muting) {
+                        eventHub.dispatch(MuteEvent(accountId))
+                    }
+                },
+                { t ->
+                    muteStateMutable.value = Error(false, t.message)
                 }
-
-                val muting = relationship.muting
-                muteStateMutable.value = Success(muting)
-                if (muting) {
-                    eventHub.dispatch(MuteEvent(accountId))
-                }
-            } catch (t: Throwable) {
-                muteStateMutable.value = Error(false, t.message)
-            }
+            )
         }
 
         muteStateMutable.value = Loading()
@@ -178,39 +176,33 @@ class ReportViewModel @Inject constructor(
     fun toggleBlock() {
         val alreadyBlocked = blockStateMutable.value?.data == true
         viewModelScope.launch {
-            try {
-                val relationship = if (alreadyBlocked) {
-                    mastodonApi.unblockAccount(accountId)
-                } else {
-                    mastodonApi.blockAccount(accountId)
-                }
-
+            if (alreadyBlocked) {
+                mastodonApi.unblockAccount(accountId)
+            } else {
+                mastodonApi.blockAccount(accountId)
+            }.fold({ relationship ->
                 val blocking = relationship.blocking
                 blockStateMutable.value = Success(blocking)
                 if (blocking) {
                     eventHub.dispatch(BlockEvent(accountId))
                 }
-            } catch (t: Throwable) {
+            }, { t ->
                 blockStateMutable.value = Error(false, t.message)
-            }
+            })
         }
         blockStateMutable.value = Loading()
     }
 
     fun doReport() {
         reportingStateMutable.value = Loading()
-        mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
+        viewModelScope.launch {
+            mastodonApi.report(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
+                .fold({
                     reportingStateMutable.value = Success(true)
-                },
-                { error ->
+                }, { error ->
                     reportingStateMutable.value = Error(cause = error)
-                }
-            )
-            .autoDispose()
+                })
+        }
     }
 
     fun checkClickedUrl(url: String?) {

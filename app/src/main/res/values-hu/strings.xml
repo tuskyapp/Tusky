@@ -4,11 +4,11 @@
     <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizd a kapcsolatot, és próbálja meg újra!</string>
     <string name="error_empty">Ez nem lehet üres.</string>
     <string name="error_invalid_domain">Helytelen domain</string>
-    <string name="error_failed_app_registration">Sikertelen hitelesítés ezen a példányon.</string>
+    <string name="error_failed_app_registration">Sikertelen hitelesítés ezen a példányon. Ha ez továbbra is fennáll, próbáld a Bejelentkezés Böngészőben opciót a menüben.</string>
     <string name="error_no_web_browser_found">Nem található használható böngésző.</string>
-    <string name="error_authorization_unknown">Azonosítatlan engedélyezési hiba történt.</string>
-    <string name="error_authorization_denied">Engedély megtagadva.</string>
-    <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen.</string>
+    <string name="error_authorization_unknown">Azonosítatlan hitelesítési hiba történt. Ha ez továbbra is fennáll, próbáld a Bejelentkezés Böngészőben opciót a menüben.</string>
+    <string name="error_authorization_denied">Engedély megtagadva. Ha biztos vagy benne, hogy a megfelelő hitelesítési adatokat adtad meg, próbáld a Bejelentkezés Böngészőben funkciót a menüben.</string>
+    <string name="error_retrieving_oauth_token">Bejelentkezési token megszerzése sikertelen. Ha ez továbbra is fennáll, próbáld a Bejelentkezés Böngészőben opciót a menüben.</string>
     <string name="error_compose_character_limit">Túl hosszú a bejegyzés!</string>
     <string name="error_media_upload_type">Ilyen típusú fájlt nem lehet feltölteni.</string>
     <string name="error_media_upload_opening">Fájl megnyitása sikertelen.</string>
@@ -58,7 +58,7 @@
     <string name="action_favourite">Kedvencnek jelölés</string>
     <string name="action_more">Több</string>
     <string name="action_compose">Szerkesztés</string>
-    <string name="action_login">Bejelentkezés Mastodonnal</string>
+    <string name="action_login">Bejelentkezés Tuskyval</string>
     <string name="action_logout">Kijelentkezés</string>
     <string name="action_logout_confirm">Biztosan ki szeretnél jelentkezni a következőből: %1$s?</string>
     <string name="action_follow">Követés</string>
@@ -307,8 +307,8 @@
     <string name="replying_to">Válasz @%s részére</string>
     <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
     <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
-    <string name="filter_addition_dialog_title">Szűrő hozzáadása</string>
-    <string name="filter_edit_dialog_title">Szűrő szerkesztése</string>
+    <string name="filter_addition_title">Szűrő hozzáadása</string>
+    <string name="filter_edit_title">Szűrő szerkesztése</string>
     <string name="filter_dialog_remove_button">Eltávolítás</string>
     <string name="filter_dialog_update_button">Frissítés</string>
     <string name="filter_add_description">Szűrendő kifejezés</string>
@@ -450,7 +450,7 @@
     <string name="no_scheduled_posts">Nincs egy ütemezett bejegyzésed sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
-    <string name="pref_title_confirm_reblogs">Jóváhagyó ablak mutatása megtolás előtt</string>
+    <string name="pref_title_confirm_reblogs">Jóváhagyás mutatása megtolás előtt</string>
     <string name="pref_title_show_cards_in_timelines">Hivatkozás előnézetének mutatása idővonalakon</string>
     <string name="pref_title_enable_swipe_for_tabs">Lapok közötti váltás engedélyezése csúsztatással</string>
     <plurals name="poll_info_people">
@@ -612,4 +612,53 @@
     <string name="send_account_link_to">Fiók URL megosztása vele…</string>
     <string name="send_account_username_to">Fiók felhasználói nevének megosztása vele…</string>
     <string name="account_username_copied">Felhasználónév másolva</string>
+    <string name="action_post_failed">Feltöltés meghiúsult</string>
+    <string name="action_post_failed_detail">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
+\n
+\nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</string>
+    <string name="action_post_failed_detail_plural">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
+\n
+\nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</string>
+    <string name="action_post_failed_show_drafts">Vázlatok mutatása</string>
+    <string name="action_post_failed_do_nothing">Elvetés</string>
+    <string name="action_browser_login">Bejelentkezés Böngészővel</string>
+    <string name="description_login">A legtöbb esetben működik. Nem szivárog ki adat más alkalmazások számára.</string>
+    <string name="description_browser_login">Támogathat más hitelesítési módozatokat is, de ehhez támogatott böngészőre van szükség.</string>
+    <string name="title_public_trending_hashtags">Népszerű hashtagek</string>
+    <string name="accessibility_talking_about_tag">%1$d ember beszél a %2$s hashtagről</string>
+    <string name="total_usage">Összes használat</string>
+    <string name="total_accounts">Összes fiók</string>
+    <string name="dialog_follow_hashtag_title">Hashtag követése</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Frissítés</string>
+    <string name="notification_unknown_name">Ismeretlen</string>
+    <string name="ui_error_favourite">Bejegyzés kedvencnek jelölése sikertelen: %s</string>
+    <string name="ui_error_reblog">Bejegyzés megtolása sikertelen: %s</string>
+    <string name="ui_error_vote">Szavazat leadása a szavazásba sikertelen: %s</string>
+    <string name="ui_error_accept_follow_request">Követési kérelem elfogadása sikertelen: %s</string>
+    <string name="status_filtered_show_anyway">Mutatás mindenképpen</string>
+    <string name="status_filter_placeholder_label_format">Szűrve: %s</string>
+    <string name="pref_title_account_filter_keywords">Profil</string>
+    <string name="socket_timeout_exception">A kapcsolatfelvétel a kiszolgálóddal túl sokáig tartott</string>
+    <string name="ui_error_unknown">ismeretlen ok</string>
+    <string name="ui_error_bookmark">Bejegyzés könyvjelzőzése sikertelen: %s</string>
+    <string name="ui_error_clear_notifications">Értesítések törlése sikertelen: %s</string>
+    <string name="filter_action_warn">Figyelmeztetés</string>
+    <string name="filter_action_hide">Elrejtés</string>
+    <string name="filter_description_warn">Elrejtés figyelmeztetéssel</string>
+    <string name="filter_description_hide">Elrejtés teljesen</string>
+    <string name="label_filter_action">Szűrőművelet</string>
+    <string name="ui_success_rejected_follow_request">Követési kérelem letiltva</string>
+    <string name="hint_filter_title">Saját szűrő</string>
+    <string name="label_filter_title">Cím</string>
+    <string name="action_add">Hozzáadás</string>
+    <string name="filter_keyword_display_format">%s (egész világ)</string>
+    <string name="label_filter_context">Szűrőkontextus</string>
+    <string name="label_filter_keywords">Szűrendő kulcsszavak vagy kifejezések</string>
+    <string name="pref_title_show_stat_inline">Bejegyzés-statisztikák mutatása az idővonalon</string>
+    <string name="ui_error_reject_follow_request">Követési kérelem elutasítása sikertelen: %s</string>
+    <string name="ui_success_accepted_follow_request">Követési kérelem elfogadva</string>
+    <string name="filter_keyword_addition_title">Kulcsszó hozzáadása</string>
+    <string name="filter_edit_keyword_title">Kulcsszó szerkesztése</string>
+    <string name="filter_description_format">%s: %s</string>
 </resources>

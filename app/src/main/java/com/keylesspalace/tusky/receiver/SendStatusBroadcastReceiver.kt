@@ -49,8 +49,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
             val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
             val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
-            val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER) ?: ""
-            val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS) ?: emptyArray()
+            val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER).orEmpty()
+            val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS).orEmpty()
 
             val account = accountManager.getAccountById(senderId)
 
@@ -97,7 +97,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                         idempotencyKey = randomAlphanumericString(16),
                         retries = 0,
                         language = null,
-                        statusId = null,
+                        statusId = null
                     )
                 )
 
@@ -117,7 +117,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
                 builder.setOnlyAlertOnce(true)
 
-                notificationManager.notify(notificationId, builder.build())
+                // There is a separate "I am sending" notification, so simply remove the handled one.
+                notificationManager.cancel(notificationId)
             }
         }
     }

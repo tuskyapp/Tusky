@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.compose.UploadEvent
@@ -29,10 +30,12 @@ import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.unsafeLazy
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,12 +53,16 @@ class SendStatusService : Service(), Injectable {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+
     @Inject
     lateinit var accountManager: AccountManager
+
     @Inject
     lateinit var eventHub: EventHub
+
     @Inject
     lateinit var draftHelper: DraftHelper
+
     @Inject
     lateinit var mediaUploader: MediaUploader
 
@@ -65,7 +72,7 @@ class SendStatusService : Service(), Injectable {
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
     private val sendJobs = ConcurrentHashMap<Int, Job>()
 
-    private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+    private val notificationManager by unsafeLazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -108,7 +115,6 @@ class SendStatusService : Service(), Injectable {
             statusesToSend[sendingNotificationId] = statusToSend
             sendStatus(sendingNotificationId--)
         } else {
-
             if (intent.hasExtra(KEY_CANCEL)) {
                 cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
             }
@@ -118,7 +124,6 @@ class SendStatusService : Service(), Injectable {
     }
 
     private fun sendStatus(statusId: Int) {
-
         // when statusToSend == null, sending has been canceled
         val statusToSend = statusesToSend[statusId] ?: return
 
@@ -135,7 +140,6 @@ class SendStatusService : Service(), Injectable {
         statusToSend.retries++
 
         sendJobs[statusId] = serviceScope.launch {
-
             // first, wait for media uploads to finish
             val media = statusToSend.media.map { mediaItem ->
                 if (mediaItem.id == null) {
@@ -171,7 +175,7 @@ class SendStatusService : Service(), Injectable {
                             }
                         }
                     }
-                    mediaCheckRetries ++
+                    mediaCheckRetries++
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "failed getting media status", e)
@@ -190,18 +194,27 @@ class SendStatusService : Service(), Injectable {
                 scheduledAt = statusToSend.scheduledAt,
                 poll = statusToSend.poll,
                 language = statusToSend.language,
+                mediaAttributes = media.map { media ->
+                    MediaAttribute(
+                        id = media.id!!,
+                        description = media.description,
+                        focus = media.focus?.toMastodonApiString(),
+                        thumbnail = null
+                    )
+                }
             )
 
-            val sendResult = if (statusToSend.statusId == null) {
-                mastodonApi.createStatus(
+            val editing = (statusToSend.statusId != null)
+            val sendResult = if (editing) {
+                mastodonApi.editStatus(
+                    statusToSend.statusId!!,
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
                     newStatus
                 )
             } else {
-                mastodonApi.editStatus(
-                    statusToSend.statusId,
+                mastodonApi.createStatus(
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
@@ -222,6 +235,8 @@ class SendStatusService : Service(), Injectable {
 
                 if (scheduled) {
                     eventHub.dispatch(StatusScheduledEvent(sentStatus))
+                } else if (editing) {
+                    eventHub.dispatch(StatusEditedEvent(statusToSend.statusId!!, sentStatus))
                 } else {
                     eventHub.dispatch(StatusComposedEvent(sentStatus))
                 }
@@ -252,7 +267,6 @@ class SendStatusService : Service(), Injectable {
     }
 
     private fun stopSelfWhenDone() {
-
         if (statusesToSend.isEmpty()) {
             ServiceCompat.stopForeground(this@SendStatusService, ServiceCompat.STOP_FOREGROUND_REMOVE)
             stopSelf()
@@ -262,7 +276,6 @@ class SendStatusService : Service(), Injectable {
     private suspend fun failSending(statusId: Int) {
         val failedStatus = statusesToSend.remove(statusId)
         if (failedStatus != null) {
-
             mediaUploader.cancelUploadScope(*failedStatus.media.map { it.localId }.toIntArray())
 
             saveStatusToDrafts(failedStatus, failedToSendAlert = true)
@@ -282,7 +295,6 @@ class SendStatusService : Service(), Injectable {
     private fun cancelSending(statusId: Int) = serviceScope.launch {
         val statusToCancel = statusesToSend.remove(statusId)
         if (statusToCancel != null) {
-
             mediaUploader.cancelUploadScope(*statusToCancel.media.map { it.localId }.toIntArray())
 
             val sendJob = sendJobs.remove(statusId)
@@ -322,7 +334,7 @@ class SendStatusService : Service(), Injectable {
             failedToSendAlert = failedToSendAlert,
             scheduledAt = status.scheduledAt,
             language = status.language,
-            statusId = status.statusId,
+            statusId = status.statusId
         )
     }
 
@@ -343,7 +355,6 @@ class SendStatusService : Service(), Injectable {
         accountId: Long,
         statusId: Int
     ): Notification {
-
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(NotificationHelper.ACCOUNT_ID, accountId)
         intent.putExtra(MainActivity.OPEN_DRAFTS, true)
@@ -428,7 +439,7 @@ data class StatusToSend(
     val idempotencyKey: String,
     var retries: Int,
     val language: String?,
-    val statusId: String?,
+    val statusId: String?
 ) : Parcelable
 
 @Parcelize

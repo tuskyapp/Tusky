@@ -274,7 +274,7 @@ class ComposeViewModel @Inject constructor(
             failedToSendAlert = false,
             scheduledAt = scheduledAt.value,
             language = postLanguage,
-            statusId = originalStatusId,
+            statusId = originalStatusId
         )
     }
 
@@ -286,7 +286,6 @@ class ComposeViewModel @Inject constructor(
         content: String,
         spoilerText: String
     ) {
-
         if (!scheduledTootId.isNullOrEmpty()) {
             api.deleteScheduledStatus(scheduledTootId!!)
         }
@@ -335,17 +334,20 @@ class ComposeViewModel @Inject constructor(
             }
         }
 
-        val updatedItem = newMediaList.find { it.localId == localId }
-        if (updatedItem?.id != null) {
-            val focus = updatedItem.focus
-            val focusString = if (focus != null) "${focus.x},${focus.y}" else null
-            return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
-                .fold({
-                    true
-                }, { throwable ->
-                    Log.w(TAG, "failed to update media", throwable)
-                    false
-                })
+        if (!editing) {
+            // Updates to media for already-published statuses need to go through the status edit api
+            val updatedItem = newMediaList.find { it.localId == localId }
+            if (updatedItem?.id != null) {
+                val focus = updatedItem.focus
+                val focusString = if (focus != null) "${focus.x},${focus.y}" else null
+                return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
+                    .fold({
+                        true
+                    }, { throwable ->
+                        Log.w(TAG, "failed to update media", throwable)
+                        false
+                    })
+            }
         }
         return true
     }
@@ -402,7 +404,6 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
-
         if (setupComplete) {
             return
         }
@@ -437,14 +438,16 @@ class ComposeViewModel @Inject constructor(
                     pickMedia(attachment.uri, attachment.description, attachment.focus)
                 }
             }
-        } else composeOptions?.mediaAttachments?.forEach { a ->
-            // when coming from redraft or ScheduledTootActivity
-            val mediaType = when (a.type) {
-                Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
-                Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
-                Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
+        } else {
+            composeOptions?.mediaAttachments?.forEach { a ->
+                // when coming from redraft or ScheduledTootActivity
+                val mediaType = when (a.type) {
+                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
+                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
+                    Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
+                }
+                addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
             }
-            addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
         }
 
         draftId = composeOptions?.draftId ?: 0

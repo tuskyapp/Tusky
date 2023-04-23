@@ -2,14 +2,14 @@
 <resources>
     <string name="error_empty">Не можа быць пустым.</string>
     <string name="error_invalid_domain">Уведзены недапушчальны дамен</string>
-    <string name="error_failed_app_registration">Памылка праверкі сапраўднасці на гэтым серверы.</string>
+    <string name="error_failed_app_registration">Памылка праверкі сапраўднасці на гэтым серверы. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_no_web_browser_found">Браўзер не знойдзены.</string>
-    <string name="error_authorization_denied">Аўтарызацыя была адхілена.</string>
+    <string name="error_authorization_denied">Аўтарызацыя была адхілена. Калі ўпэўнены што ўвялі сапраўдныя ўліковыя даныя, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_loading_account_details">Дэталі ўліковага запісу не атрыманы</string>
     <string name="error_generic">Здарылася памылка.</string>
     <string name="error_network">Здарылася сеткавая памылка! Калі ласка, праверце злучэнне і паспрабуйце зноў!</string>
-    <string name="error_authorization_unknown">Адбылася невядомая памылка праверкі сапраўднасці.</string>
-    <string name="error_retrieving_oauth_token">Токен уваходу не атрыманы.</string>
+    <string name="error_authorization_unknown">Адбылася невядомая памылка праверкі сапраўднасці. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
+    <string name="error_retrieving_oauth_token">Токен уваходу не атрыманы. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_compose_character_limit">Допіс занадта доўгі!</string>
     <string name="error_multimedia_size_limit">Памер відэа- ды аўдыяфайлаў не можа перавышаць %s Мб.</string>
     <string name="error_media_upload_type">Немагчыма запампаваць файл гэтага тыпу.</string>
@@ -192,7 +192,7 @@
     <string name="action_unbookmark">Выдаліць з закладак</string>
     <string name="action_more">Разгарнуць</string>
     <string name="action_compose">Напісаць</string>
-    <string name="action_login">Увайсці з Mastodon</string>
+    <string name="action_login">Увайсці з Tusky</string>
     <string name="action_logout">Выхад</string>
     <string name="action_logout_confirm">Вы ўпэўнены, што жадаеце выйсці з уліковага запісу %1$s\?</string>
     <string name="action_follow">Падпісацца</string>
@@ -342,10 +342,10 @@
     <string name="about_tusky_license">Tusky — свабодная праграма з адкрытым зыходным кодам. Зроблена пад GNU General Public License Version 3. Вы можаце паглядзець ліцэнзію тут: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_bug_feature_request_site">Справаздачы аб памылках і пажаданні:
 \n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="filter_addition_dialog_title">Дадаць фільтр</string>
+    <string name="filter_addition_title">Дадаць фільтр</string>
     <string name="follows_you">Вашы падпісчыкі</string>
     <string name="pref_title_alway_show_sensitive_media">Заўсёды паказваць далікатны змест</string>
-    <string name="filter_edit_dialog_title">Рэдагаваць фільтр</string>
+    <string name="filter_edit_title">Рэдагаваць фільтр</string>
     <string name="filter_dialog_remove_button">Выдаліць</string>
     <string name="filter_dialog_update_button">Абнавіць</string>
     <string name="filter_dialog_whole_word">Цэлае слова</string>
@@ -630,4 +630,22 @@
     <string name="pref_summary_http_proxy_invalid">&lt;нядзейсны&gt;</string>
     <string name="pref_summary_http_proxy_missing">&lt;не задана&gt;</string>
     <string name="pref_reading_order_newest_first">Спачатку навейшыя</string>
+    <string name="dialog_follow_hashtag_title">Падпісацца на хэштэг</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_post_failed">Не атрымалася запампаваць</string>
+    <string name="action_post_failed_detail">Не атрымалася запампаваць ваш допіс і ён быў захаваны ў чарнавік.
+\n
+\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допіс.</string>
+    <string name="action_post_failed_detail_plural">Не атрымалася запампаваць вашы допісы і яны былі захаваны ў чарнавікі.
+\n
+\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допісы.</string>
+    <string name="action_post_failed_show_drafts">Паказаць чарнавікі</string>
+    <string name="action_post_failed_do_nothing">Адмяніць</string>
+    <string name="description_login">Працуе амаль заўсёды. Даныя не ўцякаюць у іншыя праграмы.</string>
+    <string name="action_browser_login">Увайсці з браўзера</string>
+    <string name="notification_unknown_name">Невядома</string>
+    <string name="status_filtered_show_anyway">Усё роўна паказаць</string>
+    <string name="status_filter_placeholder_label_format">Адфільтрована: %s</string>
+    <string name="pref_title_account_filter_keywords">Профілі</string>
+    <string name="title_public_trending_hashtags">Папулярныя хэштэгі</string>
 </resources>

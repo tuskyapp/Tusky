@@ -181,14 +181,10 @@
     <string name="lock_account_label_description">Вимагає затвердження підписників власноруч</string>
     <string name="action_set_caption">Додати підпис</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Опис для людей з вадами зору
-\n(обмеження %d символ)</item>
-        <item quantity="few">Опис для людей з вадами зору
-\n(обмеження %d символи)</item>
-        <item quantity="many">Опис для людей з вадами зору
-\n(обмеження %d символів)</item>
-        <item quantity="other">Опис для людей з вадами зору
-\n(обмеження %d символів)</item>
+        <item quantity="one">Опис матеріалів для людей з вадами зору (обмеження %d символ)</item>
+        <item quantity="few">Опис матеріалів для людей з вадами зору (обмеження %d символи)</item>
+        <item quantity="many">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
+        <item quantity="other">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
     </plurals>
     <string name="error_failed_set_caption">Не вдалося додати підпис</string>
     <string name="action_unsubscribe_account">Відписатися</string>
@@ -295,8 +291,8 @@
     <string name="lock_account_label">Заблокувати обліковий запис</string>
     <string name="action_remove">Вилучити</string>
     <string name="filter_dialog_remove_button">Вилучити</string>
-    <string name="filter_edit_dialog_title">Редагувати фільтр</string>
-    <string name="filter_addition_dialog_title">Додати фільтр</string>
+    <string name="filter_edit_title">Редагувати фільтр</string>
+    <string name="filter_addition_title">Додати фільтр</string>
     <string name="pref_title_thread_filter_keywords">Розмови</string>
     <string name="pref_title_public_filter_keywords">Загальнодоступні стрічки</string>
     <string name="load_more_placeholder_text">завантажити ще</string>
@@ -642,4 +638,49 @@
     <string name="action_post_failed_detail_plural">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
 \n
 \nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
+    <string name="accessibility_talking_about_tag">%1$d людей обговорюють хештеґ %2$s</string>
+    <string name="title_public_trending_hashtags">Популярні хештеґи</string>
+    <string name="total_usage">Усього використано</string>
+    <string name="total_accounts">Усього облікових записів</string>
+    <string name="dialog_follow_hashtag_title">Стежити за хештегом</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Оновити</string>
+    <string name="notification_unknown_name">Невідомо</string>
+    <string name="socket_timeout_exception">Надто тривала спроба з\'єднання з вашим сервером</string>
+    <string name="ui_error_unknown">невідома причина</string>
+    <string name="ui_error_bookmark">Не вдалося додати допис до закладок: %s</string>
+    <string name="ui_error_clear_notifications">Не вдалося очистити сповіщення: %s</string>
+    <string name="ui_error_favourite">Не вдалося вподобати допис: %s</string>
+    <string name="ui_error_reblog">Не вдалося поширити допис: %s</string>
+    <string name="ui_error_vote">Не вдалося проголосувати: %s</string>
+    <string name="ui_error_accept_follow_request">Не вдалося погодити запит на стеження: %s</string>
+    <string name="ui_error_reject_follow_request">Не вдалося відхилити запит на стеження: %s</string>
+    <string name="ui_success_accepted_follow_request">Запит на стеження погоджено</string>
+    <string name="ui_success_rejected_follow_request">Запит на стеження заблоковано</string>
+    <string name="status_filtered_show_anyway">Усе одно показати</string>
+    <string name="status_filter_placeholder_label_format">Відфільтровано: %s</string>
+    <string name="pref_title_account_filter_keywords">Профілі</string>
+    <string name="label_filter_title">Заголовок</string>
+    <string name="filter_action_warn">Попередження</string>
+    <string name="filter_action_hide">Сховати</string>
+    <string name="filter_description_warn">Сховати з попередженням</string>
+    <string name="filter_description_hide">Сховати повністю</string>
+    <string name="label_filter_action">Фільтрувати дію</string>
+    <string name="label_filter_context">Фільтрувати контексти</string>
+    <string name="label_filter_keywords">Ключові слова або фрази для фільтрування</string>
+    <string name="action_add">Додати</string>
+    <string name="filter_keyword_display_format">%s (ціле слово)</string>
+    <string name="filter_keyword_addition_title">Додати ключове слово</string>
+    <string name="filter_edit_keyword_title">Змінити ключове слово</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="hint_filter_title">Мій фільтр</string>
+    <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
+    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
+\n
+\nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
+    <string name="hint_description">Опис</string>
+    <string name="post_media_image">Зображення</string>
+    <string name="error_list_load">Помилка завантаження списків</string>
+    <string name="select_list_empty">У вас ще немає списків</string>
+    <string name="select_list_manage">Керувати списками</string>
 </resources>
