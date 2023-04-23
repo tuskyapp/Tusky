@@ -53,7 +53,8 @@
         android:textStyle="normal|bold"
         app:layout_constraintStart_toEndOf="@id/notification_avatar"
         app:layout_constraintTop_toBottomOf="@+id/notification_text"
-        tools:text="Test User" />
+        tools:text="Test User"
+        tools:ignore="RtlSymmetry" />
 
     <TextView
         android:id="@+id/notification_username"
@@ -73,11 +74,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:hyphenationFrequency="full"
-        android:text="TextView"
         android:textSize="?attr/status_text_medium"
+        android:textIsSelectable="true"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/notification_display_name"
-        app:layout_constraintTop_toBottomOf="@+id/notification_display_name" />
+        app:layout_constraintTop_toBottomOf="@+id/notification_display_name"
+        tools:text="Account note" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
