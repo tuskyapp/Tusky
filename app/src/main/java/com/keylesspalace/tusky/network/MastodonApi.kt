@@ -136,7 +136,7 @@ interface MastodonApi {
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("min_id") minId: String? = null,
-        @Query("limit") limit: Int? = null,
+        @Query("limit") limit: Int? = null
     ): Response<List<Status>>
 
     @GET("api/v1/timelines/list/{listId}")
@@ -145,7 +145,7 @@ interface MastodonApi {
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("min_id") minId: String? = null,
-        @Query("limit") limit: Int? = null,
+        @Query("limit") limit: Int? = null
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")

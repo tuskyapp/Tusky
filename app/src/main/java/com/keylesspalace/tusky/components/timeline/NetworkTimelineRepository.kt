@@ -45,15 +45,15 @@ data class Page<Key : Any, Value : Any> constructor(
     /**
      * [Key] for next page if more data can be loaded in that direction, `null` otherwise.
      */
-    val nextKey: Key?,
+    val nextKey: Key?
 )
 
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
 class NetworkTimelineRepository @Inject constructor(
     private val mastodonApi: MastodonApi,
     // TODO: This needs to be recreated if the active account changes
-    private val accountManager: AccountManager,
-    ) {
+    private val accountManager: AccountManager
+) {
 
     /**
      * Pages of statuses.

@@ -162,7 +162,10 @@ class NetworkTimelineRemoteMediator(
                 pinned = null
             )
             is TimelineKind.UserList -> api.listTimeline(
-                timelineKind.id, maxId = maxId, minId = minId, limit = loadSize
+                timelineKind.id,
+                maxId = maxId,
+                minId = minId,
+                limit = loadSize
             )
         }
     }

@@ -233,7 +233,7 @@ sealed class UiError(
     ) : UiError(throwable, R.string.ui_error_vote, action)
 
     data class GetFilters(
-        override val throwable: Throwable,
+        override val throwable: Throwable
     ) : UiError(throwable, R.string.ui_error_filter_v1_load, null)
 
     companion object {
