@@ -593,4 +593,11 @@
     <string name="title_public_trending_hashtags">Tendenču tēmturi</string>
     <string name="action_add">Pievienot</string>
     <string name="filter_description_format">%s: %s</string>
+    <string name="label_filter_context">Filtra konteksts</string>
+    <string name="label_filter_action">Filtra darbība</string>
+    <string name="hint_filter_title">Mans filtrs</string>
+    <string name="label_filter_title">Nosaukums</string>
+    <string name="hint_description">Apraksts</string>
+    <string name="ui_success_accepted_follow_request">Sekošanas pieprasījums pieņemts</string>
+    <string name="ui_success_rejected_follow_request">Sekošanas pieprasījums bloķēts</string>
 </resources>
