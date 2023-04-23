@@ -212,10 +212,6 @@ AND timelineUserId = :accountId
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId LIMIT 1")
     abstract suspend fun getBottomId(accountId: Long): String?
 
-    // TODO: Part of placeholder code deletion
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
-    abstract suspend fun getTopPlaceholderId(accountId: Long): String?
-
     /**
      * Returns the id directly above [serverId], or null if [serverId] is the id of the top status
      */
@@ -229,20 +225,10 @@ AND timelineUserId = :accountId
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
     abstract suspend fun getIdBelow(accountId: Long, serverId: String): String?
 
-    /**
-     * Returns the id of the next placeholder after [serverId]
-     */
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
-    abstract suspend fun getNextPlaceholderIdAfter(accountId: Long, serverId: String): String?
-
     @Query("SELECT COUNT(*) FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
     abstract suspend fun getStatusCount(accountId: Long): Int
 
     /** Developer tools: Find N most recent status IDs */
     @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count")
     abstract suspend fun getMostRecentNStatusIds(accountId: Long, count: Int): List<String>
-
-    /** Developer tools: Convert a status to a placeholder */
-    @Query("UPDATE TimelineStatusEntity SET authorServerId = NULL WHERE serverId = :serverId")
-    abstract suspend fun convertStatustoPlaceholder(serverId: String)
 }

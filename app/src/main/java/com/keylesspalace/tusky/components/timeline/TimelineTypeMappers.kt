@@ -32,11 +32,6 @@ import java.util.Date
 
 private const val TAG = "TimelineTypeMappers"
 
-data class Placeholder(
-    val id: String,
-    val loading: Boolean
-)
-
 private val attachmentArrayListType = object : TypeToken<ArrayList<Attachment>>() {}.type
 private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
 private val mentionListType = object : TypeToken<List<Status.Mention>>() {}.type
@@ -66,45 +61,6 @@ fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
         avatar = avatar,
         bot = bot,
         emojis = gson.fromJson(emojis, emojisListType)
-    )
-}
-
-fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
-    return TimelineStatusEntity(
-        serverId = this.id,
-        url = null,
-        timelineUserId = timelineUserId,
-        authorServerId = null,
-        inReplyToId = null,
-        inReplyToAccountId = null,
-        content = null,
-        createdAt = 0L,
-        editedAt = 0L,
-        emojis = null,
-        reblogsCount = 0,
-        favouritesCount = 0,
-        reblogged = false,
-        favourited = false,
-        bookmarked = false,
-        sensitive = false,
-        spoilerText = "",
-        visibility = Status.Visibility.UNKNOWN,
-        attachments = null,
-        mentions = null,
-        tags = null,
-        application = null,
-        reblogServerId = null,
-        reblogAccountId = null,
-        poll = null,
-        muted = false,
-        expanded = loading,
-        contentCollapsed = false,
-        contentShowing = false,
-        pinned = false,
-        card = null,
-        repliesCount = 0,
-        language = null,
-        filtered = null
     )
 }
 

@@ -78,7 +78,6 @@ data class TimelineStatusEntity(
     val reblogAccountId: String?,
     val poll: String?,
     val muted: Boolean?,
-    /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
     val expanded: Boolean,
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
@@ -86,10 +85,7 @@ data class TimelineStatusEntity(
     val card: String?,
     val language: String?,
     val filtered: List<FilterResult>?
-) {
-    val isPlaceholder: Boolean
-        get() = this.authorServerId == null
-}
+)
 
 @Entity(
     primaryKeys = ["serverId", "timelineUserId"]
