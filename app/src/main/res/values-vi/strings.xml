@@ -186,7 +186,7 @@
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_posts_pinned">Ghim</string>
-    <string name="title_posts_with_replies">Trả lời</string>
+    <string name="title_posts_with_replies">Lượt trả lời</string>
     <string name="title_posts">Tút</string>
     <string name="title_view_thread">Nội dung tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
@@ -422,7 +422,7 @@
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
     <string name="action_open_post">Đọc tút</string>
     <string name="expand_collapse_all_posts">Mở rộng/Thu gọn toàn bộ tút</string>
-    <string name="performing_lookup_title">Đang tìm kiếm…</string>
+    <string name="performing_lookup_title">Đang tra cứu…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>

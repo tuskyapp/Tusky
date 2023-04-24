@@ -480,7 +480,7 @@
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="hint_media_description_missing">Dylai fod gan y cyfryngau ddisgrifiad.</string>
     <string name="description_post_cw">Rhybudd cynnwys: %s</string>
-    <string name="pref_title_confirm_reblogs">Dangos deialog cadarnhau cyn rhoi hwb</string>
+    <string name="pref_title_confirm_reblogs">Dangos cadarnhâd cyn hybu</string>
     <string name="review_notifications">Adolygu hysbysiadau</string>
     <string name="notification_report_format">Adroddiad newydd ar %s</string>
     <string name="notification_header_report_format">Adroddodd %s %s</string>
@@ -500,7 +500,7 @@
     <string name="limit_notifications">Cyfyngu ar hysbysiadau ffrydiau</string>
     <string name="post_lookup_error_format">Gwall wrth chwilio am y neges %s</string>
     <string name="pref_title_show_self_username">Dangos enw defnyddiwr mewn bariau offer</string>
-    <string name="pref_title_confirm_favourites">Dangos deilaog cadarnhau cyn ffefrynnu</string>
+    <string name="pref_title_confirm_favourites">Dangos cadarnhâd cyn ffefrynnu</string>
     <string name="pref_title_hide_top_toolbar">Cuddio teitl y bar offer uchaf</string>
     <string name="instance_rule_title">Rheolau %s</string>
     <string name="language_display_name_format">%s (%s)</string>
@@ -628,17 +628,17 @@
         <item quantity="other">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
     </plurals>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="zero">Disgrifiwch ar gyfer pobl â nam ar eu golwg
+        <item quantity="zero">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
 \n(terfyn nodau o %d)</item>
-        <item quantity="one">Disgrifiwch ar gyfer pobl â nam ar eu golwg
+        <item quantity="one">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
 \n(terfyn nodau o %d)</item>
-        <item quantity="two">Disgrifiwch ar gyfer pobl â nam ar eu golwg
+        <item quantity="two">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
 \n(terfyn nodau o %d)</item>
-        <item quantity="few">Disgrifiwch ar gyfer pobl â nam ar eu golwg
+        <item quantity="few">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
 \n(terfyn nodau o %d)</item>
-        <item quantity="many">Disgrifiwch ar gyfer pobl â nam ar eu golwg
+        <item quantity="many">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
 \n(terfyn nodau o %d)</item>
-        <item quantity="other">Disgrifiwch ar gyfer pobl â nam ar eu golwg
+        <item quantity="other">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
 \n(terfyn nodau o %d)</item>
     </plurals>
     <string name="action_continue_edit">Parhau i olygu</string>
@@ -709,4 +709,13 @@
     <string name="filter_keyword_addition_title">Ychwanegu allweddair</string>
     <string name="filter_edit_keyword_title">Golygu allweddair</string>
     <string name="filter_description_format">%s: %s</string>
+    <string name="hint_description">Disgrifiad</string>
+    <string name="post_media_image">Delwedd</string>
+    <string name="select_list_empty">Nid oes gennych retrau, eto</string>
+    <string name="select_list_manage">Rheoli rhestrau</string>
+    <string name="error_list_load">Gwall wrth lwytho rhestrau</string>
+    <string name="help_empty_home">Hwn yw eich <b>llinell amser cartref</b>. Mae’n dangos postiadau diweddar y cyfrifon rydych yn eu dilyn.
+\n
+\nI archwilio cyfrifon gallwch un ai eu darganfod o fewn un o\'r llinellau amser eraill. Er enghraifft, mae llinell amser eich enghraifft chi [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwilio am Tusky i ganfod ein cyfrif Mastodon.</string>
+    <string name="pref_title_show_stat_inline">Dangos ystadegau postiadau mewn llinell amser</string>
 </resources>
