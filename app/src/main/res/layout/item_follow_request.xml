@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="10dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
@@ -30,8 +30,8 @@
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="8dp"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/action_view_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notificationTextView"
@@ -51,15 +51,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@id/usernameTextView"
         app:layout_constraintEnd_toStartOf="@id/rejectButton"
-        app:layout_constraintStart_toEndOf="@id/avatar"
-        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@+id/avatar"
+        app:layout_constraintTop_toBottomOf="@id/notificationTextView"
         tools:text="Display name" />
 
     <TextView
@@ -71,8 +71,7 @@
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="@id/avatar"
-        app:layout_constraintEnd_toStartOf="@id/rejectButton"
+        app:layout_constraintEnd_toStartOf="@+id/rejectButton"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/displayNameTextView"
         tools:text="\@username" />
@@ -82,7 +81,7 @@
         style="@style/TuskyImageButton"
         android:layout_width="52dp"
         android:layout_height="48dp"
-        android:layout_centerVertical="true"
+        android:layout_centerVertical="false"
         android:layout_marginStart="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_reject"
@@ -90,7 +89,7 @@
         app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintEnd_toStartOf="@id/acceptButton"
         app:layout_constraintStart_toEndOf="@id/displayNameTextView"
-        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintTop_toBottomOf="@+id/notificationTextView"
         app:srcCompat="@drawable/ic_reject_24dp" />
 
     <ImageButton
@@ -98,15 +97,13 @@
         style="@style/TuskyImageButton"
         android:layout_width="52dp"
         android:layout_height="48dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="12dp"
+        android:layout_centerVertical="false"
         android:layout_marginEnd="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_accept"
         android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@+id/rejectButton"
         app:srcCompat="@drawable/ic_check_24dp" />
 
     <TextView
