@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky
 
 import androidx.lifecycle.lifecycleScope
-import com.keylesspalace.tusky.TabData.AllowedContext
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.di.Injectable
 import kotlinx.coroutines.Dispatchers
@@ -27,11 +26,11 @@ class DrawerPreferenceActivity :
     Injectable,
     ItemInteractionListener {
 
-    override fun initializeList(): List<TabData> {
+    override fun initializeList(): List<ScreenData> {
         return accountManager.activeAccount?.drawerPreferences.orEmpty()
     }
 
-    override fun saveList(list: List<TabData>) {
+    override fun saveList(list: List<ScreenData>) {
         accountManager.activeAccount?.let {
             lifecycleScope.launch(Dispatchers.IO) {
                 it.drawerPreferences = list
@@ -46,8 +45,6 @@ class DrawerPreferenceActivity :
     override fun getMaxCount(): Int = MAX_TAB_COUNT
 
     override fun getActivityTitle(): CharSequence = getString(R.string.title_drawer_preferences)
-
-    override fun getAllowedContext() = AllowedContext.SIDEBAR
 
     companion object {
         private const val MIN_TAB_COUNT = 0

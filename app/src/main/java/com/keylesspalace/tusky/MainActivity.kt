@@ -57,8 +57,6 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.TabData.Action.FragmentAction
-import com.keylesspalace.tusky.TabData.Action.IntentAction
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.appstore.EventHub
@@ -504,26 +502,26 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
             val customDrawerItems =
                 listOf(DividerDrawerItem()) + accountManager.activeAccount?.drawerPreferences.orEmpty()
-                    .map { tabData ->
+                    .map { screenData ->
                         primaryDrawerItem {
-                            identifier = tabData.id.hashCode().toLong()
-                            when (tabData.id) {
-                                LIST -> nameText = tabData.arguments[1]
-                                else -> nameRes = tabData.text
+                            identifier = screenData.id.hashCode().toLong()
+                            when (screenData.id) {
+                                LIST -> nameText = screenData.arguments[1]
+                                else -> nameRes = screenData.text
                             }
-                            iconicsIcon = tabData.icon
+                            iconicsIcon = screenData.icon
                             onClick = {
-                                when (tabData.action) {
-                                    is FragmentAction -> {
+                                when (screenData) {
+                                    is TabScreenData -> {
                                         startActivityWithSlideInAnimation(
-                                            TabActivity.getIntent(context, tabData.id, tabData.arguments, accountLocked)
+                                            TabActivity.getIntent(context, screenData.id, screenData.arguments, accountLocked)
                                         )
                                     }
 
-                                    is IntentAction -> {
+                                    is ScreenData -> {
                                         // Passing an intent action to the Tab Activity is likely an error. We can redirect
                                         // it to start a new activity directly, using the passed intent.
-                                        val intent = tabData.action.intent(this@MainActivity, tabData.arguments, accountLocked)
+                                        val intent = screenData.intentAction(this@MainActivity, screenData.arguments, accountLocked)
                                         startActivityWithSlideInAnimation(intent)
                                     }
                                 }

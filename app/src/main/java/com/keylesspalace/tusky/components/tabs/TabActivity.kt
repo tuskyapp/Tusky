@@ -22,10 +22,10 @@ import androidx.fragment.app.commit
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TabData.Action.FragmentAction
-import com.keylesspalace.tusky.TabData.Action.IntentAction
+import com.keylesspalace.tusky.ScreenData
+import com.keylesspalace.tusky.TabScreenData
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.createTabDataFromId
+import com.keylesspalace.tusky.createScreenDataFromId
 import com.keylesspalace.tusky.databinding.ActivityTabsBinding
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.util.viewBinding
@@ -49,32 +49,32 @@ class TabActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjec
 
         val screenId = intent.getStringExtra(SCREEN_ID)!!
         val screenArgs = intent.getStringArrayExtra(SCREEN_ARGS)!!
-        val tabData = createTabDataFromId(screenId, screenArgs.asList())
+        val screenData = createScreenDataFromId(screenId, screenArgs.asList())
         val accountLocked = intent.getBooleanExtra(ACCOUNT_LOCKED, false)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val title = getString(tabData.text)
+        val title = getString(screenData.text)
 
         supportActionBar?.run {
             setTitle(title)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-        when (tabData.action) {
-            is FragmentAction -> {
+        when (screenData) {
+            is TabScreenData -> {
                 if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
                     supportFragmentManager.commit {
-                        val fragment = tabData.action.fragment(tabData.arguments)
+                        val fragment = screenData.fragmentAction(screenData.arguments)
                         replace(R.id.fragmentContainer, fragment)
                     }
                 }
             }
 
-            is IntentAction -> {
+            is ScreenData -> {
                 // Passing an intent action to the Tab Activity is likely an error. We can redirect
                 // it to start a new activity directly, using the passed intent.
-                val intent = tabData.action.intent(this@TabActivity, tabData.arguments, accountLocked)
+                val intent = screenData.intentAction(this@TabActivity, screenData.arguments, accountLocked)
                 startActivity(intent)
                 finish()
             }

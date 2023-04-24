@@ -25,7 +25,7 @@ import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.HASHTAG
 import com.keylesspalace.tusky.LIST
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.ScreenData
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceBinding
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
 import com.keylesspalace.tusky.util.BindingHolder
@@ -35,22 +35,22 @@ import com.keylesspalace.tusky.util.show
 import com.mikepenz.iconics.IconicsDrawable
 
 interface ItemInteractionListener {
-    fun onTabAdded(tab: TabData)
+    fun onTabAdded(tab: ScreenData)
     fun onTabRemoved(position: Int)
     fun onStartDelete(viewHolder: RecyclerView.ViewHolder)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
-    fun onActionChipClicked(tab: TabData, tabPosition: Int)
-    fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int)
+    fun onActionChipClicked(tab: ScreenData, tabPosition: Int)
+    fun onChipClicked(tab: ScreenData, tabPosition: Int, chipPosition: Int)
 }
 
 class TabAdapter(
-    private var data: List<TabData>,
+    private var data: List<ScreenData>,
     private val small: Boolean,
     private val listener: ItemInteractionListener,
     private var removeButtonEnabled: Boolean = false
 ) : RecyclerView.Adapter<BindingHolder<ViewBinding>>() {
 
-    fun updateData(newData: List<TabData>) {
+    fun updateData(newData: List<ScreenData>) {
         this.data = newData
         notifyDataSetChanged()
     }

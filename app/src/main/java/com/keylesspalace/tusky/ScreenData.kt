@@ -17,23 +17,19 @@ package com.keylesspalace.tusky
 
 import android.content.Context
 import android.content.Intent
-import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import com.keylesspalace.tusky.TabData.Action.FragmentAction
-import com.keylesspalace.tusky.TabData.Action.IntentAction
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
+import com.keylesspalace.tusky.components.tabs.TabActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.trending.TrendingFragment
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial.Icon
-import kotlinx.parcelize.Parcelize
-import java.util.Objects
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
 
@@ -54,20 +50,20 @@ const val DRAFTS = "Drafts"
 const val SCHEDULED_POSTS = "Scheduled posts"
 const val ANNOUNCEMENTS = "Announcements"
 
-data class TabData(
+open class ScreenData(
     val id: String,
     @StringRes val text: Int,
     val icon: Icon,
-    val action: Action,
     val arguments: List<String> = emptyList(),
+    val intentAction: (Context, List<String>, Boolean) -> Intent,
     val title: (Context) -> String = { context -> context.getString(text) },
-    val allowedContexts: List<AllowedContext> = listOf(AllowedContext.TABS, AllowedContext.SIDEBAR)
+    val unique: Boolean = false
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as TabData
+        other as ScreenData
 
         if (id != other.id) return false
         if (arguments != other.arguments) return false
@@ -75,165 +71,206 @@ data class TabData(
         return true
     }
 
-    override fun hashCode() = Objects.hash(id, arguments)
-
-    @Parcelize
-    sealed class Action : Parcelable {
-        data class FragmentAction(val fragment: (args: List<String>) -> Fragment) : Action()
-        data class IntentAction(val intent: (Context, args: List<String>, accountLocked: Boolean) -> Intent) : Action()
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + arguments.hashCode()
+        return result
     }
 
-    enum class AllowedContext {
-        SIDEBAR, TABS
-    }
+    open fun withArguments(args: List<String>): ScreenData = ScreenData(
+        id = id,
+        text = text,
+        icon = icon,
+        arguments = args,
+        intentAction = intentAction,
+        title = title
+    )
 }
 
-fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
+class TabScreenData(
+    id: String,
+    text: Int,
+    icon: Icon,
+    arguments: List<String> = emptyList(),
+    val fragmentAction: (List<String>) -> Fragment,
+    title: (Context) -> String = { context -> context.getString(text) },
+    unique: Boolean = false
+) : ScreenData(
+    id = id,
+    text = text,
+    icon = icon,
+    arguments = arguments,
+    intentAction = { context, screenData, accountLocked ->
+        TabActivity.getIntent(
+            context,
+            id,
+            screenData,
+            accountLocked
+        )
+    },
+    title = title,
+    unique = unique
+) {
+    override fun withArguments(args: List<String>) = TabScreenData(
+        id = id,
+        text = text,
+        icon = icon,
+        arguments = args,
+        fragmentAction = fragmentAction,
+        title = title
+    )
+}
 
-fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
+fun createScreenDataFromId(id: String, arguments: List<String> = emptyList()): ScreenData {
     return when (id) {
-        HOME -> TabData(
+        HOME -> TabScreenData(
             id = id,
             text = R.string.title_home,
             icon = Icon.gmd_home,
-            action = FragmentAction { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
+            fragmentAction = { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
         )
-        NOTIFICATIONS -> TabData(
+
+        NOTIFICATIONS -> TabScreenData(
             id = id,
             text = R.string.title_notifications,
             icon = Icon.gmd_notifications,
-            action = FragmentAction { NotificationsFragment.newInstance() }
+            fragmentAction = { NotificationsFragment.newInstance() }
         )
-        LOCAL -> TabData(
+
+        LOCAL -> TabScreenData(
             id = id,
             text = R.string.title_public_local,
             icon = Icon.gmd_group,
-            action = FragmentAction { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
+            fragmentAction = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
         )
-        FEDERATED -> TabData(
+
+        FEDERATED -> TabScreenData(
             id = id,
             text = R.string.title_public_federated,
             icon = Icon.gmd_public,
-            action = FragmentAction { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
+            fragmentAction = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
         )
-        DIRECT -> TabData(
+
+        DIRECT -> TabScreenData(
             id = id,
             text = R.string.title_direct_messages,
             icon = Icon.gmd_mail,
-            action = FragmentAction { ConversationsFragment.newInstance() }
+            fragmentAction = { ConversationsFragment.newInstance() }
         )
-        TRENDING -> TabData(
+
+        TRENDING -> TabScreenData(
             id = id,
             text = R.string.title_public_trending_hashtags,
             icon = Icon.gmd_trending_up,
-            action = FragmentAction { TrendingFragment.newInstance() }
+            fragmentAction = { TrendingFragment.newInstance() }
         )
-        HASHTAG -> TabData(
+
+        HASHTAG -> TabScreenData(
             id = id,
             text = R.string.hashtags,
             icon = Icon.gmd_tag,
-            action = FragmentAction { args -> TimelineFragment.newHashtagInstance(args) },
+            fragmentAction = { args -> TimelineFragment.newHashtagInstance(args) },
             arguments = arguments,
             title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
         )
-        LIST -> TabData(
+
+        LIST -> TabScreenData(
             id = id,
             text = R.string.list,
             icon = Icon.gmd_list,
-            action = FragmentAction { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
+            fragmentAction = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
             arguments = arguments,
             title = { arguments.getOrNull(1).orEmpty() }
         )
-        EDIT_PROFILE -> TabData(
+
+        EDIT_PROFILE -> ScreenData(
             id = id,
             text = R.string.action_edit_profile,
             icon = Icon.gmd_person,
-            action = IntentAction { context, _, _ -> Intent(context, EditProfileActivity::class.java) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> Intent(context, EditProfileActivity::class.java) },
+            arguments = arguments
         )
-        FAVOURITES -> TabData(
+
+        FAVOURITES -> ScreenData(
             id = id,
             text = R.string.action_view_favourites,
             icon = Icon.gmd_star,
-            action = IntentAction { context, _, _ -> StatusListActivity.newFavouritesIntent(context) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> StatusListActivity.newFavouritesIntent(context) },
+            arguments = arguments
         )
-        BOOKMARKS -> TabData(
+
+        BOOKMARKS -> ScreenData(
             id = id,
             text = R.string.action_view_bookmarks,
             icon = Icon.gmd_bookmark,
-            action = IntentAction { context, _, _ -> StatusListActivity.newBookmarksIntent(context) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> StatusListActivity.newBookmarksIntent(context) },
+            arguments = arguments
         )
-        FOLLOW_REQUESTS -> TabData(
+
+        FOLLOW_REQUESTS -> ScreenData(
             id = id,
             text = R.string.action_view_follow_requests,
             icon = Icon.gmd_person_add,
-            action = IntentAction { context, args, accountLocked ->
-                AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
-            },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, args, accountLocked -> AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked) },
+            arguments = arguments
         )
-        LISTS -> TabData(
+
+        LISTS -> ScreenData(
             id = id,
             text = R.string.action_lists,
             icon = Icon.gmd_list,
-            action = IntentAction { context, _, _ -> ListsActivity.newIntent(context) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> ListsActivity.newIntent(context) },
+            arguments = arguments
         )
-        DRAFTS -> TabData(
+
+        DRAFTS -> ScreenData(
             id = id,
             text = R.string.action_access_drafts,
             icon = Icon.gmd_book,
-            action = IntentAction { context, _, _ -> DraftsActivity.newIntent(context) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> DraftsActivity.newIntent(context) },
+            arguments = arguments
         )
-        SCHEDULED_POSTS -> TabData(
+
+        SCHEDULED_POSTS -> ScreenData(
             id = id,
             text = R.string.action_access_scheduled_posts,
             icon = Icon.gmd_schedule,
-            action = IntentAction { context, _, _ -> ScheduledStatusActivity.newIntent(context) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> ScheduledStatusActivity.newIntent(context) },
+            arguments = arguments
         )
-        ANNOUNCEMENTS -> TabData(
+
+        ANNOUNCEMENTS -> ScreenData(
             id = id,
             text = R.string.title_announcements,
             icon = Icon.gmd_campaign,
-            action = IntentAction { context, _, _ -> AnnouncementsActivity.newIntent(context) },
-            arguments = arguments,
-            allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
+            intentAction = { context, _, _ -> AnnouncementsActivity.newIntent(context) },
+            arguments = arguments
         )
+
         else -> throw IllegalArgumentException("unknown tab type")
     }
 }
 
-fun defaultTabs(): List<TabData> {
+fun defaultTabs(): List<ScreenData> {
     return listOf(
-        createTabDataFromId(HOME),
-        createTabDataFromId(NOTIFICATIONS),
-        createTabDataFromId(LOCAL),
-        createTabDataFromId(DIRECT)
+        createScreenDataFromId(HOME),
+        createScreenDataFromId(NOTIFICATIONS),
+        createScreenDataFromId(LOCAL),
+        createScreenDataFromId(DIRECT)
     )
 }
 
-fun defaultSidebarEntries(): List<TabData> {
+fun defaultSidebarEntries(): List<ScreenData> {
     return listOf(
-        createTabDataFromId(EDIT_PROFILE),
-        createTabDataFromId(FAVOURITES),
-        createTabDataFromId(BOOKMARKS),
-        createTabDataFromId(FOLLOW_REQUESTS),
-        createTabDataFromId(LISTS),
-        createTabDataFromId(TRENDING),
-        createTabDataFromId(FEDERATED),
-        createTabDataFromId(DRAFTS),
-        createTabDataFromId(SCHEDULED_POSTS),
-        createTabDataFromId(ANNOUNCEMENTS)
+        createScreenDataFromId(EDIT_PROFILE),
+        createScreenDataFromId(FAVOURITES),
+        createScreenDataFromId(BOOKMARKS),
+        createScreenDataFromId(FOLLOW_REQUESTS),
+        createScreenDataFromId(LISTS),
+        createScreenDataFromId(TRENDING),
+        createScreenDataFromId(FEDERATED),
+        createScreenDataFromId(DRAFTS),
+        createScreenDataFromId(SCHEDULED_POSTS),
+        createScreenDataFromId(ANNOUNCEMENTS)
     )
 }

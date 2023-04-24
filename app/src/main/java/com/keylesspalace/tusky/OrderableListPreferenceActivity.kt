@@ -67,12 +67,11 @@ abstract class OrderableListPreferenceActivity :
     Injectable,
     ItemInteractionListener {
 
-    abstract fun saveList(list: List<TabData>)
-    abstract fun initializeList(): List<TabData>
+    abstract fun saveList(list: List<ScreenData>)
+    abstract fun initializeList(): List<ScreenData>
     abstract fun getMinCount(): Int
     abstract fun getMaxCount(): Int
     abstract fun getActivityTitle(): CharSequence
-    abstract fun getAllowedContext(): TabData.AllowedContext
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -82,7 +81,7 @@ abstract class OrderableListPreferenceActivity :
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
-    private lateinit var currentTabs: MutableList<TabData>
+    private lateinit var currentTabs: MutableList<ScreenData>
     private lateinit var currentTabsAdapter: TabAdapter
     private lateinit var touchHelper: ItemTouchHelper
     private lateinit var addTabAdapter: TabAdapter
@@ -124,7 +123,7 @@ abstract class OrderableListPreferenceActivity :
             )
         )
 
-        addTabAdapter = TabAdapter(listOf(createTabDataFromId(DIRECT)), true, this)
+        addTabAdapter = TabAdapter(listOf(createScreenDataFromId(DIRECT)), true, this)
         binding.addTabRecyclerView.adapter = addTabAdapter
         binding.addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -205,7 +204,7 @@ abstract class OrderableListPreferenceActivity :
         onBackPressedDispatcher.addCallback(onFabDismissedCallback)
     }
 
-    override fun onTabAdded(tab: TabData) {
+    override fun onTabAdded(tab: ScreenData) {
         if (currentTabs.size >= getMaxCount()) {
             return
         }
@@ -235,13 +234,13 @@ abstract class OrderableListPreferenceActivity :
         saveList(currentTabs)
     }
 
-    override fun onActionChipClicked(tab: TabData, tabPosition: Int) {
+    override fun onActionChipClicked(tab: ScreenData, tabPosition: Int) {
         showAddHashtagDialog(tab, tabPosition)
     }
 
-    override fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int) {
+    override fun onChipClicked(tab: ScreenData, tabPosition: Int, chipPosition: Int) {
         val newArguments = tab.arguments.filterIndexed { i, _ -> i != chipPosition }
-        val newTab = tab.copy(arguments = newArguments)
+        val newTab = tab.withArguments(newArguments)
         currentTabs[tabPosition] = newTab
         saveList(currentTabs)
 
@@ -266,7 +265,7 @@ abstract class OrderableListPreferenceActivity :
         onFabDismissedCallback.isEnabled = expand
     }
 
-    private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
+    private fun showAddHashtagDialog(tab: ScreenData? = null, tabPosition: Int = 0) {
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)
@@ -283,11 +282,11 @@ abstract class OrderableListPreferenceActivity :
             .setPositiveButton(R.string.action_save) { _, _ ->
                 val input = editText.text.toString().trim()
                 if (tab == null) {
-                    val newTab = createTabDataFromId(HASHTAG, listOf(input))
+                    val newTab = createScreenDataFromId(HASHTAG, listOf(input))
                     currentTabs.add(newTab)
                     currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                 } else {
-                    val newTab = tab.copy(arguments = tab.arguments + input)
+                    val newTab = tab.withArguments(tab.arguments + input)
                     currentTabs[tabPosition] = newTab
 
                     currentTabsAdapter.notifyItemChanged(tabPosition)
@@ -335,7 +334,7 @@ abstract class OrderableListPreferenceActivity :
             .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
-                val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
+                val newTab = createScreenDataFromId(LIST, listOf(list!!.id, list.title))
                 currentTabs.add(newTab)
                 currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                 updateAvailableTabs()
@@ -383,49 +382,38 @@ abstract class OrderableListPreferenceActivity :
     }
 
     private fun updateAvailableTabs() {
-        val addableTabs: MutableList<TabData> = mutableListOf()
+        val addableTabs: MutableList<ScreenData> = mutableListOf()
 
-        val homeTab = createTabDataFromId(HOME)
-        if (!currentTabs.contains(homeTab)) {
-            addableTabs.add(homeTab)
-        }
-        val notificationTab = createTabDataFromId(NOTIFICATIONS)
-        if (!currentTabs.contains(notificationTab)) {
-            addableTabs.add(notificationTab)
-        }
-        val localTab = createTabDataFromId(LOCAL)
-        if (!currentTabs.contains(localTab)) {
-            addableTabs.add(localTab)
-        }
-        val federatedTab = createTabDataFromId(FEDERATED)
-        if (!currentTabs.contains(federatedTab)) {
-            addableTabs.add(federatedTab)
-        }
-        val directMessagesTab = createTabDataFromId(DIRECT)
-        if (!currentTabs.contains(directMessagesTab)) {
-            addableTabs.add(directMessagesTab)
-        }
-        val trendingTab = createTabDataFromId(TRENDING)
-        if (!currentTabs.contains(trendingTab)) {
-            addableTabs.add(trendingTab)
-        }
+        listOf(HOME, NOTIFICATIONS, LOCAL, FEDERATED, DIRECT, TRENDING)
+            .map { id -> createScreenDataFromId(id) }
+            .forEach { item ->
+                if (!currentTabs.contains(item)) {
+                    addableTabs.add(item)
+                }
+            }
 
-        // Items from sidebar
-        listOf(EDIT_PROFILE, FAVOURITES, BOOKMARKS, FOLLOW_REQUESTS, LISTS, DRAFTS, SCHEDULED_POSTS, ANNOUNCEMENTS).forEach { id ->
-            val item = createTabDataFromId(id)
-            if (!currentTabs.contains(item)) {
-                addableTabs.add(item)
+        if(this is DrawerPreferenceActivity) {
+            // Items from sidebar
+            listOf(EDIT_PROFILE, FAVOURITES, BOOKMARKS, FOLLOW_REQUESTS, LISTS, DRAFTS, SCHEDULED_POSTS, ANNOUNCEMENTS)
+                .map { id -> createScreenDataFromId(id) }
+                .forEach { item ->
+                if (!currentTabs.contains(item)) {
+                    addableTabs.add(item)
+                }
             }
         }
 
-        addableTabs.add(createTabDataFromId(HASHTAG))
-        addableTabs.add(createTabDataFromId(LIST))
+        listOf(HASHTAG, LIST)
+            .map { id -> createScreenDataFromId(id) }
+            .forEach { item ->
+                if (!currentTabs.contains(item)) {
+                    addableTabs.add(item)
+                }
+            }
 
-        val allowedTabs = addableTabs.filter { it.allowedContexts.contains(getAllowedContext()) }
+        addTabAdapter.updateData(addableTabs)
 
-        addTabAdapter.updateData(allowedTabs)
-
-        binding.maxTabsInfo.visible(allowedTabs.isEmpty() || currentTabs.size >= getMaxCount())
+        binding.maxTabsInfo.visible(addableTabs.isEmpty() || currentTabs.size >= getMaxCount())
         currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > getMinCount())
     }
 

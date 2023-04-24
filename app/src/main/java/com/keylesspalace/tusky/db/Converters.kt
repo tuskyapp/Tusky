@@ -19,9 +19,9 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.ScreenData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
-import com.keylesspalace.tusky.createTabDataFromId
+import com.keylesspalace.tusky.createScreenDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
@@ -62,18 +62,18 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun stringToTabData(str: String?): List<TabData>? {
+    fun stringToScreenData(str: String?): List<ScreenData>? {
         return str?.split(";")
             ?.map {
                 val data = it.split(":")
-                createTabDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
+                createScreenDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") }.filter { arg -> arg.isNotBlank() })
             }
     }
 
     @TypeConverter
-    fun tabDataToString(tabData: List<TabData>?): String? {
+    fun screenDataToString(screenData: List<ScreenData>?): String? {
         // List name may include ":"
-        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
+        return screenData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
     }
 
     @TypeConverter
