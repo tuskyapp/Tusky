@@ -305,7 +305,6 @@
     <string name="action_add_to_list">Добавить аккаунт в список</string>
     <string name="action_remove_from_list">Удалить аккаунт из списка</string>
     <string name="compose_active_account_description">Отправка от имени %1$s</string>
-    <string name="error_failed_set_caption">Не удалось добавить подпись</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Описание для слабовидящих\n(не более %d символов)</item>
     </plurals>

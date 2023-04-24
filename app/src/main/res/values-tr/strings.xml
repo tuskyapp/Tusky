@@ -213,7 +213,7 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Projenin internet sitesi: 
+    <string name="about_project_site">Projenin internet sitesi:
 \n https://tusky.app</string>
     <string name="about_bug_feature_request_site">&amp; özellik istekleri hata raporları:
 \n https://github.com/tuskyapp/Tusky/issues</string>
@@ -470,7 +470,6 @@
     <string name="action_mute_conversation">Sohbeti sessize al</string>
     <string name="pref_main_nav_position">Ana gezinti konumu</string>
     <string name="pref_title_gradient_for_media">Gizli medya için renkli gradyanlar göster</string>
-    <string name="error_failed_set_caption">Başlık ayarlanamadı</string>
     <string name="warning_scheduling_interval">Mastodon\'un minimum 5 dakikalık zamanlama aralığı vardır.</string>
     <string name="pref_title_hide_top_toolbar">Üst araç çubuğunun başlığını gizle</string>
     <string name="action_delete_conversation">Konuşmayı sil</string>
@@ -542,7 +541,6 @@
     <string name="wellbeing_hide_stats_profile">Profillerdeki niceliksel istatistikleri gizle</string>
     <string name="tusky_compose_post_quicksetting_label">Gönderi Oluştur</string>
     <string name="saving_draft">Taslağı kaydediyor…</string>
-    <string name="error_failed_set_focus">Odak noktası ayarlanamadı</string>
     <string name="action_set_focus">Odak noktasını ayarla</string>
     <string name="action_edit_image">Görseli düzenle</string>
     <string name="account_date_joined">%1$s katıldı</string>

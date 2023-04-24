@@ -67,6 +67,8 @@ public final class ProgressRequestBody extends RequestBody {
                 uploaded += read;
                 sink.write(buffer, 0, read);
             }
+
+            uploadListener.onProgressUpdate((int)(100 * uploaded / contentLength));
         } finally {
             content.close();
         }

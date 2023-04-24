@@ -286,7 +286,6 @@
     <string name="action_add_to_list">添加用户到列表</string>
     <string name="action_remove_from_list">从列表中移除用户</string>
     <string name="compose_active_account_description">以 %1$s 身份发布嘟文</string>
-    <string name="error_failed_set_caption">设置图片标题失败</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">为视觉障碍用户描述内容（最多 %d 个字符）</item>
     </plurals>
@@ -487,12 +486,12 @@
     <string name="review_notifications">反馈通知</string>
     <string name="wellbeing_hide_stats_posts">隐藏嘟文的统计信息</string>
     <string name="limit_notifications">限制时间线通知</string>
-    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括： 
-\n 
-\n - 喜欢、转发、关注通知 
-\n - 喜欢、转发数 
-\n - 账号的已关注数量、嘟文数量 
-\n 
+    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括：
+\n
+\n - 喜欢、转发、关注通知
+\n - 喜欢、转发数
+\n - 账号的已关注数量、嘟文数量
+\n
 \n 推送通知不会被影响，但可以在通知设置中手动禁用。</string>
     <string name="pref_title_wellbeing_mode">健康模式</string>
     <string name="duration_indefinite">永久</string>
@@ -548,7 +547,6 @@
     <string name="duration_no_change">(无更改)</string>
     <string name="description_post_language">嘟文语言</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">设置焦点失败</string>
     <string name="action_set_focus">设置焦点</string>
     <string name="set_focus_description">轻按或拖动圆圈选择始终在缩略图中可见的焦点。</string>
     <string name="pref_show_self_username_disambiguate">登录多个账户时</string>
@@ -667,3 +665,4 @@
     <string name="error_list_load">加载列表出错</string>
     <string name="select_list_empty">你还没有列表</string>
 </resources>
+
