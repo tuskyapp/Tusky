@@ -22,10 +22,10 @@ import androidx.fragment.app.commit
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.TabData.Action.FragmentAction
 import com.keylesspalace.tusky.TabData.Action.IntentAction
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.databinding.ActivityTabsBinding
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.util.viewBinding
@@ -47,7 +47,9 @@ class TabActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjec
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val tabData = intent.getParcelableExtra<TabData>(TAB_DATA)!!
+        val screenId = intent.getStringExtra(SCREEN_ID)!!
+        val screenArgs = intent.getStringArrayExtra(SCREEN_ARGS)!!
+        val tabData = createTabDataFromId(screenId, screenArgs.asList())
         val accountLocked = intent.getBooleanExtra(ACCOUNT_LOCKED, false)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
@@ -87,13 +89,15 @@ class TabActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjec
 
     companion object {
         const val TAG = "TabActivity"
-        private const val TAB_DATA = "tab_data"
+        private const val SCREEN_ID = "screen_id"
+        private const val SCREEN_ARGS = "screen_args"
         private const val ACCOUNT_LOCKED = "account_locked"
 
         @JvmStatic
-        fun getIntent(context: Context, tabData: TabData, accountLocked: Boolean) =
+        fun getIntent(context: Context, screenId: String, screenArguments: List<String>, accountLocked: Boolean) =
             Intent(context, TabActivity::class.java).apply {
-                putExtra(TAB_DATA, tabData)
+                putExtra(SCREEN_ID, screenId)
+                putExtra(SCREEN_ARGS, screenArguments.toTypedArray())
                 putExtra(ACCOUNT_LOCKED, accountLocked)
             }
     }

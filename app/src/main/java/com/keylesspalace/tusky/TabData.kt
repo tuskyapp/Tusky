@@ -54,7 +54,6 @@ const val DRAFTS = "Drafts"
 const val SCHEDULED_POSTS = "Scheduled posts"
 const val ANNOUNCEMENTS = "Announcements"
 
-@Parcelize
 data class TabData(
     val id: String,
     @StringRes val text: Int,
@@ -63,7 +62,7 @@ data class TabData(
     val arguments: List<String> = emptyList(),
     val title: (Context) -> String = { context -> context.getString(text) },
     val allowedContexts: List<AllowedContext> = listOf(AllowedContext.TABS, AllowedContext.SIDEBAR)
-) : Parcelable {
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

@@ -516,7 +516,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                                 when (tabData.action) {
                                     is FragmentAction -> {
                                         startActivityWithSlideInAnimation(
-                                            TabActivity.getIntent(context, tabData, accountLocked)
+                                            TabActivity.getIntent(context, tabData.id, tabData.arguments, accountLocked)
                                         )
                                     }
 
