@@ -35,15 +35,15 @@ import com.keylesspalace.tusky.util.show
 import com.mikepenz.iconics.IconicsDrawable
 
 interface ItemInteractionListener {
-    fun onTabAdded(tab: ScreenData)
-    fun onTabRemoved(position: Int)
+    fun onScreenAdded(screen: ScreenData)
+    fun onScreenRemoved(position: Int)
     fun onStartDelete(viewHolder: RecyclerView.ViewHolder)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
-    fun onActionChipClicked(tab: ScreenData, tabPosition: Int)
-    fun onChipClicked(tab: ScreenData, tabPosition: Int, chipPosition: Int)
+    fun onActionChipClicked(screen: ScreenData, screenPosition: Int)
+    fun onChipClicked(screen: ScreenData, screenPosition: Int, chipPosition: Int)
 }
 
-class TabAdapter(
+class ScreenAdapter(
     private var data: List<ScreenData>,
     private val small: Boolean,
     private val listener: ItemInteractionListener,
@@ -66,27 +66,27 @@ class TabAdapter(
 
     override fun onBindViewHolder(holder: BindingHolder<ViewBinding>, position: Int) {
         val context = holder.itemView.context
-        val tab = data[position]
+        val screenData = data[position]
 
         if (small) {
             val binding = holder.binding as ItemTabPreferenceSmallBinding
 
-            binding.textView.setText(tab.text)
-            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(IconicsDrawable(context, tab.icon), null, null, null)
+            binding.textView.setText(screenData.text)
+            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(IconicsDrawable(context, screenData.icon), null, null, null)
 
             binding.textView.setOnClickListener {
-                listener.onTabAdded(tab)
+                listener.onScreenAdded(screenData)
             }
         } else {
             val binding = holder.binding as ItemTabPreferenceBinding
 
-            if (tab.id == LIST) {
-                binding.textView.text = tab.arguments.getOrNull(1).orEmpty()
+            if (screenData.id == LIST) {
+                binding.textView.text = screenData.arguments.getOrNull(1).orEmpty()
             } else {
-                binding.textView.setText(tab.text)
+                binding.textView.setText(screenData.text)
             }
 
-            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(IconicsDrawable(context, tab.icon), null, null, null)
+            binding.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(IconicsDrawable(context, screenData.icon), null, null, null)
 
             binding.imageView.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
@@ -97,7 +97,7 @@ class TabAdapter(
                 }
             }
             binding.removeButton.setOnClickListener {
-                listener.onTabRemoved(holder.bindingAdapterPosition)
+                listener.onScreenRemoved(holder.bindingAdapterPosition)
             }
             binding.removeButton.isEnabled = removeButtonEnabled
             setDrawableTint(
@@ -106,7 +106,7 @@ class TabAdapter(
                 (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)
             )
 
-            if (tab.id == HASHTAG) {
+            if (screenData.id == HASHTAG) {
                 binding.chipGroup.show()
 
                 /*
@@ -114,7 +114,7 @@ class TabAdapter(
                  * The other dynamic chips are inserted in front of the actionChip.
                  * This code tries to reuse already added chips to reduce the number of Views created.
                  */
-                tab.arguments.forEachIndexed { i, arg ->
+                screenData.arguments.forEachIndexed { i, arg ->
 
                     val chip = binding.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                         ?: Chip(context).apply {
@@ -125,23 +125,23 @@ class TabAdapter(
 
                     chip.text = arg
 
-                    if (tab.arguments.size <= 1) {
+                    if (screenData.arguments.size <= 1) {
                         chip.isCloseIconVisible = false
                         chip.setOnClickListener(null)
                     } else {
                         chip.isCloseIconVisible = true
                         chip.setOnClickListener {
-                            listener.onChipClicked(tab, holder.bindingAdapterPosition, i)
+                            listener.onChipClicked(screenData, holder.bindingAdapterPosition, i)
                         }
                     }
                 }
 
-                while (binding.chipGroup.size - 1 > tab.arguments.size) {
-                    binding.chipGroup.removeViewAt(tab.arguments.size)
+                while (binding.chipGroup.size - 1 > screenData.arguments.size) {
+                    binding.chipGroup.removeViewAt(screenData.arguments.size)
                 }
 
                 binding.actionChip.setOnClickListener {
-                    listener.onActionChipClicked(tab, holder.bindingAdapterPosition)
+                    listener.onActionChipClicked(screenData, holder.bindingAdapterPosition)
                 }
             } else {
                 binding.chipGroup.hide()

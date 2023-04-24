@@ -43,9 +43,9 @@ import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.ListSelectionAdapter
-import com.keylesspalace.tusky.adapter.TabAdapter
+import com.keylesspalace.tusky.adapter.ScreenAdapter
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.appstore.MainScreensChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
@@ -81,12 +81,12 @@ abstract class OrderableListPreferenceActivity :
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
-    private lateinit var currentTabs: MutableList<ScreenData>
-    private lateinit var currentTabsAdapter: TabAdapter
+    private lateinit var currentScreens: MutableList<ScreenData>
+    private lateinit var currentScreensAdapter: ScreenAdapter
     private lateinit var touchHelper: ItemTouchHelper
-    private lateinit var addTabAdapter: TabAdapter
+    private lateinit var addScreenAdapter: ScreenAdapter
 
-    protected var tabsChanged = false
+    protected var screensChanged = false
 
     private val selectedItemElevation by unsafeLazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
 
@@ -111,21 +111,21 @@ abstract class OrderableListPreferenceActivity :
             setDisplayShowHomeEnabled(true)
         }
 
-        currentTabs = initializeList().toMutableList()
-        currentTabsAdapter =
-            TabAdapter(currentTabs, false, this, currentTabs.size <= getMinCount())
-        binding.currentTabsRecyclerView.adapter = currentTabsAdapter
-        binding.currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.currentTabsRecyclerView.addItemDecoration(
+        currentScreens = initializeList().toMutableList()
+        currentScreensAdapter =
+            ScreenAdapter(currentScreens, false, this, currentScreens.size <= getMinCount())
+        binding.currentScreensRecyclerView.adapter = currentScreensAdapter
+        binding.currentScreensRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.currentScreensRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 this,
                 LinearLayoutManager.VERTICAL
             )
         )
 
-        addTabAdapter = TabAdapter(listOf(createScreenDataFromId(DIRECT)), true, this)
-        binding.addTabRecyclerView.adapter = addTabAdapter
-        binding.addTabRecyclerView.layoutManager = LinearLayoutManager(this)
+        addScreenAdapter = ScreenAdapter(listOf(createScreenDataFromId(DIRECT)), true, this)
+        binding.addScreenRecyclerView.adapter = addScreenAdapter
+        binding.addScreenRecyclerView.layoutManager = LinearLayoutManager(this)
 
         touchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
@@ -143,7 +143,7 @@ abstract class OrderableListPreferenceActivity :
             }
 
             override fun isItemViewSwipeEnabled(): Boolean {
-                return getMinCount() < currentTabs.size
+                return getMinCount() < currentScreens.size
             }
 
             override fun onMove(
@@ -151,21 +151,21 @@ abstract class OrderableListPreferenceActivity :
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                val temp = currentTabs[viewHolder.bindingAdapterPosition]
-                currentTabs[viewHolder.bindingAdapterPosition] =
-                    currentTabs[target.bindingAdapterPosition]
-                currentTabs[target.bindingAdapterPosition] = temp
+                val temp = currentScreens[viewHolder.bindingAdapterPosition]
+                currentScreens[viewHolder.bindingAdapterPosition] =
+                    currentScreens[target.bindingAdapterPosition]
+                currentScreens[target.bindingAdapterPosition] = temp
 
-                currentTabsAdapter.notifyItemMoved(
+                currentScreensAdapter.notifyItemMoved(
                     viewHolder.bindingAdapterPosition,
                     target.bindingAdapterPosition
                 )
-                saveList(currentTabs)
+                saveList(currentScreens)
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                onTabRemoved(viewHolder.bindingAdapterPosition)
+                onScreenRemoved(viewHolder.bindingAdapterPosition)
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -183,7 +183,7 @@ abstract class OrderableListPreferenceActivity :
             }
         })
 
-        touchHelper.attachToRecyclerView(binding.currentTabsRecyclerView)
+        touchHelper.attachToRecyclerView(binding.currentScreensRecyclerView)
 
         binding.actionButton.setOnClickListener {
             toggleFab(true)
@@ -193,58 +193,58 @@ abstract class OrderableListPreferenceActivity :
             toggleFab(false)
         }
 
-        binding.maxTabsInfo.text = resources.getQuantityString(
+        binding.maxScreensInfo.text = resources.getQuantityString(
             R.plurals.max_tab_number_reached,
             getMaxCount(),
             getMaxCount()
         )
 
-        updateAvailableTabs()
+        updateAvailableScreens()
 
         onBackPressedDispatcher.addCallback(onFabDismissedCallback)
     }
 
-    override fun onTabAdded(tab: ScreenData) {
-        if (currentTabs.size >= getMaxCount()) {
+    override fun onScreenAdded(screen: ScreenData) {
+        if (currentScreens.size >= getMaxCount()) {
             return
         }
 
         toggleFab(false)
 
-        if (tab.id == HASHTAG) {
+        if (screen.id == HASHTAG) {
             showAddHashtagDialog()
             return
         }
 
-        if (tab.id == LIST) {
+        if (screen.id == LIST) {
             showSelectListDialog()
             return
         }
 
-        currentTabs.add(tab)
-        currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-        updateAvailableTabs()
-        saveList(currentTabs)
+        currentScreens.add(screen)
+        currentScreensAdapter.notifyItemInserted(currentScreens.size - 1)
+        updateAvailableScreens()
+        saveList(currentScreens)
     }
 
-    override fun onTabRemoved(position: Int) {
-        currentTabs.removeAt(position)
-        currentTabsAdapter.notifyItemRemoved(position)
-        updateAvailableTabs()
-        saveList(currentTabs)
+    override fun onScreenRemoved(position: Int) {
+        currentScreens.removeAt(position)
+        currentScreensAdapter.notifyItemRemoved(position)
+        updateAvailableScreens()
+        saveList(currentScreens)
     }
 
-    override fun onActionChipClicked(tab: ScreenData, tabPosition: Int) {
-        showAddHashtagDialog(tab, tabPosition)
+    override fun onActionChipClicked(screen: ScreenData, screenPosition: Int) {
+        showAddHashtagDialog(screen, screenPosition)
     }
 
-    override fun onChipClicked(tab: ScreenData, tabPosition: Int, chipPosition: Int) {
-        val newArguments = tab.arguments.filterIndexed { i, _ -> i != chipPosition }
-        val newTab = tab.withArguments(newArguments)
-        currentTabs[tabPosition] = newTab
-        saveList(currentTabs)
+    override fun onChipClicked(screen: ScreenData, screenPosition: Int, chipPosition: Int) {
+        val newArguments = screen.arguments.filterIndexed { i, _ -> i != chipPosition }
+        val newScreen = screen.withArguments(newArguments)
+        currentScreens[screenPosition] = newScreen
+        saveList(currentScreens)
 
-        currentTabsAdapter.notifyItemChanged(tabPosition)
+        currentScreensAdapter.notifyItemChanged(screenPosition)
     }
 
     private fun toggleFab(expand: Boolean) {
@@ -265,7 +265,7 @@ abstract class OrderableListPreferenceActivity :
         onFabDismissedCallback.isEnabled = expand
     }
 
-    private fun showAddHashtagDialog(tab: ScreenData? = null, tabPosition: Int = 0) {
+    private fun showAddHashtagDialog(screenData: ScreenData? = null, screenPosition: Int = 0) {
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)
@@ -281,19 +281,19 @@ abstract class OrderableListPreferenceActivity :
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.action_save) { _, _ ->
                 val input = editText.text.toString().trim()
-                if (tab == null) {
-                    val newTab = createScreenDataFromId(HASHTAG, listOf(input))
-                    currentTabs.add(newTab)
-                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+                if (screenData == null) {
+                    val newScreen = createScreenDataFromId(HASHTAG, listOf(input))
+                    currentScreens.add(newScreen)
+                    currentScreensAdapter.notifyItemInserted(currentScreens.size - 1)
                 } else {
-                    val newTab = tab.withArguments(tab.arguments + input)
-                    currentTabs[tabPosition] = newTab
+                    val newScreen = screenData.withArguments(screenData.arguments + input)
+                    currentScreens[screenPosition] = newScreen
 
-                    currentTabsAdapter.notifyItemChanged(tabPosition)
+                    currentScreensAdapter.notifyItemChanged(screenPosition)
                 }
 
-                updateAvailableTabs()
-                saveList(currentTabs)
+                updateAvailableScreens()
+                saveList(currentScreens)
             }
             .create()
 
@@ -334,11 +334,11 @@ abstract class OrderableListPreferenceActivity :
             .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
-                val newTab = createScreenDataFromId(LIST, listOf(list!!.id, list.title))
-                currentTabs.add(newTab)
-                currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-                updateAvailableTabs()
-                saveList(currentTabs)
+                val newScreen = createScreenDataFromId(LIST, listOf(list!!.id, list.title))
+                currentScreens.add(newScreen)
+                currentScreensAdapter.notifyItemInserted(currentScreens.size - 1)
+                updateAvailableScreens()
+                saveList(currentScreens)
             }
 
         val showProgressBarJob = getProgressBarJob(progress, 500)
@@ -357,7 +357,7 @@ abstract class OrderableListPreferenceActivity :
                 },
                 { throwable ->
                     dialog.hide()
-                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                    Log.e("OrderableListPreferenceActivity", "failed to load lists", throwable)
                     Snackbar.make(binding.root, R.string.error_list_load, Snackbar.LENGTH_LONG).show()
                 }
             )
@@ -381,14 +381,14 @@ abstract class OrderableListPreferenceActivity :
         return trimmedInput.isNotEmpty() && hashtagRegex.matcher(trimmedInput).matches()
     }
 
-    private fun updateAvailableTabs() {
-        val addableTabs: MutableList<ScreenData> = mutableListOf()
+    private fun updateAvailableScreens() {
+        val addableScreens: MutableList<ScreenData> = mutableListOf()
 
         listOf(HOME, NOTIFICATIONS, LOCAL, FEDERATED, DIRECT, TRENDING)
             .map { id -> createScreenDataFromId(id) }
             .forEach { item ->
-                if (!currentTabs.contains(item)) {
-                    addableTabs.add(item)
+                if (!currentScreens.contains(item)) {
+                    addableScreens.add(item)
                 }
             }
 
@@ -397,8 +397,8 @@ abstract class OrderableListPreferenceActivity :
             listOf(EDIT_PROFILE, FAVOURITES, BOOKMARKS, FOLLOW_REQUESTS, LISTS, DRAFTS, SCHEDULED_POSTS, ANNOUNCEMENTS)
                 .map { id -> createScreenDataFromId(id) }
                 .forEach { item ->
-                if (!currentTabs.contains(item)) {
-                    addableTabs.add(item)
+                if (!currentScreens.contains(item)) {
+                    addableScreens.add(item)
                 }
             }
         }
@@ -406,15 +406,15 @@ abstract class OrderableListPreferenceActivity :
         listOf(HASHTAG, LIST)
             .map { id -> createScreenDataFromId(id) }
             .forEach { item ->
-                if (!currentTabs.contains(item)) {
-                    addableTabs.add(item)
+                if (!currentScreens.contains(item)) {
+                    addableScreens.add(item)
                 }
             }
 
-        addTabAdapter.updateData(addableTabs)
+        addScreenAdapter.updateData(addableScreens)
 
-        binding.maxTabsInfo.visible(addableTabs.isEmpty() || currentTabs.size >= getMaxCount())
-        currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > getMinCount())
+        binding.maxScreensInfo.visible(addableScreens.isEmpty() || currentScreens.size >= getMaxCount())
+        currentScreensAdapter.setRemoveButtonVisible(currentScreens.size > getMinCount())
     }
 
     override fun onStartDelete(viewHolder: RecyclerView.ViewHolder) {
@@ -427,9 +427,9 @@ abstract class OrderableListPreferenceActivity :
 
     override fun onPause() {
         super.onPause()
-        if (tabsChanged) {
+        if (screensChanged) {
             lifecycleScope.launch {
-                eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+                eventHub.dispatch(MainScreensChangedEvent(currentScreens))
             }
         }
     }

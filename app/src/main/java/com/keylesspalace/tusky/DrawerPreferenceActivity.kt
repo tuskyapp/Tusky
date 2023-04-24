@@ -37,17 +37,17 @@ class DrawerPreferenceActivity :
                 accountManager.saveAccount(it)
             }
         }
-        tabsChanged = true
+        screensChanged = true
     }
 
-    override fun getMinCount(): Int = MIN_TAB_COUNT
+    override fun getMinCount(): Int = MIN_SCREEN_COUNT
 
-    override fun getMaxCount(): Int = MAX_TAB_COUNT
+    override fun getMaxCount(): Int = MAX_SCREEN_COUNT
 
     override fun getActivityTitle(): CharSequence = getString(R.string.title_drawer_preferences)
 
     companion object {
-        private const val MIN_TAB_COUNT = 0
-        private const val MAX_TAB_COUNT = 10
+        private const val MIN_SCREEN_COUNT = 0
+        private const val MAX_SCREEN_COUNT = 10
     }
 }

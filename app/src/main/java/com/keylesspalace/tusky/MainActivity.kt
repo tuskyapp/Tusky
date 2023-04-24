@@ -60,7 +60,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.appstore.MainScreensChangedEvent
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
@@ -284,7 +284,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             eventHub.events.collect { event ->
                 when (event) {
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
-                    is MainTabsChangedEvent -> {
+                    is MainScreensChangedEvent -> {
                         refreshMainDrawerItems(addSearchButton = hideTopToolbar)
                         setupTabs(false)
                     }
