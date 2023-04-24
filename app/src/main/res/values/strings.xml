@@ -471,8 +471,6 @@
 
     <string name="compose_active_account_description">Posting as %1$s</string>
 
-    <string name="error_failed_set_caption">Failed to set caption</string>
-    <string name="error_failed_set_focus">Failed to set focus point</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Describe contents for visually impaired (%d character limit)</item>
     </plurals>

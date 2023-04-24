@@ -138,12 +138,12 @@
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een Mastodonserver?</string>
     <string name="login_connection">Aan het verbinden…</string>
-    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a> 
-\n 
-\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. 
-\n 
-\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
-\n 
+    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a>
+\n
+\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.
+\n
+\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.
+\n
 \n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
@@ -258,7 +258,6 @@
     <string name="action_lists">Lijsten</string>
     <string name="title_lists">Lijsten</string>
     <string name="compose_active_account_description">Berichten plaatsen als %1$s</string>
-    <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one"/>
         <item quantity="other">Omschrijf dit voor mensen met een visuele beperking
@@ -553,7 +552,6 @@
     <string name="pref_show_self_username_never">Nooit</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="action_set_focus">Focuspunt instellen</string>
-    <string name="error_failed_set_focus">Instellen van focuspunt mislukt</string>
     <string name="error_following_hashtag_format">Fout tijdens het volgen van #%s</string>
     <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%s</string>
     <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen\?</string>

@@ -258,7 +258,6 @@
         <item quantity="one">Describe para persoas con deficiencias visuais (límite %d caracter)</item>
         <item quantity="other">Describe para persoas con deficiencias visuais (%d caracteres como máximo)</item>
     </plurals>
-    <string name="error_failed_set_caption">Fallou establecemento do texto</string>
     <string name="compose_active_account_description">Publicar como %1$s</string>
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
@@ -540,7 +539,6 @@
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
     <string name="description_post_language">Idioma de publicación</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Fallou o establecemento do foco</string>
     <string name="action_set_focus">Establece foco</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
