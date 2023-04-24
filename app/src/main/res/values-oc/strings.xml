@@ -225,7 +225,6 @@
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
     <string name="compose_active_account_description">Publicar coma %1$s</string>
-    <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
     <string name="action_set_caption">Apondre una legenda</string>
     <string name="action_remove">Levar</string>
     <string name="lock_account_label">Clavar lo compte</string>
@@ -563,7 +562,6 @@
     <string name="report_category_other">Autre</string>
     <string name="failed_to_add_to_list">Fracàs de l’apondon del compte a la lista</string>
     <string name="failed_to_remove_from_list">Fracàs de la supression del compte de la lista</string>
-    <string name="error_failed_set_focus">Fracàs de la definicion del punt focal</string>
     <string name="notification_sign_up_description">Notificacions quand qualqu’un crèa un compte novèl</string>
     <string name="notification_report_description">Notificacions a prepaus dels senhalament a la moderacion</string>
     <string name="notification_update_description">Notificacions quand una publicacion ont avètz reagit es modificada</string>

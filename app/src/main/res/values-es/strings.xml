@@ -252,7 +252,6 @@
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
     <string name="compose_active_account_description">Publicar como %1$s</string>
-    <string name="error_failed_set_caption">Error al añadir leyenda</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descripción para personas con problemas de visión
 \n(Límite de %d caracter)</item>
@@ -569,7 +568,6 @@
     <string name="notification_update_description">Notificaciones cuando se editan publicaciones con las que has interactuado</string>
     <string name="status_count_one_plus">1+</string>
     <string name="filter_expiration_format">%s (%s)</string>
-    <string name="error_failed_set_focus">Fallo al establecer foco</string>
     <string name="action_set_focus">Establece el foco</string>
     <string name="description_post_language">Idioma de publicación</string>
     <string name="duration_30_days">30 días</string>
@@ -659,3 +657,4 @@
     <string name="ui_error_unknown">razón desconocida</string>
     <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
 </resources>
+

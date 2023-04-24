@@ -227,13 +227,13 @@ class ComposeActivity :
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
-                CaptionDialog.newInstance(item.localId, item.description, item.uri)
-                    .show(supportFragmentManager, "caption_dialog")
+                CaptionDialog.newInstance(item.localId, item.description, item.uri).show(supportFragmentManager, "caption_dialog")
             },
             onAddFocus = { item ->
                 makeFocusDialog(item.focus, item.uri) { newFocus ->
                     viewModel.updateFocus(item.localId, newFocus)
                 }
+                // TODO this is inconsistent to CaptionDialog (device rotation)?
             },
             onEditImage = this::editImageInQueue,
             onRemove = this::removeMediaFromQueue
@@ -1266,11 +1266,7 @@ class ComposeActivity :
     }
 
     override fun onUpdateDescription(localId: Int, description: String) {
-        lifecycleScope.launch {
-            if (!viewModel.updateDescription(localId, description)) {
-                Toast.makeText(this@ComposeActivity, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
-            }
-        }
+        viewModel.updateDescription(localId, description)
     }
 
     /**

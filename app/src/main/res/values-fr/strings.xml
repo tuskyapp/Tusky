@@ -285,7 +285,6 @@
     <string name="action_add_to_list">Ajouter un compte à la liste</string>
     <string name="action_remove_from_list">Supprimer un compte de la liste</string>
     <string name="compose_active_account_description">Publier en tant que %1$s</string>
-    <string name="error_failed_set_caption">Impossible de définir la légende</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Décrire pour les malvoyants
 \n(%d caractères maximum)</item>
