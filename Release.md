@@ -27,7 +27,6 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 - [ ] Merge the latest Weblate translations (Weblate -> Repository maintenance -> commit all changes
 - [ ] Then merge the automatic PRs by @nailyk-weblate on GitHub
   - Check [Open translation PRs](https://github.com/tuskyapp/Tusky/pulls?q=is%3Apr+is%3Aopen+%22Translations+update+from+Weblate%22)
-- [ ] Check all the translations (Android Studio shows warnings on problems). Sometimes translators add faulty translations that would crash Tusky in this language, e.g. wrong number of formatting parameters. In this case it is usually easiest to just delete the string. [Example cleanup](https://github.com/tuskyapp/Tusky/commit/feaea70af418c77178985144a2d01a8e97725dfd).
 
 ### Bump version
 
