@@ -153,7 +153,6 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
-        // TODO: STOPSHIP: isSelectable = false was removed from "primaryDrawerItem". Is this important?
         FAVOURITES -> TabData(
             id = id,
             text = R.string.action_view_favourites,
@@ -188,7 +187,6 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             arguments = arguments,
             allowedContexts = listOf(TabData.AllowedContext.SIDEBAR)
         )
-        // TODO: STOPSHIP: Icon is visually different (no match in Iconics)
         DRAFTS -> TabData(
             id = id,
             text = R.string.action_access_drafts,

@@ -15,14 +15,12 @@
 
 package com.keylesspalace.tusky
 
-import androidx.lifecycle.Lifecycle
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.TabData.AllowedContext
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.di.Injectable
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DrawerPreferenceActivity :
     OrderableListPreferenceActivity(),
@@ -35,13 +33,10 @@ class DrawerPreferenceActivity :
 
     override fun saveList(list: List<TabData>) {
         accountManager.activeAccount?.let {
-            Single.fromCallable {
+            lifecycleScope.launch(Dispatchers.IO) {
                 it.drawerPreferences = list
                 accountManager.saveAccount(it)
             }
-                .subscribeOn(Schedulers.io())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe()
         }
         tabsChanged = true
     }
