@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Suport per als nous tipus de notificacions Mastodon 3.5
+- La insígnia del bot ara es veu millor i s'ajusta al tema seleccionat
+- Ara es pot seleccionar el text a la vista detallada de la publicació
+- S'han corregit molts errors, inclòs un que impedia els inicis de sessió a Android 6 i anteriors

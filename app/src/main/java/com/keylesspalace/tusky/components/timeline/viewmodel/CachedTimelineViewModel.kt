@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
@@ -100,7 +101,7 @@ class CachedTimelineViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
                 timelineStatus.toViewData(gson)
             }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
@@ -152,6 +153,12 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
+    override fun clearWarning(status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
+        }
+    }
+
     override fun removeStatusWithId(id: String) {
         // handled by CacheUpdater
     }
@@ -197,7 +204,6 @@ class CachedTimelineViewModel @Inject constructor(
                 }
 
                 db.withTransaction {
-
                     timelineDao.delete(activeAccount.id, placeholderId)
 
                     val overlappedStatuses = if (statuses.isNotEmpty()) {

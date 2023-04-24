@@ -67,7 +67,7 @@ data class ConversationAccountEntity(
             note = "",
             url = "",
             avatar = avatar,
-            emojis = emojis,
+            emojis = emojis
         )
     }
 }
@@ -97,7 +97,7 @@ data class ConversationStatusEntity(
     val collapsed: Boolean,
     val muted: Boolean,
     val poll: Poll?,
-    val language: String?,
+    val language: String?
 ) {
 
     fun toViewData(): StatusViewData.Concrete {
@@ -131,6 +131,7 @@ data class ConversationStatusEntity(
                 poll = poll,
                 card = null,
                 language = language,
+                filtered = null
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
@@ -146,7 +147,7 @@ fun TimelineAccount.toEntity() =
         username = username,
         displayName = name,
         avatar = avatar,
-        emojis = emojis ?: emptyList()
+        emojis = emojis.orEmpty()
     )
 
 fun Status.toEntity(
@@ -178,7 +179,7 @@ fun Status.toEntity(
         collapsed = contentCollapsed,
         muted = muted ?: false,
         poll = poll,
-        language = language,
+        language = language
     )
 
 fun Conversation.toEntity(

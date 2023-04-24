@@ -30,7 +30,7 @@ class BlocksAdapter(
     accountActionListener: AccountActionListener,
     animateAvatar: Boolean,
     animateEmojis: Boolean,
-    showBotOverlay: Boolean,
+    showBotOverlay: Boolean
 ) : AccountAdapter<BindingHolder<ItemBlockedUserBinding>>(
     accountActionListener = accountActionListener,
     animateAvatar = animateAvatar,

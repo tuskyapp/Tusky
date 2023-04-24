@@ -15,10 +15,9 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemEditFieldBinding
 import com.keylesspalace.tusky.entity.StringField
@@ -81,25 +80,13 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
             holder.binding.accountFieldValueTextLayout.counterMaxLength = it
         }
 
-        holder.binding.accountFieldNameText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(newText: Editable) {
-                fieldData[holder.bindingAdapterPosition].first = newText.toString()
-            }
+        holder.binding.accountFieldNameText.doAfterTextChanged { newText ->
+            fieldData[holder.bindingAdapterPosition].first = newText.toString()
+        }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
-
-        holder.binding.accountFieldValueText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(newText: Editable) {
-                fieldData[holder.bindingAdapterPosition].second = newText.toString()
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+        holder.binding.accountFieldValueText.doAfterTextChanged { newText ->
+            fieldData[holder.bindingAdapterPosition].second = newText.toString()
+        }
     }
 
     class MutableStringPair(var first: String, var second: String)

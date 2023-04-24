@@ -43,7 +43,7 @@ class MainActivityTest {
         note = "",
         url = "",
         avatar = "",
-        header = "",
+        header = ""
     )
     private val accountEntity = AccountEntity(
         id = 1,
@@ -105,7 +105,7 @@ class MainActivityTest {
                         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
                     ),
                     status = null,
-                    report = null,
+                    report = null
                 ),
                 accountEntity,
                 true

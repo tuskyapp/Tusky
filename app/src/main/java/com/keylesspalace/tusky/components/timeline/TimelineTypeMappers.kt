@@ -106,6 +106,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         card = null,
         repliesCount = 0,
         language = null,
+        filtered = null
     )
 }
 
@@ -150,6 +151,7 @@ fun Status.toEntity(
         card = actionableStatus.card?.let(gson::toJson),
         repliesCount = actionableStatus.repliesCount,
         language = actionableStatus.language,
+        filtered = actionableStatus.filtered
     )
 }
 
@@ -197,6 +199,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered
         )
     }
     val status = if (reblog != null) {
@@ -229,6 +232,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = null,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered
         )
     } else {
         Status(
@@ -260,6 +264,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered
         )
     }
     return StatusViewData.Concrete(

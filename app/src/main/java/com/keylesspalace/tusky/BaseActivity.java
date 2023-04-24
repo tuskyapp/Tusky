@@ -239,8 +239,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
         if (permissionsToRequest.isEmpty()) {
             int[] permissionsAlreadyGranted = new int[permissions.length];
-            for (int i = 0; i < permissionsAlreadyGranted.length; ++i)
-                permissionsAlreadyGranted[i] = PackageManager.PERMISSION_GRANTED;
             requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
             return;
         }

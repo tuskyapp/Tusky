@@ -72,8 +72,11 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
                 { err ->
                     updateState {
                         copy(
-                            loadingState = if (err is IOException || err is ConnectException)
-                                LoadingState.ERROR_NETWORK else LoadingState.ERROR_OTHER
+                            loadingState = if (err is IOException || err is ConnectException) {
+                                LoadingState.ERROR_NETWORK
+                            } else {
+                                LoadingState.ERROR_OTHER
+                            }
                         )
                     }
                 }
