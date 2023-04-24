@@ -57,7 +57,7 @@ open class ScreenData(
     val arguments: List<String> = emptyList(),
     val intentAction: (Context, List<String>, Boolean) -> Intent,
     val title: (Context) -> String = { context -> context.getString(text) },
-    val unique: Boolean = false
+    val unique: Boolean = true
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -94,7 +94,7 @@ class TabScreenData(
     arguments: List<String> = emptyList(),
     val fragmentAction: (List<String>) -> Fragment,
     title: (Context) -> String = { context -> context.getString(text) },
-    unique: Boolean = false
+    unique: Boolean = true
 ) : ScreenData(
     id = id,
     text = text,
@@ -171,7 +171,8 @@ fun createScreenDataFromId(id: String, arguments: List<String> = emptyList()): S
             icon = Icon.gmd_tag,
             fragmentAction = { args -> TimelineFragment.newHashtagInstance(args) },
             arguments = arguments,
-            title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
+            title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } },
+            unique = false
         )
 
         LIST -> TabScreenData(
@@ -180,7 +181,8 @@ fun createScreenDataFromId(id: String, arguments: List<String> = emptyList()): S
             icon = Icon.gmd_list,
             fragmentAction = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
             arguments = arguments,
-            title = { arguments.getOrNull(1).orEmpty() }
+            title = { arguments.getOrNull(1).orEmpty() },
+            unique = false
         )
 
         EDIT_PROFILE -> ScreenData(

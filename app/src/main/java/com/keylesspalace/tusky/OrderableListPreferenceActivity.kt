@@ -384,32 +384,24 @@ abstract class OrderableListPreferenceActivity :
     private fun updateAvailableScreens() {
         val addableScreens: MutableList<ScreenData> = mutableListOf()
 
-        listOf(HOME, NOTIFICATIONS, LOCAL, FEDERATED, DIRECT, TRENDING)
+        listOf(HOME, NOTIFICATIONS, LOCAL, FEDERATED, DIRECT, TRENDING, HASHTAG, LIST)
             .map { id -> createScreenDataFromId(id) }
             .forEach { item ->
-                if (!currentScreens.contains(item)) {
+                if (item.unique && !currentScreens.contains(item) || !item.unique) {
                     addableScreens.add(item)
                 }
             }
 
-        if(this is DrawerPreferenceActivity) {
+        if (this is DrawerPreferenceActivity) {
             // Items from sidebar
             listOf(EDIT_PROFILE, FAVOURITES, BOOKMARKS, FOLLOW_REQUESTS, LISTS, DRAFTS, SCHEDULED_POSTS, ANNOUNCEMENTS)
                 .map { id -> createScreenDataFromId(id) }
                 .forEach { item ->
-                if (!currentScreens.contains(item)) {
-                    addableScreens.add(item)
+                    if (item.unique && !currentScreens.contains(item) || !item.unique) {
+                        addableScreens.add(item)
+                    }
                 }
-            }
         }
-
-        listOf(HASHTAG, LIST)
-            .map { id -> createScreenDataFromId(id) }
-            .forEach { item ->
-                if (!currentScreens.contains(item)) {
-                    addableScreens.add(item)
-                }
-            }
 
         addScreenAdapter.updateData(addableScreens)
 

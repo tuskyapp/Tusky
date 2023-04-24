@@ -500,38 +500,37 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             itemAdapter.clear()
             tintStatusBar = true
 
-            val customDrawerItems =
-                listOf(DividerDrawerItem()) + accountManager.activeAccount?.drawerPreferences.orEmpty()
-                    .map { screenData ->
-                        primaryDrawerItem {
-                            identifier = screenData.id.hashCode().toLong()
-                            when (screenData.id) {
-                                LIST -> nameText = screenData.arguments[1]
-                                else -> nameRes = screenData.text
-                            }
-                            iconicsIcon = screenData.icon
-                            onClick = {
-                                when (screenData) {
-                                    is TabScreenData -> {
-                                        startActivityWithSlideInAnimation(
-                                            TabActivity.getIntent(context, screenData.id, screenData.arguments, accountLocked)
-                                        )
-                                    }
+            val customDrawerItems = accountManager.activeAccount?.drawerPreferences.orEmpty()
+                .map { screenData ->
+                    primaryDrawerItem {
+                        identifier = screenData.id.hashCode().toLong()
+                        when (screenData.id) {
+                            LIST -> nameText = screenData.arguments[1]
+                            else -> nameRes = screenData.text
+                        }
+                        iconicsIcon = screenData.icon
+                        onClick = {
+                            when (screenData) {
+                                is TabScreenData -> {
+                                    startActivityWithSlideInAnimation(
+                                        TabActivity.getIntent(context, screenData.id, screenData.arguments, accountLocked)
+                                    )
+                                }
 
-                                    is ScreenData -> {
-                                        // Passing an intent action to the Tab Activity is likely an error. We can redirect
-                                        // it to start a new activity directly, using the passed intent.
-                                        val intent = screenData.intentAction(this@MainActivity, screenData.arguments, accountLocked)
-                                        startActivityWithSlideInAnimation(intent)
-                                    }
+                                else -> {
+                                    // Passing an intent action to the Tab Activity is likely an error. We can redirect
+                                    // it to start a new activity directly, using the passed intent.
+                                    val intent = screenData.intentAction(this@MainActivity, screenData.arguments, accountLocked)
+                                    startActivityWithSlideInAnimation(intent)
                                 }
                             }
-                            badgeStyle = BadgeStyle().apply {
-                                textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
-                                color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary))
-                            }
+                        }
+                        badgeStyle = BadgeStyle().apply {
+                            textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
+                            color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary))
                         }
                     }
+                }
             if (customDrawerItems.size > 1) {
                 binding.mainDrawer.addItems(
                     *customDrawerItems.toTypedArray()
