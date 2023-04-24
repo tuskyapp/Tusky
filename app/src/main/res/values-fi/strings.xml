@@ -200,7 +200,6 @@
     <string name="error_compose_character_limit">Julkaisusi on liian pitkä!</string>
     <string name="action_unmute_conversation">Poista keskustelun mykistys</string>
     <string name="download_image">Ladataan kuvaa %1$s</string>
-    <string name="error_failed_set_caption">Kuvauksen lisääminen epäonnistui</string>
     <string name="action_mute_conversation">Mykistä keskustelu</string>
     <string name="error_generic">Tapahtui virhe.</string>
     <string name="action_logout_confirm">Halutako varmasti kirjautua ulos tililtä %s1\?</string>

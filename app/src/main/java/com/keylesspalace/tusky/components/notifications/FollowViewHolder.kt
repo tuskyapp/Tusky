@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
@@ -91,6 +92,12 @@ class FollowViewHolder(
             binding.notificationAvatar,
             avatarRadius42dp,
             animateAvatars
+        )
+
+        binding.notificationAccountNote.text = account.note.parseAsMastodonHtml().emojify(
+            account.emojis,
+            binding.notificationAccountNote,
+            animateEmojis
         )
     }
 

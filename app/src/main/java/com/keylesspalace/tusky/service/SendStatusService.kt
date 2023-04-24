@@ -183,6 +183,23 @@ class SendStatusService : Service(), Injectable {
                 return@launch
             }
 
+            val isNew = statusToSend.statusId == null
+
+            if (isNew) {
+                media.forEach { mediaItem ->
+                    if (mediaItem.processed && (mediaItem.description != null || mediaItem.focus != null)) {
+                        mastodonApi.updateMedia(mediaItem.id!!, mediaItem.description, mediaItem.focus?.toMastodonApiString())
+                            .fold({
+                            }, { throwable ->
+                                Log.w(TAG, "failed to update media on status send", throwable)
+                                failOrRetry(throwable, statusId)
+
+                                return@launch
+                            })
+                    }
+                }
+            }
+
             // finally, send the new status
             val newStatus = NewStatus(
                 status = statusToSend.text,
@@ -204,17 +221,16 @@ class SendStatusService : Service(), Injectable {
                 }
             )
 
-            val editing = (statusToSend.statusId != null)
-            val sendResult = if (editing) {
-                mastodonApi.editStatus(
-                    statusToSend.statusId!!,
+            val sendResult = if (isNew) {
+                mastodonApi.createStatus(
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
                     newStatus
                 )
             } else {
-                mastodonApi.createStatus(
+                mastodonApi.editStatus(
+                    statusToSend.statusId!!,
                     "Bearer " + account.accessToken,
                     account.domain,
                     statusToSend.idempotencyKey,
@@ -235,7 +251,7 @@ class SendStatusService : Service(), Injectable {
 
                 if (scheduled) {
                     eventHub.dispatch(StatusScheduledEvent(sentStatus))
-                } else if (editing) {
+                } else if (!isNew) {
                     eventHub.dispatch(StatusEditedEvent(statusToSend.statusId!!, sentStatus))
                 } else {
                     eventHub.dispatch(StatusComposedEvent(sentStatus))
@@ -244,15 +260,19 @@ class SendStatusService : Service(), Injectable {
                 notificationManager.cancel(statusId)
             }, { throwable ->
                 Log.w(TAG, "failed sending status", throwable)
-                if (throwable is HttpException) {
-                    // the server refused to accept the status, save status & show error message
-                    failSending(statusId)
-                } else {
-                    // a network problem occurred, let's retry sending the status
-                    retrySending(statusId)
-                }
+                failOrRetry(throwable, statusId)
             })
             stopSelfWhenDone()
+        }
+    }
+
+    private suspend fun failOrRetry(throwable: Throwable, statusId: Int) {
+        if (throwable is HttpException) {
+            // the server refused to accept, save status & show error message
+            failSending(statusId)
+        } else {
+            // a network problem occurred, let's retry sending the status
+            retrySending(statusId)
         }
     }
 
@@ -290,6 +310,9 @@ class SendStatusService : Service(), Injectable {
             notificationManager.cancel(statusId)
             notificationManager.notify(errorNotificationId++, notification)
         }
+
+        // NOTE only this removes the "Sending..." notification (added with startForeground() above)
+        stopSelfWhenDone()
     }
 
     private fun cancelSending(statusId: Int) = serviceScope.launch {

@@ -64,6 +64,7 @@ data class ConversationAccountEntity(
             localUsername = localUsername,
             username = username,
             displayName = displayName,
+            note = "",
             url = "",
             avatar = avatar,
             emojis = emojis

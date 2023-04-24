@@ -385,7 +385,6 @@
     <string name="add_account_name">Дадаць уліковы запіс</string>
     <string name="action_remove_from_list">Выдаліць уліковы запіс са спіса</string>
     <string name="compose_active_account_description">Публікаваць як %1$s</string>
-    <string name="error_failed_set_caption">Не атрымалася дадаць подпіс</string>
     <string name="set_focus_description">Націсніце або перацягніце кола каб абраць пункт фокусу, які будзе заўсёды бачны на паменшаных выявах.</string>
     <string name="action_set_caption">Задаць подпіс</string>
     <string name="action_set_focus">Задаць пункт фокуса</string>
@@ -412,7 +411,6 @@
     <string name="action_rename_list">Перайменаваць спіс</string>
     <string name="action_delete_list">Выдаліць спіс</string>
     <string name="filter_add_description">Фільтраваць фразу</string>
-    <string name="error_failed_set_focus">Не атрымалася задаць пункт фокуса</string>
     <string name="action_remove">Выдаліць</string>
     <string name="lock_account_label">Заблакаваць уліковы запіс</string>
     <string name="compose_save_draft">Захаваць чарнавік\?</string>
