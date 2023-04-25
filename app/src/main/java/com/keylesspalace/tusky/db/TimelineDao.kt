@@ -55,6 +55,15 @@ ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
 
     @Query(
         """
+SELECT s.serverId
+FROM TimelineStatusEntity s
+WHERE s.timelineUserId = :account
+ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
+    )
+    abstract fun getStatusRowNumber(account: Long): List<String>
+
+    @Query(
+        """
 SELECT s.serverId, s.url, s.timelineUserId,
 s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt, s.editedAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.repliesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,

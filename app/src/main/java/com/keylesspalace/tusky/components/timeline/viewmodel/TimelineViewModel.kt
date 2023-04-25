@@ -182,6 +182,8 @@ abstract class TimelineViewModel(
 
     abstract fun clearWarning(status: StatusViewData.Concrete)
 
+    abstract fun saveLastVisibleStatusId(statusId: String)
+
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 

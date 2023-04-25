@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
@@ -77,7 +76,6 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -267,9 +265,9 @@ class TimelineFragment :
                     binding.recyclerView.post {
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
-                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+//                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
                             } else {
-                                binding.recyclerView.scrollToPosition(0)
+//                                binding.recyclerView.scrollToPosition(0)
                             }
                         }
                     }
@@ -372,7 +370,7 @@ class TimelineFragment :
                 val lastVisiblePosition =
                     (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 if (position > lastVisiblePosition) {
-                    binding.recyclerView.scrollToPosition(position)
+                    //binding.recyclerView.scrollToPosition(position)
                 }
                 break
             }
@@ -578,6 +576,17 @@ class TimelineFragment :
 
     private var talkBackWasEnabled = false
 
+    override fun onPause() {
+        super.onPause()
+        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                adapter.snapshot()[position]?.id?.let { statusId ->
+                    viewModel.saveLastVisibleStatusId(statusId)
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         val a11yManager =
@@ -612,8 +621,8 @@ class TimelineFragment :
 
     override fun onReselect() {
         if (isAdded) {
-            binding.recyclerView.layoutManager?.scrollToPosition(0)
-            binding.recyclerView.stopScroll()
+//            binding.recyclerView.layoutManager?.scrollToPosition(0)
+//            binding.recyclerView.stopScroll()
         }
     }
 
