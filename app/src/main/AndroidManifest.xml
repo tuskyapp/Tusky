@@ -130,7 +130,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".components.search.SearchActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
