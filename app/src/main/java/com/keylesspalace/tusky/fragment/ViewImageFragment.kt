@@ -45,6 +45,7 @@ class ViewImageFragment : ViewMediaFragment() {
         fun onBringUp()
         fun onDismiss()
         fun onPhotoTap()
+        fun onZoom(zoomFactor: Float)
     }
 
     private var _binding: FragmentViewImageBinding? = null
@@ -124,6 +125,10 @@ class ViewImageFragment : ViewMediaFragment() {
                     result = true
                 }
                 result
+            }
+
+            setOnScaleChangeListener { scaleFactor, _, _ ->
+                photoActionsListener.onZoom(scale) // TODO at least for the first call here during pinch zoom only scaleFactor is different; "scale" is still 1
             }
         }
 

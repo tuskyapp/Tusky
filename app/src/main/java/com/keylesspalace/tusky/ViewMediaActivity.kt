@@ -82,6 +82,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     private var attachments: ArrayList<AttachmentViewData>? = null
     private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
     private var imageUrl: String? = null
+    private var hasMultiple: Boolean = false
 
     fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
         this.toolbarVisibilityListeners.add(listener)
@@ -113,6 +114,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
             SingleImagePagerAdapter(this, imageUrl!!)
         }
 
+        hasMultiple = attachments != null && attachments!!.size > 1
+
         binding.viewPager.adapter = adapter
         binding.viewPager.setCurrentItem(initialPosition, false)
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -120,6 +123,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 binding.toolbar.title = getPageTitle(position)
             }
         })
+        binding.viewPager.isUserInputEnabled = hasMultiple
 
         // Setup the toolbar.
         setSupportActionBar(binding.toolbar)
@@ -193,6 +197,16 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 }
             })
             .start()
+    }
+
+    override fun onZoom(zoomFactor: Float) {
+        // If the view pager is (input) enabled it will grab most interaction at the device edges; this disturbs zooming or dragging
+
+        if (zoomFactor > 1.01) {
+            binding.viewPager.isUserInputEnabled = false
+        } else {
+            binding.viewPager.isUserInputEnabled = hasMultiple
+        }
     }
 
     private fun getPageTitle(position: Int): CharSequence {
