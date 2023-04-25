@@ -4,6 +4,10 @@ Before each major release, make a beta for at least a week to make sure the rele
 
 This approach of having ~500 user on the nightly releases and ~5000 users on the beta releases has so far worked very well and helped to fix bugs before they could reach most users.
 
+## Identify two person team
+
+One person to prepare the PRs for the release and run the relevant commands. One person to act as the reviewer.
+
 ## Check access permissions
 
 - [ ] You can merge PRs
@@ -11,7 +15,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
   - [ ] And see entries for Tusky and Tusky nightly
 - [ ] You can post from the `@Tusky@mastodon.social` account
 
-## Beta
+## Release each beta
 
 ### Check for error reports
 
@@ -28,27 +32,81 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 - [ ] Then merge the automatic PRs by @nailyk-weblate on GitHub
   - Check [Open translation PRs](https://github.com/tuskyapp/Tusky/pulls?q=is%3Apr+is%3Aopen+%22Translations+update+from+Weblate%22)
 
-### Bump version
+### Draft changelog
 
-- [ ] Update `versionCode` and `versionName` in `app/build.gradle` and commit.
+Find the changes between the last tagged release and `develop`.
 
-### Write changelog
+For example, https://github.com/tuskyapp/Tusky/compare/v21.0...develop compares tag `v21.0` (the previous release) with the most recent commit on `develop`.
 
+Update `CHANGELOG.md`. Include changes that are user-visible or of high user-importance.
+
+That includes:
+
+- A new feature
+- A modification of an existing feature
+- Fixing a user-visible bug
+- Upgrading a dependency that has a security issue
+- Upgrading the emoji dependency, if new emoji are supported
+- Changing the minimum supported Android version
+- Translations in to a new language
+  - `git diff --name-only --diff-filter=A v21.0...develop` to find files added since that tag.
+
+That does not include:
+
+- General dependency upgrades
+- Updates to existing translations
+
+### Bump version and write changelog
+
+- [ ] Create and checkout a new branch (`3551-v22-beta-103`)
+- [ ] Update `versionCode` and `versionName` in `app/build.gradle`
+  - `versionCode` should be one higher than the current value
+  - `versionName` should be `22.0 beta 1`
 - [ ] Add a new short changelog under `fastlane/metadata/android/en-US/changelogs`. Use the next `versionCode` as the filename.
 
-> Important! Changelog must be less than 500 characters or F-Droid will truncate it.
+> Important! Changelog must be less than 500 characters or F-Droid will truncate it. So keep the English version to ~ 400 characters, so it is likely to work in languages that tend to have longer words.
 
 This is so translators on Weblate have the duration of the beta to translate the changelog and F-Droid users will see it in their language on the release. If another beta is released, the changelogs have to be renamed.
 
-### Merge and create GitHub release
+- [ ] Commit (commit message: `Prepare 22.0 beta 1 (versionCode 103)`), push, create PR, assign to reviewer
+- [ ] Wait for approval, merge to `develop`
+
+### Merge changes from `develop` to `main`
+
+Create a clone of the repo just for the release.
+
+```shell
+set JAVA_HOME="c:\Program Files\Android\Android Studio Electric Eel\jbr"
+
+git clone https://github.com/tuskyapp/Tusky.git tusky-release
+cd tusky-release
+-- copy local.properties file
+git checkout main
+git merge --ff-only develop
+```
+ktlintCheck lintGreenDebug testGreenDebugUnitTest bundleGreenDebug
 
 - [ ] Merge `develop` into `main`
+
+### Create GitHub release
+
 - [ ] Create a new [GitHub release](https://github.com/tuskyapp/Tusky/releases).
   - [ ] Tag the head of `main`.
-  - [ ] Create an exhaustive changelog by going through all commits since the last release.
+    - `git tag -s v22.0-beta.1 -m v22.0-beta.1`
+    - `git push origin v22.0-beta.1`
+  - [ ] Create the release https://github.com/tuskyapp/Tusky/releases/new
+    - Select the tag you just created
+    - Release title is "Tusky 22.0 beta 1"
+    - Copy the changelog text from `CHANGELOG.md`, that you edited previously
   - [ ] Mark the release as being a pre-release.
 - [ ] Confirm that Bitrise has built and uploaded the release to the Internal Testing track on Google Play.
-- [ ] Do a quick check to make sure the build doesn't crash, e.g. by enrolling yourself into the test track.
+  - Bitrise console for Tusky is https://app.bitrise.io/app/a3e773c3c57a894c
+- From the Play console choose "Testing > Internal testing"
+  - [ ] verify that the "Track summary" section at the top of the page lists the new release.
+  - [ ] Do a quick check to make sure the build doesn't crash
+    - Select the "Testers" tab, just below the track summary
+    - Click the arrow on the "Internal testers" list
+    - Add your e-mail address to the list
     - In case there are any problems, delete the GitHub release, fix the problems and start again
 - [ ] Download the build as apk from Google Play (App Bundle Explorer -> chose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
 - [ ] Create a new Open Testing release on Google Play. Reuse the build from the Internal Testing track.
