@@ -84,13 +84,13 @@ data class UiState(
 /** Preferences the UI reacts to */
 data class UiPrefs(
     val readingOrder: ReadingOrder,
-    val showFabWhileScrolling: Boolean,
+    val showFabWhileScrolling: Boolean
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
             PrefKeys.FAB_HIDE,
-            PrefKeys.READING_ORDER,
+            PrefKeys.READING_ORDER
         )
     }
 }
@@ -397,7 +397,7 @@ abstract class TimelineViewModel(
         uiState = getUiPrefs().map { prefs ->
             UiState(
                 readingOrder = prefs.readingOrder,
-                showFabWhileScrolling = prefs.showFabWhileScrolling,
+                showFabWhileScrolling = prefs.showFabWhileScrolling
             )
         }.stateIn(
             scope = viewModelScope,
@@ -418,7 +418,7 @@ abstract class TimelineViewModel(
 
     protected fun toPrefs() = UiPrefs(
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null)),
-        showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false),
+        showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
     )
 
     open fun init(timelineKind: TimelineKind) {

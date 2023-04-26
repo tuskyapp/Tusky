@@ -67,7 +67,10 @@ class TimelinePagingAdapter(
     ) {
         getItem(position)?.let {
             (viewHolder as StatusViewHolder).setupWithStatus(
-                it, statusListener, statusDisplayOptions, payloads?.getOrNull(0)
+                it,
+                statusListener,
+                statusDisplayOptions,
+                payloads?.getOrNull(0)
             )
         }
     }
