@@ -29,18 +29,9 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
 class TimelinePagingAdapter(
-    private var statusDisplayOptions: StatusDisplayOptions,
-    private val statusListener: StatusActionListener
+    private val statusListener: StatusActionListener,
+    var statusDisplayOptions: StatusDisplayOptions
 ) : PagingDataAdapter<StatusViewData, RecyclerView.ViewHolder>(TimelineDifferCallback) {
-
-    var mediaPreviewEnabled: Boolean
-        get() = statusDisplayOptions.mediaPreviewEnabled
-        set(mediaPreviewEnabled) {
-            statusDisplayOptions = statusDisplayOptions.copy(
-                mediaPreviewEnabled = mediaPreviewEnabled
-            )
-        }
-
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -74,14 +65,11 @@ class TimelinePagingAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val status = getItem(position) ?: return
-        val holder = viewHolder as StatusViewHolder
-        holder.setupWithStatus(
-            status,
-            statusListener,
-            statusDisplayOptions,
-            if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
-        )
+        getItem(position)?.let {
+            (viewHolder as StatusViewHolder).setupWithStatus(
+                it, statusListener, statusDisplayOptions, payloads?.getOrNull(0)
+            )
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

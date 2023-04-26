@@ -122,7 +122,7 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        adapter = TimelinePagingAdapter(viewModel.statusDisplayOptions.value, this)
+        adapter = TimelinePagingAdapter(this, viewModel.statusDisplayOptions.value)
     }
 
     override fun onCreateView(
@@ -309,36 +309,23 @@ class TimelineFragment :
                             }
                         }
                     }
-
-                    viewModel.uiState.collectLatest {
-                        // showMediaPreview changed?
-                        val previousMediaPreview = adapter.mediaPreviewEnabled
-                        if (previousMediaPreview != it.showMediaPreview) {
-                            adapter.mediaPreviewEnabled = it.showMediaPreview
-                            adapter.notifyItemRangeChanged(0, adapter.itemCount)
-                        }
-                    }
                 }
 
                 // Update status display from statusDisplayOptions. If the new options request
                 // relative time display collect the flow to periodically re-bind the UI.
-                // TODO: Copied from NotificationsFragment
                 launch {
                     viewModel.statusDisplayOptions
                         .collectLatest {
-                            // TODO: TimelinePagingAdapter doesn't handle statusDisplayOptions
-                            // the same way NotificationsPagingAdapter does. Investigate bringing
-                            // the two classes in to alignment.
-//                            adapter.statusDisplayOptions = it
-//                            layoutManager.findFirstVisibleItemPosition().let { first ->
-//                                first == RecyclerView.NO_POSITION && return@let
-//                                val count = layoutManager.findLastVisibleItemPosition() - first
-//                                adapter.notifyItemRangeChanged(
-//                                    first,
-//                                    count,
-//                                    null
-//                                )
-//                            }
+                            adapter.statusDisplayOptions = it
+                            layoutManager.findFirstVisibleItemPosition().let { first ->
+                                first == RecyclerView.NO_POSITION && return@let
+                                val count = layoutManager.findLastVisibleItemPosition() - first
+                                adapter.notifyItemRangeChanged(
+                                    first,
+                                    count,
+                                    null
+                                )
+                            }
 
                             if (!it.useAbsoluteTime) {
                                 updateTimestampFlow.collect()
