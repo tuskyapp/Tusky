@@ -139,7 +139,7 @@
     <string name="link_whats_an_instance">Vad är en instans?</string>
     <string name="login_connection">Ansluter…</string>
     <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges
-		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
+		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och
         <a href="https://instances.social"> mer! </a>
         \n\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
         \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser,
@@ -281,7 +281,7 @@
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Beskriv innehåll för synskadade
 \n (max %d tecken)</item>
-        <item quantity="other">Beskriv innehåll för synskadade 
+        <item quantity="other">Beskriv innehåll för synskadade
 \n (max %d tecken)</item>
     </plurals>
     <string name="action_set_caption">Ange bildtext</string>
@@ -625,8 +625,6 @@
 \nAntingen kunde inte servern nås eller så har uppladdningen nekats.</string>
     <string name="action_post_failed_do_nothing">Stäng</string>
     <string name="description_login">Fungerar i de flesta fallen. Ingen information läcker till andra applikationer.</string>
-    <string name="pref_reading_order_oldest_first">Äldsta först</string>
-    <string name="pref_reading_order_newest_first">Nyaste först</string>
     <string name="dialog_follow_hashtag_title">Följ hashtagg</string>
     <string name="dialog_follow_hashtag_hint">#hashtagg</string>
     <string name="accessibility_talking_about_tag">%1$d personer pratar om hashtagg %2$s</string>

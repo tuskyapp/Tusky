@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
-import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.FilterKind
 import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.components.timeline.TimelineKind
@@ -71,9 +70,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 data class UiState(
-    /** The user's preferred reading order */
-    val readingOrder: ReadingOrder = ReadingOrder.NEWEST_FIRST,
-
     /** True if the FAB should be shown while scrolling */
     val showFabWhileScrolling: Boolean = true,
 

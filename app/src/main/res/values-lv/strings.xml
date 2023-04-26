@@ -469,7 +469,6 @@
     <string name="confirmation_hashtag_unfollowed">pārtraukta sekošana #%s</string>
     <string name="confirmation_domain_unmuted">%s atcelta slēpšana</string>
     <string name="error_create_list">Nevarēja izveidot sarakstu</string>
-    <string name="pref_title_reading_order">Lasīšanas secība</string>
     <string name="filter_add_description">Filtrējamā frāze</string>
     <string name="pref_summary_http_proxy_disabled">Atspējots</string>
     <string name="pref_summary_http_proxy_missing">&lt;nav iestatīts&gt;</string>
@@ -511,8 +510,6 @@
         <item quantity="one">%s balss</item>
         <item quantity="other">%s balsis</item>
     </plurals>
-    <string name="pref_reading_order_oldest_first">Vecākos vispirms</string>
-    <string name="pref_reading_order_newest_first">Jaunākos vispirms</string>
     <string name="status_created_info">%1$s izveidoja %2$s</string>
     <plurals name="poll_info_people">
         <item quantity="zero">%s personas</item>

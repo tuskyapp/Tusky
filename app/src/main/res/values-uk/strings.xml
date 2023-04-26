@@ -617,9 +617,6 @@
     <string name="send_account_link_to">Поділитися URL облікового запису через…</string>
     <string name="send_account_username_to">Поділитися іменем користувача облікового запису через…</string>
     <string name="account_username_copied">Ім\'я користувача скопійовано</string>
-    <string name="pref_reading_order_newest_first">Спочатку новіші</string>
-    <string name="pref_title_reading_order">Порядок читання</string>
-    <string name="pref_reading_order_oldest_first">Спочатку давніші</string>
     <string name="pref_summary_http_proxy_disabled">Вимкнено</string>
     <string name="pref_summary_http_proxy_missing">&lt;не налаштовано&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;недійсний&gt;</string>

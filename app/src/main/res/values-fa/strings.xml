@@ -592,8 +592,6 @@
     <string name="pref_summary_http_proxy_missing">&lt;تنظیم نشده&gt;</string>
     <string name="pref_summary_http_proxy_disabled">از کار افتاده</string>
     <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
-    <string name="pref_title_reading_order">ترتیب خواندن</string>
-    <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
     <string name="status_edit_info">%1$s %2$s را ویراست</string>
     <string name="status_created_info">%1$s %2$s را ایجاد کرد</string>
     <string name="action_post_failed">بارگذاری شکست خورد</string>
@@ -606,7 +604,6 @@
 \n
 \nارتباط با کارساز برقرار نشد یا فرسته‌ها را رد کرد.</string>
     <string name="description_login">در بیش‌تر حالت‌ها کار می‌کند. هیچ داده‌ای به دیگر کاره‌ها نشت نمی‌کند.</string>
-    <string name="pref_reading_order_oldest_first">نخست قدیمی‌ترین</string>
     <string name="description_browser_login">ممکن است از روش‌های تأیید خویت اضافی پشتیبانی کند؛ ولی نیازمند مرورگری پشتیبانی شده است.</string>
     <string name="action_discard">دور انداختن تغییرات</string>
     <string name="action_continue_edit">ادامهٔ ویرایش</string>

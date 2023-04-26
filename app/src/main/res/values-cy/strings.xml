@@ -654,9 +654,6 @@
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
     <string name="send_account_username_to">Rhannu enw denyddiwr cyfrif i…</string>
     <string name="account_username_copied">Enw defnyddiwr wedi\'i gopïo</string>
-    <string name="pref_reading_order_oldest_first">Hynaf yn gyntaf</string>
-    <string name="pref_reading_order_newest_first">Diweddaraf yn gyntaf</string>
-    <string name="pref_title_reading_order">Trefn darllen</string>
     <string name="pref_summary_http_proxy_disabled">Analluogwyd</string>
     <string name="pref_summary_http_proxy_missing">&lt;heb ei osod&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;annilys&gt;</string>

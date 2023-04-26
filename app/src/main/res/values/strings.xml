@@ -758,9 +758,6 @@
     <string name="mute_notifications_switch">Mute notifications</string>
 
     <!-- Reading order preference -->
-    <string name="pref_title_reading_order">Reading order</string>
-    <string name="pref_reading_order_oldest_first">Oldest first</string>
-    <string name="pref_reading_order_newest_first">Newest first</string>
 
     <!--@Tusky edited 19th December 2022 13:37 -->
     <string name="status_edit_info">%1$s edited %2$s</string>
