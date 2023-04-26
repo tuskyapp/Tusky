@@ -79,13 +79,9 @@ class NetworkTimelineViewModel @Inject constructor(
         return repository.getStatusStream(kind = kind, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map {
-                    // TODO: The previous code in RemoteMediator checked the states against the
-                    // previous version of the status to make sure they were replicated. This will
-                    // need to be reimplemented (probably as a map of StatusId -> ViewStates.
-                    // For now, just use the user's preferences.
                     modifiedViewData[it.id] ?: it.toViewData(
-                        isShowingContent = alwaysShowSensitiveMedia || !it.actionableStatus.sensitive,
-                        isExpanded = alwaysOpenSpoilers,
+                        isShowingContent = statusDisplayOptions.value.showSensitiveMedia || !it.actionableStatus.sensitive,
+                        isExpanded = statusDisplayOptions.value.openSpoiler,
                         isCollapsed = true
                     )
                 }.filter {

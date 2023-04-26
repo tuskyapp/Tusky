@@ -83,14 +83,12 @@ data class UiState(
 
 /** Preferences the UI reacts to */
 data class UiPrefs(
-    val readingOrder: ReadingOrder,
     val showFabWhileScrolling: Boolean
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
             PrefKeys.FAB_HIDE,
-            PrefKeys.READING_ORDER
         )
     }
 }
@@ -288,8 +286,6 @@ abstract class TimelineViewModel(
     var timelineKind: TimelineKind = TimelineKind.Home
         private set
 
-    protected var alwaysShowSensitiveMedia = false
-    protected var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
 
@@ -396,7 +392,6 @@ abstract class TimelineViewModel(
 
         uiState = getUiPrefs().map { prefs ->
             UiState(
-                readingOrder = prefs.readingOrder,
                 showFabWhileScrolling = prefs.showFabWhileScrolling
             )
         }.stateIn(
@@ -417,7 +412,6 @@ abstract class TimelineViewModel(
         .onStart { emit(toPrefs()) }
 
     protected fun toPrefs() = UiPrefs(
-        readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null)),
         showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
     )
 
@@ -433,9 +427,6 @@ abstract class TimelineViewModel(
             filterRemoveReblogs =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
         }
-
-        this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-        this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
 
         viewModelScope.launch {
             eventHub.events
@@ -561,11 +552,6 @@ abstract class TimelineViewModel(
                 if (oldRemoveReblogs != filterRemoveReblogs) {
                     fullReload()
                 }
-            }
-            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
-                // it is ok if only newly loaded statuses are affected, no need to fully refresh
-                alwaysShowSensitiveMedia =
-                    accountManager.activeAccount!!.alwaysShowSensitiveMedia
             }
         }
     }
