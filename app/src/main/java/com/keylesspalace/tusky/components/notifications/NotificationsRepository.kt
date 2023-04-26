@@ -71,6 +71,6 @@ class NotificationsRepository @Inject constructor(
 
     companion object {
         private const val TAG = "NotificationsRepository"
-        private const val PAGE_SIZE = 30
+        private const val PAGE_SIZE = 15
     }
 }
