@@ -51,6 +51,7 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.throttleFirst
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -60,7 +61,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
@@ -88,7 +88,7 @@ data class UiPrefs(
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
-            PrefKeys.FAB_HIDE,
+            PrefKeys.FAB_HIDE
         )
     }
 }
@@ -340,11 +340,7 @@ abstract class TimelineViewModel(
         // Handle StatusAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<StatusAction>()
-                // TODO: Not sure that debouncing is the right thing here, since that will wait
-                // DEBOUNCE_TIMEOUT_MS before acting. The right thing to do here (and in
-                // NotificationsFragment) is to take the first one, and ignore any others that
-                // arrive in the next N milliseconds).
-                .debounce(DEBOUNCE_TIMEOUT_MS) // avoid double-taps
+                .throttleFirst(THROTTLE_TIMEOUT_MS) // avoid double-taps
                 .collect { action ->
                     try {
                         when (action) {
@@ -600,7 +596,7 @@ abstract class TimelineViewModel(
 
     companion object {
         private const val TAG = "TimelineViewModel"
-        private const val DEBOUNCE_TIMEOUT_MS = 500L
+        private const val THROTTLE_TIMEOUT_MS = 500L
 
         fun filterContextMatchesKind(
             timelineKind: TimelineKind,
