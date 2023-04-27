@@ -453,7 +453,7 @@ class NotificationsFragment :
         // Save the ID of the first notification visible in the list
         val position = layoutManager.findFirstVisibleItemPosition()
         if (position >= 0) {
-            adapter.snapshot()[position]?.id?.let { id ->
+            adapter.snapshot().getOrNull(position)?.id?.let { id ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
             }
         }
