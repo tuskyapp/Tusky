@@ -1,0 +1,18 @@
+Tusky 22.0
+
+Tính năng:
+
+- Hiện hashtag nổi bật
+- Sửa mô tả ảnh và trọng tâm ảnh
+- Menu "Làm tươi"
+- Hỗ trợ bộ lọc Mastodon v4
+- Hiện thông tin khi một tút có sửa đổi
+- Tùy chọn hiện số tương tác trên bảng tin
+
+Sửa lỗi:
+
+- Hiện nút điều khiển khi phát âm thanh
+- Lỗi độ dài tút
+- Luôn đăng mô tả ảnh
+
+và nhiều nữa
