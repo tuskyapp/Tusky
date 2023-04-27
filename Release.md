@@ -14,6 +14,8 @@ One person to prepare the PRs for the release and run the relevant commands. One
 - [ ] You can access the [Tusky Google Play console](https://play.google.com/console/u/0/developers/8419715224772184120/app-list)
   - [ ] And see entries for Tusky and Tusky nightly
 - [ ] You can post from the `@Tusky@mastodon.social` account
+- [ ] A GitLab account, for editing F-Droid metadata
+- [ ] An OpenCollective account, for posting release notes
 
 ## Release each beta
 
@@ -99,19 +101,23 @@ ktlintCheck lintGreenDebug testGreenDebugUnitTest bundleGreenDebug
     - Release title is "Tusky 22.0 beta 1"
     - Copy the changelog text from `CHANGELOG.md`, that you edited previously
   - [ ] Mark the release as being a pre-release.
-- [ ] Confirm that Bitrise has built and uploaded the release to the Internal Testing track on Google Play.
-  - Bitrise console for Tusky is https://app.bitrise.io/app/a3e773c3c57a894c
-- From the Play console choose "Testing > Internal testing"
-  - [ ] verify that the "Track summary" section at the top of the page lists the new release.
-  - [ ] Do a quick check to make sure the build doesn't crash
-    - Select the "Testers" tab, just below the track summary
-    - Click the arrow on the "Internal testers" list
-    - Add your e-mail address to the list
-    - In case there are any problems, delete the GitHub release, fix the problems and start again
-- [ ] Download the build as apk from Google Play (App Bundle Explorer -> chose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
-- [ ] Create a new Open Testing release on Google Play. Reuse the build from the Internal Testing track.
-- [ ] Create a merge request at F-Droid. [Example](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/11218) (F-Droid automatically picks up new release tags, but not beta ones. This could probably be changed somehow.)
-- [ ] Announce the release
+  - [ ] Confirm that Bitrise has built and uploaded the release to the Internal Testing track on Google Play.
+    - Bitrise console for Tusky is https://app.bitrise.io/app/a3e773c3c57a894c
+  - From the Play console choose "Testing > Internal testing"
+    - [ ] verify that the "Track summary" section at the top of the page lists the new release.
+    - [ ] Do a quick check to make sure the build doesn't crash
+      - Select the "Testers" tab, just below the track summary
+      - Click the arrow on the "Internal testers" list
+      - Add your e-mail address to the list
+      - Accept the invitation, at https://play.google.com/apps/internaltest/4697784310821336813
+      - In case there are any problems, delete the GitHub release, fix the problems and start again
+  - [ ] Download the build as apk from Google Play (App Bundle Explorer -> chose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
+  - [ ] Create a new Open Testing release on Google Play. Reuse the build from the Internal Testing track.
+  - [ ] Create a merge request at F-Droid. [Example](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/11218) (F-Droid automatically picks up new release tags, but not beta ones. This could probably be changed somehow.)
+    - Fork the project
+    - Load https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/com.keylesspalace.tusky.yml
+    -
+  - [ ] Announce the release
 
 ## Full release
 
