@@ -35,9 +35,9 @@ class PruneCacheWorker(
     private val accountManager: AccountManager
 ) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
-        accountManager.activeAccount?.id?.let { accountId ->
-            Log.d(TAG, "Pruning database using account ID: $accountId")
-            appDatabase.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE)
+        for (account in accountManager.accounts) {
+            Log.d(TAG, "Pruning database using account ID: ${account.id}")
+            appDatabase.timelineDao().cleanup(account.id, MAX_STATUSES_IN_CACHE)
         }
         return Result.success()
     }
