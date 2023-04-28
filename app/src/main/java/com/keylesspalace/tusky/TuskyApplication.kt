@@ -24,6 +24,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.timeline.PruneCacheWorker
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
@@ -36,6 +37,8 @@ import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 import java.security.Security
 import java.util.concurrent.TimeUnit
@@ -53,6 +56,9 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
+    lateinit var db: AppDatabase
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -130,6 +136,20 @@ class TuskyApplication : Application(), HasAndroidInjector {
             // Deleting the "Reading order" preference, as the need to "Load more" has been
             // removed.
             editor.remove(PrefKeys.DEPRECATED_READING_ORDER)
+
+            // The status and account entity caches may be broken.
+            //
+            // 1. In some cases Tusky was missing statuses which couldn't be backfilled
+            // 2. Old account entities
+            //
+            // Remove them. Do this directly, instead of with DAO methods, this functionality
+            // shouldn't be part of the normal DAO.
+            db.runInTransaction {
+                MainScope().launch {
+                    db.query("DELETE FROM TimelineStatusEntity", null)
+                    db.query("DELETE FROM TimelineAccountEntity", null)
+                }
+            }
         }
 
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
