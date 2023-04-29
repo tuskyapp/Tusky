@@ -103,15 +103,15 @@ class StatusViewHolder(
                 shouldTrimStatus(viewdata.content),
                 viewState.isCollapsed(viewdata.id, true),
                 viewState.isContentShow(viewdata.id, viewdata.status.sensitive),
-                viewdata.spoilerText
+                viewdata.status.spoilerText
             )
 
-            if (viewdata.spoilerText.isBlank()) {
+            if (viewdata.status.spoilerText.isBlank()) {
                 setTextVisible(true, viewdata.content, viewdata.status.mentions, viewdata.status.tags, viewdata.status.emojis, adapterHandler)
                 binding.statusContentWarningButton.hide()
                 binding.statusContentWarningDescription.hide()
             } else {
-                val emojiSpoiler = viewdata.spoilerText.emojify(viewdata.status.emojis, binding.statusContentWarningDescription, statusDisplayOptions.animateEmojis)
+                val emojiSpoiler = viewdata.status.spoilerText.emojify(viewdata.status.emojis, binding.statusContentWarningDescription, statusDisplayOptions.animateEmojis)
                 binding.statusContentWarningDescription.text = emojiSpoiler
                 binding.statusContentWarningDescription.show()
                 binding.statusContentWarningButton.show()

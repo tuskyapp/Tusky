@@ -26,7 +26,7 @@ android {
     defaultConfig {
         applicationId APP_ID
         namespace "com.keylesspalace.tusky"
-        minSdk 23
+        minSdk 24
         targetSdk 33
         versionCode 103
         versionName "22.0 beta 1"

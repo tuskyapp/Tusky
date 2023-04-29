@@ -48,7 +48,7 @@ class ListStatusAccessibilityDelegate(
             val pos = recyclerView.getChildAdapterPosition(host)
             val status = statusProvider.getStatus(pos) ?: return
             if (status is StatusViewData.Concrete) {
-                if (status.spoilerText.isNotEmpty()) {
+                if (status.status.spoilerText.isNotEmpty()) {
                     info.addAction(if (status.isExpanded) collapseCwAction else expandCwAction)
                 }
 
