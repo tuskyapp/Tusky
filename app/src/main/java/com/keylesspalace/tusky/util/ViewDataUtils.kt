@@ -70,7 +70,6 @@ fun Notification.toViewData(
 }
 
 fun List<TrendingTag>.toViewData(): List<TrendingViewData.Tag> {
-
     val maxTrendingValue = flatMap { tag -> tag.history }
         .mapNotNull { it.uses.toLongOrNull() }
         .maxOrNull() ?: 1

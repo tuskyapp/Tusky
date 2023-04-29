@@ -57,7 +57,6 @@ class TrendingTagViewHolder(
             )
     }
 
-
     companion object {
         private val numberFormatter: NumberFormat = NumberFormat.getInstance()
         private val ln_1k = ln(1000.0)
