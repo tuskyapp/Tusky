@@ -22,10 +22,9 @@ import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
 import com.keylesspalace.tusky.R
 import kotlin.math.max
@@ -33,9 +32,8 @@ import kotlin.math.max
 class GraphView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : AppCompatImageView(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
     @get:ColorInt
     @ColorInt
     var primaryLineColor = 0
@@ -55,7 +53,7 @@ class GraphView @JvmOverloads constructor(
     @ColorInt
     var metaColor = 0
 
-    var proportionalTrending = false
+    private var proportionalTrending = false
 
     private lateinit var primaryLinePaint: Paint
     private lateinit var secondaryLinePaint: Paint
@@ -129,16 +127,14 @@ class GraphView @JvmOverloads constructor(
 
     private fun initFromXML(attr: AttributeSet?) {
         context.obtainStyledAttributes(attr, R.styleable.GraphView).use { a ->
-            primaryLineColor = ContextCompat.getColor(
-                context,
+            primaryLineColor = context.getColor(
                 a.getResourceId(
                     R.styleable.GraphView_primaryLineColor,
                     R.color.tusky_blue
                 )
             )
 
-            secondaryLineColor = ContextCompat.getColor(
-                context,
+            secondaryLineColor = context.getColor(
                 a.getResourceId(
                     R.styleable.GraphView_secondaryLineColor,
                     R.color.tusky_red
@@ -150,16 +146,14 @@ class GraphView @JvmOverloads constructor(
                 R.dimen.graph_line_thickness
             ).toFloat()
 
-            graphColor = ContextCompat.getColor(
-                context,
+            graphColor = context.getColor(
                 a.getResourceId(
                     R.styleable.GraphView_graphColor,
                     R.color.colorBackground
                 )
             )
 
-            metaColor = ContextCompat.getColor(
-                context,
+            metaColor = context.getColor(
                 a.getResourceId(
                     R.styleable.GraphView_metaColor,
                     R.color.dividerColor

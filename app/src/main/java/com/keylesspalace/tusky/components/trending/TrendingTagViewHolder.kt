@@ -13,13 +13,11 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter
+package com.keylesspalace.tusky.components.trending
 
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
-import com.keylesspalace.tusky.entity.TrendingTagHistory
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 import java.text.NumberFormat
 import kotlin.math.ln
@@ -31,45 +29,34 @@ class TrendingTagViewHolder(
 
     fun setup(
         tagViewData: TrendingViewData.Tag,
-        maxTrendingValue: Long,
-        trendingListener: LinkListener
+        onViewTag: (String) -> Unit
     ) {
-        val reversedHistory = tagViewData.tag.history.reversed()
-        setGraph(reversedHistory, maxTrendingValue)
-        setTag(tagViewData.tag.name)
+        binding.tag.text = binding.root.context.getString(R.string.title_tag, tagViewData.name)
 
-        val totalUsage = tagViewData.tag.history.sumOf { it.uses.toLongOrNull() ?: 0 }
-        binding.totalUsage.text = formatNumber(totalUsage)
+        binding.graph.maxTrendingValue = tagViewData.maxTrendingValue
+        binding.graph.primaryLineData = tagViewData.usage
+        binding.graph.secondaryLineData = tagViewData.accounts
 
-        val totalAccounts = tagViewData.tag.history.sumOf { it.accounts.toLongOrNull() ?: 0 }
+        binding.totalUsage.text = formatNumber(tagViewData.usage.sum())
+
+        val totalAccounts = tagViewData.accounts.sum()
         binding.totalAccounts.text = formatNumber(totalAccounts)
 
-        binding.currentUsage.text = reversedHistory.last().uses
-        binding.currentAccounts.text = reversedHistory.last().accounts
+        binding.currentUsage.text = tagViewData.usage.last().toString()
+        binding.currentAccounts.text = tagViewData.usage.last().toString()
 
         itemView.setOnClickListener {
-            trendingListener.onViewTag(tagViewData.tag.name)
+            onViewTag(tagViewData.name)
         }
 
-        setAccessibility(totalAccounts, tagViewData.tag.name)
-    }
-
-    private fun setGraph(history: List<TrendingTagHistory>, maxTrendingValue: Long) {
-        binding.graph.maxTrendingValue = maxTrendingValue
-        binding.graph.primaryLineData = history
-            .mapNotNull { it.uses.toLongOrNull() }
-        binding.graph.secondaryLineData = history
-            .mapNotNull { it.accounts.toLongOrNull() }
-    }
-
-    private fun setTag(tag: String) {
-        binding.tag.text = binding.root.context.getString(R.string.title_tag, tag)
-    }
-
-    private fun setAccessibility(totalAccounts: Long, tag: String) {
         itemView.contentDescription =
-            itemView.context.getString(R.string.accessibility_talking_about_tag, totalAccounts, tag)
+            itemView.context.getString(
+                R.string.accessibility_talking_about_tag,
+                totalAccounts,
+                tagViewData.name
+            )
     }
+
 
     companion object {
         private val numberFormatter: NumberFormat = NumberFormat.getInstance()
