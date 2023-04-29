@@ -828,8 +828,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         for (FilterResult result : status.getActionable().getFiltered()) {
             Filter filter = result.getFilter();
-            List<String> keywords = result.getKeywordMatches();
-            if (filter.getAction() == Filter.Action.WARN && !keywords.isEmpty()) {
+            if (filter.getAction() == Filter.Action.WARN) {
                 matchedFilter = filter;
                 break;
             }
