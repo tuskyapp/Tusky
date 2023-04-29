@@ -827,18 +827,17 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         showFilteredPlaceholder(true);
 
-        String matchedKeyword = null;
+        Filter matchedFilter = null;
 
         for (FilterResult result : status.getActionable().getFiltered()) {
             Filter filter = result.getFilter();
-            List<String> keywords = result.getKeywordMatches();
-            if (filter.getAction() == Filter.Action.WARN && !keywords.isEmpty()) {
-                matchedKeyword = keywords.get(0);
+            if (filter.getAction() == Filter.Action.WARN) {
+                matchedFilter = filter;
                 break;
             }
         }
 
-        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedKeyword));
+        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilter.getTitle()));
         filteredPlaceholderShowButton.setOnClickListener(view -> {
             listener.clearWarningAction(getBindingAdapterPosition());
         });
