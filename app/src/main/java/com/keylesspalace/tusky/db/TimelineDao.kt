@@ -53,12 +53,18 @@ ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     )
     abstract fun getStatuses(account: Long): PagingSource<Int, TimelineStatusWithAccount>
 
+    /**
+     * All statuses for [account] in timeline ID. Used to find the correct initialKey to restore
+     * the user's reading position.
+     *
+     * @see [com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel.statuses]
+     */
     @Query(
         """
 SELECT s.serverId
-FROM TimelineStatusEntity s
-WHERE s.timelineUserId = :account
-ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
+  FROM TimelineStatusEntity s
+ WHERE s.timelineUserId = :account
+ ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     )
     abstract fun getStatusRowNumber(account: Long): List<String>
 

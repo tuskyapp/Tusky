@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
@@ -113,6 +114,11 @@ class TimelineFragment :
 
     private var isSwipeToRefreshEnabled = true
     private var hideFab = false
+
+    /**
+     * True if the first load of statuses
+     */
+    private var firstLoad = true
 
     /**
      * Adapter position of the placeholder that was most recently clicked to "Load more". If null
@@ -256,18 +262,28 @@ class TimelineFragment :
                         binding.progressBar.show()
                     }
                 }
+            } else {
+                if (shouldRestorePosition() && loadState.refresh is LoadState.NotLoading) {
+                    accountManager.activeAccount?.lastVisibleHomeTimelineStatusId?.let { statusId ->
+                        val position = adapter.snapshot().indexOfFirst {
+                            it?.id == statusId
+                        }
+                        binding.recyclerView.scrollToPosition(position + 1)
+                    }
+                    firstLoad = false
+                }
             }
         }
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                if (!firstLoad && positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
-//                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
                             } else {
-//                                binding.recyclerView.scrollToPosition(0)
+                                binding.recyclerView.scrollToPosition(0)
                             }
                         }
                     }
@@ -370,7 +386,7 @@ class TimelineFragment :
                 val lastVisiblePosition =
                     (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 if (position > lastVisiblePosition) {
-                    //binding.recyclerView.scrollToPosition(position)
+                    binding.recyclerView.scrollToPosition(position)
                 }
                 break
             }
@@ -576,14 +592,24 @@ class TimelineFragment :
 
     private var talkBackWasEnabled = false
 
+    /** True if the user's reading position should be restored, false otherwise */
+    private fun shouldRestorePosition() = firstLoad && kind == TimelineViewModel.Kind.HOME
+
+    /** True if the user's reading position should be saved, false otherwise */
+    private fun shouldSavePosition() = kind == TimelineViewModel.Kind.HOME
+
     override fun onPause() {
         super.onPause()
-        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
-            if (position != RecyclerView.NO_POSITION) {
-                adapter.snapshot()[position]?.id?.let { statusId ->
-                    viewModel.saveLastVisibleStatusId(statusId)
+
+        if (shouldSavePosition()) {
+            (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
+                ?.let { position ->
+                    if (position != RecyclerView.NO_POSITION) {
+                        adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                            viewModel.saveLastVisibleStatusId(statusId)
+                        }
+                    }
                 }
-            }
         }
     }
 

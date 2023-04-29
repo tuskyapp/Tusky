@@ -84,20 +84,23 @@ class CachedTimelineViewModel @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = run {
+        // Set an initialKey that matches the user's last reading position.
+        //
+        // Room is row-keyed, not item-keyed, so you can't pass the status ID as the initialKey.
+        // Instead, get all the status IDs for this account, in timeline order, and find the
+        // row index that contains the status. The row index is the correct initialKey.
         val activeAccount = accountManager.activeAccount
         val lastVisibleStatusId = accountManager.activeAccount?.lastVisibleHomeTimelineStatusId
         val initialKey = lastVisibleStatusId?.let { statusId ->
             activeAccount?.let { account ->
-                val rows = db.timelineDao().getStatusRowNumber(account.id)
-                rows.indexOfFirst { it == lastVisibleStatusId }
+                db.timelineDao().getStatusRowNumber(account.id).indexOfFirst { it == statusId }.takeIf { it != -1 }
             }
         }
         Log.d(TAG, "initialKey = $initialKey")
+
         Pager(
             config = PagingConfig(
-                pageSize = LOAD_AT_ONCE,
-//                enablePlaceholders = true,
-//                jumpThreshold = LOAD_AT_ONCE
+                pageSize = LOAD_AT_ONCE
             ),
             initialKey = initialKey,
             remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
