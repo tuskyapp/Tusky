@@ -114,6 +114,14 @@ class ClickableSpanTextView @JvmOverloads constructor(
         lengthAfter: Int
     ) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
+
+        // TextView tries to optimise the layout process, and will not perform a layout if the
+        // new text takes the same area as the old text (see TextView.checkForRelayout()). This
+        // can result in statuses using the wrong clickable areas as they are never remeasured.
+        // (https://github.com/tuskyapp/Tusky/issues/3596). Force a layout pass to ensure that
+        // the spans are measured correctly.
+        if (!isInLayout) requestLayout()
+
         doOnLayout { measureSpans() }
     }
 
@@ -126,10 +134,10 @@ class ClickableSpanTextView @JvmOverloads constructor(
      * If the span runs over multiple lines there will be two Rects per line.
      */
     private fun measureSpans() {
-        val spannedText = text as? Spanned ?: return
-
         spanRects.clear()
         delegateRects.clear()
+
+        val spannedText = text as? Spanned ?: return
 
         // The goal is to record all the [Rect]s associated with a span with the same fidelity
         // that the user sees when they highlight text in the view to select it.
@@ -358,7 +366,7 @@ class ClickableSpanTextView @JvmOverloads constructor(
     }
 
     companion object {
-        const val TAG = "LinkTextView"
+        const val TAG = "ClickableSpanTextView"
     }
 }
 
