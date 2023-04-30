@@ -24,6 +24,9 @@
          a noun and a verb -->
     <issue id="DuplicateStrings" severity="ignore" />
 
+    <!-- Unconditional log calls are no problem, they are thrown out of bytecode by the code shrinker -->
+    <issue id="LogConditional" severity="ignore" />
+
     <!-- Resource IDs used in viewbinding are incorrectly reported as unused,
          https://issuetracker.google.com/issues/204797401.
 
