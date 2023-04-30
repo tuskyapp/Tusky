@@ -132,7 +132,7 @@ class TrendingFragment :
     }
 
     override fun onRefresh() {
-        viewModel.invalidate()
+        viewModel.invalidate(true)
     }
 
     fun onViewTag(tag: String) {
@@ -140,9 +140,11 @@ class TrendingFragment :
     }
 
     private fun processViewState(uiState: TrendingViewModel.TrendingUiState) {
+        Log.d(TAG, uiState.loadingState.name)
         when (uiState.loadingState) {
             TrendingViewModel.LoadingState.INITIAL -> clearLoadingState()
             TrendingViewModel.LoadingState.LOADING -> applyLoadingState()
+            TrendingViewModel.LoadingState.REFRESHING -> applyRefreshingState()
             TrendingViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
             TrendingViewModel.LoadingState.ERROR_NETWORK -> networkError()
             TrendingViewModel.LoadingState.ERROR_OTHER -> otherError()
@@ -167,6 +169,10 @@ class TrendingFragment :
             binding.messageView.hide()
         }
         binding.progressBar.hide()
+    }
+
+    private fun applyRefreshingState() {
+        binding.swipeRefreshLayout.isRefreshing = true
     }
 
     private fun applyLoadingState() {

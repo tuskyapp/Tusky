@@ -40,7 +40,7 @@ class TrendingViewModel @Inject constructor(
     private val eventHub: EventHub
 ) : ViewModel() {
     enum class LoadingState {
-        INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+        INITIAL, LOADING, REFRESHING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
 
     data class TrendingUiState(
@@ -71,8 +71,12 @@ class TrendingViewModel @Inject constructor(
      *
      * A tag is excluded if it is filtered by the user on their home timeline.
      */
-    fun invalidate() = viewModelScope.launch {
-        _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
+    fun invalidate(refresh: Boolean = false) = viewModelScope.launch {
+        if (refresh) {
+            _uiState.value = TrendingUiState(emptyList(), LoadingState.REFRESHING)
+        } else {
+            _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
+        }
 
         val deferredFilters = async { mastodonApi.getFilters() }
 
