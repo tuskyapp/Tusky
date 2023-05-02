@@ -37,23 +37,32 @@
         <item>auto_system</item>
     </string-array>
 
+    <!-- Modifications to this list most also modify language_values, below.
+
+         https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes is a list of codes and names for
+         a language, in that language. -->
     <string-array name="language_entries">
         <item>@string/system_default</item>
+        <item>TODO: Berber languages</item>
         <item>Català</item>
         <item>Čeština</item>
         <item>Cymraeg</item>
         <item>Deutsch</item>
+        <item>Ελληνικά</item>
         <item>English (UK)</item>
         <item>English (US)</item>
         <item>Esperanto</item>
         <item>Español</item>
         <item>Euskara</item>
         <item>Français</item>
+        <item>Frysk</item>
         <item>Gaeilge</item>
         <item>Gàidhlig</item>
         <item>Galego</item>
         <item>íslenska</item>
         <item>Italiano</item>
+        <item>Bahasa Indonesia</item>
+        <item>Latviešu valoda</item>
         <item>Magyar</item>
         <item>Nederlands</item>
         <item>Norsk</item>
@@ -61,7 +70,9 @@
         <item>Polski</item>
         <item>Português (Brasil)</item>
         <item>Português (Portugal)</item>
+        <item>Slovenčina</item>
         <item>Slovenščina</item>
+        <item>Suomen kieli</item>
         <item>Svenska</item>
         <item>Taqbaylit</item>
         <item>Tiếng Việt</item>
@@ -86,25 +97,32 @@
         <item>中文(简体)</item>
         <item>中文(香港)</item>
         <item>日本語</item>
+        <item>മലയാളം Malayāļã</item>
+        <item>සිංහල Sĩhala</item>
     </string-array>
 
     <string-array name="language_values">
         <item>default</item>
+        <item>ber</item>
         <item>ca</item>
         <item>cs</item>
         <item>cy</item>
         <item>de</item>
+        <item>el</item>
         <item>en-GB</item>
         <item>en</item>
         <item>eo</item>
         <item>es</item>
         <item>eu</item>
         <item>fr</item>
+        <item>fy</item>
         <item>ga</item>
         <item>gd</item>
         <item>gl</item>
         <item>is</item>
         <item>it</item>
+        <item>in</item>
+        <item>lv</item>
         <item>hu</item>
         <item>nl</item>
         <item>nb-NO</item>
@@ -112,7 +130,9 @@
         <item>pl</item>
         <item>pt-BR</item>
         <item>pt-PT</item>
+        <item>sk</item>
         <item>sl</item>
+        <item>fi</item>
         <item>sv</item>
         <item>kab</item>
         <item>vi</item>
@@ -137,6 +157,8 @@
         <item>zh-CN</item>
         <item>zh-HK</item>
         <item>ja</item>
+        <item>ml</item>
+        <item>si</item>
     </string-array>
 
     <string-array name="pref_main_nav_position_options">
