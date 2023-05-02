@@ -6,6 +6,17 @@
 
 ### Significant bug fixes
 
+## v22.0 beta 2
+
+### Significant bug fixes
+
+- **Improved notification loading speed**, [PR#3598](https://github.com/tuskyapp/Tusky/pull/3598)
+- **Restore showing 0/1/1+ for replies**, [PR#3590](https://github.com/tuskyapp/Tusky/pull/3590)
+- **Show filter titles, not filter keywords, on filtered posts**, [PR#3589](https://github.com/tuskyapp/Tusky/pull/3589)
+- **Fixed a bug where opening a status could open an unrelated link**, [PR#3600](https://github.com/tuskyapp/Tusky/pull/3600)
+- **Show "Add" button in correct place when there are no filters**, [PR#3561](https://github.com/tuskyapp/Tusky/pull/3561)
+- **Fixed assorted crashes**
+
 ## v22.0 beta 1
 
 ### New features and other improvements
