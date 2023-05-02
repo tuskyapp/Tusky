@@ -168,7 +168,7 @@ class NotificationsPagingSource @Inject constructor(
         // *not* be empty (as noted earlier, if it is, paging stops).
         deferredNotificationPage.await().let { response ->
             if (response.isSuccessful) {
-                if (response.body()!!.isNotEmpty()) return@coroutineScope response
+                if (!response.body().isNullOrEmpty()) return@coroutineScope response
             }
         }
 
