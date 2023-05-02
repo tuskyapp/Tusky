@@ -177,7 +177,7 @@ class NotificationsPagingSource @Inject constructor(
         // *not* be empty (as noted earlier, if it is, paging stops).
         mastodonApi.notifications(minId = key, limit = params.loadSize, excludes = notificationFilter).let { response ->
             if (response.isSuccessful) {
-                if (response.body()!!.isNotEmpty()) return@coroutineScope response
+                if (!response.body().isNullOrEmpty()) return@coroutineScope response
             }
         }
 
