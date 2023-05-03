@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.unicodeWrap
@@ -88,8 +89,13 @@ class FollowRequestViewHolder(
         binding.notificationTextView.visible(showHeader)
         val formattedUsername = itemView.context.getString(R.string.post_username_format, account.username)
         binding.usernameTextView.text = formattedUsername
-        binding.accountNote.text =
-            account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNote, animateEmojis)
+        if (account.note.isEmpty()) {
+            binding.accountNote.hide()
+        } else {
+            binding.accountNote.text =
+                account.note.parseAsMastodonHtml()
+                    .emojify(account.emojis, binding.accountNote, animateEmojis)
+        }
         val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
         loadAvatar(account.avatar, binding.avatar, avatarRadius, animateAvatar)
         binding.avatarBadge.visible(showBotOverlay && account.bot)
