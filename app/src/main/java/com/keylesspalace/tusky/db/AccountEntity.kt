@@ -82,7 +82,13 @@ data class AccountEntity(
     var pushPubKey: String = "",
     var pushPrivKey: String = "",
     var pushAuth: String = "",
-    var pushServerKey: String = ""
+    var pushServerKey: String = "",
+
+    /**
+     * ID of the status at the top of the visible list in the home timeline when the
+     * user navigated away.
+     */
+    var lastVisibleHomeTimelineStatusId: String? = null
 ) {
 
     val identifier: String
