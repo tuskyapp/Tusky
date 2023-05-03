@@ -47,7 +47,7 @@
     <string name="post_content_show_more">Ausklappen</string>
     <string name="post_content_show_less">Einklappen</string>
     <string name="message_empty">Hier ist nichts.</string>
-    <string name="footer_empty">Noch keine Beiträge. Ziehe nach unten, um zu aktualisieren!</string>
+    <string name="footer_empty">Noch keine Beiträge. Ziehe zum Aktualisieren nach unten!</string>
     <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
     <string name="notification_follow_format">%s folgt dir</string>
@@ -92,7 +92,7 @@
     <string name="action_unmute">Stummschaltung aufheben</string>
     <string name="action_mention">Erwähnen</string>
     <string name="action_hide_media">Mediendateien ausblenden</string>
-    <string name="action_open_drawer">Drawer öffnen</string>
+    <string name="action_open_drawer">Menü öffnen</string>
     <string name="action_save">Speichern</string>
     <string name="action_edit_profile">Profil bearbeiten</string>
     <string name="action_edit_own_profile">Bearbeiten</string>
@@ -147,7 +147,7 @@
 \nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website.
 \n
 \nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
-    <string name="dialog_title_finishing_media_upload">Stelle Dateiupload fertig</string>
+    <string name="dialog_title_finishing_media_upload">Hochladen der Datei wird abgeschlossen</string>
     <string name="dialog_message_uploading_media">Wird hochgeladen …</string>
     <string name="dialog_download_image">Herunterladen</string>
     <string name="dialog_message_cancel_follow_request">Folgeanfrage zurückziehen?</string>
@@ -161,12 +161,12 @@
     <string name="pref_title_notifications_enabled">Benachrichtigungen</string>
     <string name="pref_title_notification_alerts">Benachrichtigungen</string>
     <string name="pref_title_notification_alert_sound">Mit einem Ton benachrichtigen</string>
-    <string name="pref_title_notification_alert_vibrate">Benachrichtige mit Vibration</string>
-    <string name="pref_title_notification_alert_light">Benachrichtige mit Licht</string>
-    <string name="pref_title_notification_filters">Benachrichtigen wenn</string>
+    <string name="pref_title_notification_alert_vibrate">Mit Vibration benachrichtigen</string>
+    <string name="pref_title_notification_alert_light">Mit Licht benachrichtigen</string>
+    <string name="pref_title_notification_filters">Mich benachrichtigen, wenn</string>
     <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
     <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
-    <string name="pref_title_notification_filter_reblogs">Jemand meine Beiträge teilt</string>
+    <string name="pref_title_notification_filter_reblogs">meine Beiträge geteilt werden</string>
     <string name="pref_title_notification_filter_favourites">meine Beiträge favorisiert werden</string>
     <string name="pref_title_appearance_settings">Erscheinungsbild</string>
     <string name="pref_title_app_theme">App-Design</string>
@@ -191,7 +191,7 @@
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
     <string name="pref_title_http_proxy_server">HTTP-Proxy-Server</string>
     <string name="pref_title_http_proxy_port">HTTP-Proxy-Port</string>
-    <string name="pref_default_post_privacy">Beitragssichtbarkeit</string>
+    <string name="pref_default_post_privacy">Standard Beitragssichtbarkeit</string>
     <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen</string>
     <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
@@ -231,10 +231,9 @@
     -->
     <string name="about_project_site">Website des Projekts:
 \n https://tusky.app</string>
-    <string name="about_bug_feature_request_site">        Fehlermeldungen &amp; Verbesserungsvorschläge:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
-    <string name="about_tusky_account">Tuskys Profil</string>
+    <string name="about_bug_feature_request_site">Fehlermeldungen und Verbesserungsvorschläge:
+\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_tusky_account">Profil von Tusky</string>
     <string name="post_share_content">Inhalt des Beitrags teilen</string>
     <string name="post_share_link">Link zum Beitrag teilen</string>
     <string name="post_media_images">Bilder</string>
@@ -244,7 +243,7 @@
     <string name="follows_you">Folgt dir</string>
     <string name="pref_title_alway_show_sensitive_media">Mediendateien mit Inhaltswarnung immer anzeigen</string>
     <string name="title_media">Medien</string>
-    <string name="replying_to">Antworten an @%s</string>
+    <string name="replying_to">Antwort an @%s</string>
     <string name="load_more_placeholder_text">mehr laden</string>
     <string name="pref_title_thread_filter_keywords">Unterhaltungen</string>
     <string name="filter_addition_title">Filter hinzufügen</string>
@@ -286,7 +285,7 @@
     <string name="restart_required">App-Neustart erforderlich</string>
     <string name="restart_emoji">Du musst Tusky neu starten, damit die Änderungen übernommen werden</string>
     <string name="later">Später</string>
-    <string name="restart">Neustarten</string>
+    <string name="restart">Neu starten</string>
     <string name="caption_systememoji">Die Standard-Emojis deines Geräts</string>
     <string name="caption_blobmoji">Die Blob–Emojis aus Android 4.4–7.1</string>
     <string name="caption_twemoji">Die Standard-Emojis von Mastodon</string>
@@ -295,7 +294,7 @@
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s ist umgezogen auf:</string>
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
-    <string name="unreblog_private">nicht mehr teilen</string>
+    <string name="unreblog_private">Nicht mehr teilen</string>
     <string name="license_description">Tusky enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
     <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -328,10 +327,10 @@
     <string name="error_create_list">Liste konnte nicht erstellt werden</string>
     <string name="error_rename_list">Liste konnte nicht umbenannt werden</string>
     <string name="error_delete_list">Liste konnte nicht gelöscht werden</string>
-    <string name="hint_search_people_list">Suche nach Leuten denen du folgst</string>
+    <string name="hint_search_people_list">Suche nach Leuten, denen du folgst</string>
     <string name="action_remove_from_list">Von der Liste entfernen</string>
     <string name="edit_hashtag_hint">Hashtag ohne #</string>
-    <string name="action_open_reblogger">Boost Autor öffnen</string>
+    <string name="action_open_reblogger">Autor*in des geteilten Beitrags öffnen</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Timelines</string>
     <plurals name="favs">
         <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
@@ -352,7 +351,7 @@
     <string name="filter_apply">Anwenden</string>
     <string name="compose_shortcut_long_label">Beitrag erstellen</string>
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
-    <string name="pref_title_bot_overlay">Bot-Hinweis anzeigen</string>
+    <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
     <string name="poll_info_format"> <!-- 15 Stimmen • 1 Stunde verbleibend --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -393,7 +392,7 @@
     <string name="button_back">Zurück</string>
     <string name="button_done">Fertig</string>
     <string name="report_sent_success">\@%s wurde erfolgreich gemeldet</string>
-    <string name="hint_additional_info">Zusätzliche Kommentare</string>
+    <string name="hint_additional_info">Zusätzliche Anmerkungen</string>
     <string name="report_remote_instance">An %s weiterleiten</string>
     <string name="failed_report">Melden fehlgeschlagen</string>
     <string name="report_description_1">Die Meldung wird an die Moderator*innen deines Servers geschickt. Du kannst hier eine Erklärung angeben, warum du dieses Konto meldest:</string>
@@ -408,12 +407,12 @@
     <string name="duration_3_days">3 Tage</string>
     <string name="duration_7_days">7 Tage</string>
     <string name="edit_poll">Bearbeiten</string>
-    <string name="about_tusky_version">test %s</string>
+    <string name="about_tusky_version">Tusky %s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
     <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>
-    <string name="failed_fetch_posts">Fehler beim Holen der Beiträge</string>
+    <string name="failed_fetch_posts">Beiträge konnten nicht abgerufen werden</string>
     <string name="title_accounts">Konten</string>
     <string name="failed_search">Fehler beim Suchen</string>
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
@@ -422,16 +421,16 @@
     <string name="title_scheduled_posts">Geplante Beiträge</string>
     <string name="action_edit">Bearbeiten</string>
     <string name="action_access_scheduled_posts">Geplante Beiträge</string>
-    <string name="action_schedule_post">Plane Beitrag</string>
+    <string name="action_schedule_post">Beitrag planen</string>
     <string name="action_reset_schedule">Zurücksetzen</string>
     <string name="title_bookmarks">Lesezeichen</string>
     <string name="action_bookmark">Lesezeichen</string>
     <string name="action_view_bookmarks">Lesezeichen</string>
-    <string name="about_powered_by_tusky">Angetrieben durch Tusky</string>
+    <string name="about_powered_by_tusky">Unterstützt von Tusky</string>
     <string name="description_post_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
     <string name="select_list_empty">Du hast noch keine Listen</string>
-    <string name="select_list_manage">Listen</string>
+    <string name="select_list_manage">Listen verwalten</string>
     <string name="error_list_load">Fehler beim Laden der Listen</string>
     <string name="list">Liste</string>
     <string name="post_lookup_error_format">Fehler beim Nachschlagen von %s</string>
@@ -466,10 +465,10 @@
     <string name="pref_main_nav_position">Position der Hauptnavigation</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
     <string name="action_unmute_desc">%s nicht mehr stummschalten</string>
-    <string name="abbreviated_seconds_ago">%d Sek.</string>
-    <string name="abbreviated_hours_ago">%d St.</string>
+    <string name="abbreviated_seconds_ago">%d Sek.</string>
+    <string name="abbreviated_hours_ago">%d Std.</string>
     <string name="abbreviated_in_days">in %d T.</string>
-    <string name="abbreviated_years_ago">%d J.</string>
+    <string name="abbreviated_years_ago">%d J.</string>
     <string name="account_note_saved">Gespeichert!</string>
     <string name="account_note_hint">Private Notiz über dieses Konto</string>
     <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation ausblenden</string>
@@ -478,7 +477,7 @@
     <string name="drafts_post_reply_removed">Der Beitrag, auf den du antworten wolltest, wurde gelöscht</string>
     <string name="draft_deleted">Entwurf gelöscht</string>
     <string name="drafts_post_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
-    <string name="dialog_delete_list_warning">Willst du die Liste %s wirklich löschen\?</string>
+    <string name="dialog_delete_list_warning">Möchtest du die Liste %s wirklich löschen\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kannst nicht mehr als %1$d Anhang hochladen.</item>
         <item quantity="other">Du kannst nicht mehr als %1$d Anhänge hochladen.</item>
@@ -493,7 +492,7 @@
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
     <string name="pref_title_notification_filter_subscriptions">jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_format">%s hat gerade etwas veröffentlicht</string>
-    <string name="abbreviated_minutes_ago">%d Min.</string>
+    <string name="abbreviated_minutes_ago">%d Min.</string>
     <string name="review_notifications">Benachrichtigungen überprüfen</string>
     <string name="wellbeing_mode_notice">Informationen, die dein geistiges Wohlbefinden beeinflussen könnten, werden ausgeblendet. Dazu gehören:
 \n
@@ -508,10 +507,10 @@
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
     <string name="action_subscribe_account">Abonnieren</string>
     <string name="action_unsubscribe_account">Deabonnieren</string>
-    <string name="abbreviated_in_minutes">in %d M.</string>
+    <string name="abbreviated_in_minutes">in %d Min.</string>
     <string name="abbreviated_in_hours">in %d Std.</string>
     <string name="drafts_failed_loading_reply">Informationen zur Antwort konnten nicht geladen werden</string>
-    <string name="abbreviated_days_ago">%d T.</string>
+    <string name="abbreviated_days_ago">%d T.</string>
     <string name="abbreviated_in_years">in %d J.</string>
     <string name="abbreviated_in_seconds">in %d Sek.</string>
     <string name="action_unbookmark">Lesezeichen entfernen</string>
@@ -526,7 +525,7 @@
     <string name="duration_180_days">180 Tage</string>
     <string name="tusky_compose_post_quicksetting_label">Beitrag erstellen</string>
     <string name="notification_update_format">%s hat den Beitrag bearbeitet</string>
-    <string name="pref_title_notification_filter_updates">Ein Beitrag, mit dem ich interagiert habe, wurde bearbeitet</string>
+    <string name="pref_title_notification_filter_updates">Ein Beitrag, mit dem ich interagiert habe, bearbeitet wurde</string>
     <string name="notification_sign_up_name">Registrierungen</string>
     <string name="notification_sign_up_description">Benachrichtigungen über neue Profile</string>
     <string name="notification_sign_up_format">%s hat sich registriert</string>
@@ -571,7 +570,7 @@
     <string name="failed_to_remove_from_list">Das Konto konnte nicht aus der Liste entfernt werden</string>
     <string name="action_add_or_remove_from_list">Zur Liste hinzufügen / aus Liste entfernen</string>
     <string name="failed_to_add_to_list">Das Konto konnte nicht zur Liste hinzugefügt werden</string>
-    <string name="no_lists">Du hast gar keine Listen.</string>
+    <string name="no_lists">Du hast keine Listen.</string>
     <string name="notification_summary_report_format">%s · %d Beiträge angehängt</string>
     <string name="notification_header_report_format">%s hat %s gemeldet</string>
     <string name="confirmation_hashtag_unfollowed">#%s entfolgt</string>
@@ -597,17 +596,17 @@
     <string name="pref_title_http_proxy_port_message">Port sollte zwischen %d und %d liegen</string>
     <string name="error_muting_hashtag_format">Fehler beim Stummschalten von #%s</string>
     <string name="action_post_failed">Hochladen fehlgeschlagen</string>
-    <string name="action_post_failed_detail">Dein Beitrag konnte nicht gepostet werden.
+    <string name="action_post_failed_detail">Dein Beitrag konnte nicht gepostet werden und wurde als Entwurf gespeichert.
 \n
 \nEntweder ist die Verbindung zum Server fehlgeschlagen oder der Server hat den Beitrag abgelehnt.</string>
-    <string name="action_post_failed_detail_plural">Dein Beiträge konnte nicht gepostet werden.
+    <string name="action_post_failed_detail_plural">Deine Beiträge konnte nicht gepostet werden und wurde als Entwürfe gespeichert.
 \n
 \nEntweder ist die Verbindung zum Server fehlgeschlagen oder der Server hat die Beiträge abgelehnt.</string>
     <string name="action_post_failed_show_drafts">Entwürfe anzeigen</string>
     <string name="action_post_failed_do_nothing">Abbrechen</string>
     <string name="post_edited">Bearbeitet %s</string>
     <string name="action_discard">Änderungen verwerfen</string>
-    <string name="action_continue_edit">Bearbeitung fortsetzen</string>
+    <string name="action_continue_edit">Bearbeiten fortsetzen</string>
     <string name="action_browser_login">Mit Browser anmelden</string>
     <string name="action_share_account_username">Name des Profils teilen</string>
     <string name="action_share_account_link">Link zum Profil teilen</string>

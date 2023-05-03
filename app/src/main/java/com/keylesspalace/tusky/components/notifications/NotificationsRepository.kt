@@ -53,7 +53,7 @@ class NotificationsRepository @Inject constructor(
         }
 
         return Pager(
-            config = PagingConfig(pageSize = pageSize),
+            config = PagingConfig(pageSize = pageSize, initialLoadSize = pageSize),
             initialKey = initialKey,
             pagingSourceFactory = factory!!
         ).flow
