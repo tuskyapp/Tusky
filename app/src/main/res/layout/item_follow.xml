@@ -74,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:hyphenationFrequency="full"
+        android:lineSpacingMultiplier="1.1"
         android:textSize="?attr/status_text_medium"
         android:textIsSelectable="true"
         app:layout_constrainedWidth="true"

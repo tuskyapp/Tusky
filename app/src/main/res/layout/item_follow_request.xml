@@ -111,6 +111,8 @@
         android:layout_marginTop="4dp"
         android:textSize="?attr/status_text_medium"
         android:textIsSelectable="true"
+        android:hyphenationFrequency="full"
+        android:lineSpacingMultiplier="1.1"
         app:layout_constraintEnd_toEndOf="@+id/acceptButton"
         app:layout_constraintStart_toStartOf="@+id/usernameTextView"
         app:layout_constraintTop_toBottomOf="@+id/rejectButton"
