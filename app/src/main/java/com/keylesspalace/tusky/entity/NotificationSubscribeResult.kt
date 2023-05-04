@@ -20,5 +20,6 @@ import com.google.gson.annotations.SerializedName
 data class NotificationSubscribeResult(
     val id: Int,
     val endpoint: String,
+    val alerts: Map<String, Boolean>,
     @SerializedName("server_key") val serverKey: String
 )

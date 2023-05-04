@@ -62,6 +62,8 @@ class PushNotificationManager @Inject constructor(
     }
 
     private suspend fun enableUnifiedPushNotificationsForAccount(account: AccountEntity) {
+        // TODO/NOTE these api request(s) here take quite some time (100-1000ms each for my 3 instances)
+
         var currentSubscription: NotificationSubscribeResult? = null
         mastodonApi.pushNotificationSubscription(
             "Bearer ${account.accessToken}",
@@ -77,17 +79,19 @@ class PushNotificationManager @Inject constructor(
             // else this is alright; there is no subscription on server
         })
 
-        // TODO compare server key?
-        // TODO only update below if notifications changed
+        // TODO compare endpoint?
 
-        if (getActiveDistributor(account) != null) {
-            // Already registered, update the subscription to match notification settings
-            updateUnifiedPushSubscription(account)
+        if (currentSubscription != null && getActiveDistributor(account) != null) {
+            val alertData = buildAlertsMap(account)
+
+            if (!alertData.equals(currentSubscription!!.alerts)) {
+                // Already registered, update the subscription to match notification settings
+                updateUnifiedPushSubscription(account)
+
+                // TODO! subscription (notification) settings must also directly be changed when the respective settings are changed
+            }
         } else {
             if (!account.unifiedDistributorName.isNullOrEmpty()) {
-                // This does nothing as the distributor is not present anymore to receive this message
-//            UnifiedPush.unregisterApp(context, account.id.toString())
-
                 // When changing the local UP distributor this is necessary first to enable the following callbacks (i. e. onNewEndpoint)
                 unregisterUnifiedPushEndpoint(account)
             }
@@ -119,9 +123,6 @@ class PushNotificationManager @Inject constructor(
             return null
         }
 
-        // TODO there is also a GET api for push notifications (current push settings on server)
-        //   which could be checked as well or alternatively.
-
         val distributors = UnifiedPush.getDistributors(context)
 
         return distributors.find { it == account.unifiedDistributorName }
@@ -138,12 +139,15 @@ class PushNotificationManager @Inject constructor(
         NotificationHelper.disablePullNotifications(context)
     }
 
-    private fun buildAlertSubscriptionData(account: AccountEntity): Map<String, Boolean> =
+    private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
         buildMap {
             Notification.Type.visibleTypes.forEach {
-                put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(account, it, context))
+                put(it.presentation, NotificationHelper.filterNotification(account, it, context))
             }
         }
+
+    private fun buildAlertSubscriptionData(account: AccountEntity): Map<String, Boolean> =
+        buildAlertsMap(account).mapKeys { "data[alerts][${it.key}]" }
 
     // Called by UnifiedPush callback
     suspend fun registerUnifiedPushEndpoint(
@@ -222,7 +226,8 @@ class PushNotificationManager @Inject constructor(
         }
     }
 
-    // TODO reduce this "migration feature" here
+    // TODO reduce this "migration feature" here; the code should probably also always check for "push" in the
+    //   authorization as a normal feature - it could be missing by intent?
 
     private fun anyAccountNeedsMigration(): Boolean =
         accountManager.accounts.any(::accountNeedsMigration)
