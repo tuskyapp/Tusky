@@ -40,11 +40,9 @@ class PushNotificationManager @Inject constructor(
     fun canEnablePushNotifications(): Boolean =
         isUnifiedPushAvailable() && !anyAccountNeedsMigration()
 
-    // TODO the fallback has no place here
-    suspend fun enablePushNotificationsWithFallback() {
+    suspend fun enablePushNotifications() {
         if (!canEnablePushNotifications()) {
             // No UP distributors
-            NotificationHelper.enablePullNotifications(context)
             return
         }
 

@@ -993,7 +993,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         pushNotificationManager.showMigrationNoticeIfNecessary(binding.mainCoordinatorLayout, binding.composeButton)
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
             lifecycleScope.launch {
-                pushNotificationManager.enablePushNotificationsWithFallback()
+                if (pushNotificationManager.canEnablePushNotifications()) {
+                    pushNotificationManager.enablePushNotifications()
+                } else {
+                    NotificationHelper.enablePullNotifications(this@MainActivity)
+                }
             }
         } else {
             pushNotificationManager.disableAllNotifications()
