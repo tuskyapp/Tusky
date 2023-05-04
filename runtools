@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Run one of the tools.
+# The first argument must be the name of the tool task (e.g. mklanguages).
+# Any remaining arguments are forwarded to the tool's argv.
+
+task=$1
+shift 1
+
+if [ -z "${task}" ] || [ ! -d "tools/${task}" ]
+then
+    echo "Unknown tool: '${task}'"
+    exit 1
+fi
+
+./gradlew --quiet ":tools:${task}:installDist" && "./tools/${task}/build/install/${task}/bin/${task}" "$@"
