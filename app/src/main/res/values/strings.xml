@@ -333,6 +333,9 @@
     <string name="pref_summary_http_proxy_missing">&lt;not set></string>
     <string name="pref_summary_http_proxy_invalid">&lt;invalid></string>
 
+    <string name="pref_title_push_notifications">Push notifications</string>
+    <string name="pref_title_push_notifications_distributor">Distributor</string>
+
     <string name="pref_default_post_privacy">Default post privacy</string>
     <string name="pref_default_post_language">Default posting language</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive</string>
@@ -730,7 +733,7 @@
         - Favorite/Boost/Follow notifications\n
         - Favorite/Boost count on posts\n
         - Follower/Post stats on profiles\n\n
-        Push-notifications will not be affected, but you can review your notification preferences manually.
+        Push notifications will not be affected, but you can review your notification preferences manually.
     </string>
     <string name="review_notifications">Review Notifications</string>
     <string name="limit_notifications">Limit timeline notifications</string>

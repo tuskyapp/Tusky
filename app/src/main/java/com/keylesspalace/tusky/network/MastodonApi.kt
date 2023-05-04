@@ -652,6 +652,12 @@ interface MastodonApi {
         @Field("comment") note: String
     ): NetworkResult<Relationship>
 
+    @GET("api/v1/push/subscription")
+    suspend fun pushNotificationSubscription(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String
+    ): NetworkResult<NotificationSubscribeResult>
+
     @FormUrlEncoded
     @POST("api/v1/push/subscription")
     suspend fun subscribePushNotifications(
