@@ -86,8 +86,8 @@ data class Language(
  *
  * Run with `gradlew :tools:mklanguages:run` or `runtools mklanguages`.
  */
-class App: CliktCommand(help = """Update languages in donottranslate.xml""") {
-    private val verbose by option("-n", "--verbose", help="show additional information").flag()
+class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
+    private val verbose by option("-n", "--verbose", help = "show additional information").flag()
 
     /**
      * Returns the full path to the Tusky `.../app/src/main/res` directory, starting from the
@@ -104,7 +104,7 @@ class App: CliktCommand(help = """Update languages in donottranslate.xml""") {
             resourcePath = prefix / suffix
             if (resourcePath.exists()) return resourcePath
             prefix = prefix.parent
-        } while(prefix != prefix.root)
+        } while (prefix != prefix.root)
 
         return null
     }
@@ -122,7 +122,7 @@ class App: CliktCommand(help = """Update languages in donottranslate.xml""") {
             .filter { entry -> entry.isDirectory() }
             .filter { dir -> (dir / "strings.xml").isRegularFile() }
 
-        if (resourceDirs.isEmpty()) throw UsageError("no strings.xml files found in ${resourcePath}/values-*")
+        if (resourceDirs.isEmpty()) throw UsageError("no strings.xml files found in $resourcePath/values-*")
 
         // Map a list of directories ("values-xx", "values-yyrzz", ...) to a list of lists of
         // language codes (("xx"), ("yy", "zz"), ...).
@@ -142,7 +142,7 @@ class App: CliktCommand(help = """Update languages in donottranslate.xml""") {
             .map { it.fileName }
             .map { r.find(it.toString()) }
             .filterNotNull()
-            .map { it.groupValues.subList(1, it.groupValues.size).filterNot { it.isEmpty() }}
+            .map { it.groupValues.subList(1, it.groupValues.size).filterNot { it.isEmpty() } }
             .toMutableList()
 
         // "values" directory has been skipped, explicitly add its language code
@@ -150,7 +150,7 @@ class App: CliktCommand(help = """Update languages in donottranslate.xml""") {
         if (verbose) println("langCodes: $langCodes")
 
         // Construct the locales
-        val locales = langCodes.map { if (it.size == 1) ULocale(it[0]) else ULocale(it[0], it[1])}
+        val locales = langCodes.map { if (it.size == 1) ULocale(it[0]) else ULocale(it[0], it[1]) }
 
         // Construct the languages. Sort each locale by its display name, as rendered in that
         // locale, and fold case.
