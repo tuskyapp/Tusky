@@ -21,12 +21,15 @@ import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CryptoUtil
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
 import retrofit2.HttpException
 import javax.inject.Inject
 
+// TODO architecture-wise: the NotificationHelper should probably be a NotificationManager which either uses
+//   pull or push notifications (two detail implementations?).
+//   You can see current problems for example in the old NotificationPreferencesFragment.onCreatePreferences()
+//   which only would use pull notifications if the notifications option is enabled (again).
 class PushNotificationManager @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
@@ -39,7 +42,8 @@ class PushNotificationManager @Inject constructor(
         private const val KEY_PUSH_MIGRATION_NOTICE_DISMISSED = "migration_notice_dismissed"
     }
 
-    // TODO must be changed/extended when distributors are installed or uninstalled.
+    // TODO? must be changed/extended when distributors are installed or uninstalled on-the-fly?
+    //   Or there must be an "restart app fully" possibility.
     private val distributors: List<String> = UnifiedPush.getDistributors(context)
 
     private fun isUnifiedPushAvailable(): Boolean {
@@ -73,7 +77,7 @@ class PushNotificationManager @Inject constructor(
     }
 
     private suspend fun enableUnifiedPushNotificationsForAccount(account: AccountEntity) {
-        // TODO/NOTE these api request(s) here take quite some time (100-1000ms each for my 3 instances)
+        // TODO/NOTE these api request(s) here take quite some time (100-1000ms each for GET for my 3 instances)
 
         var currentSubscription: NotificationSubscribeResult? = null
         mastodonApi.pushNotificationSubscription(
@@ -81,6 +85,16 @@ class PushNotificationManager @Inject constructor(
             account.domain
         ).fold({
             currentSubscription = it
+
+            if (account.unifiedPushUrl.isNotEmpty() && it.endpoint != account.unifiedPushUrl) {
+                Log.w(TAG, "Server push endpoint does not match previously registered one: "+it.endpoint+" vs. "+account.unifiedPushUrl)
+                // TODO there should be a user information or at least an occurrence log entry
+
+                currentSubscription = null
+
+                // TODO / NOTE this case could also happen regularly if you use the same account on two different devices
+                //   the server will only support (?) on subscription but you will need two for two devices (?)
+            }
         }, {
             if (!(it is HttpException && it.code() == 404)) {
                 Log.e(TAG, "Cannot get push subscription for account " + account.id + ": " + it.message, it)
@@ -90,17 +104,12 @@ class PushNotificationManager @Inject constructor(
             // else this is alright; there is no subscription on server
         })
 
-        // TODO compare endpoint?
-
         if (currentSubscription != null && getActiveDistributor(account) != null) {
             val alertData = buildAlertsMap(account)
 
-            if (!alertData.equals(currentSubscription!!.alerts)) {
-                // Already registered, update the subscription to match notification settings
+            if (alertData != currentSubscription!!.alerts) {
+                // Update the subscription to match notification settings
                 updateUnifiedPushSubscription(account)
-
-                // TODO! subscription (notification) settings must also directly be changed when the respective settings are changed
-                //   This should better only listen to the ui settings (NotificationsFragment/FilterDialogFragment)?
             }
         } else {
             if (!account.unifiedDistributorName.isNullOrEmpty()) {
@@ -113,20 +122,18 @@ class PushNotificationManager @Inject constructor(
         }
     }
 
-    fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
+    suspend fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
         if (account.unifiedDistributorName == null) {
             return
         }
 
-        runBlocking {
-            unregisterUnifiedPushEndpoint(account)
-        }
+        unregisterUnifiedPushEndpoint(account)
 
         // this probably does nothing (distributor to handle this is missing)
         UnifiedPush.unregisterApp(context, account.id.toString())
     }
 
-    fun getActiveDistributor(account: AccountEntity): String? {
+    private fun getActiveDistributor(account: AccountEntity): String? {
         if (account.unifiedDistributorName.isNullOrEmpty()) {
             return null
         }
@@ -140,15 +147,10 @@ class PushNotificationManager @Inject constructor(
         return UnifiedPush.getDistributor(context).ifEmpty { null }
     }
 
-    private fun disablePushNotifications() {
+    suspend fun disableAllNotifications() {
         accountManager.accounts.forEach {
             disableUnifiedPushNotificationsForAccount(it)
         }
-    }
-
-    fun disableAllNotifications() {
-        disablePushNotifications()
-        NotificationHelper.disablePullNotifications(context)
     }
 
     private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
@@ -189,7 +191,7 @@ class PushNotificationManager @Inject constructor(
 
             val distributor = UnifiedPush.getDistributor(context)
 
-            // TODO? none of these are used ever again (except distributor name)
+            // TODO? none of these are used ever again (except distributor name and endpoint)
             account.unifiedDistributorName = distributor
             account.pushPubKey = keyPair.pubkey
             account.pushPrivKey = keyPair.privKey

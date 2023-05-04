@@ -1001,7 +1001,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             }
         } else {
-            pushNotificationManager.disableAllNotifications()
+            NotificationHelper.disablePullNotifications(this)
+            lifecycleScope.launch {
+                pushNotificationManager.disableAllNotifications()
+            }
         }
 
         updateProfiles()

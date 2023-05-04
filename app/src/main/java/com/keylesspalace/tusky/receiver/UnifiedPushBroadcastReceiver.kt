@@ -66,6 +66,10 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
 
         val workManager = WorkManager.getInstance(context)
         workManager.enqueue(request)
+
+        // Do we want a rate limiting here? I think, yes.
+        //   At least it puts network load on as long as the push notifications are not shown directly.
+        //   And after that it should still be a setting.
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
@@ -78,6 +82,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         }
     }
 
+    // TODO hm?
     override fun onRegistrationFailed(context: Context, instance: String) = Unit
 
     override fun onUnregistered(context: Context, instance: String) {
