@@ -19,6 +19,7 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.PushNotificationManager
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
@@ -48,6 +49,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var localeManager: LocaleManager
+
+    @Inject
+    lateinit var pushNotificationManager: PushNotificationManager
 
     private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
@@ -297,6 +301,18 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_http_proxy_settings)
                     fragment = ProxyPreferencesFragment::class.qualifiedName
                     summaryProvider = ProxyPreferencesFragment.SummaryProvider
+                }
+            }
+
+            if (pushNotificationManager.canEnablePushNotifications()) {
+                // TODO this should enable a selection;
+                //   and maybe also allow to choose not to use any push distributor?
+
+                preferenceCategory(R.string.pref_title_push_notifications) {
+                    preference {
+                        setTitle(R.string.pref_title_push_notifications_distributor)
+                        summaryProvider = pushNotificationManager
+                    }
                 }
             }
         }

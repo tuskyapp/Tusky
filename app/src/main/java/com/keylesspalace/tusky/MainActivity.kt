@@ -989,9 +989,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         accountManager.updateActiveAccount(me)
         NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
 
-        // Setup push notifications
-        pushNotificationManager.showMigrationNoticeIfNecessary(binding.mainCoordinatorLayout, binding.composeButton)
+        // Setup notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
+            pushNotificationManager.showMigrationNoticeIfNecessary(binding.mainCoordinatorLayout, binding.composeButton)
+
             lifecycleScope.launch {
                 if (pushNotificationManager.canEnablePushNotifications()) {
                     pushNotificationManager.enablePushNotifications()

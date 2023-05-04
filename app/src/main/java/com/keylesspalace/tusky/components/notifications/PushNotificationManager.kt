@@ -8,6 +8,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.Preference
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
@@ -20,6 +21,7 @@ import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CryptoUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
 import retrofit2.HttpException
@@ -30,7 +32,7 @@ class PushNotificationManager @Inject constructor(
     private val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
     private val context: Context
-) {
+): Preference.SummaryProvider<Preference> {
     private val distributors: List<String> = UnifiedPush.getDistributors(context)
 
     private fun isUnifiedPushAvailable(): Boolean {
@@ -109,13 +111,12 @@ class PushNotificationManager @Inject constructor(
             return
         }
 
-        // TODO this probably does nothing (distributor to handle this is missing); so especially the db fields are not cleared
-        UnifiedPush.unregisterApp(context, account.id.toString())
+        runBlocking {
+            unregisterUnifiedPushEndpoint(account)
+        }
 
-        // TODO only do this instead?
-//    if (!account.unifiedDistributorName.isNullOrEmpty()) {
-//        unregisterUnifiedPushEndpoint(api, accountManager, account)
-//    }
+        // this probably does nothing (distributor to handle this is missing)
+        UnifiedPush.unregisterApp(context, account.id.toString())
     }
 
     fun getActiveDistributor(account: AccountEntity): String? {
@@ -126,6 +127,12 @@ class PushNotificationManager @Inject constructor(
         val distributors = UnifiedPush.getDistributors(context)
 
         return distributors.find { it == account.unifiedDistributorName }
+    }
+
+    private fun getDistributorUsedByApp(): String? {
+        // TODO must use a central setting
+
+        return UnifiedPush.getDistributor(context).ifEmpty { null }
     }
 
     private fun disablePushNotifications() {
@@ -206,7 +213,13 @@ class PushNotificationManager @Inject constructor(
     }
 
     suspend fun unregisterUnifiedPushEndpoint(account: AccountEntity) {
+        if (account.unifiedDistributorName.isNullOrEmpty()) {
+            return
+        }
+
         withContext(Dispatchers.IO) {
+            // NOTE this is also possible (successful) when there is no subscription present on the server.
+
             mastodonApi.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
                 .onFailure { throwable ->
                     Log.w(TAG, "Error unregistering push endpoint for account " + account.id, throwable)
@@ -256,6 +269,8 @@ class PushNotificationManager @Inject constructor(
 
     private fun showMigrationExplanationDialog() {
         AlertDialog.Builder(context).apply {
+            // TODO what if another account needs migration? Only finally dismissing is possible?
+
             if (currentAccountNeedsMigration()) {
                 setMessage(R.string.dialog_push_notification_migration)
                 setPositiveButton(R.string.title_migration_relogin) { _, _ ->
@@ -276,5 +291,14 @@ class PushNotificationManager @Inject constructor(
     companion object {
         const val TAG = "PushNotificationManager"
         private const val KEY_PUSH_MIGRATION_NOTICE_DISMISSED = "migration_notice_dismissed"
+    }
+
+    override fun provideSummary(preference: Preference): CharSequence? {
+        return when(val distributor = getDistributorUsedByApp()) {
+            "io.heckel.ntfy" -> "NTFY"
+            "org.unifiedpush.distributor.fcm" -> "UP-FCM"
+            "org.unifiedpush.distributor.nextpush " -> "NextPush"
+            else -> distributor
+        }
     }
 }
