@@ -211,7 +211,9 @@ class NotificationsFragment :
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
-                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        }
                     }
                 }
             }

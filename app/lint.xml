@@ -33,6 +33,9 @@
          Disable these for the time being. -->
     <issue id="UnusedIds" severity="ignore" />
 
+    <!-- Logs are stripped in release builds. -->
+    <issue id="LogConditional" severity="ignore" />
+
     <!-- Ensure we are warned about errors in the baseline -->
     <issue id="LintBaseline" severity="warning" />
 

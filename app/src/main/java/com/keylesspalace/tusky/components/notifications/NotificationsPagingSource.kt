@@ -97,9 +97,10 @@ class NotificationsPagingSource @Inject constructor(
      * - If there is no key, a page of the most recent notifications is returned
      * - If the notification exists, and is not filtered, a page of notifications is returned
      * - If the notification does not exist, or is filtered, the page of notifications immediately
-     *   before is returned
+     *   before is returned (if non-empty)
      * - If there is no page of notifications immediately before then the page immediately after
-     *   is returned
+     *   is returned (if non-empty)
+     * - Finally, fall back to the most recent notifications
      */
     private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Notification>> = coroutineScope {
         // If the key is null this is straightforward, just return the most recent notifications.
@@ -163,15 +164,25 @@ class NotificationsPagingSource @Inject constructor(
         }
 
         // The user's last read notification was missing or is filtered. Use the page of
-        // notifications chronologically older than their desired notification.
-        deferredNotificationPage.await().apply {
-            if (this.isSuccessful) return@coroutineScope this
+        // notifications chronologically older than their desired notification. This page must
+        // *not* be empty (as noted earlier, if it is, paging stops).
+        deferredNotificationPage.await().let { response ->
+            if (response.isSuccessful) {
+                if (!response.body().isNullOrEmpty()) return@coroutineScope response
+            }
         }
 
         // There were no notifications older than the user's desired notification. Return the page
-        // of notifications immediately newer than their desired notification.
+        // of notifications immediately newer than their desired notification. This page must
+        // *not* be empty (as noted earlier, if it is, paging stops).
+        mastodonApi.notifications(minId = key, limit = params.loadSize, excludes = notificationFilter).let { response ->
+            if (response.isSuccessful) {
+                if (!response.body().isNullOrEmpty()) return@coroutineScope response
+            }
+        }
+
+        // Everything failed -- fallback to fetching the most recent notifications
         return@coroutineScope mastodonApi.notifications(
-            minId = key,
             limit = params.loadSize,
             excludes = notificationFilter
         )
