@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.usecase
 import android.content.Context
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.components.notifications.disableUnifiedPushNotificationsForAccount
+import com.keylesspalace.tusky.components.notifications.PushNotificationManager
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
@@ -15,7 +15,8 @@ class LogoutUsecase @Inject constructor(
     private val api: MastodonApi,
     private val db: AppDatabase,
     private val accountManager: AccountManager,
-    private val draftHelper: DraftHelper
+    private val draftHelper: DraftHelper,
+    private val pushNotificationManager: PushNotificationManager
 ) {
 
     /**
@@ -38,7 +39,7 @@ class LogoutUsecase @Inject constructor(
             }
 
             // disable push notifications
-            disableUnifiedPushNotificationsForAccount(context, activeAccount)
+            pushNotificationManager.disableUnifiedPushNotificationsForAccount(activeAccount)
 
             // disable pull notifications
             if (!NotificationHelper.areNotificationsEnabled(context, accountManager)) {

@@ -22,6 +22,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.keylesspalace.tusky.components.notifications.registerUnifiedPushEndpoint
 import com.keylesspalace.tusky.components.notifications.unregisterUnifiedPushEndpoint
+import com.keylesspalace.tusky.components.notifications.NotificationWorker
+import com.keylesspalace.tusky.components.notifications.PushNotificationManager
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.worker.NotificationWorker
@@ -42,7 +44,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var mastodonApi: MastodonApi
+    lateinit var pushNotificationManager: PushNotificationManager
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -63,7 +65,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         accountManager.getAccountById(instance.toLong())?.let {
             // Launch the coroutine in global scope -- it is short and we don't want to lose the registration event
             // and there is no saner way to use structured concurrency in a receiver
-            GlobalScope.launch { registerUnifiedPushEndpoint(context, mastodonApi, accountManager, it, endpoint) }
+            GlobalScope.launch { pushNotificationManager.registerUnifiedPushEndpoint(it, endpoint) }
         }
     }
 
@@ -74,7 +76,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         Log.d(TAG, "Endpoint unregistered for account $instance")
         accountManager.getAccountById(instance.toLong())?.let {
             // It's fine if the account does not exist anymore -- that means it has been logged out
-            GlobalScope.launch { unregisterUnifiedPushEndpoint(mastodonApi, accountManager, it) }
+            GlobalScope.launch { pushNotificationManager.unregisterUnifiedPushEndpoint(it) }
         }
     }
 }

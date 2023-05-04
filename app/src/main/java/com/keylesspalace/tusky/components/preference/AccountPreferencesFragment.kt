@@ -34,7 +34,7 @@ import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
-import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
+import com.keylesspalace.tusky.components.notifications.PushNotificationManager
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
@@ -73,6 +73,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
+
+    @Inject
+    lateinit var pushNotificationManager: PushNotificationManager
 
     private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
@@ -166,7 +169,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
-            if (currentAccountNeedsMigration(accountManager)) {
+            if (pushNotificationManager.currentAccountNeedsMigration()) {
                 preference {
                     setTitle(R.string.title_migration_relogin)
                     setIcon(R.drawable.ic_logout)
