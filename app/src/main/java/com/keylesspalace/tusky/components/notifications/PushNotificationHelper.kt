@@ -24,6 +24,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
+import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.google.android.material.snackbar.Snackbar
@@ -32,11 +33,13 @@ import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CryptoUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
+import retrofit2.HttpException
 
 private const val TAG = "PushNotificationHelper"
 
@@ -90,28 +93,88 @@ private fun showMigrationExplanationDialog(context: Context, accountManager: Acc
 }
 
 private suspend fun enableUnifiedPushNotificationsForAccount(context: Context, api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
-    if (isUnifiedPushNotificationEnabledForAccount(account)) {
+    var currentSubscription:NotificationSubscribeResult? = null
+    api.pushNotificationSubscription(
+        "Bearer ${account.accessToken}",
+        account.domain
+    ).fold({
+        currentSubscription = it
+    }, {
+        if (!(it is HttpException && it.code() == 404)) {
+            Log.e(TAG, "Cannot get push subscription for account " + account.id + ": " + it.message, it)
+
+            return
+        }
+        // else this is alright; there is no subscription on server
+    })
+
+    // TODO compare server key?
+    // TODO only update below if notifications changed
+
+    if (getActiveDistributor(context, account) != null) {
         // Already registered, update the subscription to match notification settings
         updateUnifiedPushSubscription(context, api, accountManager, account)
     } else {
+        if (!account.unifiedDistributorName.isNullOrEmpty()) {
+            // This does nothing as the distributor is not present anymore to receive this message
+//            UnifiedPush.unregisterApp(context, account.id.toString())
+
+            // When changing the local UP distributor this is necessary first to enable the following callbacks (i. e. onNewEndpoint)
+            unregisterUnifiedPushEndpoint(api, accountManager, account)
+        }
+
         UnifiedPush.registerAppWithDialog(context, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
+        // TODO? if this does not result in a call to registerUnifiedPushEndpoint, something has failed
     }
 }
 
 fun disableUnifiedPushNotificationsForAccount(context: Context, account: AccountEntity) {
-    if (!isUnifiedPushNotificationEnabledForAccount(account)) {
-        // Not registered
+    if (account.unifiedDistributorName == null) {
+        // TODO Hm, this is the third synced location for UP information (others being the server and preference store of UP locally)
+        //   all could be out-of-sync
+
         return
     }
 
+    // TODO this probably does nothing (distributor to handle this is missing); so especially the db fields are not cleared
     UnifiedPush.unregisterApp(context, account.id.toString())
+
+    // TODO only do this instead?
+//    if (!account.unifiedDistributorName.isNullOrEmpty()) {
+//        unregisterUnifiedPushEndpoint(api, accountManager, account)
+//    }
 }
 
-fun isUnifiedPushNotificationEnabledForAccount(account: AccountEntity): Boolean =
-    account.unifiedPushUrl.isNotEmpty()
+private fun isUnifiedPushAvailable(context: Context): Boolean {
+    // TODO cache these? (requested again below)
 
-private fun isUnifiedPushAvailable(context: Context): Boolean =
-    UnifiedPush.getDistributors(context).isNotEmpty()
+    val distributors = UnifiedPush.getDistributors(context)
+    if (distributors.isEmpty()) {
+        return false
+    }
+
+    // TODO wrong place for a "sanitize state"
+//    val currentDistributor = UnifiedPush.getDistributor(context)
+//    if (currentDistributor.isNotEmpty() && !distributors.contains(currentDistributor)) {
+//        // Distributor removed from system; make sure we are also removed as consumer
+//        UnifiedPush.forceRemoveDistributor(context)
+//    }
+
+    return distributors.isNotEmpty()
+}
+
+fun getActiveDistributor(context: Context, account: AccountEntity): String? {
+    if (account.unifiedDistributorName.isNullOrEmpty()) {
+        return null
+    }
+
+    // TODO there is also a GET api for push notifications (current push settings on server)
+    //   which could be checked as well or alternatively.
+
+    val distributors = UnifiedPush.getDistributors(context)
+
+    return distributors.find { it == account.unifiedDistributorName }
+}
 
 fun canEnablePushNotifications(context: Context, accountManager: AccountManager): Boolean =
     isUnifiedPushAvailable(context) && !anyAccountNeedsMigration(accountManager)
@@ -186,11 +249,16 @@ suspend fun registerUnifiedPushEndpoint(
     }.onSuccess {
         Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
 
+        val distributor = UnifiedPush.getDistributor(context)
+
+        // TODO? none of these are used ever again (except distributor name)
+        account.unifiedDistributorName = distributor
         account.pushPubKey = keyPair.pubkey
         account.pushPrivKey = keyPair.privKey
         account.pushAuth = auth
         account.pushServerKey = it.serverKey
         account.unifiedPushUrl = endpoint
+
         accountManager.saveAccount(account)
     }
 }
@@ -219,12 +287,14 @@ suspend fun unregisterUnifiedPushEndpoint(api: MastodonApi, accountManager: Acco
             }
             .onSuccess {
                 Log.d(TAG, "UnifiedPush unregistration succeeded for account " + account.id)
-                // Clear the URL in database
+
+                account.unifiedDistributorName = null
                 account.unifiedPushUrl = ""
                 account.pushServerKey = ""
                 account.pushAuth = ""
                 account.pushPrivKey = ""
                 account.pushPubKey = ""
+
                 accountManager.saveAccount(account)
             }
     }

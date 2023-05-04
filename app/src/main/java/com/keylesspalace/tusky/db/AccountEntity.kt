@@ -90,6 +90,7 @@ data class AccountEntity(
     // Scope cannot be changed without re-login, so store it in case
     // the scope needs to be changed in the future
     var oauthScopes: String = "",
+    var unifiedDistributorName: String? = null,
     var unifiedPushUrl: String = "",
     var pushPubKey: String = "",
     var pushPrivKey: String = "",

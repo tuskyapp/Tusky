@@ -21,7 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.keylesspalace.tusky.components.notifications.canEnablePushNotifications
-import com.keylesspalace.tusky.components.notifications.isUnifiedPushNotificationEnabledForAccount
+import com.keylesspalace.tusky.components.notifications.getActiveDistributor
 import com.keylesspalace.tusky.components.notifications.updateUnifiedPushSubscription
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
@@ -58,7 +58,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         } ?: return
 
         accountManager.getAccountByIdentifier(gid)?.let { account ->
-            if (isUnifiedPushNotificationEnabledForAccount(account)) {
+            if (getActiveDistributor(context, account) != null) {
                 // Update UnifiedPush notification subscription
                 GlobalScope.launch { updateUnifiedPushSubscription(context, mastodonApi, accountManager, account) }
             }
