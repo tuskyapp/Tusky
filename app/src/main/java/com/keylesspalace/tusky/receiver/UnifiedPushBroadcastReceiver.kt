@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.receiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.keylesspalace.tusky.components.notifications.registerUnifiedPushEndpoint
@@ -54,8 +55,16 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
         AndroidInjection.inject(this, context)
         Log.d(TAG, "New message received for account $instance")
+
+        val data = Data.Builder()
+        data.putLong(NotificationWorker.KEY_ACCOUNT_ID, instance.toLongOrNull() ?: 0)
+
+        val request = OneTimeWorkRequest
+            .Builder(NotificationWorker::class.java)
+            .setInputData(data.build())
+            .build()
+
         val workManager = WorkManager.getInstance(context)
-        val request = OneTimeWorkRequest.from(NotificationWorker::class.java)
         workManager.enqueue(request)
     }
 

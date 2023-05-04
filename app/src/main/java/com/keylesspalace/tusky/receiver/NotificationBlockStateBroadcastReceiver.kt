@@ -28,6 +28,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * This listens for changed notification channel settings (from the Android system) and updates an account's push
+ * subscription if active.
+ */
 @DelicateCoroutinesApi
 class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
     @Inject
@@ -55,7 +59,9 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         } ?: return
 
         accountManager.getAccountByIdentifier(gid)?.let { account ->
-            if (notificationManager.getActiveDistributor( account) != null) {
+            // TODO how did the changed (system) setting end up in the account object here?
+
+            if (notificationManager.hasPushNotificationsEnabled(account)) {
                 // Update UnifiedPush notification subscription
                 GlobalScope.launch { notificationManager.updateUnifiedPushSubscription(account) }
             }

@@ -33,6 +33,13 @@ class PushNotificationManager @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val context: Context
 ): Preference.SummaryProvider<Preference> {
+
+    companion object {
+        const val TAG = "PushNotificationManager"
+        private const val KEY_PUSH_MIGRATION_NOTICE_DISMISSED = "migration_notice_dismissed"
+    }
+
+    // TODO must be changed/extended when distributors are installed or uninstalled.
     private val distributors: List<String> = UnifiedPush.getDistributors(context)
 
     private fun isUnifiedPushAvailable(): Boolean {
@@ -42,9 +49,11 @@ class PushNotificationManager @Inject constructor(
     fun canEnablePushNotifications(): Boolean =
         isUnifiedPushAvailable() && !anyAccountNeedsMigration()
 
+    fun hasPushNotificationsEnabled(account: AccountEntity): Boolean =
+        isUnifiedPushAvailable() && !account.unifiedDistributorName.isNullOrEmpty()
+
     suspend fun enablePushNotifications() {
         if (!canEnablePushNotifications()) {
-            // No UP distributors
             return
         }
 
@@ -91,6 +100,7 @@ class PushNotificationManager @Inject constructor(
                 updateUnifiedPushSubscription(account)
 
                 // TODO! subscription (notification) settings must also directly be changed when the respective settings are changed
+                //   This should better only listen to the ui settings (NotificationsFragment/FilterDialogFragment)?
             }
         } else {
             if (!account.unifiedDistributorName.isNullOrEmpty()) {
@@ -105,9 +115,6 @@ class PushNotificationManager @Inject constructor(
 
     fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
         if (account.unifiedDistributorName == null) {
-            // TODO Hm, this is the third synced location for UP information (others being the server and preference store of UP locally)
-            //   all could be out-of-sync
-
             return
         }
 
@@ -130,8 +137,6 @@ class PushNotificationManager @Inject constructor(
     }
 
     private fun getDistributorUsedByApp(): String? {
-        // TODO must use a central setting
-
         return UnifiedPush.getDistributor(context).ifEmpty { null }
     }
 
@@ -199,10 +204,12 @@ class PushNotificationManager @Inject constructor(
     // Synchronize the enabled / disabled state of notifications with server-side subscription
     suspend fun updateUnifiedPushSubscription(account: AccountEntity) {
         withContext(Dispatchers.IO) {
+            val alertsData = buildAlertSubscriptionData(account)
+
             mastodonApi.updatePushNotificationSubscription(
                 "Bearer ${account.accessToken}",
                 account.domain,
-                buildAlertSubscriptionData(account)
+                alertsData
             ).onSuccess {
                 Log.d(TAG, "UnifiedPush subscription updated for account ${account.id}")
 
@@ -286,11 +293,6 @@ class PushNotificationManager @Inject constructor(
             }
             show()
         }
-    }
-
-    companion object {
-        const val TAG = "PushNotificationManager"
-        private const val KEY_PUSH_MIGRATION_NOTICE_DISMISSED = "migration_notice_dismissed"
     }
 
     override fun provideSummary(preference: Preference): CharSequence? {
