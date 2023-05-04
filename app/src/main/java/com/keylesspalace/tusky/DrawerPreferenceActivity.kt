@@ -21,19 +21,19 @@ import com.keylesspalace.tusky.di.Injectable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TabPreferenceActivity :
+class DrawerPreferenceActivity :
     OrderableListPreferenceActivity(),
     Injectable,
     ItemInteractionListener {
 
     override fun initializeList(): List<ScreenData> {
-        return accountManager.activeAccount?.tabPreferences.orEmpty()
+        return accountManager.activeAccount?.drawerPreferences.orEmpty()
     }
 
     override fun saveList(list: List<ScreenData>) {
         accountManager.activeAccount?.let {
             lifecycleScope.launch(Dispatchers.IO) {
-                it.tabPreferences = list
+                it.drawerPreferences = list
                 accountManager.saveAccount(it)
             }
         }
@@ -44,10 +44,10 @@ class TabPreferenceActivity :
 
     override fun getMaxCount(): Int = MAX_SCREEN_COUNT
 
-    override fun getActivityTitle(): CharSequence = getString(R.string.title_tab_preferences)
+    override fun getActivityTitle(): CharSequence = getString(R.string.title_drawer_preferences)
 
     companion object {
-        private const val MIN_SCREEN_COUNT = 2
-        private const val MAX_SCREEN_COUNT = 5
+        private const val MIN_SCREEN_COUNT = 0
+        private const val MAX_SCREEN_COUNT = 10
     }
 }

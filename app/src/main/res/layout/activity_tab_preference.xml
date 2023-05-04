@@ -10,7 +10,7 @@
         layout="@layout/toolbar_basic" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/currentTabsRecyclerView"
+        android:id="@+id/current_screens_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -48,13 +48,13 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/addTabRecyclerView"
+                android:id="@+id/add_screen_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never" />
 
             <TextView
-                android:id="@+id/maxTabsInfo"
+                android:id="@+id/max_screens_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingMultiplier="1.1"

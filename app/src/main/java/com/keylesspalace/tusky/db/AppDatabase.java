@@ -21,7 +21,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.keylesspalace.tusky.TabDataKt;
+import com.keylesspalace.tusky.ScreenDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 
 import java.io.File;
@@ -31,7 +31,7 @@ import java.io.File;
  */
 @Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
                 TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 48)
+        }, version = 49)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -173,10 +173,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_11_12 = new Migration(11, 12) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            String defaultTabs = TabDataKt.HOME + ";" +
-                    TabDataKt.NOTIFICATIONS + ";" +
-                    TabDataKt.LOCAL + ";" +
-                    TabDataKt.FEDERATED;
+            String defaultTabs = ScreenDataKt.HOME + ";" +
+                    ScreenDataKt.NOTIFICATIONS + ";" +
+                    ScreenDataKt.LOCAL + ";" +
+                    ScreenDataKt.FEDERATED;
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `tabPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
 
             database.execSQL("CREATE TABLE IF NOT EXISTS `ConversationEntity` (" +
@@ -651,6 +651,15 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `filtered` TEXT");
+        }
+    };
+
+    public static final Migration MIGRATION_48_49 = new Migration(48, 49) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            String defaultTabs = ScreenDataKt.TRENDING + ";" +
+                ScreenDataKt.FEDERATED;
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `drawerPreferences` TEXT NOT NULL DEFAULT '" + defaultTabs + "'");
         }
     };
 }
