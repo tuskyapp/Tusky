@@ -2550,17 +2550,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.string.status_count_one_plus` appears to be unused"
-        errorLine1="    &lt;string name=&quot;status_count_one_plus&quot;>1+&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="415"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.string.filter_dialog_remove_button` appears to be unused"
         errorLine1="    &lt;string name=&quot;filter_dialog_remove_button&quot;>Remove&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -4157,7 +4146,7 @@
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `MainActivity` requires synthetic accessor"
-        errorLine1="                binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)"
+        errorLine1="                binding.mainToolbar.title = tab.contentDescription"
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
@@ -4498,12 +4487,12 @@
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `NotificationsFragment` requires synthetic accessor"
-        errorLine1="                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))"
-        errorLine2="                        ~~~~~~~">
+        errorLine1="                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))"
+        errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="214"
-            column="25"/>
+            line="215"
+            column="29"/>
     </issue>
 
     <issue
@@ -5200,13 +5189,6 @@
     </issue>
 
     <issue
-        id="ConvertToWebp"
-        message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
-        <location
-            file="src/blue/res/mipmap-xxxhdpi/ic_launcher.png"/>
-    </issue>
-
-    <issue
         id="SelectableText"
         message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
         errorLine1="                    &lt;TextView"
@@ -5686,7 +5668,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow_request.xml"
-            line="10"
+            line="11"
             column="6"/>
     </issue>
 
@@ -5697,7 +5679,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow_request.xml"
-            line="47"
+            line="49"
             column="6"/>
     </issue>
 
@@ -5708,7 +5690,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow_request.xml"
-            line="63"
+            line="65"
             column="6"/>
     </issue>
 
@@ -6214,7 +6196,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="70"
+            line="71"
             column="6"/>
     </issue>
 
@@ -6225,7 +6207,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="84"
+            line="85"
             column="6"/>
     </issue>
 
@@ -6699,28 +6681,6 @@
         <location
             file="src/main/res/layout/item_follow.xml"
             line="22"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="    android:paddingStart=&quot;16dp&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_follow_request.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="        android:paddingStart=&quot;28dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_follow_request.xml"
-            line="19"
             column="9"/>
     </issue>
 
@@ -7369,7 +7329,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="485"
+            line="492"
             column="19"/>
     </issue>
 
@@ -7380,7 +7340,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="487"
+            line="494"
             column="19"/>
     </issue>
 
@@ -7391,7 +7351,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="578"
+            line="585"
             column="34"/>
     </issue>
 
@@ -7402,7 +7362,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="579"
+            line="586"
             column="40"/>
     </issue>
 
@@ -7413,7 +7373,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="624"
+            line="631"
             column="39"/>
     </issue>
 
@@ -7424,7 +7384,7 @@
         errorLine2="                                      ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="625"
+            line="632"
             column="39"/>
     </issue>
 
@@ -7435,7 +7395,7 @@
         errorLine2="                                      ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="626"
+            line="633"
             column="39"/>
     </issue>
 
@@ -7446,7 +7406,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="627"
+            line="634"
             column="33"/>
     </issue>
 
@@ -7457,7 +7417,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="750"
+            line="753"
             column="33"/>
     </issue>
 
@@ -7468,7 +7428,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="750"
+            line="753"
             column="71"/>
     </issue>
 
@@ -7479,7 +7439,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="751"
+            line="754"
             column="33"/>
     </issue>
 
@@ -7490,7 +7450,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="844"
+            line="846"
             column="55"/>
     </issue>
 
@@ -7501,7 +7461,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="22"/>
     </issue>
 
@@ -7512,7 +7472,7 @@
         errorLine2="                                                           ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="60"/>
     </issue>
 
@@ -7523,7 +7483,7 @@
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="77"/>
     </issue>
 
@@ -7534,7 +7494,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="970"
             column="15"/>
     </issue>
 
@@ -7545,7 +7505,7 @@
         errorLine2="                                       ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="970"
             column="40"/>
     </issue>
 
@@ -7556,7 +7516,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="979"
             column="15"/>
     </issue>
 
@@ -7567,7 +7527,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="979"
             column="43"/>
     </issue>
 
@@ -7578,7 +7538,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1078"
+            line="1080"
             column="19"/>
     </issue>
 
@@ -7589,7 +7549,7 @@
         errorLine2="                  ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1080"
+            line="1082"
             column="19"/>
     </issue>
 
@@ -7600,7 +7560,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1081"
+            line="1083"
             column="19"/>
     </issue>
 
@@ -7611,7 +7571,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1082"
+            line="1084"
             column="19"/>
     </issue>
 
