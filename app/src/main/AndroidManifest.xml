@@ -124,6 +124,7 @@
         <activity android:name=".StatusListActivity" />
         <activity android:name=".components.accountlist.AccountListActivity" />
         <activity android:name=".AboutActivity" />
+        <activity android:name=".CrashReportActivity" />
         <activity android:name=".TabPreferenceActivity" />
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
