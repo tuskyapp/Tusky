@@ -113,10 +113,16 @@ ktlintCheck lintGreenDebug testGreenDebugUnitTest bundleGreenDebug
       - In case there are any problems, delete the GitHub release, fix the problems and start again
   - [ ] Download the build as apk from Google Play (App Bundle Explorer -> chose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
   - [ ] Create a new Open Testing release on Google Play. Reuse the build from the Internal Testing track.
+    - Release > Open testing
+    - "Create new release" button
+    - In the "App bundles" section click "Add from library", chose the new release
+    -
   - [ ] Create a merge request at F-Droid. [Example](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/11218) (F-Droid automatically picks up new release tags, but not beta ones. This could probably be changed somehow.)
     - Fork the project
     - Load https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/com.keylesspalace.tusky.yml
+    - Change "Open in Web IDE" to "Edit" and click
     -
+    - "Update com.keylesspalace.tusky to v22.0-beta.1"
   - [ ] Announce the release
 
 ## Full release
