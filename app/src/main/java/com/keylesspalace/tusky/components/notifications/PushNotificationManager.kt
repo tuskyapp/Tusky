@@ -29,7 +29,7 @@ import javax.inject.Inject
 // TODO architecture-wise: the NotificationHelper should probably be a NotificationManager which either uses
 //   pull or push notifications (two detail implementations?).
 //   You can see current problems for example in the old NotificationPreferencesFragment.onCreatePreferences()
-//   which only would use pull notifications if the notifications option is enabled (again).
+//   which only would use pull notifications if the notifications option is enabled.
 class PushNotificationManager @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
@@ -79,35 +79,12 @@ class PushNotificationManager @Inject constructor(
     private suspend fun enableUnifiedPushNotificationsForAccount(account: AccountEntity) {
         // TODO/NOTE these api request(s) here take quite some time (100-1000ms each for GET for my 3 instances)
 
-        var currentSubscription: NotificationSubscribeResult? = null
-        mastodonApi.pushNotificationSubscription(
-            "Bearer ${account.accessToken}",
-            account.domain
-        ).fold({
-            currentSubscription = it
+        val currentSubscription = getActiveSubscription(account)
 
-            if (account.unifiedPushUrl.isNotEmpty() && it.endpoint != account.unifiedPushUrl) {
-                Log.w(TAG, "Server push endpoint does not match previously registered one: "+it.endpoint+" vs. "+account.unifiedPushUrl)
-                // TODO there should be a user information or at least an occurrence log entry
-
-                currentSubscription = null
-
-                // TODO / NOTE this case could also happen regularly if you use the same account on two different devices
-                //   the server will only support (?) on subscription but you will need two for two devices (?)
-            }
-        }, {
-            if (!(it is HttpException && it.code() == 404)) {
-                Log.e(TAG, "Cannot get push subscription for account " + account.id + ": " + it.message, it)
-
-                return
-            }
-            // else this is alright; there is no subscription on server
-        })
-
-        if (currentSubscription != null && getActiveDistributor(account) != null) {
+        if (currentSubscription != null && hasActiveDistributor(account)) {
             val alertData = buildAlertsMap(account)
 
-            if (alertData != currentSubscription!!.alerts) {
+            if (alertData != currentSubscription.alerts) {
                 // Update the subscription to match notification settings
                 updateUnifiedPushSubscription(account)
             }
@@ -122,6 +99,35 @@ class PushNotificationManager @Inject constructor(
         }
     }
 
+    private suspend fun getActiveSubscription(account: AccountEntity): NotificationSubscribeResult? {
+        mastodonApi.pushNotificationSubscription(
+            "Bearer ${account.accessToken}",
+            account.domain
+        ).fold({
+            if (account.unifiedPushUrl.isNotEmpty() && it.endpoint != account.unifiedPushUrl) {
+                Log.w(TAG, "Server push endpoint does not match previously registered one: "+it.endpoint+" vs. "+account.unifiedPushUrl)
+                // TODO there should be a user information or at least an occurrence log entry
+
+                return null
+
+                // TODO / NOTE this case could also happen regularly if you use the same account on two different devices
+                //   the server will only support (?) on subscription but you will need two for two devices (?)
+            }
+
+            return it
+        }, {
+            if (!(it is HttpException && it.code() == 404)) {
+                Log.e(TAG, "Cannot get push subscription for account " + account.id + ": " + it.message, it)
+                // TODO occurrence log
+
+                return null
+            }
+
+            // else this is alright; there is no subscription on server
+            return null
+        })
+    }
+
     suspend fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
         if (account.unifiedDistributorName == null) {
             return
@@ -133,14 +139,14 @@ class PushNotificationManager @Inject constructor(
         UnifiedPush.unregisterApp(context, account.id.toString())
     }
 
-    private fun getActiveDistributor(account: AccountEntity): String? {
+    private fun hasActiveDistributor(account: AccountEntity): Boolean {
         if (account.unifiedDistributorName.isNullOrEmpty()) {
-            return null
+            return false
         }
 
         val distributors = UnifiedPush.getDistributors(context)
 
-        return distributors.find { it == account.unifiedDistributorName }
+        return distributors.find { it == account.unifiedDistributorName } != null
     }
 
     private fun getDistributorUsedByApp(): String? {
