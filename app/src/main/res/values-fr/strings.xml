@@ -272,7 +272,7 @@
     <string name="compose_active_account_description">Publier en tant que %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Décrire pour les malvoyants (%1$d caractère maximum)</item>
-        <item quantity="many"/>
+        <item quantity="many"></item>
         <item quantity="other">Décrire pour les malvoyants (%1$d caractères maximum)</item>
     </plurals>
     <string name="action_set_caption">Mettre une légende</string>
@@ -588,11 +588,11 @@
     <string name="pref_title_reading_order">Ordre de lecture</string>
     <string name="pref_reading_order_oldest_first">Les plus vieux en premier</string>
     <string name="pref_reading_order_newest_first">Les plus récents en premier</string>
-    <string name="action_unfollow_hashtag_format">Arrêter de suivre #%1$s \?</string>
+    <string name="action_unfollow_hashtag_format">Arrêter de suivre #%1$s ?</string>
     <string name="failed_to_pin">Échec de l\'épinglage</string>
     <string name="status_edit_info">Modification : %1$s</string>
     <string name="status_created_info">Création : %1$s</string>
-    <string name="compose_save_draft_loses_media">Enregistrer comme brouillon \? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
+    <string name="compose_save_draft_loses_media">Enregistrer comme brouillon ? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
     <string name="no_lists">Vous n\'avez aucune liste.</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_spam">Spam</string>
@@ -602,6 +602,7 @@
         <item quantity="one">Le statut n\'a pas pu être publié, il a été sauvegardé dans les brouillons.
 \n
 \nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
+        <item quantity="many"></item>
         <item quantity="other">Les status n\'ont pas pu être publiés, ils ont été sauvegardés dans les brouillons.
 \n
 \nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
