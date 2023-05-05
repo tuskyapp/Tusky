@@ -41,13 +41,13 @@ class LogoutUsecase @Inject constructor(
             // disable push notifications
             pushNotificationManager.disableUnifiedPushNotificationsForAccount(activeAccount)
 
+            // clear notification channels
+            NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, context)
+
             // disable pull notifications
             if (!NotificationHelper.areNotificationsEnabled(context, accountManager)) {
                 NotificationHelper.disablePullNotifications(context)
             }
-
-            // clear notification channels
-            NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, context)
 
             // remove account from local AccountManager
             val otherAccountAvailable = accountManager.logActiveAccountOut() != null
