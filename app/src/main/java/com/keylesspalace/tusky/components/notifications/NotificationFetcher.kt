@@ -7,7 +7,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.isLessThan
 import javax.inject.Inject
 
 class NotificationFetcher @Inject constructor(
@@ -31,34 +30,47 @@ class NotificationFetcher @Inject constructor(
         }
     }
 
+    /**
+     * Fetch new Mastodon Notifications and update the marker position.
+     *
+     * Here, "new" means "notifications with IDs newer than notifications the user has already
+     * seen."
+     *
+     * The "water mark" for Mastodon Notification IDs are stored in two places.
+     *
+     * - acccount.lastNotificationId -- the ID of the top-most notification when the user last
+     *   left the Notifications tab.
+     * - The Mastodon "marker" API -- the ID of the most recent notification fetched here.
+     *
+     * The user may have refreshed the "Notifications" tab and seen notifications newer than the
+     * ones that were last fetched here. So `lastNotificationId` takes precedence if it is greater
+     * than the marker.
+     */
     private fun fetchNotifications(account: AccountEntity): MutableList<Notification> {
         val authHeader = String.format("Bearer %s", account.accessToken)
-        // We fetch marker to not load/show notifications which user has already seen
-        val marker = fetchMarker(authHeader, account)
-        if (marker != null && account.lastNotificationId.isLessThan(marker.lastReadId)) {
-            account.lastNotificationId = marker.lastReadId
+
+        val minId = when (val marker = fetchMarker(authHeader, account)) {
+            null -> account.lastNotificationId.takeIf { it != "0" }
+            else -> if (marker.lastReadId > account.lastNotificationId) marker.lastReadId else account.lastNotificationId
         }
-        Log.d(TAG, "getting Notifications for " + account.fullName)
+
+        Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
+
         val notifications = mastodonApi.notificationsWithAuth(
             authHeader,
             account.domain,
-            account.lastNotificationId
+            minId
         ).blockingGet()
 
-        val newId = account.lastNotificationId
-        var newestId = ""
-        val result = mutableListOf<Notification>()
-        for (notification in notifications.reversed()) {
-            val currentId = notification.id
-            if (newestId.isLessThan(currentId)) {
-                newestId = currentId
-                account.lastNotificationId = currentId
-            }
-            if (newId.isLessThan(currentId)) {
-                result.add(notification)
-            }
-        }
-        return result
+        if (notifications.isEmpty()) return mutableListOf()
+
+        // Notifications are returned in order, most recent first. Save the newest notification ID
+        // in the marker.
+        val newMarkerId = notifications.first().id
+        Log.d(TAG, "updating notification marker to: $newMarkerId")
+        mastodonApi.updateMarkersWithAuth(authHeader, notificationsLastReadId = newMarkerId)
+
+        return notifications.toMutableList()
     }
 
     private fun fetchMarker(authHeader: String, account: AccountEntity): Marker? {
