@@ -77,7 +77,6 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -115,6 +114,11 @@ class TimelineFragment :
 
     private var isSwipeToRefreshEnabled = true
     private var hideFab = false
+
+    /**
+     * True if the first load of statuses
+     */
+    private var firstLoad = true
 
     /**
      * Adapter position of the placeholder that was most recently clicked to "Load more". If null
@@ -258,12 +262,22 @@ class TimelineFragment :
                         binding.progressBar.show()
                     }
                 }
+            } else {
+                if (shouldRestorePosition() && loadState.refresh is LoadState.NotLoading) {
+                    accountManager.activeAccount?.lastVisibleHomeTimelineStatusId?.let { statusId ->
+                        val position = adapter.snapshot().indexOfFirst {
+                            it?.id == statusId
+                        }
+                        binding.recyclerView.scrollToPosition(position + 1)
+                    }
+                    firstLoad = false
+                }
             }
         }
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                if (!firstLoad && positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
@@ -578,6 +592,27 @@ class TimelineFragment :
 
     private var talkBackWasEnabled = false
 
+    /** True if the user's reading position should be restored, false otherwise */
+    private fun shouldRestorePosition() = firstLoad && kind == TimelineViewModel.Kind.HOME
+
+    /** True if the user's reading position should be saved, false otherwise */
+    private fun shouldSavePosition() = kind == TimelineViewModel.Kind.HOME
+
+    override fun onPause() {
+        super.onPause()
+
+        if (shouldSavePosition()) {
+            (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
+                ?.let { position ->
+                    if (position != RecyclerView.NO_POSITION) {
+                        adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                            viewModel.saveLastVisibleStatusId(statusId)
+                        }
+                    }
+                }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         val a11yManager =
@@ -612,8 +647,8 @@ class TimelineFragment :
 
     override fun onReselect() {
         if (isAdded) {
-            binding.recyclerView.layoutManager?.scrollToPosition(0)
-            binding.recyclerView.stopScroll()
+//            binding.recyclerView.layoutManager?.scrollToPosition(0)
+//            binding.recyclerView.stopScroll()
         }
     }
 

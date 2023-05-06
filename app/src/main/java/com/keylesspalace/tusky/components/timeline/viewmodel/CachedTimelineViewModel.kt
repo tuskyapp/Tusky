@@ -83,29 +83,47 @@ class CachedTimelineViewModel @Inject constructor(
     private var currentPagingSource: PagingSource<Int, TimelineStatusWithAccount>? = null
 
     @OptIn(ExperimentalPagingApi::class)
-    override val statuses = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
-        pagingSourceFactory = {
-            val activeAccount = accountManager.activeAccount
-            if (activeAccount == null) {
-                EmptyPagingSource()
-            } else {
-                db.timelineDao().getStatuses(activeAccount.id)
-            }.also { newPagingSource ->
-                this.currentPagingSource = newPagingSource
+    override val statuses = run {
+        // Set an initialKey that matches the user's last reading position.
+        //
+        // Room is row-keyed, not item-keyed, so you can't pass the status ID as the initialKey.
+        // Instead, get all the status IDs for this account, in timeline order, and find the
+        // row index that contains the status. The row index is the correct initialKey.
+        val activeAccount = accountManager.activeAccount
+        val lastVisibleStatusId = accountManager.activeAccount?.lastVisibleHomeTimelineStatusId
+        val initialKey = lastVisibleStatusId?.let { statusId ->
+            activeAccount?.let { account ->
+                db.timelineDao().getStatusRowNumber(account.id).indexOfFirst { it == statusId }.takeIf { it != -1 }
             }
         }
-    ).flow
-        .map { pagingData ->
-            pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
-                timelineStatus.toViewData(gson)
-            }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
+        Log.d(TAG, "initialKey = $initialKey")
+
+        Pager(
+            config = PagingConfig(
+                pageSize = LOAD_AT_ONCE
+            ),
+            initialKey = initialKey,
+            remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
+            pagingSourceFactory = {
+                if (activeAccount == null) {
+                    EmptyPagingSource()
+                } else {
+                    db.timelineDao().getStatuses(activeAccount.id)
+                }.also { newPagingSource ->
+                    currentPagingSource = newPagingSource
+                }
             }
-        }
-        .flowOn(Dispatchers.Default)
-        .cachedIn(viewModelScope)
+        ).flow
+            .map { pagingData ->
+                pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
+                    timelineStatus.toViewData(gson)
+                }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
+                    shouldFilterStatus(statusViewData) != Filter.Action.HIDE
+                }
+            }
+            .flowOn(Dispatchers.Default)
+            .cachedIn(viewModelScope)
+    }
 
     init {
         viewModelScope.launch {
@@ -260,7 +278,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     private suspend fun loadMoreFailed(placeholderId: String, e: Exception) {
-        Log.w("CachedTimelineVM", "failed loading statuses", e)
+        Log.w(TAG, "failed loading statuses", e)
         val activeAccount = accountManager.activeAccount!!
         db.timelineDao()
             .insertStatus(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
@@ -289,6 +307,14 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
+    override fun saveLastVisibleStatusId(statusId: String) {
+        accountManager.activeAccount?.let { account ->
+            Log.d(TAG, "Saving position at: $statusId")
+            account.lastVisibleHomeTimelineStatusId = statusId
+            accountManager.saveAccount(account)
+        }
+    }
+
     override suspend fun invalidate() {
         // invalidating when we don't have statuses yet can cause empty timelines because it cancels the network load
         if (db.timelineDao().getStatusCount(accountManager.activeAccount!!.id) > 0) {
@@ -297,6 +323,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "CachedTimelineViewModel"
         private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }
