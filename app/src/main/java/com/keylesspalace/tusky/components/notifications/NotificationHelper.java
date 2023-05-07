@@ -489,6 +489,15 @@ public class NotificationHelper {
         WorkManager workManager = WorkManager.getInstance(context);
         workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
 
+        // Periodic work requests are supposed to start running soon after being enqueued. In
+        // practice that may not be soon enough, so create and enqueue an expedited one-time
+        // request to get new notifications immediately.
+        WorkRequest fetchNotifications = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+            .setExpedited(OutOfQuotaPolicy.DROP_WORK_REQUEST)
+            .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+            .build();
+        workManager.enqueue(fetchNotifications);
+
         WorkRequest workRequest = new PeriodicWorkRequest.Builder(
                 NotificationWorker.class,
                 PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
@@ -496,6 +505,7 @@ public class NotificationHelper {
         )
                 .addTag(NOTIFICATION_PULL_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .setInitialDelay(5, TimeUnit.MINUTES)
                 .build();
 
         workManager.enqueue(workRequest);
