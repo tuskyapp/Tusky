@@ -59,7 +59,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         } ?: return
 
         accountManager.getAccountByIdentifier(gid)?.let { account ->
-            // TODO how did the changed (system) setting end up in the account object here?
+            // TODO how did the changed (system) setting end up in the account object here (for example in field AccountEntity:notificationsMentioned)?
 
             if (notificationManager.hasPushNotificationsEnabled(account)) {
                 // Update UnifiedPush notification subscription

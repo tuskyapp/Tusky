@@ -50,6 +50,8 @@ class PushNotificationManager @Inject constructor(
         return distributors.isNotEmpty()
     }
 
+    // TODO! there should be an actual decision (possibility) to say "I don't want to use push notifications for Tusky".
+
     fun canEnablePushNotifications(): Boolean =
         isUnifiedPushAvailable() && !anyAccountNeedsMigration()
 
@@ -118,7 +120,6 @@ class PushNotificationManager @Inject constructor(
         }, {
             if (!(it is HttpException && it.code() == 404)) {
                 Log.e(TAG, "Cannot get push subscription for account " + account.id + ": " + it.message, it)
-                // TODO occurrence log
 
                 return null
             }
