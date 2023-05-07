@@ -158,7 +158,7 @@ interface MastodonApi {
         @Header("Authorization") auth: String,
         @Field("home[last_read_id]") homeLastReadId: String? = null,
         @Field("notifications[last_read_id]") notificationsLastReadId: String? = null
-    ): Response<ResponseBody>
+    ): NetworkResult<Unit>
 
     @GET("api/v1/notifications")
     fun notificationsWithAuth(

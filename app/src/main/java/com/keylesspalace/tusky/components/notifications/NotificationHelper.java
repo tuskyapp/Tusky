@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky.components.notifications;
 
+import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
 import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
@@ -29,17 +30,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.provider.Settings;
+import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.OutOfQuotaPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -56,24 +59,18 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.PollOption;
 import com.keylesspalace.tusky.entity.Status;
-import com.keylesspalace.tusky.receiver.NotificationClearBroadcastReceiver;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class NotificationHelper {
 
@@ -127,51 +124,54 @@ public class NotificationHelper {
      */
     private static final String NOTIFICATION_PULL_TAG = "pullNotifications";
 
+    /** Notifications group */
+    private static final String GROUP_KEY_GENERAL = APPLICATION_ID + ".notifications.group_key";
+
+    /** Tag for the summary notification */
+    private static final String GROUP_SUMMARY_TAG = APPLICATION_ID + ".notifications.group_summary";
+
     /**
      * Takes a given Mastodon notification and either creates a new Android notification or updates
      * the state of the existing notification to reflect the new interaction.
+     *
+     * The Android notification ID is the account ID, and the tag is the ID of the Mastodon
+     * notification.
      *
      * @param context to access application preferences and services
      * @param body    a new Mastodon notification
      * @param account the account for which the notification should be shown
      */
-
-    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {
+    public synchronized static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
+        String mastodonNotificationId = body.getId();
+        int accountId = (int) account.getId();
 
         if (!filterNotification(account, body, context)) {
             return;
         }
 
-        String rawCurrentNotifications = account.getActiveNotifications();
-        JSONArray currentNotifications;
-
-        try {
-            currentNotifications = new JSONArray(rawCurrentNotifications);
-        } catch (JSONException e) {
-            currentNotifications = new JSONArray();
-        }
-
-        for (int i = 0; i < currentNotifications.length(); i++) {
-            try {
-                if (currentNotifications.getString(i).equals(body.getAccount().getName())) {
-                    currentNotifications.remove(i);
-                    break;
-                }
-            } catch (JSONException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
+        // Check for an existing notification with this Mastodon Notification ID
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        android.app.Notification existingAndroidNotification = null;
+        StatusBarNotification[] activeNotifications = notificationManager.getActiveNotifications();
+        Log.d(TAG, "  activeNotifications: " + Arrays.toString(activeNotifications));
+        for (StatusBarNotification androidNotification : activeNotifications) {
+            if (mastodonNotificationId.equals(androidNotification.getTag()) && accountId == androidNotification.getId()) {
+                existingAndroidNotification = androidNotification.getNotification();
             }
         }
 
-        currentNotifications.put(body.getAccount().getName());
-
-        account.setActiveNotifications(currentNotifications.toString());
-
         // Notification group member
         // =========================
-        final NotificationCompat.Builder builder = newNotification(context, body, account, false);
 
         notificationId++;
+        // Create the notification -- either create a new one, or use the existing one.
+        NotificationCompat.Builder builder;
+        if (existingAndroidNotification == null) {
+            builder = newAndroidNotification(context, body, account, false);
+        } else {
+            builder = new NotificationCompat.Builder(context, existingAndroidNotification);
+        }
 
         builder.setContentTitle(titleForType(context, body, account))
                 .setContentText(bodyForType(body, context, account.getAlwaysOpenSpoiler()));
@@ -233,24 +233,30 @@ public class NotificationHelper {
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL);
         builder.setOnlyAlertOnce(true);
 
-        // only alert for the first notification of a batch to avoid multiple alerts at once
+        // Only alert for the first notification of a batch to avoid multiple alerts at once
         if(!isFirstOfBatch) {
             builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
         }
 
-        // Summary
-        final NotificationCompat.Builder summaryBuilder = newNotification(context, body, account, true);
+        // Create / update this notification
+        notificationManager.notify(mastodonNotificationId, accountId, builder.build());
 
-        if (currentNotifications.length() != 1) {
-            try {
-                String title = context.getResources().getQuantityString(R.plurals.notification_title_summary, currentNotifications.length(), currentNotifications.length());
-                String text = joinNames(context, currentNotifications);
-                summaryBuilder.setContentTitle(title)
-                        .setContentText(text);
-            } catch (JSONException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-            }
+        // Create / update the summary notification as necessary
+        // https://developer.android.com/develop/ui/views/notifications/group
+
+        // No need for a summary if there is only active notification -- dismiss it.
+        if (activeNotifications.length <= 1) {
+            notificationManager.cancel(GROUP_SUMMARY_TAG, accountId);
+            return;
         }
+
+        // Update the summary notification to include information about this new notification
+        final NotificationCompat.Builder summaryBuilder = newAndroidNotification(context, body, account, true);
+
+        String title = context.getResources().getQuantityString(R.plurals.notification_title_summary, activeNotifications.length, activeNotifications.length);
+        String text = joinNames(context, activeNotifications);
+        summaryBuilder.setContentTitle(title)
+                .setContentText(text);
 
         summaryBuilder.setSubText(account.getFullName());
         summaryBuilder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
@@ -258,17 +264,10 @@ public class NotificationHelper {
         summaryBuilder.setOnlyAlertOnce(true);
         summaryBuilder.setGroupSummary(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
-        notificationManager.notify(notificationId, builder.build());
-        if (currentNotifications.length() == 1) {
-            notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());
-        } else {
-            notificationManager.notify((int) account.getId(), summaryBuilder.build());
-        }
+        notificationManager.notify(GROUP_SUMMARY_TAG, accountId, summaryBuilder.build());
     }
 
-    private static NotificationCompat.Builder newNotification(Context context, Notification body, AccountEntity account, boolean summary) {
+    private static NotificationCompat.Builder newAndroidNotification(Context context, Notification body, AccountEntity account, boolean summary) {
         Intent summaryResultIntent = new Intent(context, MainActivity.class);
         summaryResultIntent.putExtra(ACCOUNT_ID, account.getId());
         summaryResultIntent.putExtra(TYPE, body.getType().name());
@@ -290,19 +289,14 @@ public class NotificationHelper {
         PendingIntent eventResultPendingIntent = eventStackBuilder.getPendingIntent((int) account.getId(),
                 pendingIntentFlags(false));
 
-        Intent deleteIntent = new Intent(context, NotificationClearBroadcastReceiver.class);
-        deleteIntent.putExtra(ACCOUNT_ID, account.getId());
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, summary ? (int) account.getId() : notificationId, deleteIntent,
-                pendingIntentFlags(false));
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, getChannelId(account, body))
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentIntent(summary ? summaryResultPendingIntent : eventResultPendingIntent)
-                .setDeleteIntent(deletePendingIntent)
                 .setColor(context.getColor(R.color.notification_color))
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
                 .setShortcutId(Long.toString(account.getId()))
+                .setGroup(GROUP_KEY_GENERAL)
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         setupPreferences(account, builder);
@@ -516,17 +510,14 @@ public class NotificationHelper {
 
     public static void clearNotificationsForActiveAccount(@NonNull Context context, @NonNull AccountManager accountManager) {
         AccountEntity account = accountManager.getActiveAccount();
-        if (account != null && !account.getActiveNotifications().equals("[]")) {
-            Single.fromCallable(() -> {
-                account.setActiveNotifications("[]");
-                accountManager.saveAccount(account);
+        if (account == null) return;
+        int accountId = (int) account.getId();
 
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancel((int) account.getId());
-                return true;
-            })
-                    .subscribeOn(Schedulers.io())
-                    .subscribe();
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        for (StatusBarNotification androidNotification : notificationManager.getActiveNotifications()) {
+            if (accountId == androidNotification.getId()) {
+                notificationManager.cancel(androidNotification.getTag(), androidNotification.getId());
+            }
         }
     }
 
@@ -630,25 +621,25 @@ public class NotificationHelper {
         }
     }
 
-    private static String wrapItemAt(JSONArray array, int index) throws JSONException {
-        return StringUtils.unicodeWrap(array.get(index).toString());
+    private static String wrapItemAt(StatusBarNotification[] array, int index) {
+        return StringUtils.unicodeWrap(array[index].toString());
     }
 
     @Nullable
-    private static String joinNames(Context context, JSONArray array) throws JSONException {
-        if (array.length() > 3) {
-            int length = array.length();
+    private static String joinNames(Context context, StatusBarNotification[] array) {
+        if (array.length > 3) {
+            int length = array.length;
             return String.format(context.getString(R.string.notification_summary_large),
                     wrapItemAt(array, length - 1),
                     wrapItemAt(array, length - 2),
                     wrapItemAt(array, length - 3),
                     length - 3);
-        } else if (array.length() == 3) {
+        } else if (array.length == 3) {
             return String.format(context.getString(R.string.notification_summary_medium),
                     wrapItemAt(array, 2),
                     wrapItemAt(array, 1),
                     wrapItemAt(array, 0));
-        } else if (array.length() == 2) {
+        } else if (array.length == 2) {
             return String.format(context.getString(R.string.notification_summary_small),
                     wrapItemAt(array, 1),
                     wrapItemAt(array, 0));

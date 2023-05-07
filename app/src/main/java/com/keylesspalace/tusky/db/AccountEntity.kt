@@ -71,7 +71,6 @@ data class AccountEntity(
      */
     var mediaPreviewEnabled: Boolean = true,
     var lastNotificationId: String = "0",
-    var activeNotifications: String = "[]",
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
     var notificationsFilter: String = "[\"follow_request\"]",
