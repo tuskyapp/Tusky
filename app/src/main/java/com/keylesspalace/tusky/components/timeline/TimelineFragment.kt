@@ -607,7 +607,7 @@ class TimelineFragment :
         super.onPause()
 
         // Save the ID of the first visible status in the list
-        val position = layoutManager.findLastVisibleItemPosition()
+        val position = layoutManager.findLastCompletelyVisibleItemPosition()
         if (position != RecyclerView.NO_POSITION) {
             adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))

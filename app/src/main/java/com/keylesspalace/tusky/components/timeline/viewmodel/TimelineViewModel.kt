@@ -292,18 +292,20 @@ abstract class TimelineViewModel(
             }
         }
 
-        // Save the visible status ID
-        // TODO: Implement following https://github.com/tuskyapp/Tusky/pull/3271
-        viewModelScope.launch {
-            uiAction
-                .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
-                .distinctUntilChanged()
-                .collectLatest { action ->
-                    Log.d(TAG, "Would save visible ID: ${action.visibleId}")
-                    accountManager.activeAccount?.let { account ->
-                        // TODO: Save the user's position
+        // Save the visible status ID (if it's the home timeline)
+        if (timelineKind == TimelineKind.Home) {
+            viewModelScope.launch {
+                uiAction
+                    .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
+                    .distinctUntilChanged()
+                    .collectLatest { action ->
+                        accountManager.activeAccount?.let { account ->
+                            Log.d(TAG, "Saving Home timeline position at: ${action.visibleId}")
+                            account.lastVisibleHomeTimelineStatusId = action.visibleId
+                            accountManager.saveAccount(account)
+                        }
                     }
-                }
+            }
         }
 
         // Set initial status display options from the user's preferences.

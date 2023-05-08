@@ -701,7 +701,7 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/reports")
-    fun report(
+    suspend fun report(
         @Field("account_id") accountId: String,
         @Field("status_ids[]") statusIds: List<String>,
         @Field("comment") comment: String,
