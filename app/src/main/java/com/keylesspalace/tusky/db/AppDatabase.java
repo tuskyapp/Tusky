@@ -43,8 +43,8 @@ import java.io.File;
     },
     version = 50,
     autoMigrations = {
-        @AutoMigration(from = 48, to = 49, spec = AppDatabase.MIGRATION_48_49.class),
-        @AutoMigration(from = 49, to = 50)
+        @AutoMigration(from = 48, to = 49),
+        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class)
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -670,5 +670,5 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     @DeleteColumn(tableName = "AccountEntity", columnName = "activeNotifications")
-    static class MIGRATION_48_49 implements AutoMigrationSpec { }
+    static class MIGRATION_49_50 implements AutoMigrationSpec { }
 }
