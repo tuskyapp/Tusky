@@ -46,7 +46,7 @@ class NotificationFetcher @Inject constructor(
      * ones that were last fetched here. So `lastNotificationId` takes precedence if it is greater
      * than the marker.
      */
-    private fun fetchNotifications(account: AccountEntity): MutableList<Notification> {
+    private fun fetchNotifications(account: AccountEntity): List<Notification> {
         val authHeader = String.format("Bearer %s", account.accessToken)
 
         val minId = when (val marker = fetchMarker(authHeader, account)) {
@@ -62,15 +62,15 @@ class NotificationFetcher @Inject constructor(
             minId
         ).blockingGet()
 
-        if (notifications.isEmpty()) return mutableListOf()
-
         // Notifications are returned in order, most recent first. Save the newest notification ID
         // in the marker.
-        val newMarkerId = notifications.first().id
-        Log.d(TAG, "updating notification marker to: $newMarkerId")
-        mastodonApi.updateMarkersWithAuth(authHeader, notificationsLastReadId = newMarkerId)
+        notifications.firstOrNull()?.let {
+            val newMarkerId = notifications.first().id
+            Log.d(TAG, "updating notification marker to: $newMarkerId")
+            mastodonApi.updateMarkersWithAuth(authHeader, notificationsLastReadId = newMarkerId)
+        }
 
-        return notifications.toMutableList()
+        return notifications
     }
 
     private fun fetchMarker(authHeader: String, account: AccountEntity): Marker? {
