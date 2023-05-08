@@ -313,7 +313,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
-            } catch (exception: IOException) {
+            } catch (exception: Exception) {
                 onFetchAccountsFailure(exception)
             }
         }
