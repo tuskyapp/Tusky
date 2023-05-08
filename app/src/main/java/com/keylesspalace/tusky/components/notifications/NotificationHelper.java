@@ -64,7 +64,6 @@ import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -124,9 +123,6 @@ public class NotificationHelper {
      */
     private static final String NOTIFICATION_PULL_TAG = "pullNotifications";
 
-    /** Notifications group */
-    private static final String GROUP_KEY_GENERAL = APPLICATION_ID + ".notifications.group_key";
-
     /** Tag for the summary notification */
     private static final String GROUP_SUMMARY_TAG = APPLICATION_ID + ".notifications.group_summary";
 
@@ -154,7 +150,6 @@ public class NotificationHelper {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         android.app.Notification existingAndroidNotification = null;
         StatusBarNotification[] activeNotifications = notificationManager.getActiveNotifications();
-        Log.d(TAG, "  activeNotifications: " + Arrays.toString(activeNotifications));
         for (StatusBarNotification androidNotification : activeNotifications) {
             if (mastodonNotificationId.equals(androidNotification.getTag()) && accountId == androidNotification.getId()) {
                 existingAndroidNotification = androidNotification.getNotification();
@@ -296,7 +291,6 @@ public class NotificationHelper {
                 .setGroup(account.getAccountId())
                 .setAutoCancel(true)
                 .setShortcutId(Long.toString(account.getId()))
-                .setGroup(GROUP_KEY_GENERAL)
                 .setDefaults(0); // So it doesn't ring twice, notify only in Target callback
 
         setupPreferences(account, builder);
