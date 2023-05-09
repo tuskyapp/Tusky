@@ -193,7 +193,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                 }
             }
         })
-        binding.videoView.setOnPreparedListener { mp -> 
+        binding.videoView.setOnPreparedListener { mp ->
             if (isAudio) {
                 binding.videoView.layoutParams.height = 1
                 binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -218,7 +218,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             }
 
             binding.progressBar.hide()
-            mp.isLooping = true 
+            mp.isLooping = true
         }
 */
 
