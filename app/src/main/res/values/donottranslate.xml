@@ -256,4 +256,18 @@
         <item>OLDEST_FIRST</item>
         <item>NEWEST_FIRST</item>
     </string-array>
+
+    <string-array name="filter_action_values">
+        <item>warn</item>
+        <item>hide</item>
+    </string-array>
+
+    <string-array name="filter_context_values">
+        <item>home</item>
+        <item>notifications</item>
+        <item>public</item>
+        <item>thread</item>
+        <item>account</item>
+    </string-array>
+
 </resources>

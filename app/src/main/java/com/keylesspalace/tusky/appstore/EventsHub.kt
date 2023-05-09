@@ -1,20 +1,19 @@
 package com.keylesspalace.tusky.appstore
 
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface Event
-interface Dispatchable : Event
 
 @Singleton
 class EventHub @Inject constructor() {
 
-    private val eventsSubject = PublishSubject.create<Event>()
-    val events: Observable<Event> = eventsSubject
+    private val sharedEventFlow: MutableSharedFlow<Event> = MutableSharedFlow()
+    val events: Flow<Event> = sharedEventFlow
 
-    fun dispatch(event: Dispatchable) {
-        eventsSubject.onNext(event)
+    suspend fun dispatch(event: Event) {
+        sharedEventFlow.emit(event)
     }
 }

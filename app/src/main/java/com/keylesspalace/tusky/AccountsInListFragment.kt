@@ -114,7 +114,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.searchView.isSubmitButtonEnabled = true
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.search(query ?: "")
+                viewModel.search(query.orEmpty())
                 return true
             }
 
@@ -153,12 +153,14 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         if (error is IOException) {
             binding.messageView.setup(
                 R.drawable.elephant_offline,
-                R.string.error_network, retryAction
+                R.string.error_network,
+                retryAction
             )
         } else {
             binding.messageView.setup(
                 R.drawable.elephant_error,
-                R.string.error_generic, retryAction
+                R.string.error_generic,
+                retryAction
             )
         }
     }

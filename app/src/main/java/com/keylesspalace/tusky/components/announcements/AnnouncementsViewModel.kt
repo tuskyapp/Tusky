@@ -107,8 +107,7 @@ class AnnouncementsViewModel @Inject constructor(
                                             } else {
                                                 listOf(
                                                     *announcement.reactions.toTypedArray(),
-                                                    emojis.value!!.find { emoji -> emoji.shortcode == name }
-                                                    !!.run {
+                                                    emojis.value!!.find { emoji -> emoji.shortcode == name }!!.run {
                                                         Announcement.Reaction(
                                                             name,
                                                             1,

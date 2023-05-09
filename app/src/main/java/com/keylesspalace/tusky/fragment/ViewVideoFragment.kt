@@ -73,8 +73,8 @@ class ViewVideoFragment : ViewMediaFragment() {
         super.onResume()
 
         if (_binding != null) {
-            if (mediaActivity.isToolbarVisible) {
-                handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
+            if (mediaActivity.isToolbarVisible && !isAudio) {
+                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
             }
             binding.videoView.player?.play()
         }
@@ -181,21 +181,44 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.videoView.requestFocus()
 /*
         binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
-            override fun onPause() {
-                handler.removeCallbacks(hideToolbar)
-            }
             override fun onPlay() {
-                // Audio doesn't cause the controller to show automatically,
-                // and we only want to hide the toolbar if it's a video.
-                if (isAudio) {
-                    mediaController.show()
-                } else {
+                if (!isAudio) {
                     hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
                 }
             }
-        })
-        binding.videoView.setOnPreparedListener { mp ->
 
+            override fun onPause() {
+                if (!isAudio) {
+                    handler.removeCallbacks(hideToolbar)
+                }
+            }
+        })
+        binding.videoView.setOnPreparedListener { mp -> 
+            if (isAudio) {
+                binding.videoView.layoutParams.height = 1
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            } else if (containerWidth / containerHeight > videoWidth / videoHeight) {
+                binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            } else {
+                binding.videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+
+            // Wait until the media is loaded before accepting taps as we don't want toolbar to
+            // be hidden until then.
+            binding.videoView.setOnTouchListener { _, _ ->
+                mediaActivity.onPhotoTap()
+                false
+            }
+
+            // Audio doesn't cause the controller to show automatically
+            if (isAudio) {
+                mediaController.show()
+            }
+
+            binding.progressBar.hide()
+            mp.isLooping = true 
         }
 */
 

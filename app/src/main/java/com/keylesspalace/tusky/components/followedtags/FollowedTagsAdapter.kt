@@ -13,7 +13,7 @@ import com.keylesspalace.tusky.util.BindingHolder
 
 class FollowedTagsAdapter(
     private val actionListener: HashtagActionListener,
-    private val viewModel: FollowedTagsViewModel,
+    private val viewModel: FollowedTagsViewModel
 ) : PagingDataAdapter<String, BindingHolder<ItemFollowedHashtagBinding>>(STRING_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowedHashtagBinding> =
         BindingHolder(ItemFollowedHashtagBinding.inflate(LayoutInflater.from(parent.context), parent, false))

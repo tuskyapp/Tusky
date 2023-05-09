@@ -265,8 +265,8 @@
     <string name="load_more_placeholder_text">en charger plus</string>
     <string name="pref_title_public_filter_keywords">Fils publics</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Ajouter un filtre</string>
-    <string name="filter_edit_dialog_title">Modifier un filtre</string>
+    <string name="filter_addition_title">Ajouter un filtre</string>
+    <string name="filter_edit_title">Modifier un filtre</string>
     <string name="filter_dialog_remove_button">Supprimer</string>
     <string name="filter_dialog_update_button">Mettre à jour</string>
     <string name="filter_add_description">Phrase à filtrer</string>
@@ -285,7 +285,6 @@
     <string name="action_add_to_list">Ajouter un compte à la liste</string>
     <string name="action_remove_from_list">Supprimer un compte de la liste</string>
     <string name="compose_active_account_description">Publier en tant que %1$s</string>
-    <string name="error_failed_set_caption">Impossible de définir la légende</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Décrire pour les malvoyants
 \n(%d caractères maximum)</item>

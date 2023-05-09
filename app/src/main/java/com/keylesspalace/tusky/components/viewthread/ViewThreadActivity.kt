@@ -21,18 +21,28 @@ import android.os.Bundle
 import androidx.fragment.app.commit
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ActivityViewThreadBinding
+import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 class ViewThreadActivity : BottomSheetActivity(), HasAndroidInjector {
 
+    private val binding by viewBinding(ActivityViewThreadBinding::inflate)
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_thread)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+        }
         val id = intent.getStringExtra(ID_EXTRA)!!
         val url = intent.getStringExtra(URL_EXTRA)!!
         val fragment =

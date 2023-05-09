@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Antarmuka utama yang ditingkatkan - sekarang Anda dapat memindahkan tab ke bagian bawah
+- Saat mem-mute pengguna, Anda sekarang dapat memutuskan apakah akan mem-mute notifikasi mereka
+- Anda sekarang dapat mengikuti sebanyak mungkin hashtag yang Anda inginkan dalam satu tab hashtag tunggal
+- Meningkatkan cara deskripsi media ditampilkan sehingga dapat bekerja bahkan untuk deskripsi yang sangat panjang
+    
+Changelog lengkap: https://github.com/tuskyapp/Tusky/releases

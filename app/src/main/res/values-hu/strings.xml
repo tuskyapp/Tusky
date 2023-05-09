@@ -132,12 +132,12 @@
     <string name="label_header">Fejléc</string>
     <string name="link_whats_an_instance">Mi az a példány\?</string>
     <string name="login_connection">Csatlakozás…</string>
-    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a> 
-\n 
-\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot. 
-\n 
-\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek. 
-\n 
+    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a>
+\n
+\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot.
+\n
+\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek.
+\n
 \nTöbb információt találhatsz itt: <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
@@ -307,8 +307,8 @@
     <string name="replying_to">Válasz @%s részére</string>
     <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
     <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
-    <string name="filter_addition_dialog_title">Szűrő hozzáadása</string>
-    <string name="filter_edit_dialog_title">Szűrő szerkesztése</string>
+    <string name="filter_addition_title">Szűrő hozzáadása</string>
+    <string name="filter_edit_title">Szűrő szerkesztése</string>
     <string name="filter_dialog_remove_button">Eltávolítás</string>
     <string name="filter_dialog_update_button">Frissítés</string>
     <string name="filter_add_description">Szűrendő kifejezés</string>
@@ -338,7 +338,6 @@
     <string name="action_add_to_list">Fiók hozzáadása a listához</string>
     <string name="action_remove_from_list">Fiók eltávolítása a listából</string>
     <string name="compose_active_account_description">Bejegyzés mint %1$s</string>
-    <string name="error_failed_set_caption">Cím beállítása nem sikerült</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Leírás látássérülteknek
 \n(%d karakter korlát)</item>
@@ -450,7 +449,7 @@
     <string name="no_scheduled_posts">Nincs egy ütemezett bejegyzésed sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
-    <string name="pref_title_confirm_reblogs">Jóváhagyó ablak mutatása megtolás előtt</string>
+    <string name="pref_title_confirm_reblogs">Jóváhagyás mutatása megtolás előtt</string>
     <string name="pref_title_show_cards_in_timelines">Hivatkozás előnézetének mutatása idővonalakon</string>
     <string name="pref_title_enable_swipe_for_tabs">Lapok közötti váltás engedélyezése csúsztatással</string>
     <plurals name="poll_info_people">
@@ -555,7 +554,6 @@
     <string name="pref_show_self_username_never">Soha</string>
     <string name="duration_no_change">(Nincs változás)</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Nem sikerült a fókuszpont beállítása</string>
     <string name="action_set_focus">Fókuszpont beállítása</string>
     <string name="error_following_hashtag_format">Hiba a #%s követésekor</string>
     <string name="error_unfollowing_hashtag_format">Hiba a #%s követésének befejezésekor</string>
@@ -628,4 +626,37 @@
     <string name="accessibility_talking_about_tag">%1$d ember beszél a %2$s hashtagről</string>
     <string name="total_usage">Összes használat</string>
     <string name="total_accounts">Összes fiók</string>
+    <string name="dialog_follow_hashtag_title">Hashtag követése</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Frissítés</string>
+    <string name="notification_unknown_name">Ismeretlen</string>
+    <string name="ui_error_favourite">Bejegyzés kedvencnek jelölése sikertelen: %s</string>
+    <string name="ui_error_reblog">Bejegyzés megtolása sikertelen: %s</string>
+    <string name="ui_error_vote">Szavazat leadása a szavazásba sikertelen: %s</string>
+    <string name="ui_error_accept_follow_request">Követési kérelem elfogadása sikertelen: %s</string>
+    <string name="status_filtered_show_anyway">Mutatás mindenképpen</string>
+    <string name="status_filter_placeholder_label_format">Szűrve: %s</string>
+    <string name="pref_title_account_filter_keywords">Profil</string>
+    <string name="socket_timeout_exception">A kapcsolatfelvétel a kiszolgálóddal túl sokáig tartott</string>
+    <string name="ui_error_unknown">ismeretlen ok</string>
+    <string name="ui_error_bookmark">Bejegyzés könyvjelzőzése sikertelen: %s</string>
+    <string name="ui_error_clear_notifications">Értesítések törlése sikertelen: %s</string>
+    <string name="filter_action_warn">Figyelmeztetés</string>
+    <string name="filter_action_hide">Elrejtés</string>
+    <string name="filter_description_warn">Elrejtés figyelmeztetéssel</string>
+    <string name="filter_description_hide">Elrejtés teljesen</string>
+    <string name="label_filter_action">Szűrőművelet</string>
+    <string name="ui_success_rejected_follow_request">Követési kérelem letiltva</string>
+    <string name="hint_filter_title">Saját szűrő</string>
+    <string name="label_filter_title">Cím</string>
+    <string name="action_add">Hozzáadás</string>
+    <string name="filter_keyword_display_format">%s (egész világ)</string>
+    <string name="label_filter_context">Szűrőkontextus</string>
+    <string name="label_filter_keywords">Szűrendő kulcsszavak vagy kifejezések</string>
+    <string name="pref_title_show_stat_inline">Bejegyzés-statisztikák mutatása az idővonalon</string>
+    <string name="ui_error_reject_follow_request">Követési kérelem elutasítása sikertelen: %s</string>
+    <string name="ui_success_accepted_follow_request">Követési kérelem elfogadva</string>
+    <string name="filter_keyword_addition_title">Kulcsszó hozzáadása</string>
+    <string name="filter_edit_keyword_title">Kulcsszó szerkesztése</string>
+    <string name="filter_description_format">%s: %s</string>
 </resources>

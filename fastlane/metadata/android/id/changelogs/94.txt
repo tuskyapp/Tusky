@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Dukungan untuk Unified Push. Untuk mengaktifkan dukungan ini, Anda harus masuk kembali ke akun Anda.
+- Jumlah tanggapan terhadap sebuah posting sekarang ditunjukkan di timeline.
+- Gambar sekarang dapat dengan dipotong saat menulis sebuah postingan.
+- Profil sekarang menunjukkan tanggal dibuatnya.
+- Saat melihat daftar, judul sekarang ditampilkan di toolbar.
+- Banyak perbaikan bug
+- Peningkatan terjemahan

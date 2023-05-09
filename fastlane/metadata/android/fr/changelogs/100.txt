@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Prise en charge de l'édition des statuts
+- Nouveau réglage pour contrôler l'ordre de lecture
+- Vignettes média plus grandes et avec un nouveau macaron indiquant les médias ayant une légende
+- Il est à présent possible d'ajouter un compte à une liste depuis son profil
+et bien plus

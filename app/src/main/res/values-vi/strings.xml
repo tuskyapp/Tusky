@@ -20,7 +20,6 @@
     <string name="post_lookup_error_format">Lỗi khi tìm tút %s</string>
     <string name="error_no_custom_emojis">Máy chủ %s không có emoji tùy chỉnh</string>
     <string name="send_post_notification_error_title">Lỗi đăng tút</string>
-    <string name="error_failed_set_caption">Thêm nội dung thất bại</string>
     <string name="error_delete_list">Không thể xóa danh sách</string>
     <string name="error_rename_list">Không thể đổi tên danh sách</string>
     <string name="error_create_list">Không thể tạo danh sách</string>
@@ -65,12 +64,12 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a> 
-\n 
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước. 
-\n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
-\n 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a>
+\n
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước.
+\n
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác.
+\n
 \nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
@@ -187,7 +186,7 @@
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_posts_pinned">Ghim</string>
-    <string name="title_posts_with_replies">Trả lời</string>
+    <string name="title_posts_with_replies">Lượt trả lời</string>
     <string name="title_posts">Tút</string>
     <string name="title_view_thread">Nội dung tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
@@ -282,11 +281,11 @@
     <string name="notification_favourite_description">Thông báo khi ai đó thích tút của bạn</string>
     <string name="notification_favourite_name">Lượt thích</string>
     <string name="filter_dialog_whole_word">Toàn bộ chữ có chứa cụm từ này</string>
-    <string name="filter_edit_dialog_title">Sửa bộ lọc</string>
-    <string name="filter_addition_dialog_title">Thêm bộ lọc</string>
+    <string name="filter_edit_title">Sửa bộ lọc</string>
+    <string name="filter_addition_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Thảo luận</string>
     <string name="pref_title_public_filter_keywords">Liên hợp</string>
-    <string name="load_more_placeholder_text">tải tút chưa đọc</string>
+    <string name="load_more_placeholder_text">hiện những tút chưa đọc</string>
     <string name="replying_to">Trả lời @%s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
@@ -423,7 +422,7 @@
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
     <string name="action_open_post">Đọc tút</string>
     <string name="expand_collapse_all_posts">Mở rộng/Thu gọn toàn bộ tút</string>
-    <string name="performing_lookup_title">Đang tìm kiếm…</string>
+    <string name="performing_lookup_title">Đang tra cứu…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>
@@ -530,7 +529,6 @@
     <string name="duration_no_change">(Không đổi)</string>
     <string name="description_post_language">Ngôn ngữ đăng</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Không thể chọn tâm điểm</string>
     <string name="action_set_focus">Chọn tâm điểm</string>
     <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
     <string name="pref_title_show_self_username">Hiện URL của tôi trên tab</string>
@@ -605,8 +603,47 @@
     <string name="action_post_failed_do_nothing">Bỏ qua</string>
     <string name="title_public_trending_hashtags">Hashtag nổi bật</string>
     <string name="accessibility_talking_about_tag">%1$d người đang thảo luận về %2$s</string>
-    <string name="total_usage">Tổng lượt dùng</string>
-    <string name="total_accounts">Tổng tài khoản</string>
+    <string name="total_usage">Lượt dùng</string>
+    <string name="total_accounts">Người dùng</string>
     <string name="dialog_follow_hashtag_title">Theo dõi hashtag</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Làm mới</string>
+    <string name="notification_unknown_name">Chưa biết</string>
+    <string name="socket_timeout_exception">Mất thời gian kết nối quá lâu</string>
+    <string name="ui_error_unknown">chưa rõ lý do</string>
+    <string name="ui_error_bookmark">Lưu tút không thành công: %s</string>
+    <string name="ui_error_clear_notifications">Xóa thông báo không thành công: %s</string>
+    <string name="ui_error_favourite">Thích tút không thành công: %s</string>
+    <string name="ui_error_reblog">Đăng lại tút không thành công: %s</string>
+    <string name="ui_error_vote">Bình chọn không thành công: %s</string>
+    <string name="ui_error_accept_follow_request">Chấp nhận theo dõi không thành công: %s</string>
+    <string name="ui_error_reject_follow_request">Từ chối theo dõi không thành công: %s</string>
+    <string name="ui_success_accepted_follow_request">Đã chấp nhận yêu cầu theo dõi</string>
+    <string name="ui_success_rejected_follow_request">Đã từ chối yêu cầu theo dõi</string>
+    <string name="status_filtered_show_anyway">Vẫn hiện</string>
+    <string name="status_filter_placeholder_label_format">Đã lọc: %s</string>
+    <string name="pref_title_account_filter_keywords">Người</string>
+    <string name="hint_filter_title">Bộ lọc của tôi</string>
+    <string name="label_filter_title">Tiêu đề</string>
+    <string name="filter_action_warn">Cảnh báo</string>
+    <string name="filter_action_hide">Ẩn</string>
+    <string name="filter_description_warn">Ẩn với cảnh báo</string>
+    <string name="filter_description_hide">Ẩn hoàn toàn</string>
+    <string name="label_filter_action">Hành động lọc</string>
+    <string name="label_filter_context">Bối cảnh lọc</string>
+    <string name="label_filter_keywords">Từ khóa hoặc cụm từ muốn lọc</string>
+    <string name="action_add">Thêm</string>
+    <string name="filter_keyword_display_format">%s (cả từ)</string>
+    <string name="filter_keyword_addition_title">Thêm từ khóa</string>
+    <string name="filter_edit_keyword_title">Sửa từ khóa</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="pref_title_show_stat_inline">Hiện số tương tác trên tút</string>
+    <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện những tút gần đây từ những người bạn theo dõi.
+\n
+\nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
+    <string name="hint_description">Mô tả</string>
+    <string name="post_media_image">Hình ảnh</string>
+    <string name="select_list_manage">Quản lý danh sách</string>
+    <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
+    <string name="select_list_empty">Bạn chưa có danh sách</string>
 </resources>

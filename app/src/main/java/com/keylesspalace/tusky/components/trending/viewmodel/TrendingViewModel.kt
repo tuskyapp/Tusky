@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import okio.IOException
 import javax.inject.Inject
 
@@ -55,7 +54,7 @@ class TrendingViewModel @Inject constructor(
         // or deleted. Unfortunately, there's nothing in the event to determine if it's a filter
         // that was modified, so refresh on every preference change.
         viewModelScope.launch {
-            eventHub.events.asFlow()
+            eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .collect {
                     invalidate()
@@ -80,11 +79,15 @@ class TrendingViewModel @Inject constructor(
             }
 
             val homeFilters = deferredFilters.await().getOrNull()?.filter {
-                it.context.contains(Filter.HOME)
+                it.context.contains(Filter.Kind.HOME.kind)
             }
 
             val tags = response.body()!!
-                .filter { homeFilters?.none { filter -> filter.phrase.equals(it.name, ignoreCase = true) } ?: false }
+                .filter {
+                    homeFilters?.none { filter ->
+                        filter.keywords.any { keyword -> keyword.keyword.equals(it.name, ignoreCase = true) }
+                    } ?: false
+                }
                 .sortedBy { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
                 .map { it.toViewData() }
                 .asReversed()

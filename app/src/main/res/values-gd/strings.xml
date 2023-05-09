@@ -12,7 +12,7 @@
     <string name="title_favourites">Annsachdan</string>
     <string name="link_whats_an_instance">Dè a th’ ann an ionstans\?</string>
     <string name="edit_poll">Deasaich</string>
-    <string name="filter_edit_dialog_title">Deasaich a’ chriathrag</string>
+    <string name="filter_edit_title">Deasaich a’ chriathrag</string>
     <string name="action_edit_list">Deasaich an liosta</string>
     <string name="pref_title_edit_notification_settings">Brathan</string>
     <string name="action_edit_own_profile">Deasaich</string>
@@ -257,7 +257,6 @@
         <item quantity="other">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
 \n(%d caractar air a char as fhaide)</item>
     </plurals>
-    <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh mar %1$s</string>
     <string name="action_remove_from_list">Thoir an cunntas air falbh on liosta</string>
     <string name="action_add_to_list">Cuir cunntas ris an liosta</string>
@@ -307,7 +306,7 @@
     <string name="filter_dialog_whole_word">Facal slàn</string>
     <string name="filter_dialog_update_button">Ùraich</string>
     <string name="filter_dialog_remove_button">Thoir air falbh</string>
-    <string name="filter_addition_dialog_title">Cuir criathrag ris</string>
+    <string name="filter_addition_title">Cuir criathrag ris</string>
     <string name="pref_title_thread_filter_keywords">Còmhraidhean</string>
     <string name="pref_title_public_filter_keywords">Loidhnichean-ama poblach</string>
     <string name="load_more_placeholder_text">luchdaich barrachd dheth</string>
@@ -574,7 +573,6 @@
     <string name="pref_show_self_username_never">Chan ann idir</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Dh’fhàillig suidheachadh na puinge-fòcais</string>
     <string name="action_set_focus">Suidhich puing an fhòcais</string>
     <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
     <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %s.</string>
