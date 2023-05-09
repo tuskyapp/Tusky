@@ -220,7 +220,7 @@
         <item quantity="one">%d neue Interaktion</item>
         <item quantity="other">%d neue Interaktionen</item>
     </plurals>
-    <string name="description_account_locked">Privates Profil</string>
+    <string name="description_account_locked">Geschütztes Profil</string>
     <string name="about_title_activity">Über</string>
     <string name="about_tusky_license">Tusky ist eine freie und quelloffene Software und ist lizenziert unter der GNU General Public License Version 3. Du kannst die Lizenz hier einsehen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <!-- note to translators:
@@ -266,7 +266,7 @@
     </plurals>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="action_remove">Entfernen</string>
-    <string name="lock_account_label">Privates Profil</string>
+    <string name="lock_account_label">Geschütztes Profil</string>
     <string name="lock_account_label_description">Follower müssen manuell genehmigt werden</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
     <string name="send_post_notification_title">Beitrag wird gesendet …</string>
@@ -502,8 +502,8 @@
 \n
 \nPush-Benachrichtigungen sind nicht betroffen, aber du kannst deine Benachrichtigungseinstellungen manuell überprüfen.</string>
     <string name="follow_requests_info">Auch wenn dein Konto öffentlich bzw. nicht geschützt ist, haben die Admins von %1$s gedacht, dass du diesen Follower lieber manuell bestätigen solltest.</string>
-    <string name="wellbeing_hide_stats_profile">Keine Statistiken auf Profilen zeigen</string>
-    <string name="wellbeing_hide_stats_posts">Keine Statistiken in Beiträgen zeigen</string>
+    <string name="wellbeing_hide_stats_profile">Statistiken auf Profilen ausblenden</string>
+    <string name="wellbeing_hide_stats_posts">Statistiken in Beiträgen ausblenden</string>
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
     <string name="action_subscribe_account">Abonnieren</string>
     <string name="action_unsubscribe_account">Deabonnieren</string>
@@ -648,7 +648,7 @@
     <string name="label_filter_title">Titel</string>
     <string name="filter_action_warn">Warnen</string>
     <string name="filter_action_hide">Ausblenden</string>
-    <string name="filter_description_warn">Warnung ausblenden</string>
+    <string name="filter_description_warn">Mit einer Warnung ausblenden</string>
     <string name="filter_description_hide">Vollständig ausblenden</string>
     <string name="label_filter_context">Nach Bereich filtern</string>
     <string name="label_filter_action">Filteraktion</string>
