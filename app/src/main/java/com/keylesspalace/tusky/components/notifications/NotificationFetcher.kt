@@ -1,13 +1,17 @@
 package com.keylesspalace.tusky.components.notifications
 
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Looper
 import android.util.Log
+import com.keylesspalace.tusky.components.notifications.NotificationHelper.filterNotification
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject
+import kotlin.math.min
 
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
@@ -15,16 +19,74 @@ class NotificationFetcher @Inject constructor(
     private val context: Context
 ) {
     fun fetchAndShow() {
+        // This should never be run on the main thread (see
+        // https://developer.android.com/guide/background/persistent/threading/worker). Belt-and-braces
+        // check to make sure.
+        if (Looper.getMainLooper().isCurrentThread) {
+            throw IllegalStateException("fetching notifications on the main thread")
+        }
+
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
-                    val notifications = fetchNotifications(account)
-                    notifications.forEachIndexed { index, notification ->
-                        NotificationHelper.make(context, notification, account, index == 0)
+                    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                    // Create sorted list of new notifications
+                    val notifications = fetchNewNotifications(account)
+                        .filter { filterNotification(notificationManager, account, it) }
+                        .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
+                        .toMutableList()
+
+                    // There's a maximum limit on the number of notifications an Android app
+                    // can display. If the total number of notifications (current notifications,
+                    // plus new ones) exceeds this then some newer notifications will be dropped.
+                    //
+                    // Err on the side of removing *older* notifications to make room for newer
+                    // notifications.
+                    val currentAndroidNotifications = notificationManager.activeNotifications
+                        .sortedWith(compareBy({ it.tag.length }, { it.tag })) // oldest notifications first
+
+                    // Check to see if any notifications need to be removed
+                    val toRemove = currentAndroidNotifications.size + notifications.size - MAX_NOTIFICATIONS
+                    if (toRemove > 0) {
+                        // Prefer to cancel old notifications first
+                        currentAndroidNotifications.subList(0, min(toRemove, currentAndroidNotifications.size))
+                            .forEach { notificationManager.cancel(it.tag, it.id) }
+
+                        // Still got notifications to remove? Trim the list of new notifications,
+                        // starting with the oldest.
+                        while (notifications.size > MAX_NOTIFICATIONS) {
+                            notifications.removeAt(0)
+                        }
                     }
+
+                    // Make and send the new notifications
+                    // TODO: Use the batch notification API available in NotificationManagerCompat
+                    // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
+                    // when it is released.
+                    notifications.forEachIndexed { index, notification ->
+                        val androidNotification = NotificationHelper.make(
+                            context,
+                            notificationManager,
+                            notification,
+                            account,
+                            index == 0
+                        )
+                        notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
+                        // Android will rate limit / drop notifications if they're posted too
+                        // quickly. There is no indication to the user that this happened
+                        Thread.sleep(1000)
+                    }
+
+                    NotificationHelper.updateSummaryNotifications(
+                        context,
+                        notificationManager,
+                        account
+                    )
+
                     accountManager.saveAccount(account)
                 } catch (e: Exception) {
-                    Log.w(TAG, "Error while fetching notifications", e)
+                    Log.e(TAG, "Error while fetching notifications", e)
                 }
             }
         }
@@ -46,7 +108,7 @@ class NotificationFetcher @Inject constructor(
      * ones that were last fetched here. So `lastNotificationId` takes precedence if it is greater
      * than the marker.
      */
-    private fun fetchNotifications(account: AccountEntity): List<Notification> {
+    private fun fetchNewNotifications(account: AccountEntity): List<Notification> {
         val authHeader = String.format("Bearer %s", account.accessToken)
 
         val minId = when (val marker = fetchMarker(authHeader, account)) {
@@ -90,6 +152,13 @@ class NotificationFetcher @Inject constructor(
     }
 
     companion object {
-        const val TAG = "NotificationFetcher"
+        private const val TAG = "NotificationFetcher"
+
+        // There's a system limit on the maximum number of notifications an app
+        // can show, NotificationManagerService.MAX_PACKAGE_NOTIFICATIONS. Unfortunately
+        // that's not available to client code or via the NotificationManager API.
+        // The current value in the Android source code is 50, set 40 here to both
+        // be conservative, and allow some headroom for summary notifications.
+        private const val MAX_NOTIFICATIONS = 40
     }
 }
