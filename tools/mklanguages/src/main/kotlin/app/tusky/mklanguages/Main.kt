@@ -174,7 +174,7 @@ class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
         // `language_entries` and `language_values` arrays with fresh data.
         val tmpFile = createTempFile().toFile()
         val w = tmpFile.printWriter()
-        val donottranslate_xml = resourcePath / "values/donottranslate.xml"
+        val donottranslate_xml = resourcePath / "values" / "donottranslate.xml"
         donottranslate_xml.toFile().useLines { lines ->
             var inLanguageEntries = false
             var inLanguageValues = false
