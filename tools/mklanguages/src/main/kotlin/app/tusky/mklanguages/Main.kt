@@ -17,6 +17,8 @@
 
 package app.tusky.mklanguages
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.flag
@@ -24,6 +26,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.ibm.icu.text.CaseMap
 import com.ibm.icu.text.Collator
 import com.ibm.icu.util.ULocale
+import io.github.oshai.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -35,6 +38,8 @@ import kotlin.io.path.exists
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
+
+private val log = KotlinLogging.logger {}
 
 /** The information needed to encode a language in the XML resources */
 data class Language(
@@ -111,9 +116,10 @@ class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
 
     override fun run() {
         System.setProperty("file.encoding", "UTF8")
+        (log.underlyingLogger as Logger).level = if (verbose) Level.INFO else Level.WARN
 
         val cwd = Paths.get("").toAbsolutePath()
-        if (verbose) println("Working directory: $cwd")
+        log.info("working directory: $cwd")
 
         val resourcePath = findResourcePath(cwd) ?: throw UsageError("could not find app/src/main/res in tree")
 
@@ -147,7 +153,7 @@ class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
 
         // "values" directory has been skipped, explicitly add its language code
         langCodes.add(listOf("en"))
-        if (verbose) println("langCodes: $langCodes")
+        log.info("langCodes: $langCodes")
 
         // Construct the locales
         val locales = langCodes.map { if (it.size == 1) ULocale(it[0]) else ULocale(it[0], it[1]) }
@@ -217,7 +223,7 @@ class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
         // Close, then replace donotranslate.xml
         w.close()
         Files.move(tmpFile.toPath(), donottranslate_xml, StandardCopyOption.REPLACE_EXISTING)
-        if (verbose) println("replaced ${donottranslate_xml.fileName}")
+        log.info("replaced ${donottranslate_xml.toAbsolutePath()}")
     }
 }
 

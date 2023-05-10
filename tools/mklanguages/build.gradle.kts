@@ -20,5 +20,9 @@ application {
 }
 
 dependencies {
-    "implementation"("com.ibm.icu:icu4j:73.1")
+    implementation("com.ibm.icu:icu4j:73.1")
+
+    // Logging
+    implementation("io.github.oshai:kotlin-logging-jvm:4.0.0-beta-28")
+    implementation("ch.qos.logback:logback-classic:1.3.0")
 }
