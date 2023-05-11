@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.TreeMap
 import javax.inject.Inject
 
+/** A page of data from the Mastodon API */
 data class Page<Key : Any, Value : Any> constructor(
     /** Loaded data */
     val data: MutableList<Value>,
@@ -41,11 +42,11 @@ data class Page<Key : Any, Value : Any> constructor(
      * [Key] for previous page if more data can be loaded in that direction, `null`
      * otherwise.
      */
-    val prevKey: Key?,
+    val prevKey: Key? = null,
     /**
      * [Key] for next page if more data can be loaded in that direction, `null` otherwise.
      */
-    val nextKey: Key?
+    val nextKey: Key? = null,
 )
 
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
@@ -56,7 +57,7 @@ class NetworkTimelineRepository @Inject constructor(
 ) {
 
     /**
-     * Pages of statuses.
+     * Cached pages of statuses.
      *
      * Each page is keyed by the ID of the first status in that page, and stores the tokens
      * use as `max_id` and `min_id` parameters in API calls to fetch pages before/after this

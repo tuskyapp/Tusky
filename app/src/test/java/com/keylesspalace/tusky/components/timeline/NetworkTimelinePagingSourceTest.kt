@@ -1,64 +1,116 @@
 package com.keylesspalace.tusky.components.timeline
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingSource.LoadResult
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelinePagingSource
-import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import com.keylesspalace.tusky.entity.Status
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
+import java.util.TreeMap
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class NetworkTimelinePagingSourceTest {
+    @Test
+    fun `load() with empty pages returns empty list`() = runTest {
+        // Given
+        val pages = TreeMap<String, Page<String, Status>>()
+        val pagingSource = NetworkTimelinePagingSource(pages)
+        val loadingParams = PagingSource.LoadParams.Refresh("0", 2, false)
 
-    private val status = mockStatusViewData()
+        // When
+        val loadResult = pagingSource.load(loadingParams)
 
-    private val timelineViewModel: NetworkTimelineViewModel = mock {
-        on { statusData } doReturn mutableListOf(status)
+        // Then
+        assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
+        assertThat((loadResult as? LoadResult.Page))
+            .isEqualTo(
+                LoadResult.Page(
+                    data = emptyList<Status>(),
+                    prevKey = null,
+                    nextKey = null
+                )
+            )
     }
 
     @Test
-    fun `should return empty list when params are Append`() {
-        val pagingSource = NetworkTimelinePagingSource(statusData)
+    fun `load() for an item in a page returns the page containing that item and next, prev keys`() = runTest {
+        // Given
+        val pages = TreeMap<String, Page<String, Status>>()
+        pages["2"] = Page(data = mutableListOf(mockStatus(id = "2")), nextKey = "1")
+        pages["1"] = Page(data = mutableListOf(mockStatus(id = "1")), nextKey = "0", prevKey = "2")
+        pages["0"] = Page(data = mutableListOf(mockStatus(id = "0")), prevKey = "1")
+        val pagingSource = NetworkTimelinePagingSource(pages)
+        val loadingParams = PagingSource.LoadParams.Refresh("1", 2, false)
 
-        val params = PagingSource.LoadParams.Append("132", 20, false)
+        // When
+        val loadResult = pagingSource.load(loadingParams)
 
-        val expectedResult = PagingSource.LoadResult.Page(emptyList(), null, null)
-
-        runBlocking {
-            assertEquals(expectedResult, pagingSource.load(params))
-        }
+        // Then
+        assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
+        assertThat((loadResult as? LoadResult.Page))
+            .isEqualTo(
+                LoadResult.Page(
+                    data = listOf(mockStatus(id = "1")),
+                    prevKey = "2",
+                    nextKey = "0"
+                )
+            )
     }
 
     @Test
-    fun `should return empty list when params are Prepend`() {
-        val pagingSource = NetworkTimelinePagingSource(statusData)
+    fun `LoadParams Append returns the page after`() = runTest {
+        // Given
+        val pages = TreeMap<String, Page<String, Status>>()
+        pages["2"] = Page(data = mutableListOf(mockStatus(id = "2")), nextKey = "1")
+        pages["1"] = Page(data = mutableListOf(mockStatus(id = "1")), nextKey = "0", prevKey = "2")
+        pages["0"] = Page(data = mutableListOf(mockStatus(id = "0")), prevKey = "1")
+        val pagingSource = NetworkTimelinePagingSource(pages)
+        val loadingParams = PagingSource.LoadParams.Append("1", 2, false)
 
-        val params = PagingSource.LoadParams.Prepend("132", 20, false)
+        // When
+        val loadResult = pagingSource.load(loadingParams)
 
-        val expectedResult = PagingSource.LoadResult.Page(emptyList(), null, null)
-
-        runBlocking {
-            assertEquals(expectedResult, pagingSource.load(params))
-        }
+        // Then
+        assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
+        assertThat((loadResult as? LoadResult.Page))
+            .isEqualTo(
+                LoadResult.Page(
+                    data = listOf(mockStatus(id = "0")),
+                    prevKey = "1",
+                    nextKey = null
+                )
+            )
     }
 
     @Test
-    fun `should return full list when params are Refresh`() {
-        val pagingSource = NetworkTimelinePagingSource(statusData)
+    fun `LoadParams Prepend returns the page before`() = runTest {
+        // Given
+        val pages = TreeMap<String, Page<String, Status>>()
+        pages["2"] = Page(data = mutableListOf(mockStatus(id = "2")), nextKey = "1")
+        pages["1"] = Page(data = mutableListOf(mockStatus(id = "1")), nextKey = "0", prevKey = "2")
+        pages["0"] = Page(data = mutableListOf(mockStatus(id = "0")), prevKey = "1")
+        val pagingSource = NetworkTimelinePagingSource(pages)
+        val loadingParams = PagingSource.LoadParams.Prepend("1", 2, false)
 
-        val params = PagingSource.LoadParams.Refresh<String>(null, 20, false)
+        // When
+        val loadResult = pagingSource.load(loadingParams)
 
-        val expectedResult = PagingSource.LoadResult.Page(listOf(status), null, null)
-
-        runBlocking {
-            val result = pagingSource.load(params)
-            assertEquals(expectedResult, result)
-        }
+        // Then
+        assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
+        assertThat((loadResult as? LoadResult.Page))
+            .isEqualTo(
+                LoadResult.Page(
+                    data = listOf(mockStatus(id = "2")),
+                    prevKey = null,
+                    nextKey = "1"
+                )
+            )
     }
 }
