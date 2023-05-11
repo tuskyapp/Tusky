@@ -202,65 +202,6 @@ class NetworkTimelineRemoteMediatorTest {
 
     @Test
     @ExperimentalPagingApi
-    fun `should refresh and insert placeholder`() {
-        val statuses: MutableList<StatusViewData> = mutableListOf(
-            mockStatusViewData("3"),
-            mockStatusViewData("2"),
-            mockStatusViewData("1")
-        )
-
-        val timelineViewModel: NetworkTimelineViewModel = mock {
-            on { statusData } doReturn statuses
-            on { nextKey } doReturn "0"
-            onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
-                listOf(
-                    mockStatus("10"),
-                    mockStatus("9"),
-                    mockStatus("7")
-                )
-            )
-        }
-
-        val remoteMediator = NetworkTimelineRemoteMediator(
-            accountManager,
-            timelineViewModel,
-            factory!!,
-            statusData,
-            kind
-        )
-
-        val state = state(
-            listOf(
-                PagingSource.LoadResult.Page(
-                    data = listOf(
-                        mockStatusViewData("3"),
-                        mockStatusViewData("2"),
-                        mockStatusViewData("1")
-                    ),
-                    prevKey = null,
-                    nextKey = "0"
-                )
-            )
-        )
-
-        val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
-
-        val newStatusData = mutableListOf(
-            mockStatusViewData("10"),
-            mockStatusViewData("9"),
-            StatusViewData.Placeholder("7", false),
-            mockStatusViewData("3"),
-            mockStatusViewData("2"),
-            mockStatusViewData("1")
-        )
-
-        assertTrue(result is RemoteMediator.MediatorResult.Success)
-        assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
-        assertEquals(newStatusData, statuses)
-    }
-
-    @Test
-    @ExperimentalPagingApi
     fun `should refresh and not insert placeholders`() {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("8"),
