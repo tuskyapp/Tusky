@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.components.timeline.Page
 import com.keylesspalace.tusky.entity.Status
 import java.util.TreeMap
@@ -31,13 +32,18 @@ class NetworkTimelinePagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
 
-        synchronized(pages) {
-            Log.d(TAG, "Pages state:")
-            if (pages.isEmpty()) {
-                Log.d(TAG, "  **empty**")
-            } else {
-                pages.onEachIndexed { i, entry ->
-                    Log.d(TAG, "  $i: k: ${entry.key}, prev: ${entry.value.prevKey}, next: ${entry.value.nextKey}")
+        if (BuildConfig.DEBUG) {
+            synchronized(pages) {
+                Log.d(TAG, "Pages state:")
+                if (pages.isEmpty()) {
+                    Log.d(TAG, "  **empty**")
+                } else {
+                    pages.onEachIndexed { i, entry ->
+                        Log.d(
+                            TAG,
+                            "  $i: k: ${entry.key}, prev: ${entry.value.prevKey}, next: ${entry.value.nextKey}"
+                        )
+                    }
                 }
             }
         }
