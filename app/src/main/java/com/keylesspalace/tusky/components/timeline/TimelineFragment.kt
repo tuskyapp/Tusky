@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.postDelayed
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -70,10 +72,13 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import isTrue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
@@ -140,30 +145,6 @@ class TimelineFragment :
 
         setupSwipeRefreshLayout()
         setupRecyclerView()
-
-        // TODO: This is the wrong place to do this, since it bumps the list down by 30px
-        // every time a PREPEND call completes.
-        //
-        // The right thing to do is to use the loadstate flow (already used later in the code)
-        // and if the refresh has finished, and not at position 0, then bump the list down by
-        // the 30px.
-        //
-        // Temporarily disable while investigating other list behaviour.
-//        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-//                if (positionStart == 0 && adapter.itemCount != itemCount) {
-//                    binding.recyclerView.post {
-//                        if (getView() != null) {
-//                            if (isSwipeToRefreshEnabled) {
-//                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-//                            } else {
-//                                binding.recyclerView.scrollToPosition(0)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        })
 
         if (actionButtonPresent()) {
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -331,6 +312,34 @@ class TimelineFragment :
                                 updateTimestampFlow.collect()
                             }
                         }
+                }
+
+                // Scroll the list down if a refresh has completely finished. A refresh is
+                // finished when both the initial refresh is complete and any prepends have
+                // finished (so that DiffUtil has had a chance to process the data). See
+                // https://github.com/googlecodelabs/android-paging/issues/149
+                launch {
+                    if (isSwipeToRefreshEnabled) {
+                        adapter.loadStateFlow
+                            .distinctUntilChanged { old, new ->
+                                old.mediator?.prepend?.endOfPaginationReached.isTrue() &&
+                                    new.mediator?.prepend?.endOfPaginationReached.isTrue()
+                            }
+                            .filter {
+                                it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached && !it.append.endOfPaginationReached
+                            }
+                            .collect {
+                                // This works without the delay if you are repeatedly refreshing a
+                                // single timeline. But if you refresh a timeline (e.g., Local),
+                                // then go to another timeline (e.g., Home), then go back to the
+                                // first timeline and refresh that, it jumps to the top. Adding the
+                                // delay fixes that -- I have no idea why...
+                                binding.recyclerView.postDelayed(300) {
+                                    getView() ?: return@postDelayed
+                                    binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                                }
+                            }
+                    }
                 }
 
                 // Update the UI from the combined load state
