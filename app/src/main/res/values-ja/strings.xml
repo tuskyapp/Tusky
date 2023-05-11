@@ -608,4 +608,15 @@
     <string name="action_post_failed_detail_plural">アップロードに失敗した投稿は下書きに保存されました。
 \n
 \nサーバーと接続できなかったか、投稿が拒否されました。</string>
+    <string name="dialog_follow_hashtag_title">ハッシュタグをフォロー</string>
+    <string name="dialog_follow_hashtag_hint">#ハッシュタグ</string>
+    <string name="hint_description">説明</string>
+    <string name="post_media_image">画像</string>
+    <string name="notification_unknown_name">不明</string>
+    <string name="select_list_manage">リストを管理する</string>
+    <string name="select_list_empty">リストはまだありません</string>
+    <string name="status_filtered_show_anyway">とにかく表示する</string>
+    <string name="pref_title_account_filter_keywords">プロフィール</string>
+    <string name="title_public_trending_hashtags">トレンドノハッシュタグ</string>
+    <string name="pref_title_show_stat_inline">タイムラインに投稿の統計情報を表示する</string>
 </resources>
