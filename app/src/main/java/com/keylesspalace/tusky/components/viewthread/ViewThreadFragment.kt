@@ -416,13 +416,14 @@ class ViewThreadFragment :
     }
 
     public override fun removeItem(position: Int) {
-        val status = adapter.currentList[position]
-        if (status.isDetailed) {
-            // the main status we are viewing is being removed, finish the activity
-            activity?.finish()
-            return
+        adapter.currentList.getOrNull(position)?.let { status ->
+            if (status.isDetailed) {
+                // the main status we are viewing is being removed, finish the activity
+                activity?.finish()
+                return
+            }
+            viewModel.removeStatus(status)
         }
-        viewModel.removeStatus(status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {

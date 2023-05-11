@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Ajouts, dont :
+
+- Consultation des hashtags tendance
+- Modification des légendes et du point focal des images
+- Actualisation via menu pour l'accessibilité
+- Prise en charge des filtres de Mastodon v4
+- Détail des différences d'un post modifié
+- Option pour l'affichage des statistiques des posts dans les fils
+
+Corrections, dont :
+
+- Affichage des contrôles lors de la lecture audio
+- Correction du calcul de la longueur d'un post
+- Publication des légendes d'images
+
+et bien plus
