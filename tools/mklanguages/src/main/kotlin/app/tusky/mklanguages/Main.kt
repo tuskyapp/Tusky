@@ -23,6 +23,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.h0tk3y.betterParse.grammar.parseToEnd
 import com.ibm.icu.text.CaseMap
 import com.ibm.icu.text.Collator
 import com.ibm.icu.util.ULocale
@@ -59,22 +60,11 @@ data class Language(
         private val toTitle = CaseMap.toTitle()
 
         /** Create a [Language] from a [ULocale] */
-        fun from(locale: ULocale): Language {
-            return when (locale.name) {
-                // Berber is special cased, as at the time of writing the ICU data does not
-                // recognise the language code "ber".
-                "ber" -> Language(
-                    "ber",
-                    "ⵣⴰⵎⴰⵣⵉⵖⵝ",
-                    "Berber"
-                )
-                else -> Language(
-                    locale.name.replace("_", "-"),
-                    toTitle.apply(locale.toLocale(), null, locale.getDisplayName(locale)),
-                    locale.getDisplayName(ULocale.ENGLISH)
-                )
-            }
-        }
+        fun from(locale: ULocale) = Language(
+            locale.name.replace("_", "-"),
+            toTitle.apply(locale.toLocale(), null, locale.getDisplayName(locale)),
+            locale.getDisplayName(ULocale.ENGLISH)
+        )
     }
 }
 
@@ -100,7 +90,7 @@ class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
      *
      * @return the path, or null if it's not a subtree of [start] or any of its parents.
      */
-    fun findResourcePath(start: Path): Path? {
+    private fun findResourcePath(start: Path): Path? {
         val suffix = Path("app/src/main/res")
 
         var prefix = start
@@ -130,33 +120,19 @@ class App : CliktCommand(help = """Update languages in donottranslate.xml""") {
 
         if (resourceDirs.isEmpty()) throw UsageError("no strings.xml files found in $resourcePath/values-*")
 
-        // Map a list of directories ("values-xx", "values-yyrzz", ...) to a list of lists of
-        // language codes (("xx"), ("yy", "zz"), ...).
-        //
-        // The suffixes on the `values-` directories are either:
-        // - 2 letter ISO 639-1 code followed by
-        // - (optional) "r" + 2 letter ISO 3166-1-alpha-2 region code, so "en", "fr", "en-rUS", etc
-        //
-        // Or:
-        // - "b+" + 2 letter ISO 639-1 code
-        // - (optional) additional subtags separated by "+", so "b+en", "b+en+US", "b+zh+Hant"
-        //
-        // TODO: This only handles the first format, not the "b+" format.
-        val r = Regex("values-([a-zA-Z]+)(?:-r([a-zA-Z]+))?.*")
-        val langCodes = resourceDirs
+        // Convert the `values-...` directory names to instances of ULocale.
+        val valuesParser = ValuesParser()
+        val locales = resourceDirs
             .asSequence()
-            .map { it.fileName }
-            .map { r.find(it.toString()) }
-            .filterNotNull()
-            .map { it.groupValues.subList(1, it.groupValues.size).filterNot { it.isEmpty() } }
+            .map { it.fileName.toString() }
+            .onEach { log.info("parsing directory name: $it") }
+            // Special-case ber, see https://github.com/tuskyapp/Tusky/issues/3637
+            .map { if (it == "values-ber") "values-b+tzm+Tfng" else it }
+            .mapNotNull { valuesParser.parseToEnd(it).locale }
+            .onEach { log.info("  --> $it") }
             .toMutableList()
-
-        // "values" directory has been skipped, explicitly add its language code
-        langCodes.add(listOf("en"))
-        log.info("langCodes: $langCodes")
-
-        // Construct the locales
-        val locales = langCodes.map { if (it.size == 1) ULocale(it[0]) else ULocale(it[0], it[1]) }
+            .apply { add(Locale(lang = "en")) }
+            .map { ULocale(it.lang, it.region, it.script) }
 
         // Construct the languages. Sort each locale by its display name, as rendered in that
         // locale, and fold case.

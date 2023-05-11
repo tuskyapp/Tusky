@@ -40,8 +40,8 @@
     <!-- Do not edit this list, create it with "runtools mklanguages" -->
     <string-array name="language_entries">
         <item>@string/system_default</item> <!-- default: System default -->
-        <item>ⵣⴰⵎⴰⵣⵉⵖⵝ</item> <!-- ber: Berber -->
         <item>Català</item> <!-- ca: Catalan -->
+        <item>Central Atlas Tamazight (Tifinagh)</item> <!-- tzm-Tfng: Central Atlas Tamazight (Tifinagh) -->
         <item>Čeština</item> <!-- cs: Czech -->
         <item>Cymraeg</item> <!-- cy: Welsh -->
         <item>Deutsch</item> <!-- de: German -->
@@ -101,8 +101,8 @@
     <!-- Do not edit this list, create it with "runtools mklanguages" -->
     <string-array name="language_values">
         <item>default</item>
-        <item>ber</item>
         <item>ca</item>
+        <item>tzm-Tfng</item>
         <item>cs</item>
         <item>cy</item>
         <item>de</item>
