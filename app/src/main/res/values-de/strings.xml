@@ -333,8 +333,8 @@
     <string name="action_open_reblogger">Autor*in des geteilten Beitrags öffnen</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Timelines</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriten</item>
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>%1$s</b> Favoriten</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="description_post_media">Medien: %s</string>
@@ -353,7 +353,7 @@
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
-    <string name="poll_info_format"> <!-- 15 Stimmen • 1 Stunde verbleibend --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 Stimmen • noch 1 Stunde --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s Stimme</item>
         <item quantity="other">%s Stimmen</item>
@@ -364,20 +364,20 @@
     <string name="poll_ended_voted">Eine Umfrage, in der du abgestimmt hast, ist vorbei</string>
     <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d Tag verbleibend</item>
-        <item quantity="other">%d Tage verbleibend</item>
+        <item quantity="one">noch %d Tag</item>
+        <item quantity="other">noch %d Tage</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d Stunde verbleibend</item>
-        <item quantity="other">%d Stunden verbleibend</item>
+        <item quantity="one">noch %d Stunde</item>
+        <item quantity="other">noch %d Stunden</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d Minute verbleibend</item>
-        <item quantity="other">%d Minuten verbleibend</item>
+        <item quantity="one">noch %d Minute</item>
+        <item quantity="other">noch %d Minuten</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d Sekunde verbleibend</item>
-        <item quantity="other">%d Sekunden verbleibend</item>
+        <item quantity="one">noch %d Sekunde</item>
+        <item quantity="other">noch %d Sekunden</item>
     </plurals>
     <string name="title_domain_mutes">Ausgeblendete Domains</string>
     <string name="action_view_domain_mutes">Ausgeblendete Domains</string>
