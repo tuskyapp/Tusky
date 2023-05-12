@@ -10,6 +10,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.google.common.truth.Truth.assertThat
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
 import com.keylesspalace.tusky.db.AccountEntity
@@ -19,6 +20,7 @@ import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -297,9 +299,11 @@ class CachedTimelineRemoteMediatorTest {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     @ExperimentalPagingApi
-    fun `should remove deleted status from db and keep state of other cached statuses`() {
+    fun `should remove deleted status from db and keep state of other cached statuses`() = runTest {
+        // Given
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("3", expanded = true),
             mockStatusEntityWithAccount("2"),
@@ -311,9 +315,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
-                onBlocking { homeTimeline(limit = 20) } doReturn Response.success(emptyList())
-
-                onBlocking { homeTimeline(maxId = "3", limit = 20) } doReturn Response.success(
+                onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
                     listOf(
                         mockStatus("3"),
                         mockStatus("1")
@@ -334,13 +336,16 @@ class CachedTimelineRemoteMediatorTest {
             )
         )
 
-        val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state) }
+        // When
+        val result = remoteMediator.load(LoadType.REFRESH, state)
 
-        assertTrue(result is RemoteMediator.MediatorResult.Success)
-        assertTrue((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+        // Then
+        assertThat(result).isInstanceOf(RemoteMediator.MediatorResult.Success::class.java)
 
         db.assertStatuses(
             listOf(
+                // id="2" was in the database initially, but not in the results returned
+                // from the API, so it should have been deleted here.
                 mockStatusEntityWithAccount("3", expanded = true),
                 mockStatusEntityWithAccount("1", expanded = false)
             )
