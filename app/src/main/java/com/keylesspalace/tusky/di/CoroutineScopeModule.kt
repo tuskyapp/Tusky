@@ -42,5 +42,3 @@ class CoroutineScopeModule {
     @Provides
     fun providesApplicationScope() = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 }
-
-

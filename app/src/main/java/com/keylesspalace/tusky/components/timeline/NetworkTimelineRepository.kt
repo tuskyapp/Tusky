@@ -47,7 +47,7 @@ data class Page<Key : Any, Value : Any> constructor(
     /**
      * [Key] for next page if more data can be loaded in that direction, `null` otherwise.
      */
-    val nextKey: Key? = null,
+    val nextKey: Key? = null
 )
 
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
