@@ -53,7 +53,6 @@ data class Page<Key : Any, Value : Any> constructor(
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
 class NetworkTimelineRepository @Inject constructor(
     private val mastodonApi: MastodonApi,
-    // TODO: This needs to be recreated if the active account changes
     private val accountManager: AccountManager
 ) {
 
