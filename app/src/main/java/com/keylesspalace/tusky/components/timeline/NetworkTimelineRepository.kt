@@ -179,7 +179,7 @@ class NetworkTimelineRepository @Inject constructor(
          * Creates an empty page cache with a comparator that ensures keys are compared first
          * by length, then by natural order.
          *
-         * The map key is the ID of the oldest status in the page.
+         * The map key is the ID of the newest status in the page it maps to.
          */
         @VisibleForTesting
         fun makeEmptyPageCache() = TreeMap<String, Page<String, Status>>(compareBy({ it.length }, { it }))

@@ -115,7 +115,7 @@ class NetworkTimelineRemoteMediator(
     private suspend fun fetchStatusPageByKind(loadType: LoadType, key: String?, loadSize: Int): Response<List<Status>> {
         val (maxId, minId) = when (loadType) {
             // When refreshing fetch a page of statuses that are immediately *newer* than the key
-            // This is so that that user's reading position is not lost.
+            // This is so that the user's reading position is not lost.
             LoadType.REFRESH -> Pair(null, key)
             // When appending fetch a page of statuses that are immediately *older* than the key
             LoadType.APPEND -> Pair(key, null)
