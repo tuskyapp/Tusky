@@ -91,10 +91,9 @@ class PushNotificationManager @Inject constructor(
                 updateUnifiedPushSubscription(account)
             }
         } else {
-            if (!account.unifiedDistributorName.isNullOrEmpty()) {
-                // When changing the local UP distributor this is necessary first to enable the following callbacks (i. e. onNewEndpoint)
-                unregisterUnifiedPushEndpoint(account)
-            }
+            // When changing the local UP distributor this is necessary first to enable the following callbacks (i. e. onNewEndpoint);
+            //   make sure this is done in any inconsistent case (is not too often and doesn't hurt).
+            unregisterUnifiedPushEndpoint(account)
 
             UnifiedPush.registerAppWithDialog(context, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
             // TODO? if this does not result in a call to registerUnifiedPushEndpoint, something has failed
@@ -229,10 +228,6 @@ class PushNotificationManager @Inject constructor(
     }
 
     suspend fun unregisterUnifiedPushEndpoint(account: AccountEntity) {
-        if (account.unifiedDistributorName.isNullOrEmpty()) {
-            return
-        }
-
         withContext(Dispatchers.IO) {
             // NOTE this is also possible (successful) when there is no subscription present on the server.
 
