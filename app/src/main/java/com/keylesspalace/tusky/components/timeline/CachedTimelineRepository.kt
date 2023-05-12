@@ -28,9 +28,12 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemot
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.EmptyPagingSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // TODO: This is very similar to NetworkTimelineRepository. They could be merged (and the use
@@ -41,14 +44,12 @@ import javax.inject.Inject
 //
 // Re-writing the caching so that they can use the same types is the TODO.
 
-// TODO: Follow lifecycle recommendations in https://developer.android.com/topic/architecture/data-layer#make_an_operation_live_longer_than_the_screen
-// (ditto for the other repositories).
-
 class CachedTimelineRepository @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
     private val appDatabase: AppDatabase,
-    private val gson: Gson
+    private val gson: Gson,
+    @ApplicationScope private val externalScope: CoroutineScope
 ) {
     private var factory: InvalidatingPagingSourceFactory<Int, TimelineStatusWithAccount>? = null
 
@@ -89,42 +90,44 @@ class CachedTimelineRepository @Inject constructor(
     }
 
     /** Set and store the "expanded" state of the given status, for the active account */
-    suspend fun setExpanded(expanded: Boolean, statusId: String) {
-        appDatabase.timelineDao().setExpanded(accountManager.activeAccount!!.id, statusId, expanded)
-    }
+    suspend fun setExpanded(expanded: Boolean, statusId: String) = externalScope.launch {
+        appDatabase.timelineDao()
+            .setExpanded(accountManager.activeAccount!!.id, statusId, expanded)
+    }.join()
 
     /** Set and store the "content showing" state of the given status, for the active account */
-    suspend fun setContentShowing(showing: Boolean, statusId: String) {
+    suspend fun setContentShowing(showing: Boolean, statusId: String) = externalScope.launch {
         appDatabase.timelineDao()
             .setContentShowing(accountManager.activeAccount!!.id, statusId, showing)
-    }
+    }.join()
 
     /** Set and store the "content collapsed" ("Show more") state of the given status, for the active account */
-    suspend fun setContentCollapsed(collapsed: Boolean, statusId: String) {
+    suspend fun setContentCollapsed(collapsed: Boolean, statusId: String) = externalScope.launch {
         appDatabase.timelineDao()
             .setContentCollapsed(accountManager.activeAccount!!.id, statusId, collapsed)
-    }
+    }.join()
 
     /** Remove all statuses authored/boosted by the given account, for the active account */
-    suspend fun removeAllByAccountId(accountId: String) {
+    suspend fun removeAllByAccountId(accountId: String) = externalScope.launch {
         appDatabase.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
-    }
+    }.join()
 
     /** Remove all statuses from the given instance, for the active account */
-    suspend fun removeAllByInstance(instance: String) {
-        appDatabase.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
-    }
+    suspend fun removeAllByInstance(instance: String) = externalScope.launch {
+        appDatabase.timelineDao()
+            .deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+    }.join()
 
     /** Clear the warning (remove the "filtered" setting) for the given status, for the active account */
-    suspend fun clearStatusWarning(statusId: String) {
+    suspend fun clearStatusWarning(statusId: String) = externalScope.launch {
         appDatabase.timelineDao().clearWarning(accountManager.activeAccount!!.id, statusId)
-    }
+    }.join()
 
     /** Remove all statuses and invalidate the pager, for the active account */
-    suspend fun clearAndReload() {
+    suspend fun clearAndReload() = externalScope.launch {
         appDatabase.timelineDao().removeAll(accountManager.activeAccount!!.id)
         factory?.invalidate()
-    }
+    }.join()
 
     companion object {
         private const val TAG = "CachedTimelineRepository"
