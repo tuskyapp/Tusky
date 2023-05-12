@@ -78,7 +78,7 @@ class NetworkTimelineRemoteMediatorTest {
     fun `should return error when network call fails`() = runTest {
         // Given
         val remoteMediator = NetworkTimelineRemoteMediator(
-            api = mock(defaultAnswer = { throw IOException() } ),
+            api = mock(defaultAnswer = { throw IOException() }),
             accountManager,
             factory = pagingSourceFactory,
             pages = makeEmptyPageCache(),
@@ -93,7 +93,6 @@ class NetworkTimelineRemoteMediatorTest {
         assertThat((result as RemoteMediator.MediatorResult.Error).throwable).isInstanceOf(IOException::class.java)
     }
 
-
     @Test
     @ExperimentalPagingApi
     fun `should do initial loading`() = runTest {
@@ -101,13 +100,13 @@ class NetworkTimelineRemoteMediatorTest {
         val pages = makeEmptyPageCache()
         val remoteMediator = NetworkTimelineRemoteMediator(
             api = mock {
-               onBlocking { homeTimeline(maxId = anyOrNull(), minId = anyOrNull(), limit = anyOrNull(), sinceId = anyOrNull()) } doReturn Response.success(
-                   listOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
-                   Headers.headersOf(
-                       "Link",
-                       "<https://mastodon.example/api/v1/timelines/home?max_id=5>; rel=\"next\", <https://mastodon.example/api/v1/timelines/homefavourites?min_id=7>; rel=\"prev\""
-                   )
-               )
+                onBlocking { homeTimeline(maxId = anyOrNull(), minId = anyOrNull(), limit = anyOrNull(), sinceId = anyOrNull()) } doReturn Response.success(
+                    listOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
+                    Headers.headersOf(
+                        "Link",
+                        "<https://mastodon.example/api/v1/timelines/home?max_id=5>; rel=\"next\", <https://mastodon.example/api/v1/timelines/homefavourites?min_id=7>; rel=\"prev\""
+                    )
+                )
             },
             accountManager = accountManager,
             factory = pagingSourceFactory,
