@@ -18,6 +18,7 @@
 package com.keylesspalace.tusky.components.timeline
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
@@ -71,7 +72,7 @@ class NetworkTimelineRepository @Inject constructor(
     // status IDs (e.g., the next/prev keys returned by the "favourites" API call *do not match*
     // status IDs elsewhere). The tokens are discovered by the RemoteMediator but are used by the
     // PagingSource, so they need to be available somewhere both components can access them.
-    private val pages = TreeMap<String, Page<String, Status>>()
+    private val pages = makeEmptyPageCache()
 
     private var factory: InvalidatingPagingSourceFactory<String, Status>? = null
 
@@ -173,5 +174,14 @@ class NetworkTimelineRepository @Inject constructor(
     companion object {
         private const val TAG = "NetworkTimelineRepository"
         private const val PAGE_SIZE = 30
+
+        /**
+         * Creates an empty page cache with a comparator that ensures keys are compared first
+         * by length, then by natural order.
+         *
+         * The map key is the ID of the oldest status in the page.
+         */
+        @VisibleForTesting
+        fun makeEmptyPageCache() = TreeMap<String, Page<String, Status>>(compareBy({ it.length }, { it }))
     }
 }
