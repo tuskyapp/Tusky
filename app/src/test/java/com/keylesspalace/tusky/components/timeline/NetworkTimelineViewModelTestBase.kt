@@ -146,6 +146,7 @@ abstract class NetworkTimelineViewModelTestBase {
                 clientId = "fakeId",
                 clientSecret = "fakeSecret",
                 isActive = true,
+                lastVisibleHomeTimelineStatusId = null,
                 notificationsFilter = "['follow']",
                 mediaPreviewEnabled = true,
                 alwaysShowSensitiveMedia = true,
@@ -167,5 +168,8 @@ abstract class NetworkTimelineViewModelTestBase {
             accountPreferenceDataStore,
             filterModel
         )
+        // Initialisation with any timeline kind, as long as it's not Home
+        // (Home uses CachedTimelineViewModel)
+        viewModel.init(TimelineKind.Bookmarks)
     }
 }

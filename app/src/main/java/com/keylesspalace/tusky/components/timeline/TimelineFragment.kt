@@ -26,7 +26,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
-import androidx.core.view.postDelayed
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -329,13 +328,8 @@ class TimelineFragment :
                                 it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached && !it.append.endOfPaginationReached
                             }
                             .collect {
-                                // This works without the delay if you are repeatedly refreshing a
-                                // single timeline. But if you refresh a timeline (e.g., Local),
-                                // then go to another timeline (e.g., Home), then go back to the
-                                // first timeline and refresh that, it jumps to the top. Adding the
-                                // delay fixes that -- I have no idea why...
-                                binding.recyclerView.postDelayed(300) {
-                                    getView() ?: return@postDelayed
+                                binding.recyclerView.post {
+                                    getView() ?: return@post
                                     binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
                                 }
                             }

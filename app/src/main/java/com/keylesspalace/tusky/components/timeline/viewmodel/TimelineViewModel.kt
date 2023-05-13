@@ -296,22 +296,6 @@ abstract class TimelineViewModel(
             }
         }
 
-        // Save the visible status ID (if it's the home timeline)
-        if (timelineKind == TimelineKind.Home) {
-            viewModelScope.launch {
-                uiAction
-                    .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
-                    .distinctUntilChanged()
-                    .collectLatest { action ->
-                        accountManager.activeAccount?.let { account ->
-                            Log.d(TAG, "Saving Home timeline position at: ${action.visibleId}")
-                            account.lastVisibleHomeTimelineStatusId = action.visibleId
-                            accountManager.saveAccount(account)
-                        }
-                    }
-            }
-        }
-
         // Set initial status display options from the user's preferences.
         //
         // Then collect future preference changes and emit new values in to
@@ -427,6 +411,22 @@ abstract class TimelineViewModel(
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
             filterRemoveReblogs =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+        }
+
+        // Save the visible status ID (if it's the home timeline)
+        if (timelineKind == TimelineKind.Home) {
+            viewModelScope.launch {
+                uiAction
+                    .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
+                    .distinctUntilChanged()
+                    .collectLatest { action ->
+                        accountManager.activeAccount?.let { account ->
+                            Log.d(TAG, "Saving Home timeline position at: ${action.visibleId}")
+                            account.lastVisibleHomeTimelineStatusId = action.visibleId
+                            accountManager.saveAccount(account)
+                        }
+                    }
+            }
         }
 
         viewModelScope.launch {
