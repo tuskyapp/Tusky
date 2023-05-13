@@ -68,7 +68,7 @@ class NetworkTimelineViewModelTestUiState : NetworkTimelineViewModelTestBase() {
 
     @Test
     fun `showMediaPreview depends on MEDIA_PREVIEW_ENABLED preference`() = runTest {
-        //Prior
+        // Prior
         viewModel.uiState.test {
             assertThat(expectMostRecentItem().showMediaPreview).isTrue()
         }
