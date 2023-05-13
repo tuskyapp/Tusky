@@ -41,7 +41,7 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 50,
+    version = 51,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class)
@@ -671,4 +671,67 @@ public abstract class AppDatabase extends RoomDatabase {
 
     @DeleteColumn(tableName = "AccountEntity", columnName = "activeNotifications")
     static class MIGRATION_49_50 implements AutoMigrationSpec { }
+
+    public static final Migration MIGRATION_50_51 = new Migration(50, 51) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE IF EXISTS `TimelineAccountEntity`");
+            database.execSQL("DROP TABLE IF EXISTS `TimelineStatusEntity`");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (" +
+                "`serverId` TEXT NOT NULL," +
+                "`timelineUserId` INTEGER NOT NULL," +
+                "`localUsername` TEXT NOT NULL," +
+                "`username` TEXT NOT NULL," +
+                "`displayName` TEXT NOT NULL," +
+                "`url` TEXT NOT NULL," +
+                "`avatar` TEXT NOT NULL," +
+                "`emojis` TEXT NOT NULL," +
+                "`bot` INTEGER NOT NULL," +
+                "PRIMARY KEY(`serverId`, `timelineUserId`) )");
+
+            // Changing `authorServerId` from `TEXT` to `TEXT NOT NULL`
+            database.execSQL("CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (" +
+                "`serverId` TEXT NOT NULL," +
+                "`url` TEXT," +
+                "`timelineUserId` INTEGER NOT NULL," +
+                "`authorServerId` TEXT NOT NULL," +
+                "`inReplyToId` TEXT," +
+                "`inReplyToAccountId` TEXT," +
+                "`content` TEXT," +
+                "`createdAt` INTEGER NOT NULL," +
+                "`emojis` TEXT," +
+                "`reblogsCount` INTEGER NOT NULL," +
+                "`favouritesCount` INTEGER NOT NULL," +
+                "`reblogged` INTEGER NOT NULL," +
+                "`bookmarked` INTEGER NOT NULL," +
+                "`favourited` INTEGER NOT NULL," +
+                "`sensitive` INTEGER NOT NULL," +
+                "`spoilerText` TEXT NOT NULL," +
+                "`visibility` INTEGER NOT NULL," +
+                "`attachments` TEXT," +
+                "`mentions` TEXT," +
+                "`application` TEXT," +
+                "`reblogServerId` TEXT," +
+                "`reblogAccountId` TEXT," +
+                "`poll` TEXT," +
+                "`muted` INTEGER," +
+                "`expanded` INTEGER NOT NULL," +
+                "`contentCollapsed` INTEGER NOT NULL," +
+                "`contentShowing` INTEGER NOT NULL," +
+                "`pinned` INTEGER NOT NULL," +
+                "`tags` TEXT," +
+                "`card` TEXT," +
+                "`repliesCount` INTEGER NOT NULL DEFAULT 0," +
+                "`language` TEXT," +
+                "`editedAt` INTEGER," +
+                "`filtered` TEXT," +
+                "PRIMARY KEY(`serverId`, `timelineUserId`)," +
+                "FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`)" +
+                "ON UPDATE NO ACTION ON DELETE NO ACTION )");
+
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_timelineUserId`" +
+                "ON `TimelineStatusEntity` (`authorServerId`, `timelineUserId`)");
+        }
+    };
 }

@@ -54,7 +54,7 @@ data class TimelineStatusEntity(
     val url: String?,
     // our local id for the logged in user in case there are multiple accounts per instance
     val timelineUserId: Long,
-    val authorServerId: String?,
+    val authorServerId: String,
     val inReplyToId: String?,
     val inReplyToAccountId: String?,
     val content: String?,
