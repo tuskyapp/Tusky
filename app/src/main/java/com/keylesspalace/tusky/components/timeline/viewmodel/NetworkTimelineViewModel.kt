@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
+import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -52,6 +53,7 @@ class NetworkTimelineViewModel @Inject constructor(
     filtersRepository: FiltersRepository,
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
+    accountPreferenceDataStore: AccountPreferenceDataStore,
     filterModel: FilterModel
 ) : TimelineViewModel(
     timelineCases,
@@ -59,6 +61,7 @@ class NetworkTimelineViewModel @Inject constructor(
     filtersRepository,
     accountManager,
     sharedPreferences,
+    accountPreferenceDataStore,
     filterModel
 ) {
     private val modifiedViewData = mutableMapOf<String, StatusViewData>()

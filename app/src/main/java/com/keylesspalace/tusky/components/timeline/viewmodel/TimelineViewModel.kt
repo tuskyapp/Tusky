@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
+import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -64,6 +65,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -79,12 +81,14 @@ data class UiState(
 
 /** Preferences the UI reacts to */
 data class UiPrefs(
-    val showFabWhileScrolling: Boolean
+    val showFabWhileScrolling: Boolean,
+    val showMediaPreview: Boolean,
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
-            PrefKeys.FAB_HIDE
+            PrefKeys.FAB_HIDE,
+            PrefKeys.MEDIA_PREVIEW_ENABLED
         )
     }
 }
@@ -99,8 +103,7 @@ sealed class UiAction
 
 /** Actions the user can trigger from the UI. These actions may fail. */
 sealed class FallibleUiAction : UiAction() {
-    /** Clear all notifications */
-//    object ClearNotifications : FallibleUiAction()
+    /* none at the moment */
 }
 
 /**
@@ -245,6 +248,7 @@ abstract class TimelineViewModel(
     private val filtersRepository: FiltersRepository,
     protected val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
+    private val accountPreferenceDataStore: AccountPreferenceDataStore,
     private val filterModel: FilterModel
 ) : ViewModel() {
     val uiState: StateFlow<UiState>
@@ -386,7 +390,8 @@ abstract class TimelineViewModel(
 
         uiState = getUiPrefs().map { prefs ->
             UiState(
-                showFabWhileScrolling = prefs.showFabWhileScrolling
+                showFabWhileScrolling = prefs.showFabWhileScrolling,
+                showMediaPreview = prefs.showMediaPreview
             )
         }.stateIn(
             scope = viewModelScope,
@@ -401,12 +406,14 @@ abstract class TimelineViewModel(
     // TODO: Preferences should be in a repository
     protected fun getUiPrefs() = eventHub.events
         .filterIsInstance<PreferenceChangedEvent>()
+        .onEach { println("PreferenceChangedEvent: $it") }
         .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
         .map { toPrefs() }
         .onStart { emit(toPrefs()) }
 
-    protected fun toPrefs() = UiPrefs(
-        showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+    private fun toPrefs() = UiPrefs(
+        showFabWhileScrolling = !sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false),
+        showMediaPreview = accountPreferenceDataStore.getBoolean(PrefKeys.MEDIA_PREVIEW_ENABLED, true)
     )
 
     open fun init(timelineKind: TimelineKind) {
