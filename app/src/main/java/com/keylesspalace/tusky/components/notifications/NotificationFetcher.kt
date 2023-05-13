@@ -2,8 +2,8 @@ package com.keylesspalace.tusky.components.notifications
 
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Looper
 import android.util.Log
+import androidx.annotation.WorkerThread
 import com.keylesspalace.tusky.components.notifications.NotificationHelper.filterNotification
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -13,19 +13,21 @@ import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject
 import kotlin.math.min
 
+/**
+ * Fetch Mastodon notifications and show Android notifications, with summaries, for them.
+ *
+ * Should only be called by a worker thread.
+ *
+ * @see NotificationWorker
+ * @see <a href="https://developer.android.com/guide/background/persistent/threading/worker">Background worker</a>
+ */
+@WorkerThread
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
     private val context: Context
 ) {
     fun fetchAndShow() {
-        // This should never be run on the main thread (see
-        // https://developer.android.com/guide/background/persistent/threading/worker). Belt-and-braces
-        // check to make sure.
-        if (Looper.getMainLooper().isCurrentThread) {
-            throw IllegalStateException("fetching notifications on the main thread")
-        }
-
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
