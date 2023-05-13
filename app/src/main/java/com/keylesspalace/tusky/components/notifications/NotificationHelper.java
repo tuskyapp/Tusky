@@ -356,7 +356,8 @@ public class NotificationHelper {
             notificationManager.notify(summaryTag, accountId, summaryBuilder.build());
 
             // Android will rate limit / drop notifications if they're posted too
-            // quickly. There is no indication to the user that this happened
+            // quickly. There is no indication to the user that this happened.
+            // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
             try { Thread.sleep(1000); } catch (InterruptedException ignored) { }
         }
     }

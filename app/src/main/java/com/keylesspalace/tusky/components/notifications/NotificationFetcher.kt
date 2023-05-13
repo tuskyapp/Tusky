@@ -76,7 +76,8 @@ class NotificationFetcher @Inject constructor(
                         )
                         notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
                         // Android will rate limit / drop notifications if they're posted too
-                        // quickly. There is no indication to the user that this happened
+                        // quickly. There is no indication to the user that this happened.
+                        // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
                         Thread.sleep(1000)
                     }
 
