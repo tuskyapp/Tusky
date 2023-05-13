@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.worker
 
 import android.content.Context
 import androidx.work.ListenableWorker

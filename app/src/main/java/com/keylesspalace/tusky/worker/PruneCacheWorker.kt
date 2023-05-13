@@ -15,14 +15,13 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.components.timeline
+package com.keylesspalace.tusky.worker
 
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
-import com.keylesspalace.tusky.ChildWorkerFactory
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import javax.inject.Inject

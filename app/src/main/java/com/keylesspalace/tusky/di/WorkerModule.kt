@@ -18,9 +18,9 @@
 package com.keylesspalace.tusky.di
 
 import androidx.work.ListenableWorker
-import com.keylesspalace.tusky.ChildWorkerFactory
-import com.keylesspalace.tusky.components.notifications.NotificationWorker
-import com.keylesspalace.tusky.components.timeline.PruneCacheWorker
+import com.keylesspalace.tusky.worker.ChildWorkerFactory
+import com.keylesspalace.tusky.worker.NotificationWorker
+import com.keylesspalace.tusky.worker.PruneCacheWorker
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
