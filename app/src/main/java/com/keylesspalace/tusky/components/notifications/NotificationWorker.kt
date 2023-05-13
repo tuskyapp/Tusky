@@ -16,36 +16,27 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
-import androidx.work.ListenableWorker
 import androidx.work.Worker
-import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import com.keylesspalace.tusky.ChildWorkerFactory
 import javax.inject.Inject
 
+/** Fetch and show new notifications. */
 class NotificationWorker(
-    context: Context,
+    appContext: Context,
     params: WorkerParameters,
     private val notificationsFetcher: NotificationFetcher
-) : Worker(context, params) {
-
+) : Worker(appContext, params) {
     override fun doWork(): Result {
         notificationsFetcher.fetchAndShow()
         return Result.success()
     }
-}
 
-class NotificationWorkerFactory @Inject constructor(
-    private val notificationsFetcher: NotificationFetcher
-) : WorkerFactory() {
-
-    override fun createWorker(
-        appContext: Context,
-        workerClassName: String,
-        workerParameters: WorkerParameters
-    ): ListenableWorker? {
-        if (workerClassName == NotificationWorker::class.java.name) {
-            return NotificationWorker(appContext, workerParameters, notificationsFetcher)
+    class Factory @Inject constructor(
+        private val notificationsFetcher: NotificationFetcher
+    ) : ChildWorkerFactory {
+        override fun createWorker(appContext: Context, params: WorkerParameters): Worker {
+            return NotificationWorker(appContext, params, notificationsFetcher)
         }
-        return null
     }
 }
