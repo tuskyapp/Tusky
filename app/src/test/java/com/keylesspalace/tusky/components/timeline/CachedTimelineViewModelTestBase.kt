@@ -20,9 +20,10 @@ package com.keylesspalace.tusky.components.timeline
 import android.content.SharedPreferences
 import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -51,8 +52,8 @@ import retrofit2.Response
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 @OptIn(ExperimentalCoroutinesApi::class)
-abstract class NetworkTimelineViewModelTestBase {
-    protected lateinit var networkTimelineRepository: NetworkTimelineRepository
+abstract class CachedTimelineViewModelTestBase {
+    protected lateinit var cachedTimelineRepository: CachedTimelineRepository
     protected lateinit var sharedPreferencesMap: MutableMap<String, Boolean>
     protected lateinit var sharedPreferences: SharedPreferences
     protected lateinit var accountPreferencesMap: MutableMap<String, Boolean>
@@ -80,7 +81,7 @@ abstract class NetworkTimelineViewModelTestBase {
     fun setup() {
         shadowOf(Looper.getMainLooper()).idle()
 
-        networkTimelineRepository = mock()
+        cachedTimelineRepository = mock()
 
         // Backing store for sharedPreferences, to allow mutation in tests
         sharedPreferencesMap = mutableMapOf(
@@ -138,18 +139,19 @@ abstract class NetworkTimelineViewModelTestBase {
         filtersRepository = mock()
         filterModel = mock()
 
-        viewModel = NetworkTimelineViewModel(
-            networkTimelineRepository,
+        viewModel = CachedTimelineViewModel(
+            cachedTimelineRepository,
             timelineCases,
             eventHub,
             filtersRepository,
             accountManager,
             sharedPreferences,
             accountPreferenceDataStore,
-            filterModel
+            filterModel,
+            Gson()
         )
-        // Initialisation with any timeline kind, as long as it's not Home
-        // (Home uses CachedTimelineViewModel)
-        viewModel.init(TimelineKind.Bookmarks)
+
+        // Initialisation with the Home timeline
+        viewModel.init(TimelineKind.Home)
     }
 }

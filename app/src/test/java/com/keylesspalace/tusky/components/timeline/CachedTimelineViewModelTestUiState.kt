@@ -33,7 +33,7 @@ import org.junit.Test
  * - Is the correct update emitted when a relevant preference changes?
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-class NetworkTimelineViewModelTestUiState : NetworkTimelineViewModelTestBase() {
+class CachedTimelineViewModelTestUiState : CachedTimelineViewModelTestBase() {
 
     private val initialUiState = UiState(
         showFabWhileScrolling = true,
