@@ -82,7 +82,7 @@ data class UiState(
 /** Preferences the UI reacts to */
 data class UiPrefs(
     val showFabWhileScrolling: Boolean,
-    val showMediaPreview: Boolean,
+    val showMediaPreview: Boolean
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
