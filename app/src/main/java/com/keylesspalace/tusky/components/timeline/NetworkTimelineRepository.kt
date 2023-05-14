@@ -180,7 +180,7 @@ class NetworkTimelineRepository @Inject constructor(
          *
          * The map key is the ID of the newest status in the page it maps to.
          */
-        @VisibleForTesting
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun makeEmptyPageCache() = TreeMap<String, Page<String, Status>>(compareBy({ it.length }, { it }))
     }
 }
