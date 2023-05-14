@@ -71,7 +71,6 @@ data class AccountEntity(
      */
     var mediaPreviewEnabled: Boolean = true,
     var lastNotificationId: String = "0",
-    var activeNotifications: String = "[]",
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
     var notificationsFilter: String = "[\"follow_request\"]",
@@ -82,7 +81,13 @@ data class AccountEntity(
     var pushPubKey: String = "",
     var pushPrivKey: String = "",
     var pushAuth: String = "",
-    var pushServerKey: String = ""
+    var pushServerKey: String = "",
+
+    /**
+     * ID of the status at the top of the visible list in the home timeline when the
+     * user navigated away.
+     */
+    var lastVisibleHomeTimelineStatusId: String? = null
 ) {
 
     val identifier: String

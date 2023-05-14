@@ -164,8 +164,8 @@
     <string name="pref_title_notification_alert_vibrate">Mit Vibration benachrichtigen</string>
     <string name="pref_title_notification_alert_light">Mit Licht benachrichtigen</string>
     <string name="pref_title_notification_filters">Mich benachrichtigen, wenn</string>
-    <string name="pref_title_notification_filter_mentions">Ich erwähnt werde</string>
-    <string name="pref_title_notification_filter_follows">Mir jemand folgt</string>
+    <string name="pref_title_notification_filter_mentions">ich erwähnt werde</string>
+    <string name="pref_title_notification_filter_follows">mir jemand folgt</string>
     <string name="pref_title_notification_filter_reblogs">meine Beiträge geteilt werden</string>
     <string name="pref_title_notification_filter_favourites">meine Beiträge favorisiert werden</string>
     <string name="pref_title_appearance_settings">Erscheinungsbild</string>
@@ -191,7 +191,7 @@
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
     <string name="pref_title_http_proxy_server">HTTP-Proxy-Server</string>
     <string name="pref_title_http_proxy_port">HTTP-Proxy-Port</string>
-    <string name="pref_default_post_privacy">Standard Beitragssichtbarkeit</string>
+    <string name="pref_default_post_privacy">Standard-Beitragssichtbarkeit</string>
     <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen</string>
     <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
@@ -220,7 +220,7 @@
         <item quantity="one">%d neue Interaktion</item>
         <item quantity="other">%d neue Interaktionen</item>
     </plurals>
-    <string name="description_account_locked">Privates Profil</string>
+    <string name="description_account_locked">Geschütztes Profil</string>
     <string name="about_title_activity">Über</string>
     <string name="about_tusky_license">Tusky ist eine freie und quelloffene Software und ist lizenziert unter der GNU General Public License Version 3. Du kannst die Lizenz hier einsehen: https://www.gnu.org/licenses/gpl-3.0.de.html</string>
     <!-- note to translators:
@@ -266,7 +266,7 @@
     </plurals>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="action_remove">Entfernen</string>
-    <string name="lock_account_label">Privates Profil</string>
+    <string name="lock_account_label">Geschütztes Profil</string>
     <string name="lock_account_label_description">Follower müssen manuell genehmigt werden</string>
     <string name="compose_save_draft">Entwurf speichern?</string>
     <string name="send_post_notification_title">Beitrag wird gesendet …</string>
@@ -333,8 +333,8 @@
     <string name="action_open_reblogger">Autor*in des geteilten Beitrags öffnen</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Timelines</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriten</item>
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>%1$s</b> Favoriten</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="description_post_media">Medien: %s</string>
@@ -348,12 +348,12 @@
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
     <string name="notifications_clear">Löschen</string>
     <string name="notifications_apply_filter">Filtern</string>
-    <string name="filter_apply">Anwenden</string>
+    <string name="filter_apply">Übernehmen</string>
     <string name="compose_shortcut_long_label">Beitrag erstellen</string>
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
-    <string name="poll_info_format"> <!-- 15 Stimmen • 1 Stunde verbleibend --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 Stimmen • noch 1 Stunde --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s Stimme</item>
         <item quantity="other">%s Stimmen</item>
@@ -364,20 +364,20 @@
     <string name="poll_ended_voted">Eine Umfrage, in der du abgestimmt hast, ist vorbei</string>
     <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d Tag verbleibend</item>
-        <item quantity="other">%d Tage verbleibend</item>
+        <item quantity="one">noch %d Tag</item>
+        <item quantity="other">noch %d Tage</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d Stunde verbleibend</item>
-        <item quantity="other">%d Stunden verbleibend</item>
+        <item quantity="one">noch %d Stunde</item>
+        <item quantity="other">noch %d Stunden</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d Minute verbleibend</item>
-        <item quantity="other">%d Minuten verbleibend</item>
+        <item quantity="one">noch %d Minute</item>
+        <item quantity="other">noch %d Minuten</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d Sekunde verbleibend</item>
-        <item quantity="other">%d Sekunden verbleibend</item>
+        <item quantity="one">noch %d Sekunde</item>
+        <item quantity="other">noch %d Sekunden</item>
     </plurals>
     <string name="title_domain_mutes">Ausgeblendete Domains</string>
     <string name="action_view_domain_mutes">Ausgeblendete Domains</string>
@@ -438,7 +438,7 @@
     <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
-    <string name="pref_title_notification_filter_follow_requests">Anfrage zum Folgen gesendet</string>
+    <string name="pref_title_notification_filter_follow_requests">neue Folgeanfrage</string>
     <string name="notification_follow_request_name">Folgeanfragen</string>
     <string name="dialog_mute_warning">\@%s stummschalten\?</string>
     <string name="dialog_block_warning">\@%s blockieren\?</string>
@@ -502,8 +502,8 @@
 \n
 \nPush-Benachrichtigungen sind nicht betroffen, aber du kannst deine Benachrichtigungseinstellungen manuell überprüfen.</string>
     <string name="follow_requests_info">Auch wenn dein Konto öffentlich bzw. nicht geschützt ist, haben die Admins von %1$s gedacht, dass du diesen Follower lieber manuell bestätigen solltest.</string>
-    <string name="wellbeing_hide_stats_profile">Keine Statistiken auf Profilen zeigen</string>
-    <string name="wellbeing_hide_stats_posts">Keine Statistiken in Beiträgen zeigen</string>
+    <string name="wellbeing_hide_stats_profile">Statistiken auf Profilen ausblenden</string>
+    <string name="wellbeing_hide_stats_posts">Statistiken in Beiträgen ausblenden</string>
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
     <string name="action_subscribe_account">Abonnieren</string>
     <string name="action_unsubscribe_account">Deabonnieren</string>
@@ -525,11 +525,11 @@
     <string name="duration_180_days">180 Tage</string>
     <string name="tusky_compose_post_quicksetting_label">Beitrag erstellen</string>
     <string name="notification_update_format">%s hat den Beitrag bearbeitet</string>
-    <string name="pref_title_notification_filter_updates">Ein Beitrag, mit dem ich interagiert habe, bearbeitet wurde</string>
+    <string name="pref_title_notification_filter_updates">ein Beitrag, mit dem ich interagiert habe, bearbeitet wurde</string>
     <string name="notification_sign_up_name">Registrierungen</string>
     <string name="notification_sign_up_description">Benachrichtigungen über neue Profile</string>
     <string name="notification_sign_up_format">%s hat sich registriert</string>
-    <string name="pref_title_notification_filter_sign_ups">Jemand hat sich registriert</string>
+    <string name="pref_title_notification_filter_sign_ups">jemand sich registriert</string>
     <string name="notification_update_description">Benachrichtigungen, wenn Beiträge bearbeitet werden, mit denen du interagiert hast</string>
     <string name="title_login">Anmelden</string>
     <string name="error_could_not_load_login_page">Die Anmeldeseite konnte nicht geladen werden.</string>
@@ -648,7 +648,7 @@
     <string name="label_filter_title">Titel</string>
     <string name="filter_action_warn">Warnen</string>
     <string name="filter_action_hide">Ausblenden</string>
-    <string name="filter_description_warn">Warnung ausblenden</string>
+    <string name="filter_description_warn">Mit einer Warnung ausblenden</string>
     <string name="filter_description_hide">Vollständig ausblenden</string>
     <string name="label_filter_context">Nach Bereich filtern</string>
     <string name="label_filter_action">Filteraktion</string>
