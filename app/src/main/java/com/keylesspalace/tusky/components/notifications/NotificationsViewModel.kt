@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
+import com.keylesspalace.tusky.util.throttleFirst
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -52,7 +53,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
@@ -392,7 +392,7 @@ class NotificationsViewModel @Inject constructor(
         // Handle NotificationAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<NotificationAction>()
-                .debounce(DEBOUNCE_TIMEOUT_MS)
+                .throttleFirst(THROTTLE_TIMEOUT_MS)
                 .collect { action ->
                     try {
                         when (action) {
@@ -411,7 +411,7 @@ class NotificationsViewModel @Inject constructor(
         // Handle StatusAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<StatusAction>()
-                .debounce(DEBOUNCE_TIMEOUT_MS) // avoid double-taps
+                .throttleFirst(THROTTLE_TIMEOUT_MS) // avoid double-taps
                 .collect { action ->
                     try {
                         when (action) {
@@ -516,6 +516,6 @@ class NotificationsViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "NotificationsViewModel"
-        private const val DEBOUNCE_TIMEOUT_MS = 500L
+        private const val THROTTLE_TIMEOUT_MS = 500L
     }
 }
