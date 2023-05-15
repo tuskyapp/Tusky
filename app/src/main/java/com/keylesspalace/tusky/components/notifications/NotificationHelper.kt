@@ -42,7 +42,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
@@ -129,18 +129,18 @@ object NotificationHelper {
      * constants used in Intents
      */
     const val ACCOUNT_ID = "account_id"
-    const val TYPE = BuildConfig.APPLICATION_ID + ".notification.type"
+    const val TYPE = APPLICATION_ID + ".notification.type"
     private const val TAG = "NotificationHelper"
     const val REPLY_ACTION = "REPLY_ACTION"
     const val KEY_REPLY = "KEY_REPLY"
-    const val KEY_SENDER_ACCOUNT_ID = "KEY_SENDER_ACCOUNT_ID"
-    const val KEY_SENDER_ACCOUNT_IDENTIFIER = "KEY_SENDER_ACCOUNT_IDENTIFIER"
-    const val KEY_SENDER_ACCOUNT_FULL_NAME = "KEY_SENDER_ACCOUNT_FULL_NAME"
-    const val KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID"
-    const val KEY_CITED_STATUS_ID = "KEY_CITED_STATUS_ID"
-    const val KEY_VISIBILITY = "KEY_VISIBILITY"
-    const val KEY_SPOILER = "KEY_SPOILER"
-    const val KEY_MENTIONS = "KEY_MENTIONS"
+    const val KEY_SENDER_ACCOUNT_ID = "${APPLICATION_ID}.KEY_SENDER_ACCOUNT_ID"
+    const val KEY_SENDER_ACCOUNT_IDENTIFIER = "${APPLICATION_ID}.KEY_SENDER_ACCOUNT_IDENTIFIER"
+    const val KEY_SENDER_ACCOUNT_FULL_NAME = "${APPLICATION_ID}.KEY_SENDER_ACCOUNT_FULL_NAME"
+    const val KEY_NOTIFICATION_ID = "${APPLICATION_ID}.KEY_NOTIFICATION_ID"
+    const val KEY_CITED_STATUS_ID = "${APPLICATION_ID}.KEY_CITED_STATUS_ID"
+    const val KEY_VISIBILITY = "${APPLICATION_ID}.KEY_VISIBILITY"
+    const val KEY_SPOILER = "${APPLICATION_ID}.KEY_SPOILER"
+    const val KEY_MENTIONS = "${APPLICATION_ID}.KEY_MENTIONS"
 
     /**
      * WorkManager Tag
@@ -148,15 +148,15 @@ object NotificationHelper {
     private const val NOTIFICATION_PULL_TAG = "pullNotifications"
 
     /** Tag for the summary notification  */
-    private const val GROUP_SUMMARY_TAG = BuildConfig.APPLICATION_ID + ".notification.group_summary"
+    private const val GROUP_SUMMARY_TAG = APPLICATION_ID + ".notification.group_summary"
 
     /** The name of the account that caused the notification, for use in a summary  */
     private const val EXTRA_ACCOUNT_NAME =
-        BuildConfig.APPLICATION_ID + ".notification.extra.account_name"
+        APPLICATION_ID + ".notification.extra.account_name"
 
     /** The notification's type (string representation of a Notification.Type)  */
     private const val EXTRA_NOTIFICATION_TYPE =
-        BuildConfig.APPLICATION_ID + ".notification.extra.notification_type"
+        APPLICATION_ID + ".notification.extra.notification_type"
 
     /**
      * Takes a given Mastodon notification and creates a new Android notification or updates the
