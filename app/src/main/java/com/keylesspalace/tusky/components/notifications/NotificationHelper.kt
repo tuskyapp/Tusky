@@ -30,6 +30,7 @@ import android.provider.Settings
 import android.service.notification.StatusBarNotification
 import android.text.TextUtils
 import android.util.Log
+import androidx.annotation.CheckResult
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
@@ -58,6 +59,69 @@ import com.keylesspalace.tusky.viewdata.calculatePercent
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
+/** Notification channels used in Android O+ */
+enum class TuskyNotificationChannel(private val nameResource: Int, private val descriptionResource: Int) {
+    CHANNEL_MENTION(R.string.notification_mention_name, R.string.notification_mention_descriptions),
+    CHANNEL_FOLLOW(R.string.notification_follow_name, R.string.notification_follow_description),
+    CHANNEL_FOLLOW_REQUEST(R.string.notification_follow_request_name, R.string.notification_follow_request_description),
+    CHANNEL_BOOST(R.string.notification_boost_name, R.string.notification_boost_description),
+    CHANNEL_FAVOURITE(R.string.notification_favourite_name, R.string.notification_favourite_description),
+    CHANNEL_POLL(R.string.notification_poll_name, R.string.notification_poll_description),
+    CHANNEL_SUBSCRIPTIONS(R.string.notification_subscription_name, R.string.notification_subscription_description),
+    CHANNEL_SIGN_UP(R.string.notification_sign_up_name, R.string.notification_sign_up_description),
+    CHANNEL_UPDATES(R.string.notification_update_name, R.string.notification_update_description),
+    CHANNEL_REPORT(R.string.notification_report_name, R.string.notification_report_description);
+
+    /**
+     * Creates an Android [NotificationChannel] from the specification.
+     *
+     * The [NotificationChannel] object is created but must still be passed to
+     * [NotificationManager.createNotificationChannel] or similar to actually create the
+     * channel.
+     *
+     * @param context Context to use when fetching string resources
+     * @param group Set the created channel's group
+     */
+    @CheckResult(suggest="NotificationManager.createNotificationChannel(NotificationChannel)")
+    fun makeNotificationChannel(context: Context, group: String): NotificationChannel? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
+
+        val channelId = channelId(group)
+        val name = context.getString(nameResource)
+        val description = context.getString(descriptionResource)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, name, importance)
+        channel.description = description
+        channel.enableLights(true)
+        channel.lightColor = -0xd46f27
+        channel.enableVibration(true)
+        channel.setShowBadge(true)
+        channel.group = group
+        return channel
+    }
+
+    /**
+     * Create the channel's full ID, using the value of [group].
+     */
+    fun channelId(group: String): String = name + group
+
+    companion object {
+        fun from(ty: Notification.Type): TuskyNotificationChannel? = when (ty) {
+            Notification.Type.UNKNOWN -> null
+            Notification.Type.MENTION -> CHANNEL_MENTION
+            Notification.Type.REBLOG -> CHANNEL_BOOST
+            Notification.Type.FAVOURITE -> CHANNEL_FAVOURITE
+            Notification.Type.FOLLOW -> CHANNEL_FOLLOW
+            Notification.Type.FOLLOW_REQUEST -> CHANNEL_FOLLOW_REQUEST
+            Notification.Type.POLL -> CHANNEL_POLL
+            Notification.Type.STATUS -> CHANNEL_SUBSCRIPTIONS
+            Notification.Type.SIGN_UP -> CHANNEL_SIGN_UP
+            Notification.Type.UPDATE -> CHANNEL_UPDATES
+            Notification.Type.REPORT -> CHANNEL_REPORT
+        }
+    }
+}
+
 object NotificationHelper {
     private var notificationId = 0
 
@@ -77,20 +141,6 @@ object NotificationHelper {
     const val KEY_VISIBILITY = "KEY_VISIBILITY"
     const val KEY_SPOILER = "KEY_SPOILER"
     const val KEY_MENTIONS = "KEY_MENTIONS"
-
-    /**
-     * notification channels used on Android O+
-     */
-    const val CHANNEL_MENTION = "CHANNEL_MENTION"
-    private const val CHANNEL_FOLLOW = "CHANNEL_FOLLOW"
-    private const val CHANNEL_FOLLOW_REQUEST = "CHANNEL_FOLLOW_REQUEST"
-    private const val CHANNEL_BOOST = "CHANNEL_BOOST"
-    private const val CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE"
-    private const val CHANNEL_POLL = "CHANNEL_POLL"
-    private const val CHANNEL_SUBSCRIPTIONS = "CHANNEL_SUBSCRIPTIONS"
-    private const val CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP"
-    private const val CHANNEL_UPDATES = "CHANNEL_UPDATES"
-    private const val CHANNEL_REPORT = "CHANNEL_REPORT"
 
     /**
      * WorkManager Tag
@@ -451,59 +501,12 @@ object NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val channelIds = arrayOf(
-                CHANNEL_MENTION + account.identifier,
-                CHANNEL_FOLLOW + account.identifier,
-                CHANNEL_FOLLOW_REQUEST + account.identifier,
-                CHANNEL_BOOST + account.identifier,
-                CHANNEL_FAVOURITE + account.identifier,
-                CHANNEL_POLL + account.identifier,
-                CHANNEL_SUBSCRIPTIONS + account.identifier,
-                CHANNEL_SIGN_UP + account.identifier,
-                CHANNEL_UPDATES + account.identifier,
-                CHANNEL_REPORT + account.identifier
-            )
-            val channelNames = intArrayOf(
-                R.string.notification_mention_name,
-                R.string.notification_follow_name,
-                R.string.notification_follow_request_name,
-                R.string.notification_boost_name,
-                R.string.notification_favourite_name,
-                R.string.notification_poll_name,
-                R.string.notification_subscription_name,
-                R.string.notification_sign_up_name,
-                R.string.notification_update_name,
-                R.string.notification_report_name
-            )
-            val channelDescriptions = intArrayOf(
-                R.string.notification_mention_descriptions,
-                R.string.notification_follow_description,
-                R.string.notification_follow_request_description,
-                R.string.notification_boost_description,
-                R.string.notification_favourite_description,
-                R.string.notification_poll_description,
-                R.string.notification_subscription_description,
-                R.string.notification_sign_up_description,
-                R.string.notification_update_description,
-                R.string.notification_report_description
-            )
-            val channels: MutableList<NotificationChannel> = ArrayList(6)
+
             val channelGroup = NotificationChannelGroup(account.identifier, account.fullName)
             notificationManager.createNotificationChannelGroup(channelGroup)
-            for (i in channelIds.indices) {
-                val id = channelIds[i]
-                val name = context.getString(channelNames[i])
-                val description = context.getString(channelDescriptions[i])
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
-                val channel = NotificationChannel(id, name, importance)
-                channel.description = description
-                channel.enableLights(true)
-                channel.lightColor = -0xd46f27
-                channel.enableVibration(true)
-                channel.setShowBadge(true)
-                channel.group = account.identifier
-                channels.add(channel)
-            }
+            val channels = TuskyNotificationChannel.values()
+                .mapNotNull { it.makeNotificationChannel(context, account.identifier) }
+
             notificationManager.createNotificationChannels(channels)
         }
     }
@@ -624,19 +627,7 @@ object NotificationHelper {
     }
 
     private fun getChannelId(account: AccountEntity, type: Notification.Type): String? {
-        return when (type) {
-            Notification.Type.MENTION -> CHANNEL_MENTION + account.identifier
-            Notification.Type.STATUS -> CHANNEL_SUBSCRIPTIONS + account.identifier
-            Notification.Type.FOLLOW -> CHANNEL_FOLLOW + account.identifier
-            Notification.Type.FOLLOW_REQUEST -> CHANNEL_FOLLOW_REQUEST + account.identifier
-            Notification.Type.REBLOG -> CHANNEL_BOOST + account.identifier
-            Notification.Type.FAVOURITE -> CHANNEL_FAVOURITE + account.identifier
-            Notification.Type.POLL -> CHANNEL_POLL + account.identifier
-            Notification.Type.SIGN_UP -> CHANNEL_SIGN_UP + account.identifier
-            Notification.Type.UPDATE -> CHANNEL_UPDATES + account.identifier
-            Notification.Type.REPORT -> CHANNEL_REPORT + account.identifier
-            else -> null
-        }
+        return TuskyNotificationChannel.from(type)?.channelId(account.identifier)
     }
 
     private fun setSoundVibrationLight(
