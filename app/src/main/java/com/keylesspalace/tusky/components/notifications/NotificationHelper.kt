@@ -23,7 +23,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -83,15 +82,15 @@ object NotificationHelper {
      * notification channels used on Android O+
      */
     const val CHANNEL_MENTION = "CHANNEL_MENTION"
-    const val CHANNEL_FOLLOW = "CHANNEL_FOLLOW"
-    const val CHANNEL_FOLLOW_REQUEST = "CHANNEL_FOLLOW_REQUEST"
-    const val CHANNEL_BOOST = "CHANNEL_BOOST"
-    const val CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE"
-    const val CHANNEL_POLL = "CHANNEL_POLL"
-    const val CHANNEL_SUBSCRIPTIONS = "CHANNEL_SUBSCRIPTIONS"
-    const val CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP"
-    const val CHANNEL_UPDATES = "CHANNEL_UPDATES"
-    const val CHANNEL_REPORT = "CHANNEL_REPORT"
+    private const val CHANNEL_FOLLOW = "CHANNEL_FOLLOW"
+    private const val CHANNEL_FOLLOW_REQUEST = "CHANNEL_FOLLOW_REQUEST"
+    private const val CHANNEL_BOOST = "CHANNEL_BOOST"
+    private const val CHANNEL_FAVOURITE = "CHANNEL_FAVOURITE"
+    private const val CHANNEL_POLL = "CHANNEL_POLL"
+    private const val CHANNEL_SUBSCRIPTIONS = "CHANNEL_SUBSCRIPTIONS"
+    private const val CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP"
+    private const val CHANNEL_UPDATES = "CHANNEL_UPDATES"
+    private const val CHANNEL_REPORT = "CHANNEL_REPORT"
 
     /**
      * WorkManager Tag
@@ -118,26 +117,24 @@ object NotificationHelper {
      * to the ID of the account that received the notification.
      *
      * @param context to access application preferences and services
-     * @param body    a new Mastodon notification
+     * @param notification    a new Mastodon notification
      * @param account the account for which the notification should be shown
      * @return the new notification
      */
     fun make(
         context: Context,
         notificationManager: NotificationManager,
-        body: Notification,
+        notification: Notification,
         account: AccountEntity,
         isFirstOfBatch: Boolean
     ): android.app.Notification {
-        var body = body
-        body = body.rewriteToStatusTypeIfNeeded(account.accountId)
+        val body = notification.rewriteToStatusTypeIfNeeded(account.accountId)
         val mastodonNotificationId = body.id
         val accountId = account.id.toInt()
 
         // Check for an existing notification with this Mastodon Notification ID
         var existingAndroidNotification: android.app.Notification? = null
-        val activeNotifications = notificationManager.activeNotifications
-        for (androidNotification in activeNotifications) {
+        for (androidNotification in notificationManager.activeNotifications) {
             if (mastodonNotificationId == androidNotification.tag && accountId == androidNotification.id) {
                 existingAndroidNotification = androidNotification.notification
             }
@@ -146,9 +143,9 @@ object NotificationHelper {
         // Notification group member
         // =========================
         notificationId++
+
         // Create the notification -- either create a new one, or use the existing one.
-        val builder: NotificationCompat.Builder
-        builder = if (existingAndroidNotification == null) {
+        val builder: NotificationCompat.Builder = if (existingAndroidNotification == null) {
             newAndroidNotification(context, body, account)
         } else {
             NotificationCompat.Builder(context, existingAndroidNotification)
@@ -163,14 +160,13 @@ object NotificationHelper {
         }
 
         // load the avatar synchronously
-        val accountAvatar: Bitmap?
-        accountAvatar = try {
-            val target = Glide.with(context)
+        val accountAvatar = try {
+            Glide.with(context)
                 .asBitmap()
                 .load(body.account.avatar)
                 .transform(RoundedCorners(20))
                 .submit()
-            target.get()
+                .get()
         } catch (e: ExecutionException) {
             Log.d(TAG, "error loading account avatar", e)
             BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
@@ -210,6 +206,7 @@ object NotificationHelper {
         builder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
         builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
         builder.setOnlyAlertOnce(true)
+
         val extras = Bundle()
         // Add the sending account's name, so it can be used when summarising this notification
         extras.putString(EXTRA_ACCOUNT_NAME, body.account.name)
@@ -268,25 +265,20 @@ object NotificationHelper {
         // Fetch all existing notifications. Add them to the map, ignoring notifications that:
         // - belong to a different account
         // - are summary notifications
-        for (sn in notificationManager.activeNotifications) {
-            if (sn.id != accountId) continue
-            val channelId = sn.notification.group
-            val summaryTag = GROUP_SUMMARY_TAG + "." + channelId
-            if (summaryTag == sn.tag) continue
-
-            // TODO: API 26 supports getting the channel ID directly (sn.getNotification().getChannelId()).
-            // This works here because the channelId and the groupKey are the same.
-            val members = channelGroups[channelId]
-            if (members == null) { // can't happen, but just in case...
-                Log.e(TAG, "members == null for channel ID $channelId")
-                continue
+        notificationManager.activeNotifications
+            .filter { it.id == accountId }
+            .filter {
+                // TODO: API 26 supports getting the channel ID directly (sn.getNotification().getChannelId()).
+                // This works here because the channelId and the groupKey are the same.
+                val channelId = it.notification.group
+                val summaryTag = "$GROUP_SUMMARY_TAG.$channelId"
+                it.tag != summaryTag
             }
-            members.add(sn)
-        }
+            .forEach { channelGroups[it.notification.group]?.add(it) }
 
         // Create, update, or cancel the summary notifications for each group.
         for ((channelId, members) in channelGroups) {
-            val summaryTag = GROUP_SUMMARY_TAG + "." + channelId
+            val summaryTag = "$GROUP_SUMMARY_TAG.$channelId"
 
             // If there are 0-1 notifications in this group then the additional summary
             // notification is not needed and can be cancelled.
@@ -302,11 +294,13 @@ object NotificationHelper {
                 EXTRA_NOTIFICATION_TYPE
             )
             val summaryResultIntent = Intent(context, MainActivity::class.java)
-            summaryResultIntent.putExtra(ACCOUNT_ID, accountId.toLong())
-            summaryResultIntent.putExtra(TYPE, notificationType)
+                .putExtra(ACCOUNT_ID, accountId.toLong())
+                .putExtra(TYPE, notificationType)
+
             val summaryStackBuilder = TaskStackBuilder.create(context)
-            summaryStackBuilder.addParentStack(MainActivity::class.java)
-            summaryStackBuilder.addNextIntent(summaryResultIntent)
+                .addParentStack(MainActivity::class.java)
+                .addNextIntent(summaryResultIntent)
+
             val summaryResultPendingIntent = summaryStackBuilder.getPendingIntent(
                 (notificationId + account.id * 10000).toInt(),
                 pendingIntentFlags(false)
@@ -342,10 +336,7 @@ object NotificationHelper {
             // Android will rate limit / drop notifications if they're posted too
             // quickly. There is no indication to the user that this happened.
             // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-            try {
-                Thread.sleep(1000)
-            } catch (ignored: InterruptedException) {
-            }
+            Thread.sleep(1000)
         }
     }
 
@@ -356,15 +347,18 @@ object NotificationHelper {
     ): NotificationCompat.Builder {
         // we have to switch account here
         val eventResultIntent = Intent(context, MainActivity::class.java)
-        eventResultIntent.putExtra(ACCOUNT_ID, account.id)
-        eventResultIntent.putExtra(TYPE, body.type.name)
+            .putExtra(ACCOUNT_ID, account.id)
+            .putExtra(TYPE, body.type.name)
+
         val eventStackBuilder = TaskStackBuilder.create(context)
-        eventStackBuilder.addParentStack(MainActivity::class.java)
-        eventStackBuilder.addNextIntent(eventResultIntent)
+            .addParentStack(MainActivity::class.java)
+            .addNextIntent(eventResultIntent)
+
         val eventResultPendingIntent = eventStackBuilder.getPendingIntent(
             account.id.toInt(),
             pendingIntentFlags(false)
         )
+
         val channelId = getChannelId(account, body)!!
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notify)
