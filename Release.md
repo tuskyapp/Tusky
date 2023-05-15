@@ -58,6 +58,10 @@ That does not include:
 - General dependency upgrades
 - Updates to existing translations
 
+### Create a tracking issue
+
+TODO: Document this.
+
 ### Bump version and write changelog
 
 - [ ] Create and checkout a new branch (`3551-v22-beta-103`)
