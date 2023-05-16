@@ -8,7 +8,7 @@ import java.util.Date
  */
 data class Marker(
     @SerializedName("last_read_id")
-    val lastReadId: String,
+    val lastReadId: NotificationId,
     val version: Int,
     @SerializedName("updated_at")
     val updatedAt: Date

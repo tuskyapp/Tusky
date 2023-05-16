@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationId
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -117,7 +118,7 @@ sealed class InfallibleUiAction : UiAction() {
      * Infallible because if it fails there's nowhere to show the error, and nothing the user
      * can do.
      */
-    data class SaveVisibleId(val visibleId: String) : InfallibleUiAction()
+    data class SaveVisibleId(val visibleId: NotificationId) : InfallibleUiAction()
 }
 
 /** Actions the user can trigger on an individual notification. These may fail. */

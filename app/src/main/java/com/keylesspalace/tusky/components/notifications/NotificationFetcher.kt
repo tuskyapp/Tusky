@@ -9,6 +9,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationId
 import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject
 import kotlin.math.min
@@ -36,7 +37,7 @@ class NotificationFetcher @Inject constructor(
                     // Create sorted list of new notifications
                     val notifications = fetchNewNotifications(account)
                         .filter { filterNotification(notificationManager, account, it) }
-                        .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
+                        .sortedBy { it.id }
                         .toMutableList()
 
                     // There's a maximum limit on the number of notifications an Android app
@@ -74,7 +75,7 @@ class NotificationFetcher @Inject constructor(
                             account,
                             index == 0
                         )
-                        notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
+                        notificationManager.notify(notification.id.toString(), account.id.toInt(), androidNotification)
                         // Android will rate limit / drop notifications if they're posted too
                         // quickly. There is no indication to the user that this happened.
                         // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
@@ -115,7 +116,7 @@ class NotificationFetcher @Inject constructor(
         val authHeader = String.format("Bearer %s", account.accessToken)
 
         val minId = when (val marker = fetchMarker(authHeader, account)) {
-            null -> account.lastNotificationId.takeIf { it != "0" }
+            null -> account.lastNotificationId.takeIf { it != NotificationId("0") }
             else -> if (marker.lastReadId > account.lastNotificationId) marker.lastReadId else account.lastNotificationId
         }
 

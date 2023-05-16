@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationId
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
@@ -156,15 +157,15 @@ interface MastodonApi {
     @POST("api/v1/markers")
     fun updateMarkersWithAuth(
         @Header("Authorization") auth: String,
-        @Field("home[last_read_id]") homeLastReadId: String? = null,
-        @Field("notifications[last_read_id]") notificationsLastReadId: String? = null
+        @Field("home[last_read_id]") homeLastReadId: NotificationId? = null,
+        @Field("notifications[last_read_id]") notificationsLastReadId: NotificationId? = null
     ): NetworkResult<Unit>
 
     @GET("api/v1/notifications")
     fun notificationsWithAuth(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
-        @Query("min_id") minId: String?
+        @Query("min_id") minId: NotificationId?
     ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")

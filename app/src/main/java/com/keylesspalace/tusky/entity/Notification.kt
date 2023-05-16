@@ -23,9 +23,20 @@ import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
 import com.keylesspalace.tusky.R
 
+
+@JvmInline
+value class NotificationId(private val s: String) : Comparable<NotificationId>, CharSequence by s {
+    override fun compareTo(other: NotificationId) = compareValuesBy(
+        this,
+        other,
+        { it.s.length },
+        { it.s }
+    )
+}
+
 data class Notification(
     val type: Type,
-    val id: String,
+    val id: NotificationId,
     val account: TimelineAccount,
     val status: Status?,
     val report: Report?

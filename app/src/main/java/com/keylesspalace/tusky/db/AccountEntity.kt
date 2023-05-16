@@ -22,6 +22,7 @@ import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.defaultTabs
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.NotificationId
 import com.keylesspalace.tusky.entity.Status
 
 @Entity(
@@ -70,7 +71,7 @@ data class AccountEntity(
      * that media previews are shown as well as downloaded.
      */
     var mediaPreviewEnabled: Boolean = true,
-    var lastNotificationId: String = "0",
+    var lastNotificationId: NotificationId = NotificationId("0"),
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
     var notificationsFilter: String = "[\"follow_request\"]",

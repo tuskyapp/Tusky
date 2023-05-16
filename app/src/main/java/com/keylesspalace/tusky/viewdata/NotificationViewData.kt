@@ -31,12 +31,13 @@
 package com.keylesspalace.tusky.viewdata
 
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationId
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.TimelineAccount
 
 data class NotificationViewData(
     val type: Notification.Type,
-    val id: String,
+    val id: NotificationId,
     val account: TimelineAccount,
     var statusViewData: StatusViewData.Concrete?,
     val report: Report?
