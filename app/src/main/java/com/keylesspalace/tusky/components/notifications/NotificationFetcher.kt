@@ -10,6 +10,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isLessThan
 import javax.inject.Inject
 import kotlin.math.min
 
@@ -116,7 +117,7 @@ class NotificationFetcher @Inject constructor(
 
         val minId = when (val marker = fetchMarker(authHeader, account)) {
             null -> account.lastNotificationId.takeIf { it != "0" }
-            else -> if (marker.lastReadId > account.lastNotificationId) marker.lastReadId else account.lastNotificationId
+            else -> if (account.lastNotificationId.isLessThan(marker.lastReadId)) marker.lastReadId else account.lastNotificationId
         }
 
         Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
