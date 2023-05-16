@@ -6,6 +6,12 @@
 
 ### Significant bug fixes
 
+## v22.0 beta 4
+
+### Significant bug fixes
+
+- **Fixed repeated fetch of notifications if configured with multiple accounts**, [PR#3660](https://github.com/tuskyapp/Tusky/pull/3660)
+
 ## v22.0 beta 3
 
 ### Significant bug fixes
