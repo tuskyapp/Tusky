@@ -416,7 +416,7 @@ object NotificationHelper {
             .setColor(context.getColor(R.color.notification_color))
             .setGroup(channelId)
             .setAutoCancel(true)
-            .setShortcutId(java.lang.Long.toString(account.id))
+            .setShortcutId(account.id.toString())
             .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
         setSoundVibrationLight(account, builder)
         return builder
