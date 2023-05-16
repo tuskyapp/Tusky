@@ -16,8 +16,11 @@
 package com.keylesspalace.tusky.db;
 
 import androidx.annotation.NonNull;
+import androidx.room.AutoMigration;
 import androidx.room.Database;
+import androidx.room.DeleteColumn;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.AutoMigrationSpec;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
@@ -29,9 +32,21 @@ import java.io.File;
 /**
  * DB version & declare DAO
  */
-@Database(entities = { DraftEntity.class, AccountEntity.class, InstanceEntity.class, TimelineStatusEntity.class,
-                TimelineAccountEntity.class,  ConversationEntity.class
-        }, version = 47)
+@Database(
+    entities = {
+        DraftEntity.class,
+        AccountEntity.class,
+        InstanceEntity.class,
+        TimelineStatusEntity.class,
+        TimelineAccountEntity.class,
+        ConversationEntity.class
+    },
+    version = 50,
+    autoMigrations = {
+        @AutoMigration(from = 48, to = 49),
+        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class)
+    }
+)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AccountDao accountDao();
@@ -339,7 +354,7 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `muted` INTEGER");
         }
     };
-    
+
     public static final Migration MIGRATION_23_24 = new Migration(23, 24) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -646,4 +661,14 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `DraftEntity` ADD COLUMN `failedToSendNew` INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    public static final Migration MIGRATION_47_48 = new Migration(47, 48) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `filtered` TEXT");
+        }
+    };
+
+    @DeleteColumn(tableName = "AccountEntity", columnName = "activeNotifications")
+    static class MIGRATION_49_50 implements AutoMigrationSpec { }
 }

@@ -15,16 +15,21 @@
 
 package com.keylesspalace.tusky
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.updatePadding
-import androidx.lifecycle.Lifecycle
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -33,8 +38,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -45,11 +49,16 @@ import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.onTextChanged
+import com.keylesspalace.tusky.util.getDimension
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -58,6 +67,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+
     @Inject
     lateinit var eventHub: EventHub
 
@@ -70,9 +80,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private var tabsChanged = false
 
-    private val selectedItemElevation by lazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
+    private val selectedItemElevation by unsafeLazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
 
-    private val hashtagRegex by lazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
+    private val hashtagRegex by unsafeLazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
 
     private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
@@ -160,7 +170,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onTabAdded(tab: TabData) {
-
         if (currentTabs.size >= MAX_TAB_COUNT) {
             return
         }
@@ -222,7 +231,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
-
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)
@@ -254,7 +262,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
             .create()
 
-        editText.onTextChanged { s, _, _, _ ->
+        editText.doOnTextChanged { s, _, _, _ ->
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(s)
         }
 
@@ -265,19 +273,30 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun showSelectListDialog() {
         val adapter = ListSelectionAdapter(this)
-        lifecycleScope.launch {
-            mastodonApi.getLists().fold(
-                { lists ->
-                    adapter.addAll(lists)
-                },
-                { throwable ->
-                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
-                }
-            )
-        }
 
-        AlertDialog.Builder(this)
+        val statusLayout = LinearLayout(this)
+        statusLayout.gravity = Gravity.CENTER
+        val progress = ProgressBar(this)
+        val preferredPadding = getDimension(this, androidx.appcompat.R.attr.dialogPreferredPadding)
+        progress.setPadding(preferredPadding, 0, preferredPadding, 0)
+        progress.visible(false)
+
+        val noListsText = TextView(this)
+        noListsText.setPadding(preferredPadding, 0, preferredPadding, 0)
+        noListsText.text = getText(R.string.select_list_empty)
+        noListsText.visible(false)
+
+        statusLayout.addView(progress)
+        statusLayout.addView(noListsText)
+
+        val dialogBuilder = AlertDialog.Builder(this)
             .setTitle(R.string.select_list_title)
+            .setNeutralButton(R.string.select_list_manage) { _, _ ->
+                val listIntent = Intent(applicationContext, ListsActivity::class.java)
+                startActivity(listIntent)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
                 val list = adapter.getItem(position)
                 val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
@@ -286,7 +305,40 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 updateAvailableTabs()
                 saveTabs()
             }
-            .show()
+
+        val showProgressBarJob = getProgressBarJob(progress, 500)
+        showProgressBarJob.start()
+
+        val dialog = dialogBuilder.show()
+
+        lifecycleScope.launch {
+            mastodonApi.getLists().fold(
+                { lists ->
+                    showProgressBarJob.cancel()
+                    adapter.addAll(lists)
+                    if (lists.isEmpty()) {
+                        noListsText.show()
+                    }
+                },
+                { throwable ->
+                    dialog.hide()
+                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
+                    Snackbar.make(binding.root, R.string.error_list_load, Snackbar.LENGTH_LONG).show()
+                }
+            )
+        }
+    }
+
+    private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
+        start = CoroutineStart.LAZY
+    ) {
+        try {
+            delay(delayMs)
+            progressView.show()
+            awaitCancellation()
+        } finally {
+            progressView.hide()
+        }
     }
 
     private fun validateHashtag(input: CharSequence?): Boolean {
@@ -317,6 +369,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         if (!currentTabs.contains(directMessagesTab)) {
             addableTabs.add(directMessagesTab)
         }
+        val trendingTab = createTabDataFromId(TRENDING)
+        if (!currentTabs.contains(trendingTab)) {
+            addableTabs.add(trendingTab)
+        }
 
         addableTabs.add(createTabDataFromId(HASHTAG))
         addableTabs.add(createTabDataFromId(LIST))
@@ -337,13 +393,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private fun saveTabs() {
         accountManager.activeAccount?.let {
-            Single.fromCallable {
+            lifecycleScope.launch(Dispatchers.IO) {
                 it.tabPreferences = currentTabs
                 accountManager.saveAccount(it)
             }
-                .subscribeOn(Schedulers.io())
-                .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-                .subscribe()
         }
         tabsChanged = true
     }
@@ -351,7 +404,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     override fun onPause() {
         super.onPause()
         if (tabsChanged) {
-            eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+            lifecycleScope.launch {
+                eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+            }
         }
     }
 

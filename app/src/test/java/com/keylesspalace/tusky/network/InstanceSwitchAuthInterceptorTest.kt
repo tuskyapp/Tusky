@@ -30,7 +30,6 @@ class InstanceSwitchAuthInterceptorTest {
 
     @Test
     fun `should make regular request when requested`() {
-
         mockWebServer.enqueue(MockResponse())
 
         val accountManager: AccountManager = mock {

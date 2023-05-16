@@ -39,12 +39,16 @@ data class Attachment(
     enum class Type {
         @SerializedName("image")
         IMAGE,
+
         @SerializedName("gifv")
         GIFV,
+
         @SerializedName("video")
         VIDEO,
+
         @SerializedName("audio")
         AUDIO,
+
         @SerializedName("unknown")
         UNKNOWN
     }
@@ -70,7 +74,7 @@ data class Attachment(
         val focus: Focus?,
         val duration: Float?,
         val original: Size?,
-        val small: Size?,
+        val small: Size?
     ) : Parcelable
 
     /**
@@ -83,7 +87,9 @@ data class Attachment(
     data class Focus(
         val x: Float,
         val y: Float
-    ) : Parcelable
+    ) : Parcelable {
+        fun toMastodonApiString(): String = "$x,$y"
+    }
 
     /**
      * The size of an image, used to specify the width/height.

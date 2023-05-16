@@ -65,7 +65,6 @@ class TimelineDaoTest {
 
     @Test
     fun cleanup() = runBlocking {
-
         val statusesBeforeCleanup = listOf(
             makeStatus(statusId = 100),
             makeStatus(statusId = 10, authorServerId = "3"),
@@ -80,7 +79,7 @@ class TimelineDaoTest {
             makeStatus(statusId = 100),
             makeStatus(statusId = 10, authorServerId = "3"),
             makeStatus(statusId = 8, reblog = true, authorServerId = "10"),
-            makeStatus(statusId = 2, accountId = 2, authorServerId = "5"),
+            makeStatus(statusId = 2, accountId = 2, authorServerId = "5")
         )
 
         for ((status, author, reblogAuthor) in statusesBeforeCleanup) {
@@ -123,7 +122,6 @@ class TimelineDaoTest {
 
     @Test
     fun overwriteDeletedStatus() = runBlocking {
-
         val oldStatuses = listOf(
             makeStatus(statusId = 3),
             makeStatus(statusId = 2),
@@ -217,7 +215,6 @@ class TimelineDaoTest {
 
     @Test
     fun deleteAllForInstance() = runBlocking {
-
         val statusWithRedDomain1 = makeStatus(
             statusId = 15,
             accountId = 1,
@@ -283,7 +280,6 @@ class TimelineDaoTest {
 
     @Test
     fun `should return correct topId`() = runBlocking {
-
         val statusData = listOf(
             makeStatus(
                 statusId = 4,
@@ -318,7 +314,6 @@ class TimelineDaoTest {
 
     @Test
     fun `should return correct placeholderId after other ids`() = runBlocking {
-
         val statusData = listOf(
             makeStatus(statusId = 1000),
             makePlaceholder(id = 99),
@@ -345,7 +340,6 @@ class TimelineDaoTest {
 
     @Test
     fun `should return correct top placeholderId`() = runBlocking {
-
         val statusData = listOf(
             makeStatus(statusId = 1000),
             makePlaceholder(id = 99),
@@ -398,7 +392,7 @@ class TimelineDaoTest {
         createdAt: Long = statusId,
         authorServerId: String = "20",
         domain: String = "mastodon.example",
-        cardUrl: String? = null,
+        cardUrl: String? = null
     ): Triple<TimelineStatusEntity, TimelineAccountEntity, TimelineAccountEntity?> {
         val author = TimelineAccountEntity(
             serverId = authorServerId,
@@ -424,7 +418,9 @@ class TimelineDaoTest {
                 emojis = "[]",
                 bot = false
             )
-        } else null
+        } else {
+            null
+        }
 
         val card = when (cardUrl) {
             null -> null
@@ -465,6 +461,7 @@ class TimelineDaoTest {
             pinned = false,
             card = card,
             language = null,
+            filtered = null
         )
         return Triple(status, author, reblogAuthor)
     }

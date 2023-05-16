@@ -1,60 +1,64 @@
 [versions]
-agp = "7.4.1"
-androidx-activity = "1.6.1"
-androidx-appcompat = "1.6.0"
-androidx-browser = "1.4.0"
+agp = "7.4.2"
+androidx-activity = "1.7.1"
+androidx-appcompat = "1.6.1"
+androidx-browser = "1.5.0"
 androidx-cardview = "1.0.0"
 androidx-constraintlayout = "2.1.4"
-androidx-core = "1.9.0"
-androidx-exifinterface = "1.3.5"
-androidx-fragment = "1.5.5"
+androidx-core = "1.10.0"
+androidx-exifinterface = "1.3.6"
+androidx-fragment = "1.5.7"
 androidx-junit = "1.1.5"
+androidx-lifecycle = "2.6.1"
 androidx-paging = "3.1.1"
 androidx-preference = "1.2.0"
-androidx-recyclerview = "1.2.1"
+androidx-recyclerview = "1.3.0"
 androidx-sharetarget = "1.2.0"
-androidx-splashscreen = "1.0.0"
+androidx-splashscreen = "1.0.1"
 androidx-swiperefresh-layout = "1.1.0"
-androidx-testing = "2.1.0"
+androidx-testing = "2.2.0"
 androidx-viewpager2 = "1.0.0"
-androidx-work = "2.7.1"
-androidx-room = "2.5.0"
+androidx-work = "2.8.1"
+androidx-room = "2.5.1"
 autodispose = "2.1.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
 coroutines = "1.6.4"
-dagger = "2.43.2"
-emoji2 = "1.1.0"
+dagger = "2.45"
+diffx = "1.1.1"
+emoji2 = "1.3.0"
 espresso = "3.5.1"
 filemoji-compat = "3.2.7"
-glide = "4.13.2"
-glide-animation-plugin = "2.23.0"
-gson = "2.9.0"
-kotlin = "1.7.10"
-image-cropper = "4.3.1"
-lifecycle = "2.5.1"
-material = "1.6.1"
+glide = "4.15.1"
+glide-animation-plugin = "2.24.0"
+gson = "2.10.1"
+kotlin = "1.8.20"
+image-cropper = "4.3.2"
+material = "1.8.0"
 material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
-mockito-inline = "4.7.0"
-mockito-kotlin = "4.0.0"
+mockito-inline = "5.2.0"
+mockito-kotlin = "4.1.0"
 networkresult-calladapter = "1.0.0"
-okhttp = "4.10.0"
+okhttp = "4.11.0"
 retrofit = "2.9.0"
-robolectric = "4.8.1"
-rxandroid3 = "3.0.0"
-rxjava3 = "3.1.3"
+robolectric = "4.10"
+rxandroid3 = "3.0.2"
+rxjava3 = "3.1.6"
 rxkotlin3 = "3.0.1"
 photoview = "2.3.0"
 sparkbutton = "4.1.0"
-unified-push = "2.0.1"
+truth = "1.1.3"
+turbine = "0.12.3"
+unified-push = "2.1.1"
+xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.3.1"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -71,10 +75,10 @@ androidx-emoji2-views-core = { module = "androidx.emoji2:emoji2-views", version.
 androidx-emoji2-view-helper = { module = "androidx.emoji2:emoji2-views-helper", version.ref = "emoji2" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
-androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "androidx-paging" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
@@ -97,6 +101,7 @@ dagger-android-processor = { module = "com.google.dagger:dagger-android-processo
 dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dagger-core = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+diffx = { module = "org.pageseeder.diffx:pso-diffx", version.ref = "diffx" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filemoji-compat" }
 filemojicompat-defaults = { module = "de.c1710:filemojicompat-defaults", version.ref = "filemoji-compat" }
@@ -129,7 +134,10 @@ rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rx
 rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
+xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }
 
 [bundles]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",
@@ -149,3 +157,4 @@ okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
 retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
+xmldiff = ["diffx", "xmlwriter"]

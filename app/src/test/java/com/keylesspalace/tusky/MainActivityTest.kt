@@ -43,7 +43,7 @@ class MainActivityTest {
         note = "",
         url = "",
         avatar = "",
-        header = "",
+        header = ""
     )
     private val accountEntity = AccountEntity(
         id = 1,
@@ -90,8 +90,9 @@ class MainActivityTest {
         NotificationHelper.createNotificationChannelsForAccount(accountEntity, context)
 
         runInBackground {
-            NotificationHelper.make(
+            val notification = NotificationHelper.make(
                 context,
+                notificationManager,
                 Notification(
                     type = type,
                     id = "id",
@@ -100,15 +101,17 @@ class MainActivityTest {
                         localUsername = "connyduck",
                         username = "connyduck@mastodon.example",
                         displayName = "Conny Duck",
+                        note = "This is their bio",
                         url = "https://mastodon.example/@ConnyDuck",
                         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
                     ),
                     status = null,
-                    report = null,
+                    report = null
                 ),
                 accountEntity,
                 true
             )
+            notificationManager.notify("id", 1, notification)
         }
 
         val notification = shadowNotificationManager.allNotifications.first()

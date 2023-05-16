@@ -71,6 +71,11 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun initViewPager() {
         binding.wizard.isUserInputEnabled = false
+
+        // Odd workaround for text field losing focus on first focus
+        //   (unfixed old bug: https://github.com/material-components/material-components-android/issues/500)
+        binding.wizard.offscreenPageLimit = 1
+
         binding.wizard.adapter = ReportPagerAdapter(this)
     }
 

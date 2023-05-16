@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_action_favourite"
+        android:icon="@drawable/ic_favourite_24dp"
+        android:title="@string/action_favourite" />
+    <item
+        android:id="@+id/menu_action_unfavourite"
+        android:icon="@drawable/ic_favourite_24dp"
+        android:title="@string/action_unfavourite" />
+</menu>

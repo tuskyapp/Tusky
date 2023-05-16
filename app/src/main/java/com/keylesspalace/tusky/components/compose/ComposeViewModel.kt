@@ -48,7 +48,6 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -130,7 +129,7 @@ class ComposeViewModel @Inject constructor(
     ): QueuedMedia {
         var stashMediaItem: QueuedMedia? = null
 
-        media.updateAndGet { mediaValue ->
+        media.update { mediaList ->
             val mediaItem = QueuedMedia(
                 localId = mediaUploader.getNewLocalMediaId(),
                 uri = uri,
@@ -144,11 +143,11 @@ class ComposeViewModel @Inject constructor(
 
             if (replaceItem != null) {
                 mediaUploader.cancelUploadScope(replaceItem.localId)
-                mediaValue.map {
+                mediaList.map {
                     if (it.localId == replaceItem.localId) mediaItem else it
                 }
             } else { // Append
-                mediaValue + mediaItem
+                mediaList + mediaItem
             }
         }
         val mediaItem = stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
@@ -169,13 +168,13 @@ class ComposeViewModel @Inject constructor(
                                 state = if (event.processed) { QueuedMedia.State.PROCESSED } else { QueuedMedia.State.UNPROCESSED }
                             )
                         is UploadEvent.ErrorEvent -> {
-                            media.update { mediaValue -> mediaValue.filter { it.localId != mediaItem.localId } }
+                            media.update { mediaList -> mediaList.filter { it.localId != mediaItem.localId } }
                             uploadError.emit(event.error)
                             return@collect
                         }
                     }
-                    media.update { mediaValue ->
-                        mediaValue.map { mediaItem ->
+                    media.update { mediaList ->
+                        mediaList.map { mediaItem ->
                             if (mediaItem.localId == newMediaItem.localId) {
                                 newMediaItem
                             } else {
@@ -189,7 +188,7 @@ class ComposeViewModel @Inject constructor(
     }
 
     private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?, focus: Attachment.Focus?) {
-        media.update { mediaValue ->
+        media.update { mediaList ->
             val mediaItem = QueuedMedia(
                 localId = mediaUploader.getNewLocalMediaId(),
                 uri = uri,
@@ -201,13 +200,13 @@ class ComposeViewModel @Inject constructor(
                 focus = focus,
                 state = QueuedMedia.State.PUBLISHED
             )
-            mediaValue + mediaItem
+            mediaList + mediaItem
         }
     }
 
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaUploader.cancelUploadScope(item.localId)
-        media.update { mediaValue -> mediaValue.filter { it.localId != item.localId } }
+        media.update { mediaList -> mediaList.filter { it.localId != item.localId } }
     }
 
     fun toggleMarkSensitive() {
@@ -274,7 +273,7 @@ class ComposeViewModel @Inject constructor(
             failedToSendAlert = false,
             scheduledAt = scheduledAt.value,
             language = postLanguage,
-            statusId = originalStatusId,
+            statusId = originalStatusId
         )
     }
 
@@ -286,7 +285,6 @@ class ComposeViewModel @Inject constructor(
         content: String,
         spoilerText: String
     ) {
-
         if (!scheduledTootId.isNullOrEmpty()) {
             api.deleteScheduledStatus(scheduledTootId!!)
         }
@@ -323,10 +321,9 @@ class ComposeViewModel @Inject constructor(
         serviceClient.sendToot(tootToSend)
     }
 
-    // Updates a QueuedMedia item arbitrarily, then sends description and focus to server
-    private suspend fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia): Boolean {
-        val newMediaList = media.updateAndGet { mediaValue ->
-            mediaValue.map { mediaItem ->
+    private fun updateMediaItem(localId: Int, mutator: (QueuedMedia) -> QueuedMedia) {
+        media.update { mediaList ->
+            mediaList.map { mediaItem ->
                 if (mediaItem.localId == localId) {
                     mutator(mediaItem)
                 } else {
@@ -334,30 +331,16 @@ class ComposeViewModel @Inject constructor(
                 }
             }
         }
-
-        val updatedItem = newMediaList.find { it.localId == localId }
-        if (updatedItem?.id != null) {
-            val focus = updatedItem.focus
-            val focusString = if (focus != null) "${focus.x},${focus.y}" else null
-            return api.updateMedia(updatedItem.id, updatedItem.description, focusString)
-                .fold({
-                    true
-                }, { throwable ->
-                    Log.w(TAG, "failed to update media", throwable)
-                    false
-                })
-        }
-        return true
     }
 
-    suspend fun updateDescription(localId: Int, description: String): Boolean {
-        return updateMediaItem(localId) { mediaItem ->
+    fun updateDescription(localId: Int, description: String) {
+        updateMediaItem(localId) { mediaItem ->
             mediaItem.copy(description = description)
         }
     }
 
-    suspend fun updateFocus(localId: Int, focus: Attachment.Focus): Boolean {
-        return updateMediaItem(localId) { mediaItem ->
+    fun updateFocus(localId: Int, focus: Attachment.Focus) {
+        updateMediaItem(localId) { mediaItem ->
             mediaItem.copy(focus = focus)
         }
     }
@@ -402,7 +385,6 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun setup(composeOptions: ComposeActivity.ComposeOptions?) {
-
         if (setupComplete) {
             return
         }
@@ -437,14 +419,16 @@ class ComposeViewModel @Inject constructor(
                     pickMedia(attachment.uri, attachment.description, attachment.focus)
                 }
             }
-        } else composeOptions?.mediaAttachments?.forEach { a ->
-            // when coming from redraft or ScheduledTootActivity
-            val mediaType = when (a.type) {
-                Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
-                Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
-                Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
+        } else {
+            composeOptions?.mediaAttachments?.forEach { a ->
+                // when coming from redraft or ScheduledTootActivity
+                val mediaType = when (a.type) {
+                    Attachment.Type.VIDEO, Attachment.Type.GIFV -> QueuedMedia.Type.VIDEO
+                    Attachment.Type.UNKNOWN, Attachment.Type.IMAGE -> QueuedMedia.Type.IMAGE
+                    Attachment.Type.AUDIO -> QueuedMedia.Type.AUDIO
+                }
+                addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
             }
-            addUploadedMedia(a.id, mediaType, a.url.toUri(), a.description, a.meta?.focus)
         }
 
         draftId = composeOptions?.draftId ?: 0

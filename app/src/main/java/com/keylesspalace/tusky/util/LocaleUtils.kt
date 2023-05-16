@@ -23,67 +23,57 @@ import java.util.Locale
 
 private const val TAG: String = "LocaleUtils"
 
-private fun mergeLocaleListCompat(list: MutableList<Locale>, localeListCompat: LocaleListCompat) {
-    for (index in 0 until localeListCompat.size()) {
-        val locale = localeListCompat[index]
-        if (locale != null && list.none { locale.language == it.language }) {
-            list.add(locale)
-        }
+private fun LocaleListCompat.toList(): List<Locale> {
+    val list = mutableListOf<Locale>()
+    for (index in 0 until this.size()) {
+        this[index]?.let { list.add(it) }
     }
+    return list
 }
 
 // Ensure that the locale whose code matches the given language is first in the list
-private fun ensureLanguageIsFirst(locales: MutableList<Locale>, language: String) {
-    var currentLocaleIndex = locales.indexOfFirst { it.language == language }
-    if (currentLocaleIndex < 0) {
-        // Recheck against modern language codes
-        // This should only happen when replying or when the per-account post language is set
-        // to a modern code
-        currentLocaleIndex = locales.indexOfFirst { it.modernLanguageCode == language }
-
+private fun ensureLanguagesAreFirst(locales: MutableList<Locale>, languages: List<String>) {
+    for (language in languages.reversed()) {
+        // Iterate prioritized languages in reverse to retain the order once bubbled to the top
+        var currentLocaleIndex = locales.indexOfFirst { it.language == language }
         if (currentLocaleIndex < 0) {
-            // This can happen when:
-            // - Your per-account posting language is set to one android doesn't know (e.g. toki pona)
-            // - Replying to a post in a language android doesn't know
-            locales.add(0, Locale(language))
-            Log.w(TAG, "Attempting to use unknown language tag '$language'")
-            return
-        }
-    }
+            // Recheck against modern language codes
+            // This should only happen when replying or when the per-account post language is set
+            // to a modern code
+            currentLocaleIndex = locales.indexOfFirst { it.modernLanguageCode == language }
 
-    if (currentLocaleIndex > 0) {
-        // Move preselected locale to the top
-        locales.add(0, locales.removeAt(currentLocaleIndex))
+            if (currentLocaleIndex < 0) {
+                // This can happen when:
+                // - Your per-account posting language is set to one android doesn't know (e.g. toki pona)
+                // - Replying to a post in a language android doesn't know
+                locales.add(0, Locale(language))
+                Log.w(TAG, "Attempting to use unknown language tag '$language'")
+                continue
+            }
+        }
+
+        if (currentLocaleIndex > 0) {
+            // Move preselected locale to the top
+            locales.add(0, locales.removeAt(currentLocaleIndex))
+        }
     }
 }
 
-fun getInitialLanguage(language: String? = null, activeAccount: AccountEntity? = null): String {
-    return if (language.isNullOrEmpty()) {
-        // Account-specific language set on the server
-        if (activeAccount?.defaultPostLanguage?.isNotEmpty() == true) {
-            activeAccount.defaultPostLanguage
-        } else {
-            // Setting the application ui preference sets the default locale
-            AppCompatDelegate.getApplicationLocales()[0]?.language
-                ?: Locale.getDefault().language
-        }
-    } else {
-        language
-    }
+fun getInitialLanguages(language: String? = null, activeAccount: AccountEntity? = null): List<String> {
+    val selected = listOfNotNull(language, activeAccount?.defaultPostLanguage)
+    val system = AppCompatDelegate.getApplicationLocales().toList() +
+        LocaleListCompat.getDefault().toList()
+
+    return (selected + system.map { it.language }).distinct().filter { it.isNotEmpty() }
 }
 
-fun getLocaleList(initialLanguage: String): List<Locale> {
-    val locales = mutableListOf<Locale>()
-    mergeLocaleListCompat(locales, AppCompatDelegate.getApplicationLocales()) // configured app languages first
-    mergeLocaleListCompat(locales, LocaleListCompat.getDefault()) // then configured system languages
-    locales.addAll( // finally, other languages
+fun getLocaleList(initialLanguages: List<String>): List<Locale> {
+    val locales = Locale.getAvailableLocales().filter {
         // Only "base" languages, "en" but not "en_DK"
-        Locale.getAvailableLocales().filter {
-            it.country.isNullOrEmpty() &&
-                it.script.isNullOrEmpty() &&
-                it.variant.isNullOrEmpty()
-        }.sortedBy { it.displayName }
-    )
-    ensureLanguageIsFirst(locales, initialLanguage)
+        it.country.isNullOrEmpty() &&
+            it.script.isNullOrEmpty() &&
+            it.variant.isNullOrEmpty()
+    }.sortedBy { it.displayName }.toMutableList()
+    ensureLanguagesAreFirst(locales, initialLanguages)
     return locales
 }

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trending_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true"
+    android:importantForAccessibility="yes"
+    android:padding="8dp"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    tools:layout_height="128dp">
+
+    <com.keylesspalace.tusky.view.GraphView
+        android:id="@+id/graph"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:importantForAccessibility="no"
+        app:graphColor="?android:colorBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/current_usage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lineWidth="2sp"
+        app:metaColor="@color/tusky_blue_light"
+        app:primaryLineColor="@color/tusky_blue"
+        app:proportionalTrending="true"
+        app:secondaryLineColor="@color/tusky_red" />
+
+    <TextView
+        android:id="@+id/current_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:paddingStart="6dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/tusky_blue"
+        android:textSize="8sp"
+        android:textStyle="normal"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/current_accounts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/graph"
+        tools:text="12 345" />
+
+    <TextView
+        android:id="@+id/current_accounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:paddingStart="6dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/tusky_red"
+        android:textSize="8sp"
+        android:textStyle="normal"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/graph"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/graph"
+        tools:text="12 345" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/legend_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:backgroundTint="@color/color_background_transparent_60"
+        android:backgroundTintMode="src_in"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:importantForAccessibility="no"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="normal"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="#itishashtagtuesdayitishashtagtuesday" />
+
+        <TextView
+            android:id="@+id/total_usage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:importantForAccessibility="no"
+            android:textAlignment="textEnd"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textColor="@color/tusky_blue"
+            android:textStyle="normal|bold"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toStartOf="@id/usageLabel"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tag"
+            tools:text="12 345" />
+
+        <TextView
+            android:id="@+id/usageLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:importantForAccessibility="no"
+            android:text="@string/total_usage"
+            android:textAlignment="textEnd"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:textColorTertiary"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintBaseline_toBaselineOf="@+id/total_usage"
+            app:layout_constraintEnd_toStartOf="@id/total_accounts"
+            app:layout_constraintStart_toEndOf="@+id/total_usage" />
+
+        <TextView
+            android:id="@+id/total_accounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:importantForAccessibility="no"
+            android:textAlignment="textEnd"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textColor="@color/tusky_red"
+            android:textStyle="normal|bold"
+            app:layout_constrainedWidth="false"
+            app:layout_constraintEnd_toStartOf="@+id/accountsLabel"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/usageLabel"
+            app:layout_constraintTop_toBottomOf="@+id/tag"
+            tools:text="498" />
+
+        <TextView
+            android:id="@+id/accountsLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:importantForAccessibility="no"
+            android:text="@string/total_accounts"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:textColorTertiary"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBaseline_toBaselineOf="@+id/total_accounts"
+            app:layout_constraintStart_toEndOf="@id/total_accounts" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

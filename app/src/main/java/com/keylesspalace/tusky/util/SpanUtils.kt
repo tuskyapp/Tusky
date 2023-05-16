@@ -1,10 +1,17 @@
 package com.keylesspalace.tusky.util
 
+import android.content.Context
+import android.os.Build
 import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.CharacterStyle
+import android.text.style.DynamicDrawableSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
 import android.text.style.URLSpan
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import java.util.regex.Pattern
 import kotlin.math.max
 
@@ -43,7 +50,7 @@ private enum class FoundMatchType {
     HTTP_URL,
     HTTPS_URL,
     TAG,
-    MENTION,
+    MENTION
 }
 
 private class FindCharsResult {
@@ -59,6 +66,56 @@ private class PatternFinder(
     val prefixValidator: (Int) -> Boolean
 ) {
     val pattern: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+}
+
+/**
+ * Takes text containing mentions and hashtags and urls and makes them the given colour.
+ */
+fun highlightSpans(text: Spannable, colour: Int) {
+    // Strip all existing colour spans.
+    for (spanClass in spanClasses) {
+        clearSpans(text, spanClass)
+    }
+
+    // Colour the mentions and hashtags.
+    val string = text.toString()
+    val length = text.length
+    var start = 0
+    var end = 0
+    while (end in 0 until length && start >= 0) {
+        // Search for url first because it can contain the other characters
+        val found = findPattern(string, end)
+        start = found.start
+        end = found.end
+        if (start in 0 until end) {
+            text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            start += finders[found.matchType]!!.searchPrefixWidth
+        }
+    }
+}
+
+/**
+ * Replaces text of the form [iconics name] with their spanned counterparts (ImageSpan).
+ */
+fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): Spannable {
+    val alignment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) DynamicDrawableSpan.ALIGN_CENTER else DynamicDrawableSpan.ALIGN_BASELINE
+
+    val builder = SpannableStringBuilder(text)
+
+    val pattern = Pattern.compile("\\[iconics ([0-9a-z_]+)\\]")
+    val matcher = pattern.matcher(builder)
+    while (matcher.find()) {
+        val resourceName = matcher.group(1)
+            ?: continue
+
+        val drawable = IconicsDrawable(context, GoogleMaterial.getIcon(resourceName))
+        drawable.setBounds(0, 0, size, size)
+        drawable.setTint(color)
+
+        builder.setSpan(ImageSpan(drawable, alignment), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+
+    return builder
 }
 
 private fun <T> clearSpans(text: Spannable, spanClass: Class<T>) {
@@ -131,31 +188,8 @@ private fun getSpan(matchType: FoundMatchType, string: String, colour: Int, star
     return when (matchType) {
         FoundMatchType.HTTP_URL -> NoUnderlineURLSpan(string.substring(start, end))
         FoundMatchType.HTTPS_URL -> NoUnderlineURLSpan(string.substring(start, end))
+        FoundMatchType.MENTION -> MentionSpan(string.substring(start, end))
         else -> ForegroundColorSpan(colour)
-    }
-}
-
-/** Takes text containing mentions and hashtags and urls and makes them the given colour. */
-fun highlightSpans(text: Spannable, colour: Int) {
-    // Strip all existing colour spans.
-    for (spanClass in spanClasses) {
-        clearSpans(text, spanClass)
-    }
-
-    // Colour the mentions and hashtags.
-    val string = text.toString()
-    val length = text.length
-    var start = 0
-    var end = 0
-    while (end >= 0 && end < length && start >= 0) {
-        // Search for url first because it can contain the other characters
-        val found = findPattern(string, end)
-        start = found.start
-        end = found.end
-        if (start >= 0 && end > start) {
-            text.setSpan(getSpan(found.matchType, string, colour, start, end), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-            start += finders[found.matchType]!!.searchPrefixWidth
-        }
     }
 }
 
