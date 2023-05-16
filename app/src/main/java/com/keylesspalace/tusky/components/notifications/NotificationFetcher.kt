@@ -115,6 +115,7 @@ class NotificationFetcher @Inject constructor(
     private fun fetchNewNotifications(account: AccountEntity): List<Notification> {
         val authHeader = String.format("Bearer %s", account.accessToken)
 
+        Log.d(TAG, "getting notification marker for ${account.fullName}")
         val minId = when (val marker = fetchMarker(authHeader, account)) {
             null -> account.lastNotificationId.takeIf { it != "0" }
             else -> if (account.lastNotificationId.isLessThan(marker.lastReadId)) marker.lastReadId else account.lastNotificationId
@@ -132,8 +133,12 @@ class NotificationFetcher @Inject constructor(
         // in the marker.
         notifications.firstOrNull()?.let {
             val newMarkerId = notifications.first().id
-            Log.d(TAG, "updating notification marker to: $newMarkerId")
-            mastodonApi.updateMarkersWithAuth(authHeader, notificationsLastReadId = newMarkerId)
+            Log.d(TAG, "updating notification marker for ${account.fullName} to: $newMarkerId")
+            mastodonApi.updateMarkersWithAuth(
+                auth = authHeader,
+                domain = account.domain,
+                notificationsLastReadId = newMarkerId
+            )
         }
 
         return notifications
@@ -147,7 +152,7 @@ class NotificationFetcher @Inject constructor(
                 listOf("notifications")
             ).blockingGet()
             val notificationMarker = allMarkers["notifications"]
-            Log.d(TAG, "Fetched marker: $notificationMarker")
+            Log.d(TAG, "Fetched marker for ${account.fullName}: $notificationMarker")
             notificationMarker
         } catch (e: Exception) {
             Log.e(TAG, "Failed to fetch marker", e)
