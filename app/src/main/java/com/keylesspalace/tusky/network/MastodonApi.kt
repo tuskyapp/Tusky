@@ -156,6 +156,7 @@ interface MastodonApi {
     @POST("api/v1/markers")
     fun updateMarkersWithAuth(
         @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
         @Field("home[last_read_id]") homeLastReadId: String? = null,
         @Field("notifications[last_read_id]") notificationsLastReadId: String? = null
     ): NetworkResult<Unit>
