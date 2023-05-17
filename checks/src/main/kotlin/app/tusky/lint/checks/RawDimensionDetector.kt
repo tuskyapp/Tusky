@@ -61,7 +61,11 @@ class RawDimensionDetector : LayoutDetector() {
             SdkConstants.ATTR_DRAWABLE_PADDING,
             // Width x height
             SdkConstants.ATTR_LAYOUT_WIDTH,
-            SdkConstants.ATTR_LAYOUT_HEIGHT
+            SdkConstants.ATTR_LAYOUT_MAX_WIDTH,
+            SdkConstants.ATTR_LAYOUT_MIN_WIDTH,
+            SdkConstants.ATTR_LAYOUT_HEIGHT,
+            SdkConstants.ATTR_LAYOUT_MAX_HEIGHT,
+            SdkConstants.ATTR_LAYOUT_MIN_HEIGHT
         )
     }
 

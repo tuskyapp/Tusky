@@ -7545,143 +7545,11 @@
     <issue
         id="RawDimensionValue"
         message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:drawablePadding=&quot;6dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="19"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
         errorLine1="        android:paddingStart=&quot;38dp&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
             line="22"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginTop=&quot;8dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="37"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginStart=&quot;16dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="63"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginTop=&quot;4dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="163"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:layout_height=&quot;300dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="177"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:layout_margin=&quot;1dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="178"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingLeft=&quot;4dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="189"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingTop=&quot;4dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="190"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingRight=&quot;4dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="191"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingBottom=&quot;4dp&quot;>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="192"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginStart=&quot;45dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="353"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginStart=&quot;45dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="380"
             column="9"/>
     </issue>
 
@@ -7694,259 +7562,6 @@
             file="src/main/res/layout/item_status_bottom_sheet.xml"
             line="6"
             column="5"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginStart=&quot;16dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="42"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginTop=&quot;8dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="78"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginStart=&quot;14dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="129"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginTop=&quot;8dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="130"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginEnd=&quot;14dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="131"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:layout_height=&quot;300dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="143"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:layout_margin=&quot;1dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="144"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingLeft=&quot;6dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="154"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingTop=&quot;6dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="155"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingRight=&quot;6dp&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="156"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="            android:paddingBottom=&quot;6dp&quot;>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="157"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="                android:layout_marginBottom=&quot;4dp&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="163"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="                android:layout_marginBottom=&quot;4dp&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="174"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:drawablePadding=&quot;4dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="251"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_height=&quot;1dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="264"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:paddingStart=&quot;16dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="269"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:paddingEnd=&quot;16dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="270"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_marginStart=&quot;12dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="291"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:layout_height=&quot;1dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="311"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:padding=&quot;4dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="340"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:padding=&quot;4dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="357"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:padding=&quot;4dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="374"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RawDimensionValue"
-        message="For consistent design across different layouts use a dimension resource from values/dimens.xml or an ?attr/... reference instead of a raw dimension value."
-        errorLine1="        android:padding=&quot;4dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_detailed.xml"
-            line="391"
-            column="9"/>
     </issue>
 
     <issue
@@ -11718,7 +11333,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/dimens.xml"
-            line="34"
+            line="69"
             column="12"/>
     </issue>
 
@@ -15465,7 +15080,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
-            line="194"
+            line="190"
             column="14"/>
     </issue>
 
@@ -15476,7 +15091,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
-            line="205"
+            line="201"
             column="14"/>
     </issue>
 
@@ -15487,7 +15102,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
-            line="217"
+            line="213"
             column="14"/>
     </issue>
 
@@ -15498,7 +15113,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
-            line="296"
+            line="294"
             column="6"/>
     </issue>
 
@@ -15509,7 +15124,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
-            line="321"
+            line="320"
             column="6"/>
     </issue>
 
@@ -15520,7 +15135,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status.xml"
-            line="349"
+            line="348"
             column="6"/>
     </issue>
 
@@ -15564,7 +15179,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="159"
+            line="155"
             column="14"/>
     </issue>
 
@@ -15575,7 +15190,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="170"
+            line="166"
             column="14"/>
     </issue>
 
@@ -15586,7 +15201,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="181"
+            line="178"
             column="14"/>
     </issue>
 
@@ -15597,7 +15212,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="235"
+            line="236"
             column="6"/>
     </issue>
 
@@ -15608,7 +15223,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="246"
+            line="248"
             column="6"/>
     </issue>
 
@@ -15619,7 +15234,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="274"
+            line="276"
             column="6"/>
     </issue>
 
@@ -15630,7 +15245,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_detailed.xml"
-            line="287"
+            line="289"
             column="6"/>
     </issue>
 

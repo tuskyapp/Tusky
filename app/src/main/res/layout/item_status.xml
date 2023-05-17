@@ -15,8 +15,8 @@
         android:id="@+id/status_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/status_marginTop_density_1"
-        android:drawablePadding="6dp"
+        android:layout_marginTop="@dimen/status_marginTop_density_low"
+        android:drawablePadding="@dimen/status_textview_drawablePadding"
         android:gravity="center_vertical"
         android:importantForAccessibility="no"
         android:paddingStart="38dp"
@@ -34,7 +34,7 @@
         android:id="@+id/status_avatar"
         android:layout_width="@dimen/status_avatar_width"
         android:layout_height="@dimen/status_avatar_height"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/status_marginTop"
         android:contentDescription="@string/action_view_profile"
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
@@ -60,7 +60,7 @@
         android:id="@+id/status_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/status_marginStart_density_low"
         android:ellipsize="end"
         android:importantForAccessibility="no"
         android:maxLines="1"
@@ -160,7 +160,7 @@
         android:id="@+id/status_card_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/status_marginTop"
         android:background="@drawable/card_frame"
         android:clipChildren="true"
         android:foreground="?attr/selectableItemBackground"
@@ -174,8 +174,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/card_image"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_margin="1dp"
+            android:layout_height="@dimen/status_card_height"
             android:background="?attr/colorBackgroundAccent"
             android:importantForAccessibility="no"
             android:scaleType="center"
@@ -186,10 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp">
+            android:padding="@dimen/default_gap">
 
             <TextView
                 android:id="@+id/card_title"
@@ -273,7 +269,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_media_preview_container"
-        tools:itemCount="4" />
+        tools:itemCount="4"
+        tools:visibility="gone" />
 
     <Button
         android:id="@+id/status_poll_button"
@@ -291,7 +288,8 @@
         android:text="@string/poll_vote"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_options" />
+        app:layout_constraintTop_toBottomOf="@id/status_poll_options"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/status_poll_description"
@@ -302,7 +300,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
-        tools:text="7 votes • 7 hours remaining" />
+        tools:text="7 votes • 7 hours remaining"
+        tools:visibility="gone" />
 
     <ImageButton
         android:id="@+id/status_reply"
@@ -312,7 +311,7 @@
         android:layout_marginTop="@dimen/status_marginTop"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
-        app:layout_constraintEnd_toStartOf="@+id/status_inset"
+        app:layout_constraintEnd_toStartOf="@+id/status_reblog"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/status_avatar"
         app:layout_constraintTop_toBottomOf="@id/status_poll_description"
@@ -324,14 +323,14 @@
         android:layout_height="wrap_content"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@+id/status_reply"
-        app:layout_constraintEnd_toStartOf="@+id/status_inset"
+        app:layout_constraintEnd_toStartOf="@+id/status_reblog"
         app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="@+id/status_reply"
         app:layout_constraintTop_toTopOf="@+id/status_reply"
         tools:text="1+" />
 
     <at.connyduck.sparkbutton.SparkButton
-        android:id="@+id/status_inset"
+        android:id="@+id/status_reblog"
         android:layout_width="@dimen/status_action_button_width"
         android:layout_height="@dimen/status_action_button_height"
         android:clipToPadding="false"
@@ -347,14 +346,15 @@
         sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
     <TextView
-        android:id="@+id/status_insets"
+        android:id="@+id/status_reblogs_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="@id/status_inset"
-        app:layout_constraintStart_toStartOf="@id/status_inset"
-        app:layout_constraintTop_toTopOf="@id/status_inset"
+        app:layout_constraintBottom_toBottomOf="@id/status_reblog"
+        app:layout_constraintEnd_toStartOf="@+id/status_favourite"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="@id/status_reblog"
+        app:layout_constraintTop_toTopOf="@id/status_reblog"
         tools:text="1+" />
 
     <at.connyduck.sparkbutton.SparkButton
@@ -365,7 +365,7 @@
         android:contentDescription="@string/action_favourite"
         android:importantForAccessibility="no"
         app:layout_constraintEnd_toStartOf="@+id/status_bookmark"
-        app:layout_constraintStart_toEndOf="@+id/status_inset"
+        app:layout_constraintStart_toEndOf="@+id/status_reblog"
         app:layout_constraintTop_toTopOf="@id/status_reply"
         sparkbutton:activeImage="@drawable/ic_favourite_active_24dp"
         sparkbutton:iconSize="28dp"
@@ -377,11 +377,12 @@
         android:id="@+id/status_favourites_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintBottom_toBottomOf="@id/status_inset"
+        app:layout_constraintBottom_toBottomOf="@id/status_reblog"
+        app:layout_constraintEnd_toStartOf="@+id/status_bookmark"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="@id/status_favourite"
-        app:layout_constraintTop_toTopOf="@id/status_inset"
+        app:layout_constraintTop_toTopOf="@id/status_reblog"
         tools:text="" />
 
     <at.connyduck.sparkbutton.SparkButton

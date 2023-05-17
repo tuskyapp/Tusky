@@ -1,17 +1,37 @@
 <resources>
+    <!-- ============================================================== -->
+    <!-- Dimensions for laying out statuses                             -->
+    <!-- ============================================================== -->
+
+    <!-- The default gap between views in a layout. May be used as either
+         margin or padding -->
+    <dimen name="default_gap">8dp</dimen>
+    <dimen name="default_gap_density_low">8dp</dimen>
+
+    <dimen name="status_margin">@dimen/default_gap</dimen>
+    <dimen name="status_margin_density_low">@dimen/default_gap_density_low</dimen>
+
     <!-- marginStart for views in a status that are aligned horizontally-->
-    <dimen name="status_marginStart">4dp</dimen>
+    <dimen name="status_marginStart">@dimen/status_margin</dimen>
+
+    <!-- Alternative marginStart for views where the density should be lower,
+         https://m3.material.io/foundations/layout/understanding-layout/spacing#da94f612-f274-49ab-aec5-f03dab53be8e -->
+    <dimen name="status_marginStart_density_low">@dimen/status_margin_density_low</dimen>
+
     <!-- marginTop for views in a status that are aligned vertically -->
-    <dimen name="status_marginTop">4dp</dimen>
+    <dimen name="status_marginTop">@dimen/status_margin</dimen>
 
     <!-- Alternative marginTop for views where the density should be lower,
          https://m3.material.io/foundations/layout/understanding-layout/spacing#da94f612-f274-49ab-aec5-f03dab53be8e -->
-    <dimen name="status_marginTop_density_1">8dp</dimen>
+    <dimen name="status_marginTop_density_low">8dp</dimen>
 
     <dimen name="status_avatar_width">48dp</dimen>
     <dimen name="status_avatar_height">48dp</dimen>
     <dimen name="status_avatar_inset_width">24dp</dimen>
     <dimen name="status_avatar_inset_height">24dp</dimen>
+
+    <!-- Padding between a drawable in a TextView and the text -->
+    <dimen name="status_textview_drawablePadding">4dp</dimen>
 
     <!-- Minimum width for disclosure buttons in a status -->
     <dimen name="status_button_minWidth">150dp</dimen>
@@ -22,9 +42,24 @@
     <dimen name="status_button_paddingStart">16dp</dimen>
     <dimen name="status_button_paddingEnd">16dp</dimen>
 
-    <!-- Width and height for "action" (reblog, favourite, etc) buttons in a status -->
+    <!-- === Cards for link previews === -->
+    <dimen name="status_card_height">300dp</dimen>
+    <dimen name="status_detailed_card_minHeight">300dp</dimen>
+
+    <!-- The interior padding on the container that wraps the text below a
+         link preview with the title, content, and link. Ensures that the
+         text does not run in to the card's border -->
+    <dimen name="status_detailed_card_info_padding">@dimen/default_gap_density_low</dimen>
+
+    <!-- Divider between different parts of a status -->
+    <dimen name="status_divider_height">1dp</dimen>
+
+    <!-- Action buttons (reblog, favourite, bookmark, etc) -->
     <dimen name="status_action_button_width">52dp</dimen>
     <dimen name="status_action_button_height">48dp</dimen>
+    <dimen name="status_action_button_iconSize">28dp</dimen>
+    <!-- In the detailed view the buttons have extra padding -->
+    <dimen name="status_action_button_padding">4dp</dimen>
 
     <!-- TODO(nikclayton): Review this block and see how many of these can be deleted -->
     <dimen name="status_display_name_padding_end">4dp</dimen>
