@@ -15,6 +15,8 @@ One person to prepare the PRs for the release and run the relevant commands. One
   - [ ] And see entries for Tusky and Tusky nightly
 - [ ] You can post from the `@Tusky@mastodon.social` account
 - [ ] A GitLab account, for editing F-Droid metadata
+  - A forked, up to date copy of the F-Droid repo
+  - TODO: Notes on doing that
 - [ ] An OpenCollective account, for posting release notes
 
 ## Release each beta
