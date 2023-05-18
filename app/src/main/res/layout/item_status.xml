@@ -60,7 +60,7 @@
         android:id="@+id/status_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/status_marginStart_density_low"
+        android:layout_marginStart="@dimen/status_marginStart"
         android:ellipsize="end"
         android:importantForAccessibility="no"
         android:maxLines="1"
