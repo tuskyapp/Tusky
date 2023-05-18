@@ -148,11 +148,16 @@ git push --tags
     - In the "App bundles" section click "Add from library", chose the new release
     -
   - [ ] Create a merge request at F-Droid. [Example](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/11218) (F-Droid automatically picks up new release tags, but not beta ones. This could probably be changed somehow.)
-    - Fork the project
-    - Load https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/com.keylesspalace.tusky.yml
-    - Change "Open in Web IDE" to "Edit" and click
-    -
-    - "Update com.keylesspalace.tusky to v22.0-beta.1"
+    - Open https://gitlab.com/fdroid/fdroiddata
+    - Click "Fork", top right, or just open https://gitlab.com/fdroid/fdroiddata/-/forks/new
+    - Select a project namespace (under your account is fine)
+    - Accept the remaining defaults
+    - Click "Fork project"
+    - Wait for the repository to import
+    - Create a new branch, by opening https://gitlab.com/nikclayton/fdroiddata/-/branches/new
+      - Branch name is the `versionCode` (e.g., `105`).
+    - Edit the file `metadata/com.keylesspalace.tusky.yml` on the branch, and commit
+    - Click "Create merge request"
   - [ ] Announce the release
 
 ## Full release
