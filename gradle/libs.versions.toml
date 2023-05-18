@@ -90,7 +90,6 @@ androidx-sharetarget = { module = "androidx.sharetarget:sharetarget", version.re
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefresh-layout" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
-androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 autodispose-android-lifecycle = { module = "com.uber.autodispose2:autodispose-androidx-lifecycle", version.ref = "autodispose" }
@@ -145,8 +144,8 @@ androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", 
     "androidx-recyclerview", "androidx-exifinterface", "androidx-cardview", "androidx-preference-ktx", "androidx-sharetarget",
     "androidx-emoji2-core", "androidx-emoji2-views-core", "androidx-emoji2-view-helper", "androidx-lifecycle-viewmodel-ktx",
     "androidx-lifecycle-livedata-ktx", "androidx-lifecycle-common-java8", "androidx-lifecycle-reactivestreams-ktx",
-    "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime",
-    "androidx-work-runtime-ktx", "androidx-core-splashscreen", "androidx-activity"]
+    "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime-ktx",
+    "androidx-core-splashscreen", "androidx-activity"]
 autodispose = ["autodispose-core", "autodispose-android-lifecycle"]
 dagger = ["dagger-core", "dagger-android-core", "dagger-android-support"]
 dagger-processors = ["dagger-compiler", "dagger-android-processor"]
