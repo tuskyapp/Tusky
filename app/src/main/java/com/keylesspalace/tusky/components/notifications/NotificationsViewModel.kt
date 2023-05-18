@@ -65,6 +65,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
 
 data class UiState(
     /** Filtered notification types */
@@ -274,7 +276,7 @@ sealed class UiError(
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class, ExperimentalTime::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
     private val preferences: SharedPreferences,
@@ -392,7 +394,7 @@ class NotificationsViewModel @Inject constructor(
         // Handle NotificationAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<NotificationAction>()
-                .throttleFirst(THROTTLE_TIMEOUT_MS)
+                .throttleFirst(THROTTLE_TIMEOUT)
                 .collect { action ->
                     try {
                         when (action) {
@@ -411,7 +413,7 @@ class NotificationsViewModel @Inject constructor(
         // Handle StatusAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<StatusAction>()
-                .throttleFirst(THROTTLE_TIMEOUT_MS) // avoid double-taps
+                .throttleFirst(THROTTLE_TIMEOUT) // avoid double-taps
                 .collect { action ->
                     try {
                         when (action) {
@@ -516,6 +518,6 @@ class NotificationsViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "NotificationsViewModel"
-        private const val THROTTLE_TIMEOUT_MS = 500L
+        private val THROTTLE_TIMEOUT = 500.milliseconds
     }
 }
