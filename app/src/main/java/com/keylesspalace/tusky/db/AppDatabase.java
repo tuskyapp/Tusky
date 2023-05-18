@@ -41,10 +41,11 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 50,
+    version = 51,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
-        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class)
+        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
+        @AutoMigration(from = 50, to = 51)
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
