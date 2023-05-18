@@ -25,6 +25,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -220,7 +221,7 @@ sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess() {
 /** Errors from fallible view model actions that the UI will need to show */
 sealed class UiError(
     /** The exception associated with the error */
-    open val exception: Exception,
+    open val throwable: Throwable,
 
     /** String resource with an error message to show the user */
     @StringRes val message: Int,
@@ -228,50 +229,50 @@ sealed class UiError(
     /** The action that failed. Can be resent to retry the action */
     open val action: UiAction? = null
 ) {
-    data class ClearNotifications(override val exception: Exception) : UiError(
-        exception,
+    data class ClearNotifications(override val throwable: Throwable) : UiError(
+        throwable,
         R.string.ui_error_clear_notifications
     )
 
     data class Bookmark(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Bookmark
-    ) : UiError(exception, R.string.ui_error_bookmark, action)
+    ) : UiError(throwable, R.string.ui_error_bookmark, action)
 
     data class Favourite(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Favourite
-    ) : UiError(exception, R.string.ui_error_favourite, action)
+    ) : UiError(throwable, R.string.ui_error_favourite, action)
 
     data class Reblog(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Reblog
-    ) : UiError(exception, R.string.ui_error_reblog, action)
+    ) : UiError(throwable, R.string.ui_error_reblog, action)
 
     data class VoteInPoll(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.VoteInPoll
-    ) : UiError(exception, R.string.ui_error_vote, action)
+    ) : UiError(throwable, R.string.ui_error_vote, action)
 
     data class AcceptFollowRequest(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: NotificationAction.AcceptFollowRequest
-    ) : UiError(exception, R.string.ui_error_accept_follow_request, action)
+    ) : UiError(throwable, R.string.ui_error_accept_follow_request, action)
 
     data class RejectFollowRequest(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: NotificationAction.RejectFollowRequest
-    ) : UiError(exception, R.string.ui_error_reject_follow_request, action)
+    ) : UiError(throwable, R.string.ui_error_reject_follow_request, action)
 
     companion object {
-        fun make(exception: Exception, action: FallibleUiAction) = when (action) {
-            is StatusAction.Bookmark -> Bookmark(exception, action)
-            is StatusAction.Favourite -> Favourite(exception, action)
-            is StatusAction.Reblog -> Reblog(exception, action)
-            is StatusAction.VoteInPoll -> VoteInPoll(exception, action)
-            is NotificationAction.AcceptFollowRequest -> AcceptFollowRequest(exception, action)
-            is NotificationAction.RejectFollowRequest -> RejectFollowRequest(exception, action)
-            FallibleUiAction.ClearNotifications -> ClearNotifications(exception)
+        fun make(throwable: Throwable, action: FallibleUiAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(throwable, action)
+            is StatusAction.Favourite -> Favourite(throwable, action)
+            is StatusAction.Reblog -> Reblog(throwable, action)
+            is StatusAction.VoteInPoll -> VoteInPoll(throwable, action)
+            is NotificationAction.AcceptFollowRequest -> AcceptFollowRequest(throwable, action)
+            is NotificationAction.RejectFollowRequest -> RejectFollowRequest(throwable, action)
+            FallibleUiAction.ClearNotifications -> ClearNotifications(throwable)
         }
     }
 }
@@ -445,10 +446,10 @@ class NotificationsViewModel @Inject constructor(
                                     action.poll.id,
                                     action.choices
                                 )
-                        }
+                        }.getOrThrow()
                         uiSuccess.emit(StatusActionSuccess.from(action))
-                    } catch (e: Exception) {
-                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, action)) }
+                    } catch (t: Throwable) {
+                        _uiErrorChannel.send(UiError.make(t, action))
                     }
                 }
         }
