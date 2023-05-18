@@ -83,16 +83,42 @@ Create a clone of the repo just for the release.
 
 ```shell
 set JAVA_HOME="c:\Program Files\Android\Android Studio Electric Eel\jbr"
+# or
+$env:JAVA_HOME = "C:\Program Files\Android\Android Studio Electric Eel\jbr"
 
 git clone https://github.com/tuskyapp/Tusky.git tusky-release
 cd tusky-release
 -- copy local.properties file
 git checkout main
-git merge --ff-only develop
 ```
-ktlintCheck lintGreenDebug testGreenDebugUnitTest bundleGreenDebug
 
 - [ ] Merge `develop` into `main`
+
+```shell
+# Verify on the main branch
+git branch --show-current           # Should show "main"
+
+# Verify develop contains the expected commits
+git fetch origin develop:develop    # Fetch newest commits
+git log develop                     # Should show the "Prepare ..." commit first
+
+# Merge develop in to main, as a fast-forward merge. If this fails something weird has
+# happened in the history between main and develop
+git merge --ff-only develop
+
+# Verify the beta commit is now on main
+git log
+
+# Build to verify everything works
+.\gradlew ktlintCheck lintGreenDebug testGreenDebugUnitTest bundleGreenDebug
+
+# Tag
+git tag -m v22.0-beta.4 -s v22.0-beta.4
+
+# Push
+git push
+git push --tags
+```
 
 ### Create GitHub release
 
