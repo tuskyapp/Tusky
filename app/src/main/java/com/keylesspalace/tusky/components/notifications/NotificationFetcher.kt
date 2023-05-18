@@ -102,11 +102,13 @@ class NotificationFetcher @Inject constructor(
      * Here, "new" means "notifications with IDs newer than notifications the user has already
      * seen."
      *
-     * The "water mark" for Mastodon Notification IDs are stored in two places.
+     * The "water mark" for Mastodon Notification IDs are stored in three places.
      *
      * - acccount.lastNotificationId -- the ID of the top-most notification when the user last
      *   left the Notifications tab.
      * - The Mastodon "marker" API -- the ID of the most recent notification fetched here.
+     * - account.notificationMarkerId -- local version of the value from the Mastodon marker
+     *   API, in case the Mastodon server does not implement that API.
      *
      * The user may have refreshed the "Notifications" tab and seen notifications newer than the
      * ones that were last fetched here. So `lastNotificationId` takes precedence if it is greater
@@ -115,11 +117,21 @@ class NotificationFetcher @Inject constructor(
     private fun fetchNewNotifications(account: AccountEntity): List<Notification> {
         val authHeader = String.format("Bearer %s", account.accessToken)
 
+        // Figure out where to read from. Choose the most recent notification ID from:
+        //
+        // - The Mastodon marker API (if the server supports it)
+        // - account.notificationMarkerId
+        // - account.lastNotificationId
         Log.d(TAG, "getting notification marker for ${account.fullName}")
-        val minId = when (val marker = fetchMarker(authHeader, account)) {
-            null -> account.lastNotificationId.takeIf { it != "0" }
-            else -> if (account.lastNotificationId.isLessThan(marker.lastReadId)) marker.lastReadId else account.lastNotificationId
-        }
+        val remoteMarkerId = fetchMarker(authHeader, account)?.lastReadId ?: "0"
+        val localMarkerId = account.notificationMarkerId
+        val markerId = if (remoteMarkerId.isLessThan(localMarkerId)) localMarkerId else remoteMarkerId
+        val readingPosition = account.lastNotificationId
+
+        val minId = if (readingPosition.isLessThan(markerId)) markerId else readingPosition
+        Log.d(TAG, "  remoteMarkerId: $remoteMarkerId")
+        Log.d(TAG, "  localMarkerId: $localMarkerId")
+        Log.d(TAG, "  readingPosition: $readingPosition")
 
         Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
 
@@ -139,6 +151,8 @@ class NotificationFetcher @Inject constructor(
                 domain = account.domain,
                 notificationsLastReadId = newMarkerId
             )
+            account.notificationMarkerId = newMarkerId
+            accountManager.saveAccount(account)
         }
 
         return notifications
