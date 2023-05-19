@@ -387,8 +387,8 @@
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="title_favourited_by">Những người thích tút này</string>
-    <string name="title_reblogged_by">Những người đăng lại tút này</string>
+    <string name="title_favourited_by">Lượt thích tút này</string>
+    <string name="title_reblogged_by">Lượt đăng lại tút này</string>
     <plurals name="reblogs">
         <item quantity="other"><b>%s</b> Đăng lại</item>
     </plurals>
@@ -502,7 +502,7 @@
     <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
     <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
     <string name="notification_sign_up_format">%s tham gia máy chủ</string>
-    <string name="notification_sign_up_name">Người mới tham gia máy chủ</string>
+    <string name="notification_sign_up_name">Thành viên mới</string>
     <string name="notification_sign_up_description">Thông báo về người mới tham gia máy chủ</string>
     <string name="notification_update_format">%s đã sửa tút của họ</string>
     <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
