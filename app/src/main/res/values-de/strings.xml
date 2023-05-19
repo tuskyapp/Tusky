@@ -413,7 +413,7 @@
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>
     <string name="failed_fetch_posts">Beiträge konnten nicht abgerufen werden</string>
-    <string name="title_accounts">Konten</string>
+    <string name="title_accounts">Profile</string>
     <string name="failed_search">Fehler beim Suchen</string>
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
     <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
