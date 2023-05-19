@@ -520,7 +520,7 @@
     <string name="action_details">Detalles</string>
     <string name="error_loading_account_details">Fallo cargando los detalles de la cuenta</string>
     <string name="error_could_not_load_login_page">Fallo cargando la página de ingreso.</string>
-    <string name="delete_scheduled_post_warning">¿Eliminar publicación programada\?</string>
+    <string name="delete_scheduled_post_warning">¿Eliminar publicación programada?</string>
     <string name="set_focus_description">Toca o arrastra el círculo para centrar el foco de la imagen, que será visible en las miniaturas.</string>
     <string name="compose_save_draft_loses_media">¿Guardar este borrador? (Los adjuntos se subirán de nuevo cuando vuelvas a él.)</string>
     <string name="pref_title_show_self_username">Mostrar nombre de usuario en la barra de herramientas</string>
