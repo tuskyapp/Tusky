@@ -85,6 +85,7 @@
         <item>हिन्दी</item> <!-- hi: Hindi -->
         <item>বাংলা (বাংলাদেশ)</item> <!-- bn-BD: Bangla (Bangladesh) -->
         <item>বাংলা (ভারত)</item> <!-- bn-IN: Bangla (India) -->
+        <item>ଓଡ଼ିଆ</item> <!-- or: Odia -->
         <item>தமிழ்</item> <!-- ta: Tamil -->
         <item>മലയാളം</item> <!-- ml: Malayalam -->
         <item>සිංහල</item> <!-- si: Sinhala -->
@@ -146,6 +147,7 @@
         <item>hi</item>
         <item>bn-BD</item>
         <item>bn-IN</item>
+        <item>or</item>
         <item>ta</item>
         <item>ml</item>
         <item>si</item>

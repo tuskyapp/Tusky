@@ -18,7 +18,9 @@ package com.keylesspalace.tusky.db;
 import androidx.annotation.NonNull;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
+import androidx.room.DeleteColumn;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.AutoMigrationSpec;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
@@ -39,9 +41,11 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 49,
+    version = 51,
     autoMigrations = {
-        @AutoMigration(from = 48, to = 49)
+        @AutoMigration(from = 48, to = 49),
+        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
+        @AutoMigration(from = 50, to = 51)
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -665,4 +669,7 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `filtered` TEXT");
         }
     };
+
+    @DeleteColumn(tableName = "AccountEntity", columnName = "activeNotifications")
+    static class MIGRATION_49_50 implements AutoMigrationSpec { }
 }

@@ -663,4 +663,7 @@
     <string name="ui_error_accept_follow_request">Fracàs de l’acceptacion de la demanda : %s</string>
     <string name="ui_error_reject_follow_request">Fracàs del refús de la demanda : %s</string>
     <string name="pref_title_show_stat_inline">Mostrar las estatisticas dins la cronologia</string>
+    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
+\n
+\nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància [iconics gmd_group], siá los trapar per lor nom [iconics gmd_search], per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
 </resources>

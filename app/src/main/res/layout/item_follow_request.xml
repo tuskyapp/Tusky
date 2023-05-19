@@ -104,7 +104,7 @@
         app:layout_constraintTop_toTopOf="@+id/rejectButton"
         app:srcCompat="@drawable/ic_check_24dp" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/account_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
