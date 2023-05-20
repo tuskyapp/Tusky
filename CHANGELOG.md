@@ -10,7 +10,7 @@
 
 ## Significant bug fixes
 
-- **Rolled pack APNG library to fix broken animated emojis**, [PR#3676](https://github.com/tuskyapp/Tusky/pull/3676)
+- **Rolled back APNG library to fix broken animated emojis**, [PR#3676](https://github.com/tuskyapp/Tusky/pull/3676)
 - **Save local copy of notification marker in case server does not support the API**, [PR#3672](https://github.com/tuskyapp/Tusky/pull/3672)
 
 ## v22.0 beta 4
