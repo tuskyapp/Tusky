@@ -2,6 +2,6 @@ Tusky 22.0 beta 5
 
 Fixes:
 
-- Rolled pack APNG library to fix broken animated emojis
+- Rolled back APNG library to fix broken animated emojis
 - Save local copy of notification marker in case server does not support the API
 
