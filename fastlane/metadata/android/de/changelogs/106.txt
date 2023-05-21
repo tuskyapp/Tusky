@@ -1,0 +1,4 @@
+Tusky 22.0 Beta 4
+
+Behobener Fehler:
+- Wiederholtes Abrufen von Benachrichtigungen bei Konfiguration mit mehreren Konten behoben
