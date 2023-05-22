@@ -69,6 +69,8 @@ class AccountMediaFragment :
     @Inject
     lateinit var accountManager: AccountManager
 
+    private var alwaysShowSensitiveMedia = false;
+
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private val viewModel: AccountMediaViewModel by viewModels { viewModelFactory }
@@ -78,6 +80,9 @@ class AccountMediaFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.accountId = arguments?.getString(ACCOUNT_ID_ARG)!!
+        if(accountManager.activeAccount != null){
+            alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia;
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -170,7 +175,7 @@ class AccountMediaFragment :
     }
 
     private fun onAttachmentClick(selected: AttachmentViewData, view: View) {
-        if (!selected.isRevealed) {
+        if (!selected.isRevealed && !alwaysShowSensitiveMedia) {
             viewModel.revealAttachment(selected)
             return
         }
