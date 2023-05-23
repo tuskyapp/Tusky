@@ -16,10 +16,13 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.os.Parcelable
+import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @Parcelize
 data class AttachmentViewData(
@@ -28,14 +31,22 @@ data class AttachmentViewData(
     val statusUrl: String,
     val sensitive: Boolean,
     val isRevealed: Boolean
-) : Parcelable {
+) : Parcelable, Injectable {
 
     @IgnoredOnParcel
     val id = attachment.id
 
     companion object {
+        @Inject
+        lateinit var accountManager: AccountManager
+
         @JvmStatic
         fun list(status: Status): List<AttachmentViewData> {
+            var alwaysShowSensitiveMedia = false;
+            if(accountManager.activeAccount != null){
+                alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia;
+            }
+
             val actionable = status.actionableStatus
             return actionable.attachments.map { attachment ->
                 AttachmentViewData(
@@ -43,7 +54,7 @@ data class AttachmentViewData(
                     statusId = actionable.id,
                     statusUrl = actionable.url!!,
                     sensitive = actionable.sensitive,
-                    isRevealed = !actionable.sensitive
+                    isRevealed = alwaysShowSensitiveMedia || !actionable.sensitive
                 )
             }
         }
