@@ -195,6 +195,7 @@ class NotificationsFragment :
                 }
             }
 
+            @Suppress("SyntheticAccessor")
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 newState != SCROLL_STATE_IDLE && return
 
