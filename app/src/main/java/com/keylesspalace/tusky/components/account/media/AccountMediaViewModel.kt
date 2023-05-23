@@ -21,11 +21,13 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import javax.inject.Inject
 
 class AccountMediaViewModel @Inject constructor(
+    private val accountManager: AccountManager,
     api: MastodonApi
 ) : ViewModel() {
 
@@ -48,7 +50,7 @@ class AccountMediaViewModel @Inject constructor(
                 currentSource = source
             }
         },
-        remoteMediator = AccountMediaRemoteMediator(api, this)
+        remoteMediator = AccountMediaRemoteMediator(api, accountManager, this)
     ).flow
         .cachedIn(viewModelScope)
 
