@@ -48,6 +48,8 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.BlackBox
+import com.keylesspalace.tusky.BlackBoxActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
@@ -203,6 +205,7 @@ class NotificationsFragment :
                 // reading position is always restorable.
                 layoutManager.findFirstVisibleItemPosition().takeIf { it >= 0 }?.let { position ->
                     adapter.snapshot().getOrNull(position)?.id?.let { id ->
+                        BlackBox.add(TAG, "Scroll state changed, sending: SaveVisibleId($id)")
                         viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
                     }
                 }
@@ -453,6 +456,10 @@ class NotificationsFragment :
                 onRefresh()
                 true
             }
+            R.id.action_report_blackbox -> {
+                startActivity(BlackBoxActivity.getIntent(requireContext()))
+                true
+            }
             else -> false
         }
     }
@@ -470,6 +477,7 @@ class NotificationsFragment :
         val position = layoutManager.findFirstVisibleItemPosition()
         if (position >= 0) {
             adapter.snapshot().getOrNull(position)?.id?.let { id ->
+                BlackBox.add(TAG, "onPause, sending: SaveVisibleId($id)")
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
             }
         }
@@ -622,7 +630,7 @@ class NotificationsFragment :
     }
 
     companion object {
-        private const val TAG = "NotificationF"
+        private const val TAG = "NotificationsFragment"
         fun newInstance() = NotificationsFragment()
 
         private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData> =

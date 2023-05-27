@@ -21,6 +21,7 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.gson.Gson
+import com.keylesspalace.tusky.BlackBox
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
@@ -41,6 +42,10 @@ class NotificationsPagingSource @Inject constructor(
 ) : PagingSource<String, Notification>() {
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Notification> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
+        BlackBox.add(
+            TAG,
+            "load() with ${params.javaClass.simpleName} for key: ${params.key}"
+        )
 
         try {
             val response = when (params) {
@@ -80,6 +85,11 @@ class NotificationsPagingSource @Inject constructor(
             }
 
             val links = getPageLinks(response.headers()["link"])
+            BlackBox.add(
+                TAG,
+                "found links: ${params.javaClass.simpleName}: next: ${links.next}, prev: ${links.prev}"
+            )
+
             return LoadResult.Page(
                 data = response.body()!!,
                 nextKey = links.next,
@@ -105,10 +115,14 @@ class NotificationsPagingSource @Inject constructor(
     private suspend fun getInitialPage(params: LoadParams<String>): Response<List<Notification>> = coroutineScope {
         // If the key is null this is straightforward, just return the most recent notifications.
         val key = params.key
-            ?: return@coroutineScope mastodonApi.notifications(
+
+        if (key == null) {
+            BlackBox.add(TAG, "getInitialPage: key is null, fetching newest notifications")
+            return@coroutineScope mastodonApi.notifications(
                 limit = params.loadSize,
                 excludes = notificationFilter
             )
+        }
 
         // It's important to return *something* from this state. If an empty page is returned
         // (even with next/prev links) Pager3 assumes there is no more data to load and stops.
@@ -123,6 +137,7 @@ class NotificationsPagingSource @Inject constructor(
         // loaded.
         //
         // Make both requests, and wait for the first to complete.
+        BlackBox.add(TAG, "getInitialPage: fetching notif $key and page after")
         val deferredNotification = async { mastodonApi.notification(id = key) }
         val deferredNotificationPage = async {
             mastodonApi.notifications(maxId = key, limit = params.loadSize, excludes = notificationFilter)
@@ -158,29 +173,35 @@ class NotificationsPagingSource @Inject constructor(
                         .add("link: </?max_id=$maxId>; rel=\"next\", </?min_id=$key>; rel=\"prev\"")
                         .build()
 
+                    BlackBox.add(TAG, "getInitialPage: notif $key existed, unfiltered, returning")
                     return@coroutineScope Response.success(notifications, headers)
                 }
             }
         }
 
+        BlackBox.add(TAG, "getInitialPage: notif $key missing, checking next page")
         // The user's last read notification was missing or is filtered. Use the page of
         // notifications chronologically older than their desired notification. This page must
         // *not* be empty (as noted earlier, if it is, paging stops).
         deferredNotificationPage.await().let { response ->
             if (response.isSuccessful) {
+                BlackBox.add(TAG, "getInitialPage: next page existed, returning")
                 if (!response.body().isNullOrEmpty()) return@coroutineScope response
             }
         }
 
+        BlackBox.add(TAG, "getInitialPage: no next page, checking immediately prior page")
         // There were no notifications older than the user's desired notification. Return the page
         // of notifications immediately newer than their desired notification. This page must
         // *not* be empty (as noted earlier, if it is, paging stops).
         mastodonApi.notifications(minId = key, limit = params.loadSize, excludes = notificationFilter).let { response ->
             if (response.isSuccessful) {
+                BlackBox.add(TAG, "getInitialPage: prior page existed, returning")
                 if (!response.body().isNullOrEmpty()) return@coroutineScope response
             }
         }
 
+        BlackBox.add(TAG, "getInitialPage: no prior page, returning newest notifications")
         // Everything failed -- fallback to fetching the most recent notifications
         return@coroutineScope mastodonApi.notifications(
             limit = params.loadSize,

@@ -25,6 +25,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.keylesspalace.tusky.BlackBox
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -309,6 +310,15 @@ class NotificationsViewModel @Inject constructor(
     }
 
     init {
+        BlackBox.add(TAG, "init { }")
+        for (account in accountManager.accounts) {
+            BlackBox.add(
+                TAG,
+                "account: ${account.id}, ${account.identifier}, ${account.username}"
+            )
+        }
+        BlackBox.add(TAG, "active account: ${accountManager.activeAccount!!.id}")
+
         // Handle changes to notification filters
         val notificationFilter = uiAction
             .filterIsInstance<InfallibleUiAction.ApplyFilter>()
@@ -338,6 +348,7 @@ class NotificationsViewModel @Inject constructor(
                 .collectLatest { action ->
                     Log.d(TAG, "Saving visible ID: ${action.visibleId}")
                     accountManager.activeAccount?.let { account ->
+                        BlackBox.add(TAG, "Saving visible id ${action.visibleId} to account ${account.id}")
                         account.lastNotificationId = action.visibleId
                         accountManager.saveAccount(account)
                     }
@@ -457,6 +468,7 @@ class NotificationsViewModel @Inject constructor(
 
         pagingData = notificationFilter
             .flatMapLatest { action ->
+                BlackBox.add(TAG, "New filters (${action.filter}), reloading notifications for ${accountManager.activeAccount!!.id}")
                 getNotifications(filters = action.filter, initialKey = getInitialKey())
             }
             .cachedIn(viewModelScope)
@@ -494,10 +506,11 @@ class NotificationsViewModel @Inject constructor(
     // The database stores "0" as the last notification ID if notifications have not been
     // fetched. Convert to null to ensure a full fetch in this case
     private fun getInitialKey(): String? {
-        val initialKey = when (val id = accountManager.activeAccount?.lastNotificationId) {
+        val initialKey = when (val id = accountManager.activeAccount!!.lastNotificationId) {
             "0" -> null
             else -> id
         }
+        BlackBox.add(TAG, "getInitialKey: ${accountManager.activeAccount!!.lastNotificationId}, $initialKey")
         Log.d(TAG, "Restoring at $initialKey")
         return initialKey
     }
