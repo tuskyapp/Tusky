@@ -223,6 +223,10 @@ class ComposeViewModel @Inject constructor(
         return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged || didScheduledTimeChange
     }
 
+    fun isEmpty(content: String?, contentWarning: String?): Boolean {
+        return !modifiedInitialState && (content.isNullOrBlank() && contentWarning.isNullOrBlank() && media.value.isEmpty() && poll.value == null)
+    }
+
     fun contentWarningChanged(value: Boolean) {
         showContentWarning.value = value
         contentWarningStateChanged = true

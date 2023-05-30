@@ -1124,7 +1124,12 @@ class ComposeActivity :
     private fun handleCloseButton() {
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
-        if (viewModel.didChange(contentText, contentWarning)) {
+        if (viewModel.composeKind == ComposeKind.NEW && viewModel.isEmpty(contentText, contentWarning)) {
+            viewModel.stopUploads()
+            finishWithoutSlideOutAnimation()
+        } else if (viewModel.composeKind == ComposeKind.EDIT_DRAFT && viewModel.isEmpty(contentText, contentWarning)) {
+            getDeleteEmptyDraftOrContinueEditing().show()
+        } else if (viewModel.didChange(contentText, contentWarning)) {
             when (viewModel.composeKind) {
                 ComposeKind.NEW -> getSaveAsDraftOrDiscardDialog(contentText, contentWarning)
                 ComposeKind.EDIT_DRAFT -> getUpdateDraftOrDiscardDialog(contentText, contentWarning)
@@ -1195,6 +1200,23 @@ class ComposeActivity :
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
                 finishWithoutSlideOutAnimation()
+            }
+    }
+
+    /**
+     * User is editing an existing draft and making it empty.
+     * The user can either delete the empty draft or go back to editing.
+     */
+    private fun getDeleteEmptyDraftOrContinueEditing(): AlertDialog.Builder {
+        return AlertDialog.Builder(this)
+            .setMessage(R.string.compose_delete_draft)
+            .setPositiveButton(R.string.action_delete) { _, _ ->
+                viewModel.deleteDraft()
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
+            .setNegativeButton(R.string.action_continue_edit) { _, _ ->
+                // Do nothing, dialog will dismiss, user can continue editing
             }
     }
 
