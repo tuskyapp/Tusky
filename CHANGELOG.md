@@ -6,6 +6,19 @@
 
 ### Significant bug fixes
 
+## v22.0 beta 6
+
+### Significant bug fixes
+
+- **Save reading position in the Notifications tab more frequently**, [PR#3685](https://github.com/tuskyapp/Tusky/pull/3685)
+
+## v22.0 beta 5
+
+## Significant bug fixes
+
+- **Rolled back APNG library to fix broken animated emojis**, [PR#3676](https://github.com/tuskyapp/Tusky/pull/3676)
+- **Save local copy of notification marker in case server does not support the API**, [PR#3672](https://github.com/tuskyapp/Tusky/pull/3672)
+
 ## v22.0 beta 4
 
 ### Significant bug fixes

@@ -413,7 +413,7 @@
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Aktionen für Bild %s</string>
     <string name="failed_fetch_posts">Beiträge konnten nicht abgerufen werden</string>
-    <string name="title_accounts">Konten</string>
+    <string name="title_accounts">Profile</string>
     <string name="failed_search">Fehler beim Suchen</string>
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
     <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
@@ -568,7 +568,7 @@
     <string name="action_set_focus">Fokuspunkt setzen</string>
     <string name="action_add_reaction">Reaktion hinzufügen</string>
     <string name="failed_to_remove_from_list">Das Konto konnte nicht aus der Liste entfernt werden</string>
-    <string name="action_add_or_remove_from_list">Zur Liste hinzufügen / aus Liste entfernen</string>
+    <string name="action_add_or_remove_from_list">Zur Liste hzfg. / aus Liste entf.</string>
     <string name="failed_to_add_to_list">Das Konto konnte nicht zur Liste hinzugefügt werden</string>
     <string name="no_lists">Du hast keine Listen.</string>
     <string name="notification_summary_report_format">%s · %d Beiträge angehängt</string>
