@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Features including:
+
+- View trending hashtags
+- Edit image descriptions and focus point
+- "Refresh" menu for accessibility
+- Support Mastodon v4 filters
+- Show detailed differences when a post is edited
+- Option to show post statistics in the timeline
+
+Fixes including:
+
+- Show player controls during audio playback
+- Correct post length calculation
+- Always publish image captions
+
+and much more

@@ -108,7 +108,6 @@ internal fun String.parseIsoDate(): Date {
             return GregorianCalendar(year, month - 1, day).time
         }
         if (hasT) {
-
             // extract hours, minutes, seconds and milliseconds
             hour = parseInt(this, 1.let { offset += it; offset }, 2.let { offset += it; offset })
             if (checkOffset(this, offset, ':')) {

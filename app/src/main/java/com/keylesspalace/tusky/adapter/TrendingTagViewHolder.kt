@@ -32,7 +32,7 @@ class TrendingTagViewHolder(
     fun setup(
         tagViewData: TrendingViewData.Tag,
         maxTrendingValue: Long,
-        trendingListener: LinkListener,
+        trendingListener: LinkListener
     ) {
         val reversedHistory = tagViewData.tag.history.reversed()
         setGraph(reversedHistory, maxTrendingValue)

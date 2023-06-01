@@ -42,6 +42,8 @@ data class StatusDisplayOptions(
     val hideStats: Boolean,
     @get:JvmName("animateEmojis")
     val animateEmojis: Boolean,
+    @get:JvmName("showStatsInline")
+    val showStatsInline: Boolean,
     @get:JvmName("showSensitiveMedia")
     val showSensitiveMedia: Boolean,
     @get:JvmName("openSpoiler")
@@ -119,6 +121,7 @@ data class StatusDisplayOptions(
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = account.alwaysShowSensitiveMedia,
             openSpoiler = account.alwaysOpenSpoiler
         )

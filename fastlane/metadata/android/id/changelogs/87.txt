@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Logika pemuatan timeline telah sepenuhnya ditulis ulang agar lebih cepat, lebih sedikit buggy dan lebih mudah dipelihara.
+- Tusky sekarang dapat menganimasikan emoji khusus dalam format APNG & Animated WebP.
+- Banyak perbaikan bug
+- Dukungan untuk Android 11
+- Terjemahan baru: Gaelik Skotlandia, Galicia, Ukraina
+- Terjemahan yang ditingkatkan

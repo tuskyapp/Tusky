@@ -20,10 +20,12 @@ import android.view.ViewGroup
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.interfaces.LinkListener
 
 /** Displays a list of follow requests with accept/reject buttons. */
 class FollowRequestsAdapter(
     accountActionListener: AccountActionListener,
+    private val linkListener: LinkListener,
     animateAvatar: Boolean,
     animateEmojis: Boolean,
     showBotOverlay: Boolean
@@ -36,11 +38,14 @@ class FollowRequestsAdapter(
 
     override fun createAccountViewHolder(parent: ViewGroup): FollowRequestViewHolder {
         val binding = ItemFollowRequestBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return FollowRequestViewHolder(
             binding,
             accountActionListener,
+            linkListener,
             showHeader = false
         )
     }

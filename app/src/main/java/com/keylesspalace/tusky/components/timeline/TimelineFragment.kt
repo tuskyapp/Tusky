@@ -170,7 +170,7 @@ class TimelineFragment :
         viewModel.init(
             kind,
             id,
-            tags,
+            tags
         )
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
@@ -188,11 +188,16 @@ class TimelineFragment :
                     PrefKeys.SHOW_CARDS_IN_TIMELINES,
                     false
                 )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
+            ) {
+                CardViewMode.INDENTED
+            } else {
+                CardViewMode.NONE
+            },
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
@@ -230,15 +235,22 @@ class TimelineFragment :
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                            if (kind == TimelineViewModel.Kind.HOME) {
+                                binding.statusView.showHelp(R.string.help_empty_home)
+                            }
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
 
                         if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network)
+                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                onRefresh()
+                            }
                         } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic)
+                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                onRefresh()
+                            }
                         }
                     }
                     is LoadState.Loading -> {
@@ -255,7 +267,9 @@ class TimelineFragment :
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
                                 binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                            } else binding.recyclerView.scrollToPosition(0)
+                            } else {
+                                binding.recyclerView.scrollToPosition(0)
+                            }
                         }
                     }
                 }
@@ -292,10 +306,8 @@ class TimelineFragment :
             })
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 when (event) {
                     is PreferenceChangedEvent -> {
                         onPreferenceChanged(event.preferenceKey)
@@ -309,6 +321,7 @@ class TimelineFragment :
                     }
                 }
             }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -424,6 +437,11 @@ class TimelineFragment :
         viewModel.voteInPoll(choices, status)
     }
 
+    override fun clearWarningAction(position: Int) {
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.clearWarning(status)
+    }
+
     override fun onMore(view: View, position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
         super.more(status.status, view, position)
@@ -459,7 +477,7 @@ class TimelineFragment :
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
-        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
+        statusIdBelowLoadMore = if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
         viewModel.loadMore(placeholder.id)
     }
 
@@ -558,6 +576,17 @@ class TimelineFragment :
     }
 
     private var talkBackWasEnabled = false
+
+    override fun onPause() {
+        super.onPause()
+        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                    viewModel.saveReadingPosition(statusId)
+                }
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()

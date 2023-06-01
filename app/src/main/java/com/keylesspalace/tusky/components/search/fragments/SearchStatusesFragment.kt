@@ -88,6 +88,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
@@ -133,7 +134,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
                     val intent = ViewMediaActivity.newIntent(
-                        context, attachments,
+                        context,
+                        attachments,
                         attachmentIndex
                     )
                     if (view != null) {
@@ -141,7 +143,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         ViewCompat.setTransitionName(view, url)
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             requireActivity(),
-                            view, url
+                            view,
+                            url
                         )
                         startActivity(intent, options.toBundle())
                     } else {
@@ -189,6 +192,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             viewModel.voteInPoll(it, choices)
         }
     }
+
+    override fun clearWarningAction(position: Int) {}
 
     private fun removeItem(position: Int) {
         searchAdapter.peek(position)?.let {
@@ -397,7 +402,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private fun showOpenAsDialog(statusUrl: String, dialogTitle: CharSequence?) {
         bottomSheetActivity?.showAccountChooserDialog(
-            dialogTitle, false,
+            dialogTitle,
+            false,
             object : AccountSelectionListener {
                 override fun onAccountSelected(account: AccountEntity) {
                     bottomSheetActivity?.openAsAccount(statusUrl, account)
@@ -513,7 +519,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         language = status.language,
                         statusId = source.id,
                         poll = status.poll?.toNewPoll(status.createdAt),
-                        kind = ComposeActivity.ComposeKind.EDIT_POSTED,
+                        kind = ComposeActivity.ComposeKind.EDIT_POSTED
                     )
                     startActivity(ComposeActivity.startIntent(requireContext(), composeOptions))
                 },

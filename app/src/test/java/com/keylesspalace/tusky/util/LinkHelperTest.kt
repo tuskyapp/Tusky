@@ -26,11 +26,11 @@ class LinkHelperTest {
 
     private val mentions = listOf(
         Status.Mention("1", "https://example.com/@user", "user", "user"),
-        Status.Mention("2", "https://example.com/@anotherUser", "anotherUser", "anotherUser"),
+        Status.Mention("2", "https://example.com/@anotherUser", "anotherUser", "anotherUser")
     )
     private val tags = listOf(
         HashTag("Tusky", "https://example.com/Tags/Tusky"),
-        HashTag("mastodev", "https://example.com/Tags/mastodev"),
+        HashTag("mastodev", "https://example.com/Tags/mastodev")
     )
 
     private val context: Context
@@ -118,7 +118,7 @@ class LinkHelperTest {
             null,
             "foo bar baz",
             "http:/foo.bar",
-            "c:/foo/bar",
+            "c:/foo/bar"
         ).forEach {
             Assert.assertEquals("", getDomain(it))
         }
@@ -130,7 +130,7 @@ class LinkHelperTest {
             "example.com",
             "localhost",
             "sub.domain.com",
-            "10.45.0.123",
+            "10.45.0.123"
         ).forEach { domain ->
             listOf(
                 "https://$domain",
@@ -140,7 +140,7 @@ class LinkHelperTest {
                 "https://$domain/foo/bar.html#",
                 "https://$domain/foo/bar.html#anchor",
                 "https://$domain/foo/bar.html?argument=value",
-                "https://$domain/foo/bar.html?argument=value&otherArgument=otherValue",
+                "https://$domain/foo/bar.html?argument=value&otherArgument=otherValue"
             ).forEach { url ->
                 Assert.assertEquals(domain, getDomain(url))
             }
@@ -153,7 +153,7 @@ class LinkHelperTest {
             "https://www.example.com/foo/bar" to "example.com",
             "https://awww.example.com/foo/bar" to "awww.example.com",
             "http://www.localhost" to "localhost",
-            "https://wwwexample.com/" to "wwwexample.com",
+            "https://wwwexample.com/" to "wwwexample.com"
         ).forEach { (url, domain) ->
             Assert.assertEquals(domain, getDomain(url))
         }
@@ -247,7 +247,7 @@ class LinkHelperTest {
             "Another Place: another.place/",
             "Another Place - https://another.place",
             "Another Place | https://another.place/",
-            "Another Place https://another.place/path",
+            "Another Place https://another.place/path"
         )
         asserts.forEach {
             Assert.assertTrue(markedUpContent.contains(context.getString(R.string.url_domain_notifier, it, "some.place")))
@@ -367,7 +367,7 @@ class LinkHelperTest {
                     arrayOf("https://pixelfed.social/connyduck", true),
                     arrayOf("https://gts.foo.bar/@goblin/statuses/01GH9XANCJ0TA8Y95VE9H3Y0Q2", true),
                     arrayOf("https://gts.foo.bar/@goblin", true),
-                    arrayOf("https://foo.microblog.pub/o/5b64045effd24f48a27d7059f6cb38f5", true),
+                    arrayOf("https://foo.microblog.pub/o/5b64045effd24f48a27d7059f6cb38f5", true)
                 )
             }
         }

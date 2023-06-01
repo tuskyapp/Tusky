@@ -113,6 +113,7 @@ class ViewThreadFragment :
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
@@ -177,7 +178,11 @@ class ViewThreadFragment :
                         threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
                         threadProgressBar.start()
 
-                        adapter.submitList(listOf(uiState.statusViewDatum))
+                        if (viewModel.isInitialLoad) {
+                            adapter.submitList(listOf(uiState.statusViewDatum))
+
+                            // else this "submit one and then all on success below" will always center on the one
+                        }
 
                         revealButtonState = uiState.revealButton
                         binding.swipeRefreshLayout.isRefreshing = false
@@ -411,13 +416,14 @@ class ViewThreadFragment :
     }
 
     public override fun removeItem(position: Int) {
-        val status = adapter.currentList[position]
-        if (status.isDetailed) {
-            // the main status we are viewing is being removed, finish the activity
-            activity?.finish()
-            return
+        adapter.currentList.getOrNull(position)?.let { status ->
+            if (status.isDetailed) {
+                // the main status we are viewing is being removed, finish the activity
+                activity?.finish()
+                return
+            }
+            viewModel.removeStatus(status)
         }
-        viewModel.removeStatus(status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
@@ -434,6 +440,10 @@ class ViewThreadFragment :
             replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")
             addToBackStack(null)
         }
+    }
+
+    override fun clearWarningAction(position: Int) {
+        viewModel.clearWarning(adapter.currentList[position])
     }
 
     companion object {

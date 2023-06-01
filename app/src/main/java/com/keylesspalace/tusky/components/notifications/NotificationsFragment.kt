@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
@@ -161,7 +162,7 @@ class NotificationsFragment :
                 binding.recyclerView,
                 this
             ) { pos: Int ->
-                val notification = adapter.snapshot()[pos]
+                val notification = adapter.snapshot().getOrNull(pos)
                 // We support replies only for now
                 if (notification is NotificationViewData) {
                     notification.statusViewData
@@ -193,6 +194,19 @@ class NotificationsFragment :
                     }
                 }
             }
+
+            @Suppress("SyntheticAccessor")
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                newState != SCROLL_STATE_IDLE && return
+
+                // Save the ID of the first notification visible in the list, so the user's
+                // reading position is always restorable.
+                layoutManager.findFirstVisibleItemPosition().takeIf { it >= 0 }?.let { position ->
+                    adapter.snapshot().getOrNull(position)?.id?.let { id ->
+                        viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
+                    }
+                }
+            }
         })
 
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -211,28 +225,22 @@ class NotificationsFragment :
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
-                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        }
                     }
                 }
             }
         })
 
-        /**
-         * Collect this flow to notify the adapter that the timestamps of the visible items have
-         * changed
-         */
+        // update post timestamps
         val updateTimestampFlow = flow {
-            while (true) { delay(60000); emit(Unit) }
-        }.onEach {
-            layoutManager.findFirstVisibleItemPosition().let { first ->
-                first == RecyclerView.NO_POSITION && return@let
-                val count = layoutManager.findLastVisibleItemPosition() - first
-                adapter.notifyItemRangeChanged(
-                    first,
-                    count,
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                )
+            while (true) {
+                delay(60000)
+                emit(Unit)
             }
+        }.onEach {
+            adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -366,20 +374,14 @@ class NotificationsFragment :
                 }
 
                 // Update status display from statusDisplayOptions. If the new options request
-                // relative time display collect the flow to periodically re-bind the UI.
+                // relative time display collect the flow to periodically update the timestamp in the list gui elements.
                 launch {
                     viewModel.statusDisplayOptions
                         .collectLatest {
+                            // NOTE this this also triggered (emitted?) on resume.
+
                             adapter.statusDisplayOptions = it
-                            layoutManager.findFirstVisibleItemPosition().let { first ->
-                                first == RecyclerView.NO_POSITION && return@let
-                                val count = layoutManager.findLastVisibleItemPosition() - first
-                                adapter.notifyItemRangeChanged(
-                                    first,
-                                    count,
-                                    null
-                                )
-                            }
+                            adapter.notifyItemRangeChanged(0, adapter.itemCount, null)
 
                             if (!it.useAbsoluteTime) {
                                 updateTimestampFlow.collect()
@@ -458,6 +460,7 @@ class NotificationsFragment :
     override fun onRefresh() {
         binding.progressBar.isVisible = false
         adapter.refresh()
+        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
     }
 
     override fun onPause() {
@@ -466,7 +469,7 @@ class NotificationsFragment :
         // Save the ID of the first notification visible in the list
         val position = layoutManager.findFirstVisibleItemPosition()
         if (position >= 0) {
-            adapter.snapshot()[position]?.id?.let { id ->
+            adapter.snapshot().getOrNull(position)?.id?.let { id ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
             }
         }
@@ -553,6 +556,9 @@ class NotificationsFragment :
 
     override fun onNotificationContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         onContentCollapsedChange(isCollapsed, position)
+    }
+
+    override fun clearWarningAction(position: Int) {
     }
 
     private fun clearNotifications() {

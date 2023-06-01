@@ -31,6 +31,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.text.Spanned
+import android.text.style.URLSpan
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -91,6 +93,7 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
+import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
@@ -138,6 +141,9 @@ class ComposeActivity :
     private lateinit var addMediaBehavior: BottomSheetBehavior<*>
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
+
+    /** The account that is being used to compose the status */
+    private lateinit var activeAccount: AccountEntity
 
     private var photoUploadUri: Uri? = null
 
@@ -205,10 +211,15 @@ class ComposeActivity :
             notificationManager.cancel(notificationId)
         }
 
-        val accountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
-        if (accountId != -1L) {
-            accountManager.setActiveAccount(accountId)
-        }
+        // If started from an intent then compose as the account ID from the intent.
+        // Otherwise use the active account. If null then the user is not logged in,
+        // and return from the activity.
+        val intentAccountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
+        activeAccount = if (intentAccountId != -1L) {
+            accountManager.getAccountById(intentAccountId)
+        } else {
+            accountManager.activeAccount
+        } ?: return
 
         val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
         if (theme == "black") {
@@ -217,20 +228,18 @@ class ComposeActivity :
         setContentView(binding.root)
 
         setupActionBar()
-        // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
-        val activeAccount = accountManager.activeAccount ?: return
 
         setupAvatar(activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
-                CaptionDialog.newInstance(item.localId, item.description, item.uri)
-                    .show(supportFragmentManager, "caption_dialog")
+                CaptionDialog.newInstance(item.localId, item.description, item.uri).show(supportFragmentManager, "caption_dialog")
             },
             onAddFocus = { item ->
                 makeFocusDialog(item.focus, item.uri) { newFocus ->
                     viewModel.updateFocus(item.localId, newFocus)
                 }
+                // TODO this is inconsistent to CaptionDialog (device rotation)?
             },
             onEditImage = this::editImageInQueue,
             onRemove = this::removeMediaFromQueue
@@ -809,25 +818,26 @@ class ComposeActivity :
     }
 
     private fun onMediaPick() {
-        addMediaBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                // Wait until bottom sheet is not collapsed and show next screen after
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    addMediaBehavior.removeBottomSheetCallback(this)
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(
-                            this@ComposeActivity,
-                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-                        )
-                    } else {
-                        pickMediaFile.launch(true)
+        addMediaBehavior.addBottomSheetCallback(
+            object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    // Wait until bottom sheet is not collapsed and show next screen after
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        addMediaBehavior.removeBottomSheetCallback(this)
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(
+                                this@ComposeActivity,
+                                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+                            )
+                        } else {
+                            pickMediaFile.launch(true)
+                        }
                     }
                 }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        }
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            }
         )
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -883,20 +893,11 @@ class ComposeActivity :
 
     @VisibleForTesting
     fun calculateTextLength(): Int {
-        var offset = 0
-        val urlSpans = binding.composeEditField.urls
-        if (urlSpans != null) {
-            for (span in urlSpans) {
-                // it's expected that this will be negative
-                // when the url length is less than the reserved character count
-                offset += (span.url.length - charactersReservedPerUrl)
-            }
-        }
-        var length = binding.composeEditField.length() - offset
-        if (viewModel.showContentWarning.value) {
-            length += binding.composeContentWarningField.length()
-        }
-        return length
+        return statusLength(
+            binding.composeEditField.text,
+            binding.composeContentWarningField.text,
+            charactersReservedPerUrl
+        )
     }
 
     @VisibleForTesting
@@ -959,9 +960,8 @@ class ComposeActivity :
             binding.composeEditField.error = getString(R.string.error_empty)
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
-
             lifecycleScope.launch {
-                viewModel.sendStatus(contentText, spoilerText)
+                viewModel.sendStatus(contentText, spoilerText, activeAccount.id)
                 deleteDraftAndFinish()
             }
         } else {
@@ -978,7 +978,8 @@ class ComposeActivity :
                 pickMediaFile.launch(true)
             } else {
                 Snackbar.make(
-                    binding.activityCompose, R.string.error_media_upload_permission,
+                    binding.activityCompose,
+                    R.string.error_media_upload_permission,
                     Snackbar.LENGTH_SHORT
                 ).apply {
                     setAction(R.string.action_retry) { onMediaPick() }
@@ -1012,9 +1013,13 @@ class ComposeActivity :
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
         button.isEnabled = clickable
         setDrawableTint(
-            this, button.drawable,
-            if (colorActive) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled
+            this,
+            button.drawable,
+            if (colorActive) {
+                android.R.attr.textColorTertiary
+            } else {
+                R.attr.textColorDisabled
+            }
         )
     }
 
@@ -1022,8 +1027,11 @@ class ComposeActivity :
         binding.addPollTextActionTextView.isEnabled = enable
         val textColor = MaterialColors.getColor(
             binding.addPollTextActionTextView,
-            if (enable) android.R.attr.textColorTertiary
-            else R.attr.textColorDisabled
+            if (enable) {
+                android.R.attr.textColorTertiary
+            } else {
+                R.attr.textColorDisabled
+            }
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
         binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
@@ -1199,8 +1207,11 @@ class ComposeActivity :
         lifecycleScope.launch {
             val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
                 ProgressDialog.show(
-                    this@ComposeActivity, null,
-                    getString(R.string.saving_draft), true, false
+                    this@ComposeActivity,
+                    null,
+                    getString(R.string.saving_draft),
+                    true,
+                    false
                 )
             } else {
                 null
@@ -1261,11 +1272,7 @@ class ComposeActivity :
     }
 
     override fun onUpdateDescription(localId: Int, description: String) {
-        lifecycleScope.launch {
-            if (!viewModel.updateDescription(localId, description)) {
-                Toast.makeText(this@ComposeActivity, R.string.error_failed_set_caption, Toast.LENGTH_SHORT).show()
-            }
-        }
+        viewModel.updateDescription(localId, description)
     }
 
     /**
@@ -1351,6 +1358,54 @@ class ComposeActivity :
 
         fun canHandleMimeType(mimeType: String?): Boolean {
             return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
+        }
+
+        /**
+         * Calculate the effective status length.
+         *
+         * Some text is counted differently:
+         *
+         * In the status body:
+         *
+         * - URLs always count for [urlLength] characters irrespective of their actual length
+         *   (https://docs.joinmastodon.org/user/posting/#links)
+         * - Mentions ("@user@some.instance") only count the "@user" part
+         *   (https://docs.joinmastodon.org/user/posting/#mentions)
+         * - Hashtags are always treated as their actual length, including the "#"
+         *   (https://docs.joinmastodon.org/user/posting/#hashtags)
+         *
+         * Content warning text is always treated as its full length, URLs and other entities
+         * are not treated differently.
+         *
+         * @param body status body text
+         * @param contentWarning optional content warning text
+         * @param urlLength the number of characters attributed to URLs
+         * @return the effective status length
+         */
+        @JvmStatic
+        fun statusLength(body: Spanned, contentWarning: Spanned?, urlLength: Int): Int {
+            var length = body.length - body.getSpans(0, body.length, URLSpan::class.java)
+                .fold(0) { acc, span ->
+                    // Accumulate a count of characters to be *ignored* in the final length
+                    acc + when (span) {
+                        is MentionSpan -> {
+                            // Ignore everything from the second "@" (if present)
+                            span.url.length - (
+                                span.url.indexOf("@", 1).takeIf { it >= 0 }
+                                    ?: span.url.length
+                                )
+                        }
+                        else -> {
+                            // Expected to be negative if the URL length < maxUrlLength
+                            span.url.length - urlLength
+                        }
+                    }
+                }
+
+            // Content warning text is treated as is, URLs or mentions there are not special
+            contentWarning?.let { length += it.length }
+
+            return length
         }
     }
 }

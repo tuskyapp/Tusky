@@ -34,7 +34,7 @@ class GraphView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    defStyleRes: Int = 0,
+    defStyleRes: Int = 0
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
     @get:ColorInt
     @ColorInt
@@ -69,22 +69,54 @@ class GraphView @JvmOverloads constructor(
     private var secondaryLinePath: Path = Path()
 
     var maxTrendingValue: Long = 300
-    var primaryLineData: List<Long> = if (isInEditMode) listOf(
-        30, 60, 70, 80, 130, 190, 80,
-    ) else listOf(
-        1, 1, 1, 1, 1, 1, 1,
-    )
+    var primaryLineData: List<Long> = if (isInEditMode) {
+        listOf(
+            30,
+            60,
+            70,
+            80,
+            130,
+            190,
+            80
+        )
+    } else {
+        listOf(
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+        )
+    }
         set(value) {
             field = value.map { max(1, it) }
             primaryLinePath.reset()
             invalidate()
         }
 
-    var secondaryLineData: List<Long> = if (isInEditMode) listOf(
-        10, 20, 40, 60, 100, 132, 20,
-    ) else listOf(
-        1, 1, 1, 1, 1, 1, 1,
-    )
+    var secondaryLineData: List<Long> = if (isInEditMode) {
+        listOf(
+            10,
+            20,
+            40,
+            60,
+            100,
+            132,
+            20
+        )
+    } else {
+        listOf(
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+        )
+    }
         set(value) {
             field = value.map { max(1, it) }
             secondaryLinePath.reset()
@@ -101,7 +133,7 @@ class GraphView @JvmOverloads constructor(
                 context,
                 a.getResourceId(
                     R.styleable.GraphView_primaryLineColor,
-                    R.color.tusky_blue,
+                    R.color.tusky_blue
                 )
             )
 
@@ -109,7 +141,7 @@ class GraphView @JvmOverloads constructor(
                 context,
                 a.getResourceId(
                     R.styleable.GraphView_secondaryLineColor,
-                    R.color.tusky_red,
+                    R.color.tusky_red
                 )
             )
 
@@ -122,7 +154,7 @@ class GraphView @JvmOverloads constructor(
                 context,
                 a.getResourceId(
                     R.styleable.GraphView_graphColor,
-                    R.color.colorBackground,
+                    R.color.colorBackground
                 )
             )
 
@@ -130,13 +162,13 @@ class GraphView @JvmOverloads constructor(
                 context,
                 a.getResourceId(
                     R.styleable.GraphView_metaColor,
-                    R.color.dividerColor,
+                    R.color.dividerColor
                 )
             )
 
             proportionalTrending = a.getBoolean(
                 R.styleable.GraphView_proportionalTrending,
-                proportionalTrending,
+                proportionalTrending
             )
         }
 
@@ -271,14 +303,14 @@ class GraphView @JvmOverloads constructor(
                 linePath = secondaryLinePath,
                 linePaint = secondaryLinePaint,
                 circlePaint = secondaryCirclePaint,
-                lineThickness = lineWidth,
+                lineThickness = lineWidth
             )
             drawLine(
                 canvas = canvas,
                 linePath = primaryLinePath,
                 linePaint = primaryLinePaint,
                 circlePaint = primaryCirclePaint,
-                lineThickness = lineWidth,
+                lineThickness = lineWidth
             )
         }
     }
@@ -288,12 +320,12 @@ class GraphView @JvmOverloads constructor(
         linePath: Path,
         linePaint: Paint,
         circlePaint: Paint,
-        lineThickness: Float,
+        lineThickness: Float
     ) {
         canvas.apply {
             drawPath(
                 linePath,
-                linePaint,
+                linePaint
             )
 
             val pm = PathMeasure(linePath, false)

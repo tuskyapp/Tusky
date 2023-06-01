@@ -21,17 +21,18 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
@@ -39,7 +40,6 @@ import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigra
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceHandler
@@ -58,6 +58,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeRes
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -177,6 +178,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
+            preference {
+                setTitle(R.string.pref_title_timeline_filters)
+                setIcon(R.drawable.ic_filter_24dp)
+                setOnPreferenceClickListener {
+                    launchFilterActivity()
+                    true
+                }
+            }
+
             preferenceCategory(R.string.pref_publishing) {
                 listPreference {
                     setTitle(R.string.pref_default_post_privacy)
@@ -190,7 +200,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
                         syncWithServer(visibility = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -213,7 +222,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                     setOnPreferenceChangeListener { _, newValue ->
                         syncWithServer(language = (newValue as String))
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -229,7 +237,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForSensitivity(newValue as Boolean))
                         syncWithServer(sensitive = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -238,7 +245,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timelines) {
                 // TODO having no activeAccount in this fragment does not really make sense, enforce it?
                 //   All other locations here make it optional, however.
-                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, eventHub)
+                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, ::dispatchEvent)
 
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
@@ -259,48 +266,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_alway_open_spoiler)
                     isSingleLineTitle = false
                     preferenceDataStore = accountPreferenceHandler
-                }
-            }
-
-            preferenceCategory(R.string.pref_title_timeline_filters) {
-                preference {
-                    setTitle(R.string.pref_title_public_filter_keywords)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.PUBLIC, R.string.pref_title_public_filter_keywords)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_notifications)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.NOTIFICATIONS, R.string.title_notifications)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_home)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.HOME, R.string.title_home)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.pref_title_thread_filter_keywords)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.THREAD, R.string.pref_title_thread_filter_keywords)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_accounts)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.ACCOUNT, R.string.title_accounts)
-                        true
-                    }
                 }
             }
         }
@@ -334,7 +299,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 override fun onResponse(call: Call<Account>, response: Response<Account>) {
                     val account = response.body()
                     if (response.isSuccessful && account != null) {
-
                         accountManager.activeAccount?.let {
                             it.defaultPostPrivacy = account.source?.privacy
                                 ?: Status.Visibility.PUBLIC
@@ -383,12 +347,16 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    private fun launchFilterActivity(filterContext: String, titleResource: Int) {
+    private fun launchFilterActivity() {
         val intent = Intent(context, FiltersActivity::class.java)
-        intent.putExtra(FiltersActivity.FILTERS_CONTEXT, filterContext)
-        intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(titleResource))
         activity?.startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    private fun dispatchEvent(event: PreferenceChangedEvent) {
+        lifecycleScope.launch {
+            eventHub.dispatch(event)
+        }
     }
 
     companion object {

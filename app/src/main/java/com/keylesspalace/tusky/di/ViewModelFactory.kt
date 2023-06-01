@@ -28,6 +28,8 @@ import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
+import com.keylesspalace.tusky.components.filters.EditFilterViewModel
+import com.keylesspalace.tusky.components.filters.FiltersViewModel
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
@@ -172,6 +174,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TrendingViewModel::class)
     internal abstract fun trendingViewModel(viewModel: TrendingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FiltersViewModel::class)
+    internal abstract fun filtersViewModel(viewModel: FiltersViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditFilterViewModel::class)
+    internal abstract fun editFilterViewModel(viewModel: EditFilterViewModel): ViewModel
 
     // Add more ViewModels here
 }

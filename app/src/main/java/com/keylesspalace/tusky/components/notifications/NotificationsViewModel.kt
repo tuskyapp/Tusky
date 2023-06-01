@@ -62,7 +62,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -357,7 +356,7 @@ class NotificationsViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            eventHub.events.asFlow()
+            eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
                 .map {
@@ -420,23 +419,23 @@ class NotificationsViewModel @Inject constructor(
                                 timelineCases.bookmark(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.Favourite ->
                                 timelineCases.favourite(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.Reblog ->
                                 timelineCases.reblog(
                                     action.statusViewData.actionableId,
                                     action.state
-                                ).await()
+                                )
                             is StatusAction.VoteInPoll ->
                                 timelineCases.voteInPoll(
                                     action.statusViewData.actionableId,
                                     action.poll.id,
                                     action.choices
-                                ).await()
+                                )
                         }
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
@@ -447,7 +446,7 @@ class NotificationsViewModel @Inject constructor(
 
         // Handle events that should refresh the list
         viewModelScope.launch {
-            eventHub.events.asFlow().collectLatest {
+            eventHub.events.collectLatest {
                 when (it) {
                     is BlockEvent -> uiSuccess.emit(UiSuccess.Block)
                     is MuteEvent -> uiSuccess.emit(UiSuccess.Mute)
@@ -456,17 +455,9 @@ class NotificationsViewModel @Inject constructor(
             }
         }
 
-        // The database stores "0" as the last notification ID if notifications have not been
-        // fetched. Convert to null to ensure a full fetch in this case
-        val lastNotificationId = when (val id = accountManager.activeAccount?.lastNotificationId) {
-            "0" -> null
-            else -> id
-        }
-        Log.d(TAG, "Restoring at $lastNotificationId")
-
         pagingData = notificationFilter
             .flatMapLatest { action ->
-                getNotifications(filters = action.filter, initialKey = lastNotificationId)
+                getNotifications(filters = action.filter, initialKey = getInitialKey())
             }
             .cachedIn(viewModelScope)
 
@@ -500,11 +491,22 @@ class NotificationsViewModel @Inject constructor(
             }
     }
 
+    // The database stores "0" as the last notification ID if notifications have not been
+    // fetched. Convert to null to ensure a full fetch in this case
+    private fun getInitialKey(): String? {
+        val initialKey = when (val id = accountManager.activeAccount?.lastNotificationId) {
+            "0" -> null
+            else -> id
+        }
+        Log.d(TAG, "Restoring at $initialKey")
+        return initialKey
+    }
+
     /**
      * @return Flow of relevant preferences that change the UI
      */
     // TODO: Preferences should be in a repository
-    private fun getUiPrefs() = eventHub.events.asFlow()
+    private fun getUiPrefs() = eventHub.events
         .filterIsInstance<PreferenceChangedEvent>()
         .filter { UiPrefs.prefKeys.contains(it.preferenceKey) }
         .map { toPrefs() }

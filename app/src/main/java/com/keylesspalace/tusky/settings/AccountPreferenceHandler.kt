@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.settings
 
 import androidx.preference.PreferenceDataStore
-import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -9,7 +8,7 @@ import com.keylesspalace.tusky.db.AccountManager
 class AccountPreferenceHandler(
     private val account: AccountEntity,
     private val accountManager: AccountManager,
-    private val eventHub: EventHub,
+    private val dispatchEvent: (PreferenceChangedEvent) -> Unit
 ) : PreferenceDataStore() {
 
     override fun getBoolean(key: String, defValue: Boolean): Boolean {
@@ -30,6 +29,6 @@ class AccountPreferenceHandler(
 
         accountManager.saveAccount(account)
 
-        eventHub.dispatch(PreferenceChangedEvent(key))
+        dispatchEvent(PreferenceChangedEvent(key))
     }
 }

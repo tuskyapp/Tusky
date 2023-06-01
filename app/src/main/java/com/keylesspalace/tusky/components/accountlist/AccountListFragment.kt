@@ -27,11 +27,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.calladapter.networkresult.fold
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Type
 import com.keylesspalace.tusky.components.accountlist.adapter.AccountAdapter
@@ -46,6 +50,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
@@ -59,10 +64,15 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountActionListener, Injectable {
+class AccountListFragment :
+    Fragment(R.layout.fragment_account_list),
+    AccountActionListener,
+    LinkListener,
+    Injectable {
 
     @Inject
     lateinit var api: MastodonApi
+
     @Inject
     lateinit var accountManager: AccountManager
 
@@ -83,13 +93,14 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+
+        binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts() }
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
         val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
@@ -104,7 +115,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
                     instanceName = accountManager.activeAccount!!.domain,
                     accountLocked = arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true
                 )
-                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
+                val followRequestsAdapter = FollowRequestsAdapter(this, this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
@@ -128,11 +139,20 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         fetchAccounts()
     }
 
+    override fun onViewTag(tag: String) {
+        (activity as BaseActivity?)
+            ?.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+    }
+
     override fun onViewAccount(id: String) {
         (activity as BaseActivity?)?.let {
             val intent = AccountActivity.getIntent(it, id)
             it.startActivityWithSlideInAnimation(intent)
         }
+    }
+
+    override fun onViewUrl(url: String) {
+        (activity as BottomSheetActivity?)?.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER)
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
@@ -227,7 +247,6 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         accountId: String,
         position: Int
     ) {
-
         if (accept) {
             api.authorizeFollowRequest(accountId)
         } else {
@@ -287,6 +306,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
             return
         }
         fetching = true
+        binding.swipeRefreshLayout.isRefreshing = true
 
         if (fromId != null) {
             binding.recyclerView.post { adapter.setBottomLoading(true) }
@@ -295,6 +315,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val response = getFetchCallByListType(fromId)
+
                 if (!response.isSuccessful) {
                     onFetchAccountsFailure(Exception(response.message()))
                     return@launch
@@ -317,6 +338,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     private fun onFetchAccountsSuccess(accounts: List<TimelineAccount>, linkHeader: String?) {
         adapter.setBottomLoading(false)
+        binding.swipeRefreshLayout.isRefreshing = false
 
         val links = HttpHeaderLink.parse(linkHeader)
         val next = HttpHeaderLink.findByRelationType(links, "next")
@@ -349,12 +371,12 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
     }
 
     private fun fetchRelationships(ids: List<String>) {
-        api.relationships(ids)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this))
-            .subscribe(::onFetchRelationshipsSuccess) { throwable ->
-                Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
-            }
+        lifecycleScope.launch {
+            api.relationships(ids)
+                .fold(::onFetchRelationshipsSuccess) { throwable ->
+                    Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
+                }
+        }
     }
 
     private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
@@ -366,6 +388,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
 
     private fun onFetchAccountsFailure(throwable: Throwable) {
         fetching = false
+        binding.swipeRefreshLayout.isRefreshing = false
         Log.e(TAG, "Fetch failure", throwable)
 
         if (adapter.itemCount == 0) {

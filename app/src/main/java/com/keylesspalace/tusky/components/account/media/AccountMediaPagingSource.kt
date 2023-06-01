@@ -26,7 +26,6 @@ class AccountMediaPagingSource(
     override fun getRefreshKey(state: PagingState<String, AttachmentViewData>): String? = null
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, AttachmentViewData> {
-
         return if (params is LoadParams.Refresh) {
             val list = viewModel.attachmentData.toList()
             LoadResult.Page(list, null, list.lastOrNull()?.statusId)

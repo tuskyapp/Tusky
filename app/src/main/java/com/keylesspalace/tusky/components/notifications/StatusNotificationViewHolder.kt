@@ -137,7 +137,9 @@ internal class StatusNotificationViewHolder(
     }
 
     private fun showNotificationContent(show: Boolean) {
-        binding.statusNameBar.visibility = if (show) View.VISIBLE else View.GONE
+        binding.statusDisplayName.visibility = if (show) View.VISIBLE else View.GONE
+        binding.statusUsername.visibility = if (show) View.VISIBLE else View.GONE
+        binding.statusMetaInfo.visibility = if (show) View.VISIBLE else View.GONE
         binding.notificationContentWarningDescription.visibility =
             if (show) View.VISIBLE else View.GONE
         binding.notificationContentWarningButton.visibility =

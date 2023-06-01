@@ -65,7 +65,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         dialog?.apply {
             window?.setLayout(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
             )
         }
     }
@@ -172,7 +172,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         ListAdapter<AccountListState, BindingHolder<ItemAddOrRemoveFromListBinding>>(Differ) {
         override fun onCreateViewHolder(
             parent: ViewGroup,
-            viewType: Int,
+            viewType: Int
         ): BindingHolder<ItemAddOrRemoveFromListBinding> {
             val binding =
                 ItemAddOrRemoveFromListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
