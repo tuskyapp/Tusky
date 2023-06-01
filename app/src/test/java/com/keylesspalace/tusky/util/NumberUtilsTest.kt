@@ -1,14 +1,38 @@
 package com.keylesspalace.tusky.util
 
+import org.junit.AfterClass
 import org.junit.Assert
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import java.util.Locale
 import kotlin.math.pow
 
 @RunWith(Parameterized::class)
 class NumberUtilsTest(private val input: Long, private val want: String) {
     companion object {
+        /** Default locale before this test started */
+        private lateinit var locale: Locale
+
+        /**
+         * Ensure the Locale is ENGLISH so that tests against literal strings like
+         * "1.0M" later, even if the test host's locale is e.g. GERMAN which would
+         * normally report "1,0M".
+         */
+        @BeforeClass
+        @JvmStatic
+        fun beforeClass() {
+            locale = Locale.getDefault()
+            Locale.setDefault(Locale.ENGLISH)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            Locale.setDefault(locale)
+        }
+
         @Parameterized.Parameters(name = "formatNumber_{0}")
         @JvmStatic
         fun data(): Iterable<Any> {
