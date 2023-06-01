@@ -13,7 +13,7 @@ import javax.inject.Inject
 class AccountPreferenceDataStore @Inject constructor(
     private val accountManager: AccountManager,
     private val eventHub: EventHub,
-    @ApplicationScope val externalScope: CoroutineScope
+    @ApplicationScope private val externalScope: CoroutineScope
 ) : PreferenceDataStore() {
     private val account: AccountEntity = accountManager.activeAccount!!
 
