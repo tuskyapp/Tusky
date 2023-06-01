@@ -282,6 +282,8 @@ class NotificationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val eventHub: EventHub
 ) : ViewModel() {
+    /** The account to display notifications for */
+    val account = accountManager.activeAccount!!
 
     val uiState: StateFlow<UiState>
 
@@ -316,16 +318,14 @@ class NotificationsViewModel @Inject constructor(
             // Save each change back to the active account
             .onEach { action ->
                 Log.d(TAG, "notificationFilter: $action")
-                accountManager.activeAccount?.let { account ->
-                    account.notificationsFilter = serialize(action.filter)
-                    accountManager.saveAccount(account)
-                }
+                account.notificationsFilter = serialize(action.filter)
+                accountManager.saveAccount(account)
             }
             // Load the initial filter from the active account
             .onStart {
                 emit(
                     InfallibleUiAction.ApplyFilter(
-                        filter = deserialize(accountManager.activeAccount?.notificationsFilter)
+                        filter = deserialize(account.notificationsFilter)
                     )
                 )
             }
@@ -336,11 +336,9 @@ class NotificationsViewModel @Inject constructor(
                 .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
                 .distinctUntilChanged()
                 .collectLatest { action ->
-                    Log.d(TAG, "Saving visible ID: ${action.visibleId}")
-                    accountManager.activeAccount?.let { account ->
-                        account.lastNotificationId = action.visibleId
-                        accountManager.saveAccount(account)
-                    }
+                    Log.d(TAG, "Saving visible ID: ${action.visibleId}, active account = ${account.id}")
+                    account.lastNotificationId = action.visibleId
+                    accountManager.saveAccount(account)
                 }
         }
 
@@ -351,7 +349,7 @@ class NotificationsViewModel @Inject constructor(
         statusDisplayOptions = MutableStateFlow(
             StatusDisplayOptions.from(
                 preferences,
-                accountManager.activeAccount!!
+                account
             )
         )
 
@@ -363,7 +361,7 @@ class NotificationsViewModel @Inject constructor(
                     statusDisplayOptions.value.make(
                         preferences,
                         it.preferenceKey,
-                        accountManager.activeAccount!!
+                        account
                     )
                 }
                 .collect {
@@ -494,7 +492,7 @@ class NotificationsViewModel @Inject constructor(
     // The database stores "0" as the last notification ID if notifications have not been
     // fetched. Convert to null to ensure a full fetch in this case
     private fun getInitialKey(): String? {
-        val initialKey = when (val id = accountManager.activeAccount?.lastNotificationId) {
+        val initialKey = when (val id = account.lastNotificationId) {
             "0" -> null
             else -> id
         }

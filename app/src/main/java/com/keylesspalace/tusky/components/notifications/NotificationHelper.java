@@ -606,9 +606,7 @@ public class NotificationHelper {
         Log.d(TAG, "disabled notification checks");
     }
 
-    public static void clearNotificationsForActiveAccount(@NonNull Context context, @NonNull AccountManager accountManager) {
-        AccountEntity account = accountManager.getActiveAccount();
-        if (account == null) return;
+    public static void clearNotificationsForAccount(@NonNull Context context, @NonNull AccountEntity account) {
         int accountId = (int) account.getId();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
