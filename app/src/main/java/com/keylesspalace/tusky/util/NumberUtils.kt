@@ -23,6 +23,6 @@ fun formatNumber(num: Long, min: Int = 100000): String {
 
     val exp = (ln(absNum.toDouble()) / ln_1k).toInt()
 
-    // TODO: is the choice of suffixes here locale-agnostic?
+    // Suffixes here are locale-agnostic
     return String.format("%.1f%c", num / 1000.0.pow(exp.toDouble()), "KMGTPE"[exp - 1])
 }
