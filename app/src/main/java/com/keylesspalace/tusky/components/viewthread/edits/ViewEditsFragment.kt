@@ -136,7 +136,7 @@ class ViewEditsFragment :
                         )
 
                         // Focus on the most recent version
-                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(uiState.edits.lastIndex)
+                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(0)
 
                         val account = uiState.edits.first().account
                         loadAvatar(account.avatar, binding.statusAvatar, avatarRadius, animateAvatars)

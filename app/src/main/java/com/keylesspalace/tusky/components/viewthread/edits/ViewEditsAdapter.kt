@@ -82,7 +82,7 @@ class ViewEditsAdapter(
 
         val context = binding.root.context
 
-        val infoStringRes = if (position == 0) {
+        val infoStringRes = if (position == edits.lastIndex) {
             R.string.status_created_info
         } else {
             R.string.status_edit_info
@@ -91,9 +91,9 @@ class ViewEditsAdapter(
         // Show the most recent version of the status using large text to make it clearer for
         // the user, and for similarity with thread view.
         val variableTextSize = if (position == edits.lastIndex) {
-            largeTextSizePx
-        } else {
             mediumTextSizePx
+        } else {
+            largeTextSizePx
         }
         binding.statusEditContentWarningDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
         binding.statusEditContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)

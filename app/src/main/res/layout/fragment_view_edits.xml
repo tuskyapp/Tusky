@@ -23,7 +23,6 @@
                 android:contentDescription="@string/action_view_profile"
                 android:importantForAccessibility="no"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/avatar_default" />
@@ -54,7 +53,8 @@
                 app:layout_constrainedWidth="true"
                 app:layout_constraintStart_toEndOf="@id/status_avatar"
                 app:layout_constraintTop_toTopOf="@+id/status_avatar"
-                tools:text="Ente r the void you foooooo" />
+                tools:text="Ente r the void you foooooo"
+                tools:ignore="SelectableText"/>
 
             <TextView
                 android:id="@+id/status_username"
@@ -67,7 +67,8 @@
                 android:textSize="?attr/status_text_medium"
                 app:layout_constraintStart_toStartOf="@+id/status_display_name"
                 app:layout_constraintTop_toBottomOf="@id/status_display_name"
-                tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
+                tools:text="\@Entenhausen@birbsarecooooooooooool.site"
+                tools:ignore="SelectableText" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

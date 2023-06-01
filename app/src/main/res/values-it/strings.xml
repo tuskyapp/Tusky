@@ -610,8 +610,8 @@
     <string name="mute_notifications_switch">Silenzia notifiche</string>
     <string name="title_edits">Modifiche</string>
     <string name="report_category_spam">Spam</string>
-    <string name="status_edit_info">%1$s ha modificato %2$s</string>
-    <string name="status_created_info">%1$s ha creato %2$s</string>
+    <string name="status_edit_info">%1$s ha modificato</string>
+    <string name="status_created_info">%1$s ha creato</string>
     <string name="report_category_other">Altro</string>
     <string name="action_unfollow_hashtag_format">Smettere di seguire #%s\?</string>
     <string name="action_post_failed">Caricamento fallito</string>

@@ -591,10 +591,10 @@
     <string name="action_discard">放弃更改</string>
     <string name="action_continue_edit">继续编辑</string>
     <string name="compose_unsaved_changes">你有未保存的更改。</string>
-    <string name="status_created_info">%1$s 创建了 %2$s</string>
+    <string name="status_created_info">%1$s 创建了</string>
     <string name="mute_notifications_switch">将通知静音</string>
     <string name="title_edits">编辑</string>
-    <string name="status_edit_info">%1$s 编辑了 %2$s</string>
+    <string name="status_edit_info">%1$s 编辑了</string>
     <string name="a11y_label_loading_thread">加载帖子</string>
     <string name="action_share_account_link">分享账户链接</string>
     <string name="action_share_account_username">分享账户用户名</string>

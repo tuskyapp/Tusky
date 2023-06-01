@@ -68,6 +68,7 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                     // of each, so don't run this on Dispatchers.Main.
                     viewModelScope.launch(Dispatchers.Default) {
                         val sortedEdits = edits.sortedBy { it.createdAt }
+                            .reversed()
                             .toMutableList()
 
                         SAXLoader.setXMLReaderClass("org.xmlpull.v1.sax2.Driver")
@@ -84,20 +85,20 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                         try {
                             // The XML processor expects `br` to be closed
                             var currentContent =
-                                loader.load(sortedEdits[sortedEdits.size - 1].content.replace("<br>", "<br/>"))
+                                loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
                             var previousContent =
-                                loader.load(sortedEdits[sortedEdits.size - 2].content.replace("<br>", "<br/>"))
+                                loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
 
-                            for (i in sortedEdits.size - 1 downTo 1) {
+                            for (i in 1 until sortedEdits.size) {
                                 processor.diff(previousContent, currentContent, output)
-                                sortedEdits[i] = sortedEdits[i].copy(
+                                sortedEdits[i - 1] = sortedEdits[i - 1].copy(
                                     content = output.xml.toString()
                                 )
 
-                                if (i > 1) {
+                                if (i < sortedEdits.size - 1) {
                                     currentContent = previousContent
                                     previousContent = loader.load(
-                                        sortedEdits[i - 2].content.replace("<br>", "<br/>")
+                                        sortedEdits[i + 1].content.replace("<br>", "<br/>")
                                     )
                                 }
                             }

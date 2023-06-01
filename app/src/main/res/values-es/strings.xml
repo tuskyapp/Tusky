@@ -621,8 +621,8 @@
     <string name="pref_title_reading_order">Orden de lectura</string>
     <string name="pref_reading_order_oldest_first">Más antiguas primero</string>
     <string name="pref_reading_order_newest_first">Más recientes primero</string>
-    <string name="status_edit_info">%1$s ha editado %2$s</string>
-    <string name="status_created_info">%1$s ha editado %2$s</string>
+    <string name="status_edit_info">%1$s ha editado</string>
+    <string name="status_created_info">%1$s ha editado</string>
     <string name="pref_summary_http_proxy_disabled">Desactivado</string>
     <string name="pref_summary_http_proxy_missing">&lt;sin establecer&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;inválido&gt;</string>
