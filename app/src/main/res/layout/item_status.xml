@@ -93,10 +93,12 @@
         android:id="@+id/status_meta_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/status_marginStart"
         android:importantForAccessibility="no"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_username"
         app:layout_constraintTop_toTopOf="@id/status_display_name"
         tools:text="@tools:sample/date/hhmm" />
 
@@ -324,7 +326,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@+id/status_reply"
         app:layout_constraintEnd_toStartOf="@+id/status_reblog"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="@+id/status_reply"
         app:layout_constraintTop_toTopOf="@+id/status_reply"
         tools:text="1+" />
@@ -352,7 +354,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_reblog"
         app:layout_constraintEnd_toStartOf="@+id/status_favourite"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="@id/status_reblog"
         app:layout_constraintTop_toTopOf="@id/status_reblog"
         tools:text="1+" />
@@ -380,7 +382,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_reblog"
         app:layout_constraintEnd_toStartOf="@+id/status_bookmark"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="@id/status_favourite"
         app:layout_constraintTop_toTopOf="@id/status_reblog"
         tools:text="" />
