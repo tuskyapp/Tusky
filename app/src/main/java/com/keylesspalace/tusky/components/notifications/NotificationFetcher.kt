@@ -11,6 +11,7 @@ import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isLessThan
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.math.min
 
@@ -35,10 +36,12 @@ class NotificationFetcher @Inject constructor(
                     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                     // Create sorted list of new notifications
-                    val notifications = fetchNewNotifications(account)
-                        .filter { filterNotification(notificationManager, account, it) }
-                        .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
-                        .toMutableList()
+                    val notifications = runBlocking { // OK, because in a worker thread
+                        fetchNewNotifications(account)
+                            .filter { filterNotification(notificationManager, account, it) }
+                            .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
+                            .toMutableList()
+                    }
 
                     // There's a maximum limit on the number of notifications an Android app
                     // can display. If the total number of notifications (current notifications,
@@ -114,7 +117,7 @@ class NotificationFetcher @Inject constructor(
      * ones that were last fetched here. So `lastNotificationId` takes precedence if it is greater
      * than the marker.
      */
-    private fun fetchNewNotifications(account: AccountEntity): List<Notification> {
+    private suspend fun fetchNewNotifications(account: AccountEntity): List<Notification> {
         val authHeader = String.format("Bearer %s", account.accessToken)
 
         // Figure out where to read from. Choose the most recent notification ID from:
@@ -128,21 +131,37 @@ class NotificationFetcher @Inject constructor(
         val markerId = if (remoteMarkerId.isLessThan(localMarkerId)) localMarkerId else remoteMarkerId
         val readingPosition = account.lastNotificationId
 
-        val minId = if (readingPosition.isLessThan(markerId)) markerId else readingPosition
+        var minId: String? = if (readingPosition.isLessThan(markerId)) markerId else readingPosition
         Log.d(TAG, "  remoteMarkerId: $remoteMarkerId")
         Log.d(TAG, "  localMarkerId: $localMarkerId")
         Log.d(TAG, "  readingPosition: $readingPosition")
 
         Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
 
-        val notifications = mastodonApi.notificationsWithAuth(
-            authHeader,
-            account.domain,
-            minId
-        ).blockingGet()
+        // Fetch all outstanding notifications
+        val notifications = buildList {
+            while (minId != null) {
+                val response = mastodonApi.notificationsWithAuth(
+                    authHeader,
+                    account.domain,
+                    minId = minId
+                )
+                if (!response.isSuccessful) break
 
-        // Notifications are returned in order, most recent first. Save the newest notification ID
-        // in the marker.
+                // Notifications are returned in the page in order, newest first,
+                // (https://github.com/mastodon/documentation/issues/1226), insert the
+                // new page at the head of the list.
+                response.body()?.let { addAll(0, it) }
+
+                // Get the previous page, which will be chronologically newer
+                // notifications. If it doesn't exist this is null and the loop
+                // will exit.
+                val links = Links.from(response.headers()["link"])
+                minId = links.prev
+            }
+        }
+
+        // Save the newest notification ID in the marker.
         notifications.firstOrNull()?.let {
             val newMarkerId = notifications.first().id
             Log.d(TAG, "updating notification marker for ${account.fullName} to: $newMarkerId")
@@ -158,13 +177,13 @@ class NotificationFetcher @Inject constructor(
         return notifications
     }
 
-    private fun fetchMarker(authHeader: String, account: AccountEntity): Marker? {
+    private suspend fun fetchMarker(authHeader: String, account: AccountEntity): Marker? {
         return try {
             val allMarkers = mastodonApi.markersWithAuth(
                 authHeader,
                 account.domain,
                 listOf("notifications")
-            ).blockingGet()
+            )
             val notificationMarker = allMarkers["notifications"]
             Log.d(TAG, "Fetched marker for ${account.fullName}: $notificationMarker")
             notificationMarker
