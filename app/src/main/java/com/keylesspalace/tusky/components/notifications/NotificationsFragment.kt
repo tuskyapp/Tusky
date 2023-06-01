@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
@@ -161,7 +162,7 @@ class NotificationsFragment :
                 binding.recyclerView,
                 this
             ) { pos: Int ->
-                val notification = adapter.snapshot()[pos]
+                val notification = adapter.snapshot().getOrNull(pos)
                 // We support replies only for now
                 if (notification is NotificationViewData) {
                     notification.statusViewData
@@ -193,6 +194,19 @@ class NotificationsFragment :
                     }
                 }
             }
+
+            @Suppress("SyntheticAccessor")
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                newState != SCROLL_STATE_IDLE && return
+
+                // Save the ID of the first notification visible in the list, so the user's
+                // reading position is always restorable.
+                layoutManager.findFirstVisibleItemPosition().takeIf { it >= 0 }?.let { position ->
+                    adapter.snapshot().getOrNull(position)?.id?.let { id ->
+                        viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
+                    }
+                }
+            }
         })
 
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -211,7 +225,9 @@ class NotificationsFragment :
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
-                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        }
                     }
                 }
             }
@@ -453,7 +469,7 @@ class NotificationsFragment :
         // Save the ID of the first notification visible in the list
         val position = layoutManager.findFirstVisibleItemPosition()
         if (position >= 0) {
-            adapter.snapshot()[position]?.id?.let { id ->
+            adapter.snapshot().getOrNull(position)?.id?.let { id ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
             }
         }

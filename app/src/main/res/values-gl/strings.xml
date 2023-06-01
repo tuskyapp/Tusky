@@ -111,9 +111,9 @@
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
     <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
-    <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso. Se persiste, inténtao desde Acceder no Navegador.</string>
+    <string name="error_retrieving_oauth_token">Non se obtivo o token de acceso. Se non o consigues, inténtao desde Acceder no Navegador.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada. Se tes a certeza de que as credenciais son correctas, inténtao desde Acceder no Navegador no menú.</string>
-    <string name="error_authorization_unknown">Aconteceu un erro non identificado de autorización. Se persiste, inténtao desde Acceder no Navedor.</string>
+    <string name="error_authorization_unknown">Aconteceu un erro non identificado na autorización. Se persiste, inténtao desde Acceder no Navedor.</string>
     <string name="error_no_web_browser_found">Non se atopou un navegador para utilizar.</string>
     <string name="error_failed_app_registration">Fallou a autenticación nesta instancia. Se persiste, inténtao desde Acceder no Navegador no menú.</string>
     <string name="error_invalid_domain">O dominio escrito non é válido</string>
@@ -258,7 +258,6 @@
         <item quantity="one">Describe para persoas con deficiencias visuais (límite %d caracter)</item>
         <item quantity="other">Describe para persoas con deficiencias visuais (%d caracteres como máximo)</item>
     </plurals>
-    <string name="error_failed_set_caption">Fallou establecemento do texto</string>
     <string name="compose_active_account_description">Publicar como %1$s</string>
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
@@ -522,7 +521,7 @@
     <string name="tips_push_notification_migration">Volve a acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
-    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí ou nas preferencias da Conta a opción de volver a acceder conservarás os borradores locais e caché.</string>
+    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí, ou nas preferencias da Conta, a opción de volver a acceder conservarás os borradores locais e caché.</string>
     <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve a conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
     <string name="title_migration_relogin">Volve a acceder para ter notificacións push</string>
     <string name="notification_update_format">%s editou a publicación</string>
@@ -540,7 +539,6 @@
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
     <string name="description_post_language">Idioma de publicación</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Fallou o establecemento do foco</string>
     <string name="action_set_focus">Establece foco</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
@@ -573,7 +571,7 @@
     <string name="notification_report_format">Nova denuncia en %s</string>
     <string name="notification_header_report_format">%s denunciou a %s</string>
     <string name="notification_summary_report_format">%s · %d publicacións fixadas</string>
-    <string name="confirmation_hashtag_unfollowed">Xa non segues #%s</string>
+    <string name="confirmation_hashtag_unfollowed">Xa non segues a #%s</string>
     <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
     <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
     <string name="pref_title_http_proxy_port_message">O porto debe estar entre %d e %d</string>

@@ -22,15 +22,19 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowViewHolder(
     private val binding: ItemFollowBinding,
-    private val notificationActionListener: NotificationActionListener
+    private val notificationActionListener: NotificationActionListener,
+    private val linkListener: LinkListener
 ) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
     private val avatarRadius42dp = itemView.context.resources.getDimensionPixelSize(
         R.dimen.avatar_radius_42dp
@@ -92,6 +96,13 @@ class FollowViewHolder(
             avatarRadius42dp,
             animateAvatars
         )
+
+        val emojifiedNote = account.note.parseAsMastodonHtml().emojify(
+            account.emojis,
+            binding.notificationAccountNote,
+            animateEmojis
+        )
+        setClickableText(binding.notificationAccountNote, emojifiedNote, emptyList(), null, linkListener)
     }
 
     private fun setupButtons(listener: NotificationActionListener, accountId: String) {

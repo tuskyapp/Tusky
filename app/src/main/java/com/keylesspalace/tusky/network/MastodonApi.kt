@@ -152,11 +152,20 @@ interface MastodonApi {
         @Query("timeline[]") timelines: List<String>
     ): Single<Map<String, Marker>>
 
+    @FormUrlEncoded
+    @POST("api/v1/markers")
+    fun updateMarkersWithAuth(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Field("home[last_read_id]") homeLastReadId: String? = null,
+        @Field("notifications[last_read_id]") notificationsLastReadId: String? = null
+    ): NetworkResult<Unit>
+
     @GET("api/v1/notifications")
     fun notificationsWithAuth(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
-        @Query("since_id") sinceId: String?
+        @Query("min_id") minId: String?
     ): Single<List<Notification>>
 
     @POST("api/v1/notifications/clear")
@@ -677,7 +686,7 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @POST("api/v1/reports")
-    fun report(
+    suspend fun report(
         @Field("account_id") accountId: String,
         @Field("status_ids[]") statusIds: List<String>,
         @Field("comment") comment: String,

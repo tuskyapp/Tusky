@@ -455,17 +455,9 @@ class NotificationsViewModel @Inject constructor(
             }
         }
 
-        // The database stores "0" as the last notification ID if notifications have not been
-        // fetched. Convert to null to ensure a full fetch in this case
-        val lastNotificationId = when (val id = accountManager.activeAccount?.lastNotificationId) {
-            "0" -> null
-            else -> id
-        }
-        Log.d(TAG, "Restoring at $lastNotificationId")
-
         pagingData = notificationFilter
             .flatMapLatest { action ->
-                getNotifications(filters = action.filter, initialKey = lastNotificationId)
+                getNotifications(filters = action.filter, initialKey = getInitialKey())
             }
             .cachedIn(viewModelScope)
 
@@ -497,6 +489,17 @@ class NotificationsViewModel @Inject constructor(
                     )
                 }
             }
+    }
+
+    // The database stores "0" as the last notification ID if notifications have not been
+    // fetched. Convert to null to ensure a full fetch in this case
+    private fun getInitialKey(): String? {
+        val initialKey = when (val id = accountManager.activeAccount?.lastNotificationId) {
+            "0" -> null
+            else -> id
+        }
+        Log.d(TAG, "Restoring at $initialKey")
+        return initialKey
     }
 
     /**
