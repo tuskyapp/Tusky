@@ -139,25 +139,26 @@ class NotificationFetcher @Inject constructor(
         Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
 
         // Fetch all outstanding notifications
-        val notifications = mutableListOf<Notification>()
-        while (minId != null) {
-            val response = mastodonApi.notificationsWithAuth(
-                authHeader,
-                account.domain,
-                minId = minId
-            )
-            if (!response.isSuccessful) break
+        val notifications = buildList {
+            while (minId != null) {
+                val response = mastodonApi.notificationsWithAuth(
+                    authHeader,
+                    account.domain,
+                    minId = minId
+                )
+                if (!response.isSuccessful) break
 
-            // Notifications are returned in the page in order, newest first,
-            // (https://github.com/mastodon/documentation/issues/1226), insert the
-            // new page at the head of the list.
-            response.body()?.let { notifications.addAll(0, it) }
+                // Notifications are returned in the page in order, newest first,
+                // (https://github.com/mastodon/documentation/issues/1226), insert the
+                // new page at the head of the list.
+                response.body()?.let { addAll(0, it) }
 
-            // Get the previous page, which will be chronologically newer
-            // notifications. If it doesn't exist this is null and the loop
-            // will exit.
-            val links = Links.from(response.headers()["link"])
-            minId = links.prev
+                // Get the previous page, which will be chronologically newer
+                // notifications. If it doesn't exist this is null and the loop
+                // will exit.
+                val links = Links.from(response.headers()["link"])
+                minId = links.prev
+            }
         }
 
         // Save the newest notification ID in the marker.
