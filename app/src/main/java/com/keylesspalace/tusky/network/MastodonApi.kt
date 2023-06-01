@@ -146,15 +146,15 @@ interface MastodonApi {
     ): Response<Notification>
 
     @GET("api/v1/markers")
-    fun markersWithAuth(
+    suspend fun markersWithAuth(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
         @Query("timeline[]") timelines: List<String>
-    ): Single<Map<String, Marker>>
+    ): Map<String, Marker>
 
     @FormUrlEncoded
     @POST("api/v1/markers")
-    fun updateMarkersWithAuth(
+    suspend fun updateMarkersWithAuth(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
         @Field("home[last_read_id]") homeLastReadId: String? = null,
@@ -162,11 +162,12 @@ interface MastodonApi {
     ): NetworkResult<Unit>
 
     @GET("api/v1/notifications")
-    fun notificationsWithAuth(
+    suspend fun notificationsWithAuth(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
+        /** Return results immediately newer than this ID */
         @Query("min_id") minId: String?
-    ): Single<List<Notification>>
+    ): Response<List<Notification>>
 
     @POST("api/v1/notifications/clear")
     suspend fun clearNotifications(): Response<ResponseBody>

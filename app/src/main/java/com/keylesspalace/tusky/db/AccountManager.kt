@@ -52,7 +52,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     /**
      * Adds a new account and makes it the active account.
      * @param accessToken the access token for the new account
-     * @param domain the domain of the accounts Mastodon instance
+     * @param domain the domain of the account's Mastodon instance
      * @param clientId the oauth client id used to sign in the account
      * @param clientSecret the oauth client secret used to sign in the account
      * @param oauthScopes the oauth scopes granted to the account
