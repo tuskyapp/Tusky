@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -98,6 +99,9 @@ sealed class UiAction
 sealed class FallibleUiAction : UiAction() {
     /** Clear all notifications */
     object ClearNotifications : FallibleUiAction()
+
+    /** Ignore the saved reading position, load the newest items */
+    object LoadNewest : InfallibleUiAction()
 }
 
 /**
@@ -295,6 +299,9 @@ class NotificationsViewModel @Inject constructor(
     /** Flow of user actions received from the UI */
     private val uiAction = MutableSharedFlow<UiAction>()
 
+    /** Flow that can be used to trigger a full reload */
+    private val reload = MutableStateFlow(0)
+
     /** Flow of successful action results */
     // Note: These are a SharedFlow instead of a StateFlow because success or error state does not
     // need to be retained. A message is shown once to a user and then dismissed. Re-collecting the
@@ -329,6 +336,18 @@ class NotificationsViewModel @Inject constructor(
                     )
                 )
             }
+
+        // Reset the last notification ID to "0" to fetch the newest notifications, and
+        // increment `reload` to trigger creation of a new PagingSource.
+        viewModelScope.launch {
+            uiAction
+                .filterIsInstance<FallibleUiAction.LoadNewest>()
+                .collectLatest {
+                    account.lastNotificationId = "0"
+                    accountManager.saveAccount(account)
+                    reload.getAndUpdate { it + 1 }
+                }
+        }
 
         // Save the visible notification ID
         viewModelScope.launch {
@@ -453,11 +472,12 @@ class NotificationsViewModel @Inject constructor(
             }
         }
 
-        pagingData = notificationFilter
+        // Re-fetch notifications if either of `notificationFilter` or `reload` flows have
+        // new items.
+        pagingData = combine(notificationFilter, reload) { action, _ -> action }
             .flatMapLatest { action ->
                 getNotifications(filters = action.filter, initialKey = getInitialKey())
-            }
-            .cachedIn(viewModelScope)
+            }.cachedIn(viewModelScope)
 
         uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
             UiState(
