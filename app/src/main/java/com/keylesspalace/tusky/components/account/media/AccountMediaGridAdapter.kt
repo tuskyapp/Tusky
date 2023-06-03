@@ -24,7 +24,6 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
 class AccountMediaGridAdapter(
-    private val alwaysShowSensitiveMedia: Boolean,
     private val useBlurhash: Boolean,
     context: Context,
     private val onAttachmentClickListener: (AttachmentViewData, View) -> Unit
@@ -80,7 +79,7 @@ class AccountMediaGridAdapter(
                     .into(imageView)
 
                 imageView.contentDescription = item.attachment.getFormattedDescription(context)
-            } else if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
+            } else if (item.sensitive && !item.isRevealed) {
                 overlay.show()
                 overlay.setImageDrawable(mediaHiddenDrawable)
 
