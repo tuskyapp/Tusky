@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.os.Parcelable
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.parcelize.IgnoredOnParcel
@@ -38,7 +37,6 @@ data class AttachmentViewData(
 
         @JvmStatic
         fun list(status: Status, alwaysShowSensitiveMedia: Boolean): List<AttachmentViewData> {
-
             val actionable = status.actionableStatus
             return actionable.attachments.map { attachment ->
                 AttachmentViewData(

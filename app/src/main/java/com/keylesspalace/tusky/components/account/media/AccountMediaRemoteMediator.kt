@@ -29,7 +29,7 @@ import retrofit2.HttpException
 class AccountMediaRemoteMediator(
     private val api: MastodonApi,
     private val accountManager: AccountManager,
-    private val viewModel: AccountMediaViewModel,
+    private val viewModel: AccountMediaViewModel
 ) : RemoteMediator<String, AttachmentViewData>() {
 
     override suspend fun load(
