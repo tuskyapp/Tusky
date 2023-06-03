@@ -60,7 +60,7 @@ class AccountMediaRemoteMediator(
             }
 
             val attachments = statuses.flatMap { status ->
-                AttachmentViewData.list(status, accountManager.activeAccount)
+                AttachmentViewData.list(status, accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false)
             }
 
             if (loadType == LoadType.REFRESH) {
