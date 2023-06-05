@@ -103,7 +103,7 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
             drawable.setBounds(0, 0, emojiWidth.toInt(), emojiHeight.toInt())
 
             // vertically center the emoji in the line
-            val transY = top + (drawableSpace / 2  - emojiHeight / 2)
+            val transY = top + (drawableSpace / 2 - emojiHeight / 2)
 
             canvas.translate(x, transY.toFloat())
             drawable.draw(canvas)
