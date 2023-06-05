@@ -454,7 +454,7 @@ class NotificationsFragment :
                 true
             }
             R.id.load_newest -> {
-                viewModel.accept(FallibleUiAction.LoadNewest)
+                viewModel.accept(InfallibleUiAction.LoadNewest)
                 true
             }
             else -> false

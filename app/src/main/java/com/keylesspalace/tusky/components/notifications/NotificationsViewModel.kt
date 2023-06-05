@@ -99,9 +99,6 @@ sealed class UiAction
 sealed class FallibleUiAction : UiAction() {
     /** Clear all notifications */
     object ClearNotifications : FallibleUiAction()
-
-    /** Ignore the saved reading position, load the newest items */
-    object LoadNewest : InfallibleUiAction()
 }
 
 /**
@@ -122,6 +119,12 @@ sealed class InfallibleUiAction : UiAction() {
      * can do.
      */
     data class SaveVisibleId(val visibleId: String) : InfallibleUiAction()
+
+    /** Ignore the saved reading position, load the page with the newest items */
+    // Resets the account's `lastNotificationId`, which can't fail, which is why this is
+    // infallible. Reloading the data may fail, but that's handled by the paging system /
+    // adapter refresh logic.
+    object LoadNewest : InfallibleUiAction()
 }
 
 /** Actions the user can trigger on an individual notification. These may fail. */
@@ -341,7 +344,7 @@ class NotificationsViewModel @Inject constructor(
         // increment `reload` to trigger creation of a new PagingSource.
         viewModelScope.launch {
             uiAction
-                .filterIsInstance<FallibleUiAction.LoadNewest>()
+                .filterIsInstance<InfallibleUiAction.LoadNewest>()
                 .collectLatest {
                     account.lastNotificationId = "0"
                     accountManager.saveAccount(account)
