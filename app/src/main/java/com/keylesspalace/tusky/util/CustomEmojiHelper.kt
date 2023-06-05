@@ -87,7 +87,7 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
             // start with a width relative to the text size
             var emojiWidth = paint.textSize * 1.1
 
-            // calculated the height based on the width to keep the aspect ratio correct
+            // calculate the height, keeping the aspect ratio correct
             val drawableWidth = drawable.intrinsicWidth
             val drawableHeight = drawable.intrinsicHeight
             var emojiHeight = emojiWidth / drawableWidth * drawableHeight
