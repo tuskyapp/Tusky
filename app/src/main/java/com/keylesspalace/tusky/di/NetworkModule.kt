@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
+import com.keylesspalace.tusky.network.BlackBoxInterceptor
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
@@ -103,6 +104,7 @@ class NetworkModule {
         return builder
             .apply {
                 addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
+                addInterceptor(BlackBoxInterceptor)
                 if (BuildConfig.DEBUG) {
                     addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
                 }
