@@ -56,7 +56,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo = itemView.findViewById(R.id.status_info);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
         favouritedCountLabel = itemView.findViewById(R.id.status_favourites_count);
-        reblogsCountLabel = itemView.findViewById(R.id.status_insets);
+        reblogsCountLabel = itemView.findViewById(R.id.status_reblogs_count);
     }
 
     @Override

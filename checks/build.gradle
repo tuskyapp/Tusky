@@ -1,0 +1,41 @@
+plugins {
+    id "java-library"
+    id "kotlin"
+    id "com.android.lint"
+}
+
+lintOptions {
+    htmlReport(true)
+    htmlOutput(file("lint-report.html"))
+    textReport(true)
+    absolutePaths(false)
+    ignoreTestSources(true)
+}
+
+jar {
+    manifest {
+        attributes("Lint-Registry-v2": "app.tusky.lint.checks.LintRegistry")
+    }
+}
+
+dependencies {
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.20")
+
+    // Derived from the AGP version. If the AGP version is X.Y.Z the version
+    // here must by X+23.Y.Z.
+    // See https://github.com/googlesamples/android-custom-lint-rules#lint-version
+    def lintVersion = "30.4.2"  // = AGP 7.4.2
+
+    // For a description of the below dependencies, see the main project README
+    compileOnly("com.android.tools.lint:lint-api:$lintVersion")
+    compileOnly("com.android.tools.lint:lint-checks:$lintVersion")
+    testImplementation("com.android.tools.lint:lint:$lintVersion")
+    testImplementation("com.android.tools.lint:lint-tests:$lintVersion")
+
+    testImplementation("junit:junit:4.13.2")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}

@@ -137,7 +137,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar = itemView.findViewById(R.id.status_avatar);
         replyButton = itemView.findViewById(R.id.status_reply);
         replyCountLabel = itemView.findViewById(R.id.status_replies);
-        reblogButton = itemView.findViewById(R.id.status_inset);
+        reblogButton = itemView.findViewById(R.id.status_reblog);
         favouriteButton = itemView.findViewById(R.id.status_favourite);
         bookmarkButton = itemView.findViewById(R.id.status_bookmark);
         moreButton = itemView.findViewById(R.id.status_more);
@@ -786,7 +786,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 setMediaLabel(attachments, sensitive, listener, status.isShowingContent());
                 // Hide all unused views.
-                mediaPreview.setVisibility(View.GONE);
+                mediaContainer.setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
 

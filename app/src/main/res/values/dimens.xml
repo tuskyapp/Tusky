@@ -1,4 +1,74 @@
 <resources>
+    <!-- ============================================================== -->
+    <!-- Dimensions that are not specific to a layout type              -->
+    <!-- ============================================================== -->
+
+    <!-- The default gap between views in a layout. May be used as either
+         margin or padding -->
+    <dimen name="default_gap">8dp</dimen>
+
+    <!-- ============================================================== -->
+    <!-- Dimensions for laying out statuses                             -->
+    <!-- ============================================================== -->
+
+    <!-- The default margin between views used to lay out a status -->
+    <dimen name="status_margin">@dimen/default_gap</dimen>
+
+    <!-- marginStart for views in a status that are aligned horizontally-->
+    <dimen name="status_marginStart">@dimen/status_margin</dimen>
+
+    <!-- marginTop for views in a status that are aligned vertically -->
+    <dimen name="status_marginTop">@dimen/status_margin</dimen>
+
+    <!-- Alternative marginTop for views where the density should be lower,
+         https://m3.material.io/foundations/layout/understanding-layout/spacing#da94f612-f274-49ab-aec5-f03dab53be8e -->
+    <dimen name="status_marginTop_density_low">8dp</dimen>
+
+    <dimen name="status_avatar_width">48dp</dimen>
+    <dimen name="status_avatar_height">48dp</dimen>
+    <dimen name="status_avatar_inset_width">24dp</dimen>
+    <dimen name="status_avatar_inset_height">24dp</dimen>
+
+    <!-- Padding between a drawable in a TextView and the text -->
+    <dimen name="status_textview_drawablePadding">4dp</dimen>
+
+    <!-- === Disclosure buttons === -->
+    <!-- A disclosure button is one that shows more content (e.g., expanding a status
+         that has a content warning, or where the status content is too long and has
+         been collapsed) -->
+
+    <!-- Minimum width for disclosure buttons in a status.  -->
+    <dimen name="status_button_minWidth">150dp</dimen>
+
+    <!-- Padding for disclosure buttons in a status -->
+    <dimen name="status_button_paddingTop">4dp</dimen>
+    <dimen name="status_button_paddingBottom">4dp</dimen>
+    <dimen name="status_button_paddingStart">16dp</dimen>
+    <dimen name="status_button_paddingEnd">16dp</dimen>
+
+    <!-- === Cards for link previews === -->
+    <dimen name="status_card_height">300dp</dimen>
+    <dimen name="status_detailed_card_minHeight">300dp</dimen>
+
+    <!-- The interior padding on the container that wraps the text below a
+         link preview with the title, content, and link. Ensures that the
+         text does not run in to the card's border -->
+    <dimen name="status_detailed_card_info_padding">@dimen/default_gap</dimen>
+
+    <!-- Visible dividing line between different parts of a status -->
+    <dimen name="status_divider_height">1dp</dimen>
+
+    <!-- === Action buttons === -->
+    <!-- An action button allows the user to interact with the status (reblog,
+         favourite, bookmark, etc) -->
+
+    <dimen name="status_action_button_width">52dp</dimen>
+    <dimen name="status_action_button_height">48dp</dimen>
+    <dimen name="status_action_button_iconSize">28dp</dimen>
+    <!-- In the detailed view the buttons have extra padding -->
+    <dimen name="status_action_button_padding">4dp</dimen>
+
+    <!-- TODO(nikclayton): Review this block and see how many of these can be deleted -->
     <dimen name="status_display_name_padding_end">4dp</dimen>
     <dimen name="status_reblogged_bar_padding_top">8dp</dimen>
     <dimen name="status_media_preview_margin_top">8dp</dimen>
@@ -9,7 +79,7 @@
     <dimen name="compose_media_preview_size">120dp</dimen>
     <dimen name="account_avatar_margin">14dp</dimen>
     <dimen name="tab_page_margin">16dp</dimen>
-    <dimen name="status_line_margin_start">36dp</dimen>
+    <dimen name="status_line_margin_start">38dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
     <dimen name="status_sensitive_media_button_padding">5dp</dimen>
 
@@ -41,7 +111,6 @@
     <dimen name="min_report_button_width">160dp</dimen>
     <dimen name="account_avatar_background_radius">14dp</dimen>
 
-
     <dimen name="card_radius">5dp</dimen>
 
     <dimen name="poll_preview_padding">12dp</dimen>
@@ -65,5 +134,4 @@
     <dimen name="minimum_touch_target">48dp</dimen>
 
     <dimen name="lrPaddedSpanRadius">4dp</dimen>
-
 </resources>
