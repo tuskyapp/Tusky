@@ -26,5 +26,14 @@ jobs:
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2
   
-      - name: Lint, build
-        run: ./gradlew clean ktlintCheck lintGreenDebug app:greenDebug
+      - name: ktlint
+        run: ./gradlew clean ktlintCheck
+        
+      - name: Regular lint
+        run: ./gradlew lintGreenDebug
+        
+      - name: Test
+        run: ./gradlew app:testGreenDebugUnitTest
+        
+      - name: Build
+        run: ./gradlew app:greenDebug
