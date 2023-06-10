@@ -78,13 +78,6 @@ public class NotificationHelper {
 
     private static int notificationId = 0;
 
-    /**
-     * constants used in Intents
-     */
-    public static final String ACCOUNT_ID = "account_id";
-
-    public static final String TYPE = APPLICATION_ID + ".notification.type";
-
     private static final String TAG = "NotificationHelper";
 
     public static final String REPLY_ACTION = "REPLY_ACTION";
@@ -317,11 +310,10 @@ public class NotificationHelper {
             // Create a notification that summarises the other notifications in this group
 
             // All notifications in this group have the same type, so get it from the first.
-            String notificationType = members.get(0).getNotification().extras.getString(EXTRA_NOTIFICATION_TYPE);
+            Notification.Type notificationType = (Notification.Type)members.get(0).getNotification().extras.getSerializable(EXTRA_NOTIFICATION_TYPE);
 
-            Intent summaryResultIntent = new Intent(context, MainActivity.class);
-            summaryResultIntent.putExtra(ACCOUNT_ID, (long) accountId);
-            summaryResultIntent.putExtra(TYPE, notificationType);
+            Intent summaryResultIntent = MainActivity.openNotificationIntent(context, notificationType, accountId);
+
             TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
             summaryStackBuilder.addParentStack(MainActivity.class);
             summaryStackBuilder.addNextIntent(summaryResultIntent);
@@ -365,10 +357,8 @@ public class NotificationHelper {
 
     private static NotificationCompat.Builder newAndroidNotification(Context context, Notification body, AccountEntity account) {
 
-        // we have to switch account here
-        Intent eventResultIntent = new Intent(context, MainActivity.class);
-        eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
-        eventResultIntent.putExtra(TYPE, body.getType().name());
+        Intent eventResultIntent = MainActivity.openNotificationIntent(context, body.getType(), account.getId());
+
         TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
         eventStackBuilder.addParentStack(MainActivity.class);
         eventStackBuilder.addNextIntent(eventResultIntent);
@@ -456,12 +446,7 @@ public class NotificationHelper {
         composeOptions.setLanguage(actionableStatus.getLanguage());
         composeOptions.setKind(ComposeActivity.ComposeKind.NEW);
 
-        Intent composeIntent = ComposeActivity.startIntent(
-                context,
-                composeOptions,
-                notificationId,
-                account.getId()
-        );
+        Intent composeIntent = MainActivity.composeIntent(context, composeOptions, account.getId(), body.getId(), (int)account.getId());
 
         composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

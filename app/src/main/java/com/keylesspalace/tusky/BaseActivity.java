@@ -221,9 +221,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     // Is that deliberate? Or is this a bug?
     public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
         accountManager.setActiveAccount(account);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = MainActivity.redirectIntent(this, url, account.getId());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(MainActivity.REDIRECT_URL, url);
+
         startActivity(intent);
         finishWithoutSlideOutAnimation();
     }
