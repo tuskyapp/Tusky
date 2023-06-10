@@ -1,0 +1,16 @@
+Tusky 22.0
+
+Neu:
+- Sieh dir angesagte Hashtags an
+- Bessere Sortierung bei der Sprachauswahl
+- Unterschiede zwischen den Versionen eines Beitrags ansehen
+- Unterstützung für Filter aus Mastodon V4
+- Option zum Anzeigen von Beitragsstatistiken in der Timeline
+- Und mehr …
+
+Behobene Fehler:
+- Ausgewählter Tab und Position wird gespeichert
+- Benachrichtigungen bleiben bis zum Lesen erhalten
+- Korrekte Berechnung der Beitragslänge
+- Bildbeschreibungen werden immer veröffentlicht
+- Und mehr …

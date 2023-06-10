@@ -142,6 +142,9 @@ class ComposeActivity :
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
+    /** The account that is being used to compose the status */
+    private lateinit var activeAccount: AccountEntity
+
     private var photoUploadUri: Uri? = null
 
     private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
@@ -208,10 +211,15 @@ class ComposeActivity :
             notificationManager.cancel(notificationId)
         }
 
-        val accountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
-        if (accountId != -1L) {
-            accountManager.setActiveAccount(accountId)
-        }
+        // If started from an intent then compose as the account ID from the intent.
+        // Otherwise use the active account. If null then the user is not logged in,
+        // and return from the activity.
+        val intentAccountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
+        activeAccount = if (intentAccountId != -1L) {
+            accountManager.getAccountById(intentAccountId)
+        } else {
+            accountManager.activeAccount
+        } ?: return
 
         val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
         if (theme == "black") {
@@ -220,8 +228,6 @@ class ComposeActivity :
         setContentView(binding.root)
 
         setupActionBar()
-        // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
-        val activeAccount = accountManager.activeAccount ?: return
 
         setupAvatar(activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
@@ -955,7 +961,7 @@ class ComposeActivity :
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
             lifecycleScope.launch {
-                viewModel.sendStatus(contentText, spoilerText)
+                viewModel.sendStatus(contentText, spoilerText, activeAccount.id)
                 deleteDraftAndFinish()
             }
         } else {

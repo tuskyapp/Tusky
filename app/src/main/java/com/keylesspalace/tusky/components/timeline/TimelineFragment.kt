@@ -77,7 +77,6 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -577,6 +576,17 @@ class TimelineFragment :
     }
 
     private var talkBackWasEnabled = false
+
+    override fun onPause() {
+        super.onPause()
+        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                    viewModel.saveReadingPosition(statusId)
+                }
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
