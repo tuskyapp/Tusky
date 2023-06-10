@@ -151,8 +151,9 @@ fun disableAllNotifications(context: Context, accountManager: AccountManager) {
 
 private fun buildSubscriptionData(context: Context, account: AccountEntity): Map<String, Boolean> =
     buildMap {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         Notification.Type.visibleTypes.forEach {
-            put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(account, it, context))
+            put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(notificationManager, account, it))
         }
     }
 

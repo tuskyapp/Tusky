@@ -289,6 +289,14 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
+    override fun saveReadingPosition(statusId: String) {
+        accountManager.activeAccount?.let { account ->
+            Log.d(TAG, "Saving position at: $statusId")
+            account.lastVisibleHomeTimelineStatusId = statusId
+            accountManager.saveAccount(account)
+        }
+    }
+
     override suspend fun invalidate() {
         // invalidating when we don't have statuses yet can cause empty timelines because it cancels the network load
         if (db.timelineDao().getStatusCount(accountManager.activeAccount!!.id) > 0) {
@@ -297,6 +305,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "CachedTimelineViewModel"
         private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }
