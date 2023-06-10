@@ -86,6 +86,7 @@ fun updateShortcut(context: Context, account: AccountEntity) {
         ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))
     }
         .subscribeOn(Schedulers.io())
+        .onErrorReturnItem(false)
         .subscribe()
 }
 
