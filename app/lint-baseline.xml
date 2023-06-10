@@ -4579,7 +4579,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
-            line="124"
+            line="81"
             column="21"/>
     </issue>
 
@@ -4590,7 +4590,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
-            line="126"
+            line="83"
             column="29"/>
     </issue>
 
