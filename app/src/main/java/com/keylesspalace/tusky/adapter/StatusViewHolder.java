@@ -114,11 +114,11 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     protected void setReblogsCount(int reblogsCount) {
-        reblogsCountLabel.setText(NumberUtils.shortNumber(reblogsCount));
+        reblogsCountLabel.setText(NumberUtils.formatNumber(reblogsCount, 1000));
     }
 
     protected void setFavouritedCount(int favouritedCount) {
-        favouritedCountLabel.setText(NumberUtils.shortNumber(favouritedCount));
+        favouritedCountLabel.setText(NumberUtils.formatNumber(favouritedCount, 1000));
     }
 
     protected void hideStatusInfo() {
