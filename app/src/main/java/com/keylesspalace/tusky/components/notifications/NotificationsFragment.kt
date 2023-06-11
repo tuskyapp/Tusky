@@ -267,7 +267,7 @@ class NotificationsFragment :
                         Log.d(TAG, error.toString())
                         val message = getString(
                             error.message,
-                            error.exception.localizedMessage
+                            error.throwable.localizedMessage
                                 ?: getString(R.string.ui_error_unknown)
                         )
                         val snackbar = Snackbar.make(
