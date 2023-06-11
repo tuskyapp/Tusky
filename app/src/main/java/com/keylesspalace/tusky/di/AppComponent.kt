@@ -29,6 +29,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        CoroutineScopeModule::class,
         NetworkModule::class,
         AndroidSupportInjectionModule::class,
         ActivitiesModule::class,
