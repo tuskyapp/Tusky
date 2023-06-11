@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -201,7 +202,7 @@ class NotificationsFragment :
 
                 // Save the ID of the first notification visible in the list, so the user's
                 // reading position is always restorable.
-                layoutManager.findFirstVisibleItemPosition().takeIf { it >= 0 }?.let { position ->
+                layoutManager.findFirstVisibleItemPosition().takeIf { it != NO_POSITION }?.let { position ->
                     adapter.snapshot().getOrNull(position)?.id?.let { id ->
                         viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
                     }
