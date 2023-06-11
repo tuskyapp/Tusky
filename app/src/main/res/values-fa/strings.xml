@@ -190,7 +190,7 @@
     <string name="notification_summary_medium">%1$s، %2$s و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d برهم‌کنش جدید</item>
+        <item quantity="one">برهم‌کنشی جدید</item>
         <item quantity="other">%d برهم‌کنش جدید</item>
     </plurals>
     <string name="description_account_locked">حساب قفل‌شده</string>
@@ -339,11 +339,11 @@
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
-        <item quantity="one">۱ برگزیدن</item>
+        <item quantity="one"><b>۱</b> برگزیدن</item>
         <item quantity="other"><b>%1$s</b> برگزیدن</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> تقویت</item>
+        <item quantity="one"><b>۱</b> تقویت</item>
         <item quantity="other"><b>%s</b> تقویت</item>
     </plurals>
     <string name="title_reblogged_by">تقویت‌شده به دست</string>
@@ -352,7 +352,7 @@
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s، %2$s و %3$d بیش‌تر</string>
     <plurals name="max_tab_number_reached">
-        <item quantity="one">رسیده به بیشینهٔ %1$d زبانه</item>
+        <item quantity="one">رسیده به بیشینهٔ زبانه‌ها</item>
         <item quantity="other">رسیده به بیشینهٔ %1$d زبانه</item>
     </plurals>
     <string name="description_post_media">رسانه: %s</string>
@@ -379,15 +379,15 @@
     <string name="poll_ended_voted">یک نظرسنجی که در آن رأی دادید، تمام شد</string>
     <string name="poll_ended_created">یک نظرسنجی که ساختید، تمام شد</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d روز مانده</item>
+        <item quantity="one">۱ روز مانده</item>
         <item quantity="other">%d روز مانده</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d ساعت مانده</item>
+        <item quantity="one">۱ ساعت مانده</item>
         <item quantity="other">%d ساعت مانده</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d دقیقه مانده</item>
+        <item quantity="one">۱‍ دقیقه مانده</item>
         <item quantity="other">%d دقیقه مانده</item>
     </plurals>
     <string name="button_continue">ادامه</string>
@@ -439,7 +439,7 @@
     <string name="pref_title_show_cards_in_timelines">پیش‌نمایش پیوندها در خط‌زمانی‌ها</string>
     <string name="pref_title_enable_swipe_for_tabs">به کار انداختن اشارهٔ کشیدنی برای تعویض بین زبانه‌ها</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s نفر</item>
+        <item quantity="one">۱ نفر</item>
         <item quantity="other">%s نفر</item>
     </plurals>
     <string name="hashtags">برچسب‌ها</string>
@@ -453,7 +453,7 @@
     <string name="action_mute_conversation">خموشی گفت‌وگو</string>
     <string name="notification_follow_request_format">%s می‌خواهد پی‌گیرتان شود</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d ثانیه مانده</item>
+        <item quantity="one">۱ ثانیه مانده</item>
         <item quantity="other">%d ثانیه مانده</item>
     </plurals>
     <string name="pref_main_nav_position_option_bottom">پایین</string>
@@ -464,7 +464,7 @@
     <string name="action_unmute_domain">ناخموشی %s</string>
     <string name="action_unmute_desc">ناخموشی %s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s رأی</item>
+        <item quantity="one">رأی داده</item>
         <item quantity="other">%s رأی</item>
     </plurals>
     <string name="pref_title_hide_top_toolbar">نهفتن عنوان نوارابزار بالایی</string>
@@ -501,7 +501,7 @@
 \n فرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
     <string name="dialog_delete_list_warning">واقعاً می‌خواهید فهرست %s را حذف کنید؟</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="one">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
+        <item quantity="one">نمی‌توانید چند رسانه بارگذارید.</item>
         <item quantity="other">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
     </plurals>
     <string name="duration_indefinite">نامعیّن</string>
