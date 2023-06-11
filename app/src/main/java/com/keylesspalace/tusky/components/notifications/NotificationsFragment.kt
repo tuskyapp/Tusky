@@ -454,6 +454,10 @@ class NotificationsFragment :
                 onRefresh()
                 true
             }
+            R.id.load_newest -> {
+                viewModel.accept(InfallibleUiAction.LoadNewest)
+                true
+            }
             else -> false
         }
     }
