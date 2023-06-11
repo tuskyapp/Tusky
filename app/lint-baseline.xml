@@ -4,39 +4,6 @@
     <issue
         id="MissingPermission"
         message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="        notificationManager.notify(notificationId, builder.build());"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="263"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="265"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            notificationManager.notify((int) account.getId(), summaryBuilder.build());"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="267"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
         errorLine1="                notificationManager.notify(notificationId, builder.build())"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -399,17 +366,6 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="288"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="MissingQuantity"
-        message="For locale &quot;fr&quot; (French) the following quantities should also be defined: `many` (e.g. &quot;1000000 de jours&quot;), `one` (e.g. &quot;1 jour&quot;)"
-        errorLine1="    &lt;plurals name=&quot;hint_describe_for_visually_impaired&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-fr/strings.xml"
             line="288"
             column="5"/>
     </issue>
@@ -828,7 +784,7 @@
         errorLine2="                                                                                                                                                                                                                                                                                                    ^">
         <location
             file="src/main/res/values-tr/strings.xml"
-            line="581"
+            line="579"
             column="293"/>
     </issue>
 
@@ -1697,7 +1653,7 @@
         errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="745"
+            line="826"
             column="57"/>
     </issue>
 
@@ -2258,7 +2214,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="260"
+            line="262"
             column="19"/>
     </issue>
 
@@ -2269,7 +2225,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="265"
+            line="267"
             column="19"/>
     </issue>
 
@@ -2973,7 +2929,7 @@
         errorLine2="                ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/accountlist/AccountListFragment.kt"
-            line="125"
+            line="133"
             column="17"/>
     </issue>
 
@@ -3160,7 +3116,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="544"
+            line="552"
             column="21"/>
     </issue>
 
@@ -3171,7 +3127,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="553"
+            line="561"
             column="17"/>
     </issue>
 
@@ -3182,7 +3138,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="553"
+            line="561"
             column="17"/>
     </issue>
 
@@ -3270,7 +3226,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="106"
+            line="107"
             column="17"/>
     </issue>
 
@@ -3281,7 +3237,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="106"
+            line="107"
             column="17"/>
     </issue>
 
@@ -3292,7 +3248,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="116"
+            line="117"
             column="17"/>
     </issue>
 
@@ -3303,7 +3259,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="116"
+            line="117"
             column="17"/>
     </issue>
 
@@ -3666,7 +3622,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="143"
+            line="146"
             column="17"/>
     </issue>
 
@@ -3677,7 +3633,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="143"
+            line="146"
             column="17"/>
     </issue>
 
@@ -3688,7 +3644,7 @@
         errorLine2="                ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="152"
+            line="155"
             column="17"/>
     </issue>
 
@@ -3699,7 +3655,7 @@
         errorLine2="                ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="152"
+            line="155"
             column="17"/>
     </issue>
 
@@ -3710,7 +3666,7 @@
         errorLine2="                        ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="173"
+            line="176"
             column="25"/>
     </issue>
 
@@ -3718,17 +3674,6 @@
         id="SyntheticAccessor"
         message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
         errorLine1="                        sendResult(LoginResult.Err(error))"
-        errorLine2="                        ~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="173"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
-        errorLine1="                        sendResult(LoginResult.Ok(code))"
         errorLine2="                        ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
@@ -3743,7 +3688,18 @@
         errorLine2="                        ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="176"
+            line="179"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
+        errorLine1="                        sendResult(LoginResult.Ok(code))"
+        errorLine2="                        ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
+            line="179"
             column="25"/>
     </issue>
 
@@ -4469,7 +4425,7 @@
         errorLine2="                         ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="185"
+            line="186"
             column="26"/>
     </issue>
 
@@ -4480,7 +4436,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="213"
+            line="227"
             column="21"/>
     </issue>
 
@@ -4491,7 +4447,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="215"
+            line="229"
             column="29"/>
     </issue>
 
@@ -4579,7 +4535,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="267"
+            line="266"
             column="21"/>
     </issue>
 
@@ -4590,7 +4546,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="270"
+            line="269"
             column="33"/>
     </issue>
 
@@ -4601,7 +4557,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="272"
+            line="271"
             column="33"/>
     </issue>
 
@@ -4612,7 +4568,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="278"
+            line="277"
             column="21"/>
     </issue>
 
@@ -4640,56 +4596,12 @@
 
     <issue
         id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalUsage.text = formatNumber(tagViewData.usage.sum())"
-        errorLine2="                                  ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="40"
-            column="35"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalUsage.text = formatNumber(tagViewData.usage.sum())"
-        errorLine2="                                  ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="40"
-            column="35"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalAccounts.text = formatNumber(totalAccounts)"
-        errorLine2="                                     ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="43"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalAccounts.text = formatNumber(totalAccounts)"
-        errorLine2="                                     ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="43"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `ViewImageFragment` requires synthetic accessor"
         errorLine1="                        binding.captionSheet.visible(isDescriptionVisible)"
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="187"
+            line="188"
             column="25"/>
     </issue>
 
@@ -4700,7 +4612,7 @@
         errorLine2="                                                     ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="272"
+            line="273"
             column="54"/>
     </issue>
 
@@ -4711,7 +4623,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="286"
+            line="287"
             column="17"/>
     </issue>
 
@@ -4722,7 +4634,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="294"
+            line="295"
             column="17"/>
     </issue>
 
@@ -4733,7 +4645,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="120"
+            line="121"
             column="17"/>
     </issue>
 
@@ -4744,7 +4656,7 @@
         errorLine2="                                        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="120"
+            line="121"
             column="41"/>
     </issue>
 
@@ -4755,7 +4667,7 @@
         errorLine2="                                        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="120"
+            line="121"
             column="41"/>
     </issue>
 
@@ -4766,7 +4678,7 @@
         errorLine2="                                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="148"
+            line="149"
             column="41"/>
     </issue>
 
@@ -4777,7 +4689,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="191"
+            line="192"
             column="21"/>
     </issue>
 
@@ -5186,6 +5098,13 @@
             file="src/main/res/values/strings.xml"
             line="743"
             column="55"/>
+    </issue>
+
+    <issue
+        id="ConvertToWebp"
+        message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
+        <location
+            file="src/blue/res/mipmap-xxxhdpi/ic_launcher.png"/>
     </issue>
 
     <issue
@@ -6834,7 +6753,7 @@
         errorLine2="                    ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="37"
+            line="53"
             column="21"/>
     </issue>
 
@@ -6845,7 +6764,7 @@
         errorLine2="                    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="38"
+            line="54"
             column="21"/>
     </issue>
 
@@ -6856,7 +6775,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="39"
+            line="55"
             column="21"/>
     </issue>
 
@@ -6867,7 +6786,7 @@
         errorLine2="                    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="40"
+            line="56"
             column="21"/>
     </issue>
 
@@ -6878,7 +6797,7 @@
         errorLine2="                    ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="41"
+            line="57"
             column="21"/>
     </issue>
 
@@ -6889,7 +6808,7 @@
         errorLine2="                              ~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="373"
+            line="389"
             column="31"/>
     </issue>
 
@@ -6977,7 +6896,7 @@
         errorLine2="                                   ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="233"
+            line="240"
             column="36"/>
     </issue>
 
@@ -6988,41 +6907,85 @@
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="233"
+            line="240"
             column="58"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
-        errorLine2="                                  ~~~~~~~">
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                      ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="139"
-            column="35"/>
+            line="151"
+            column="55"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
-        errorLine2="                                                   ~~~~~~~~~~~~">
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                                       ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="139"
-            column="52"/>
+            line="151"
+            column="72"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
-        errorLine2="                                                                      ~~~~~~~~~~~~~">
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                                                                                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="139"
-            column="71"/>
+            line="151"
+            column="113"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                                                                                                   ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="151"
+            column="132"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {"
+        errorLine2="                                                  ~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="273"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {"
+        errorLine2="                                                                   ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="273"
+            column="68"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {"
+        errorLine2="                                                                                                            ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="273"
+            column="109"/>
     </issue>
 
     <issue
@@ -7032,7 +6995,7 @@
         errorLine2="                                               ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="494"
+            line="576"
             column="48"/>
     </issue>
 
@@ -7043,74 +7006,30 @@
         errorLine2="                                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="512"
+            line="604"
             column="49"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification notification,"
-        errorLine2="                                             ~~~~~~~~~~~~~">
+        errorLine1="    public static boolean filterNotification(NotificationManager notificationManager, AccountEntity account, @NonNull Notification notification) {"
+        errorLine2="                                             ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="533"
+            line="620"
             column="46"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification notification,"
-        errorLine2="                                                                    ~~~~~~~~~~~~">
+        errorLine1="    public static boolean filterNotification(NotificationManager notificationManager, AccountEntity account, @NonNull Notification notification) {"
+        errorLine2="                                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="533"
-            column="69"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="                                              Context context) {"
-        errorLine2="                                              ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="534"
-            column="47"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification.Type type,"
-        errorLine2="                                             ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="538"
-            column="46"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification.Type type,"
-        errorLine2="                                                                    ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="538"
-            column="69"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="                                              Context context) {"
-        errorLine2="                                              ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="539"
-            column="47"/>
+            line="620"
+            column="87"/>
     </issue>
 
     <issue
