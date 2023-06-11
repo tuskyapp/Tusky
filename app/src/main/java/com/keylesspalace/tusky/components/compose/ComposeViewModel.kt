@@ -213,7 +213,28 @@ class ComposeViewModel @Inject constructor(
         this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
     }
 
-    fun didChange(content: String?, contentWarning: String?): Boolean {
+    fun handleCloseButton(contentText: String?, contentWarning: String?): ConfirmationPromptType {
+        return if (didChange(contentText, contentWarning)) {
+            when (composeKind) {
+                ComposeActivity.ComposeKind.NEW -> if (isEmpty(contentText, contentWarning)) {
+                    ConfirmationPromptType.NONE
+                } else {
+                    ConfirmationPromptType.SAVE_OR_DISCARD
+                }
+                ComposeActivity.ComposeKind.EDIT_DRAFT -> if (isEmpty(contentText, contentWarning)) {
+                    ConfirmationPromptType.CONTINUE_EDITING_OR_DISCARD_DRAFT
+                } else {
+                    ConfirmationPromptType.UPDATE_OR_DISCARD
+                }
+                ComposeActivity.ComposeKind.EDIT_POSTED -> ConfirmationPromptType.CONTINUE_EDITING_OR_DISCARD_CHANGES
+                ComposeActivity.ComposeKind.EDIT_SCHEDULED -> ConfirmationPromptType.CONTINUE_EDITING_OR_DISCARD_CHANGES
+            }
+        } else {
+            ConfirmationPromptType.NONE
+        }
+    }
+
+    private fun didChange(content: String?, contentWarning: String?): Boolean {
         val textChanged = content.orEmpty() != startingText.orEmpty()
         val contentWarningChanged = contentWarning.orEmpty() != startingContentWarning
         val mediaChanged = media.value.isNotEmpty()
@@ -223,7 +244,7 @@ class ComposeViewModel @Inject constructor(
         return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged || didScheduledTimeChange
     }
 
-    fun isEmpty(content: String?, contentWarning: String?): Boolean {
+    private fun isEmpty(content: String?, contentWarning: String?): Boolean {
         return !modifiedInitialState && (content.isNullOrBlank() && contentWarning.isNullOrBlank() && media.value.isEmpty() && poll.value == null)
     }
 
@@ -489,6 +510,14 @@ class ComposeViewModel @Inject constructor(
 
     private companion object {
         const val TAG = "ComposeViewModel"
+    }
+
+    enum class ConfirmationPromptType {
+        NONE, // just close
+        SAVE_OR_DISCARD,
+        UPDATE_OR_DISCARD,
+        CONTINUE_EDITING_OR_DISCARD_CHANGES, // editing post
+        CONTINUE_EDITING_OR_DISCARD_DRAFT // edit draft
     }
 }
 
