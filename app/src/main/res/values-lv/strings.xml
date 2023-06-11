@@ -598,4 +598,14 @@
     <string name="hint_description">Apraksts</string>
     <string name="ui_success_accepted_follow_request">Sekošanas pieprasījums pieņemts</string>
     <string name="ui_success_rejected_follow_request">Sekošanas pieprasījums bloķēts</string>
+    <string name="post_privacy_followers_only">Tikai sekotājiem</string>
+    <string name="post_media_image">Attēls</string>
+    <string name="filter_description_hide">Paslēpt pilnībā</string>
+    <string name="select_list_empty">Tev vēl nav sarakstu</string>
+    <string name="select_list_manage">Pārvaldīt sarakstus</string>
+    <string name="filter_keyword_display_format">%s (viss vārds)</string>
+    <string name="pref_title_account_filter_keywords">Profili</string>
+    <string name="filter_action_warn">Brīdināt</string>
+    <string name="filter_action_hide">Paslēpt</string>
+    <string name="filter_description_warn">Paslēpt ar brīdinājumu</string>
 </resources>

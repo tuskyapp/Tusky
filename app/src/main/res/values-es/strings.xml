@@ -69,7 +69,7 @@
     <string name="action_show_reblogs">Mostrar impulsos</string>
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
-    <string name="action_send">Enviar</string>
+    <string name="action_send">TOOT</string>
     <string name="action_send_public">¡Publicar!</string>
     <string name="action_retry">Reintentar</string>
     <string name="action_close">Cerrar</string>
@@ -472,7 +472,7 @@
     <string name="action_unmute_conversation">Dejar de silenciar conversación</string>
     <string name="notification_follow_request_description">Notificaciones de solicitudes</string>
     <string name="pref_title_notification_filter_follow_requests">solicitud de seguimiento</string>
-    <string name="pref_title_confirm_reblogs">Mostrar diálogo de confirmación antes de impulsar</string>
+    <string name="pref_title_confirm_reblogs">Pedir confirmación antes de impulsar</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar previsualización de enlaces en la cronología</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilitar gesto de deslizar para alternar entre pestañas</string>
     <plurals name="poll_info_people">
@@ -532,7 +532,7 @@
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
     <string name="action_unsubscribe_account">Darse de baja</string>
     <string name="action_delete_conversation">Eliminar conversación</string>
-    <string name="pref_title_confirm_favourites">Mostrar diálogo de confirmación antes de marcar como favorito</string>
+    <string name="pref_title_confirm_favourites">Pedir confirmación antes de marcar como favorito</string>
     <string name="pref_title_notification_filter_updates">una publicación con la que interactué se editó</string>
     <string name="error_multimedia_size_limit">Los archivos de video y audio no pueden pesar más de %s MB.</string>
     <string name="error_image_edit_failed">Esta imagen no puede ser editada.</string>
@@ -561,7 +561,7 @@
     <string name="dialog_push_notification_migration">Para poder usar las notificaciones push con UnifiedPush, Tusky necesita permiso para suscribirse a las notificaciones de tu servidor de Mastodon. Es necesario volver a acceder para cambiar los parámetros OAuth concedidos a Tusky. Usar aquí, o en las Preferencias de la cuenta, la opción de volver a acceder conservará los borradores y la caché.</string>
     <string name="failed_to_pin">Fallo al fijar</string>
     <string name="failed_to_unpin">Fallo al quitarlo</string>
-    <string name="pref_show_self_username_disambiguate">Cuando se utilizan varias cuentas</string>
+    <string name="pref_show_self_username_disambiguate">Cuando hay varias cuentas ingresadas</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="notification_sign_up_description">Notificaciones de nuevos usuarios</string>
     <string name="notification_update_name">Ediciones de una publicación</string>
@@ -657,4 +657,32 @@
     <string name="ui_error_unknown">razón desconocida</string>
     <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
     <string name="select_list_empty">Todavía no tienes listas</string>
+    <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues.
+\n
+\nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia [iconics gmd_group]. O puedes buscarlas por nombre [iconics gmd_search]; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
+    <string name="ui_error_bookmark">Fallo al añadir a marcadores: %s</string>
+    <string name="select_list_manage">Gestionar listas</string>
+    <string name="error_list_load">Error al cargar listas</string>
+    <string name="ui_error_favourite">Fallo al favoritear publicación: %s</string>
+    <string name="ui_error_clear_notifications">Fallo al limpiar notificaciones: %s</string>
+    <string name="ui_error_accept_follow_request">Fallo al aceptar solicitud de seguimiento: %s</string>
+    <string name="ui_error_reject_follow_request">Fallo al rechazar la solicitud de seguimiento: %s</string>
+    <string name="ui_success_accepted_follow_request">Solicitud de seguimiento aceptada</string>
+    <string name="ui_success_rejected_follow_request">Solicitud de seguimiento bloqueada</string>
+    <string name="hint_filter_title">Mi filtro</string>
+    <string name="filter_edit_keyword_title">Editar palabra</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="ui_error_reblog">Fallo al impulsar publicación: %s</string>
+    <string name="ui_error_vote">Fallo al votar en la encuesta: %s</string>
+    <string name="label_filter_title">Título</string>
+    <string name="filter_action_warn">Aviso</string>
+    <string name="filter_description_hide">Ocultar completamente</string>
+    <string name="filter_description_warn">Ocultar con un aviso</string>
+    <string name="filter_action_hide">Ocultar</string>
+    <string name="label_filter_action">Acción del filtro</string>
+    <string name="label_filter_context">Lugares donde se aplica el filtro</string>
+    <string name="label_filter_keywords">Palabras y frases clave para filtrar</string>
+    <string name="action_add">Añadir</string>
+    <string name="filter_keyword_display_format">%s (palabra completa)</string>
+    <string name="filter_keyword_addition_title">Añadir palabra</string>
 </resources>
