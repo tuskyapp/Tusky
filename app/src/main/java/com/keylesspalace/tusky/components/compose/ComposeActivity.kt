@@ -53,7 +53,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.IntentCompat
 import androidx.core.content.res.use
+import androidx.core.os.BundleCompat
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -142,6 +144,9 @@ class ComposeActivity :
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
+    /** The account that is being used to compose the status */
+    private lateinit var activeAccount: AccountEntity
+
     private var photoUploadUri: Uri? = null
 
     private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
@@ -208,10 +213,15 @@ class ComposeActivity :
             notificationManager.cancel(notificationId)
         }
 
-        val accountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
-        if (accountId != -1L) {
-            accountManager.setActiveAccount(accountId)
-        }
+        // If started from an intent then compose as the account ID from the intent.
+        // Otherwise use the active account. If null then the user is not logged in,
+        // and return from the activity.
+        val intentAccountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
+        activeAccount = if (intentAccountId != -1L) {
+            accountManager.getAccountById(intentAccountId)
+        } else {
+            accountManager.activeAccount
+        } ?: return
 
         val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
         if (theme == "black") {
@@ -220,8 +230,6 @@ class ComposeActivity :
         setContentView(binding.root)
 
         setupActionBar()
-        // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
-        val activeAccount = accountManager.activeAccount ?: return
 
         setupAvatar(activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
@@ -245,7 +253,7 @@ class ComposeActivity :
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+        val composeOptions: ComposeOptions? = IntentCompat.getParcelableExtra(intent, COMPOSE_OPTIONS_EXTRA, ComposeOptions::class.java)
         viewModel.setup(composeOptions)
 
         setupButtons()
@@ -279,7 +287,7 @@ class ComposeActivity :
 
         /* Finally, overwrite state with data from saved instance state. */
         savedInstanceState?.let {
-            photoUploadUri = it.getParcelable(PHOTO_UPLOAD_URI_KEY)
+            photoUploadUri = BundleCompat.getParcelable(it, PHOTO_UPLOAD_URI_KEY, Uri::class.java)
 
             (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
                 setStatusVisibility(this)
@@ -308,12 +316,12 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                            IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                            IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.forEach { uri ->
                                 pickMedia(uri)
                             }
                         }
@@ -955,7 +963,7 @@ class ComposeActivity :
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
             lifecycleScope.launch {
-                viewModel.sendStatus(contentText, spoilerText)
+                viewModel.sendStatus(contentText, spoilerText, activeAccount.id)
                 deleteDraftAndFinish()
             }
         } else {

@@ -1,0 +1,5 @@
+Tusky 22.0 Beta 5
+
+Behobene Fehler:
+- »APNG library« auf eine ältere Version zurückgestuft, damit animierte Emojis wieder animiert sind
+- Eine Kopie der Benachrichtigungsmarkierung wird lokal gespeichert, falls der Server die entsprechende API nicht unterstützt

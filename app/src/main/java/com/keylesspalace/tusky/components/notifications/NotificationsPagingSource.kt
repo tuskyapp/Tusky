@@ -31,7 +31,21 @@ import retrofit2.Response
 import javax.inject.Inject
 
 /** Models next/prev links from the "Links" header in an API response */
-data class Links(val next: String?, val prev: String?)
+data class Links(val next: String?, val prev: String?) {
+    companion object {
+        fun from(linkHeader: String?): Links {
+            val links = HttpHeaderLink.parse(linkHeader)
+            return Links(
+                next = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter(
+                    "max_id"
+                ),
+                prev = HttpHeaderLink.findByRelationType(links, "prev")?.uri?.getQueryParameter(
+                    "min_id"
+                )
+            )
+        }
+    }
+}
 
 /** [PagingSource] for Mastodon Notifications, identified by the Notification ID */
 class NotificationsPagingSource @Inject constructor(
@@ -79,7 +93,7 @@ class NotificationsPagingSource @Inject constructor(
                 return LoadResult.Error(Throwable("HTTP $code: $msg"))
             }
 
-            val links = getPageLinks(response.headers()["link"])
+            val links = Links.from(response.headers()["link"])
             return LoadResult.Page(
                 data = response.body()!!,
                 nextKey = links.next,
@@ -185,18 +199,6 @@ class NotificationsPagingSource @Inject constructor(
         return@coroutineScope mastodonApi.notifications(
             limit = params.loadSize,
             excludes = notificationFilter
-        )
-    }
-
-    private fun getPageLinks(linkHeader: String?): Links {
-        val links = HttpHeaderLink.parse(linkHeader)
-        return Links(
-            next = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter(
-                "max_id"
-            ),
-            prev = HttpHeaderLink.findByRelationType(links, "prev")?.uri?.getQueryParameter(
-                "min_id"
-            )
         )
     }
 
