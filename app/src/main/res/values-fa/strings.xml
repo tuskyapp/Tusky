@@ -595,8 +595,8 @@
     <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
     <string name="pref_title_reading_order">ترتیب خواندن</string>
     <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
-    <string name="status_edit_info">%1$s %2$s را ویراست</string>
-    <string name="status_created_info">%1$s %2$s را ایجاد کرد</string>
+    <string name="status_edit_info">%1$s را ویراست</string>
+    <string name="status_created_info">%1$s  را ایجاد کرد</string>
     <string name="action_post_failed">بارگذاری شکست خورد</string>
     <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
     <string name="action_post_failed_do_nothing">رد کردن</string>

@@ -587,8 +587,8 @@
     <string name="set_focus_description">サムネイル画像で常に表示される中心点を設定するには、円をタップまたはドラッグして中してくだだい。</string>
     <string name="mute_notifications_switch">通知のミュート</string>
     <string name="account_date_joined">%1$s に参加</string>
-    <string name="status_edit_info">%1$s 編集 %2$s</string>
-    <string name="status_created_info">%1$s の投稿 %2$s</string>
+    <string name="status_edit_info">%1$s 編集</string>
+    <string name="status_created_info">%1$s の投稿</string>
     <string name="post_lookup_error_format">投稿 %s の検索エラー</string>
     <string name="follow_requests_info">アカウントがロックされていなかったとしても、%1$s のスタッフは以下のアカウントのフォローリクエストを確認した方がいいと判断しました。</string>
     <string name="action_set_focus">中心点の設定</string>

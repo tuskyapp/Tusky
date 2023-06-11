@@ -599,8 +599,8 @@
     <string name="pref_summary_http_proxy_missing">&lt;nincs beállítva&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;érvénytelen&gt;</string>
     <string name="title_edits">Szerkesztések</string>
-    <string name="status_created_info">%1$s létrehozta %2$s</string>
-    <string name="status_edit_info">%1$s szerkesztette %2$s</string>
+    <string name="status_created_info">%1$s létrehozta</string>
+    <string name="status_edit_info">%1$s szerkesztette</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Változtatások elvetése</string>
     <string name="action_continue_edit">Szerkesztés folytatása</string>

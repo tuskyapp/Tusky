@@ -98,10 +98,7 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                                 if (i < sortedEdits.size - 1) {
                                     currentContent = previousContent
                                     previousContent = loader.load(
-                                        sortedEdits[i + 1].content.replace(
-                                            "<br>",
-                                            "<br/>"
-                                        )
+                                        sortedEdits[i + 1].content.replace("<br>", "<br/>")
                                     )
                                 }
                             }

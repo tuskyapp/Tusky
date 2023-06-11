@@ -598,11 +598,11 @@
     <string name="pref_summary_http_proxy_missing">&lt;ayarlanmadı&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;geçersiz&gt;</string>
     <string name="pref_summary_http_proxy_disabled">Etkisizleştirildi</string>
-    <string name="status_created_info">%1$s oluşturdu %2$s</string>
+    <string name="status_created_info">%1$s oluşturdu</string>
     <string name="dialog_follow_hashtag_title">Etiketi takip et</string>
     <string name="dialog_follow_hashtag_hint">#etiket</string>
     <string name="compose_unsaved_changes">Kaydedilmemiş değişikliklerin var.</string>
-    <string name="status_edit_info">%1$s düzenledi %2$s</string>
+    <string name="status_edit_info">%1$s düzenledi</string>
     <string name="action_refresh">Yenile</string>
     <string name="title_edits">Düzenlemeler</string>
     <string name="hint_description">Açıklama</string>

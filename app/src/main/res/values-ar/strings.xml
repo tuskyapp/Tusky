@@ -577,8 +577,8 @@
     <string name="no_lists">ليس لديك أي قوائم.</string>
     <string name="post_edited">عدَّلَ %s</string>
     <string name="notification_report_format">شكوى جديدة عن %s</string>
-    <string name="status_edit_info">عدّله %1$s في %2$s</string>
-    <string name="status_created_info">أنشأه %1$s في %2$s</string>
+    <string name="status_edit_info">عدّله %1$s</string>
+    <string name="status_created_info">أنشأه %1$s</string>
     <string name="wellbeing_mode_notice">سيتم إخفاء بعض المعلومات التي قد تؤثر على صحتك العقلية. هذا يتضمن:
 \n
 \n- المفضلة/المشاركات/متابعة الاشعارات
