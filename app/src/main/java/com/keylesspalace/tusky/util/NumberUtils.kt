@@ -2,25 +2,27 @@
 
 package com.keylesspalace.tusky.util
 
-import java.text.DecimalFormat
+import java.text.NumberFormat
 import kotlin.math.abs
-import kotlin.math.floor
-import kotlin.math.log10
+import kotlin.math.ln
 import kotlin.math.pow
-import kotlin.math.sign
 
-val shortLetters = arrayOf(' ', 'K', 'M', 'B', 'T', 'P', 'E')
+private val numberFormatter: NumberFormat = NumberFormat.getInstance()
+private val ln_1k = ln(1000.0)
 
-fun shortNumber(number: Number): String {
-    val numberAsDouble = number.toDouble()
-    val nonNegativeValue = abs(numberAsDouble)
-    var sign = ""
-    if (numberAsDouble.sign < 0) { sign = "-" }
-    val value = floor(log10(nonNegativeValue)).toInt()
-    val base = value / 3
-    if (value >= 3 && base < shortLetters.size) {
-        return DecimalFormat("$sign#0.0").format(nonNegativeValue / 10.0.pow((base * 3).toDouble())) + shortLetters[base]
-    } else {
-        return DecimalFormat("$sign#,##0").format(nonNegativeValue)
-    }
+/**
+ * Format numbers according to the current locale. Numbers < min have
+ * separators (',', '.', etc) inserted according to the locale.
+ *
+ * Numbers >= min are scaled down to that by multiples of 1,000, and
+ * a suffix appropriate to the scaling is appended.
+ */
+fun formatNumber(num: Long, min: Int = 100000): String {
+    val absNum = abs(num)
+    if (absNum < min) return numberFormatter.format(num)
+
+    val exp = (ln(absNum.toDouble()) / ln_1k).toInt()
+
+    // Suffixes here are locale-agnostic
+    return String.format("%.1f%c", num / 1000.0.pow(exp.toDouble()), "KMGTPE"[exp - 1])
 }

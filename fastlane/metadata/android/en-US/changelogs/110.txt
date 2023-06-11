@@ -1,0 +1,20 @@
+Tusky 22.0
+
+New features:
+
+- View trending hashtags
+- Follow new hashtags
+- Better ordering when selecting languages
+- Show the difference between versions of a post
+- Support Mastodon v4 filters
+- Option to show post statistics in the timeline
+- And more...
+
+Fixes:
+
+- Remember selected tab and position
+- Keep notifications until read
+- Correctly display mixed RTL and LTR text in profiles
+- Correct post length calculation
+- Always publish image captions
+- And more...

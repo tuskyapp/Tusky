@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.IntentCompat
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -47,7 +48,7 @@ class EditFilterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        originalFilter = intent?.getParcelableExtra(FILTER_TO_EDIT)
+        originalFilter = IntentCompat.getParcelableExtra(intent, FILTER_TO_EDIT, Filter::class.java)
         filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
         binding.apply {
             contextSwitches = mapOf(
