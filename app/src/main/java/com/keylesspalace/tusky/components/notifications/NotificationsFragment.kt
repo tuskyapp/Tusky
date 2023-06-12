@@ -107,7 +107,7 @@ class NotificationsFragment :
 
         adapter = NotificationsPagingAdapter(
             notificationDiffCallback,
-            accountId = accountManager.activeAccount!!.accountId,
+            accountId = viewModel.account.accountId,
             statusActionListener = this,
             notificationActionListener = this,
             accountActionListener = this,
@@ -461,7 +461,7 @@ class NotificationsFragment :
     override fun onRefresh() {
         binding.progressBar.isVisible = false
         adapter.refresh()
-        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
+        NotificationHelper.clearNotificationsForAccount(requireContext(), viewModel.account)
     }
 
     override fun onPause() {
@@ -478,7 +478,7 @@ class NotificationsFragment :
 
     override fun onResume() {
         super.onResume()
-        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
+        NotificationHelper.clearNotificationsForAccount(requireContext(), viewModel.account)
     }
 
     override fun onReply(position: Int) {
@@ -603,7 +603,7 @@ class NotificationsFragment :
 
     override fun onViewReport(reportId: String) {
         requireContext().openLink(
-            "https://${accountManager.activeAccount!!.domain}/admin/reports/$reportId"
+            "https://${viewModel.account.domain}/admin/reports/$reportId"
         )
     }
 
@@ -619,7 +619,7 @@ class NotificationsFragment :
     }
 
     companion object {
-        private const val TAG = "NotificationF"
+        private const val TAG = "NotificationsFragment"
         fun newInstance() = NotificationsFragment()
 
         private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData> =
