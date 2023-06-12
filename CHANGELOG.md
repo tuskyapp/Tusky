@@ -6,6 +6,12 @@
 
 ### Significant bug fixes
 
+## v22.0 beta 6
+
+### Significant bug fixes
+
+- **Save reading position in the Notifications tab more frequently**, [PR#3685](https://github.com/tuskyapp/Tusky/pull/3685)
+
 ## v22.0 beta 5
 
 ## Significant bug fixes
