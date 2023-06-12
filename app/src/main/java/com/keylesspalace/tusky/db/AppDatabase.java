@@ -41,10 +41,11 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 51,
+    version = 52,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
-        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class)
+        @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
+        @AutoMigration(from = 50, to = 51)
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -672,7 +673,7 @@ public abstract class AppDatabase extends RoomDatabase {
     @DeleteColumn(tableName = "AccountEntity", columnName = "activeNotifications")
     static class MIGRATION_49_50 implements AutoMigrationSpec { }
 
-    public static final Migration MIGRATION_50_51 = new Migration(50, 51) {
+    public static final Migration MIGRATION_51_52 = new Migration(51, 52) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE IF EXISTS `TimelineAccountEntity`");
