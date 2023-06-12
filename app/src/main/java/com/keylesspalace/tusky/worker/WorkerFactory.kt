@@ -40,7 +40,7 @@ interface ChildWorkerFactory {
  * @see [com.keylesspalace.tusky.components.notifications.NotificationWorker]
  */
 class WorkerFactory @Inject constructor(
-    val workerFactories: Map<Class<out ListenableWorker>, @JvmSuppressWildcards Provider<ChildWorkerFactory>>
+    private val workerFactories: Map<Class<out ListenableWorker>, @JvmSuppressWildcards Provider<ChildWorkerFactory>>
 ) : WorkerFactory() {
     override fun createWorker(
         appContext: Context,
