@@ -18,15 +18,19 @@ package com.keylesspalace.tusky
 import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
-import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
+import com.keylesspalace.tusky.worker.PruneCacheWorker
+import com.keylesspalace.tusky.worker.WorkerFactory
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
@@ -35,6 +39,7 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TuskyApplication : Application(), HasAndroidInjector {
@@ -42,7 +47,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
-    lateinit var notificationWorkerFactory: NotificationWorkerFactory
+    lateinit var workerFactory: WorkerFactory
 
     @Inject
     lateinit var localeManager: LocaleManager
@@ -93,8 +98,18 @@ class TuskyApplication : Application(), HasAndroidInjector {
         WorkManager.initialize(
             this,
             androidx.work.Configuration.Builder()
-                .setWorkerFactory(notificationWorkerFactory)
+                .setWorkerFactory(workerFactory)
                 .build()
+        )
+
+        // Prune the database every ~ 12 hours when the device is idle.
+        val pruneCacheWorker = PeriodicWorkRequestBuilder<PruneCacheWorker>(12, TimeUnit.HOURS)
+            .setConstraints(Constraints.Builder().setRequiresDeviceIdle(true).build())
+            .build()
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            PruneCacheWorker.PERIODIC_WORK_TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            pruneCacheWorker
         )
     }
 

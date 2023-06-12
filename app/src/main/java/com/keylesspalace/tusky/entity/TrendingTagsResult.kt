@@ -21,15 +21,13 @@ import java.util.Date
  * Mastodon API Documentation: https://docs.joinmastodon.org/methods/trends/#tags
  *
  * @param name The name of the hashtag (after the #). The "caturday" in "#caturday".
- * @param url The URL to your mastodon instance list for this hashtag.
+ * (@param url The URL to your mastodon instance list for this hashtag.)
  * @param history A list of [TrendingTagHistory]. Each element contains metrics per day for this hashtag.
- * @param following This is not listed in the APIs at the time of writing, but an instance is delivering it.
+ * (@param following This is not listed in the APIs at the time of writing, but an instance is delivering it.)
  */
 data class TrendingTag(
     val name: String,
-    val url: String,
-    val history: List<TrendingTagHistory>,
-    val following: Boolean
+    val history: List<TrendingTagHistory>
 )
 
 /**

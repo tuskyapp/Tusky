@@ -16,6 +16,7 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
+import androidx.core.content.IntentCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
@@ -83,7 +84,7 @@ class SendStatusService : Service(), Injectable {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (intent.hasExtra(KEY_STATUS)) {
-            val statusToSend: StatusToSend = intent.getParcelableExtra(KEY_STATUS)
+            val statusToSend: StatusToSend = IntentCompat.getParcelableExtra(intent, KEY_STATUS, StatusToSend::class.java)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -572,8 +572,8 @@
     <string name="account_date_joined">Далучыўся(-лася) %1$s</string>
     <string name="account_note_saved">Захавана!</string>
     <string name="dialog_push_notification_migration_other_accounts">Вы паўторна зайшлі ў бягучы ўліковы запіс, каб дазволіць Tusky падпісацца на push-апавяшчэнні. Але ў Вас яшчэ засталіся ўліковыя запісы, якія не мігрыравалі такім чынам. Пераключыцеся на іх і зайдзіце паўторна, каб уключыць падтрымку апавяшчэнняў праз UnifiedPush.</string>
-    <string name="status_edit_info">%1$s адрэдагаваў(-ла) %2$s</string>
-    <string name="status_created_info">%1$s стварыў(-ла) %2$s</string>
+    <string name="status_edit_info">%1$s адрэдагаваў(-ла)</string>
+    <string name="status_created_info">%1$s стварыў(-ла)</string>
     <string name="pref_title_hide_top_toolbar">Схаваць загаловак верхняй панэлі інструментаў</string>
     <string name="account_note_hint">Ваша асабістая нататка пра гэты ўліковы запіс</string>
     <string name="pref_title_confirm_favourites">Патрабаваць пацвярджэнне перад упадабаннем</string>

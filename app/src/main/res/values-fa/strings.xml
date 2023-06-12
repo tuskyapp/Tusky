@@ -190,7 +190,7 @@
     <string name="notification_summary_medium">%1$s، %2$s و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d برهم‌کنش جدید</item>
+        <item quantity="one">برهم‌کنشی جدید</item>
         <item quantity="other">%d برهم‌کنش جدید</item>
     </plurals>
     <string name="description_account_locked">حساب قفل‌شده</string>
@@ -339,7 +339,7 @@
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
-        <item quantity="one">۱ برگزیدن</item>
+        <item quantity="one"><b>%1$s</b> برگزیدن</item>
         <item quantity="other"><b>%1$s</b> برگزیدن</item>
     </plurals>
     <plurals name="reblogs">
@@ -595,8 +595,8 @@
     <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
     <string name="pref_title_reading_order">ترتیب خواندن</string>
     <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
-    <string name="status_edit_info">%1$s %2$s را ویراست</string>
-    <string name="status_created_info">%1$s %2$s را ایجاد کرد</string>
+    <string name="status_edit_info">%1$s را ویراست</string>
+    <string name="status_created_info">%1$s  را ایجاد کرد</string>
     <string name="action_post_failed">بارگذاری شکست خورد</string>
     <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
     <string name="action_post_failed_do_nothing">رد کردن</string>
@@ -664,4 +664,5 @@
     <string name="select_list_empty">هنوز هیچ سیاهه‌ای ندارید</string>
     <string name="select_list_manage">مدیریت سیاهه‌ها</string>
     <string name="error_list_load">خطا در بار کردن سیاهه‌ها</string>
+    <string name="load_newest_notifications">بار کردن جدیدترین آگاهی‌ها</string>
 </resources>

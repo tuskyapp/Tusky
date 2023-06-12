@@ -613,8 +613,8 @@
     <string name="send_account_link_to">Profil-Link teilen an …</string>
     <string name="send_account_username_to">Profilname teilen an …</string>
     <string name="account_username_copied">Profilname kopiert</string>
-    <string name="status_edit_info">%1$s bearbeitete %2$s</string>
-    <string name="status_created_info">%1$s erstellte %2$s</string>
+    <string name="status_edit_info">%1$s bearbeitete</string>
+    <string name="status_created_info">%1$s erstellte</string>
     <string name="notification_report_format">Neue Meldung über %s</string>
     <string name="notification_report_description">Benachrichtigungen über Moderationsmeldungen</string>
     <string name="pref_title_notification_filter_reports">es eine neue Meldung gibt</string>

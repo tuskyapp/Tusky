@@ -1,0 +1,6 @@
+Tusky 22.0 Beta 7
+
+Behobene Fehler:
+- Alle ausstehenden Mastodon-Benachrichtigungen werden nun beim Erstellen von Android-Benachrichtigungen abgerufen
+- Beim Anlicken auf »Beitrag erstellen« in einer Benachrichtigung wurde das falsche Konto ausgewählt
+- Die »ID der zuletzt gelesenen Benachrichtigung« wird nun im richtigen Konto gespeichert
