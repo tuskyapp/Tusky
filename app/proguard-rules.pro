@@ -115,3 +115,7 @@
 # Preference fragments can be referenced by name, ensure they remain
 # https://github.com/tuskyapp/Tusky/issues/3161
 -keep class * extends androidx.preference.PreferenceFragmentCompat
+
+# Ensure that Workers are kept, https://github.com/tuskyapp/Tusky/issues/3740
+-keep class * extends androidx.work.Worker
+-keep class * extends com.keylesspalace.tusky.worker.ChildWorkerFactory

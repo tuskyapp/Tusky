@@ -23,6 +23,7 @@ import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import javax.inject.Inject
 import javax.inject.Provider
+import javax.inject.Singleton
 
 /**
  * Workers implement this and are added to the map in [com.keylesspalace.tusky.di.WorkerModule]
@@ -37,10 +38,11 @@ interface ChildWorkerFactory {
  * Creates workers, delegating to each worker's [ChildWorkerFactory.createWorker] to do the
  * creation.
  *
- * @see [com.keylesspalace.tusky.components.notifications.NotificationWorker]
+ * @see [com.keylesspalace.tusky.worker.NotificationWorker]
  */
+@Singleton
 class WorkerFactory @Inject constructor(
-    val workerFactories: Map<Class<out ListenableWorker>, @JvmSuppressWildcards Provider<ChildWorkerFactory>>
+    private val workerFactories: Map<Class<out ListenableWorker>, @JvmSuppressWildcards Provider<ChildWorkerFactory>>
 ) : WorkerFactory() {
     override fun createWorker(
         appContext: Context,
