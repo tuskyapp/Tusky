@@ -57,7 +57,6 @@
         android:paddingStart="0dp"
         android:paddingEnd="@dimen/status_display_name_padding_end"
         android:paddingBottom="4dp"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"

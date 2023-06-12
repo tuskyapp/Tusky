@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.util
 
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
@@ -65,4 +66,15 @@ fun ViewPager2.reduceSwipeSensitivity() {
     } catch (e: Exception) {
         Log.w("reduceSwipeSensitivity", e)
     }
+}
+
+/**
+ * TextViews with an ancestor RecyclerView can forget that they are selectable. Toggling
+ * calls to [TextView.setTextIsSelectable] fixes this.
+ *
+ * @see https://issuetracker.google.com/issues/37095917
+ */
+fun TextView.fixTextSelection() {
+    setTextIsSelectable(false)
+    post { setTextIsSelectable(true) }
 }

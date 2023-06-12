@@ -243,6 +243,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             }
 
             preferenceCategory(R.string.pref_title_timelines) {
+                // TODO having no activeAccount in this fragment does not really make sense, enforce it?
+                //   All other locations here make it optional, however.
+
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
                     setTitle(R.string.pref_title_show_media_preview)

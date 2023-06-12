@@ -212,15 +212,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    // TODO: This changes the accountManager's activeAccount property, but does not do any
-    // of the work that AccountManager.setActiveAccount() does. In particular:
-    //
-    // - The current active account is not saved
-    // - The account passed as parameter here goes not have its `isActive` property set
-    //
-    // Is that deliberate? Or is this a bug?
     public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
-        accountManager.setActiveAccount(account);
+        accountManager.setActiveAccount(account.getId());
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(MainActivity.REDIRECT_URL, url);

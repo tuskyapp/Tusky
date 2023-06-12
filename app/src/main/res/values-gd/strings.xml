@@ -590,8 +590,8 @@
     <string name="title_edits">Deasachaidhean</string>
     <string name="status_created_at_now">an-dràsta</string>
     <string name="pref_default_post_language">Cànan bunaiteach nam post</string>
-    <string name="status_created_info">Chruthaich %1$s %2$s</string>
-    <string name="status_edit_info">Dheasaich %1$s %2$s</string>
+    <string name="status_created_info">Chruthaich %1$s</string>
+    <string name="status_edit_info">Dheasaich %1$s</string>
     <string name="no_lists">Chan eil liosta sam bith agad.</string>
     <string name="language_display_name_format">%s (%s)</string>
     <string name="pref_title_http_proxy_port_message">Bu chòir dhan phort a bhith eadar %d is %d</string>

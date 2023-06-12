@@ -601,13 +601,13 @@
     <string name="a11y_label_loading_thread">Laddar tråd</string>
     <string name="mute_notifications_switch">Tysta notiser</string>
     <string name="title_edits">Redigeringar</string>
-    <string name="status_edit_info">%1$s redigerade %2$s</string>
+    <string name="status_edit_info">%1$s redigerade</string>
     <string name="action_share_account_link">Dela länk med konto</string>
     <string name="action_share_account_username">Dela användarnamn för konto</string>
     <string name="send_account_link_to">Dela konto-URL med…</string>
     <string name="send_account_username_to">Dela kontots användarnamn med…</string>
     <string name="account_username_copied">Kopierade användarnamn</string>
-    <string name="status_created_info">%1$s skapade %2$s</string>
+    <string name="status_created_info">%1$s skapade</string>
     <string name="action_discard">Förkasta ändringar</string>
     <string name="action_continue_edit">Fortsätt redigera</string>
     <string name="compose_unsaved_changes">Du har ändringar som inte sparats.</string>

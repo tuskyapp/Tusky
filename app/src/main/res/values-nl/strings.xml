@@ -565,8 +565,8 @@
     <string name="pref_default_post_language">Standaardtaal van berichten</string>
     <string name="notification_report_name">Rapporten</string>
     <string name="description_post_edited">Bewerkt</string>
-    <string name="status_edit_info">%1$s bewerkte %2$s</string>
-    <string name="status_created_info">%1$s maakte %2$s</string>
+    <string name="status_edit_info">%1$s bewerkte</string>
+    <string name="status_created_info">%1$s maakte</string>
     <string name="instance_rule_info">Door in te loggen ben je het eens met de regels van %s.</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Overig</string>
