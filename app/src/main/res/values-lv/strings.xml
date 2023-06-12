@@ -604,4 +604,6 @@
     <string name="filter_action_warn">Brīdināt</string>
     <string name="filter_action_hide">Paslēpt</string>
     <string name="filter_description_warn">Paslēpt ar brīdinājumu</string>
+    <string name="filter_edit_keyword_title">Labot atslēgvārdu</string>
+    <string name="filter_keyword_addition_title">Pievienot atslēgvārdu</string>
 </resources>

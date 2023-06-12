@@ -15,13 +15,13 @@
 
 package com.keylesspalace.tusky.components.compose.dialog
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -38,7 +38,7 @@ fun <T> T.makeFocusDialog(
     existingFocus: Focus?,
     previewUri: Uri,
     onUpdateFocus: suspend (Focus) -> Unit
-) where T : Activity, T : LifecycleOwner {
+) where T : AppCompatActivity, T : LifecycleOwner {
     val focus = existingFocus ?: Focus(0.0f, 0.0f) // Default to center
 
     val dialogBinding = DialogFocusBinding.inflate(layoutInflater)

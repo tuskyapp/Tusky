@@ -19,25 +19,29 @@ package com.keylesspalace.tusky.util
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
 
 /**
  * Returns a flow that mirrors the original flow, but filters out values that occur within
- * [timeoutMillis] of the previously emitted value. The first value is always emitted.
+ * [timeout] of the previously emitted value. The first value is always emitted.
  *
  * Example:
  *
  * ```kotlin
  * flow {
  *     emit(1)
- *     delay(90)
+ *     delay(90.milliseconds)
  *     emit(2)
- *     delay(90)
+ *     delay(90.milliseconds)
  *     emit(3)
- *     delay(1010)
+ *     delay(1010.milliseconds)
  *     emit(4)
- *     delay(1010)
+ *     delay(1010.milliseconds)
  *     emit(5)
- * }.throttleFirst(1000)
+ * }.throttleFirst(1000.milliseconds)
  * ```
  *
  * produces the following emissions.
@@ -45,15 +49,21 @@ import kotlinx.coroutines.flow.flow
  * ```text
  * 1, 4, 5
  * ```
+ *
+ * @see kotlinx.coroutines.flow.debounce(Duration)
+ * @param timeout Emissions within this duration of the last emission are filtered
+ * @param timeSource Used to measure elapsed time. Normally only overridden in tests
  */
-fun <T> Flow<T>.throttleFirst(timeoutMillis: Long): Flow<T> = flow {
-    var lastEmitTime = 0L
+@OptIn(ExperimentalTime::class)
+fun <T> Flow<T>.throttleFirst(
+    timeout: Duration,
+    timeSource: TimeSource = TimeSource.Monotonic
+) = flow {
+    var marker: TimeMark? = null
     collect {
-        val currentTime = System.currentTimeMillis()
-        val emit = currentTime - lastEmitTime > timeoutMillis
-        if (emit) {
-            lastEmitTime = currentTime
+        if (marker == null || marker!!.elapsedNow() >= timeout) {
             emit(it)
+            marker = timeSource.markNow()
         }
     }
 }

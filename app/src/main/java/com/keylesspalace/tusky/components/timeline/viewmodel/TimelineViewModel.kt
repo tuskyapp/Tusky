@@ -70,6 +70,8 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
 
 data class UiState(
     /** True if the FAB should be shown while scrolling */
@@ -241,7 +243,7 @@ sealed class UiError(
     }
 }
 
-@OptIn(FlowPreview::class)
+@OptIn(FlowPreview::class, ExperimentalTime::class)
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
     private val eventHub: EventHub,
@@ -326,7 +328,7 @@ abstract class TimelineViewModel(
         // Handle StatusAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<StatusAction>()
-                .throttleFirst(THROTTLE_TIMEOUT_MS) // avoid double-taps
+                .throttleFirst(THROTTLE_TIMEOUT) // avoid double-taps
                 .collect { action ->
                     try {
                         when (action) {
@@ -601,7 +603,7 @@ abstract class TimelineViewModel(
 
     companion object {
         private const val TAG = "TimelineViewModel"
-        private const val THROTTLE_TIMEOUT_MS = 500L
+        private val THROTTLE_TIMEOUT = 500.milliseconds
 
         fun filterContextMatchesKind(
             timelineKind: TimelineKind,

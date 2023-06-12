@@ -23,14 +23,14 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
-import com.keylesspalace.tusky.components.timeline.PruneCacheWorker
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
+import com.keylesspalace.tusky.worker.PruneCacheWorker
+import com.keylesspalace.tusky.worker.WorkerFactory
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
@@ -54,9 +54,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
-
-    @Inject
-    lateinit var db: AppDatabase
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs

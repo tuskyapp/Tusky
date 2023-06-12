@@ -15,17 +15,14 @@
 
 package com.keylesspalace.tusky.components.trending
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -33,18 +30,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import com.keylesspalace.tusky.BottomSheetActivity
-import com.keylesspalace.tusky.PostLookupFallbackBehavior
+import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
-import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
 import com.keylesspalace.tusky.databinding.FragmentTrendingBinding
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.util.hide
@@ -56,62 +49,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TrendingFragment :
-    Fragment(),
+    Fragment(R.layout.fragment_trending),
     OnRefreshListener,
-    LinkListener,
     Injectable,
     ReselectableFragment,
     RefreshableFragment {
 
-    private lateinit var bottomSheetActivity: BottomSheetActivity
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    @Inject
-    lateinit var accountManager: AccountManager
-
-    @Inject
-    lateinit var eventHub: EventHub
-
-    private val viewModel: TrendingViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[TrendingViewModel::class.java]
-    }
+    private val viewModel: TrendingViewModel by viewModels { viewModelFactory }
 
     private val binding by viewBinding(FragmentTrendingBinding::bind)
 
-    private lateinit var adapter: TrendingAdapter
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        bottomSheetActivity = if (context is BottomSheetActivity) {
-            context
-        } else {
-            throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        adapter = TrendingAdapter(
-            this
-        )
-    }
+    private val adapter = TrendingAdapter(::onViewTag)
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
         setupLayoutManager(columnCount)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_trending, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -175,25 +132,19 @@ class TrendingFragment :
     }
 
     override fun onRefresh() {
-        viewModel.invalidate()
+        viewModel.invalidate(true)
     }
 
-    override fun onViewUrl(url: String) {
-        bottomSheetActivity.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER)
-    }
-
-    override fun onViewTag(tag: String) {
-        bottomSheetActivity.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
-    }
-
-    override fun onViewAccount(id: String) {
-        bottomSheetActivity.viewAccount(id)
+    fun onViewTag(tag: String) {
+        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
     }
 
     private fun processViewState(uiState: TrendingViewModel.TrendingUiState) {
+        Log.d(TAG, uiState.loadingState.name)
         when (uiState.loadingState) {
             TrendingViewModel.LoadingState.INITIAL -> clearLoadingState()
             TrendingViewModel.LoadingState.LOADING -> applyLoadingState()
+            TrendingViewModel.LoadingState.REFRESHING -> applyRefreshingState()
             TrendingViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
             TrendingViewModel.LoadingState.ERROR_NETWORK -> networkError()
             TrendingViewModel.LoadingState.ERROR_OTHER -> otherError()
@@ -203,8 +154,9 @@ class TrendingFragment :
     private fun applyLoadedState(viewData: List<TrendingViewData>) {
         clearLoadingState()
 
+        adapter.submitList(viewData)
+
         if (viewData.isEmpty()) {
-            adapter.submitList(emptyList())
             binding.recyclerView.hide()
             binding.messageView.show()
             binding.messageView.setup(
@@ -213,14 +165,14 @@ class TrendingFragment :
                 null
             )
         } else {
-            val viewDataWithDates = listOf(viewData.first().asHeaderOrNull()) + viewData
-
-            adapter.submitList(viewDataWithDates)
-
             binding.recyclerView.show()
             binding.messageView.hide()
         }
         binding.progressBar.hide()
+    }
+
+    private fun applyRefreshingState() {
+        binding.swipeRefreshLayout.isRefreshing = true
     }
 
     private fun applyLoadingState() {
@@ -297,8 +249,6 @@ class TrendingFragment :
     companion object {
         private const val TAG = "TrendingFragment"
 
-        fun newInstance(): TrendingFragment {
-            return TrendingFragment()
-        }
+        fun newInstance() = TrendingFragment()
     }
 }

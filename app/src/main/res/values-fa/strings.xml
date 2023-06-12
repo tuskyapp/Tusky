@@ -190,7 +190,7 @@
     <string name="notification_summary_medium">%1$s، %2$s و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d برهم‌کنش جدید</item>
+        <item quantity="one">برهم‌کنشی جدید</item>
         <item quantity="other">%d برهم‌کنش جدید</item>
     </plurals>
     <string name="description_account_locked">حساب قفل‌شده</string>
@@ -338,7 +338,7 @@
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
-        <item quantity="one">۱ برگزیدن</item>
+        <item quantity="one"><b>%1$s</b> برگزیدن</item>
         <item quantity="other"><b>%1$s</b> برگزیدن</item>
     </plurals>
     <plurals name="reblogs">
