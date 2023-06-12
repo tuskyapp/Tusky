@@ -76,7 +76,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
-import com.keylesspalace.tusky.components.compose.ComposeViewModel.ConfirmationPromptType
+import com.keylesspalace.tusky.components.compose.ComposeViewModel.ConfirmationKind
 import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
@@ -1126,17 +1126,17 @@ class ComposeActivity :
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
         when (viewModel.handleCloseButton(contentText, contentWarning)) {
-            ConfirmationPromptType.NONE -> {
+            ConfirmationKind.NONE -> {
                 viewModel.stopUploads()
                 finishWithoutSlideOutAnimation()
             }
-            ConfirmationPromptType.SAVE_OR_DISCARD ->
+            ConfirmationKind.SAVE_OR_DISCARD ->
                 getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
-            ConfirmationPromptType.UPDATE_OR_DISCARD ->
+            ConfirmationKind.UPDATE_OR_DISCARD ->
                 getUpdateDraftOrDiscardDialog(contentText, contentWarning).show()
-            ConfirmationPromptType.CONTINUE_EDITING_OR_DISCARD_CHANGES ->
+            ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES ->
                 getContinueEditingOrDiscardDialog().show()
-            ConfirmationPromptType.CONTINUE_EDITING_OR_DISCARD_DRAFT ->
+            ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT ->
                 getDeleteEmptyDraftOrContinueEditing().show()
         }
     }
