@@ -15,9 +15,10 @@
 
 package com.keylesspalace.tusky.components.viewthread.edits
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.components.viewthread.edits.TuskyTagHandler.Companion.DELETED_TEXT_EL
 import com.keylesspalace.tusky.components.viewthread.edits.TuskyTagHandler.Companion.INSERTED_TEXT_EL
 import com.keylesspalace.tusky.entity.StatusEdit
@@ -41,6 +42,7 @@ import org.pageseeder.diffx.token.impl.SpaceToken
 import org.pageseeder.diffx.xml.NamespaceSet
 import org.pageseeder.xmlwriter.XML.NamespaceAware
 import org.pageseeder.xmlwriter.XMLStringWriter
+import java.net.URL
 import javax.inject.Inject
 
 class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
@@ -48,7 +50,10 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
     private val _uiState: MutableStateFlow<EditsUiState> = MutableStateFlow(EditsUiState.Initial)
     val uiState: StateFlow<EditsUiState> = _uiState.asStateFlow()
 
-    fun loadEdits(statusId: String, force: Boolean = false, refreshing: Boolean = false) {
+    /** The API call to fetch edit history returned less than two items */
+    object MissingEditsException : Exception()
+
+    fun loadEdits(statusId: String, url: String?, force: Boolean = false, refreshing: Boolean = false) {
         if (!force && _uiState.value !is EditsUiState.Initial) return
 
         if (refreshing) {
@@ -58,63 +63,89 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
         }
 
         viewModelScope.launch {
-            api.statusEdits(statusId).fold(
-                { edits ->
-                    // Diff each status' content against the previous version, producing new
-                    // content with additional `ins` or `del` elements marking inserted or
-                    // deleted content.
-                    //
-                    // This can be CPU intensive depending on the number of edits and the size
-                    // of each, so don't run this on Dispatchers.Main.
-                    viewModelScope.launch(Dispatchers.Default) {
-                        val sortedEdits = edits.sortedBy { it.createdAt }
-                            .reversed()
-                            .toMutableList()
+            var edits = api.statusEdits(statusId).getOrElse {
+                _uiState.value = EditsUiState.Error(it)
+                return@launch
+            }
 
-                        SAXLoader.setXMLReaderClass("org.xmlpull.v1.sax2.Driver")
-                        val loader = SAXLoader()
-                        loader.config = DiffConfig(
-                            false,
-                            WhiteSpaceProcessing.PRESERVE,
-                            TextGranularity.SPACE_WORD
+            // `edits` might have fewer than the minimum number of entries because of
+            // https://github.com/mastodon/mastodon/issues/25398.
+            // If so, try and get the status from the remote server (if we know what it is)
+            if (edits.size < 2 && url != null) {
+                // `url` looks like "https://spore.social/@tamarasiuda/110522895217050705",
+                // convert it to a remote API call
+                val remoteUrl = URL(url)
+                val remoteStatusId = remoteUrl.path.split("/").last()
+                val apiUrl = URL(
+                    remoteUrl.protocol,
+                    remoteUrl.host,
+                    remoteUrl.port,
+                "api/v1/statuses/$remoteStatusId/history"
+                )
+                Log.d(TAG, "Fetching remote edit history from $apiUrl")
+                edits = api.remoteStatusEdits(apiUrl.toString()).getOrElse {
+                    _uiState.value = EditsUiState.Error(it)
+                    return@launch
+                }
+            }
+
+            // Fetching the edits above might still have failed (e.g., if the status was
+            // private on the remote server), handle that case.
+            if (edits.size < 2) {
+                _uiState.value = EditsUiState.Error(MissingEditsException)
+                return@launch
+            }
+
+            // Diff each status' content against the previous version, producing new
+            // content with additional `ins` or `del` elements marking inserted or
+            // deleted content.
+            //
+            // This can be CPU intensive depending on the number of edits and the size
+            // of each, so don't run this on Dispatchers.Main.
+            viewModelScope.launch(Dispatchers.Default) {
+                val sortedEdits = edits.sortedBy { it.createdAt }
+                    .reversed()
+                    .toMutableList()
+
+                SAXLoader.setXMLReaderClass("org.xmlpull.v1.sax2.Driver")
+                val loader = SAXLoader()
+                loader.config = DiffConfig(
+                    false,
+                    WhiteSpaceProcessing.PRESERVE,
+                    TextGranularity.SPACE_WORD
+                )
+                val processor = OptimisticXMLProcessor()
+                processor.setCoalesce(true)
+                val output = HtmlDiffOutput()
+
+                try {
+                    // The XML processor expects `br` to be closed
+                    var currentContent =
+                        loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
+                    var previousContent =
+                        loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
+
+                    for (i in 1 until sortedEdits.size) {
+                        processor.diff(previousContent, currentContent, output)
+                        sortedEdits[i - 1] = sortedEdits[i - 1].copy(
+                            content = output.xml.toString()
                         )
-                        val processor = OptimisticXMLProcessor()
-                        processor.setCoalesce(true)
-                        val output = HtmlDiffOutput()
 
-                        try {
-                            // The XML processor expects `br` to be closed
-                            var currentContent =
-                                loader.load(sortedEdits[0].content.replace("<br>", "<br/>"))
-                            var previousContent =
-                                loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
-
-                            for (i in 1 until sortedEdits.size) {
-                                processor.diff(previousContent, currentContent, output)
-                                sortedEdits[i - 1] = sortedEdits[i - 1].copy(
-                                    content = output.xml.toString()
-                                )
-
-                                if (i < sortedEdits.size - 1) {
-                                    currentContent = previousContent
-                                    previousContent = loader.load(
-                                        sortedEdits[i + 1].content.replace("<br>", "<br/>")
-                                    )
-                                }
-                            }
-                            _uiState.value = EditsUiState.Success(sortedEdits)
-                        } catch (_: LoadingException) {
-                            // Something failed parsing the XML from the server. Rather than
-                            // show an error just return the sorted edits so the user can at
-                            // least visually scan the differences.
-                            _uiState.value = EditsUiState.Success(sortedEdits)
+                        if (i < sortedEdits.size - 1) {
+                            currentContent = previousContent
+                            previousContent = loader.load(
+                                sortedEdits[i + 1].content.replace("<br>", "<br/>")
+                            )
                         }
                     }
-                },
-                { throwable ->
-                    _uiState.value = EditsUiState.Error(throwable)
+                    _uiState.value = EditsUiState.Success(sortedEdits)
+                } catch (_: LoadingException) {
+                    // Something failed parsing the XML from the server. Rather than
+                    // show an error just return the sorted edits so the user can at
+                    // least visually scan the differences.
+                    _uiState.value = EditsUiState.Success(sortedEdits)
                 }
-            )
+            }
         }
     }
 

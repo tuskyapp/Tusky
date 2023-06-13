@@ -66,6 +66,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 /**
  * for documentation of the Mastodon REST API see https://docs.joinmastodon.org/api/
@@ -226,6 +227,13 @@ interface MastodonApi {
     suspend fun statusEdits(
         @Path("id") statusId: String
     ): NetworkResult<List<StatusEdit>>
+
+    /**
+     * Fetch status edits from an arbitrary URL, in case the user's
+     * home server does not have the edit history.
+     */
+    @GET
+    suspend fun remoteStatusEdits(@Url url: String): NetworkResult<List<StatusEdit>>
 
     @GET("api/v1/statuses/{id}/reblogged_by")
     suspend fun statusRebloggedBy(
