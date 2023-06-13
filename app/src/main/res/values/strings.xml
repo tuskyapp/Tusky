@@ -481,6 +481,7 @@
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_delete_draft">Delete draft?</string>
     <string name="compose_save_draft">Save draft?</string>
     <string name="compose_save_draft_loses_media">Save draft? (Attachments will be uploaded again when you restore the draft.)</string>
     <string name="compose_unsaved_changes">You have unsaved changes.</string>
