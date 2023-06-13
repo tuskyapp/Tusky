@@ -80,7 +80,7 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                     remoteUrl.protocol,
                     remoteUrl.host,
                     remoteUrl.port,
-                "api/v1/statuses/$remoteStatusId/history"
+                    "api/v1/statuses/$remoteStatusId/history"
                 )
                 Log.d(TAG, "Fetching remote edit history from $apiUrl")
                 edits = api.remoteStatusEdits(apiUrl.toString()).getOrElse {
