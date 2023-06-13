@@ -244,7 +244,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             } else if (accountRequested && savedInstanceState == null && intent.hasExtra(NOTIFICATION_TYPE)) {
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
-                if (intent.getStringExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
+                if (intent.getSerializableExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST) {
                     val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = true)
                     startActivityWithSlideInAnimation(intent)
                 } else {
