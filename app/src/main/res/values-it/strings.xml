@@ -388,7 +388,7 @@
     <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
     <string name="pref_title_notification_filter_poll">dei sondaggi si sono conclusi</string>
-    <string name="pref_title_animate_gif_avatars">Riproduci animazioni avatars</string>
+    <string name="pref_title_animate_gif_avatars">Riproduci avatar animati</string>
     <string name="notification_poll_name">Votazioni</string>
     <string name="notification_poll_description">Notifiche sui sondaggi che si sono conclusi</string>
     <string name="filter_dialog_whole_word">Parola intera</string>
@@ -610,8 +610,8 @@
     <string name="mute_notifications_switch">Silenzia notifiche</string>
     <string name="title_edits">Modifiche</string>
     <string name="report_category_spam">Spam</string>
-    <string name="status_edit_info">%1$s ha modificato %2$s</string>
-    <string name="status_created_info">%1$s ha creato %2$s</string>
+    <string name="status_edit_info">%1$s ha modificato</string>
+    <string name="status_created_info">%1$s ha creato</string>
     <string name="report_category_other">Altro</string>
     <string name="action_unfollow_hashtag_format">Smettere di seguire #%s\?</string>
     <string name="action_post_failed">Caricamento fallito</string>

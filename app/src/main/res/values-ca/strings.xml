@@ -617,12 +617,12 @@
     <string name="dialog_push_notification_migration">Per utilitzar les notificacions push mitjançant UnifiedPush, Tusky necessita permís per subscriure\'s a les notificacions al vostre servidor Mastodon. Això requereix un nou inici de sessió per canviar els àmbits d\'OAuth concedits a Tusky. Si feu servir l\'opció de tornar a iniciar sessió aquí o a les preferències del compte, es conservaran tots els esborranys locals i la memòria cau.</string>
     <string name="tips_push_notification_migration">Torneu a iniciar sessió a tots els comptes per activar el suport de notificacions push.</string>
     <string name="description_post_edited">Editat</string>
-    <string name="status_edit_info">%1$s ha editat %2$s</string>
+    <string name="status_edit_info">%1$s ha editat</string>
     <string name="action_subscribe_account">Subscriu-te</string>
     <string name="action_unsubscribe_account">Cancel·la la subscripció</string>
     <string name="instance_rule_title">%s regles</string>
     <string name="mute_notifications_switch">Silencia les notificacions</string>
-    <string name="status_created_info">%1$s ha creat %2$s</string>
+    <string name="status_created_info">%1$s ha creat</string>
     <string name="title_public_trending_hashtags">Hashtags populars</string>
     <string name="accessibility_talking_about_tag">%1$d persones parlen del hashtag %2$s</string>
     <string name="total_usage">Ús total</string>

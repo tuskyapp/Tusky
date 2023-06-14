@@ -39,6 +39,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.IntentCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -96,7 +97,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         supportPostponeEnterTransition()
 
         // Gather the parameters.
-        attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
+        attachments = IntentCompat.getParcelableArrayListExtra(intent, EXTRA_ATTACHMENTS, AttachmentViewData::class.java)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener

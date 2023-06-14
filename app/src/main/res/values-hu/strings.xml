@@ -339,10 +339,8 @@
     <string name="action_remove_from_list">Fiók eltávolítása a listából</string>
     <string name="compose_active_account_description">Bejegyzés mint %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Leírás látássérülteknek
-\n(%d karakter korlát)</item>
-        <item quantity="other">Leírás látássérülteknek
-\n(%d karakter korlát)</item>
+        <item quantity="one">Tartalom leírása látássérültek számára (%d karakteres korlát)</item>
+        <item quantity="other">Tartalom leírása látássérültek számára (%d karakteres korlát)</item>
     </plurals>
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
@@ -350,7 +348,7 @@
     <string name="caption_notoemoji">A Google jelenlegi emodzsi készlete</string>
     <string name="reblog_private">Megtolás az eredeti közönségnek</string>
     <string name="unreblog_private">Megtolás visszavonása</string>
-    <string name="license_apache_2">Apache licensz alatt</string>
+    <string name="license_apache_2">Apache licenc alatt közzétéve (másolat alább)</string>
     <string name="unpin_action">Kitűzés eltávolítása</string>
     <string name="pin_action">Kitűzés</string>
     <plurals name="favs">
@@ -561,8 +559,8 @@
     <string name="instance_rule_info">A bejelentkezéssel elfogadod a %s szabályait.</string>
     <string name="instance_rule_title">%s szabályai</string>
     <string name="compose_save_draft_loses_media">Elmentsük a vázlatot\? (A mellékleteket újra feltöltjük, amikor a vázlatot visszaállítod.)</string>
-    <string name="failed_to_pin">Nem sikerült Kitűzni</string>
-    <string name="failed_to_unpin">Nem sikerült a Kitűzés Visszavonása</string>
+    <string name="failed_to_pin">Nem sikerült kitűzni</string>
+    <string name="failed_to_unpin">Nem sikerült a kitűzés visszavonása</string>
     <string name="action_add_or_remove_from_list">Hozzáadás vagy törlés a listáról</string>
     <string name="no_lists">Nincs egy listád se.</string>
     <string name="action_unfollow_hashtag_format">#%s követésének vége\?</string>
@@ -599,8 +597,8 @@
     <string name="pref_summary_http_proxy_missing">&lt;nincs beállítva&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;érvénytelen&gt;</string>
     <string name="title_edits">Szerkesztések</string>
-    <string name="status_created_info">%1$s létrehozta %2$s</string>
-    <string name="status_edit_info">%1$s szerkesztette %2$s</string>
+    <string name="status_created_info">%1$s létrehozta</string>
+    <string name="status_edit_info">%1$s szerkesztette</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Változtatások elvetése</string>
     <string name="action_continue_edit">Szerkesztés folytatása</string>
@@ -659,4 +657,12 @@
     <string name="filter_keyword_addition_title">Kulcsszó hozzáadása</string>
     <string name="filter_edit_keyword_title">Kulcsszó szerkesztése</string>
     <string name="filter_description_format">%s: %s</string>
+    <string name="help_empty_home">Ez a <b>kezdő idővonalad</b>. Megjeleníti a követett fiókok legfrissebb bejegyzéseit.
+\n
+\nMás fiókokat másik idővonalakon fedezhetsz fel. Például a példányod helyi idővonalán [iconics gmd_group]. Vagy megkeresheted őket név szerint [iconics gmd_search]; például keress rá a Tuskyra, hogy megtaláld a Mastodon-fiókunkat.</string>
+    <string name="hint_description">Leírás</string>
+    <string name="post_media_image">Kép</string>
+    <string name="select_list_empty">Még nincsenek listáid</string>
+    <string name="select_list_manage">Listák kezelése</string>
+    <string name="error_list_load">Hiba a listák betöltése során</string>
 </resources>

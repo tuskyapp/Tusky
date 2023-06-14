@@ -15,11 +15,15 @@
 
 package com.keylesspalace.tusky.components.trending.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.end
+import com.keylesspalace.tusky.entity.start
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
@@ -28,7 +32,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
-import okio.IOException
+import java.io.IOException
 import javax.inject.Inject
 
 class TrendingViewModel @Inject constructor(
@@ -36,7 +40,7 @@ class TrendingViewModel @Inject constructor(
     private val eventHub: EventHub
 ) : ViewModel() {
     enum class LoadingState {
-        INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+        INITIAL, LOADING, REFRESHING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
 
     data class TrendingUiState(
@@ -67,37 +71,43 @@ class TrendingViewModel @Inject constructor(
      *
      * A tag is excluded if it is filtered by the user on their home timeline.
      */
-    fun invalidate() = viewModelScope.launch {
-        _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
-
-        try {
-            val deferredFilters = async { mastodonApi.getFilters() }
-            val response = mastodonApi.trendingTags()
-            if (!response.isSuccessful) {
-                _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
-                return@launch
-            }
-
-            val homeFilters = deferredFilters.await().getOrNull()?.filter {
-                it.context.contains(Filter.Kind.HOME.kind)
-            }
-
-            val tags = response.body()!!
-                .filter {
-                    homeFilters?.none { filter ->
-                        filter.keywords.any { keyword -> keyword.keyword.equals(it.name, ignoreCase = true) }
-                    } ?: false
-                }
-                .sortedBy { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
-                .map { it.toViewData() }
-                .asReversed()
-
-            _uiState.value = TrendingUiState(tags, LoadingState.LOADED)
-        } catch (e: IOException) {
-            _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
-        } catch (e: Exception) {
-            _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_OTHER)
+    fun invalidate(refresh: Boolean = false) = viewModelScope.launch {
+        if (refresh) {
+            _uiState.value = TrendingUiState(emptyList(), LoadingState.REFRESHING)
+        } else {
+            _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
         }
+
+        val deferredFilters = async { mastodonApi.getFilters() }
+
+        mastodonApi.trendingTags().fold(
+            { tagResponse ->
+                val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
+                    filter.context.contains(Filter.Kind.HOME.kind)
+                }
+                val tags = tagResponse
+                    .filter { tag ->
+                        homeFilters?.none { filter ->
+                            filter.keywords.any { keyword -> keyword.keyword.equals(tag.name, ignoreCase = true) }
+                        } ?: false
+                    }
+                    .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
+                    .toViewData()
+
+                val firstTag = tagResponse.first()
+                val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
+
+                _uiState.value = TrendingUiState(listOf(header) + tags, LoadingState.LOADED)
+            },
+            { error ->
+                Log.w(TAG, "failed loading trending tags", error)
+                if (error is IOException) {
+                    _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
+                } else {
+                    _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_OTHER)
+                }
+            }
+        )
     }
 
     companion object {
