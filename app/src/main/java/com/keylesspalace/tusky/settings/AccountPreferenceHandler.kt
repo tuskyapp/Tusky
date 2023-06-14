@@ -31,4 +31,20 @@ class AccountPreferenceHandler(
 
         dispatchEvent(PreferenceChangedEvent(key))
     }
+
+    override fun getString(key: String?, defValue: String?): String? {
+        return when (key) {
+            PrefKeys.FILTER_ACTION_OVERRIDE -> account.filterActionOverride.toString()
+            else -> defValue
+        }
+    }
+
+    override fun putString(key: String, value: String?) {
+        when (key) {
+            PrefKeys.FILTER_ACTION_OVERRIDE -> account.filterActionOverride = enumValueOf(value ?: "HIDE")
+        }
+
+        accountManager.saveAccount(account)
+        dispatchEvent(PreferenceChangedEvent(key))
+    }
 }

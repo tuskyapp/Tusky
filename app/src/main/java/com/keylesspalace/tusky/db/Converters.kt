@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
@@ -175,4 +176,10 @@ class Converters @Inject constructor(
     fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
         return gson.fromJson(filterResultListJson, object : TypeToken<List<FilterResult>>() {}.type)
     }
+
+    @TypeConverter
+    fun toFilterAction(value: String) = enumValueOf<Filter.Action>(value)
+
+    @TypeConverter
+    fun fromFilterAction(value: Filter.Action) = value.name
 }

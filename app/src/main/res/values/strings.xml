@@ -795,6 +795,7 @@
     <string name="label_filter_title">Title</string>
     <string name="filter_action_warn">Warn</string>
     <string name="filter_action_hide">Hide</string>
+    <string name="filter_description_none">Use filter\'s setting</string>
     <string name="filter_description_warn">Hide with a warning</string>
     <string name="filter_description_hide">Hide completely</string>
     <string name="label_filter_action">Filter action</string>

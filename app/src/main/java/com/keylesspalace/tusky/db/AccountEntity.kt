@@ -23,6 +23,7 @@ import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.defaultTabs
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 
 @Entity(
@@ -100,7 +101,14 @@ data class AccountEntity(
      * ID of the status at the top of the visible list in the home timeline when the
      * user navigated away.
      */
-    var lastVisibleHomeTimelineStatusId: String? = null
+    var lastVisibleHomeTimelineStatusId: String? = null,
+
+    /**
+     * Override action to take if a status is filtered. If this is NONE then the filter's
+     * action is used. Otherwise the filter's action is ignored and this action is used.
+     */
+    @ColumnInfo(defaultValue = "HIDE")
+    var filterActionOverride: Filter.Action = Filter.Action.HIDE
 ) {
 
     val identifier: String

@@ -101,4 +101,7 @@ object PrefKeys {
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
+
+    /** The filter action that should override the per-filter action */
+    const val FILTER_ACTION_OVERRIDE = "filterActionOverride"
 }

@@ -74,6 +74,7 @@ abstract class TimelineViewModel(
     private var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
+    private var filterActionOverride = Filter.Action.HIDE
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
     fun init(
@@ -97,6 +98,7 @@ abstract class TimelineViewModel(
 
         this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
+        this.filterActionOverride = accountManager.activeAccount!!.filterActionOverride
 
         viewModelScope.launch {
             eventHub.events
@@ -197,6 +199,13 @@ abstract class TimelineViewModel(
             return Filter.Action.HIDE
         } else {
             statusViewData.filterAction = filterModel.shouldFilterStatus(status.actionableStatus)
+
+            // Use the user's filter action override if appropriate
+            if (statusViewData.filterAction != Filter.Action.NONE && filterActionOverride != Filter.Action.NONE) {
+                Log.d(TAG, "Filter override is set, using $filterActionOverride")
+                statusViewData.filterAction = filterActionOverride
+            }
+
             statusViewData.filterAction
         }
     }
@@ -231,6 +240,13 @@ abstract class TimelineViewModel(
             }
             PrefKeys.READING_ORDER -> {
                 readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+            }
+            PrefKeys.FILTER_ACTION_OVERRIDE -> {
+                val oldOverride = filterActionOverride
+                filterActionOverride = accountManager.activeAccount!!.filterActionOverride
+                if (oldOverride != filterActionOverride) {
+                    fullReload()
+                }
             }
         }
     }

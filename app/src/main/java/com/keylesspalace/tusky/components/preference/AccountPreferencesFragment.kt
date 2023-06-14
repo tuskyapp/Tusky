@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigra
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceHandler
@@ -265,6 +266,30 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.ALWAYS_OPEN_SPOILER
                     setTitle(R.string.pref_title_alway_open_spoiler)
                     isSingleLineTitle = false
+                    preferenceDataStore = accountPreferenceHandler
+                }
+
+                listPreference {
+                    key = PrefKeys.FILTER_ACTION_OVERRIDE
+                    setTitle("Override filter actions")
+                    setIcon(R.drawable.ic_filter_24dp)
+                    entries = (
+                        listOf(
+                            getString(R.string.filter_description_none),
+                            getString(R.string.filter_description_warn),
+                            getString(R.string.filter_description_hide)
+                        )
+                        ).toTypedArray()
+                    entryValues = (
+                        listOf(
+                            Filter.Action.NONE.toString(),
+                            Filter.Action.WARN.toString(),
+                            Filter.Action.HIDE.toString()
+                        )
+                        ).toTypedArray()
+                    value = accountManager.activeAccount?.filterActionOverride.toString()
+                    isPersistent = true
+                    setSummaryProvider { entry }
                     preferenceDataStore = accountPreferenceHandler
                 }
             }
