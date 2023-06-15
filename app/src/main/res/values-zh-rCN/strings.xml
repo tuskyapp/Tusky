@@ -661,4 +661,5 @@
     <string name="error_list_load">加载列表出错</string>
     <string name="select_list_empty">你还没有列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
+    <string name="compose_delete_draft">删除草稿？</string>
 </resources>
