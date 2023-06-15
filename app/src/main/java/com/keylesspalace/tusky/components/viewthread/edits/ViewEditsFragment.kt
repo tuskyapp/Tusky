@@ -86,7 +86,6 @@ class ViewEditsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         statusId = requireArguments().getString(STATUS_ID_EXTRA)!!
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
