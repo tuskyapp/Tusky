@@ -21,6 +21,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.BookmarkEvent
@@ -355,7 +356,7 @@ abstract class TimelineViewModel(
                                     action.poll.id,
                                     action.choices
                                 )
-                        }
+                        }.getOrThrow()
                         uiSuccess.emit(StatusActionSuccess.from(action))
                     } catch (e: Exception) {
                         ifExpected(e) { _uiErrorChannel.send(UiError.make(e, action)) }
