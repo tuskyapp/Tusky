@@ -433,7 +433,7 @@ class ViewThreadFragment :
 
     override fun onShowEdits(position: Int) {
         val status = adapter.currentList[position]
-        val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId, status.status.url)
+        val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)
 
         parentFragmentManager.commit {
             setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)

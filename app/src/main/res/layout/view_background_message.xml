@@ -35,7 +35,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/elephant_offline" />
 
-        <TextView
+        <com.keylesspalace.tusky.view.ClickableSpanTextView
             android:id="@+id/messageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

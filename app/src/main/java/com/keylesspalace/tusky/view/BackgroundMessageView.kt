@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -44,6 +45,7 @@ class BackgroundMessageView @JvmOverloads constructor(
         clickListener: ((v: View) -> Unit)? = null
     ) {
         binding.messageTextView.setText(messageRes)
+        binding.messageTextView.movementMethod = LinkMovementMethod.getInstance()
         binding.imageView.setImageResource(imageRes)
         binding.button.setOnClickListener(clickListener)
         binding.button.visible(clickListener != null)

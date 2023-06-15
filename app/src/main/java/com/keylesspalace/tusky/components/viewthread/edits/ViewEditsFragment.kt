@@ -72,9 +72,6 @@ class ViewEditsFragment :
 
     private lateinit var statusId: String
 
-    /** The status's URL on the original server */
-    private var url: String? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
@@ -89,7 +86,6 @@ class ViewEditsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         statusId = requireArguments().getString(STATUS_ID_EXTRA)!!
-        url = requireArguments().getString(URL_EXTRA)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -122,7 +118,7 @@ class ViewEditsFragment :
                                     R.drawable.elephant_offline,
                                     R.string.error_network
                                 ) {
-                                    viewModel.loadEdits(statusId, url, force = true)
+                                    viewModel.loadEdits(statusId, force = true)
                                 }
                             }
                             is ViewEditsViewModel.MissingEditsException -> {
@@ -136,7 +132,7 @@ class ViewEditsFragment :
                                     R.drawable.elephant_error,
                                     R.string.error_generic
                                 ) {
-                                    viewModel.loadEdits(statusId, url, force = true)
+                                    viewModel.loadEdits(statusId, force = true)
                                 }
                             }
                         }
@@ -168,7 +164,7 @@ class ViewEditsFragment :
             }
         }
 
-        viewModel.loadEdits(statusId, url)
+        viewModel.loadEdits(statusId)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -198,7 +194,7 @@ class ViewEditsFragment :
     }
 
     override fun onRefresh() {
-        viewModel.loadEdits(statusId, url, force = true, refreshing = true)
+        viewModel.loadEdits(statusId, force = true, refreshing = true)
     }
 
     override fun onViewAccount(id: String) {
@@ -220,13 +216,11 @@ class ViewEditsFragment :
         private const val TAG = "ViewEditsFragment"
 
         private const val STATUS_ID_EXTRA = "id"
-        private const val URL_EXTRA = "url"
 
-        fun newInstance(statusId: String, remoteUrl: String?): ViewEditsFragment {
+        fun newInstance(statusId: String): ViewEditsFragment {
             val arguments = Bundle(1)
             val fragment = ViewEditsFragment()
             arguments.putString(STATUS_ID_EXTRA, statusId)
-            remoteUrl?.let { arguments.putString(URL_EXTRA, it) }
             fragment.arguments = arguments
             return fragment
         }

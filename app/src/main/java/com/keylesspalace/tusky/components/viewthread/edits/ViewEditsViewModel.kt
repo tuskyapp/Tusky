@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.viewthread.edits
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.getOrElse
@@ -42,7 +41,6 @@ import org.pageseeder.diffx.token.impl.SpaceToken
 import org.pageseeder.diffx.xml.NamespaceSet
 import org.pageseeder.xmlwriter.XML.NamespaceAware
 import org.pageseeder.xmlwriter.XMLStringWriter
-import java.net.URL
 import javax.inject.Inject
 
 class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
@@ -53,7 +51,7 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
     /** The API call to fetch edit history returned less than two items */
     object MissingEditsException : Exception()
 
-    fun loadEdits(statusId: String, url: String?, force: Boolean = false, refreshing: Boolean = false) {
+    fun loadEdits(statusId: String, force: Boolean = false, refreshing: Boolean = false) {
         if (!force && _uiState.value !is EditsUiState.Initial) return
 
         if (refreshing) {
@@ -63,34 +61,13 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
         }
 
         viewModelScope.launch {
-            var edits = api.statusEdits(statusId).getOrElse {
+            val edits = api.statusEdits(statusId).getOrElse {
                 _uiState.value = EditsUiState.Error(it)
                 return@launch
             }
 
             // `edits` might have fewer than the minimum number of entries because of
             // https://github.com/mastodon/mastodon/issues/25398.
-            // If so, try and get the status from the remote server (if we know what it is)
-            if (edits.size < 2 && url != null) {
-                // `url` looks like "https://spore.social/@tamarasiuda/110522895217050705",
-                // convert it to a remote API call
-                val remoteUrl = URL(url)
-                val remoteStatusId = remoteUrl.path.split("/").last()
-                val apiUrl = URL(
-                    remoteUrl.protocol,
-                    remoteUrl.host,
-                    remoteUrl.port,
-                    "api/v1/statuses/$remoteStatusId/history"
-                )
-                Log.d(TAG, "Fetching remote edit history from $apiUrl")
-                edits = api.remoteStatusEdits(apiUrl.toString()).getOrElse {
-                    _uiState.value = EditsUiState.Error(it)
-                    return@launch
-                }
-            }
-
-            // Fetching the edits above might still have failed (e.g., if the status was
-            // private on the remote server), handle that case.
             if (edits.size < 2) {
                 _uiState.value = EditsUiState.Error(MissingEditsException)
                 return@launch
