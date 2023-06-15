@@ -76,7 +76,7 @@ class CachedTimelineViewModel @Inject constructor(
         super.init(timelineKind)
         statuses = getUiPrefs()
             .flatMapLatest {
-                getStatuses(timelineKind)
+                getStatuses(timelineKind, initialKey = getInitialKey())
             }.cachedIn(viewModelScope)
     }
 

@@ -446,6 +446,14 @@ abstract class TimelineViewModel(
         }
     }
 
+    fun getInitialKey(): String? {
+        if (timelineKind != TimelineKind.Home) {
+            return null
+        }
+
+        return activeAccount.lastVisibleHomeTimelineStatusId
+    }
+
     abstract fun updatePoll(newPoll: Poll, status: StatusViewData)
 
     abstract fun changeExpanded(expanded: Boolean, status: StatusViewData)

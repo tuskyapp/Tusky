@@ -70,7 +70,7 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override fun init(timelineKind: TimelineKind) {
         super.init(timelineKind)
-        statuses = getStatuses(timelineKind).cachedIn(viewModelScope)
+        statuses = getStatuses(timelineKind, initialKey = getInitialKey()).cachedIn(viewModelScope)
     }
 
     /** @return Flow of statuses that make up the timeline of [kind] */
