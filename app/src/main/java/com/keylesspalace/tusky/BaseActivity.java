@@ -99,7 +99,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        Log.d(TAG, "attachBaseContext()");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
 
         float uiScaleRatio = preferences.getFloat(PrefKeys.UI_SCALE_RATIO, 100F);
