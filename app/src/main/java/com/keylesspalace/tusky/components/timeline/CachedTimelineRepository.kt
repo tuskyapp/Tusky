@@ -72,7 +72,7 @@ class CachedTimelineRepository @Inject constructor(
         }
 
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE),
+            config = PagingConfig(pageSize = pageSize),
             remoteMediator = CachedTimelineRemoteMediator(accountManager, mastodonApi, appDatabase, gson),
             pagingSourceFactory = factory!!
         ).flow
