@@ -291,6 +291,8 @@ abstract class TimelineViewModel(
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
 
+    val activeAccount = accountManager.activeAccount!!
+
     init {
         viewModelScope.launch {
             updateFiltersFromPreferences().collectLatest {
@@ -305,7 +307,7 @@ abstract class TimelineViewModel(
         statusDisplayOptions = MutableStateFlow(
             StatusDisplayOptions.from(
                 sharedPreferences,
-                accountManager.activeAccount!!
+                activeAccount
             )
         )
 
@@ -317,7 +319,7 @@ abstract class TimelineViewModel(
                     statusDisplayOptions.value.make(
                         sharedPreferences,
                         it.preferenceKey,
-                        accountManager.activeAccount!!
+                        activeAccount
                     )
                 }
                 .collect {
@@ -422,11 +424,9 @@ abstract class TimelineViewModel(
                     .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
                     .distinctUntilChanged()
                     .collectLatest { action ->
-                        accountManager.activeAccount?.let { account ->
-                            Log.d(TAG, "Saving Home timeline position at: ${action.visibleId}")
-                            account.lastVisibleHomeTimelineStatusId = action.visibleId
-                            accountManager.saveAccount(account)
-                        }
+                        Log.d(TAG, "Saving Home timeline position at: ${action.visibleId}")
+                        activeAccount.lastVisibleHomeTimelineStatusId = action.visibleId
+                        accountManager.saveAccount(activeAccount)
                     }
             }
         }
