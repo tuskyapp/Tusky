@@ -21,7 +21,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +29,6 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
@@ -42,7 +40,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.AccountPreferenceHandler
+import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -58,7 +56,6 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeRes
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,6 +70,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
 
     private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
@@ -245,27 +245,26 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timelines) {
                 // TODO having no activeAccount in this fragment does not really make sense, enforce it?
                 //   All other locations here make it optional, however.
-                val accountPreferenceHandler = AccountPreferenceHandler(accountManager.activeAccount!!, accountManager, ::dispatchEvent)
 
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
                     setTitle(R.string.pref_title_show_media_preview)
                     isSingleLineTitle = false
-                    preferenceDataStore = accountPreferenceHandler
+                    preferenceDataStore = accountPreferenceDataStore
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
                     setTitle(R.string.pref_title_alway_show_sensitive_media)
                     isSingleLineTitle = false
-                    preferenceDataStore = accountPreferenceHandler
+                    preferenceDataStore = accountPreferenceDataStore
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_OPEN_SPOILER
                     setTitle(R.string.pref_title_alway_open_spoiler)
                     isSingleLineTitle = false
-                    preferenceDataStore = accountPreferenceHandler
+                    preferenceDataStore = accountPreferenceDataStore
                 }
             }
         }
@@ -351,12 +350,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         val intent = Intent(context, FiltersActivity::class.java)
         activity?.startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-    }
-
-    private fun dispatchEvent(event: PreferenceChangedEvent) {
-        lifecycleScope.launch {
-            eventHub.dispatch(event)
-        }
     }
 
     companion object {

@@ -181,11 +181,11 @@
     <string name="dialog_download_image">अवारोप्यताम्</string>
     <string name="dialog_message_uploading_media">उपारोप्यमाणम्…</string>
     <string name="dialog_title_finishing_media_upload">सामग्रीणामुपारोपणसिद्धिः वर्तमाना</string>
-    <string name="dialog_whats_an_instance">कस्याऽपि विशिष्टस्थलस्य सङ्केतसूत्रमत्र टङ्कयितुं शक्यते mastodon.social, icosahedron.website, social.tchncs.de, तथेैव<a href="https://instances.social">अधिकम्</a> 
+    <string name="dialog_whats_an_instance">कस्याऽपि विशिष्टस्थलस्य सङ्केतसूत्रमत्र टङ्कयितुं शक्यते mastodon.social, icosahedron.website, social.tchncs.de, तथेैव<a href="https://instances.social">अधिकम्</a>
 \n
 \nयदि युष्माकं व्यक्तिगतलेखाऽत्र न वर्तते तर्हि तस्य विशिष्टस्थलस्य नाम टङ्कयित्वा तत्र निर्मातुं शक्नुथ ।
 \n
-\nविशिष्टस्थलमित्युक्ते स्थलमेकं यत्र युष्माकं लेखाः आश्रिताः, किन्तु साफल्येनैवाऽन्यविशिष्टस्थलीयैः सह सम्पर्कयितुं शक्यते । 
+\nविशिष्टस्थलमित्युक्ते स्थलमेकं यत्र युष्माकं लेखाः आश्रिताः, किन्तु साफल्येनैवाऽन्यविशिष्टस्थलीयैः सह सम्पर्कयितुं शक्यते ।
 \n
 \nअधिकमत्र प्राप्यते <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="hint_search_people_list">येषामुसरणं करोषि तेष्वन्विष्यताम्</string>
@@ -328,7 +328,6 @@
         <item quantity="other">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
 \n(%d परिमिता न्यूनाक्षरसङ्ख्या)</item>
     </plurals>
-    <string name="error_failed_set_caption">शीर्षकवाक्यं लेखितुमशक्यम्</string>
     <string name="compose_active_account_description">%1$s लेखया प्रकटनं क्रियते</string>
     <string name="action_remove_from_list">सूच्याः लेखा नश्यताम्</string>
     <string name="action_add_to_list">सूच्यां लेखा स्थाप्यताम्</string>
@@ -509,8 +508,8 @@
     <string name="action_post_failed_do_nothing">उत्सृज्यताम्</string>
     <string name="action_post_failed_show_drafts">लेखविकर्षान् दर्शयतु</string>
     <string name="description_post_edited">सम्पादनं कृतम्</string>
-    <string name="status_created_info">%1$s निर्मितम् %2$s</string>
-    <string name="status_edit_info">%1$s सम्पादितम् %2$s</string>
+    <string name="status_created_info">%1$s निर्मितम्</string>
+    <string name="status_edit_info">%1$s सम्पादितम्</string>
     <string name="action_subscribe_account">ग्राहकता</string>
     <string name="draft_deleted">प्रारूपं निष्कासितम्</string>
     <string name="report_category_violation">नियम-उल्लङ्घनम्</string>

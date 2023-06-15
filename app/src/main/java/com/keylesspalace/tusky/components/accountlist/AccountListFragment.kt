@@ -32,7 +32,10 @@ import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Type
 import com.keylesspalace.tusky.components.accountlist.adapter.AccountAdapter
@@ -47,6 +50,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
@@ -60,7 +64,11 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountActionListener, Injectable {
+class AccountListFragment :
+    Fragment(R.layout.fragment_account_list),
+    AccountActionListener,
+    LinkListener,
+    Injectable {
 
     @Inject
     lateinit var api: MastodonApi
@@ -107,7 +115,7 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
                     instanceName = accountManager.activeAccount!!.domain,
                     accountLocked = arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true
                 )
-                val followRequestsAdapter = FollowRequestsAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
+                val followRequestsAdapter = FollowRequestsAdapter(this, this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
@@ -131,11 +139,20 @@ class AccountListFragment : Fragment(R.layout.fragment_account_list), AccountAct
         fetchAccounts()
     }
 
+    override fun onViewTag(tag: String) {
+        (activity as BaseActivity?)
+            ?.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+    }
+
     override fun onViewAccount(id: String) {
         (activity as BaseActivity?)?.let {
             val intent = AccountActivity.getIntent(it, id)
             it.startActivityWithSlideInAnimation(intent)
         }
+    }
+
+    override fun onViewUrl(url: String) {
+        (activity as BottomSheetActivity?)?.viewUrl(url, PostLookupFallbackBehavior.OPEN_IN_BROWSER)
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {

@@ -473,7 +473,7 @@ class TimelineFragment :
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
-        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
+        statusIdBelowLoadMore = if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
         viewModel.loadMore(placeholder.id)
     }
 
@@ -572,6 +572,17 @@ class TimelineFragment :
     }
 
     private var talkBackWasEnabled = false
+
+    override fun onPause() {
+        super.onPause()
+        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                    viewModel.saveReadingPosition(statusId)
+                }
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()

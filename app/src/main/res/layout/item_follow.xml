@@ -47,12 +47,14 @@
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:paddingEnd="@dimen/status_display_name_padding_end"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
         app:layout_constraintStart_toEndOf="@id/notification_avatar"
         app:layout_constraintTop_toBottomOf="@+id/notification_text"
-        tools:text="Test User" />
+        tools:text="Test User"
+        tools:ignore="RtlSymmetry" />
 
     <TextView
         android:id="@+id/notification_username"
@@ -62,8 +64,23 @@
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintStart_toStartOf="@+id/notification_display_name"
-        app:layout_constraintTop_toBottomOf="@id/notification_display_name"
+        app:layout_constraintStart_toEndOf="@+id/notification_display_name"
+        app:layout_constraintTop_toTopOf="@+id/notification_display_name"
         tools:text="\@testuser" />
+
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
+        android:id="@+id/notification_account_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:hyphenationFrequency="full"
+        android:lineSpacingMultiplier="1.1"
+        android:textSize="?attr/status_text_medium"
+        android:textIsSelectable="true"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/notification_display_name"
+        app:layout_constraintTop_toBottomOf="@+id/notification_display_name"
+        tools:text="Account note" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

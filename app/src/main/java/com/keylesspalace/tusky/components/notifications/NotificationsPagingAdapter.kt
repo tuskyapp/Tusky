@@ -117,10 +117,6 @@ class NotificationsPagingAdapter(
         )
     }
 
-    init {
-        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
-    }
-
     override fun getItemViewType(position: Int): Int {
         return NotificationViewKind.from(getItem(position)?.type).ordinal
     }
@@ -147,13 +143,15 @@ class NotificationsPagingAdapter(
             NotificationViewKind.FOLLOW -> {
                 FollowViewHolder(
                     ItemFollowBinding.inflate(inflater, parent, false),
-                    notificationActionListener
+                    notificationActionListener,
+                    statusActionListener
                 )
             }
             NotificationViewKind.FOLLOW_REQUEST -> {
                 FollowRequestViewHolder(
                     ItemFollowRequestBinding.inflate(inflater, parent, false),
                     accountActionListener,
+                    statusActionListener,
                     showHeader = true
                 )
             }

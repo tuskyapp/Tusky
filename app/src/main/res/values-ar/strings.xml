@@ -136,12 +136,12 @@
     <string name="label_header">صورة رأس الصفحة</string>
     <string name="link_whats_an_instance">ماذا نعني بمثيل الخادم؟</string>
     <string name="login_connection">الإتصال جارٍ…</string>
-    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social">لاكتشاف المزيد !</a> 
-\n 
+    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social">لاكتشاف المزيد !</a>
+\n
 \n إن كنت لا تملك حسابا بإمكانك إدخال اسم مثيل خادوم تريد الانضمام إليه قصد إنشاء حسابك عليه.
-\n 
-\n نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى. 
-\n 
+\n
+\n نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى.
+\n
 \n للمزيد مِن التفاصيل إطّلع على <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">الإرسال جارٍ…</string>
@@ -278,7 +278,6 @@
     <string name="action_add_to_list">إضافة الحساب إلى القائمة</string>
     <string name="action_remove_from_list">إزالة الحساب مِن القائمة</string>
     <string name="compose_active_account_description">النشر بإسم %1$s</string>
-    <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="zero">وصف لضعاف البصر
 \n(%d أحرف على أقصى تقدير)</item>
@@ -578,8 +577,8 @@
     <string name="no_lists">ليس لديك أي قوائم.</string>
     <string name="post_edited">عدَّلَ %s</string>
     <string name="notification_report_format">شكوى جديدة عن %s</string>
-    <string name="status_edit_info">عدّله %1$s في %2$s</string>
-    <string name="status_created_info">أنشأه %1$s في %2$s</string>
+    <string name="status_edit_info">عدّله %1$s</string>
+    <string name="status_created_info">أنشأه %1$s</string>
     <string name="wellbeing_mode_notice">سيتم إخفاء بعض المعلومات التي قد تؤثر على صحتك العقلية. هذا يتضمن:
 \n
 \n- المفضلة/المشاركات/متابعة الاشعارات
@@ -631,7 +630,6 @@
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">ضبط نقطة التركيز</string>
     <string name="action_edit_image">تعديل الصورة</string>
-    <string name="error_failed_set_focus">فشل في تعيين نقطة التركيز</string>
     <string name="action_add_reaction">إضافة رد فعل</string>
     <string name="action_share_account_link">مشاركة رابط الحساب</string>
     <string name="action_share_account_username">مشاركة اسم مستخدم الحساب</string>

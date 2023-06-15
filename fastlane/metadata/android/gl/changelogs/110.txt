@@ -1,0 +1,20 @@
+Tusky 22.0
+
+Novidades:
+
+- Ver cancelos en voga
+- Seguir novos cancelos
+- Melloras na orde de selección de idiomas
+- Mostra a diferenza entre versións dunha publicación
+- Soporte para os filtros de Mastodon v4
+- Opción para mostrar na cronoloxía estatítiscas das enquisas
+- E máis...
+
+Arranxos:
+
+- Lembrar lapela e posición
+- Manter as notificacións ata que son lidas
+- Disposición correcta de texto RTL e LTR misturados nos perfís
+- Cálculo correcto da lonxitude da publicación
+- Publicar sempre descrición das imaxes
+- E máis...

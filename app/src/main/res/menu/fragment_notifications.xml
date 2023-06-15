@@ -22,4 +22,9 @@
         android:id="@+id/action_refresh"
         android:title="@string/action_refresh"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/load_newest"
+        android:title="@string/load_newest_notifications"
+        app:showAsAction="never" />
 </menu>

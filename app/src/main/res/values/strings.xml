@@ -471,8 +471,6 @@
 
     <string name="compose_active_account_description">Posting as %1$s</string>
 
-    <string name="error_failed_set_caption">Failed to set caption</string>
-    <string name="error_failed_set_focus">Failed to set focus point</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Describe contents for visually impaired (%d character limit)</item>
     </plurals>
@@ -483,6 +481,7 @@
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_delete_draft">Delete draft?</string>
     <string name="compose_save_draft">Save draft?</string>
     <string name="compose_save_draft_loses_media">Save draft? (Attachments will be uploaded again when you restore the draft.)</string>
     <string name="compose_unsaved_changes">You have unsaved changes.</string>
@@ -766,9 +765,9 @@
     <string name="pref_reading_order_newest_first">Newest first</string>
 
     <!--@Tusky edited 19th December 2022 13:37 -->
-    <string name="status_edit_info">%1$s edited %2$s</string>
+    <string name="status_edit_info">Edited: %1$s</string>
     <!--@Tusky created 19th December 2022 13:12 -->
-    <string name="status_created_info">%1$s created %2$s</string>
+    <string name="status_created_info">Created: %1$s</string>
     <string name="a11y_label_loading_thread">Loading thread</string>
 
     <!--@knossos@fosstodon.org created 2023-01-07 -->
@@ -812,4 +811,5 @@
         you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="load_newest_notifications">Load newest notifications</string>
 </resources>

@@ -24,6 +24,15 @@
          a noun and a verb -->
     <issue id="DuplicateStrings" severity="ignore" />
 
+    <!-- Resource IDs used in viewbinding are incorrectly reported as unused,
+         https://issuetracker.google.com/issues/204797401.
+
+         Disable these for the time being. -->
+    <issue id="UnusedIds" severity="ignore" />
+
+    <!-- Logs are stripped in release builds. -->
+    <issue id="LogConditional" severity="ignore" />
+
     <!-- Ensure we are warned about errors in the baseline -->
     <issue id="LintBaseline" severity="warning" />
 
