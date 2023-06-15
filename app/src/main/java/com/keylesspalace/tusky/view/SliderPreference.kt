@@ -18,9 +18,9 @@ import java.lang.Float.min
 /**
  * Slider preference
  *
- * Similar to [SeekBarPreference], but better because:
+ * Similar to [androidx.preference.SeekBarPreference], but better because:
  *
- * - Uses a [Slider] instead of a [SeekBar]. Slider supports float values, and step sizes
+ * - Uses a [Slider] instead of a [android.widget.SeekBar]. Slider supports float values, and step sizes
  *   other than 1.
  * - Displays the currently selected value in the Preference's summary, for consistency
  *   with platform norms.
@@ -31,7 +31,7 @@ import java.lang.Float.min
 class SliderPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = android.R.attr.preferenceStyle,
+    defStyleAttr: Int = androidx.preference.R.attr.preferenceStyle,
     defStyleRes: Int = 0
 ) : Preference(context, attrs, defStyleAttr, defStyleRes),
     Slider.OnChangeListener,
