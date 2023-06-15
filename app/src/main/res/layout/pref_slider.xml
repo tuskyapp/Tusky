@@ -18,13 +18,13 @@
 <!-- Layout used by SeekBarPreference for the seekbar widget style. Minimally adapted for use
      with Slider instead of SeekBar. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:gravity="center_vertical"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:background="?android:attr/selectableItemBackground"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:baselineAligned="false">
@@ -52,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceListItem"
-                android:ellipsize="marquee"/>
+                android:ellipsize="marquee"
+                tools:ignore="LabelFor,SelectableText" />
 
             <TextView
                 android:id="@android:id/summary"
@@ -64,7 +65,8 @@
                 android:textAlignment="viewStart"
                 android:textColor="?android:attr/textColorSecondary"
                 android:maxLines="4"
-                style="@style/PreferenceSummaryTextStyle"/>
+                style="@style/PreferenceSummaryTextStyle"
+                tools:ignore="SelectableText" />
 
         </RelativeLayout>
 

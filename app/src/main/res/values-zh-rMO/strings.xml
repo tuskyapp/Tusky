@@ -259,8 +259,8 @@
     <string name="load_more_placeholder_text">載入更多</string>
     <string name="pref_title_public_filter_keywords">公共時間軸</string>
     <string name="pref_title_thread_filter_keywords">對話</string>
-    <string name="filter_addition_dialog_title">添加新的過濾器</string>
-    <string name="filter_edit_dialog_title">編輯過濾器</string>
+    <string name="filter_addition_title">添加新的過濾器</string>
+    <string name="filter_edit_title">編輯過濾器</string>
     <string name="filter_dialog_remove_button">移除</string>
     <string name="filter_dialog_update_button">更新</string>
     <string name="filter_add_description">需要過濾的文字</string>
@@ -279,7 +279,6 @@
     <string name="action_add_to_list">添加用戶到列表</string>
     <string name="action_remove_from_list">從列表中移除用戶</string>
     <string name="compose_active_account_description">以 %1$s 發嘟文</string>
-    <string name="error_failed_set_caption">設定圖片標題失敗</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">為視覺障礙用戶提供的描述\n(限制 %d 字)</item>
     </plurals>

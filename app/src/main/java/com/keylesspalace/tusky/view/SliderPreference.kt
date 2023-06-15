@@ -31,7 +31,7 @@ import java.lang.Float.min
 class SliderPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.preferenceStyle,
+    defStyleAttr: Int = android.R.attr.preferenceStyle,
     defStyleRes: Int = 0
 ) : Preference(context, attrs, defStyleAttr, defStyleRes),
     Slider.OnChangeListener,
@@ -97,7 +97,7 @@ class SliderPreference @JvmOverloads constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.SliderPreference, defStyleAttr, defStyleRes)
 
-        value = a.getFloat(R.styleable.Slider_android_value, defaultValue)
+        value = a.getFloat(R.styleable.SliderPreference_android_value, defaultValue)
         valueFrom = a.getFloat(R.styleable.SliderPreference_android_valueFrom, defaultValueFrom)
         valueTo = a.getFloat(R.styleable.SliderPreference_android_valueTo, defaultValueTo)
         stepSize = a.getFloat(R.styleable.SliderPreference_android_stepSize, defaultStepSize)

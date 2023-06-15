@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- "Obre com..." ara també està disponible al menú dels perfils del compte quan s'utilitzen diversos comptes
+- Ara l'inici de sessió es gestiona en una WebView dins de l'aplicació
+- Suport per a Android 12
+- Suport per a la nova API de configuració de la instància Mastodon
+- i moltes altres petites correccions i millores

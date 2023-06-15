@@ -13,19 +13,12 @@
         android:hint="@string/filter_add_description"
         app:layout_constraintTop_toTopOf="parent"
         />
-    <Spinner
-        android:id="@+id/filterDurationSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/phraseEditText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
     <CheckBox
         android:id="@+id/phraseWholeWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/filter_dialog_whole_word"
-        app:layout_constraintTop_toBottomOf="@id/filterDurationSpinner"
+        app:layout_constraintTop_toBottomOf="@id/phraseEditText"
         app:layout_constraintLeft_toLeftOf="parent"
         />
     <TextView
