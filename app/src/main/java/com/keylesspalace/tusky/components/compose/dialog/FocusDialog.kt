@@ -15,14 +15,13 @@
 
 package com.keylesspalace.tusky.components.compose.dialog
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -31,7 +30,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogFocusBinding
 import com.keylesspalace.tusky.entity.Attachment.Focus
 import kotlinx.coroutines.launch
@@ -39,8 +37,8 @@ import kotlinx.coroutines.launch
 fun <T> T.makeFocusDialog(
     existingFocus: Focus?,
     previewUri: Uri,
-    onUpdateFocus: suspend (Focus) -> Boolean
-) where T : Activity, T : LifecycleOwner {
+    onUpdateFocus: suspend (Focus) -> Unit
+) where T : AppCompatActivity, T : LifecycleOwner {
     val focus = existingFocus ?: Focus(0.0f, 0.0f) // Default to center
 
     val dialogBinding = DialogFocusBinding.inflate(layoutInflater)
@@ -79,9 +77,7 @@ fun <T> T.makeFocusDialog(
 
     val okListener = { dialog: DialogInterface, _: Int ->
         lifecycleScope.launch {
-            if (!onUpdateFocus(dialogBinding.focusIndicator.getFocus())) {
-                showFailedFocusMessage()
-            }
+            onUpdateFocus(dialogBinding.focusIndicator.getFocus())
         }
         dialog.dismiss()
     }
@@ -98,8 +94,4 @@ fun <T> T.makeFocusDialog(
     )
 
     dialog.show()
-}
-
-private fun Activity.showFailedFocusMessage() {
-    Toast.makeText(this, R.string.error_failed_set_focus, Toast.LENGTH_SHORT).show()
 }

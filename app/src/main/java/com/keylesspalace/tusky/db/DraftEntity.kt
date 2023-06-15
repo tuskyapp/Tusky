@@ -40,9 +40,10 @@ data class DraftEntity(
     val attachments: List<DraftAttachment>,
     val poll: NewPoll?,
     val failedToSend: Boolean,
+    val failedToSendNew: Boolean,
     val scheduledAt: String?,
     val language: String?,
-    val statusId: String?,
+    val statusId: String?
 )
 
 /**

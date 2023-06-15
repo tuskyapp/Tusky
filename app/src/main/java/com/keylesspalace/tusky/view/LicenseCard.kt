@@ -19,6 +19,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.core.content.res.use
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
@@ -36,14 +37,20 @@ class LicenseCard
     init {
         val binding = CardLicenseBinding.inflate(LayoutInflater.from(context), this)
 
-        setCardBackgroundColor(MaterialColors.getColor(context, R.attr.colorSurface, Color.BLACK))
+        setCardBackgroundColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK))
 
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.LicenseCard, 0, 0)
-
-        val name: String? = a.getString(R.styleable.LicenseCard_name)
-        val license: String? = a.getString(R.styleable.LicenseCard_license)
-        val link: String? = a.getString(R.styleable.LicenseCard_link)
-        a.recycle()
+        val (name, license, link) = context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.LicenseCard,
+            0,
+            0
+        ).use { a ->
+            Triple(
+                a.getString(R.styleable.LicenseCard_name),
+                a.getString(R.styleable.LicenseCard_license),
+                a.getString(R.styleable.LicenseCard_link)
+            )
+        }
 
         binding.licenseCardName.text = name
         binding.licenseCardLicense.text = license

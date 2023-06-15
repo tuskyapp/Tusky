@@ -26,6 +26,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.os.BundleCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -92,7 +93,7 @@ class ViewImageFragment : ViewMediaFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val arguments = this.requireArguments()
-        val attachment = arguments.getParcelable<Attachment>(ARG_ATTACHMENT)
+        val attachment = BundleCompat.getParcelable(arguments, ARG_ATTACHMENT, Attachment::class.java)
         this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
         val url: String?
         var description: String? = null
@@ -207,7 +208,7 @@ class ViewImageFragment : ViewMediaFragment() {
             .dontAnimate()
             .onlyRetrieveFromCache(true)
             .let {
-                if (previewUrl != null)
+                if (previewUrl != null) {
                     it.thumbnail(
                         glide
                             .load(previewUrl)
@@ -216,7 +217,9 @@ class ViewImageFragment : ViewMediaFragment() {
                             .centerInside()
                             .addListener(ImageRequestListener(true, isThumbnailRequest = true))
                     )
-                else it
+                } else {
+                    it
+                }
             }
             // Request image from the network on fail load image from cache
             .error(

@@ -31,10 +31,12 @@ import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
@@ -54,6 +56,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     private var unmuteTagItem: MenuItem? = null
 
     /** The filter muting hashtag, null if unknown or hashtag is not filtered */
+    private var mutedFilterV1: FilterV1? = null
     private var mutedFilter: Filter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,26 +177,43 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         lifecycleScope.launch {
             mastodonApi.getFilters().fold(
                 { filters ->
-                    for (filter in filters) {
-                        if ((tag == filter.phrase) and filter.context.contains(Filter.HOME)) {
-                            Log.d(TAG, "Tag $hashtag is filtered")
-                            muteTagItem?.isVisible = false
-                            unmuteTagItem?.isVisible = true
-                            mutedFilter = filter
-                            return@fold
+                    mutedFilter = filters.firstOrNull { filter ->
+                        filter.context.contains(Filter.Kind.HOME.kind) && filter.keywords.any {
+                            it.keyword == tag
                         }
                     }
-
-                    Log.d(TAG, "Tag $hashtag is not filtered")
-                    mutedFilter = null
-                    muteTagItem?.isEnabled = true
-                    muteTagItem?.isVisible = true
-                    muteTagItem?.isVisible = true
+                    updateTagMuteState(mutedFilter != null)
                 },
                 { throwable ->
-                    Log.e(TAG, "Error getting filters: $throwable")
+                    if (throwable is HttpException && throwable.code() == 404) {
+                        mastodonApi.getFiltersV1().fold(
+                            { filters ->
+                                mutedFilterV1 = filters.firstOrNull { filter ->
+                                    tag == filter.phrase && filter.context.contains(FilterV1.HOME)
+                                }
+                                updateTagMuteState(mutedFilterV1 != null)
+                            },
+                            { throwable ->
+                                Log.e(TAG, "Error getting filters: $throwable")
+                            }
+                        )
+                    } else {
+                        Log.e(TAG, "Error getting filters: $throwable")
+                    }
                 }
             )
+        }
+    }
+
+    private fun updateTagMuteState(muted: Boolean) {
+        if (muted) {
+            muteTagItem?.isVisible = false
+            muteTagItem?.isEnabled = false
+            unmuteTagItem?.isVisible = true
+        } else {
+            unmuteTagItem?.isVisible = false
+            muteTagItem?.isEnabled = true
+            muteTagItem?.isVisible = true
         }
     }
 
@@ -202,21 +222,44 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         lifecycleScope.launch {
             mastodonApi.createFilter(
-                tag,
-                listOf(Filter.HOME),
-                irreversible = false,
-                wholeWord = true,
+                title = "#$tag",
+                context = listOf(FilterV1.HOME),
+                filterAction = Filter.Action.WARN.action,
                 expiresInSeconds = null
             ).fold(
                 { filter ->
-                    mutedFilter = filter
-                    muteTagItem?.isVisible = false
-                    unmuteTagItem?.isVisible = true
-                    eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                    if (mastodonApi.addFilterKeyword(filterId = filter.id, keyword = tag, wholeWord = true).isSuccess) {
+                        mutedFilter = filter
+                        updateTagMuteState(true)
+                        eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                    } else {
+                        Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to mute #$tag")
+                    }
                 },
-                {
-                    Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
-                    Log.e(TAG, "Failed to mute #$tag", it)
+                { throwable ->
+                    if (throwable is HttpException && throwable.code() == 404) {
+                        mastodonApi.createFilterV1(
+                            tag,
+                            listOf(FilterV1.HOME),
+                            irreversible = false,
+                            wholeWord = true,
+                            expiresInSeconds = null
+                        ).fold(
+                            { filter ->
+                                mutedFilterV1 = filter
+                                updateTagMuteState(true)
+                                eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                            },
+                            { throwable ->
+                                Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                                Log.e(TAG, "Failed to mute #$tag", throwable)
+                            }
+                        )
+                    } else {
+                        Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failed to mute #$tag", throwable)
+                    }
                 }
             )
         }
@@ -225,19 +268,49 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun unmuteTag(): Boolean {
-        val filter = mutedFilter ?: return true
-
         lifecycleScope.launch {
-            mastodonApi.deleteFilter(filter.id).fold(
+            val tag = hashtag
+            val result = if (mutedFilter != null) {
+                val filter = mutedFilter!!
+                if (filter.context.size > 1) {
+                    // This filter exists in multiple contexts, just remove the home context
+                    mastodonApi.updateFilter(
+                        id = filter.id,
+                        context = filter.context.filter { it != Filter.Kind.HOME.kind }
+                    )
+                } else {
+                    mastodonApi.deleteFilter(filter.id)
+                }
+            } else if (mutedFilterV1 != null) {
+                mutedFilterV1?.let { filter ->
+                    if (filter.context.size > 1) {
+                        // This filter exists in multiple contexts, just remove the home context
+                        mastodonApi.updateFilterV1(
+                            id = filter.id,
+                            phrase = filter.phrase,
+                            context = filter.context.filter { it != FilterV1.HOME },
+                            irreversible = null,
+                            wholeWord = null,
+                            expiresInSeconds = null
+                        )
+                    } else {
+                        mastodonApi.deleteFilterV1(filter.id)
+                    }
+                }
+            } else {
+                null
+            }
+
+            result?.fold(
                 {
-                    muteTagItem?.isVisible = true
-                    unmuteTagItem?.isVisible = false
-                    eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                    updateTagMuteState(false)
+                    eventHub.dispatch(PreferenceChangedEvent(Filter.Kind.HOME.kind))
+                    mutedFilterV1 = null
                     mutedFilter = null
                 },
-                {
-                    Snackbar.make(binding.root, getString(R.string.error_unmuting_hashtag_format, filter.phrase), Snackbar.LENGTH_SHORT).show()
-                    Log.e(TAG, "Failed to unmute #${filter.phrase}", it)
+                { throwable ->
+                    Snackbar.make(binding.root, getString(R.string.error_unmuting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                    Log.e(TAG, "Failed to unmute #$tag", throwable)
                 }
             )
         }

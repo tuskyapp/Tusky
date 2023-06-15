@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Novo ícone do aplicativo por Dzuk https://dzuk.zone/
+- Agora você pode seguir hashtags. Clique em uma hashtag e depois no ícone na barra de ferramentas.
+- Suporte ao Android 13
+- novo menu suspenso na composição para definir o idioma do toot
+- A guia de mídia nos perfis agora respeita mídia sensível e carrega de maneira mais suave.
+- Agora é possível definir o ponto de foco de uma imagem antes de postar
+- Nova opção para mostrar seu nome de usuário completo na barra de ferramentas

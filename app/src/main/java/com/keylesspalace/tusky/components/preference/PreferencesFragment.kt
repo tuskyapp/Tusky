@@ -32,9 +32,9 @@ import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.makeIcon
 import com.keylesspalace.tusky.util.serialize
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
@@ -48,8 +48,27 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var localeManager: LocaleManager
 
-    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
-    private var httpProxyPref: Preference? = null
+    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+
+    enum class ReadingOrder {
+        /** User scrolls up, reading statuses oldest to newest */
+        OLDEST_FIRST,
+
+        /** User scrolls down, reading statuses newest to oldest. Default behaviour. */
+        NEWEST_FIRST;
+
+        companion object {
+            fun from(s: String?): ReadingOrder {
+                s ?: return NEWEST_FIRST
+
+                return try {
+                    valueOf(s.uppercase())
+                } catch (_: Throwable) {
+                    NEWEST_FIRST
+                }
+            }
+        }
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
@@ -88,6 +107,16 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_post_text_size)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
+                }
+
+                listPreference {
+                    setDefaultValue(ReadingOrder.NEWEST_FIRST.name)
+                    setEntries(R.array.reading_order_names)
+                    setEntryValues(R.array.reading_order_values)
+                    key = PrefKeys.READING_ORDER
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_reading_order)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_sort)
                 }
 
                 listPreference {
@@ -192,6 +221,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
                     isSingleLineTitle = false
                 }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.SHOW_STATS_INLINE
+                    setTitle(R.string.pref_title_show_stat_inline)
+                    isSingleLineTitle = false
+                }
             }
 
             preferenceCategory(R.string.pref_title_browser_settings) {
@@ -206,7 +242,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             preferenceCategory(R.string.pref_title_timeline_filters) {
                 preference {
                     setTitle(R.string.pref_title_post_tabs)
-                    fragment = "com.keylesspalace.tusky.components.preference.TabFilterPreferencesFragment"
+                    fragment = TabFilterPreferencesFragment::class.qualifiedName
                 }
             }
 
@@ -250,9 +286,10 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             }
 
             preferenceCategory(R.string.pref_title_proxy_settings) {
-                httpProxyPref = preference {
+                preference {
                     setTitle(R.string.pref_title_http_proxy_settings)
-                    fragment = "com.keylesspalace.tusky.components.preference.ProxyPreferencesFragment"
+                    fragment = ProxyPreferencesFragment::class.qualifiedName
+                    summaryProvider = ProxyPreferencesFragment.SummaryProvider
                 }
             }
         }
@@ -265,28 +302,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     override fun onResume() {
         super.onResume()
         requireActivity().setTitle(R.string.action_view_preferences)
-        updateHttpProxySummary()
-    }
-
-    private fun updateHttpProxySummary() {
-        preferenceManager.sharedPreferences?.let { sharedPreferences ->
-            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
-            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
-
-            try {
-                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
-                    .toInt()
-
-                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                    httpProxyPref?.summary = "$httpServer:$httpPort"
-                    return
-                }
-            } catch (e: NumberFormatException) {
-                // user has entered wrong port, fall back to empty summary
-            }
-
-            httpProxyPref?.summary = ""
-        }
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

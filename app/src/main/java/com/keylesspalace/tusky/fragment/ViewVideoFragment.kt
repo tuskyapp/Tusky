@@ -57,9 +57,12 @@ class ViewVideoFragment : ViewMediaFragment() {
         mediaController.hide()
     }
     private lateinit var mediaActivity: ViewMediaActivity
-    private val TOOLBAR_HIDE_DELAY_MS = 3000L
     private lateinit var mediaController: MediaController
     private var isAudio = false
+
+    companion object {
+        private const val TOOLBAR_HIDE_DELAY_MS = 3000L
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,8 +73,8 @@ class ViewVideoFragment : ViewMediaFragment() {
         super.onResume()
 
         if (_binding != null) {
-            if (mediaActivity.isToolbarVisible) {
-                handler.postDelayed(hideToolbar, TOOLBAR_HIDE_DELAY_MS)
+            if (mediaActivity.isToolbarVisible && !isAudio) {
+                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
             }
             binding.videoView.start()
         }
@@ -97,6 +100,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.mediaDescription.text = description
         binding.mediaDescription.visible(showingDescription)
         binding.mediaDescription.movementMethod = ScrollingMovementMethod()
+
+        // Ensure the description is visible over the video
+        binding.mediaDescription.elevation = binding.videoView.elevation + 1
 
         binding.videoView.transitionName = url
         binding.videoView.setVideoPath(url)
@@ -124,16 +130,15 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.videoView.setMediaController(mediaController)
         binding.videoView.requestFocus()
         binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
-            override fun onPause() {
-                handler.removeCallbacks(hideToolbar)
-            }
             override fun onPlay() {
-                // Audio doesn't cause the controller to show automatically,
-                // and we only want to hide the toolbar if it's a video.
-                if (isAudio) {
-                    mediaController.show()
-                } else {
+                if (!isAudio) {
                     hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                }
+            }
+
+            override fun onPause() {
+                if (!isAudio) {
+                    handler.removeCallbacks(hideToolbar)
                 }
             }
         })
@@ -161,6 +166,11 @@ class ViewVideoFragment : ViewMediaFragment() {
                 false
             }
 
+            // Audio doesn't cause the controller to show automatically
+            if (isAudio) {
+                mediaController.show()
+            }
+
             binding.progressBar.hide()
             mp.isLooping = true
         }
@@ -185,10 +195,8 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
+            ?: throw IllegalArgumentException("attachment has to be set")
 
-        if (attachment == null) {
-            throw IllegalArgumentException("attachment has to be set")
-        }
         val url = attachment.url
         isAudio = attachment.type == Attachment.Type.AUDIO
 

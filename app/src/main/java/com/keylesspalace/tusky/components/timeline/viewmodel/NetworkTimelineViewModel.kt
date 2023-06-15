@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
@@ -82,7 +83,7 @@ class NetworkTimelineViewModel @Inject constructor(
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
@@ -182,7 +183,7 @@ class NetworkTimelineViewModel @Inject constructor(
                                     .copy(
                                         isShowingContent = oldStatus!!.isShowingContent,
                                         isExpanded = oldStatus.isExpanded,
-                                        isCollapsed = oldStatus.isCollapsed,
+                                        isCollapsed = oldStatus.isCollapsed
                                     )
                             }
 
@@ -248,6 +249,16 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
+    override fun clearWarning(status: StatusViewData.Concrete) {
+        updateActionableStatusById(status.actionableId) {
+            it.copy(filtered = null)
+        }
+    }
+
+    override fun saveReadingPosition(statusId: String) {
+        /** Does nothing for non-cached timelines */
+    }
+
     override suspend fun invalidate() {
         currentSource?.invalidate()
     }
@@ -259,7 +270,7 @@ class NetworkTimelineViewModel @Inject constructor(
         limit: Int
     ): Response<List<Status>> {
         return when (kind) {
-            Kind.HOME -> api.homeTimeline(fromId, uptoId, limit)
+            Kind.HOME -> api.homeTimeline(maxId = fromId, sinceId = uptoId, limit = limit)
             Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
             Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
             Kind.TAG -> {

@@ -20,6 +20,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
+import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.Status
 
 /**
@@ -77,13 +78,18 @@ data class TimelineStatusEntity(
     val reblogAccountId: String?,
     val poll: String?,
     val muted: Boolean?,
-    val expanded: Boolean, // used as the "loading" attribute when this TimelineStatusEntity is a placeholder
+    /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
+    val expanded: Boolean,
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
     val pinned: Boolean,
     val card: String?,
     val language: String?,
-)
+    val filtered: List<FilterResult>?
+) {
+    val isPlaceholder: Boolean
+        get() = this.authorServerId == null
+}
 
 @Entity(
     primaryKeys = ["serverId", "timelineUserId"]
@@ -100,11 +106,11 @@ data class TimelineAccountEntity(
     val bot: Boolean
 )
 
-class TimelineStatusWithAccount {
+data class TimelineStatusWithAccount(
     @Embedded
-    lateinit var status: TimelineStatusEntity
+    val status: TimelineStatusEntity,
     @Embedded(prefix = "a_")
-    lateinit var account: TimelineAccountEntity
+    val account: TimelineAccountEntity? = null, // null when placeholder
     @Embedded(prefix = "rb_")
-    var reblogAccount: TimelineAccountEntity? = null
-}
+    val reblogAccount: TimelineAccountEntity? = null // null when no reblog
+)

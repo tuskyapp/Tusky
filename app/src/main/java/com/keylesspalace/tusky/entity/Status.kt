@@ -51,6 +51,7 @@ data class Status(
     val poll: Poll?,
     val card: Card?,
     val language: String?,
+    val filtered: List<FilterResult>?
 ) {
 
     val actionableId: String
@@ -68,12 +69,16 @@ data class Status(
 
     enum class Visibility(val num: Int) {
         UNKNOWN(0),
+
         @SerializedName("public")
         PUBLIC(1),
+
         @SerializedName("unlisted")
         UNLISTED(2),
+
         @SerializedName("private")
         PRIVATE(3),
+
         @SerializedName("direct")
         DIRECT(4);
 
@@ -133,11 +138,11 @@ data class Status(
             attachments = attachments,
             poll = poll,
             createdAt = createdAt,
-            language = language,
+            language = language
         )
     }
 
-    fun getEditableText(): String {
+    private fun getEditableText(): String {
         val contentSpanned = content.parseAsMastodonHtml()
         val builder = SpannableStringBuilder(content.parseAsMastodonHtml())
         for (span in contentSpanned.getSpans(0, content.length, URLSpan::class.java)) {

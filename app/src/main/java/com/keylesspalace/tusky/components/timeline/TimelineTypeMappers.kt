@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.timeline
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.TimelineAccountEntity
@@ -29,6 +30,8 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
+
+private const val TAG = "TimelineTypeMappers"
 
 data class Placeholder(
     val id: String,
@@ -60,6 +63,7 @@ fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
         localUsername = localUsername,
         username = username,
         displayName = displayName,
+        note = "",
         url = url,
         avatar = avatar,
         bot = bot,
@@ -102,6 +106,7 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         card = null,
         repliesCount = 0,
         language = null,
+        filtered = null
     )
 }
 
@@ -146,11 +151,13 @@ fun Status.toEntity(
         card = actionableStatus.card?.let(gson::toJson),
         repliesCount = actionableStatus.repliesCount,
         language = actionableStatus.language,
+        filtered = actionableStatus.filtered
     )
 }
 
 fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
-    if (this.status.authorServerId == null) {
+    if (this.account == null) {
+        Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
 
@@ -192,6 +199,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered
         )
     }
     val status = if (reblog != null) {
@@ -224,6 +232,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = null,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered
         )
     } else {
         Status(
@@ -255,6 +264,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered
         )
     }
     return StatusViewData.Concrete(
