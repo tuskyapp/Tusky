@@ -165,14 +165,7 @@ class TimelineFragment :
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     newState != SCROLL_STATE_IDLE && return
-
-                    // Save the ID of the first notification visible in the list, so the user's
-                    // reading position is always restorable.
-                    layoutManager.findFirstVisibleItemPosition().takeIf { it >= 0 }?.let { position ->
-                        adapter.snapshot().getOrNull(position)?.id?.let { id ->
-                            viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
-                        }
-                    }
+                    saveVisibleId()
                 }
             })
         }
@@ -426,6 +419,18 @@ class TimelineFragment :
         }
     }
 
+    /**
+     * Save the ID of the last visible status in the list
+     */
+    private fun saveVisibleId() = layoutManager
+        .findLastCompletelyVisibleItemPosition()
+        .takeIf { it != RecyclerView.NO_POSITION }
+        ?.let { position ->
+            adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
+            }
+        }
+
     private fun setupSwipeRefreshLayout() {
         binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
         binding.swipeRefreshLayout.setOnRefreshListener(this)
@@ -622,13 +627,7 @@ class TimelineFragment :
     override fun onPause() {
         super.onPause()
 
-        // Save the ID of the first visible status in the list
-        val position = layoutManager.findLastCompletelyVisibleItemPosition()
-        if (position != RecyclerView.NO_POSITION) {
-            adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
-                viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
-            }
-        }
+        saveVisibleId()
     }
 
     override fun onReselect() {
