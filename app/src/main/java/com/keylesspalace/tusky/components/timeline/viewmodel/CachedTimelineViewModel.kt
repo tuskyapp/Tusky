@@ -43,6 +43,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -74,7 +75,7 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun init(timelineKind: TimelineKind) {
         super.init(timelineKind)
-        statuses = getUiPrefs()
+        statuses = merge(getUiPrefs(), reload)
             .flatMapLatest {
                 getStatuses(timelineKind, initialKey = getInitialKey())
             }.cachedIn(viewModelScope)

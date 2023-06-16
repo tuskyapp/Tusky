@@ -38,7 +38,9 @@ import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,9 +70,13 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override lateinit var statuses: Flow<PagingData<StatusViewData>>
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun init(timelineKind: TimelineKind) {
         super.init(timelineKind)
-        statuses = getStatuses(timelineKind, initialKey = getInitialKey()).cachedIn(viewModelScope)
+        statuses = reload
+            .flatMapLatest {
+                getStatuses(timelineKind, initialKey = getInitialKey())
+            }.cachedIn(viewModelScope)
     }
 
     /** @return Flow of statuses that make up the timeline of [kind] */

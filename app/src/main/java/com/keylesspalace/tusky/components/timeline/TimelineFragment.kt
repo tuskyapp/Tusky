@@ -415,6 +415,11 @@ class TimelineFragment :
                     false
                 }
             }
+            R.id.action_load_newest -> {
+                viewModel.accept(InfallibleUiAction.LoadNewest)
+                adapter.refresh()
+                true
+            }
             else -> false
         }
     }

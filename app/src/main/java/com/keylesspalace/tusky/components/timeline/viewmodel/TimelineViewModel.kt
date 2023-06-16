@@ -65,6 +65,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -121,6 +122,12 @@ sealed class InfallibleUiAction : UiAction() {
      * can do.
      */
     data class SaveVisibleId(val visibleId: String) : InfallibleUiAction()
+
+    /** Ignore the saved reading position, load the page with the newest items */
+    // Resets the account's reading position, which can't fail, which is why this is
+    // infallible. Reloading the data may fail, but that's handled by the paging system /
+    // adapter refresh logic.
+    object LoadNewest : InfallibleUiAction()
 }
 
 sealed class UiSuccess {
@@ -263,6 +270,9 @@ abstract class TimelineViewModel(
 
     /** Flow of user actions received from the UI */
     private val uiAction = MutableSharedFlow<UiAction>()
+
+    /** Flow that can be used to trigger a full reload */
+    protected val reload = MutableStateFlow(0)
 
     /** Flow of successful action results */
     // Note: Thisis a SharedFlow instead of a StateFlow because success state does not need to be
@@ -430,6 +440,20 @@ abstract class TimelineViewModel(
                         accountManager.saveAccount(activeAccount)
                     }
             }
+        }
+
+        // Increment `reload` to trigger creation of a new PagingSource.
+        // Optionally save the home timeline's visible ID.
+        viewModelScope.launch {
+            uiAction
+                .filterIsInstance<InfallibleUiAction.LoadNewest>()
+                .collectLatest {
+                    if (timelineKind == TimelineKind.Home) {
+                        activeAccount.lastVisibleHomeTimelineStatusId = null
+                        accountManager.saveAccount(activeAccount)
+                    }
+                    reload.getAndUpdate { it + 1 }
+                }
         }
 
         viewModelScope.launch {
