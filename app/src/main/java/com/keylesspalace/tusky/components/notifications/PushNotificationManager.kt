@@ -161,8 +161,9 @@ class PushNotificationManager @Inject constructor(
 
     private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
         buildMap {
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             Notification.Type.visibleTypes.forEach {
-                put(it.presentation, NotificationHelper.filterNotification(account, it, context))
+                put(it.presentation, NotificationHelper.filterNotification(notificationManager, account, it))
             }
         }
 
