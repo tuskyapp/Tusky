@@ -32,10 +32,6 @@ class TimelinePagingAdapter(
     private val statusListener: StatusActionListener,
     var statusDisplayOptions: StatusDisplayOptions
 ) : PagingDataAdapter<StatusViewData, RecyclerView.ViewHolder>(TimelineDifferCallback) {
-    init {
-        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
-    }
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
         return when (viewType) {
