@@ -665,4 +665,8 @@
     <string name="select_list_manage">مدیریت سیاهه‌ها</string>
     <string name="error_list_load">خطا در بار کردن سیاهه‌ها</string>
     <string name="load_newest_notifications">بار کردن جدیدترین آگاهی‌ها</string>
+    <string name="compose_delete_draft">حذف پیش‌نویس؟</string>
+    <string name="error_missing_edits">کارسازتان می‌داند که این فرسته ویرایش شده؛ ولی رونوشتی از ویرایش‌ها ندارد. پس نمی‌توانند نشانتان داده شوند.
+\n
+\nاین <a href="https://github.com/mastodon/mastodon/issues/25398">نکتهٔ ماستودون</a> را ببینید.</string>
 </resources>
