@@ -4,10 +4,10 @@
     <string name="error_network">Er deed zich een netwerkfout voor! Controleer je verbinding en probeer opnieuw!</string>
     <string name="error_empty">Dit mag niet leeg zijn.</string>
     <string name="error_invalid_domain">Ongeldige domeinnaam ingevoerd</string>
-    <string name="error_failed_app_registration">Authenticatie met die server is mislukt. Als het probleem zich blijft herhalen; probeer dan de browser login via menu.</string>
+    <string name="error_failed_app_registration">Authenticatie met die server is mislukt. Als het probleem blijft, probeer dan de browser login via het menu.</string>
     <string name="error_no_web_browser_found">Kon geen bruikbare webbrowser vinden.</string>
-    <string name="error_authorization_unknown">Er deed zich een onbekende autorisatiefout voor. Als dit blijft gebeuren, probeer dan “ Via de browser inloggen” in het menu.</string>
-    <string name="error_authorization_denied">Autorisatie werd geweigerd. Als u zeker weet dat u de correcte gegevens heeft ingevoerd; probeer het dan via het browser-menu.</string>
+    <string name="error_authorization_unknown">Er deed zich een onbekende autorisatiefout voor. Als dit blijft, probeer dan “ Via de browser inloggen” in het menu.</string>
+    <string name="error_authorization_denied">Autorisatie werd geweigerd. Als u zeker weet dat u de correcte gegevens heeft ingevoerd, probeer dan in te loggen in de browser via het menu.</string>
     <string name="error_retrieving_oauth_token">Kon geen inlogsleutel verkrijgen. Als het probleem zich blijft herhalen; probeer dan de browser login via menu.</string>
     <string name="error_compose_character_limit">Tekst van dit bericht is te lang!</string>
     <string name="error_media_upload_type">Bestandstype wordt niet ondersteund.</string>
@@ -602,7 +602,7 @@
 \nEr kon geen contact worden opgenomen met de server of de berichten werden geweigerd.</string>
     <string name="action_post_failed_do_nothing">Afwijzen</string>
     <string name="action_post_failed_show_drafts">Concepten tonen</string>
-    <string name="error_unmuting_hashtag_format">"Fout bij unmuting  #%s"</string>
+    <string name="error_unmuting_hashtag_format">Fout bij unmuting #%s</string>
     <string name="action_browser_login">Inloggen met een Browser</string>
     <string name="action_add_reaction">reactie toevoegen</string>
     <string name="action_discard">Veranderingen ongedaan maken</string>
@@ -613,7 +613,7 @@
     <string name="action_share_account_username">Deel de gebruikersnaam van het account</string>
     <string name="send_account_username_to">Accountgebruikersnaam delen om…</string>
     <string name="send_account_link_to">Account-URL delen met…</string>
-    <string name="error_following_hashtags_unsupported">"Deze  instance ondersteund niet de volgende hashtag."</string>
+    <string name="error_following_hashtags_unsupported">Deze instance ondersteunt niet het volgen van hashtags.</string>
     <string name="error_status_source_load">Fout bij het laden van de statusbron van server.</string>
     <string name="title_public_trending_hashtags">Trending hashtags</string>
     <string name="pref_summary_http_proxy_missing">&lt;niet ingesteld&gt;</string>
