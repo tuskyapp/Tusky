@@ -63,7 +63,9 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -395,23 +397,23 @@ class NotificationsFragment :
                 adapter.loadStateFlow
                     .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
-                        binding.recyclerView.isVisible = true
+                        binding.recyclerView.show()
                         binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
                             !binding.swipeRefreshLayout.isRefreshing
                         binding.swipeRefreshLayout.isRefreshing =
                             loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
 
-                        binding.statusView.isVisible = false
+                        binding.statusView.hide()
                         if (loadState.refresh is LoadState.NotLoading) {
                             if (adapter.itemCount == 0) {
                                 binding.statusView.setup(
                                     R.drawable.elephant_friend_empty,
                                     R.string.message_empty
                                 )
-                                binding.recyclerView.isVisible = false
-                                binding.statusView.isVisible = true
+                                binding.recyclerView.hide()
+                                binding.statusView.show()
                             } else {
-                                binding.statusView.isVisible = false
+                                binding.statusView.hide()
                             }
                         }
 
@@ -430,8 +432,8 @@ class NotificationsFragment :
                                     ) { adapter.retry() }
                                 }
                             }
-                            binding.recyclerView.isVisible = false
-                            binding.statusView.isVisible = true
+                            binding.recyclerView.hide()
+                            binding.statusView.show()
                         }
                     }
             }
