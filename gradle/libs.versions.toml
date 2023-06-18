@@ -50,7 +50,7 @@ rxkotlin3 = "3.0.1"
 photoview = "2.3.0"
 sparkbutton = "4.1.0"
 # Deliberate downgrade from 1.1.4, see https://github.com/google/truth/issues/1137
-truth = "1.1.3"
+truth = "1.1.5"
 turbine = "0.13.0"
 unified-push = "2.1.1"
 xmlwriter = "1.0.4"
