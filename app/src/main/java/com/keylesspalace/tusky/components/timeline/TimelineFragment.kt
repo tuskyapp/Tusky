@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -349,40 +350,75 @@ class TimelineFragment :
                         Log.d(TAG, "loadState: $loadState")
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
                         Log.d(TAG, "  refresh?: ${loadState.refresh}")
-                        if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
-                            binding.swipeRefreshLayout.isRefreshing = false
-                        }
+                        Log.d(TAG, "  source.refresh?: ${loadState.source.refresh}")
+                        Log.d(TAG, "  mediator.refresh?: ${loadState.mediator?.refresh}")
+
+                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
+                            !binding.swipeRefreshLayout.isRefreshing
+                        binding.swipeRefreshLayout.isRefreshing =
+                            loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
 
                         binding.statusView.hide()
                         binding.progressBar.hide()
 
-                        if (adapter.itemCount == 0) {
-                            when (loadState.refresh) {
-                                is LoadState.NotLoading -> {
+                        when (loadState.refresh) {
+                            is LoadState.NotLoading -> {
+                                if (adapter.itemCount == 0) {
                                     if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                                         binding.statusView.show()
-                                        binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                                        binding.statusView.setup(
+                                            R.drawable.elephant_friend_empty,
+                                            R.string.message_empty
+                                        )
                                         if (timelineKind == TimelineKind.Home) {
                                             binding.statusView.showHelp(R.string.help_empty_home)
                                         }
                                     }
+                                } else {
+                                    binding.statusView.hide()
                                 }
-                                is LoadState.Error -> {
-                                    binding.statusView.show()
+                            }
+                            is LoadState.Error -> {
+                                val message = when ((loadState.refresh as LoadState.Error).error) {
+                                    is IOException -> R.string.error_network
+                                    else -> R.string.error_generic
+                                }
 
+                                if (adapter.itemCount == 0) {
                                     if ((loadState.refresh as LoadState.Error).error is IOException) {
-                                        binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                                        binding.statusView.setup(
+                                            R.drawable.elephant_offline,
+                                            message
+                                        ) {
                                             onRefresh()
                                         }
                                     } else {
-                                        binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                                        binding.statusView.setup(
+                                            R.drawable.elephant_error,
+                                            message
+                                        ) {
                                             onRefresh()
                                         }
                                     }
+                                    binding.recyclerView.hide()
+                                    binding.statusView.show()
+                                } else {
+                                    Snackbar.make(
+                                        (activity as ActionButtonActivity).actionButton ?: binding.root,
+                                        getString(message),
+                                        Snackbar.LENGTH_INDEFINITE
+                                    )
+                                        .setTextMaxLines(5)
+                                        .setAction(R.string.action_retry) {
+                                            onRefresh()
+                                        }
+                                        .show()
+                                    binding.recyclerView.show()
+                                    binding.statusView.hide()
                                 }
-                                is LoadState.Loading -> {
-                                    binding.progressBar.show()
-                                }
+                            }
+                            is LoadState.Loading -> {
+                                binding.progressBar.show()
                             }
                         }
                     }
