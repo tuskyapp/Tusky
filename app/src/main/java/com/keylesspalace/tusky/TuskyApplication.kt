@@ -23,6 +23,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
@@ -94,6 +95,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
         RxJavaPlugins.setErrorHandler {
             Log.w("RxJava", "undeliverable exception", it)
         }
+
+        NotificationHelper.createWorkerNotificationChannel(this)
 
         WorkManager.initialize(
             this,
