@@ -63,6 +63,8 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.getDrawableRes
+import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -84,7 +86,6 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class TimelineFragment :
@@ -114,6 +115,14 @@ class TimelineFragment :
     private lateinit var adapter: TimelinePagingAdapter
 
     private lateinit var layoutManager: LinearLayoutManager
+
+    /** The active snackbar, if any */
+    // TODO: This shouldn't be necessary, the snackbar should dismiss itself if the layout
+    // changes. It doesn't, because the CoordinatorLayout is in the activity, not the fragment.
+    // I think the correct fix is to include the FAB in each fragment layout that needs it,
+    // ensuring that the outermost fragment view is a CoordinatorLayout. That will auto-dismiss
+    // the snackbar when the fragment is paused.
+    private var snackbar: Snackbar? = null
 
     private var isSwipeToRefreshEnabled = true
 
@@ -218,18 +227,18 @@ class TimelineFragment :
                                 error.throwable.localizedMessage
                                     ?: getString(R.string.ui_error_unknown)
                             )
-                            val snackbar = Snackbar.make(
+                            snackbar = Snackbar.make(
                                 // Without this the FAB will not move out of the way
                                 (activity as ActionButtonActivity).actionButton ?: binding.root,
                                 message,
                                 Snackbar.LENGTH_INDEFINITE
                             ).setTextMaxLines(5)
                             error.action?.let { action ->
-                                snackbar.setAction(R.string.action_retry) {
+                                snackbar!!.setAction(R.string.action_retry) {
                                     viewModel.accept(action)
                                 }
                             }
-                            snackbar.show()
+                            snackbar!!.show()
 
                             // The status view has pre-emptively updated its state to show
                             // that the action succeeded. Since it hasn't, re-bind the view
@@ -353,72 +362,49 @@ class TimelineFragment :
                         Log.d(TAG, "  source.refresh?: ${loadState.source.refresh}")
                         Log.d(TAG, "  mediator.refresh?: ${loadState.mediator?.refresh}")
 
+                        val listIsEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+
                         binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
                             !binding.swipeRefreshLayout.isRefreshing
                         binding.swipeRefreshLayout.isRefreshing =
                             loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
 
+                        binding.recyclerView.show()
                         binding.statusView.hide()
-                        binding.progressBar.hide()
 
-                        when (loadState.refresh) {
-                            is LoadState.NotLoading -> {
-                                if (adapter.itemCount == 0) {
-                                    if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
-                                        binding.statusView.show()
-                                        binding.statusView.setup(
-                                            R.drawable.elephant_friend_empty,
-                                            R.string.message_empty
-                                        )
-                                        if (timelineKind == TimelineKind.Home) {
-                                            binding.statusView.showHelp(R.string.help_empty_home)
-                                        }
-                                    }
-                                } else {
-                                    binding.statusView.hide()
-                                }
+                        if (listIsEmpty) {
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty
+                            )
+                            if (timelineKind == TimelineKind.Home) {
+                                binding.statusView.showHelp(R.string.help_empty_home)
                             }
-                            is LoadState.Error -> {
-                                val message = when ((loadState.refresh as LoadState.Error).error) {
-                                    is IOException -> R.string.error_network
-                                    else -> R.string.error_generic
-                                }
+                            binding.recyclerView.hide()
+                            binding.statusView.show()
+                            return@collect
+                        }
 
-                                if (adapter.itemCount == 0) {
-                                    if ((loadState.refresh as LoadState.Error).error is IOException) {
-                                        binding.statusView.setup(
-                                            R.drawable.elephant_offline,
-                                            message
-                                        ) {
-                                            onRefresh()
-                                        }
-                                    } else {
-                                        binding.statusView.setup(
-                                            R.drawable.elephant_error,
-                                            message
-                                        ) {
-                                            onRefresh()
-                                        }
-                                    }
-                                    binding.recyclerView.hide()
-                                    binding.statusView.show()
-                                } else {
-                                    Snackbar.make(
-                                        (activity as ActionButtonActivity).actionButton ?: binding.root,
-                                        getString(message),
-                                        Snackbar.LENGTH_INDEFINITE
-                                    )
-                                        .setTextMaxLines(5)
-                                        .setAction(R.string.action_retry) {
-                                            onRefresh()
-                                        }
-                                        .show()
-                                    binding.recyclerView.show()
-                                    binding.statusView.hide()
-                                }
-                            }
-                            is LoadState.Loading -> {
-                                binding.progressBar.show()
+                        if (loadState.refresh is LoadState.Error) {
+                            val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
+
+                            // Show errors as a snackbar if there is existing content to show
+                            // (either cached, or in the adapter), or as a full screen error
+                            // otherwise.
+                            if (viewModel is CachedTimelineViewModel || adapter.itemCount > 0) {
+                                snackbar = Snackbar.make(
+                                    (activity as ActionButtonActivity).actionButton ?: binding.root,
+                                    message,
+                                    Snackbar.LENGTH_INDEFINITE
+                                )
+                                    .setTextMaxLines(5)
+                                    .setAction(R.string.action_retry) { onRefresh() }
+                                snackbar!!.show()
+                            } else {
+                                binding.recyclerView.hide()
+                                val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
+                                binding.statusView.setup(drawableRes, message) { onRefresh() }
+                                binding.statusView.show()
                             }
                         }
                     }
@@ -463,7 +449,7 @@ class TimelineFragment :
     /**
      * Save the ID of the last visible status in the list
      */
-    private fun saveVisibleId() = layoutManager
+    fun saveVisibleId() = layoutManager
         .findLastCompletelyVisibleItemPosition()
         .takeIf { it != RecyclerView.NO_POSITION }
         ?.let { position ->
@@ -669,6 +655,7 @@ class TimelineFragment :
         super.onPause()
 
         saveVisibleId()
+        snackbar?.dismiss()
     }
 
     override fun onReselect() {
