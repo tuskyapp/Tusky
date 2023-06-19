@@ -64,7 +64,6 @@ import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -139,16 +138,7 @@ class ConversationsFragment :
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-
-                        if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                refreshContent()
-                            }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                refreshContent()
-                            }
-                        }
+                        binding.statusView.setup((loadState.refresh as LoadState.Error).error) { refreshContent() }
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()

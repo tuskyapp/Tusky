@@ -81,7 +81,6 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class NotificationsFragment :
@@ -418,20 +417,7 @@ class NotificationsFragment :
                         }
 
                         if (loadState.refresh is LoadState.Error) {
-                            when ((loadState.refresh as LoadState.Error).error) {
-                                is IOException -> {
-                                    binding.statusView.setup(
-                                        R.drawable.elephant_offline,
-                                        R.string.error_network
-                                    ) { adapter.retry() }
-                                }
-                                else -> {
-                                    binding.statusView.setup(
-                                        R.drawable.elephant_error,
-                                        R.string.error_generic
-                                    ) { adapter.retry() }
-                                }
-                            }
+                            binding.statusView.setup((loadState.refresh as LoadState.Error).error) { adapter.retry() }
                             binding.recyclerView.hide()
                             binding.statusView.show()
                         }

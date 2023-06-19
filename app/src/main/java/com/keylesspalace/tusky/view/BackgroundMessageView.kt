@@ -13,6 +13,8 @@ import androidx.annotation.StringRes
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ViewBackgroundMessageBinding
 import com.keylesspalace.tusky.util.addDrawables
+import com.keylesspalace.tusky.util.getDrawableRes
+import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.visible
 
 /**
@@ -35,16 +37,26 @@ class BackgroundMessageView @JvmOverloads constructor(
         }
     }
 
+    fun setup(throwable: Throwable, listener: ((v: View) -> Unit)? = null) {
+        setup(throwable.getDrawableRes(), throwable.getErrorString(context), listener)
+    }
+
+    fun setup(
+        @DrawableRes imageRes: Int,
+        @StringRes messageRes: Int,
+        clickListener: ((v: View) -> Unit)? = null
+    ) = setup(imageRes, context.getString(messageRes), clickListener)
+
     /**
      * Setup image, message and button.
      * If [clickListener] is `null` then the button will be hidden.
      */
     fun setup(
         @DrawableRes imageRes: Int,
-        @StringRes messageRes: Int,
+        message: String,
         clickListener: ((v: View) -> Unit)? = null
     ) {
-        binding.messageTextView.setText(messageRes)
+        binding.messageTextView.text = message
         binding.messageTextView.movementMethod = LinkMovementMethod.getInstance()
         binding.imageView.setImageResource(imageRes)
         binding.button.setOnClickListener(clickListener)
