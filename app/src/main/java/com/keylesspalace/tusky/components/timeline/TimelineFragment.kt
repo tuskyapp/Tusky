@@ -80,7 +80,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
@@ -354,7 +353,6 @@ class TimelineFragment :
 
                 // Update the UI from the combined load state
                 adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
                         Log.d(TAG, "loadState: $loadState")
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")

@@ -76,7 +76,6 @@ import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
@@ -394,7 +393,6 @@ class NotificationsFragment :
 
                 // Update the UI from the loadState
                 adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
                         binding.recyclerView.show()
                         binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
