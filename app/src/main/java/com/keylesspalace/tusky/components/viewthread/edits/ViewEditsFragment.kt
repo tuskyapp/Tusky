@@ -111,13 +111,28 @@ class ViewEditsFragment :
                         binding.statusView.show()
                         binding.initialProgressBar.hide()
 
-                        if (uiState.throwable is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                viewModel.loadEdits(statusId, force = true)
+                        when (uiState.throwable) {
+                            is IOException -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_offline,
+                                    R.string.error_network
+                                ) {
+                                    viewModel.loadEdits(statusId, force = true)
+                                }
                             }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                viewModel.loadEdits(statusId, force = true)
+                            is ViewEditsViewModel.MissingEditsException -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_friend_empty,
+                                    R.string.error_missing_edits
+                                )
+                            }
+                            else -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_error,
+                                    R.string.error_generic
+                                ) {
+                                    viewModel.loadEdits(statusId, force = true)
+                                }
                             }
                         }
                     }

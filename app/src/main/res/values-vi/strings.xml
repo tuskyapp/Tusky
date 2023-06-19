@@ -642,4 +642,6 @@
     <string name="select_list_manage">Quản lý danh sách</string>
     <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
     <string name="select_list_empty">Bạn chưa có danh sách</string>
+    <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
+    <string name="compose_delete_draft">Xóa bản nháp\?</string>
 </resources>

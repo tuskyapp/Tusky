@@ -760,10 +760,9 @@
 
     <!-- Reading order preference -->
 
-    <!--@Tusky edited 19th December 2022 13:37 -->
     <string name="status_edit_info">Edited: %1$s</string>
-    <!--@Tusky created 19th December 2022 13:12 -->
     <string name="status_created_info">Created: %1$s</string>
+    <string name="error_missing_edits">Your server knows that this post was edited, but does not have a copy of the edits, so they can\'t be shown to you.\n\nThis is <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="a11y_label_loading_thread">Loading thread</string>
 
     <!--@knossos@fosstodon.org created 2023-01-07 -->

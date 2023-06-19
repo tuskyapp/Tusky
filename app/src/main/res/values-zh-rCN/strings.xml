@@ -422,7 +422,7 @@
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">举报失败</string>
     <string name="failed_fetch_posts">无法获取嘟文</string>
-    <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此账户的原因的说明：</string>
+    <string name="report_description_1">举报将发送给你所在服务器的管理员。你可以在下面提供举报此账户的相关说明：</string>
     <string name="report_description_remote_instance">该账户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
     <string name="failed_search">搜索失败</string>
@@ -440,7 +440,7 @@
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找嘟文时出错 %s</string>
-    <string name="no_drafts">您没有草稿。</string>
+    <string name="no_drafts">你没有草稿</string>
     <string name="no_scheduled_posts">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
@@ -485,10 +485,10 @@
     <string name="review_notifications">反馈通知</string>
     <string name="wellbeing_hide_stats_posts">隐藏嘟文的统计信息</string>
     <string name="limit_notifications">限制时间线通知</string>
-    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括：
+    <string name="wellbeing_mode_notice">一些可能影响你精神状态的信息将被隐藏，包括：
 \n
 \n - 喜欢、转发、关注通知
-\n - 喜欢、转发数
+\n - 嘟文的喜欢、转发数
 \n - 账号的已关注数量、嘟文数量
 \n
 \n 推送通知不会被影响，但可以在通知设置中手动禁用。</string>
@@ -505,7 +505,7 @@
     <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
     <string name="pref_title_notification_filter_subscriptions">关注的人发布了新嘟文</string>
     <string name="notification_subscription_format">%s 刚刚发送了新嘟文</string>
-    <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
+    <string name="follow_requests_info">即使你的账号未上锁，但 %1$s 的管理员认为你可能需要手动处理这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
     <string name="action_delete_conversation">删除对话</string>
     <string name="pref_title_confirm_favourites">收藏前提示确认</string>
@@ -555,7 +555,7 @@
     <string name="delete_scheduled_post_warning">删除这条定时嘟文吗？</string>
     <string name="instance_rule_info">登录即表示您同意 %s 的规定。</string>
     <string name="instance_rule_title">%s 的规定</string>
-    <string name="compose_save_draft_loses_media">保存草稿？（当您恢复草稿时附件将被再次上传。）</string>
+    <string name="compose_save_draft_loses_media">保存草稿？（恢复草稿时附件将被再次上传）</string>
     <string name="failed_to_pin">固定失败</string>
     <string name="failed_to_unpin">取消固定失败</string>
     <string name="action_add_reaction">添加回应</string>
@@ -662,4 +662,7 @@
     <string name="select_list_empty">你还没有列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
     <string name="compose_delete_draft">删除草稿？</string>
+    <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。
+\n
+\n这是一个 <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>。</string>
 </resources>
