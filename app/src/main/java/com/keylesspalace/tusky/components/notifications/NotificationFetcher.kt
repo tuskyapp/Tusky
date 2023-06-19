@@ -11,8 +11,10 @@ import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isLessThan
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Fetch Mastodon notifications and show Android notifications, with summaries, for them.
@@ -79,7 +81,7 @@ class NotificationFetcher @Inject constructor(
                         // Android will rate limit / drop notifications if they're posted too
                         // quickly. There is no indication to the user that this happened.
                         // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-                        Thread.sleep(1000)
+                        delay(1000.milliseconds)
                     }
 
                     NotificationHelper.updateSummaryNotifications(
