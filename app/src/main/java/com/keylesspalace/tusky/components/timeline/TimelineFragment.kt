@@ -396,12 +396,12 @@ class TimelineFragment :
                                     Snackbar.LENGTH_INDEFINITE
                                 )
                                     .setTextMaxLines(5)
-                                    .setAction(R.string.action_retry) { onRefresh() }
+                                    .setAction(R.string.action_retry) { adapter.retry() }
                                 snackbar!!.show()
                             } else {
                                 binding.recyclerView.hide()
                                 val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
-                                binding.statusView.setup(drawableRes, message) { onRefresh() }
+                                binding.statusView.setup(drawableRes, message) { adapter.retry() }
                                 binding.statusView.show()
                             }
                         }
