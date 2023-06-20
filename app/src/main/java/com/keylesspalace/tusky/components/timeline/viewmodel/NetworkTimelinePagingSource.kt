@@ -55,17 +55,68 @@ class NetworkTimelinePagingSource @Inject constructor(
 
             return@synchronized when (params) {
                 is LoadParams.Refresh -> {
-                    // If no key then return the latest page. Otherwise return the request page.
+                    // If no key then return the latest page. Otherwise return the requested page.
                     if (params.key == null) {
                         pages.lastEntry()?.value
                     } else {
                         pages[params.key]
                     }
                 }
-                // Load the page immediately after the key
-                is LoadParams.Append -> pages.lowerEntry(params.key)?.value
-                // Load the page immediately before the key
-                is LoadParams.Prepend -> pages.higherEntry(params.key)?.value
+
+                // Loading previous / next pages (`Prepend` or `Append`) is a little complicated.
+                //
+                // `pages` is keyed by the ID of the first item in the list of data for that page.
+                // This is so that `Refresh` (above) is straightforward.
+                //
+                // Append and Prepend requests have a `params.key` that corresponds to the previous
+                // or next page. For some timeline types those keys are identical to the item
+                // keys and match the IDs of the first and last items in the data for that page.
+                //
+                // But for some timeline types they are completely different.
+                //
+                // For example, bookmarks might have item keys that look like 110542553707722778
+                // but prevKey / nextKey values that look like 1480606 / 1229303.
+                //
+                // There's no guarantee that the `nextKey` value for one page matches the `prevKey`
+                // value of the page immediately before it.
+                //
+                // E.g., suppose `pages` has the following entries (older entries have lower page
+                // indices).
+                //
+                // .--- page index
+                // |     .-- ID of first item (key in `pages`)
+                // v     V
+                // 0: k: 109934818460629189, prevKey: 995916, nextKey: 941865
+                // 1: k: 110033940961955385, prevKey: 1073324, nextKey: 997376
+                // 2: k: 110239564017438509, prevKey: 1224838, nextKey: 1073352
+                // 3: k: 110542553707722778, prevKey: 1480606, nextKey: 1229303
+                //
+                // And the request is `LoadParams.Append` with `params.key` == 1073352. This means
+                // "fetch the page *before* the page that has `nextKey` == 1073352".
+                //
+                // The desired page has index 1. But that can't be found directly, because although
+                // the page after it (index 2) points back to it with the `nextKey` value, the page
+                // at index 1 **does not** have a `prevKey` value of 1073352. There can be gaps in
+                // the `prevKey` / `nextKey` chain -- I assume this is a Mastodon implementation
+                // detail.
+                //
+                // Further, we can't assume anything about the structure of the keys.
+                //
+                // To find the correct page for Append we must:
+                //
+                // 1. Find the page that has a `nextKey` value that matches `params.key` (page 2)
+                // 2. Get that page's key ("110239564017438509")
+                // 3. Return the page with the key that is immediately lower than the key from step 2
+                //
+                // The approach for Prepend is the same, except it is `prevKey` that is checked.
+                is LoadParams.Append -> {
+                    pages.firstNotNullOfOrNull { entry -> entry.takeIf { it.value.nextKey == params.key }?.value }
+                        ?.let { page -> pages.lowerEntry(page.data.first().id)?.value }
+                }
+                is LoadParams.Prepend -> {
+                    pages.firstNotNullOfOrNull { entry -> entry.takeIf { it.value.prevKey == params.key }?.value }
+                        ?.let { page -> pages.higherEntry(page.data.first().id)?.value }
+                }
             }
         }
 

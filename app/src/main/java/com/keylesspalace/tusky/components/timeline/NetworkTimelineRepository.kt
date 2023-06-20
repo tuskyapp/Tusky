@@ -40,12 +40,13 @@ data class Page<Key : Any, Value : Any> constructor(
     /** Loaded data */
     val data: MutableList<Value>,
     /**
-     * [Key] for previous page if more data can be loaded in that direction, `null`
-     * otherwise.
+     * [Key] for previous page (newer results, PREPEND operation) if more data can be loaded in
+     * that direction, `null` otherwise.
      */
     val prevKey: Key? = null,
     /**
-     * [Key] for next page if more data can be loaded in that direction, `null` otherwise.
+     * [Key] for next page (older results, APPEND operation) if more data can be loaded in that
+     * direction, `null` otherwise.
      */
     val nextKey: Key? = null
 )
