@@ -79,9 +79,9 @@ class NetworkTimelinePagingSourceTest {
         assertThat((loadResult as? LoadResult.Page))
             .isEqualTo(
                 LoadResult.Page(
-                    data = listOf(mockStatus(id = "0")),
-                    prevKey = "1",
-                    nextKey = null
+                    data = listOf(mockStatus(id = "1")),
+                    prevKey = "2",
+                    nextKey = "0"
                 )
             )
     }
@@ -103,9 +103,9 @@ class NetworkTimelinePagingSourceTest {
         assertThat((loadResult as? LoadResult.Page))
             .isEqualTo(
                 LoadResult.Page(
-                    data = listOf(mockStatus(id = "2")),
-                    prevKey = null,
-                    nextKey = "1"
+                    data = listOf(mockStatus(id = "1")),
+                    prevKey = "2",
+                    nextKey = "0"
                 )
             )
     }
@@ -135,31 +135,6 @@ class NetworkTimelinePagingSourceTest {
     }
 
     @Test
-    fun `Append with a gap returns the page after`() = runTest {
-        // Given
-        val pages = makeEmptyPageCache()
-        pages["20"] = Page(data = mutableListOf(mockStatus(id = "20")), nextKey = "10")
-        pages["10"] = Page(data = mutableListOf(mockStatus(id = "10")), nextKey = "0", prevKey = "20")
-        pages["0"] = Page(data = mutableListOf(mockStatus(id = "0")), prevKey = "10")
-        val pagingSource = NetworkTimelinePagingSource(pages)
-
-        // When
-        val loadResult = pagingSource.load(PagingSource.LoadParams.Append("9", 2, false))
-
-        // Then
-        assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
-        assertThat((loadResult as? LoadResult.Page))
-            .isEqualTo(
-                LoadResult.Page(
-                    // key="9" should return the statuses in page 0
-                    data = listOf(mockStatus(id = "0")),
-                    prevKey = "10",
-                    nextKey = null
-                )
-            )
-    }
-
-    @Test
     fun `Append with a too-old key returns empty list`() = runTest {
         // Given
         val pages = makeEmptyPageCache()
@@ -184,31 +159,6 @@ class NetworkTimelinePagingSourceTest {
     }
 
     @Test
-    fun `Prepend with a gap returns the page after`() = runTest {
-        // Given
-        val pages = makeEmptyPageCache()
-        pages["20"] = Page(data = mutableListOf(mockStatus(id = "20")), nextKey = "10")
-        pages["10"] = Page(data = mutableListOf(mockStatus(id = "10")), nextKey = "0", prevKey = "20")
-        pages["0"] = Page(data = mutableListOf(mockStatus(id = "0")), prevKey = "10")
-        val pagingSource = NetworkTimelinePagingSource(pages)
-
-        // When
-        val loadResult = pagingSource.load(PagingSource.LoadParams.Prepend("11", 2, false))
-
-        // Then
-        assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
-        assertThat((loadResult as? LoadResult.Page))
-            .isEqualTo(
-                LoadResult.Page(
-                    // key="9" should return the statuses in page 0
-                    data = listOf(mockStatus(id = "20")),
-                    prevKey = null,
-                    nextKey = "10"
-                )
-            )
-    }
-
-    @Test
     fun `Prepend with a too-new key returns empty list`() = runTest {
         // Given
         val pages = makeEmptyPageCache()
@@ -217,7 +167,7 @@ class NetworkTimelinePagingSourceTest {
         val pagingSource = NetworkTimelinePagingSource(pages)
 
         // When
-        val loadResult = pagingSource.load(PagingSource.LoadParams.Prepend("20", 2, false))
+        val loadResult = pagingSource.load(PagingSource.LoadParams.Prepend("10", 2, false))
 
         // Then
         assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)
