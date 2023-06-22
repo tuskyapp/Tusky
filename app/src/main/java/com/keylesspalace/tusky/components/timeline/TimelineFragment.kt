@@ -429,7 +429,7 @@ class TimelineFragment :
             }
             R.id.action_load_newest -> {
                 viewModel.accept(InfallibleUiAction.LoadNewest)
-                adapter.refresh()
+                refreshContent()
                 true
             }
             else -> false
