@@ -362,13 +362,10 @@ class TimelineFragment :
 
                         val listIsEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
 
-                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
-                            !binding.swipeRefreshLayout.isRefreshing
-                        binding.swipeRefreshLayout.isRefreshing =
-                            loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
-
-                        binding.recyclerView.show()
-                        binding.statusView.hide()
+                        binding.statusView.isVisible = listIsEmpty
+                        binding.recyclerView.isVisible = adapter.itemCount != 0 || loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
+                        binding.progressBar.isVisible = loadState.mediator?.refresh is LoadState.Loading && listIsEmpty
+                        binding.swipeRefreshLayout.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
 
                         if (listIsEmpty) {
                             binding.statusView.setup(
@@ -378,8 +375,6 @@ class TimelineFragment :
                             if (timelineKind == TimelineKind.Home) {
                                 binding.statusView.showHelp(R.string.help_empty_home)
                             }
-                            binding.recyclerView.hide()
-                            binding.statusView.show()
                             return@collect
                         }
 
@@ -399,7 +394,6 @@ class TimelineFragment :
                                     .setAction(R.string.action_retry) { adapter.retry() }
                                 snackbar!!.show()
                             } else {
-                                binding.recyclerView.hide()
                                 val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
                                 binding.statusView.setup(drawableRes, message) { adapter.retry() }
                                 binding.statusView.show()
