@@ -340,7 +340,7 @@ class TimelineFragment :
                                     new.mediator?.prepend?.endOfPaginationReached.isTrue()
                             }
                             .filter {
-                                it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached && !it.append.endOfPaginationReached
+                                it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached
                             }
                             .collect {
                                 binding.recyclerView.post {
