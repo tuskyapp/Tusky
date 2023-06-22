@@ -427,8 +427,6 @@ class TimelineFragment :
         return when (menuItem.itemId) {
             R.id.action_refresh -> {
                 if (isSwipeToRefreshEnabled) {
-                    binding.swipeRefreshLayout.isRefreshing = true
-
                     refreshContent()
                     true
                 } else {
@@ -664,6 +662,7 @@ class TimelineFragment :
     }
 
     override fun refreshContent() {
+        binding.swipeRefreshLayout.isRefreshing = true
         onRefresh()
     }
 
