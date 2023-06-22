@@ -378,8 +378,8 @@ class TimelineFragment :
                             return@collect
                         }
 
-                        if (loadState.refresh is LoadState.Error) {
-                            val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
+                        if (loadState.mediator?.refresh is LoadState.Error) {
+                            val message = (loadState.mediator?.refresh as LoadState.Error).error.getErrorString(requireContext())
 
                             // Show errors as a snackbar if there is existing content to show
                             // (either cached, or in the adapter), or as a full screen error
