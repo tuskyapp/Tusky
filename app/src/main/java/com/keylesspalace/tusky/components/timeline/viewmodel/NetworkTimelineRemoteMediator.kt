@@ -91,9 +91,15 @@ class NetworkTimelineRemoteMediator(
 
             synchronized(pages) {
                 Log.d(TAG, "Inserting new page:")
-                Log.d(TAG, "     k: ${statuses.first().id}, prev: ${links.prev}, next: ${links.next}")
+                Log.d(TAG, "     k: ${links.prev}, prev: ${links.prev}, next: ${links.next}")
 
-                pages[statuses.first().id] = Page(
+                // Some API endpoints may not return pagination links (at the time of writing
+                // at least fetching an account's pinned statuses does not, see this bug report:
+                // https://github.com/mastodon/mastodon/issues/25555). If that happens fall back
+                // to the ID of the first item in the list.
+                val k = links.prev ?: statuses.first().id
+
+                pages[k] = Page(
                     data = statuses.toMutableList(),
                     nextKey = links.next,
                     prevKey = links.prev

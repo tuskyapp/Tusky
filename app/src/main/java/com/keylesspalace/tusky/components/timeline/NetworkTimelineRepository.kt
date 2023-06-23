@@ -60,9 +60,10 @@ class NetworkTimelineRepository @Inject constructor(
     /**
      * Cached pages of statuses.
      *
-     * Each page is keyed by the ID of the first status in that page, and stores the tokens
-     * use as `max_id` and `min_id` parameters in API calls to fetch pages before/after this
-     * one.
+     * Each page is (generally) keyed by value of the `prev` key in the `Link` header for this page,
+     * as making the request .../max_id={prev} should also fetch this page. In the case of API
+     * responses that are not paginated (so don't have a `Link` header and consist of a single
+     * page) the key is the ID of the first (newest) entry in the data.
      *
      * In Pager3 parlance, an "append" operation is fetching a chronologically *older* page of
      * statuses using `nextKey`, a "prepend" operation is fetching a chronologically *newer*
@@ -178,8 +179,6 @@ class NetworkTimelineRepository @Inject constructor(
         /**
          * Creates an empty page cache with a comparator that ensures keys are compared first
          * by length, then by natural order.
-         *
-         * The map key is the ID of the newest status in the page it maps to.
          */
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun makeEmptyPageCache() = TreeMap<String, Page<String, Status>>(compareBy({ it.length }, { it }))
