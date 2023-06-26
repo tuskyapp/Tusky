@@ -167,7 +167,7 @@ class NetworkTimelinePagingSourceTest {
         val pagingSource = NetworkTimelinePagingSource(pages)
 
         // When
-        val loadResult = pagingSource.load(PagingSource.LoadParams.Prepend("10", 2, false))
+        val loadResult = pagingSource.load(PagingSource.LoadParams.Prepend("21", 2, false))
 
         // Then
         assertThat(loadResult).isInstanceOf(LoadResult.Page::class.java)

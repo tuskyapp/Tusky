@@ -129,7 +129,7 @@ class NetworkTimelineRemoteMediatorTest {
 
         // Then
         val expectedPages = makeEmptyPageCache()
-        expectedPages["7"] = Page(
+        expectedPages["5"] = Page(
             data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
             prevKey = "7",
             nextKey = "5"
@@ -148,7 +148,7 @@ class NetworkTimelineRemoteMediatorTest {
     fun `should prepend statuses`() = runTest {
         // Given
         val pages = makeEmptyPageCache().apply {
-            this["7"] = Page(
+            this["5"] = Page(
                 data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
                 prevKey = "7",
                 nextKey = "5"
@@ -186,12 +186,12 @@ class NetworkTimelineRemoteMediatorTest {
 
         // Then
         val expectedPages = makeEmptyPageCache().apply {
-            this["7"] = Page(
+            this["5"] = Page(
                 data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
                 prevKey = "7",
                 nextKey = "5"
             )
-            this["10"] = Page(
+            this["8"] = Page(
                 data = mutableListOf(mockStatus("10"), mockStatus("9"), mockStatus("8")),
                 prevKey = "10",
                 nextKey = "8"
@@ -211,7 +211,7 @@ class NetworkTimelineRemoteMediatorTest {
     fun `should append statuses`() = runTest {
         // Given
         val pages = makeEmptyPageCache().apply {
-            this["7"] = Page(
+            this["5"] = Page(
                 data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
                 prevKey = "7",
                 nextKey = "5"
@@ -249,12 +249,12 @@ class NetworkTimelineRemoteMediatorTest {
 
         // Then
         val expectedPages = makeEmptyPageCache().apply {
-            this["7"] = Page(
+            this["5"] = Page(
                 data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
                 prevKey = "7",
                 nextKey = "5"
             )
-            this["4"] = Page(
+            this["2"] = Page(
                 data = mutableListOf(mockStatus("4"), mockStatus("3"), mockStatus("2")),
                 prevKey = "4",
                 nextKey = "2"

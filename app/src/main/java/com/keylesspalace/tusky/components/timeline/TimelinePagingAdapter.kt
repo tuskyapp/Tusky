@@ -96,7 +96,7 @@ class TimelinePagingAdapter(
                 oldItem: StatusViewData,
                 newItem: StatusViewData
             ): Boolean {
-                return false // Items are different always. It allows to refresh timestamp on every view holder update
+                return oldItem == newItem
             }
 
             override fun getChangePayload(

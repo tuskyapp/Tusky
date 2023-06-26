@@ -23,6 +23,7 @@ import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.components.timeline.Page
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
@@ -46,10 +47,7 @@ class NetworkTimelineRemoteMediator(
 
     private val activeAccount = accountManager.activeAccount!!
 
-    override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<String, Status>
-    ): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<String, Status>): MediatorResult {
         if (!activeAccount.isLoggedIn()) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
@@ -58,18 +56,20 @@ class NetworkTimelineRemoteMediator(
 
         return try {
             val key = when (loadType) {
-                LoadType.REFRESH ->
-                    // Refresh from the page immediately after the newest page
-                    pages.lastEntry()?.value?.prevKey
+                LoadType.REFRESH -> {
+                    Log.d(TAG, "  anchorPosition: ${state.anchorPosition}")
+                    // Find the closest page to the current position
+                    val key = state.anchorPosition?.let { state.closestPageToPosition(it) }?.data?.last()?.id
+                    Log.d(TAG, "  Refreshing page with last id: $key")
+
+                    // Use its prevKey to refresh this page
+                    key?.let { pages.lowerEntry(it)?.value?.prevKey }
+                }
                 LoadType.APPEND -> {
-                    Log.d(TAG, "  firstEntry: ${pages.firstEntry()?.key}")
-                    pages.firstEntry()?.value?.nextKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    pages.firstEntry()?.value?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.PREPEND -> {
-                    Log.d(TAG, "  lastEntry: ${pages.lastEntry()?.key}")
-                    pages.lastEntry()?.value?.prevKey
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    pages.lastEntry()?.value?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
 
@@ -85,31 +85,68 @@ class NetworkTimelineRemoteMediator(
 
             Log.d(TAG, "  ${statuses.size} - # statuses loaded")
 
-            if (statuses.isEmpty()) {
-                return MediatorResult.Success(endOfPaginationReached = true)
+            if (BuildConfig.DEBUG && loadType == LoadType.REFRESH) {
+                state.anchorPosition?.let { state.closestPageToPosition(it) }?.data?.last()?.id?.let { expectedPage ->
+                    if (pages[expectedPage]?.data?.size == statuses.size) {
+                        Log.d(TAG, "  Refresh has same data size")
+                        if (pages[expectedPage]?.data?.last()?.id == statuses.last().id) {
+                            Log.d(TAG, "  ... and they have the same last ID")
+                        } else {
+                            throw IllegalStateException("  Last IDs do not match, got: ${statuses.last().id}, want: $expectedPage")
+                        }
+                    } else {
+                        Log.d(TAG, "  Refresh has different data size!")
+                    }
+                    statuses.lastOrNull { it.id == expectedPage }
+                        ?: throw IllegalStateException("  Refreshed page does not contain $expectedPage")
+                    Log.d(TAG, "  Page contains $expectedPage")
+                }
             }
 
-            synchronized(pages) {
-                Log.d(TAG, "Inserting new page:")
-                Log.d(TAG, "     k: ${links.prev}, prev: ${links.prev}, next: ${links.next}")
+            if (statuses.isNotEmpty()) {
+                synchronized(pages) {
+                    if (loadType == LoadType.REFRESH) {
+                        pages.clear()
+                    }
 
-                // Some API endpoints may not return pagination links (at the time of writing
-                // at least fetching an account's pinned statuses does not, see this bug report:
-                // https://github.com/mastodon/mastodon/issues/25555). If that happens fall back
-                // to the ID of the first item in the list.
-                val k = links.prev ?: statuses.first().id
+                    val k = statuses.last().id
 
-                pages[k] = Page(
-                    data = statuses.toMutableList(),
-                    nextKey = links.next,
-                    prevKey = links.prev
-                )
-                Log.d(TAG, "  Page $loadType complete for $timelineKind, now got ${pages.size} pages")
+                    Log.d(TAG, "Inserting new page:")
+                    Log.d(TAG, "     k: $k, prev: ${links.prev}, next: ${links.next}, size: ${statuses.size}")
+
+                    pages[k] = Page(
+                        data = statuses.toMutableList(),
+                        nextKey = links.next,
+                        prevKey = links.prev
+                    )
+                    Log.d(
+                        TAG,
+                        "  Page $loadType complete for $timelineKind, now got ${pages.size} pages"
+                    )
+                    pages.onEachIndexed { i, entry ->
+                        Log.d(
+                            TAG,
+                            "  $i: k: ${entry.key}, prev: ${entry.value.prevKey}, next: ${entry.value.nextKey}, size: ${entry.value.data.size}, range: ${entry.value.data.first().id}..${entry.value.data.last().id}"
+                        )
+                    }
+
+                    // There should never be duplicate items across all the pages. Enforce this
+                    // in debug mode.
+                    if (BuildConfig.DEBUG) {
+                        val ids = buildList<String> {
+                            this.addAll(pages.map { entry -> entry.value.data.map { it.id } }.flatten())
+                        }
+                        val groups = ids.groupingBy { it }.eachCount().filter { it.value > 1 }
+                        if (groups.isNotEmpty()) {
+                            throw IllegalStateException("Duplicate item IDs in results!: $groups")
+                        }
+                    }
+                }
+                Log.d(TAG, "  Invalidating source")
+                factory.invalidate()
             }
-            Log.d(TAG, "  Invalidating source")
-            factory.invalidate()
 
-            return MediatorResult.Success(endOfPaginationReached = false)
+            return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {

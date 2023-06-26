@@ -91,7 +91,7 @@ class NetworkTimelineRepository @Inject constructor(
         }
 
         return Pager(
-            config = PagingConfig(pageSize = pageSize),
+            config = PagingConfig(pageSize = pageSize, initialLoadSize = pageSize),
             remoteMediator = NetworkTimelineRemoteMediator(
                 mastodonApi,
                 accountManager,
