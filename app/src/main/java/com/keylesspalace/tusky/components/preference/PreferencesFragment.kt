@@ -101,7 +101,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 sliderPreference {
-                    key = PrefKeys.UI_SCALE_RATIO
+                    key = PrefKeys.UI_TEXT_SCALE_RATIO
                     setDefaultValue(100F)
                     valueTo = 150F
                     valueFrom = 50F

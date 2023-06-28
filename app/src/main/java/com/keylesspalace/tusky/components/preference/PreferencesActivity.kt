@@ -153,7 +153,7 @@ class PreferencesActivity :
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }
-            PrefKeys.UI_SCALE_RATIO -> {
+            PrefKeys.UI_TEXT_SCALE_RATIO -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }
@@ -181,7 +181,8 @@ class PreferencesActivity :
     override fun androidInjector() = androidInjector
 
     companion object {
-        const val TAG = "PreferencesActivity"
+        @Suppress("unused")
+        private const val TAG = "PreferencesActivity"
         const val GENERAL_PREFERENCES = 0
         const val ACCOUNT_PREFERENCES = 1
         const val NOTIFICATION_PREFERENCES = 2

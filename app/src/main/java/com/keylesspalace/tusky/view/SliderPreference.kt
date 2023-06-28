@@ -175,11 +175,11 @@ class SliderPreference @JvmOverloads constructor(
     }
 
     companion object {
-        const val TAG = "FloatSeekBarPreference"
-        const val defaultValueFrom = 0F
-        const val defaultValueTo = 1F
-        const val defaultValue = 0.5F
-        const val defaultStepSize = 0.1F
-        const val defaultFormat = "%3.1f"
+        private const val TAG = "SliderPreference"
+        private const val defaultValueFrom = 0F
+        private const val defaultValueTo = 1F
+        private const val defaultValue = 0.5F
+        private const val defaultStepSize = 0.1F
+        private const val defaultFormat = "%3.1f"
     }
 }

@@ -102,6 +102,6 @@ object PrefKeys {
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
 
-    /** UI scaling factor, stored as float, 100 = 100% = no scaling */
-    const val UI_SCALE_RATIO = "uiScaleRatio"
+    /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
+    const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
 }
