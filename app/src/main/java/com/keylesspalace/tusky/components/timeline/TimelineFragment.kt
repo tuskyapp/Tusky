@@ -86,6 +86,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 class TimelineFragment :
     SFragment(),
@@ -185,17 +186,9 @@ class TimelineFragment :
          */
         // TODO: Copied from NotificationsFragment
         val updateTimestampFlow = flow {
-            while (true) { delay(60000); emit(Unit) }
+            while (true) { delay(60.seconds); emit(Unit) }
         }.onEach {
-            layoutManager.findFirstVisibleItemPosition().let { first ->
-                first == RecyclerView.NO_POSITION && return@let
-                val count = layoutManager.findLastVisibleItemPosition() - first
-                adapter.notifyItemRangeChanged(
-                    first,
-                    count,
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                )
-            }
+            adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
