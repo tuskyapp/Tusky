@@ -399,15 +399,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected void setIsReply(boolean isReply) {
-        if (isReply) {
-            replyButton.setImageResource(R.drawable.ic_reply_all_24dp);
-        } else {
-            replyButton.setImageResource(R.drawable.ic_reply_24dp);
-        }
-
-    }
-
     protected void setReplyCount(int repliesCount, boolean fullStats) {
         // This label only exists in the non-detailed view (to match the web ui)
         if (replyCountLabel == null) return;
@@ -769,20 +760,20 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupWithStatus(@NonNull StatusViewData.Concrete status, final @NonNull StatusActionListener listener,
-                                @NonNull StatusDisplayOptions statusDisplayOptions) {
-        this.setupWithStatus(status, listener, statusDisplayOptions, null);
+                                @NonNull StatusDisplayOptions statusDisplayOptions, boolean showStatusInfo) {
+        this.setupWithStatus(status, listener, statusDisplayOptions, null, showStatusInfo);
     }
 
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads) {
+                                @Nullable Object payloads,
+                                boolean showStatusInfo) {
         if (payloads == null) {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(actionable.getAccount().getUsername());
             setMetaData(status, statusDisplayOptions, listener);
-            setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount(), statusDisplayOptions.showStatsInline());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
                 actionable.getAccount().getBot(), statusDisplayOptions);

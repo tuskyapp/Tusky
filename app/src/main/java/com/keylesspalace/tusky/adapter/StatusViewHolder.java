@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NumberUtils;
@@ -38,6 +39,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.Collections;
 import java.util.List;
 
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -63,21 +65,37 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads) {
+                                @Nullable Object payloads,
+                                boolean showStatusInfo) {
         if (payloads == null) {
-
             boolean sensitive = !TextUtils.isEmpty(status.getActionable().getSpoilerText());
             boolean expanded = status.isExpanded();
 
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            if (reblogging == null || status.getFilterAction() == Filter.Action.WARN) {
+            boolean isReply = status.getStatus().getInReplyToId() != null;
+            boolean isReplyOnly = isReply && reblogging == null;
+
+            boolean hasStatusContext = reblogging != null || isReply;
+
+            if (!hasStatusContext || !showStatusInfo || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
-                String rebloggedByDisplayName = reblogging.getAccount().getName();
-                setRebloggedByDisplayName(rebloggedByDisplayName,
-                        reblogging.getAccount().getEmojis(), statusDisplayOptions);
+                String accountName = "";
+                List<Emoji> emojis = Collections.emptyList();
+                if (reblogging != null) {
+                    accountName = reblogging.getAccount().getName();
+                    emojis = reblogging.getAccount().getEmojis();
+                } else if (isReply) {
+                    TimelineAccount repliedTo = status.getInReplyToAccount();
+                    if (repliedTo != null) {
+                        accountName = repliedTo.getName();
+                        emojis = repliedTo.getEmojis();
+                    }
+                }
+
+                setStatusInfoText(isReplyOnly, accountName, emojis, statusDisplayOptions);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
             }
 
@@ -88,19 +106,27 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         setFavouritedCount(status.getActionable().getFavouritesCount());
         setReblogsCount(status.getActionable().getReblogsCount());
 
-        super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
+        super.setupWithStatus(status, listener, statusDisplayOptions, payloads, showStatusInfo);
     }
 
-    private void setRebloggedByDisplayName(final CharSequence name,
-                                           final List<Emoji> accountEmoji,
-                                           final StatusDisplayOptions statusDisplayOptions) {
+    private void setStatusInfoText(final boolean isReply,
+                                   final CharSequence name,
+                                   final List<Emoji> accountEmoji,
+                                   final StatusDisplayOptions statusDisplayOptions) {
+
         Context context = statusInfo.getContext();
-        CharSequence wrappedName = StringUtils.unicodeWrap(name);
-        CharSequence boostedText = context.getString(R.string.post_boosted_format, wrappedName);
-        CharSequence emojifiedText = CustomEmojiHelper.emojify(
-                boostedText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
-        );
-        statusInfo.setText(emojifiedText);
+        if (name.length() > 0) {
+            CharSequence wrappedName = StringUtils.unicodeWrap(name);
+            CharSequence statusContextText = context.getString(isReply ? R.string.post_replied_format : R.string.post_boosted_format, wrappedName);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(
+                statusContextText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
+            );
+            statusInfo.setText(emojifiedText);
+        } else {
+            statusInfo.setText(context.getString(R.string.post_replied));
+        }
+        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_18dp : R.drawable.ic_reblog_18dp, 0, 0, 0);
+
         statusInfo.setVisibility(View.VISIBLE);
     }
 

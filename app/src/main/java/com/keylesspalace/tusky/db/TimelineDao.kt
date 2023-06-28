@@ -44,17 +44,22 @@ s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt, s.editedAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.repliesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.tags, s.application, s.reblogServerId,s.reblogAccountId,
 s.content, s.attachments, s.poll, s.card, s.muted, s.expanded, s.contentShowing, s.contentCollapsed, s.pinned, s.language, s.filtered,
-a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
-a.localUsername as 'a_localUsername', a.username as 'a_username',
-a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
-a.emojis as 'a_emojis', a.bot as 'a_bot',
-rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
-rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
-rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
-rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
+author.serverId as 'author_serverId', author.timelineUserId as 'author_timelineUserId',
+author.localUsername as 'author_localUsername', author.username as 'author_username',
+author.displayName as 'author_displayName', author.url as 'author_url', author.avatar as 'author_avatar',
+author.emojis as 'author_emojis', author.bot as 'author_bot',
+replied.serverId as 'replied_serverId', replied.timelineUserId 'replied_timelineUserId',
+replied.localUsername as 'replied_localUsername', replied.username as 'replied_username',
+replied.displayName as 'replied_displayName', replied.url as 'replied_url', replied.avatar as 'replied_avatar',
+replied.emojis as 'replied_emojis', replied.bot as 'replied_bot',
+reblogger.serverId as 'reblogger_serverId', reblogger.timelineUserId 'reblogger_timelineUserId',
+reblogger.localUsername as 'reblogger_localUsername', reblogger.username as 'reblogger_username',
+reblogger.displayName as 'reblogger_displayName', reblogger.url as 'reblogger_url', reblogger.avatar as 'reblogger_avatar',
+reblogger.emojis as 'reblogger_emojis', reblogger.bot as 'reblogger_bot'
 FROM TimelineStatusEntity s
-LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
-LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+LEFT JOIN TimelineAccountEntity author ON (s.timelineUserId = author.timelineUserId AND s.authorServerId = author.serverId)
+LEFT JOIN TimelineAccountEntity replied ON (s.inReplyToAccountId = replied.serverId)
+LEFT JOIN TimelineAccountEntity reblogger ON (s.timelineUserId = reblogger.timelineUserId AND s.reblogAccountId = reblogger.serverId)
 WHERE s.timelineUserId = :account
 ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     )
@@ -67,17 +72,22 @@ s.authorServerId, s.inReplyToId, s.inReplyToAccountId, s.createdAt, s.editedAt,
 s.emojis, s.reblogsCount, s.favouritesCount, s.repliesCount, s.reblogged, s.favourited, s.bookmarked, s.sensitive,
 s.spoilerText, s.visibility, s.mentions, s.tags, s.application, s.reblogServerId,s.reblogAccountId,
 s.content, s.attachments, s.poll, s.card, s.muted, s.expanded, s.contentShowing, s.contentCollapsed, s.pinned, s.language, s.filtered,
-a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
-a.localUsername as 'a_localUsername', a.username as 'a_username',
-a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
-a.emojis as 'a_emojis', a.bot as 'a_bot',
-rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
-rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
-rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
-rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
+author.serverId as 'author_serverId', author.timelineUserId as 'author_timelineUserId',
+author.localUsername as 'author_localUsername', author.username as 'author_username',
+author.displayName as 'author_displayName', author.url as 'author_url', author.avatar as 'author_avatar',
+author.emojis as 'author_emojis', author.bot as 'author_bot',
+replied.serverId as 'replied_serverId', replied.timelineUserId 'replied_timelineUserId',
+replied.localUsername as 'replied_localUsername', replied.username as 'replied_username',
+replied.displayName as 'replied_displayName', replied.url as 'replied_url', replied.avatar as 'replied_avatar',
+replied.emojis as 'replied_emojis', replied.bot as 'replied_bot',
+reblogger.serverId as 'reblogger_serverId', reblogger.timelineUserId 'reblogger_timelineUserId',
+reblogger.localUsername as 'reblogger_localUsername', reblogger.username as 'reblogger_username',
+reblogger.displayName as 'reblogger_displayName', reblogger.url as 'reblogger_url', reblogger.avatar as 'reblogger_avatar',
+reblogger.emojis as 'reblogger_emojis', reblogger.bot as 'reblogger_bot'
 FROM TimelineStatusEntity s
-LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
-LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+LEFT JOIN TimelineAccountEntity author ON (s.timelineUserId = author.timelineUserId AND s.authorServerId = author.serverId)
+LEFT JOIN TimelineAccountEntity replied ON (s.inReplyToAccountId = replied.serverId)
+LEFT JOIN TimelineAccountEntity reblogger ON (s.timelineUserId = reblogger.timelineUserId AND s.reblogAccountId = reblogger.serverId)
 WHERE (s.serverId = :statusId OR s.reblogServerId = :statusId)
 AND s.authorServerId IS NOT NULL
 AND s.timelineUserId = :accountId"""

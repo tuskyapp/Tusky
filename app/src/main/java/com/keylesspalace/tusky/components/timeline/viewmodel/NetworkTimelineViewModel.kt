@@ -29,6 +29,7 @@ import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -41,6 +42,7 @@ import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +62,9 @@ class NetworkTimelineViewModel @Inject constructor(
     eventHub: EventHub,
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
-    filterModel: FilterModel
+    filterModel: FilterModel,
+    private val db: AppDatabase,
+    private val moshi: Moshi,
 ) : TimelineViewModel(
     timelineCases,
     api,
@@ -86,7 +90,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 currentSource = source
             }
         },
-        remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
+        remoteMediator = NetworkTimelineRemoteMediator(accountManager, this, db, moshi)
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->

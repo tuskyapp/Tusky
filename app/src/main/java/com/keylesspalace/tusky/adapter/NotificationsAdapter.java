@@ -194,7 +194,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                         if (payloads == null) {
                             holder.showStatusContent(true);
                         }
-                        holder.setupWithStatus(status, statusListener, statusDisplayOptions, payloadForHolder);
+                        holder.setupWithStatus(status, statusListener, statusDisplayOptions, payloadForHolder, true);
                     }
                     if (concreteNotification.getType() == Notification.Type.POLL) {
                         holder.setPollInfo(accountId.equals(concreteNotification.getAccount().getId()));

@@ -38,6 +38,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -49,10 +50,12 @@ fun Status.toViewData(
     isExpanded: Boolean,
     isCollapsed: Boolean,
     isDetailed: Boolean = false,
+    inReplyToAccount: TimelineAccount? = null,
     translation: TranslationViewData? = null,
 ): StatusViewData.Concrete {
     return StatusViewData.Concrete(
         status = this,
+        inReplyToAccount = inReplyToAccount,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
@@ -71,6 +74,7 @@ fun Notification.toViewData(
         this.type,
         this.id,
         this.account,
+        // TODO? account null implementation gap; and other locations:
         this.status?.toViewData(isShowingContent, isExpanded, isCollapsed),
         this.report
     )

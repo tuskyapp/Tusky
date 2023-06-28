@@ -61,6 +61,7 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract ConversationsDao conversationDao();
     @NonNull public abstract TimelineDao timelineDao();
     @NonNull public abstract DraftDao draftDao();
+    @NonNull public abstract TimelineAccountDao timelineAccountDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
