@@ -106,8 +106,6 @@ class NetworkTimelinePagingSource @Inject constructor(
             Log.d(TAG, "  Returning full page:")
             Log.d(TAG, "    $page")
         }
-        val result = LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
-        Log.d(TAG, "  result: $result")
         return LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
     }
 
