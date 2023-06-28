@@ -769,14 +769,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupWithStatus(@NonNull StatusViewData.Concrete status, final @NonNull StatusActionListener listener,
-                                @NonNull StatusDisplayOptions statusDisplayOptions) {
-        this.setupWithStatus(status, listener, statusDisplayOptions, null);
+                                @NonNull StatusDisplayOptions statusDisplayOptions, boolean showStatusInfo) {
+        this.setupWithStatus(status, listener, statusDisplayOptions, null, showStatusInfo);
     }
 
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads) {
+                                @Nullable Object payloads,
+                                boolean showStatusInfo) {
         if (payloads == null) {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
