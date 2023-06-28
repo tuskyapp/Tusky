@@ -31,6 +31,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,12 +76,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import isTrue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
@@ -326,20 +324,70 @@ class TimelineFragment :
                 // finished (so that DiffUtil has had a chance to process the data). See
                 // https://github.com/googlecodelabs/android-paging/issues/149
                 launch {
+                    var old: CombinedLoadStates? = null
+                    var refreshComplete = false
+
                     if (isSwipeToRefreshEnabled) {
                         adapter.loadStateFlow
-                            .distinctUntilChanged { old, new ->
-                                old.mediator?.prepend?.endOfPaginationReached.isTrue() &&
-                                    new.mediator?.prepend?.endOfPaginationReached.isTrue()
-                            }
-                            .filter {
-                                it.refresh is LoadState.NotLoading && it.prepend.endOfPaginationReached
-                            }
                             .collect {
-                                binding.recyclerView.post {
-                                    getView() ?: return@post
-                                    binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                                if (old == null) {
+                                    Log.d("loadState", "No previous loadState")
+                                    old = it
+                                    return@collect
                                 }
+
+                                if (old?.refresh != it.refresh) {
+                                    Log.d("loadState", "refresh: ${old?.refresh} -> ${it.refresh}")
+                                }
+
+                                if (old?.prepend != it.prepend) {
+                                    Log.d("loadState", "prepend: ${old?.prepend} -> ${it.prepend}")
+                                }
+
+                                if (old?.append != it.append) {
+                                    Log.d("loadState", "append: ${old?.append} -> ${it.append}")
+                                }
+
+                                if (old?.source?.refresh != it.source.refresh) {
+                                    Log.d("loadState", "  source.refresh: ${old?.source?.refresh} -> ${it.source.refresh}")
+                                }
+
+                                if (old?.source?.prepend != it.source.prepend) {
+                                    Log.d("loadState", "  source.prepend: ${old?.source?.prepend} -> ${it.source.prepend}")
+                                }
+
+                                if (old?.source?.append != it.source.append) {
+                                    Log.d("loadState", "  source.append: ${old?.source?.append} -> ${it.source.append}")
+                                }
+
+                                if (old?.mediator?.refresh != it.mediator?.refresh) {
+                                    Log.d("loadState", "  mediator.refresh: ${old?.mediator?.refresh} -> ${it.mediator?.refresh}")
+                                }
+
+                                if (old?.mediator?.prepend != it.mediator?.prepend) {
+                                    Log.d("loadState", "  mediator.prepend: ${old?.mediator?.prepend} -> ${it.mediator?.prepend}")
+                                }
+
+                                if (old?.mediator?.append != it.mediator?.append) {
+                                    Log.d("loadState", "  mediator.append: ${old?.mediator?.append} -> ${it.mediator?.append}")
+                                }
+
+                                if (!refreshComplete) {
+                                    refreshComplete =
+                                        old?.refresh is LoadState.Loading && it.refresh is LoadState.NotLoading
+                                }
+
+                                if (refreshComplete) {
+                                    if (old?.prepend is LoadState.Loading && it.prepend is LoadState.NotLoading) {
+                                        refreshComplete = false
+                                        Log.d("loadState", "mediator.prepend=NotLoading, scrolling to peek")
+                                        binding.recyclerView.post {
+                                            getView() ?: return@post
+                                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                                        }
+                                    }
+                                }
+                                old = it
                             }
                     }
                 }
@@ -347,7 +395,7 @@ class TimelineFragment :
                 // Update the UI from the combined load state
                 adapter.loadStateFlow
                     .collect { loadState ->
-                        Log.d(TAG, "loadState: $loadState")
+//                        Log.d(TAG, "loadState: $loadState")
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
                         Log.d(TAG, "  refresh?: ${loadState.refresh}")
                         Log.d(TAG, "  source.refresh?: ${loadState.source.refresh}")

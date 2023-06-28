@@ -37,14 +37,14 @@ class NetworkTimelinePagingSource @Inject constructor(
                 return@synchronized null
             }
 
-            return@synchronized when (params) {
+            when (params) {
                 is LoadParams.Refresh -> {
-                    // If no key then return the latest page. Otherwise return the requested page.
-                    if (params.key == null) {
-                        pageCache.lastEntry()?.value
-                    } else {
-                        pageCache[params.key] ?: pageCache.lowerEntry(params.key)?.value
-                    }
+                    // If no key then return the latest page
+                    params.key ?: return@synchronized pageCache.lastEntry()?.value
+
+                    // Return the page after. If you don't do this (i.e., return pageCache[params.key])
+                    // the page above animates down in a distracting manner.
+                    return@synchronized pageCache.lowerEntry(params.key)?.value
                 }
                 // Loading previous / next pages (`Prepend` or `Append`) is a little complicated.
                 //
