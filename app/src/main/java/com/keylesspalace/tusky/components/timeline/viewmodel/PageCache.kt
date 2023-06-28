@@ -111,13 +111,11 @@ class PageCache : TreeMap<String, Page>(compareBy({ it.length }, { it })) {
      */
     fun debug() {
         Log.d(TAG, "Page cache state:")
-        synchronized(this) {
-            if (this.isEmpty()) {
-                Log.d(TAG, "  ** empty **")
-            } else {
-                this.onEachIndexed { index, entry ->
-                    Log.d(TAG, "  $index: ${entry.value}")
-                }
+        if (this.isEmpty()) {
+            Log.d(TAG, "  ** empty **")
+        } else {
+            this.onEachIndexed { index, entry ->
+                Log.d(TAG, "  $index: ${entry.value}")
             }
         }
     }
