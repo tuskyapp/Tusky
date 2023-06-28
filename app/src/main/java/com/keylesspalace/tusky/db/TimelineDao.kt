@@ -45,13 +45,18 @@ a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
 a.emojis as 'a_emojis', a.bot as 'a_bot',
-rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
-rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
-rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
-rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
+rp.serverId as 'rp_serverId', rp.timelineUserId 'rp_timelineUserId',
+rp.localUsername as 'rp_localUsername', rp.username as 'rp_username',
+rp.displayName as 'rp_displayName', rp.url as 'rp_url', rp.avatar as 'rp_avatar',
+rp.emojis as 'rp_emojis', rp.bot as 'rp_bot',
+bo.serverId as 'bo_serverId', bo.timelineUserId 'bo_timelineUserId',
+bo.localUsername as 'bo_localUsername', bo.username as 'bo_username',
+bo.displayName as 'bo_displayName', bo.url as 'bo_url', bo.avatar as 'bo_avatar',
+bo.emojis as 'bo_emojis', bo.bot as 'bo_bot'
 FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
-LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+LEFT JOIN TimelineAccountEntity rp ON (s.inReplyToAccountId = rp.serverId)
+LEFT JOIN TimelineAccountEntity bo ON (s.timelineUserId = bo.timelineUserId AND s.reblogAccountId = bo.serverId)
 WHERE s.timelineUserId = :account
 ORDER BY LENGTH(s.serverId) DESC, s.serverId DESC"""
     )
@@ -68,13 +73,18 @@ a.serverId as 'a_serverId', a.timelineUserId as 'a_timelineUserId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
 a.emojis as 'a_emojis', a.bot as 'a_bot',
-rb.serverId as 'rb_serverId', rb.timelineUserId 'rb_timelineUserId',
-rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
-rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
-rb.emojis as 'rb_emojis', rb.bot as 'rb_bot'
+rp.serverId as 'rp_serverId', rp.timelineUserId 'rp_timelineUserId',
+rp.localUsername as 'rp_localUsername', rp.username as 'rp_username',
+rp.displayName as 'rp_displayName', rp.url as 'rp_url', rp.avatar as 'rp_avatar',
+rp.emojis as 'rp_emojis', rp.bot as 'rp_bot',
+bo.serverId as 'bo_serverId', bo.timelineUserId 'bo_timelineUserId',
+bo.localUsername as 'bo_localUsername', bo.username as 'bo_username',
+bo.displayName as 'bo_displayName', bo.url as 'bo_url', bo.avatar as 'bo_avatar',
+bo.emojis as 'bo_emojis', bo.bot as 'bo_bot'
 FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
-LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
+LEFT JOIN TimelineAccountEntity rp ON (s.inReplyToAccountId = rp.serverId)
+LEFT JOIN TimelineAccountEntity bo ON (s.timelineUserId = bo.timelineUserId AND s.reblogAccountId = bo.serverId)
 WHERE (s.serverId = :statusId OR s.reblogServerId = :statusId)
 AND s.authorServerId IS NOT NULL
 AND s.timelineUserId = :accountId"""

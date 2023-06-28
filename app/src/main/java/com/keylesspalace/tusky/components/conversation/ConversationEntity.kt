@@ -107,7 +107,7 @@ data class ConversationStatusEntity(
                 url = url,
                 account = account.toAccount(),
                 inReplyToId = inReplyToId,
-                inReplyToAccountId = inReplyToAccountId,
+                inReplyToAccount = null, // TODO? Is this the only implementation gap?
                 content = content,
                 reblog = null,
                 createdAt = createdAt,
@@ -159,7 +159,7 @@ fun Status.toEntity(
         id = id,
         url = url,
         inReplyToId = inReplyToId,
-        inReplyToAccountId = inReplyToAccountId,
+        inReplyToAccountId = inReplyToAccount?.id,
         account = account.toEntity(),
         content = content,
         createdAt = createdAt,

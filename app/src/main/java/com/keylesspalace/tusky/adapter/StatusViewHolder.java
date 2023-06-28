@@ -74,7 +74,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            TimelineAccount repliedTo = status.getStatus().getRepliedToAccount();
+            TimelineAccount repliedTo = status.getStatus().getInReplyToAccount();
 
             boolean hasStatusContext = reblogging != null || repliedTo != null;
 
@@ -86,7 +86,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 if (reblogging != null) {
                     accountName = reblogging.getAccount().getName();
                     emojis = reblogging.getAccount().getEmojis();
-                } else if (repliedTo != null) { // TODO Why would this be always != null?
+                } else if (repliedTo != null) { // TODO Why would this be always != null (as code inspection warns)?
                     accountName = repliedTo.getName();
                     emojis = repliedTo.getEmojis();
                 }

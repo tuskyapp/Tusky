@@ -102,7 +102,7 @@ class StatusComparisonTest {
                 "id": "$id",
                 "created_at": "2022-02-26T09:54:45.000Z",
                 "in_reply_to_id": null,
-                "in_reply_to_account_id": null,
+                "in_reply_to_account": null,
                 "sensitive": false,
                 "spoiler_text": "",
                 "visibility": "public",
