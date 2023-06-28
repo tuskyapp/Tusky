@@ -19,37 +19,21 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.components.timeline.Page
 import com.keylesspalace.tusky.entity.Status
-import java.util.TreeMap
 import javax.inject.Inject
 
 /** [PagingSource] for Mastodon Status, identified by the Status ID */
 class NetworkTimelinePagingSource @Inject constructor(
-    private val pages: TreeMap<String, Page<String, Status>>
+    private val pageCache: PageCache
 ) : PagingSource<String, Status>() {
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
         Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
 
-        if (BuildConfig.DEBUG) {
-            synchronized(pages) {
-                Log.d(TAG, "Pages state:")
-                if (pages.isEmpty()) {
-                    Log.d(TAG, "  **empty**")
-                } else {
-                    pages.onEachIndexed { i, entry ->
-                        Log.d(
-                            TAG,
-                            "  $i: k: ${entry.key}, prev: ${entry.value.prevKey}, next: ${entry.value.nextKey}, size: ${entry.value.data.size}"
-                        )
-                    }
-                }
-            }
-        }
+        if (BuildConfig.DEBUG) { pageCache.debug() }
 
-        val page = synchronized(pages) {
-            if (pages.isEmpty()) {
+        val page = synchronized(pageCache) {
+            if (pageCache.isEmpty()) {
                 return@synchronized null
             }
 
@@ -57,24 +41,12 @@ class NetworkTimelinePagingSource @Inject constructor(
                 is LoadParams.Refresh -> {
                     // If no key then return the latest page. Otherwise return the requested page.
                     if (params.key == null) {
-                        pages.lastEntry()?.value
+                        pageCache.lastEntry()?.value
                     } else {
-                        pages[params.key] ?: pages.lowerEntry(params.key)?.value
+                        pageCache[params.key] ?: pageCache.lowerEntry(params.key)?.value
                     }
                 }
                 // Loading previous / next pages (`Prepend` or `Append`) is a little complicated.
-                //
-                // `pages` is keyed by the ID of the last (oldest) item in the list of data for
-                // that page. This is so that `Refresh` (above) is straightforward.
-                //
-                // It's the last item, and not the first because a page may be incomplete. E.g,.
-                // a prepend operation completes, and instead of loading pageSize items it loads
-                // (pageSize - 10) items, because only (pageSize - 10) items were available at the
-                // time of the API call.
-                //
-                // If the page was subsequently refreshed, *and* the ID of the first (newest) item
-                // was used as the key then you might have two pages that contain overlapping
-                // items.
                 //
                 // Append and Prepend requests have a `params.key` that corresponds to the previous
                 // or next page. For some timeline types those keys have the same form as the
@@ -118,12 +90,12 @@ class NetworkTimelinePagingSource @Inject constructor(
                 //
                 // The approach for Prepend is the same, except it is `prevKey` that is checked.
                 is LoadParams.Append -> {
-                    pages.firstNotNullOfOrNull { entry -> entry.takeIf { it.value.nextKey == params.key }?.value }
-                        ?.let { page -> pages.lowerEntry(page.data.last().id)?.value }
+                    pageCache.firstNotNullOfOrNull { entry -> entry.takeIf { it.value.nextKey == params.key }?.value }
+                        ?.let { page -> pageCache.lowerEntry(page.data.last().id)?.value }
                 }
                 is LoadParams.Prepend -> {
-                    pages.firstNotNullOfOrNull { entry -> entry.takeIf { it.value.prevKey == params.key }?.value }
-                        ?.let { page -> pages.higherEntry(page.data.last().id)?.value }
+                    pageCache.firstNotNullOfOrNull { entry -> entry.takeIf { it.value.prevKey == params.key }?.value }
+                        ?.let { page -> pageCache.higherEntry(page.data.last().id)?.value }
                 }
             }
         }
@@ -132,7 +104,7 @@ class NetworkTimelinePagingSource @Inject constructor(
             Log.d(TAG, "  Returning empty page")
         } else {
             Log.d(TAG, "  Returning full page:")
-            Log.d(TAG, "     k: ${page.data.last().id}, prev: ${page.prevKey}, next: ${page.nextKey}")
+            Log.d(TAG, "    $page")
         }
         val result = LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
         Log.d(TAG, "  result: $result")

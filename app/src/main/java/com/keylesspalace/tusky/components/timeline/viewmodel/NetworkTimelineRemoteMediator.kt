@@ -24,16 +24,13 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.components.timeline.Page
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.network.Links
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
-import java.util.TreeMap
 
 /** Remote mediator for accessing timelines that are not backed by the database. */
 @OptIn(ExperimentalPagingApi::class)
@@ -41,7 +38,7 @@ class NetworkTimelineRemoteMediator(
     private val api: MastodonApi,
     accountManager: AccountManager,
     private val factory: InvalidatingPagingSourceFactory<String, Status>,
-    private val pages: TreeMap<String, Page<String, Status>>,
+    private val pageCache: PageCache,
     private val timelineKind: TimelineKind
 ) : RemoteMediator<String, Status>() {
 
@@ -63,90 +60,58 @@ class NetworkTimelineRemoteMediator(
                     Log.d(TAG, "  Refreshing page with last id: $key")
 
                     // Use its prevKey to refresh this page
-                    key?.let { pages.lowerEntry(it)?.value?.prevKey }
+                    key?.let { pageCache.lowerEntry(it)?.value?.prevKey }
                 }
                 LoadType.APPEND -> {
-                    pages.firstEntry()?.value?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    pageCache.firstEntry()?.value?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.PREPEND -> {
-                    pages.lastEntry()?.value?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    pageCache.lastEntry()?.value?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
 
             Log.d(TAG, "  from key: $key")
             val response = fetchStatusPageByKind(loadType, key, state.config.initialLoadSize)
-            val statuses = response.body()
-            if (!response.isSuccessful || statuses == null) {
-                return MediatorResult.Error(HttpException(response))
-            }
 
-            Log.d(TAG, "  link: " + response.headers()["link"])
-            val links = Links.from(response.headers()["link"])
-
-            Log.d(TAG, "  ${statuses.size} - # statuses loaded")
+            val page = Page.tryFrom(response).getOrElse { return MediatorResult.Error(it) }
 
             if (BuildConfig.DEBUG && loadType == LoadType.REFRESH) {
                 state.anchorPosition?.let { state.closestPageToPosition(it) }?.data?.last()?.id?.let { expectedPage ->
-                    if (pages[expectedPage]?.data?.size == statuses.size) {
+                    if (pageCache[expectedPage]?.data?.size == page.data.size) {
                         Log.d(TAG, "  Refresh has same data size")
-                        if (pages[expectedPage]?.data?.last()?.id == statuses.last().id) {
+                        if (pageCache[expectedPage]?.data?.last()?.id == page.data.last().id) {
                             Log.d(TAG, "  ... and they have the same last ID")
                         } else {
-                            throw IllegalStateException("  Last IDs do not match, got: ${statuses.last().id}, want: $expectedPage")
+                            throw IllegalStateException("  Last IDs do not match, got: ${page.data.last().id}, want: $expectedPage")
                         }
                     } else {
                         Log.d(TAG, "  Refresh has different data size!")
                     }
-                    statuses.lastOrNull { it.id == expectedPage }
+                    page.data.lastOrNull { it.id == expectedPage }
                         ?: throw IllegalStateException("  Refreshed page does not contain $expectedPage")
                     Log.d(TAG, "  Page contains $expectedPage")
                 }
             }
 
-            if (statuses.isNotEmpty()) {
-                synchronized(pages) {
+            val endOfPaginationReached = page.data.isEmpty()
+            if (!endOfPaginationReached) {
+                synchronized(pageCache) {
                     if (loadType == LoadType.REFRESH) {
-                        pages.clear()
+                        pageCache.clear()
                     }
 
-                    val k = statuses.last().id
-
-                    Log.d(TAG, "Inserting new page:")
-                    Log.d(TAG, "     k: $k, prev: ${links.prev}, next: ${links.next}, size: ${statuses.size}")
-
-                    pages[k] = Page(
-                        data = statuses.toMutableList(),
-                        nextKey = links.next,
-                        prevKey = links.prev
-                    )
+                    pageCache.upsert(page)
                     Log.d(
                         TAG,
-                        "  Page $loadType complete for $timelineKind, now got ${pages.size} pages"
+                        "  Page $loadType complete for $timelineKind, now got ${pageCache.size} pages"
                     )
-                    pages.onEachIndexed { i, entry ->
-                        Log.d(
-                            TAG,
-                            "  $i: k: ${entry.key}, prev: ${entry.value.prevKey}, next: ${entry.value.nextKey}, size: ${entry.value.data.size}, range: ${entry.value.data.first().id}..${entry.value.data.last().id}"
-                        )
-                    }
-
-                    // There should never be duplicate items across all the pages. Enforce this
-                    // in debug mode.
-                    if (BuildConfig.DEBUG) {
-                        val ids = buildList<String> {
-                            this.addAll(pages.map { entry -> entry.value.data.map { it.id } }.flatten())
-                        }
-                        val groups = ids.groupingBy { it }.eachCount().filter { it.value > 1 }
-                        if (groups.isNotEmpty()) {
-                            throw IllegalStateException("Duplicate item IDs in results!: $groups")
-                        }
-                    }
+                    pageCache.debug()
                 }
                 Log.d(TAG, "  Invalidating source")
                 factory.invalidate()
             }
 
-            return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {

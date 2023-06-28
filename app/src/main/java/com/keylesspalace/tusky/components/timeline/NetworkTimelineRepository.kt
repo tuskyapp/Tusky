@@ -18,7 +18,6 @@
 package com.keylesspalace.tusky.components.timeline
 
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
@@ -27,53 +26,20 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelinePagingSource
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
+import com.keylesspalace.tusky.components.timeline.viewmodel.PageCache
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getDomain
 import kotlinx.coroutines.flow.Flow
-import java.util.TreeMap
 import javax.inject.Inject
-
-/** A page of data from the Mastodon API */
-data class Page<Key : Any, Value : Any> constructor(
-    /** Loaded data */
-    val data: MutableList<Value>,
-    /**
-     * [Key] for previous page (newer results, PREPEND operation) if more data can be loaded in
-     * that direction, `null` otherwise.
-     */
-    val prevKey: Key? = null,
-    /**
-     * [Key] for next page (older results, APPEND operation) if more data can be loaded in that
-     * direction, `null` otherwise.
-     */
-    val nextKey: Key? = null
-)
 
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
 class NetworkTimelineRepository @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager
 ) {
-
-    /**
-     * Cached pages of statuses.
-     *
-     * Each page is (generally) keyed by value of the `prev` key in the `Link` header for this page,
-     * as making the request .../max_id={prev} should also fetch this page. In the case of API
-     * responses that are not paginated (so don't have a `Link` header and consist of a single
-     * page) the key is the ID of the first (newest) entry in the data.
-     *
-     * In Pager3 parlance, an "append" operation is fetching a chronologically *older* page of
-     * statuses using `nextKey`, a "prepend" operation is fetching a chronologically *newer*
-     * page of statuses using `prevKey`.
-     */
-    // Storing the next/prev tokens in this structure is important, as you can't derive them from
-    // status IDs (e.g., the next/prev keys returned by the "favourites" API call *do not match*
-    // status IDs elsewhere). The tokens are discovered by the RemoteMediator but are used by the
-    // PagingSource, so they need to be available somewhere both components can access them.
-    private val pages = makeEmptyPageCache()
+    private val pageCache = PageCache()
 
     private var factory: InvalidatingPagingSourceFactory<String, Status>? = null
 
@@ -87,7 +53,7 @@ class NetworkTimelineRepository @Inject constructor(
         Log.d(TAG, "getStatusStream(): key: $initialKey")
 
         factory = InvalidatingPagingSourceFactory {
-            NetworkTimelinePagingSource(pages)
+            NetworkTimelinePagingSource(pageCache)
         }
 
         return Pager(
@@ -96,7 +62,7 @@ class NetworkTimelineRepository @Inject constructor(
                 mastodonApi,
                 accountManager,
                 factory!!,
-                pages,
+                pageCache,
                 kind
             ),
             pagingSourceFactory = factory!!
@@ -109,8 +75,8 @@ class NetworkTimelineRepository @Inject constructor(
     }
 
     fun removeAllByAccountId(accountId: String) {
-        synchronized(pages) {
-            for (page in pages.values) {
+        synchronized(pageCache) {
+            for (page in pageCache.values) {
                 page.data.removeAll { status ->
                     status.account.id == accountId || status.actionableStatus.account.id == accountId
                 }
@@ -120,8 +86,8 @@ class NetworkTimelineRepository @Inject constructor(
     }
 
     fun removeAllByInstance(instance: String) {
-        synchronized(pages) {
-            for (page in pages.values) {
+        synchronized(pageCache) {
+            for (page in pageCache.values) {
                 page.data.removeAll { status -> getDomain(status.account.url) == instance }
             }
         }
@@ -129,8 +95,8 @@ class NetworkTimelineRepository @Inject constructor(
     }
 
     fun removeStatusWithId(statusId: String) {
-        synchronized(pages) {
-            pages.floorEntry(statusId)?.value?.data?.removeAll { status ->
+        synchronized(pageCache) {
+            pageCache.floorEntry(statusId)?.value?.data?.removeAll { status ->
                 status.id == statusId || status.reblog?.id == statusId
             }
         }
@@ -138,8 +104,8 @@ class NetworkTimelineRepository @Inject constructor(
     }
 
     fun updateStatusById(statusId: String, updater: (Status) -> Status) {
-        synchronized(pages) {
-            pages.floorEntry(statusId)?.value?.let { page ->
+        synchronized(pageCache) {
+            pageCache.floorEntry(statusId)?.value?.let { page ->
                 val index = page.data.indexOfFirst { it.id == statusId }
                 if (index != -1) {
                     page.data[index] = updater(page.data[index])
@@ -150,8 +116,8 @@ class NetworkTimelineRepository @Inject constructor(
     }
 
     fun updateActionableStatusById(statusId: String, updater: (Status) -> Status) {
-        synchronized(pages) {
-            pages.floorEntry(statusId)?.value?.let { page ->
+        synchronized(pageCache) {
+            pageCache.floorEntry(statusId)?.value?.let { page ->
                 val index = page.data.indexOfFirst { it.id == statusId }
                 if (index != -1) {
                     val status = page.data[index]
@@ -166,8 +132,8 @@ class NetworkTimelineRepository @Inject constructor(
     }
 
     fun reload() {
-        synchronized(pages) {
-            pages.clear()
+        synchronized(pageCache) {
+            pageCache.clear()
         }
         invalidate()
     }
@@ -175,12 +141,5 @@ class NetworkTimelineRepository @Inject constructor(
     companion object {
         private const val TAG = "NetworkTimelineRepository"
         private const val PAGE_SIZE = 30
-
-        /**
-         * Creates an empty page cache with a comparator that ensures keys are compared first
-         * by length, then by natural order.
-         */
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun makeEmptyPageCache() = TreeMap<String, Page<String, Status>>(compareBy({ it.length }, { it }))
     }
 }

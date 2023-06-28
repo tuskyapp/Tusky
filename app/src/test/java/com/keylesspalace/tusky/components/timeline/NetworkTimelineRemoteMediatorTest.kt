@@ -9,8 +9,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import com.keylesspalace.tusky.components.timeline.NetworkTimelineRepository.Companion.makeEmptyPageCache
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
+import com.keylesspalace.tusky.components.timeline.viewmodel.Page
+import com.keylesspalace.tusky.components.timeline.viewmodel.PageCache
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
@@ -60,7 +61,7 @@ class NetworkTimelineRemoteMediatorTest {
             api = mock(defaultAnswer = { Response.error<String>(500, "".toResponseBody()) }),
             accountManager = accountManager,
             factory = pagingSourceFactory,
-            pages = makeEmptyPageCache(),
+            pageCache = PageCache(),
             timelineKind = TimelineKind.Home
         )
 
@@ -81,7 +82,7 @@ class NetworkTimelineRemoteMediatorTest {
             api = mock(defaultAnswer = { throw IOException() }),
             accountManager,
             factory = pagingSourceFactory,
-            pages = makeEmptyPageCache(),
+            pageCache = PageCache(),
             timelineKind = TimelineKind.Home
         )
 
@@ -97,7 +98,7 @@ class NetworkTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should do initial loading`() = runTest {
         // Given
-        val pages = makeEmptyPageCache()
+        val pages = PageCache()
         val remoteMediator = NetworkTimelineRemoteMediator(
             api = mock {
                 onBlocking { homeTimeline(maxId = anyOrNull(), minId = anyOrNull(), limit = anyOrNull(), sinceId = anyOrNull()) } doReturn Response.success(
@@ -110,7 +111,7 @@ class NetworkTimelineRemoteMediatorTest {
             },
             accountManager = accountManager,
             factory = pagingSourceFactory,
-            pages = pages,
+            pageCache = pages,
             timelineKind = TimelineKind.Home
         )
 
@@ -128,12 +129,15 @@ class NetworkTimelineRemoteMediatorTest {
         val result = remoteMediator.load(LoadType.REFRESH, state)
 
         // Then
-        val expectedPages = makeEmptyPageCache()
-        expectedPages["5"] = Page(
-            data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
-            prevKey = "7",
-            nextKey = "5"
-        )
+        val expectedPages = PageCache().apply {
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
+                    prevKey = "7",
+                    nextKey = "5"
+                )
+            )
+        }
 
         assertThat(result).isInstanceOf(RemoteMediator.MediatorResult.Success::class.java)
         assertThat((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached).isFalse()
@@ -147,11 +151,13 @@ class NetworkTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should prepend statuses`() = runTest {
         // Given
-        val pages = makeEmptyPageCache().apply {
-            this["5"] = Page(
-                data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
-                prevKey = "7",
-                nextKey = "5"
+        val pages = PageCache().apply {
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
+                    prevKey = "7",
+                    nextKey = "5"
+                )
             )
         }
 
@@ -167,7 +173,7 @@ class NetworkTimelineRemoteMediatorTest {
             },
             accountManager = accountManager,
             factory = pagingSourceFactory,
-            pages = pages,
+            pageCache = pages,
             timelineKind = TimelineKind.Home
         )
 
@@ -185,16 +191,20 @@ class NetworkTimelineRemoteMediatorTest {
         val result = remoteMediator.load(LoadType.PREPEND, state)
 
         // Then
-        val expectedPages = makeEmptyPageCache().apply {
-            this["5"] = Page(
-                data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
-                prevKey = "7",
-                nextKey = "5"
+        val expectedPages = PageCache().apply {
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
+                    prevKey = "7",
+                    nextKey = "5"
+                )
             )
-            this["8"] = Page(
-                data = mutableListOf(mockStatus("10"), mockStatus("9"), mockStatus("8")),
-                prevKey = "10",
-                nextKey = "8"
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("10"), mockStatus("9"), mockStatus("8")),
+                    prevKey = "10",
+                    nextKey = "8"
+                )
             )
         }
 
@@ -210,11 +220,13 @@ class NetworkTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should append statuses`() = runTest {
         // Given
-        val pages = makeEmptyPageCache().apply {
-            this["5"] = Page(
-                data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
-                prevKey = "7",
-                nextKey = "5"
+        val pages = PageCache().apply {
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
+                    prevKey = "7",
+                    nextKey = "5"
+                )
             )
         }
 
@@ -230,7 +242,7 @@ class NetworkTimelineRemoteMediatorTest {
             },
             accountManager = accountManager,
             factory = pagingSourceFactory,
-            pages = pages,
+            pageCache = pages,
             timelineKind = TimelineKind.Home
         )
 
@@ -248,16 +260,20 @@ class NetworkTimelineRemoteMediatorTest {
         val result = remoteMediator.load(LoadType.APPEND, state)
 
         // Then
-        val expectedPages = makeEmptyPageCache().apply {
-            this["5"] = Page(
-                data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
-                prevKey = "7",
-                nextKey = "5"
+        val expectedPages = PageCache().apply {
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
+                    prevKey = "7",
+                    nextKey = "5"
+                )
             )
-            this["2"] = Page(
-                data = mutableListOf(mockStatus("4"), mockStatus("3"), mockStatus("2")),
-                prevKey = "4",
-                nextKey = "2"
+            upsert(
+                Page(
+                    data = mutableListOf(mockStatus("4"), mockStatus("3"), mockStatus("2")),
+                    prevKey = "4",
+                    nextKey = "2"
+                )
             )
         }
 
