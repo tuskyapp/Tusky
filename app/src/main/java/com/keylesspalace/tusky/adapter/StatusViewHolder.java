@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NumberUtils;
@@ -38,6 +39,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -72,12 +74,25 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            if (reblogging == null || status.getFilterAction() == Filter.Action.WARN) {
+            TimelineAccount repliedTo = status.getStatus().getRepliedToAccount();
+
+            boolean hasStatusContext = reblogging != null || repliedTo != null;
+
+            if (!hasStatusContext || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
-                String rebloggedByDisplayName = reblogging.getAccount().getName();
-                setRebloggedByDisplayName(rebloggedByDisplayName,
-                        reblogging.getAccount().getEmojis(), statusDisplayOptions);
+                String accountName = "<unknown>";
+                List<Emoji> emojis = new LinkedList<Emoji>();
+                if (reblogging != null) {
+                    accountName = reblogging.getAccount().getName();
+                    emojis = reblogging.getAccount().getEmojis();
+                } else if (repliedTo != null) { // TODO Why would this be always != null?
+                    accountName = repliedTo.getName();
+                    emojis = repliedTo.getEmojis();
+                }
+
+                setStatusInfoText(repliedTo != null, accountName, emojis, statusDisplayOptions);
+                statusInfo.setCompoundDrawablesWithIntrinsicBounds(repliedTo != null ? R.drawable.ic_reply_all_24dp : R.drawable.ic_reblog_24dp, 0, 0, 0);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
             }
 
@@ -91,16 +106,18 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
     }
 
-    private void setRebloggedByDisplayName(final CharSequence name,
-                                           final List<Emoji> accountEmoji,
-                                           final StatusDisplayOptions statusDisplayOptions) {
+    private void setStatusInfoText(final boolean isReply,
+                                   final CharSequence name,
+                                   final List<Emoji> accountEmoji,
+                                   final StatusDisplayOptions statusDisplayOptions) {
         Context context = statusInfo.getContext();
         CharSequence wrappedName = StringUtils.unicodeWrap(name);
-        CharSequence boostedText = context.getString(R.string.post_boosted_format, wrappedName);
+        CharSequence statusContextText = context.getString(isReply ? R.string.post_replied_format : R.string.post_boosted_format, wrappedName);
         CharSequence emojifiedText = CustomEmojiHelper.emojify(
-                boostedText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
+                statusContextText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
         );
         statusInfo.setText(emojifiedText);
+
         statusInfo.setVisibility(View.VISIBLE);
     }
 

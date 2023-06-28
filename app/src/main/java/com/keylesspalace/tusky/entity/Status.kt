@@ -27,6 +27,7 @@ data class Status(
     val account: TimelineAccount,
     @SerializedName("in_reply_to_id") val inReplyToId: String?,
     @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
+    val repliedToAccount: TimelineAccount?, // TODO not sure if this should be the Status (like for reblog)?
     val reblog: Status?,
     val content: String,
     @SerializedName("created_at") val createdAt: Date,
