@@ -371,6 +371,8 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
+    <string name="notification_listenable_worker_name">Background activity</string>
+    <string name="notification_listenable_worker_description">Notifications when Tusky is working in the background</string>
     <string name="notification_unknown_name">Unknown</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
@@ -381,6 +383,8 @@
         <item quantity="one">%d new interaction</item>
         <item quantity="other">%d new interactions</item>
     </plurals>
+    <string name="notification_notification_worker">Fetching notifications…</string>
+    <string name="notification_prune_cache">Cache maintenance…</string>
 
     <string name="description_account_locked">Locked Account</string>
 

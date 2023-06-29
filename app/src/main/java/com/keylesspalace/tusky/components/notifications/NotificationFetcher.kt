@@ -11,9 +11,10 @@ import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isLessThan
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Fetch Mastodon notifications and show Android notifications, with summaries, for them.
@@ -29,19 +30,17 @@ class NotificationFetcher @Inject constructor(
     private val accountManager: AccountManager,
     private val context: Context
 ) {
-    fun fetchAndShow() {
+    suspend fun fetchAndShow() {
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
                     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
                     // Create sorted list of new notifications
-                    val notifications = runBlocking { // OK, because in a worker thread
-                        fetchNewNotifications(account)
-                            .filter { filterNotification(notificationManager, account, it) }
-                            .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
-                            .toMutableList()
-                    }
+                    val notifications = fetchNewNotifications(account)
+                        .filter { filterNotification(notificationManager, account, it) }
+                        .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
+                        .toMutableList()
 
                     // There's a maximum limit on the number of notifications an Android app
                     // can display. If the total number of notifications (current notifications,
@@ -82,7 +81,7 @@ class NotificationFetcher @Inject constructor(
                         // Android will rate limit / drop notifications if they're posted too
                         // quickly. There is no indication to the user that this happened.
                         // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-                        Thread.sleep(1000)
+                        delay(1000.milliseconds)
                     }
 
                     NotificationHelper.updateSummaryNotifications(

@@ -37,6 +37,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
@@ -77,7 +78,12 @@ import java.util.concurrent.TimeUnit;
 
 public class NotificationHelper {
 
-    private static int notificationId = 0;
+    /** ID of notification shown when fetching notifications */
+    public static final int NOTIFICATION_ID_FETCH_NOTIFICATION = 0;
+    /** ID of notification shown when pruning the cache */
+    public static final int NOTIFICATION_ID_PRUNE_CACHE = 1;
+    /** Dynamic notification IDs start here */
+    private static int notificationId = NOTIFICATION_ID_PRUNE_CACHE + 1;
 
     /**
      * constants used in Intents
@@ -121,6 +127,7 @@ public class NotificationHelper {
     public static final String CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP";
     public static final String CHANNEL_UPDATES = "CHANNEL_UPDATES";
     public static final String CHANNEL_REPORT = "CHANNEL_REPORT";
+    public static final String CHANNEL_BACKGROUND_TASKS = "CHANNEL_BACKGROUND_TASKS";
 
     /**
      * WorkManager Tag
@@ -470,6 +477,49 @@ public class NotificationHelper {
                 notificationId,
                 composeIntent,
                 pendingIntentFlags(false));
+    }
+
+    /**
+     * Creates a notification channel for notifications for background work that should not
+     * disturb the user.
+     *
+     * @param context context
+     */
+    public static void createWorkerNotificationChannel(@NonNull Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        NotificationChannel channel = new NotificationChannel(
+            CHANNEL_BACKGROUND_TASKS,
+            context.getString(R.string.notification_listenable_worker_name),
+            NotificationManager.IMPORTANCE_NONE
+        );
+
+        channel.setDescription(context.getString(R.string.notification_listenable_worker_description));
+        channel.enableLights(false);
+        channel.enableVibration(false);
+        channel.setShowBadge(false);
+
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    /**
+     * Creates a notification for a background worker.
+     *
+     * @param context context
+     * @param titleResource String resource to use as the notification's title
+     * @return the notification
+     */
+    @NonNull
+    public static android.app.Notification createWorkerNotification(@NonNull Context context, @StringRes int titleResource) {
+        String title = context.getString(titleResource);
+        return new NotificationCompat.Builder(context, CHANNEL_BACKGROUND_TASKS)
+            .setContentTitle(title)
+            .setTicker(title)
+            .setSmallIcon(R.drawable.ic_notify)
+            .setOngoing(true)
+            .build();
     }
 
     public static void createNotificationChannelsForAccount(@NonNull AccountEntity account, @NonNull Context context) {
