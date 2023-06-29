@@ -33,6 +33,7 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.util
 
+import android.util.Log
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
@@ -46,6 +47,10 @@ fun Status.toViewData(
     isCollapsed: Boolean,
     isDetailed: Boolean = false
 ): StatusViewData.Concrete {
+    if (this.inReplyToId != null) {
+        Log.w("Status", this.id + " Converting status "+this.inReplyToAccount)
+    }
+
     return StatusViewData.Concrete(
         status = this,
         isShowingContent = isShowingContent,

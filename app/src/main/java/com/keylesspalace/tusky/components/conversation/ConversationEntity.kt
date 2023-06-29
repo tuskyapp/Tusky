@@ -107,7 +107,8 @@ data class ConversationStatusEntity(
                 url = url,
                 account = account.toAccount(),
                 inReplyToId = inReplyToId,
-                inReplyToAccount = null, // TODO? Is this the only implementation gap?
+                inReplyToAccountId = inReplyToAccountId,
+                inReplyToAccount = null,
                 content = content,
                 reblog = null,
                 createdAt = createdAt,

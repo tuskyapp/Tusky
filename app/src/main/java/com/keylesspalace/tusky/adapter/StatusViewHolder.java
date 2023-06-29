@@ -39,7 +39,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -82,7 +82,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 hideStatusInfo();
             } else {
                 String accountName = "<unknown>";
-                List<Emoji> emojis = new LinkedList<Emoji>();
+                List<Emoji> emojis = Collections.emptyList();
                 if (reblogging != null) {
                     accountName = reblogging.getAccount().getName();
                     emojis = reblogging.getAccount().getEmojis();
