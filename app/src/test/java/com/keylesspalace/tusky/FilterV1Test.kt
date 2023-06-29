@@ -285,7 +285,7 @@ class FilterV1Test {
                 url = "https://mastodon.social/@Tusky/100571663297225812",
                 account = mock(),
                 inReplyToId = null,
-                inReplyToAccount = null,
+                inReplyToAccountId = null,
                 reblog = null,
                 content = content,
                 createdAt = Date(),

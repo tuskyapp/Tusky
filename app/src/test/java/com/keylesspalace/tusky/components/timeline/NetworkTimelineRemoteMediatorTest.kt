@@ -7,11 +7,15 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.gson.Gson
+import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.TimelineAccountDao
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.runBlocking
 import okhttp3.Headers
@@ -20,9 +24,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.robolectric.annotation.Config
@@ -45,6 +51,14 @@ class NetworkTimelineRemoteMediatorTest {
         )
     }
 
+    private val accountDao: TimelineAccountDao = mock {
+        onBlocking { get(any()) } doReturn null
+    }
+    private val db: AppDatabase = mock {
+        on { timelineAccountDao() } doReturn accountDao
+    }
+    private val gson: Gson = mock {}
+
     @Test
     @ExperimentalPagingApi
     fun `should return error when network call returns error code`() {
@@ -53,7 +67,7 @@ class NetworkTimelineRemoteMediatorTest {
             onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state()) }
 
@@ -70,7 +84,7 @@ class NetworkTimelineRemoteMediatorTest {
             onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state()) }
 
@@ -99,7 +113,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(
@@ -146,7 +160,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(
@@ -198,7 +212,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(
@@ -251,7 +265,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(
@@ -308,7 +322,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(
@@ -354,7 +368,7 @@ class NetworkTimelineRemoteMediatorTest {
             on { nextKey } doReturn null
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(

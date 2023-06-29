@@ -67,7 +67,7 @@ class BottomSheetActivityTest {
         url = statusQuery,
         account = account,
         inReplyToId = null,
-        inReplyToAccount = null,
+        inReplyToAccountId = null,
         reblog = null,
         content = "omgwat",
         createdAt = Date(),

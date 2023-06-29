@@ -36,7 +36,7 @@ import retrofit2.HttpException
 class NetworkTimelineRemoteMediator(
     private val accountManager: AccountManager,
     private val viewModel: NetworkTimelineViewModel,
-    private val db: AppDatabase,
+    db: AppDatabase,
     private val gson: Gson
 ) : RemoteMediator<String, StatusViewData>() {
 
