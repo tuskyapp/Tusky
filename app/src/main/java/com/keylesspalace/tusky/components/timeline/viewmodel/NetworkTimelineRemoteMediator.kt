@@ -20,8 +20,13 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.google.gson.Gson
+import com.keylesspalace.tusky.components.timeline.toAccount
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -30,8 +35,12 @@ import retrofit2.HttpException
 @OptIn(ExperimentalPagingApi::class)
 class NetworkTimelineRemoteMediator(
     private val accountManager: AccountManager,
-    private val viewModel: NetworkTimelineViewModel
+    private val viewModel: NetworkTimelineViewModel,
+    private val db: AppDatabase,
+    private val gson: Gson
 ) : RemoteMediator<String, StatusViewData>() {
+
+    private val accountDao = db.timelineAccountDao()
 
     private val statusIds = mutableSetOf<String>()
 
@@ -80,7 +89,13 @@ class NetworkTimelineRemoteMediator(
                 val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
                 val contentCollapsed = oldStatus?.isCollapsed ?: true
 
+                var inReplyToAccount:TimelineAccount? = null
+                if (status.inReplyToAccountId != null) {
+                    inReplyToAccount = accountDao.get(status.inReplyToAccountId)?.toAccount(gson)
+                }
+
                 status.toViewData(
+                    inReplyToAccount = inReplyToAccount,
                     isShowingContent = contentShowing,
                     isExpanded = expanded,
                     isCollapsed = contentCollapsed
