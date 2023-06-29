@@ -16,9 +16,11 @@
 package com.keylesspalace.tusky;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -45,6 +47,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
+import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -54,6 +57,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+    private static final String TAG = "BaseActivity";
 
     @Inject
     public AccountManager accountManager;
@@ -91,6 +95,44 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
 
         requesters = new HashMap<>();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+
+        // Scale text in the UI from PrefKeys.UI_TEXT_SCALE_RATIO
+        float uiScaleRatio = preferences.getFloat(PrefKeys.UI_TEXT_SCALE_RATIO, 100F);
+
+        Configuration configuration = newBase.getResources().getConfiguration();
+
+        // Adjust `fontScale` in the configuration.
+        //
+        // You can't repeatedly adjust the `fontScale` in `newBase` because that will contain the
+        // result of previous adjustments. E.g., going from 100% to 80% to 100% does not return
+        // you to the original 100%, it leaves it at 80%.
+        //
+        // Instead, calculate the new scale from the application context. This is unaffected by
+        // changes to the base context. It does contain contain any changes to the font scale from
+        // "Settings > Display > Font size" in the device settings, so scaling performed here
+        // is in addition to any scaling in the device settings.
+        Configuration appConfiguration = newBase.getApplicationContext().getResources().getConfiguration();
+
+        // This only adjusts the fonts, anything measured in `dp` is unaffected by this.
+        // You can try to adjust `densityDpi` as shown in the commented out code below. This
+        // works, to a point. However, dialogs do not react well to this. Beyond a certain
+        // scale (~ 120%) the right hand edge of the dialog will clip off the right of the
+        // screen.
+        //
+        // So for now, just adjust the font scale
+        //
+        // val displayMetrics = appContext.resources.displayMetrics
+        // configuration.densityDpi = ((displayMetrics.densityDpi * uiScaleRatio).toInt())
+        configuration.fontScale = appConfiguration.fontScale * uiScaleRatio / 100F;
+
+        Context fontScaleContext = newBase.createConfigurationContext(configuration);
+
+        super.attachBaseContext(fontScaleContext);
     }
 
     protected boolean requiresLogin() {
