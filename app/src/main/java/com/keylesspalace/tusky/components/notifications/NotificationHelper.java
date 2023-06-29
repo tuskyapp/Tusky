@@ -127,7 +127,7 @@ public class NotificationHelper {
     public static final String CHANNEL_SIGN_UP = "CHANNEL_SIGN_UP";
     public static final String CHANNEL_UPDATES = "CHANNEL_UPDATES";
     public static final String CHANNEL_REPORT = "CHANNEL_REPORT";
-    public static final String CHANNEL_LISTENABLE_WORKER = "CHANNEL_LISTENABLE_WORKER";
+    public static final String CHANNEL_BACKGROUND_TASKS = "CHANNEL_BACKGROUND_TASKS";
 
     /**
      * WorkManager Tag
@@ -491,7 +491,7 @@ public class NotificationHelper {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationChannel channel = new NotificationChannel(
-            CHANNEL_LISTENABLE_WORKER,
+            CHANNEL_BACKGROUND_TASKS,
             context.getString(R.string.notification_listenable_worker_name),
             NotificationManager.IMPORTANCE_NONE
         );
@@ -514,7 +514,7 @@ public class NotificationHelper {
     @NonNull
     public static android.app.Notification createWorkerNotification(@NonNull Context context, @StringRes int titleResource) {
         String title = context.getString(titleResource);
-        return new NotificationCompat.Builder(context, CHANNEL_LISTENABLE_WORKER)
+        return new NotificationCompat.Builder(context, CHANNEL_BACKGROUND_TASKS)
             .setContentTitle(title)
             .setTicker(title)
             .setSmallIcon(R.drawable.ic_notify)
