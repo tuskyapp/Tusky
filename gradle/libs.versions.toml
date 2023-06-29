@@ -57,10 +57,11 @@ xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+google-ksp = "com.google.devtools.ksp:1.8.22-1.0.11"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ktlint = "org.jlleitschuh.gradle.ktlint:11.4.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.4.1"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
