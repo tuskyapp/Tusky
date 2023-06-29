@@ -43,12 +43,14 @@ class StatusComparisonTest {
     fun `two equal status view data - should be equal`() {
         val viewdata1 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
         )
         val viewdata2 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
@@ -60,12 +62,14 @@ class StatusComparisonTest {
     fun `status view data with different isExpanded - should not be equal`() {
         val viewdata1 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = true,
             isShowingContent = false,
             isCollapsed = false
         )
         val viewdata2 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
@@ -77,12 +81,14 @@ class StatusComparisonTest {
     fun `status view data with different statuses- should not be equal`() {
         val viewdata1 = StatusViewData.Concrete(
             status = createStatus(content = "whatever"),
+            inReplyToAccount = null,
             isExpanded = true,
             isShowingContent = false,
             isCollapsed = false
         )
         val viewdata2 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false

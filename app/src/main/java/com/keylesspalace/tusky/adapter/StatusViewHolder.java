@@ -74,7 +74,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            TimelineAccount repliedTo = status.getStatus().getInReplyToAccount();
+            TimelineAccount repliedTo = status.getInReplyToAccount();
+            boolean isReplyOnly = repliedTo != null && reblogging == null;
 
             boolean hasStatusContext = reblogging != null || repliedTo != null;
 
@@ -91,8 +92,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                     emojis = repliedTo.getEmojis();
                 }
 
-                setStatusInfoText(repliedTo != null, accountName, emojis, statusDisplayOptions);
-                statusInfo.setCompoundDrawablesWithIntrinsicBounds(repliedTo != null ? R.drawable.ic_reply_all_24dp : R.drawable.ic_reblog_24dp, 0, 0, 0);
+                setStatusInfoText(isReplyOnly, accountName, emojis, statusDisplayOptions);
                 statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
             }
 
@@ -117,6 +117,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 statusContextText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
         );
         statusInfo.setText(emojifiedText);
+        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_24dp : R.drawable.ic_reblog_24dp, 0, 0, 0);
 
         statusInfo.setVisibility(View.VISIBLE);
     }

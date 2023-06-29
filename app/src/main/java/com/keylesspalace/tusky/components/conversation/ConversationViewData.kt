@@ -67,7 +67,7 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         id = id,
         url = status.url,
         inReplyToId = status.inReplyToId,
-        inReplyToAccountId = status.inReplyToAccount?.id,
+        inReplyToAccountId = status.inReplyToAccountId,
         account = status.account.toEntity(),
         content = status.content,
         createdAt = status.createdAt,

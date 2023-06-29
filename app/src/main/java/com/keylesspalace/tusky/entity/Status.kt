@@ -27,7 +27,6 @@ data class Status(
     val account: TimelineAccount,
     @SerializedName("in_reply_to_id") val inReplyToId: String?,
     @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
-    val inReplyToAccount: TimelineAccount?, // TODO? odd: not present in api data; filled only later in TimelineStatusWithAccount.toViewData()
     val reblog: Status?,
     val content: String,
     @SerializedName("created_at") val createdAt: Date,

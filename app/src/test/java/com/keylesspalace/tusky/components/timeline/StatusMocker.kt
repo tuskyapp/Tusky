@@ -30,15 +30,7 @@ fun mockStatus(
         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
     ),
     inReplyToId = inReplyToId,
-    inReplyToAccount = if (inReplyToAccountId != null) TimelineAccount(
-        id = inReplyToAccountId,
-        localUsername = "ulrich",
-        username = "connyduck@mastodon.example",
-        displayName = "Ulrich Test",
-        note = "This is their bio",
-        url = "https://mastodon.example/@ConnyDuck",
-        avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
-    ) else null,
+    inReplyToAccountId = inReplyToAccountId,
     reblog = null,
     content = "Test",
     createdAt = fixedDate,
@@ -87,6 +79,7 @@ fun mockStatusViewData(
         favourited = favourited,
         bookmarked = bookmarked
     ),
+    inReplyToAccount = null,
     isExpanded = isExpanded,
     isShowingContent = isShowingContent,
     isCollapsed = isCollapsed,

@@ -108,7 +108,6 @@ data class ConversationStatusEntity(
                 account = account.toAccount(),
                 inReplyToId = inReplyToId,
                 inReplyToAccountId = inReplyToAccountId,
-                inReplyToAccount = null,
                 content = content,
                 reblog = null,
                 createdAt = createdAt,
@@ -134,6 +133,7 @@ data class ConversationStatusEntity(
                 language = language,
                 filtered = null
             ),
+            inReplyToAccount = null, // TODO? implementation gap: not needed here atm, but inconsistent
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
             isCollapsed = collapsed
@@ -160,7 +160,7 @@ fun Status.toEntity(
         id = id,
         url = url,
         inReplyToId = inReplyToId,
-        inReplyToAccountId = inReplyToAccount?.id,
+        inReplyToAccountId = inReplyToAccountId,
         account = account.toEntity(),
         content = content,
         createdAt = createdAt,
