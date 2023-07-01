@@ -28,8 +28,7 @@ class NetworkTimelinePagingSource @Inject constructor(
 ) : PagingSource<String, Status>() {
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
-        Log.d(TAG, "load() with ${params.javaClass.simpleName} for key: ${params.key}")
-
+        Log.d(TAG, "- load(), type = ${params.javaClass.simpleName}, key = ${params.key}")
         if (BuildConfig.DEBUG) { pageCache.debug() }
 
         val page = synchronized(pageCache) {
@@ -39,12 +38,11 @@ class NetworkTimelinePagingSource @Inject constructor(
 
             when (params) {
                 is LoadParams.Refresh -> {
-                    // If no key then return the latest page
-                    params.key ?: return@synchronized pageCache.lastEntry()?.value
-
-                    // Return the page after. If you don't do this (i.e., return pageCache[params.key])
-                    // the page above animates down in a distracting manner.
-                    return@synchronized pageCache.lowerEntry(params.key)?.value
+                    // Return the page that contains the given key, or the most recent page if
+                    // the key isn't in the cache.
+                    params.key?.let { key ->
+                        pageCache.floorEntry(key)?.value
+                    } ?: pageCache.lastEntry()?.value
                 }
                 // Loading previous / next pages (`Prepend` or `Append`) is a little complicated.
                 //
@@ -64,7 +62,7 @@ class NetworkTimelinePagingSource @Inject constructor(
                 // indices).
                 //
                 // .--- page index
-                // |     .-- ID of first item (key in `pages`)
+                // |     .-- ID of last item (key in `pageCache`)
                 // v     V
                 // 0: k: 109934818460629189, prevKey: 995916, nextKey: 941865
                 // 1: k: 110033940961955385, prevKey: 1073324, nextKey: 997376
@@ -104,20 +102,17 @@ class NetworkTimelinePagingSource @Inject constructor(
             Log.d(TAG, "  Returning empty page")
         } else {
             Log.d(TAG, "  Returning full page:")
-            Log.d(TAG, "    $page")
+            Log.d(TAG, "     $page")
         }
         return LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
     }
 
     override fun getRefreshKey(state: PagingState<String, Status>): String? {
-        Log.d(TAG, "getRefreshKey(): anchorPosition: ${state.anchorPosition}")
-        val refreshKey = state.anchorPosition?.let { anchorPosition ->
-            // TODO: Test if closestPage or closestItem is better here
-//            state.closestPageToPosition(anchorPosition)?.data?.last()?.id
-            state.closestItemToPosition(anchorPosition)?.id
+        return state.anchorPosition?.let { anchorPosition ->
+            val refreshKey = state.closestItemToPosition(anchorPosition)?.id
+            Log.d(TAG, "- getRefreshKey(), state.anchorPosition = $anchorPosition, return $refreshKey")
+            refreshKey
         }
-        Log.d(TAG, "  refreshKey = $refreshKey")
-        return refreshKey
     }
 
     companion object {

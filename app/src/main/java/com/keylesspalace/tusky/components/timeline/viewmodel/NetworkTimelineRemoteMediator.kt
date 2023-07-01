@@ -49,18 +49,24 @@ class NetworkTimelineRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = true)
         }
 
-        Log.d(TAG, "load(), LoadType = $loadType")
-
         return try {
             val key = when (loadType) {
                 LoadType.REFRESH -> {
-                    Log.d(TAG, "  anchorPosition: ${state.anchorPosition}")
                     // Find the closest page to the current position
-                    val key = state.anchorPosition?.let { state.closestPageToPosition(it) }?.data?.last()?.id
-                    Log.d(TAG, "  Refreshing page with last id: $key")
+                    val itemKey = state.anchorPosition?.let { state.closestItemToPosition(it) }?.id
+                    itemKey?.let { ik ->
+                        val pageContainingItem = pageCache.floorEntry(ik)
+                            ?: throw java.lang.IllegalStateException("$itemKey not found in the pageCache page")
 
-                    // Use its prevKey to refresh this page
-                    key?.let { pageCache.lowerEntry(it)?.value?.prevKey }
+                        // Double check the item appears in the page
+                        if (BuildConfig.DEBUG) {
+                            pageContainingItem.value.data.find { it.id == itemKey }
+                                ?: throw java.lang.IllegalStateException("$itemKey not found in returned page")
+                        }
+
+                        // The desired key is the prevKey of the page immediately before this one
+                        pageCache.lowerEntry(pageContainingItem.value.data.last().id)?.value?.prevKey
+                    }
                 }
                 LoadType.APPEND -> {
                     pageCache.firstEntry()?.value?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
@@ -70,26 +76,35 @@ class NetworkTimelineRemoteMediator(
                 }
             }
 
-            Log.d(TAG, "  from key: $key")
-            val response = fetchStatusPageByKind(loadType, key, state.config.initialLoadSize)
+            Log.d(TAG, "- load(), type = $loadType, key = $key")
 
-            val page = Page.tryFrom(response).getOrElse { return MediatorResult.Error(it) }
+            val response = fetchStatusPageByKind(loadType, key, state.config.initialLoadSize)
+            var page = Page.tryFrom(response).getOrElse { return MediatorResult.Error(it) }
+
+            // If doing a refresh with a known key Paging3 wants you to load "around" the requested
+            // key, so that it can show the item with the key in the view as well as context before
+            // and after it. If you don't do this state.anchorPosition can get in to a weird state
+            // where it starts picking anchorPositions in freshly loaded pages, and the list
+            // repeatedly jumps up as new content is loaded with the prepend operations that occur
+            // after a refresh.
+            //
+            // To ensure that the first page loaded after a refresh is big enough that this can't
+            // happen load the page immediately before and the page immediately after as well,
+            // and merge the three of them in to one large page.
+            if (loadType == LoadType.REFRESH && key != null) {
+                Log.d(TAG, "  Refresh with non-null key, creating huge page")
+                val prevPage = Page.tryFrom(fetchStatusPageByKind(LoadType.PREPEND, page.prevKey, state.config.initialLoadSize))
+                    .getOrElse { return MediatorResult.Error(it) }
+                val nextPage = Page.tryFrom(fetchStatusPageByKind(LoadType.APPEND, page.nextKey, state.config.initialLoadSize))
+                    .getOrElse { return MediatorResult.Error(it) }
+                page = page.merge(prevPage, nextPage)
+            }
 
             if (BuildConfig.DEBUG && loadType == LoadType.REFRESH) {
-                state.anchorPosition?.let { state.closestPageToPosition(it) }?.data?.last()?.id?.let { expectedPage ->
-                    if (pageCache[expectedPage]?.data?.size == page.data.size) {
-                        Log.d(TAG, "  Refresh has same data size")
-                        if (pageCache[expectedPage]?.data?.last()?.id == page.data.last().id) {
-                            Log.d(TAG, "  ... and they have the same last ID")
-                        } else {
-                            throw IllegalStateException("  Last IDs do not match, got: ${page.data.last().id}, want: $expectedPage")
-                        }
-                    } else {
-                        Log.d(TAG, "  Refresh has different data size!")
-                    }
-                    page.data.lastOrNull { it.id == expectedPage }
-                        ?: throw IllegalStateException("  Refreshed page does not contain $expectedPage")
-                    Log.d(TAG, "  Page contains $expectedPage")
+                // Verify page contains the expected key
+                state.anchorPosition?.let { state.closestItemToPosition(it) }?.id?.let { itemId ->
+                    page.data.find { it.id == itemId }
+                        ?: throw IllegalStateException("Fetched page with $key, it does not contain $itemId")
                 }
             }
 
@@ -103,11 +118,11 @@ class NetworkTimelineRemoteMediator(
                     pageCache.upsert(page)
                     Log.d(
                         TAG,
-                        "  Page $loadType complete for $timelineKind, now got ${pageCache.size} pages"
+                        "  Page $loadType complete for $timelineKind, now got ${pageCache.size} pages, endOfPaginationReached = $endOfPaginationReached"
                     )
                     pageCache.debug()
                 }
-                Log.d(TAG, "  Invalidating source")
+                Log.d(TAG, "  Invalidating paging source")
                 factory.invalidate()
             }
 

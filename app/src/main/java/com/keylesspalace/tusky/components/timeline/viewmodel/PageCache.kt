@@ -21,6 +21,7 @@ import android.util.Log
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.Links
+import com.keylesspalace.tusky.util.isLessThan
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.TreeMap
@@ -28,7 +29,7 @@ import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
 /** A page of data from the Mastodon API */
-data class Page constructor(
+data class Page(
     /** Loaded data */
     val data: MutableList<Status>,
     /**
@@ -42,7 +43,50 @@ data class Page constructor(
      */
     val nextKey: String? = null
 ) {
-    override fun toString() = "k: ${data.last().id}, prev: $prevKey, next: $nextKey, size: ${data.size}, range: ${data.first().id}..${data.last().id}"
+    override fun toString() = "k: ${data.lastOrNull()?.id}, prev: $prevKey, next: $nextKey, size: ${"%2d".format(data.size)}, range: ${data.firstOrNull()?.id}..${data.lastOrNull()?.id}"
+
+    fun merge(vararg pages: Page?): Page {
+        val d = data
+        var next = nextKey
+        var prev = prevKey
+
+        pages.filterNotNull().forEach {
+            d.addAll(it.data)
+            if (next != null) {
+                if (it.nextKey == null || it.nextKey.isLessThan(next!!)) next = it.nextKey
+            }
+            if (prev != null) {
+                if (prev!!.isLessThan(it.prevKey ?: "")) prev = it.prevKey
+            }
+        }
+
+        d.sortWith(compareBy({ it.id.length }, { it.id }))
+        d.reverse()
+
+        if (nextKey?.isLessThan(next ?: "") == true) throw java.lang.IllegalStateException("New next $next is greater than old nextKey $nextKey")
+        if (prev?.isLessThan(prevKey ?: "") == true) throw java.lang.IllegalStateException("New prev $prev is less than old $prevKey")
+
+        // Debug assertions
+        if (BuildConfig.DEBUG) {
+            // There should never be duplicate items across all the pages.
+            val ids = d.map { it.id }
+            val groups = ids.groupingBy { it }.eachCount().filter { it.value > 1 }
+            if (groups.isNotEmpty()) {
+                throw IllegalStateException("Duplicate item IDs in results!: $groups")
+            }
+
+            // Data should always be sorted newest first
+            if (d.first().id.isLessThan(d.last().id)) {
+                throw IllegalStateException("Items in data are *not* sorted newest first")
+            }
+        }
+
+        return Page(
+            data = d,
+            nextKey = next,
+            prevKey = prev
+        )
+    }
 
     companion object {
         private const val TAG = "Page"
