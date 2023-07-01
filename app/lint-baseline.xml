@@ -80,7 +80,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
-            line="254"
+            line="280"
             column="21"/>
     </issue>
 
@@ -839,7 +839,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="376"
+            line="379"
             column="5"/>
     </issue>
 
@@ -850,7 +850,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="551"
+            line="557"
             column="5"/>
     </issue>
 
@@ -861,7 +861,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="769"
+            line="774"
             column="5"/>
     </issue>
 
@@ -1532,7 +1532,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="42"
+            line="43"
             column="9"/>
     </issue>
 
@@ -1543,7 +1543,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="48"
+            line="49"
             column="9"/>
     </issue>
 
@@ -1653,7 +1653,7 @@
         errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="827"
+            line="877"
             column="57"/>
     </issue>
 
@@ -2033,33 +2033,11 @@
 
     <issue
         id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/windowBackgroundColor` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/windowBackgroundColor&quot;>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-sw640dp/fragment_timeline.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
         message="Possible overdraw: Root element paints background `?android:attr/colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
         errorLine1="    android:background=&quot;?android:attr/colorBackground&quot;>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/fragment_timeline_notifications.xml"
-            line="24"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/windowBackgroundColor` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/windowBackgroundColor&quot;>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-sw640dp/fragment_timeline_notifications.xml"
             line="24"
             column="5"/>
     </issue>
@@ -2126,40 +2104,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/item_hashtag.xml"
-            line="6"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?android:colorBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_bottom_sheet.xml"
-            line="8"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?android:colorBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_tab_preference.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/selectableItemBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/selectableItemBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_tab_preference_small.xml"
-            line="7"
+            line="16"
             column="5"/>
     </issue>
 
@@ -2489,7 +2434,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="387"
+            line="392"
             column="13"/>
     </issue>
 
@@ -2500,7 +2445,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="445"
+            line="450"
             column="13"/>
     </issue>
 
@@ -2511,7 +2456,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="496"
+            line="502"
             column="13"/>
     </issue>
 
@@ -2522,7 +2467,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="500"
+            line="506"
             column="13"/>
     </issue>
 
@@ -2533,7 +2478,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="501"
+            line="507"
             column="13"/>
     </issue>
 
@@ -2544,7 +2489,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="502"
+            line="508"
             column="13"/>
     </issue>
 
@@ -2555,7 +2500,7 @@
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="503"
+            line="509"
             column="13"/>
     </issue>
 
@@ -2566,7 +2511,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="504"
+            line="510"
             column="13"/>
     </issue>
 
@@ -2577,7 +2522,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="505"
+            line="511"
             column="13"/>
     </issue>
 
@@ -2588,7 +2533,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="506"
+            line="512"
             column="13"/>
     </issue>
 
@@ -2599,7 +2544,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="507"
+            line="513"
             column="13"/>
     </issue>
 
@@ -2610,7 +2555,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="509"
+            line="515"
             column="13"/>
     </issue>
 
@@ -2621,7 +2566,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="594"
+            line="600"
             column="13"/>
     </issue>
 
@@ -2632,7 +2577,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="595"
+            line="601"
             column="13"/>
     </issue>
 
@@ -2643,7 +2588,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="609"
+            line="615"
             column="13"/>
     </issue>
 
@@ -2654,7 +2599,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="611"
+            line="617"
             column="13"/>
     </issue>
 
@@ -2665,7 +2610,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="612"
+            line="618"
             column="13"/>
     </issue>
 
@@ -2676,7 +2621,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="615"
+            line="621"
             column="13"/>
     </issue>
 
@@ -2687,7 +2632,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="660"
+            line="666"
             column="13"/>
     </issue>
 
@@ -2698,7 +2643,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="709"
+            line="715"
             column="13"/>
     </issue>
 
@@ -2709,7 +2654,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="715"
+            line="721"
             column="13"/>
     </issue>
 
@@ -2720,7 +2665,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="756"
+            line="762"
             column="13"/>
     </issue>
 
@@ -2731,7 +2676,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="791"
+            line="796"
             column="13"/>
     </issue>
 
@@ -2951,7 +2896,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/preference/AccountPreferencesFragment.kt"
-            line="307"
+            line="310"
             column="25"/>
     </issue>
 
@@ -2962,7 +2907,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/preference/AccountPreferencesFragment.kt"
-            line="313"
+            line="316"
             column="21"/>
     </issue>
 
@@ -2973,7 +2918,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="117"
+            line="116"
             column="17"/>
     </issue>
 
@@ -2984,7 +2929,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="124"
+            line="123"
             column="21"/>
     </issue>
 
@@ -2995,7 +2940,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="195"
+            line="181"
             column="17"/>
     </issue>
 
@@ -3006,7 +2951,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="205"
+            line="191"
             column="128"/>
     </issue>
 
@@ -3017,7 +2962,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="205"
+            line="191"
             column="128"/>
     </issue>
 
@@ -3028,7 +2973,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="207"
+            line="193"
             column="71"/>
     </issue>
 
@@ -3039,7 +2984,7 @@
         errorLine2="                                                              ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="207"
+            line="193"
             column="63"/>
     </issue>
 
@@ -3050,7 +2995,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="232"
+            line="218"
             column="21"/>
     </issue>
 
@@ -3061,7 +3006,7 @@
         errorLine2="                    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="234"
+            line="220"
             column="21"/>
     </issue>
 
@@ -3072,7 +3017,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="244"
+            line="230"
             column="128"/>
     </issue>
 
@@ -3083,7 +3028,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="244"
+            line="230"
             column="128"/>
     </issue>
 
@@ -3094,7 +3039,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="246"
+            line="232"
             column="71"/>
     </issue>
 
@@ -3105,7 +3050,7 @@
         errorLine2="                                                              ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="246"
+            line="232"
             column="63"/>
     </issue>
 
@@ -3127,7 +3072,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="552"
+            line="553"
             column="21"/>
     </issue>
 
@@ -3138,7 +3083,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="561"
+            line="562"
             column="17"/>
     </issue>
 
@@ -3149,7 +3094,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="561"
+            line="562"
             column="17"/>
     </issue>
 
@@ -3215,7 +3160,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt"
-            line="163"
+            line="153"
             column="21"/>
     </issue>
 
@@ -3226,7 +3171,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt"
-            line="165"
+            line="155"
             column="29"/>
     </issue>
 
@@ -3237,7 +3182,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="107"
+            line="113"
             column="17"/>
     </issue>
 
@@ -3248,7 +3193,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="107"
+            line="113"
             column="17"/>
     </issue>
 
@@ -3259,7 +3204,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="117"
+            line="123"
             column="17"/>
     </issue>
 
@@ -3270,7 +3215,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="117"
+            line="123"
             column="17"/>
     </issue>
 
@@ -3281,7 +3226,7 @@
         errorLine2="                                  ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="92"
+            line="91"
             column="35"/>
     </issue>
 
@@ -3292,7 +3237,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="93"
+            line="92"
             column="25"/>
     </issue>
 
@@ -3303,7 +3248,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="94"
+            line="93"
             column="43"/>
     </issue>
 
@@ -3314,7 +3259,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="95"
+            line="94"
             column="25"/>
     </issue>
 
@@ -3325,7 +3270,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="207"
+            line="202"
             column="21"/>
     </issue>
 
@@ -3336,7 +3281,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/instancemute/fragment/InstanceListFragment.kt"
-            line="57"
+            line="56"
             column="21"/>
     </issue>
 
@@ -3600,7 +3545,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt"
-            line="188"
+            line="178"
             column="21"/>
     </issue>
 
@@ -3611,7 +3556,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt"
-            line="194"
+            line="184"
             column="21"/>
     </issue>
 
@@ -4436,7 +4381,7 @@
         errorLine2="                         ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="187"
+            line="188"
             column="26"/>
     </issue>
 
@@ -4447,7 +4392,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="228"
+            line="229"
             column="21"/>
     </issue>
 
@@ -4458,7 +4403,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="230"
+            line="231"
             column="29"/>
     </issue>
 
@@ -4502,7 +4447,7 @@
         errorLine2="            ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="89"
+            line="90"
             column="13"/>
     </issue>
 
@@ -4513,7 +4458,7 @@
         errorLine2="                ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="135"
+            line="136"
             column="17"/>
     </issue>
 
@@ -4524,7 +4469,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="145"
+            line="146"
             column="55"/>
     </issue>
 
@@ -4535,7 +4480,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="145"
+            line="146"
             column="55"/>
     </issue>
 
@@ -4546,7 +4491,7 @@
         errorLine2="                             ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="153"
+            line="162"
             column="30"/>
     </issue>
 
@@ -5074,7 +5019,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="742"
+            line="748"
             column="55"/>
     </issue>
 
@@ -5598,7 +5543,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_followed_hashtag.xml"
-            line="27"
+            line="14"
             column="6"/>
     </issue>
 
@@ -5609,7 +5554,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_list.xml"
-            line="9"
+            line="14"
             column="6"/>
     </issue>
 
@@ -6049,7 +5994,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_edit.xml"
-            line="24"
+            line="13"
             column="6"/>
     </issue>
 
@@ -6060,7 +6005,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_edit.xml"
-            line="74"
+            line="55"
             column="6"/>
     </issue>
 
@@ -6093,7 +6038,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="71"
+            line="70"
             column="6"/>
     </issue>
 
@@ -6104,7 +6049,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="85"
+            line="84"
             column="6"/>
     </issue>
 
@@ -6115,7 +6060,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_tab_preference.xml"
-            line="24"
+            line="26"
             column="6"/>
     </issue>
 
@@ -6203,7 +6148,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout-land/item_trending_cell.xml"
-            line="95"
+            line="94"
             column="10"/>
     </issue>
 
@@ -6214,7 +6159,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout/item_trending_cell.xml"
-            line="95"
+            line="94"
             column="10"/>
     </issue>
 
@@ -6225,7 +6170,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout-land/item_trending_cell.xml"
-            line="126"
+            line="125"
             column="10"/>
     </issue>
 
@@ -6236,7 +6181,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout/item_trending_cell.xml"
-            line="127"
+            line="126"
             column="10"/>
     </issue>
 
@@ -6423,7 +6368,7 @@
         errorLine2="         ~~~~~~~~~">
         <location
             file="src/main/res/layout/activity_account.xml"
-            line="469"
+            line="468"
             column="10"/>
     </issue>
 
@@ -6478,7 +6423,7 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src/main/res/layout/item_tab_preference.xml"
-            line="13"
+            line="14"
             column="6"/>
     </issue>
 
@@ -6797,7 +6742,7 @@
         errorLine2="           ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="59"
+            line="63"
             column="12"/>
     </issue>
 
@@ -6808,7 +6753,7 @@
         errorLine2="                                                  ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="123"
+            line="165"
             column="51"/>
     </issue>
 
@@ -6819,7 +6764,7 @@
         errorLine2="                                         ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="129"
+            line="171"
             column="42"/>
     </issue>
 
@@ -6830,7 +6775,7 @@
         errorLine2="                                   ~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="157"
+            line="199"
             column="36"/>
     </issue>
 
@@ -6841,7 +6786,7 @@
         errorLine2="                                                                                                        ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="157"
+            line="199"
             column="105"/>
     </issue>
 
@@ -6852,7 +6797,7 @@
         errorLine2="                                         ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="165"
+            line="207"
             column="42"/>
     </issue>
 
@@ -6863,7 +6808,7 @@
         errorLine2="                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="165"
+            line="207"
             column="95"/>
     </issue>
 
@@ -6874,7 +6819,7 @@
         errorLine2="                                   ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="240"
+            line="275"
             column="36"/>
     </issue>
 
@@ -6885,7 +6830,7 @@
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="240"
+            line="275"
             column="58"/>
     </issue>
 
@@ -6896,7 +6841,7 @@
         errorLine2="                                                      ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="152"
+            line="159"
             column="55"/>
     </issue>
 
@@ -6907,7 +6852,7 @@
         errorLine2="                                                                       ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="152"
+            line="159"
             column="72"/>
     </issue>
 
@@ -6918,7 +6863,7 @@
         errorLine2="                                                                                                                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="152"
+            line="159"
             column="113"/>
     </issue>
 
@@ -6929,7 +6874,7 @@
         errorLine2="                                                                                                                                   ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="152"
+            line="159"
             column="132"/>
     </issue>
 
@@ -6940,7 +6885,7 @@
         errorLine2="                                                  ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="274"
+            line="281"
             column="51"/>
     </issue>
 
@@ -6951,7 +6896,7 @@
         errorLine2="                                                                   ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="274"
+            line="281"
             column="68"/>
     </issue>
 
@@ -6962,7 +6907,7 @@
         errorLine2="                                                                                                            ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="274"
+            line="281"
             column="109"/>
     </issue>
 
@@ -6973,7 +6918,7 @@
         errorLine2="                                               ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="577"
+            line="627"
             column="48"/>
     </issue>
 
@@ -6984,7 +6929,7 @@
         errorLine2="                                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="605"
+            line="655"
             column="49"/>
     </issue>
 
@@ -6995,7 +6940,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="621"
+            line="671"
             column="46"/>
     </issue>
 
@@ -7006,7 +6951,7 @@
         errorLine2="                                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="621"
+            line="671"
             column="87"/>
     </issue>
 
@@ -7347,7 +7292,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="846"
+            line="848"
             column="55"/>
     </issue>
 
@@ -7358,7 +7303,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="921"
+            line="923"
             column="22"/>
     </issue>
 
@@ -7369,7 +7314,7 @@
         errorLine2="                                                           ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="921"
+            line="923"
             column="60"/>
     </issue>
 
@@ -7380,7 +7325,7 @@
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="921"
+            line="923"
             column="77"/>
     </issue>
 
@@ -7391,7 +7336,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="970"
+            line="972"
             column="15"/>
     </issue>
 
@@ -7402,7 +7347,7 @@
         errorLine2="                                       ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="970"
+            line="972"
             column="40"/>
     </issue>
 
@@ -7413,7 +7358,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="979"
+            line="981"
             column="15"/>
     </issue>
 
@@ -7424,7 +7369,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="979"
+            line="981"
             column="43"/>
     </issue>
 
@@ -7435,7 +7380,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1080"
+            line="1082"
             column="19"/>
     </issue>
 
@@ -7446,7 +7391,7 @@
         errorLine2="                  ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1082"
+            line="1084"
             column="19"/>
     </issue>
 
@@ -7457,7 +7402,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1083"
+            line="1085"
             column="19"/>
     </issue>
 
@@ -7468,7 +7413,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1084"
+            line="1086"
             column="19"/>
     </issue>
 

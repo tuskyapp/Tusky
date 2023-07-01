@@ -106,7 +106,7 @@
     </style>
 
     <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:textSize">?attr/status_text_medium</item>
+        <item name="tabTextAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:textAllCaps">true</item>
         <item name="tabIndicatorHeight">3dp</item>
     </style>
