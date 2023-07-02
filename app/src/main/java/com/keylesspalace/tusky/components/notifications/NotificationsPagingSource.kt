@@ -19,6 +19,7 @@ package com.keylesspalace.tusky.components.notifications
 
 import android.util.Log
 import androidx.paging.PagingSource
+import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
 import com.google.gson.Gson
 import com.keylesspalace.tusky.entity.Notification
@@ -29,6 +30,8 @@ import kotlinx.coroutines.coroutineScope
 import okhttp3.Headers
 import retrofit2.Response
 import javax.inject.Inject
+
+private val INVALID = LoadResult.Invalid<String, Notification>()
 
 /** [PagingSource] for Mastodon Notifications, identified by the Notification ID */
 class NotificationsPagingSource @Inject constructor(
@@ -77,6 +80,15 @@ class NotificationsPagingSource @Inject constructor(
             }
 
             val links = Links.from(response.headers()["link"])
+
+            // Bail if this paging source has already been invalidated. If you do not do this there
+            // is a lot of spurious animation, especially during the initial load, as multiple pages
+            // are loaded and the paging source is repeatedly invalidated.
+            if (invalid) {
+                Log.d(TAG, "Invalidated, returning LoadResult.Invalid")
+                return INVALID
+            }
+
             return LoadResult.Page(
                 data = response.body()!!,
                 nextKey = links.next,

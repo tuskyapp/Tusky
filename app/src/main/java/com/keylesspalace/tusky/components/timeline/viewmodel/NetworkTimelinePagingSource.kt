@@ -17,10 +17,13 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.util.Log
 import androidx.paging.PagingSource
+import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.entity.Status
 import javax.inject.Inject
+
+private val INVALID = LoadResult.Invalid<String, Status>()
 
 /** [PagingSource] for Mastodon Status, identified by the Status ID */
 class NetworkTimelinePagingSource @Inject constructor(
@@ -104,6 +107,15 @@ class NetworkTimelinePagingSource @Inject constructor(
             Log.d(TAG, "  Returning full page:")
             Log.d(TAG, "     $page")
         }
+
+        // Bail if this paging source has already been invalidated. If you do not do this there
+        // is a lot of spurious animation, especially during the initial load, as multiple pages
+        // are loaded and the paging source is repeatedly invalidated.
+        if (invalid) {
+            Log.d(TAG, "Invalidated, returning LoadResult.Invalid")
+            return INVALID
+        }
+
         return LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
     }
 
