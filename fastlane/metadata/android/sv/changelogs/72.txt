@@ -1,2 +1,11 @@
 Tusky v11.0
-https://github.com/tuskyapp/Tusky/releases
+
+- Aviseringar om nya följningsförfrågningar när ditt konto är låst
+- Nya funktioner som kan växlas på skärmen Inställningar:
+    - inaktivera svepning mellan flikarna
+    - visa en bekräftelsedialog innan du förstärker en tut
+    - visa länkförhandsvisningar i tidslinjer
+– Konversationer kan nu stängas av
+- Omröstningsresultat kommer nu att beräknas baserat på antalet väljare och inte på antalet totala röster, vilket gör flervalsundersökningar lättare att förstå
+– Många buggfixar, de flesta relaterade till att komponera tutter
+- Förbättrade översättningar

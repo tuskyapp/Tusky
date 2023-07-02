@@ -1,1 +1,13 @@
-https://github.com/tuskyapp/Tusky/releases
+Tusky v6.0
+
+- Tidslinjefilter har flyttats till kontoinställningar och kommer att synkroniseras med servern
+- Du kan nu ha en anpassad hashtagg som flik i huvudgränssnittet
+- Listor kan nu redigeras
+- Säkerhet: tog bort stödet för TLS 1.0 och TLS 1.1 och lade till stöd för TLS 1.3 på Android 6+
+- Skrivvyn kommer nu att föreslå anpassade emojis när du börjar skriva
+- Ny temainställning "följ systemtema"
+- Förbättrad tillgänglighet till tidslinjen
+- Tusky kommer nu att ignorera okända meddelanden och inte längre krascha
+- Ny inställning: Du kan nu åsidosätta systemspråket och ställa in ett annat språk i Tusky
+- Nya översättningar: tjeckiska och esperanto
+– Många andra förbättringar och fixar
