@@ -85,7 +85,7 @@ class NetworkTimelineViewModel @Inject constructor(
         initialKey: String? = null
     ): Flow<PagingData<StatusViewData>> {
         Log.d(TAG, "getStatuses: kind: $kind, initialKey: $initialKey")
-        return repository.getStatusStream(kind = kind, initialKey = initialKey)
+        return repository.getStatusStream(viewModelScope, kind = kind, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map {
                     modifiedViewData[it.id] ?: it.toViewData(

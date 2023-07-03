@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getDomain
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -70,9 +71,10 @@ class NetworkTimelineRepository @Inject constructor(
     /** @return flow of Mastodon [Status], loaded in [pageSize] increments */
     @OptIn(ExperimentalPagingApi::class)
     fun getStatusStream(
+        viewModelScope: CoroutineScope,
         kind: TimelineKind,
         pageSize: Int = PAGE_SIZE,
-        initialKey: String? = null
+        initialKey: String? = null,
     ): Flow<PagingData<Status>> {
         Log.d(TAG, "getStatusStream(): key: $initialKey")
 
@@ -83,6 +85,7 @@ class NetworkTimelineRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = pageSize, initialLoadSize = pageSize),
             remoteMediator = NetworkTimelineRemoteMediator(
+                viewModelScope,
                 mastodonApi,
                 accountManager,
                 factory!!,

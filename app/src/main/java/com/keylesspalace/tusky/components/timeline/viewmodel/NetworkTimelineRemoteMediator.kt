@@ -28,6 +28,8 @@ import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -35,6 +37,7 @@ import java.io.IOException
 /** Remote mediator for accessing timelines that are not backed by the database. */
 @OptIn(ExperimentalPagingApi::class)
 class NetworkTimelineRemoteMediator(
+    private val viewModelScope: CoroutineScope,
     private val api: MastodonApi,
     accountManager: AccountManager,
     private val factory: InvalidatingPagingSourceFactory<String, Status>,
@@ -93,10 +96,14 @@ class NetworkTimelineRemoteMediator(
             // and merge the three of them in to one large page.
             if (loadType == LoadType.REFRESH && key != null) {
                 Log.d(TAG, "  Refresh with non-null key, creating huge page")
-                val prevPage = Page.tryFrom(fetchStatusPageByKind(LoadType.PREPEND, page.prevKey, state.config.initialLoadSize))
-                    .getOrElse { return MediatorResult.Error(it) }
-                val nextPage = Page.tryFrom(fetchStatusPageByKind(LoadType.APPEND, page.nextKey, state.config.initialLoadSize))
-                    .getOrElse { return MediatorResult.Error(it) }
+                val prevPageJob = viewModelScope.async {
+                    fetchStatusPageByKind(LoadType.PREPEND, page.prevKey, state.config.initialLoadSize)
+                }
+                val nextPageJob = viewModelScope.async {
+                    fetchStatusPageByKind(LoadType.APPEND, page.nextKey, state.config.initialLoadSize)
+                }
+                val prevPage = Page.tryFrom(prevPageJob.await()).getOrElse { return MediatorResult.Error(it) }
+                val nextPage = Page.tryFrom(nextPageJob.await()).getOrElse { return MediatorResult.Error(it) }
                 page = page.merge(prevPage, nextPage)
             }
 
@@ -118,7 +125,7 @@ class NetworkTimelineRemoteMediator(
                     pageCache.upsert(page)
                     Log.d(
                         TAG,
-                        "  Page $loadType complete for $timelineKind, now got ${pageCache.size} pages, endOfPaginationReached = $endOfPaginationReached"
+                        "  Page $loadType complete for $timelineKind, now got ${pageCache.size} pages"
                     )
                     pageCache.debug()
                 }
