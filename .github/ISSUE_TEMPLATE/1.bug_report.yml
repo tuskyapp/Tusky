@@ -1,0 +1,63 @@
+name: Bug Report
+description: If something isn't working as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure that you are submitting a new bug that was not previously reported or already fixed.
+
+        Please use a concise and distinct title for the issue.
+
+        If possible, attach screenshots or videos to illustrate the problem.
+  - type: textarea
+    attributes:
+      label: Detailed description
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Steps to reproduce the problem
+      description: What were you trying to do?
+      value: |
+        1.
+        2.
+        3.
+        ...
+    validations:
+      required: false
+  - type: input
+    attributes:
+      label: Tusky version
+      description: The exact Tusky version, from the 'About' screen
+      placeholder: Tusky Test 22.0-b814c2c0
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Where did you install Tusky from?
+      multiple: false
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+  - type: input
+    attributes:
+      label: Android version
+      placeholder: Android 12
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Device
+      placeholder: Fairphone 4
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Mastodon instance
+      placeholder: mastodon.social
+    validations:
+      required: false
