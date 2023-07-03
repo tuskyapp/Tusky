@@ -643,9 +643,9 @@
     <string name="notification_listenable_worker_name">Hintergrundaktivität</string>
     <string name="notification_notification_worker">Benachrichtigungen werden abgerufen …</string>
     <string name="load_newest_notifications">Neueste Benachrichtigungen laden</string>
-    <string name="compose_delete_draft">Entwurf löschen\?</string>
-    <string name="error_missing_edits">Deinem Server ist bekannt, dass dieser Beitrag bearbeitet wurde. Allerdings besitzt er keine Kopien der Änderungen, weshalb diese nicht angezeigt werden können.
-\n
+    <string name="compose_delete_draft">Entwurf löschen?</string>
+    <string name="error_missing_edits">Deinem Server ist bekannt, dass dieser Beitrag bearbeitet wurde. Allerdings besitzt er keine Kopien der Änderungen, weshalb diese nicht angezeigt werden können. 
+\n 
 \nHierbei handelt es sich um <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon Issue #25398</a>.</string>
     <string name="about_device_info_title">Dein Gerät</string>
     <string name="about_device_info">%1$s %2$s
