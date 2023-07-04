@@ -41,12 +41,15 @@ import javax.inject.Inject
 //   the page that contains item X, and the previous or next page, so you can use the prev/next
 //   link values from the next or previous page to step forwards or backwards to the page you
 //   actually want.
+//
 // - Not all Mastodon APIs that paginate support a "Fetch me just the item X". E.g., getting a
 //   list of bookmarks (https://docs.joinmastodon.org/methods/bookmarks/#get) paginates, but does
 //   not support a "Get a single bookmark" call. Ditto for favourites. So even though some API
 //   methods do support that they can't be used here, because this has to work for all paging APIs.
+//
 // - Values of next/prev in the Link header do not have to match any of the item keys (or be taken
 //   from the same namespace).
+//
 // - Two pages that are consecutive in the result set may not have next/prev values that point
 //   back to each other. I.e., this is a valid set of two pages from an API call:
 //
@@ -58,6 +61,11 @@ import javax.inject.Inject
 //
 //   They are consecutive in the result set, but pageCache[0].prevKey != pageCache[1].nextKey. So
 //   there's no benefit to using the nextKey/prevKey tokens as the keys in PageCache.
+//
+// - Bugs in the Paging library mean that on initial load (especially of rapidly changing timelines
+//   like Federated) the user's initial position can jump around a lot. See:
+//   - https://issuetracker.google.com/issues/235319241
+//   - https://issuetracker.google.com/issues/289824257
 
 /** Timeline repository where the timeline information is backed by an in-memory cache. */
 class NetworkTimelineRepository @Inject constructor(
