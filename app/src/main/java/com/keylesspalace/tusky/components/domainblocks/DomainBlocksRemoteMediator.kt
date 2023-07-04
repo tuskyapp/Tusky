@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.components.instancemute
+package com.keylesspalace.tusky.components.domainblocks
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -10,9 +10,9 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 @OptIn(ExperimentalPagingApi::class)
-class InstanceMuteRemoteMediator(
+class DomainBlocksRemoteMediator(
     private val api: MastodonApi,
-    private val viewModel: InstanceMuteViewModel
+    private val viewModel: DomainBlocksViewModel
 ) : RemoteMediator<String, String>() {
     override suspend fun load(
         loadType: LoadType,

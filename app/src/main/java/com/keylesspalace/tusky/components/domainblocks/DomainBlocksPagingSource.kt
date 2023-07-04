@@ -1,9 +1,9 @@
-package com.keylesspalace.tusky.components.instancemute
+package com.keylesspalace.tusky.components.domainblocks
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
-class InstanceMutePagingSource(private val viewModel: InstanceMuteViewModel) : PagingSource<String, String>() {
+class DomainBlocksPagingSource(private val viewModel: DomainBlocksViewModel) : PagingSource<String, String>() {
     override fun getRefreshKey(state: PagingState<String, String>): String? = null
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, String> {

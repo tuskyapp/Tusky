@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.components.instancemute.adapter
+package com.keylesspalace.tusky.components.domainblocks
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.keylesspalace.tusky.components.followedtags.FollowedTagsAdapter.Compa
 import com.keylesspalace.tusky.databinding.ItemMutedDomainBinding
 import com.keylesspalace.tusky.util.BindingHolder
 
-class DomainMutesAdapter(
+class DomainBlocksAdapter(
     private val onUnmute: (String) -> Unit
 ) : PagingDataAdapter<String, BindingHolder<ItemMutedDomainBinding>>(STRING_COMPARATOR) {
 

@@ -44,8 +44,8 @@
     <string name="error_following_hashtags_unsupported">This instance does not support following hashtags.</string>
     <string name="error_muting_hashtag_format">Error muting #%s</string>
     <string name="error_unmuting_hashtag_format">Error unmuting #%s</string>
-    <string name="error_muting_domain">Failed to mute %s</string>
-    <string name="error_unmuting_domain">Failed to mute %s</string>
+    <string name="error_blocking_domain">Failed to mute %s</string>
+    <string name="error_unblocking_domain">Failed to unmute %s</string>
     <string name="error_status_source_load">Failed to load the status source from the server.</string>
 
     <string name="title_login">Login</string>

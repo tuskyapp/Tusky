@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.components.instancemute.fragment
+package com.keylesspalace.tusky.components.domainblocks
 
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
-import com.keylesspalace.tusky.components.instancemute.InstanceMuteEvent
-import com.keylesspalace.tusky.components.instancemute.InstanceMuteViewModel
-import com.keylesspalace.tusky.components.instancemute.adapter.DomainMutesAdapter
-import com.keylesspalace.tusky.databinding.FragmentInstanceListBinding
+import com.keylesspalace.tusky.databinding.FragmentDomainBlocksBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
@@ -26,17 +22,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectable {
+class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val binding by viewBinding(FragmentInstanceListBinding::bind)
+    private val binding by viewBinding(FragmentDomainBlocksBinding::bind)
 
-    private val viewModel: InstanceMuteViewModel by viewModels { viewModelFactory }
+    private val viewModel: DomainBlocksViewModel by viewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = DomainMutesAdapter(viewModel::unmute)
+        val adapter = DomainBlocksAdapter(viewModel::unblock)
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
@@ -46,9 +42,9 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiEvents.collect { event ->
                 when (event) {
-                    is InstanceMuteEvent.UnmuteError -> showUnmuteError(event.domain)
-                    is InstanceMuteEvent.MuteError -> showMuteError(event.domain)
-                    is InstanceMuteEvent.UnmuteSuccess -> showUnmuteSuccess(event.domain)
+                    is DomainBlockEvent.UnblockError -> showUnmuteError(event.domain)
+                    is DomainBlockEvent.BlockError -> showMuteError(event.domain)
+                    is DomainBlockEvent.BlockSuccess -> showUnmuteSuccess(event.domain)
                 }
             }
         }
@@ -60,14 +56,14 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
         }
 
         adapter.addLoadStateListener { loadState ->
-            binding.instanceProgressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+            binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
 
             if (loadState.refresh is LoadState.Error) {
                 binding.recyclerView.hide()
                 binding.messageView.show()
                 val errorState = loadState.refresh as LoadState.Error
                 binding.messageView.setup(errorState.error) { adapter.retry() }
-                Log.w(FollowedTagsActivity.TAG, "error loading followed hashtags", errorState.error)
+                Log.w(TAG, "error loading blocked domains", errorState.error)
             } else if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
                 binding.recyclerView.hide()
                 binding.messageView.show()
@@ -81,28 +77,32 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
 
     private fun showUnmuteError(domain: String) {
         showSnackbar(
-            getString(R.string.error_unmuting_domain, domain),
+            getString(R.string.error_unblocking_domain, domain),
             R.string.action_retry
-        ) { viewModel.unmute(domain) }
+        ) { viewModel.unblock(domain) }
     }
 
     private fun showMuteError(domain: String) {
         showSnackbar(
-            getString(R.string.error_muting_domain, domain),
+            getString(R.string.error_blocking_domain, domain),
             R.string.action_retry
-        ) { viewModel.mute(domain) }
+        ) { viewModel.block(domain) }
     }
 
     private fun showUnmuteSuccess(domain: String) {
         showSnackbar(
             getString(R.string.confirmation_domain_unmuted, domain),
             R.string.action_undo
-        ) { viewModel.mute(domain) }
+        ) { viewModel.block(domain) }
     }
 
     private fun showSnackbar(message: String, actionText: Int, action: (View) -> Unit) {
         Snackbar.make(binding.recyclerView, message, Snackbar.LENGTH_LONG)
             .setAction(actionText, action)
             .show()
+    }
+
+    companion object {
+        private const val TAG = "DomainBlocksFragment"
     }
 }

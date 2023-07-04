@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.components.instancemute
+package com.keylesspalace.tusky.components.domainblocks
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -13,20 +13,20 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class InstanceMuteViewModel @Inject constructor(
+class DomainBlocksViewModel @Inject constructor(
     private val api: MastodonApi
 ) : ViewModel() {
     val domains: MutableList<String> = mutableListOf()
-    val uiEvents = MutableSharedFlow<InstanceMuteEvent>()
+    val uiEvents = MutableSharedFlow<DomainBlockEvent>()
     var nextKey: String? = null
-    var currentSource: InstanceMutePagingSource? = null
+    var currentSource: DomainBlocksPagingSource? = null
 
     @OptIn(ExperimentalPagingApi::class)
     val pager = Pager(
         config = PagingConfig(pageSize = 20),
-        remoteMediator = InstanceMuteRemoteMediator(api, this),
+        remoteMediator = DomainBlocksRemoteMediator(api, this),
         pagingSourceFactory = {
-            InstanceMutePagingSource(
+            DomainBlocksPagingSource(
                 viewModel = this
             ).also { source ->
                 currentSource = source
@@ -34,38 +34,38 @@ class InstanceMuteViewModel @Inject constructor(
         }
     ).flow.cachedIn(viewModelScope)
 
-    fun mute(domain: String) {
+    fun block(domain: String) {
         viewModelScope.launch {
             api.blockDomain(domain).fold({
                 domains.add(domain)
                 currentSource?.invalidate()
             }, { e ->
-                Log.w(TAG, "Error muting domain $domain", e)
-                uiEvents.emit(InstanceMuteEvent.MuteError(domain))
+                Log.w(TAG, "Error blocking domain $domain", e)
+                uiEvents.emit(DomainBlockEvent.BlockError(domain))
             })
         }
     }
 
-    fun unmute(domain: String) {
+    fun unblock(domain: String) {
         viewModelScope.launch {
             api.unblockDomain(domain).fold({
                 domains.remove(domain)
                 currentSource?.invalidate()
-                uiEvents.emit(InstanceMuteEvent.UnmuteSuccess(domain))
+                uiEvents.emit(DomainBlockEvent.BlockSuccess(domain))
             }, { e ->
-                Log.w(TAG, "Error unmuting domain $domain", e)
-                uiEvents.emit(InstanceMuteEvent.UnmuteError(domain))
+                Log.w(TAG, "Error unblocking domain $domain", e)
+                uiEvents.emit(DomainBlockEvent.UnblockError(domain))
             })
         }
     }
 
     companion object {
-        private const val TAG = "InstanceMuteViewModel"
+        private const val TAG = "DomainBlocksViewModel"
     }
 }
 
-sealed class InstanceMuteEvent {
-    data class UnmuteSuccess(val domain: String) : InstanceMuteEvent()
-    data class UnmuteError(val domain: String) : InstanceMuteEvent()
-    data class MuteError(val domain: String) : InstanceMuteEvent()
+sealed class DomainBlockEvent {
+    data class BlockSuccess(val domain: String) : DomainBlockEvent()
+    data class UnblockError(val domain: String) : DomainBlockEvent()
+    data class BlockError(val domain: String) : DomainBlockEvent()
 }
