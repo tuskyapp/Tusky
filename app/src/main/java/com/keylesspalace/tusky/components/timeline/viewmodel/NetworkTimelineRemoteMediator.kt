@@ -97,13 +97,22 @@ class NetworkTimelineRemoteMediator(
             if (loadType == LoadType.REFRESH && key != null) {
                 Log.d(TAG, "  Refresh with non-null key, creating huge page")
                 val prevPageJob = viewModelScope.async {
-                    fetchStatusPageByKind(LoadType.PREPEND, page.prevKey, state.config.initialLoadSize)
+                    page.prevKey?.let { key ->
+                        fetchStatusPageByKind(LoadType.PREPEND, key, state.config.initialLoadSize)
+                    }
                 }
                 val nextPageJob = viewModelScope.async {
-                    fetchStatusPageByKind(LoadType.APPEND, page.nextKey, state.config.initialLoadSize)
+                    page.nextKey?.let { key ->
+                        fetchStatusPageByKind(LoadType.APPEND, key, state.config.initialLoadSize)
+                    }
                 }
-                val prevPage = Page.tryFrom(prevPageJob.await()).getOrElse { return MediatorResult.Error(it) }
-                val nextPage = Page.tryFrom(nextPageJob.await()).getOrElse { return MediatorResult.Error(it) }
+                val prevPage = prevPageJob.await()
+                    ?.let { Page.tryFrom(it).getOrElse { return MediatorResult.Error(it) } }
+                val nextPage = nextPageJob.await()
+                    ?.let { Page.tryFrom(it).getOrElse { return MediatorResult.Error(it) } }
+                Log.d(TAG, "    prevPage: $prevPage")
+                Log.d(TAG, "     midPage: $page")
+                Log.d(TAG, "    nextPage: $nextPage")
                 page = page.merge(prevPage, nextPage)
             }
 
