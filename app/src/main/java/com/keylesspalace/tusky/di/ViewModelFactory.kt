@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.components.drafts.DraftsViewModel
 import com.keylesspalace.tusky.components.filters.EditFilterViewModel
 import com.keylesspalace.tusky.components.filters.FiltersViewModel
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
+import com.keylesspalace.tusky.components.instancemute.InstanceMuteViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
 import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
@@ -184,6 +185,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EditFilterViewModel::class)
     internal abstract fun editFilterViewModel(viewModel: EditFilterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InstanceMuteViewModel::class)
+    internal abstract fun instanceMuteViewModel(viewModel: InstanceMuteViewModel): ViewModel
 
     // Add more ViewModels here
 }

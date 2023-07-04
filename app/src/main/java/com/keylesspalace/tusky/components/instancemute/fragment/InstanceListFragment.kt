@@ -4,155 +4,105 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import at.connyduck.calladapter.networkresult.fold
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
+import com.keylesspalace.tusky.components.instancemute.InstanceMuteEvent
+import com.keylesspalace.tusky.components.instancemute.InstanceMuteViewModel
 import com.keylesspalace.tusky.components.instancemute.adapter.DomainMutesAdapter
-import com.keylesspalace.tusky.components.instancemute.interfaces.InstanceActionListener
 import com.keylesspalace.tusky.databinding.FragmentInstanceListBinding
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.view.EndlessOnScrollListener
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.keylesspalace.tusky.util.visible
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectable, InstanceActionListener {
+class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectable {
 
     @Inject
-    lateinit var api: MastodonApi
+    lateinit var viewModelFactory: ViewModelFactory
 
     private val binding by viewBinding(FragmentInstanceListBinding::bind)
 
-    private var fetching = false
-    private var bottomId: String? = null
-    private var adapter = DomainMutesAdapter(this)
-    private lateinit var scrollListener: EndlessOnScrollListener
+    private val viewModel: InstanceMuteViewModel by viewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val adapter = DomainMutesAdapter(viewModel::unmute)
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        val layoutManager = LinearLayoutManager(view.context)
-        binding.recyclerView.layoutManager = layoutManager
-
-        scrollListener = object : EndlessOnScrollListener(layoutManager) {
-            override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
-                if (bottomId != null) {
-                    fetchInstances(bottomId)
-                }
-            }
-        }
-
-        binding.recyclerView.addOnScrollListener(scrollListener)
-        fetchInstances()
-    }
-
-    override fun mute(mute: Boolean, instance: String, position: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
-            if (mute) {
-                api.blockDomain(instance).fold({
-                    adapter.addItem(instance)
-                }, { e ->
-                    Log.e(TAG, "Error muting domain $instance", e)
-                })
-            } else {
-                api.unblockDomain(instance).fold({
-                    adapter.removeItem(position)
-                    Snackbar.make(binding.recyclerView, getString(R.string.confirmation_domain_unmuted, instance), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_undo) {
-                            mute(true, instance, position)
-                        }
-                        .show()
-                }, { e ->
-                    Log.e(TAG, "Error unmuting domain $instance", e)
-                })
-            }
-        }
-    }
-
-    private fun fetchInstances(id: String? = null) {
-        if (fetching) {
-            return
-        }
-        fetching = true
-        binding.instanceProgressBar.show()
-
-        if (id != null) {
-            binding.recyclerView.post { adapter.bottomLoading = true }
-        }
-
-        api.domainBlocks(id, bottomId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                { response ->
-                    val instances = response.body()
-
-                    if (response.isSuccessful && instances != null) {
-                        onFetchInstancesSuccess(instances, response.headers()["Link"])
-                    } else {
-                        onFetchInstancesFailure(Exception(response.message()))
-                    }
-                },
-                { throwable ->
-                    onFetchInstancesFailure(throwable)
+            viewModel.uiEvents.collect { event ->
+                when (event) {
+                    is InstanceMuteEvent.UnmuteError -> showUnmuteError(event.domain)
+                    is InstanceMuteEvent.MuteError -> showMuteError(event.domain)
+                    is InstanceMuteEvent.UnmuteSuccess -> showUnmuteSuccess(event.domain)
                 }
-            )
-    }
-
-    private fun onFetchInstancesSuccess(instances: List<String>, linkHeader: String?) {
-        adapter.bottomLoading = false
-        binding.instanceProgressBar.hide()
-
-        val links = HttpHeaderLink.parse(linkHeader)
-        val next = HttpHeaderLink.findByRelationType(links, "next")
-        val fromId = next?.uri?.getQueryParameter("max_id")
-        adapter.addItems(instances)
-        bottomId = fromId
-        fetching = false
-
-        if (adapter.itemCount == 0) {
-            binding.messageView.show()
-            binding.messageView.setup(
-                R.drawable.elephant_friend_empty,
-                R.string.message_empty,
-                null
-            )
-        } else {
-            binding.messageView.hide()
+            }
         }
-    }
 
-    private fun onFetchInstancesFailure(throwable: Throwable) {
-        fetching = false
-        binding.instanceProgressBar.hide()
-        Log.e(TAG, "Fetch failure", throwable)
+        lifecycleScope.launch {
+            viewModel.pager.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+            }
+        }
 
-        if (adapter.itemCount == 0) {
-            binding.messageView.show()
-            binding.messageView.setup(throwable) {
+        adapter.addLoadStateListener { loadState ->
+            binding.instanceProgressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+
+            if (loadState.refresh is LoadState.Error) {
+                binding.recyclerView.hide()
+                binding.messageView.show()
+                val errorState = loadState.refresh as LoadState.Error
+                binding.messageView.setup(errorState.error) { adapter.retry() }
+                Log.w(FollowedTagsActivity.TAG, "error loading followed hashtags", errorState.error)
+            } else if (loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
+                binding.recyclerView.hide()
+                binding.messageView.show()
+                binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+            } else {
+                binding.recyclerView.show()
                 binding.messageView.hide()
-                this.fetchInstances(null)
             }
         }
     }
 
-    companion object {
-        private const val TAG = "InstanceList" // logging tag
+    private fun showUnmuteError(domain: String) {
+        showSnackbar(
+            getString(R.string.error_unmuting_domain, domain),
+            R.string.action_retry
+        ) { viewModel.unmute(domain) }
+    }
+
+    private fun showMuteError(domain: String) {
+        showSnackbar(
+            getString(R.string.error_muting_domain, domain),
+            R.string.action_retry
+        ) { viewModel.mute(domain) }
+    }
+
+    private fun showUnmuteSuccess(domain: String) {
+        showSnackbar(
+            getString(R.string.confirmation_domain_unmuted, domain),
+            R.string.action_undo
+        ) { viewModel.mute(domain) }
+    }
+
+    private fun showSnackbar(message: String, actionText: Int, action: (View) -> Unit) {
+        Snackbar.make(binding.recyclerView, message, Snackbar.LENGTH_LONG)
+            .setAction(actionText, action)
+            .show()
     }
 }
