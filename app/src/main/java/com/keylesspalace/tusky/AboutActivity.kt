@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -9,12 +10,19 @@ import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class AboutActivity : BottomSheetActivity(), Injectable {
+    @Inject
+    lateinit var instanceInfoRepository: InstanceInfoRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +39,28 @@ class AboutActivity : BottomSheetActivity(), Injectable {
         setTitle(R.string.about_title_activity)
 
         binding.versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)
+
+        binding.deviceInfo.text = getString(
+            R.string.about_device_info,
+            Build.MANUFACTURER,
+            Build.MODEL,
+            Build.VERSION.RELEASE,
+            Build.VERSION.SDK_INT
+        )
+
+        lifecycleScope.launch {
+            accountManager.activeAccount?.let { account ->
+                val instanceInfo = instanceInfoRepository.getInstanceInfo()
+                binding.accountInfo.text = getString(
+                    R.string.about_account_info,
+                    account.username,
+                    account.domain,
+                    instanceInfo.version
+                )
+                binding.accountInfoTitle.isVisible = true
+                binding.accountInfo.isVisible = true
+            }
+        }
 
         if (BuildConfig.CUSTOM_INSTANCE.isBlank()) {
             binding.aboutPoweredByTusky.hide()
