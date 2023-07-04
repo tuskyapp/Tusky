@@ -82,7 +82,7 @@ class NetworkTimelineRepository @Inject constructor(
         viewModelScope: CoroutineScope,
         kind: TimelineKind,
         pageSize: Int = PAGE_SIZE,
-        initialKey: String? = null,
+        initialKey: String? = null
     ): Flow<PagingData<Status>> {
         Log.d(TAG, "getStatusStream(): key: $initialKey")
 
