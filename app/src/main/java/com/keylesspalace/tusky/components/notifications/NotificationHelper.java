@@ -320,7 +320,7 @@ public class NotificationHelper {
             // All notifications in this group have the same type, so get it from the first.
             Notification.Type notificationType = (Notification.Type)members.get(0).getNotification().extras.getSerializable(EXTRA_NOTIFICATION_TYPE);
 
-            Intent summaryResultIntent = MainActivity.openNotificationIntent(context, notificationType, accountId);
+            Intent summaryResultIntent = MainActivity.openNotificationIntent(context, accountId, notificationType);
 
             TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
             summaryStackBuilder.addParentStack(MainActivity.class);
@@ -365,7 +365,7 @@ public class NotificationHelper {
 
     private static NotificationCompat.Builder newAndroidNotification(Context context, Notification body, AccountEntity account) {
 
-        Intent eventResultIntent = MainActivity.openNotificationIntent(context, body.getType(), account.getId());
+        Intent eventResultIntent = MainActivity.openNotificationIntent(context, account.getId(), body.getType());
 
         TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
         eventStackBuilder.addParentStack(MainActivity.class);

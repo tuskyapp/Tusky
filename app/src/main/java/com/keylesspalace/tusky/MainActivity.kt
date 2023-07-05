@@ -1077,9 +1077,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
          * switches the active account to the provided accountId and then stays on MainActivity
          */
         @JvmStatic
-        fun accountSwitchIntent(context: Context, accountId: Long): Intent {
+        fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent {
             return Intent(context, MainActivity::class.java).apply {
-                putExtra(TUSKY_ACCOUNT_ID, accountId)
+                putExtra(TUSKY_ACCOUNT_ID, tuskyAccountId)
             }
         }
 
@@ -1087,14 +1087,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
          * switches the active account to the accountId and takes the user to correct place according to the notification they clicked
          */
         @JvmStatic
-        fun openNotificationIntent(context: Context, type: Notification.Type, accountId: Long): Intent {
-            return accountSwitchIntent(context, accountId).apply {
+        fun openNotificationIntent(context: Context, tuskyAccountId: Long, type: Notification.Type): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(NOTIFICATION_TYPE, type)
             }
         }
 
         /**
          * switches the active account to the accountId and then opens the ComposeActivity with the provided options
+         * @param tuskyAccountId the id of the Tusky account to open the screen with. Set to -1 for current account.
          * @param notificationId optional id of the notification that should be cancelled when this intent is opened
          * @param notificationTag optional tag of the notification that should be cancelled when this intent is opened
          */
@@ -1102,11 +1103,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         fun composeIntent(
             context: Context,
             options: ComposeActivity.ComposeOptions,
-            accountId: Long = -1,
+            tuskyAccountId: Long = -1,
             notificationTag: String? = null,
             notificationId: Int = -1
         ): Intent {
-            return accountSwitchIntent(context, accountId).apply {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
                 action = Intent.ACTION_SEND // so it can be opened via shortcuts
                 putExtra(COMPOSE_OPTIONS, options)
                 putExtra(NOTIFICATION_TAG, notificationTag)
@@ -1118,9 +1119,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
          * switches the active account to the accountId and then tries to resolve and show the provided url
          */
         @JvmStatic
-        fun redirectIntent(context: Context, url: String, accountId: Long): Intent {
-            return Intent(context, MainActivity::class.java).apply {
-                putExtra(TUSKY_ACCOUNT_ID, accountId)
+        fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(REDIRECT_URL, url)
             }
         }
@@ -1128,8 +1128,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         /**
          * switches the active account to the provided accountId and then opens drafts
          */
-        fun draftIntent(context: Context, accountId: Long): Intent {
-            return accountSwitchIntent(context, accountId).apply {
+        fun draftIntent(context: Context, tuskyAccountId: Long): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(OPEN_DRAFTS, true)
             }
         }
