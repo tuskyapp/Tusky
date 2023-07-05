@@ -45,6 +45,9 @@ data class Page(
 ) {
     override fun toString() = "k: ${data.lastOrNull()?.id}, prev: $prevKey, next: $nextKey, size: ${"%2d".format(data.size)}, range: ${data.firstOrNull()?.id}..${data.lastOrNull()?.id}"
 
+    /**
+     * Return a new page consisting of this page, plus the data from [pages].
+     */
     fun merge(vararg pages: Page?): Page {
         val d = data
         var next = nextKey
