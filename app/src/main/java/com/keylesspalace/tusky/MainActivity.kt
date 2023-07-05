@@ -187,7 +187,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             ?: return // will be redirected to LoginActivity by BaseActivity
 
         var showNotificationTab = false
-        if (intent != null) {
+
+        // check for savedInstanceState in order to not handle intent events more than once
+        if (intent != null && savedInstanceState == null) {
+
             val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
             if (notificationId != -1) {
                 // opened from a notification action, cancel the notification
@@ -241,7 +244,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             } else if (openDrafts) {
                 val intent = DraftsActivity.newIntent(this)
                 startActivity(intent)
-            } else if (accountRequested && savedInstanceState == null && intent.hasExtra(NOTIFICATION_TYPE)) {
+            } else if (accountRequested && intent.hasExtra(NOTIFICATION_TYPE)) {
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
                 if (intent.getSerializableExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST) {
