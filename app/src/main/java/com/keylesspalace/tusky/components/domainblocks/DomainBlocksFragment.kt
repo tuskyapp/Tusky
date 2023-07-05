@@ -46,7 +46,7 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         }
 
         lifecycleScope.launch {
-            viewModel.pager.collectLatest { pagingData ->
+            viewModel.domainPager.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }

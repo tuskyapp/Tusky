@@ -12,8 +12,9 @@ import retrofit2.Response
 @OptIn(ExperimentalPagingApi::class)
 class DomainBlocksRemoteMediator(
     private val api: MastodonApi,
-    private val viewModel: DomainBlocksViewModel
+    private val repository: DomainBlocksRepository
 ) : RemoteMediator<String, String>() {
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<String, String>
@@ -31,10 +32,10 @@ class DomainBlocksRemoteMediator(
     private suspend fun request(loadType: LoadType): Response<List<String>>? {
         return when (loadType) {
             LoadType.PREPEND -> null
-            LoadType.APPEND -> api.domainBlocks(maxId = viewModel.nextKey)
+            LoadType.APPEND -> api.domainBlocks(maxId = repository.nextKey)
             LoadType.REFRESH -> {
-                viewModel.nextKey = null
-                viewModel.domains.clear()
+                repository.nextKey = null
+                repository.domains.clear()
                 api.domainBlocks()
             }
         }
@@ -47,10 +48,10 @@ class DomainBlocksRemoteMediator(
         }
 
         val links = HttpHeaderLink.parse(response.headers()["Link"])
-        viewModel.nextKey = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
-        viewModel.domains.addAll(tags)
-        viewModel.currentSource?.invalidate()
+        repository.nextKey = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
+        repository.domains.addAll(tags)
+        repository.invalidate()
 
-        return MediatorResult.Success(endOfPaginationReached = viewModel.nextKey == null)
+        return MediatorResult.Success(endOfPaginationReached = repository.nextKey == null)
     }
 }

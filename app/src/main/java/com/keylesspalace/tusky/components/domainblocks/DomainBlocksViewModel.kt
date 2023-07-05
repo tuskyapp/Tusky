@@ -4,44 +4,25 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DomainBlocksViewModel @Inject constructor(
-    private val api: MastodonApi
+    private val repo: DomainBlocksRepository
 ) : ViewModel() {
-    val domains: MutableList<String> = mutableListOf()
-    val uiEvents = MutableSharedFlow<SnackbarEvent>()
-    var nextKey: String? = null
-    var currentSource: DomainBlocksPagingSource? = null
 
-    @OptIn(ExperimentalPagingApi::class)
-    val pager = Pager(
-        config = PagingConfig(pageSize = 20),
-        remoteMediator = DomainBlocksRemoteMediator(api, this),
-        pagingSourceFactory = {
-            DomainBlocksPagingSource(
-                viewModel = this
-            ).also { source ->
-                currentSource = source
-            }
-        }
-    ).flow.cachedIn(viewModelScope)
+    val domainPager = repo.domainPager.cachedIn(viewModelScope)
+
+    val uiEvents = MutableSharedFlow<SnackbarEvent>()
 
     fun block(domain: String) {
         viewModelScope.launch {
-            api.blockDomain(domain).fold({
-                domains.add(domain)
-                currentSource?.invalidate()
-            }, { e ->
+            repo.block(domain).onFailure { e ->
                 uiEvents.emit(
                     SnackbarEvent(
                         message = R.string.error_blocking_domain,
@@ -51,15 +32,13 @@ class DomainBlocksViewModel @Inject constructor(
                         action = { block(domain) }
                     )
                 )
-            })
+            }
         }
     }
 
     fun unblock(domain: String) {
         viewModelScope.launch {
-            api.unblockDomain(domain).fold({
-                domains.remove(domain)
-                currentSource?.invalidate()
+            repo.unblock(domain).fold({
                 uiEvents.emit(
                     SnackbarEvent(
                         message = R.string.confirmation_domain_unmuted,
