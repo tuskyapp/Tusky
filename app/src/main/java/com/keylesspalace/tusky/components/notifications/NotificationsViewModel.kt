@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
+import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.throttleFirst
 import com.keylesspalace.tusky.util.toViewData
@@ -565,7 +566,7 @@ class NotificationsViewModel @Inject constructor(
 
         val highestNotificationId = trackerArray[statusId]
 
-        return if (highestNotificationId == null || isEqualOrNewer(notificationId, highestNotificationId)) {
+        return if (highestNotificationId == null || highestNotificationId.isLessThan(notificationId)) {
             trackerArray[statusId] = notificationId
 
             true
@@ -575,19 +576,6 @@ class NotificationsViewModel @Inject constructor(
             //    The code could find this out only heuristically: "looking at these notification ids (range), one in the array is not amongst them"
 
             false
-        }
-    }
-
-    /**
-     * NOTE this currently assumes that the ids are integers. Can that change? If it does all notifications are unequal.
-     */
-    fun isEqualOrNewer(thisId: String, idToCompare: String): Boolean {
-        try {
-            return thisId.toInt() >= idToCompare.toInt()
-        } catch (exc: NumberFormatException) {
-            Log.e(TAG, "Cannot compare ids; not numbers: "+thisId+"/"+idToCompare)
-
-            return false
         }
     }
 
