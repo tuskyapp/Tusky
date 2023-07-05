@@ -199,16 +199,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
              * - from our code as Long Intent Extra ACCOUNT_ID
              * - from share shortcuts as String 'android.intent.extra.shortcut.ID'
              */
-            var accountId = intent.getLongExtra(ACCOUNT_ID, -1)
-            if (accountId == -1L) {
+            var tuskyAccountId = intent.getLongExtra(TUSKY_ACCOUNT_ID, -1)
+            if (tuskyAccountId == -1L) {
                 val accountIdString = intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID)
                 if (accountIdString != null) {
-                    accountId = accountIdString.toLong()
+                    tuskyAccountId = accountIdString.toLong()
                 }
             }
-            val accountRequested = accountId != -1L
-            if (accountRequested && accountId != activeAccount.id) {
-                accountManager.setActiveAccount(accountId)
+            val accountRequested = tuskyAccountId != -1L
+            if (accountRequested && tuskyAccountId != activeAccount.id) {
+                accountManager.setActiveAccount(tuskyAccountId)
             }
 
             val openDrafts = intent.getBooleanExtra(OPEN_DRAFTS, false)
@@ -231,7 +231,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                                     forwardToComposeActivity(intent)
                                 } else {
                                     // A different account was requested, restart the activity
-                                    intent.putExtra(ACCOUNT_ID, requestedId)
+                                    intent.putExtra(TUSKY_ACCOUNT_ID, requestedId)
                                     changeAccount(requestedId, intent)
                                 }
                             }
@@ -1067,7 +1067,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
         private const val REDIRECT_URL = "redirectUrl"
         private const val OPEN_DRAFTS = "draft"
-        private const val ACCOUNT_ID = "accountId"
+        private const val TUSKY_ACCOUNT_ID = "tuskyAccountId"
         private const val COMPOSE_OPTIONS = "composeOptions"
         private const val NOTIFICATION_TYPE = "notificationType"
         private const val NOTIFICATION_TAG = "notificationTag"
@@ -1079,7 +1079,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         @JvmStatic
         fun accountSwitchIntent(context: Context, accountId: Long): Intent {
             return Intent(context, MainActivity::class.java).apply {
-                putExtra(ACCOUNT_ID, accountId)
+                putExtra(TUSKY_ACCOUNT_ID, accountId)
             }
         }
 
@@ -1120,7 +1120,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         @JvmStatic
         fun redirectIntent(context: Context, url: String, accountId: Long): Intent {
             return Intent(context, MainActivity::class.java).apply {
-                putExtra(ACCOUNT_ID, accountId)
+                putExtra(TUSKY_ACCOUNT_ID, accountId)
                 putExtra(REDIRECT_URL, url)
             }
         }
