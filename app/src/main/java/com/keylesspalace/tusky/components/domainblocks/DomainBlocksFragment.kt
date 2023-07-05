@@ -81,6 +81,7 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         }
 
         Snackbar.make(binding.recyclerView, message, Snackbar.LENGTH_LONG)
+            .setTextMaxLines(5)
             .setAction(event.actionText, event.action)
             .show()
     }
