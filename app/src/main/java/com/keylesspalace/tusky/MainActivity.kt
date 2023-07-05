@@ -1125,6 +1125,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent {
             return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(REDIRECT_URL, url)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
 

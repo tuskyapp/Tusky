@@ -257,7 +257,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
         accountManager.setActiveAccount(account.getId());
         Intent intent = MainActivity.redirectIntent(this, account.getId(), url);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         startActivity(intent);
         finishWithoutSlideOutAnimation();
