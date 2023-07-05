@@ -72,6 +72,10 @@ class CachedTimelineViewModel @Inject constructor(
 
     override lateinit var statuses: Flow<PagingData<StatusViewData>>
 
+    init {
+        readingPosition = activeAccount.lastVisibleHomeTimelineStatusId
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun init(timelineKind: TimelineKind) {
         super.init(timelineKind)

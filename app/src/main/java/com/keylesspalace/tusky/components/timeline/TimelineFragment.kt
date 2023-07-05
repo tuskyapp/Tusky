@@ -82,6 +82,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -124,12 +125,17 @@ class TimelineFragment :
 
     private var isSwipeToRefreshEnabled = true
 
+    /** True if the reading position should be restored when new data is submitted to the adapter */
+    private var shouldRestoreReadingPosition = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val arguments = requireArguments()
 
         timelineKind = arguments.getParcelable(KIND_ARG)!!
+
+        shouldRestoreReadingPosition = timelineKind == TimelineKind.Home
 
         viewModel.init(timelineKind)
 
@@ -317,6 +323,27 @@ class TimelineFragment :
                                 updateTimestampFlow.collect()
                             }
                         }
+                }
+
+                // Restore the user's reading position, if appropriate.
+                // Collect the first page submitted to the adapter, which will be the Refresh.
+                // Refresh. This should contain a status with an ID that matches the reading
+                // position. Find that status and scroll to it.
+                launch {
+                    if (shouldRestoreReadingPosition) {
+                        adapter.onPagesUpdatedFlow.take(1).collect()
+                        Log.d(TAG, "Page updated, should restore reading position")
+                        adapter.snapshot()
+                            .indexOfFirst { it?.id == viewModel.readingPosition }
+                            .takeIf { it != -1 }
+                            ?.let { pos ->
+                                binding.recyclerView.post {
+                                    getView() ?: return@post
+                                    binding.recyclerView.scrollToPosition(pos)
+                                }
+                            }
+                        shouldRestoreReadingPosition = false
+                    }
                 }
 
                 // Scroll the list down if a refresh has completely finished. A refresh is
