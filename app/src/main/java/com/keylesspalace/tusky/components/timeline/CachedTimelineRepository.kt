@@ -71,8 +71,23 @@ class CachedTimelineRepository @Inject constructor(
             }
         }
 
+        val row = initialKey?.let { key ->
+            // Room is row-keyed (by Int), not item-keyed, so the status ID string that was
+            // passed as `initialKey` won't work.
+            //
+            // Instead, get all the status IDs for this account, in timeline order, and find the
+            // row index that contains the status. The row index is the correct initialKey.
+            accountManager.activeAccount?.let { account ->
+                appDatabase.timelineDao().getStatusRowNumber(account.id)
+                    .indexOfFirst { it == key }.takeIf { it != -1 }
+            }
+        }
+
+        Log.d(TAG, "initialKey: $initialKey is row: $row")
+
         return Pager(
             config = PagingConfig(pageSize = pageSize),
+            initialKey = row,
             remoteMediator = CachedTimelineRemoteMediator(accountManager, mastodonApi, appDatabase, gson),
             pagingSourceFactory = factory!!
         ).flow

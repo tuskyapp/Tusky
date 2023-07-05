@@ -50,6 +50,5 @@ data class RemoteKeyEntity(
      */
     val timelineId: String,
     val kind: RemoteKeyKind,
-    val key: String? = null,
+    val key: String? = null
 )
-

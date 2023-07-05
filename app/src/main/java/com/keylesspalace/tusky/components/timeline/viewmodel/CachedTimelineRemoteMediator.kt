@@ -61,7 +61,14 @@ class CachedTimelineRemoteMediator(
         return try {
             val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.homeTimeline(limit = state.config.pageSize)
+                    val rke = db.withTransaction {
+                        remoteKeyDao.remoteKeyForKind(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.PREV
+                        )
+                    }
+                    api.homeTimeline(minId = rke?.key, limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
                     val rke = db.withTransaction {
@@ -81,7 +88,7 @@ class CachedTimelineRemoteMediator(
                             TIMELINE_ID,
                             RemoteKeyKind.PREV
                         )
-                    }?: return MediatorResult.Success(endOfPaginationReached = true)
+                    } ?: return MediatorResult.Success(endOfPaginationReached = true)
                     Log.d(TAG, "Loading from remoteKey: $rke")
                     api.homeTimeline(minId = rke.key, limit = state.config.pageSize)
                 }
@@ -94,8 +101,7 @@ class CachedTimelineRemoteMediator(
 
             Log.d(TAG, "${statuses.size} - # statuses loaded")
             if (statuses.isNotEmpty()) {
-                Log.d(TAG, "${statuses.first().id} - first ID")
-                Log.d(TAG, "${statuses.last().id} - last ID")
+                Log.d(TAG, "  ${statuses.first().id}..${statuses.last().id}")
             }
 
             db.withTransaction {
