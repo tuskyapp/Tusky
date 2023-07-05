@@ -26,9 +26,12 @@ import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.RemoteKeyEntity
+import com.keylesspalace.tusky.db.RemoteKeyKind
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.Links
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
 import java.io.IOException
@@ -42,6 +45,7 @@ class CachedTimelineRemoteMediator(
 ) : RemoteMediator<Int, TimelineStatusWithAccount>() {
 
     private val timelineDao = db.timelineDao()
+    private val remoteKeyDao = db.remoteKeyDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
@@ -60,16 +64,26 @@ class CachedTimelineRemoteMediator(
                     api.homeTimeline(limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
-                    val bottomId = timelineDao.getBottomId(activeAccount.id)
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
-                    Log.d(TAG, "Loading from bottomId: $bottomId")
-                    api.homeTimeline(maxId = bottomId, limit = state.config.pageSize)
+                    val rke = db.withTransaction {
+                        remoteKeyDao.remoteKeyForKind(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.NEXT
+                        )
+                    } ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.d(TAG, "Loading from remoteKey: $rke")
+                    api.homeTimeline(maxId = rke.key, limit = state.config.pageSize)
                 }
                 LoadType.PREPEND -> {
-                    val topId = timelineDao.getTopId(activeAccount.id)
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
-                    Log.d(TAG, "Loading from topId: $topId")
-                    api.homeTimeline(minId = topId, limit = state.config.pageSize)
+                    val rke = db.withTransaction {
+                        remoteKeyDao.remoteKeyForKind(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.PREV
+                        )
+                    }?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.d(TAG, "Loading from remoteKey: $rke")
+                    api.homeTimeline(minId = rke.key, limit = state.config.pageSize)
                 }
             }
 
@@ -85,6 +99,43 @@ class CachedTimelineRemoteMediator(
             }
 
             db.withTransaction {
+                val links = Links.from(response.headers()["link"])
+                when (loadType) {
+                    LoadType.REFRESH -> {
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.NEXT,
+                                links.next
+                            )
+                        )
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.PREV,
+                                links.prev
+                            )
+                        )
+                    }
+                    LoadType.PREPEND -> remoteKeyDao.upsert(
+                        RemoteKeyEntity(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.PREV,
+                            links.prev
+                        )
+                    )
+                    LoadType.APPEND -> remoteKeyDao.upsert(
+                        RemoteKeyEntity(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.NEXT,
+                            links.next
+                        )
+                    )
+                }
                 replaceStatusRange(statuses, state)
             }
 
@@ -145,5 +196,6 @@ class CachedTimelineRemoteMediator(
 
     companion object {
         private const val TAG = "CachedTimelineRemoteMediator"
+        private const val TIMELINE_ID = "HOME"
     }
 }

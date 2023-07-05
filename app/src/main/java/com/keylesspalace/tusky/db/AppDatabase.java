@@ -39,7 +39,8 @@ import java.io.File;
         InstanceEntity.class,
         TimelineStatusEntity.class,
         TimelineAccountEntity.class,
-        ConversationEntity.class
+        ConversationEntity.class,
+        RemoteKeyEntity.class
     },
     version = 52,
     autoMigrations = {
@@ -55,6 +56,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ConversationsDao conversationDao();
     public abstract TimelineDao timelineDao();
     public abstract DraftDao draftDao();
+    public abstract RemoteKeyDao remoteKeyDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override

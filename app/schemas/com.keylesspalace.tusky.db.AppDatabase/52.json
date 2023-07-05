@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 52,
-    "identityHash": "edce0f04c8586e8f43455f052d6258cf",
+    "identityHash": "99e79139435c7255795ec8c89831a8dd",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -991,12 +991,52 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "RemoteKeyEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER NOT NULL, `timelineId` TEXT NOT NULL, `kind` TEXT NOT NULL, `key` TEXT, PRIMARY KEY(`accountId`, `timelineId`, `kind`))",
+        "fields": [
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timelineId",
+            "columnName": "timelineId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kind",
+            "columnName": "kind",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "accountId",
+            "timelineId",
+            "kind"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'edce0f04c8586e8f43455f052d6258cf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '99e79139435c7255795ec8c89831a8dd')"
     ]
   }
 }

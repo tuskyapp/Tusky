@@ -206,12 +206,6 @@ AND timelineUserId = :accountId
     @Query("UPDATE TimelineStatusEntity SET filtered = NULL WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)")
     abstract suspend fun clearWarning(accountId: Long, statusId: String): Int
 
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
-    abstract suspend fun getTopId(accountId: Long): String?
-
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId LIMIT 1")
-    abstract suspend fun getBottomId(accountId: Long): String?
-
     /**
      * Returns the id directly above [serverId], or null if [serverId] is the id of the top status
      */
