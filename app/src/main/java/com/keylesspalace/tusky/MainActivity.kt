@@ -190,7 +190,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // check for savedInstanceState in order to not handle intent events more than once
         if (intent != null && savedInstanceState == null) {
-
             val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
             if (notificationId != -1) {
                 // opened from a notification action, cancel the notification
