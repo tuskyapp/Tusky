@@ -8,7 +8,6 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
-import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
@@ -28,7 +27,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.robolectric.annotation.Config
