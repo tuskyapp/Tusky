@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.components.domainblocks
 
-import android.util.Log
+import android.view.View
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
@@ -8,6 +9,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -17,7 +19,7 @@ class DomainBlocksViewModel @Inject constructor(
     private val api: MastodonApi
 ) : ViewModel() {
     val domains: MutableList<String> = mutableListOf()
-    val uiEvents = MutableSharedFlow<DomainBlockEvent>()
+    val uiEvents = MutableSharedFlow<SnackbarEvent>()
     var nextKey: String? = null
     var currentSource: DomainBlocksPagingSource? = null
 
@@ -40,8 +42,15 @@ class DomainBlocksViewModel @Inject constructor(
                 domains.add(domain)
                 currentSource?.invalidate()
             }, { e ->
-                Log.w(TAG, "Error blocking domain $domain", e)
-                uiEvents.emit(DomainBlockEvent.BlockError(domain))
+                uiEvents.emit(
+                    SnackbarEvent(
+                        message = R.string.error_blocking_domain,
+                        domain = domain,
+                        throwable = e,
+                        actionText = R.string.action_retry,
+                        action = { block(domain) }
+                    )
+                )
             })
         }
     }
@@ -51,21 +60,34 @@ class DomainBlocksViewModel @Inject constructor(
             api.unblockDomain(domain).fold({
                 domains.remove(domain)
                 currentSource?.invalidate()
-                uiEvents.emit(DomainBlockEvent.BlockSuccess(domain))
+                uiEvents.emit(
+                    SnackbarEvent(
+                        message = R.string.confirmation_domain_unmuted,
+                        domain = domain,
+                        throwable = null,
+                        actionText = R.string.action_undo,
+                        action = { block(domain) }
+                    )
+                )
             }, { e ->
-                Log.w(TAG, "Error unblocking domain $domain", e)
-                uiEvents.emit(DomainBlockEvent.UnblockError(domain))
+                uiEvents.emit(
+                    SnackbarEvent(
+                        message = R.string.error_unblocking_domain,
+                        domain = domain,
+                        throwable = e,
+                        actionText = R.string.action_retry,
+                        action = { unblock(domain) }
+                    )
+                )
             })
         }
     }
-
-    companion object {
-        private const val TAG = "DomainBlocksViewModel"
-    }
 }
 
-sealed class DomainBlockEvent {
-    data class BlockSuccess(val domain: String) : DomainBlockEvent()
-    data class UnblockError(val domain: String) : DomainBlockEvent()
-    data class BlockError(val domain: String) : DomainBlockEvent()
-}
+class SnackbarEvent(
+    @StringRes val message: Int,
+    val domain: String,
+    val throwable: Throwable?,
+    @StringRes val actionText: Int,
+    val action: (View) -> Unit
+)

@@ -41,11 +41,7 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiEvents.collect { event ->
-                when (event) {
-                    is DomainBlockEvent.UnblockError -> showUnmuteError(event.domain)
-                    is DomainBlockEvent.BlockError -> showMuteError(event.domain)
-                    is DomainBlockEvent.BlockSuccess -> showUnmuteSuccess(event.domain)
-                }
+                showSnackbar(event)
             }
         }
 
@@ -75,30 +71,17 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         }
     }
 
-    private fun showUnmuteError(domain: String) {
-        showSnackbar(
-            getString(R.string.error_unblocking_domain, domain),
-            R.string.action_retry
-        ) { viewModel.unblock(domain) }
-    }
+    private fun showSnackbar(event: SnackbarEvent) {
+        val message = if (event.throwable == null) {
+            getString(event.message, event.domain)
+        } else {
+            Log.w(TAG, event.throwable)
+            val error = event.throwable.localizedMessage ?: getString(R.string.ui_error_unknown)
+            getString(event.message, event.domain, error)
+        }
 
-    private fun showMuteError(domain: String) {
-        showSnackbar(
-            getString(R.string.error_blocking_domain, domain),
-            R.string.action_retry
-        ) { viewModel.block(domain) }
-    }
-
-    private fun showUnmuteSuccess(domain: String) {
-        showSnackbar(
-            getString(R.string.confirmation_domain_unmuted, domain),
-            R.string.action_undo
-        ) { viewModel.block(domain) }
-    }
-
-    private fun showSnackbar(message: String, actionText: Int, action: (View) -> Unit) {
         Snackbar.make(binding.recyclerView, message, Snackbar.LENGTH_LONG)
-            .setAction(actionText, action)
+            .setAction(event.actionText, event.action)
             .show()
     }
 
