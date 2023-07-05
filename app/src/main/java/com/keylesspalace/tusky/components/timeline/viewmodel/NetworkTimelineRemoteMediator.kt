@@ -86,14 +86,11 @@ class NetworkTimelineRemoteMediator(
 
             // If doing a refresh with a known key Paging3 wants you to load "around" the requested
             // key, so that it can show the item with the key in the view as well as context before
-            // and after it. If you don't do this state.anchorPosition can get in to a weird state
-            // where it starts picking anchorPositions in freshly loaded pages, and the list
-            // repeatedly jumps up as new content is loaded with the prepend operations that occur
-            // after a refresh.
+            // and after it.
             //
-            // To ensure that the first page loaded after a refresh is big enough that this can't
-            // happen load the page immediately before and the page immediately after as well,
-            // and merge the three of them in to one large page.
+            // To ensure that the first page loaded after a refresh is big enough load the page
+            // immediately before and the page immediately after as well, and merge the three of
+            // them in to one large page.
             if (loadType == LoadType.REFRESH && key != null) {
                 Log.d(TAG, "  Refresh with non-null key, creating huge page")
                 val prevPageJob = viewModelScope.async {

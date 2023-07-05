@@ -19,7 +19,6 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
-import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.entity.Status
 import javax.inject.Inject
 
@@ -32,7 +31,7 @@ class NetworkTimelinePagingSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
         Log.d(TAG, "- load(), type = ${params.javaClass.simpleName}, key = ${params.key}")
-        if (BuildConfig.DEBUG) { pageCache.debug() }
+        pageCache.debug()
 
         val page = synchronized(pageCache) {
             if (pageCache.isEmpty()) {
@@ -120,11 +119,21 @@ class NetworkTimelinePagingSource @Inject constructor(
     }
 
     override fun getRefreshKey(state: PagingState<String, Status>): String? {
-        return state.anchorPosition?.let { anchorPosition ->
-            val refreshKey = state.closestItemToPosition(anchorPosition)?.id
-            Log.d(TAG, "- getRefreshKey(), state.anchorPosition = $anchorPosition, return $refreshKey")
-            refreshKey
+        val refreshKey = if (state.anchorPosition != null) {
+            // In testing, state.anchorPosition always seems to be off by 2. I suspect that might
+            // be because of the load state header and footer that are on the list. If this is
+            // not corrected here then the user's reading position is *not* maintained as they
+            // scroll over a page boundary, and the list jumps up by two posts. Adding 2 here
+            // corrects for this.
+            state.closestItemToPosition(state.anchorPosition!! + 2)?.id
+        } else {
+            pageCache.firstEntry()?.value?.data?.let { data ->
+                data.getOrNull(data.size / 2)?.id
+            }
         }
+
+        Log.d(TAG, "- getRefreshKey(), state.anchorPosition = ${state.anchorPosition}, return $refreshKey")
+        return refreshKey
     }
 
     companion object {
