@@ -21,7 +21,6 @@ import android.content.SharedPreferences
 import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.components.domainblocks.NotificationsRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.settings.PrefKeys
