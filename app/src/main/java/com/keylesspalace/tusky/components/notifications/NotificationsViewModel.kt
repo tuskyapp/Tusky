@@ -41,7 +41,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.isLessThan
+import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.throttleFirst
 import com.keylesspalace.tusky.util.toViewData
@@ -529,9 +529,7 @@ class NotificationsViewModel @Inject constructor(
                     return@filter if (hasNewestNotificationId(notification.type, status.id, notification.id)) {
                         true
                     } else {
-                        // TODO this now leads sometimes (?) to a "List is empty" being displayed as first item.
-
-                        Log.d(TAG, "Filtering notification "+(n-1)+" for "+status.id+" at "+status.createdAt)
+                        Log.d(TAG, "Filtering notification "+(n-1)+" for "+status.id+"/"+notification.id+" at "+status.createdAt)
                         false
                     }
                 }
@@ -566,7 +564,7 @@ class NotificationsViewModel @Inject constructor(
 
         val highestNotificationId = trackerArray[statusId]
 
-        return if (highestNotificationId == null || highestNotificationId.isLessThan(notificationId)) {
+        return if (highestNotificationId == null || highestNotificationId.isLessThanOrEqual(notificationId)) {
             trackerArray[statusId] = notificationId
 
             true
