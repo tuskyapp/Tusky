@@ -58,6 +58,7 @@ class NetworkTimelineRemoteMediatorTest {
     fun `should return error when network call returns error code`() = runTest {
         // Given
         val remoteMediator = NetworkTimelineRemoteMediator(
+            viewModelScope = this,
             api = mock(defaultAnswer = { Response.error<String>(500, "".toResponseBody()) }),
             accountManager = accountManager,
             factory = pagingSourceFactory,
@@ -79,6 +80,7 @@ class NetworkTimelineRemoteMediatorTest {
     fun `should return error when network call fails`() = runTest {
         // Given
         val remoteMediator = NetworkTimelineRemoteMediator(
+            viewModelScope = this,
             api = mock(defaultAnswer = { throw IOException() }),
             accountManager,
             factory = pagingSourceFactory,
@@ -100,6 +102,7 @@ class NetworkTimelineRemoteMediatorTest {
         // Given
         val pages = PageCache()
         val remoteMediator = NetworkTimelineRemoteMediator(
+            viewModelScope = this,
             api = mock {
                 onBlocking { homeTimeline(maxId = anyOrNull(), minId = anyOrNull(), limit = anyOrNull(), sinceId = anyOrNull()) } doReturn Response.success(
                     listOf(mockStatus("7"), mockStatus("6"), mockStatus("5")),
@@ -162,6 +165,7 @@ class NetworkTimelineRemoteMediatorTest {
         }
 
         val remoteMediator = NetworkTimelineRemoteMediator(
+            viewModelScope = this,
             api = mock {
                 onBlocking { homeTimeline(maxId = anyOrNull(), minId = anyOrNull(), limit = anyOrNull(), sinceId = anyOrNull()) } doReturn Response.success(
                     listOf(mockStatus("10"), mockStatus("9"), mockStatus("8")),
@@ -231,6 +235,7 @@ class NetworkTimelineRemoteMediatorTest {
         }
 
         val remoteMediator = NetworkTimelineRemoteMediator(
+            viewModelScope = this,
             api = mock {
                 onBlocking { homeTimeline(maxId = anyOrNull(), minId = anyOrNull(), limit = anyOrNull(), sinceId = anyOrNull()) } doReturn Response.success(
                     listOf(mockStatus("4"), mockStatus("3"), mockStatus("2")),
