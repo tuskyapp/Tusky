@@ -681,4 +681,9 @@
     <string name="help_empty_home">Seo <b>loidhne-ama do dhachaigh</b>. Seallaidh i na postaichean o chionn goirid aig na cunntasan a leanas tu.
 \n
 \nAirson cunntasan a rùrachadh, lorg iad air tè dhe na loidhnichean-ama eile; mar eisimpleir, loidhne-ama ionadail an ionstans agad [iconics gmd_group]. Air neo lorg cunntasan a-rèir ainm [iconics gmd_search]; mar eisimpleir, lorg “Tusky” ach am faigh thu grèim air a’ chunntas againne air Mastodon.</string>
+    <string name="compose_delete_draft">A bheil thu airson an dreachd a sguabadh às\?</string>
+    <string name="load_newest_notifications">Luchdaich na brathan as ùire</string>
+    <string name="error_missing_edits">Tha fios aig an fhrithealaiche gun deach am post seo a dheasachadh ach chan eil lethbhreac dhen deasachadh aige-san is chan urrainn dhuinn a shealltainn dhut.
+\n
+\nSeo <a href="https://github.com/mastodon/mastodon/issues/25398">duilgheadas Mastodon #25398</a>.</string>
 </resources>

@@ -1,1 +1,9 @@
-https://github.com/tuskyapp/Tusky/releases
+Tusky v9.0
+
+- Du kan nu skapa omröstningar från Tusky
+- Förbättrad sökning
+- Nytt alternativ i Kontoinställningar för att alltid utöka innehållsvarningar
+- Avatarer i navigeringslådan har nu en rundad fyrkantig form
+– Det är nu möjligt att rapportera användare även när de aldrig lagt upp en status
+- Tusky kommer nu att vägra ansluta över klartextanslutningar på Android 6+
+– Många andra små förbättringar och buggfixar

@@ -26,7 +26,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectable, InstanceActionListener {
@@ -146,16 +145,9 @@ class InstanceListFragment : Fragment(R.layout.fragment_instance_list), Injectab
 
         if (adapter.itemCount == 0) {
             binding.messageView.show()
-            if (throwable is IOException) {
-                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    binding.messageView.hide()
-                    this.fetchInstances(null)
-                }
-            } else {
-                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    binding.messageView.hide()
-                    this.fetchInstances(null)
-                }
+            binding.messageView.setup(throwable) {
+                binding.messageView.hide()
+                this.fetchInstances(null)
             }
         }
     }

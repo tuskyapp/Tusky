@@ -17,10 +17,15 @@
 
 package com.keylesspalace.tusky.worker
 
+import android.app.Notification
 import android.content.Context
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.notifications.NotificationFetcher
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.notifications.NotificationHelper.NOTIFICATION_ID_FETCH_NOTIFICATION
 import javax.inject.Inject
 
 /** Fetch and show new notifications. */
@@ -28,16 +33,20 @@ class NotificationWorker(
     appContext: Context,
     params: WorkerParameters,
     private val notificationsFetcher: NotificationFetcher
-) : Worker(appContext, params) {
-    override fun doWork(): Result {
+) : CoroutineWorker(appContext, params) {
+    val notification: Notification = NotificationHelper.createWorkerNotification(applicationContext, R.string.notification_notification_worker)
+
+    override suspend fun doWork(): Result {
         notificationsFetcher.fetchAndShow()
         return Result.success()
     }
 
+    override suspend fun getForegroundInfo() = ForegroundInfo(NOTIFICATION_ID_FETCH_NOTIFICATION, notification)
+
     class Factory @Inject constructor(
         private val notificationsFetcher: NotificationFetcher
     ) : ChildWorkerFactory {
-        override fun createWorker(appContext: Context, params: WorkerParameters): Worker {
+        override fun createWorker(appContext: Context, params: WorkerParameters): CoroutineWorker {
             return NotificationWorker(appContext, params, notificationsFetcher)
         }
     }

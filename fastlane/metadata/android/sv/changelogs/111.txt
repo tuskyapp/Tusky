@@ -1,0 +1,15 @@
+Tusky 23.0 beta 1
+
+Nya funktioner:
+
+- Ny inställning för att skala UI-text
+
+Fixar:
+
+- Sparar kontoinformation korrekt
+- "pull"-meddelanden på enheter som kör Android-versioner <= 11
+- Undvik Android-bugg där textfält kan "glömma" att de kan kopiera/klistra in
+- Att visa "diffs" i redigeringshistoriken kommer inte att sträcka sig utanför skärmkanten
+- Krascha inte om din server inte har någon inläggsredigeringshistorik
+- Lägg till en "Radera"-knapp när du redigerar ett filter
+- Visa icke-fyrkantiga emoji korrekt

@@ -393,16 +393,9 @@ class AccountListFragment :
 
         if (adapter.itemCount == 0) {
             binding.messageView.show()
-            if (throwable is IOException) {
-                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    binding.messageView.hide()
-                    this.fetchAccounts(null)
-                }
-            } else {
-                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    binding.messageView.hide()
-                    this.fetchAccounts(null)
-                }
+            binding.messageView.setup(throwable) {
+                binding.messageView.hide()
+                this.fetchAccounts(null)
             }
         }
     }

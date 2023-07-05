@@ -22,6 +22,16 @@
         <attr name="proportionalTrending" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="SliderPreference">
+        <attr name="android:value" format="string|reference" />
+        <attr name="android:valueFrom" format="string|reference" />
+        <attr name="android:valueTo" format="string|reference" />
+        <attr name="android:stepSize" format="string|reference" />
+        <attr name="format" format="string|reference" />
+        <attr name="iconStart" format="reference" />
+        <attr name="iconEnd" format="reference" />
+    </declare-styleable>
+
     <!--Themed Attributes-->
     <attr name="colorBackgroundAccent" format="reference|color" />
     <attr name="colorBackgroundHighlight" format="reference|color" />

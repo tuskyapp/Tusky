@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -42,12 +43,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
-import com.keylesspalace.tusky.adapter.ListSelectionAdapter
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
@@ -272,7 +273,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showSelectListDialog() {
-        val adapter = ListSelectionAdapter(this)
+        val adapter = ArrayAdapter<MastoList>(this, android.R.layout.simple_list_item_1)
 
         val statusLayout = LinearLayout(this)
         statusLayout.gravity = Gravity.CENTER
@@ -298,12 +299,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             .setNegativeButton(android.R.string.cancel, null)
             .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
-                val list = adapter.getItem(position)
-                val newTab = createTabDataFromId(LIST, listOf(list!!.id, list.title))
-                currentTabs.add(newTab)
-                currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-                updateAvailableTabs()
-                saveTabs()
+                adapter.getItem(position)?.let { item ->
+                    val newTab = createTabDataFromId(LIST, listOf(item.id, item.title))
+                    currentTabs.add(newTab)
+                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+                    updateAvailableTabs()
+                    saveTabs()
+                }
             }
 
         val showProgressBarJob = getProgressBarJob(progress, 500)

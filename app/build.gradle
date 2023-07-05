@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
@@ -28,8 +29,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdk 24
         targetSdk 33
-        versionCode 110
-        versionName "22.0"
+        versionCode 111
+        versionName "23.0 beta 1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -113,11 +114,9 @@ android {
     }
 }
 
-kapt {
-    arguments {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", "true")
-    }
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
 }
 
 configurations {
@@ -134,7 +133,7 @@ dependencies {
 
     implementation libs.bundles.androidx
     implementation libs.bundles.room
-    kapt libs.androidx.room.compiler
+    ksp libs.androidx.room.compiler
 
     implementation libs.android.material
 
