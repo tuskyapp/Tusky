@@ -1,9 +1,9 @@
 تاسکی ۱۹٫۰
 
-- Support for Unified Push. To activate the support you will have to relogin into your accounts.
-- The number of responses to a post is now indicated in timelines.
-- Images can now by cropped while composing a post.
-- Profiles now show the date when they were created.
-- When viewing a list the title is now displayed in the toolbar.
-- A lot of bugfixes
-- Translation improvements
+- پشتیبانی از Unified Push. برای فعّال کردن این پشتیبانی باید دوباره به حساب‌هایتان وارد شوید.
+- اکنون تعداد پاسخ‌ها به فرسته‌ها در خط‌های زمانی نشان داده می‌شود.
+- اکنون تصویرها می‌توانند هنگام ایجاد فرسته بریده شوند.
+- اکنون نمایه‌ها تاریخ ایجادشان را نشان می‌دهند.
+- اکنون عنوان سیاهه هنگام دیدنش در نوار ابزار نمایش داده می‌شود.
+- یک عالمه رفع اشکال
+- بهبودهای ترجمه

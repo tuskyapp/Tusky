@@ -17,11 +17,16 @@
 
 package com.keylesspalace.tusky.worker
 
+import android.app.Notification
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.notifications.NotificationHelper.NOTIFICATION_ID_PRUNE_CACHE
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import javax.inject.Inject
@@ -33,6 +38,8 @@ class PruneCacheWorker(
     private val appDatabase: AppDatabase,
     private val accountManager: AccountManager
 ) : CoroutineWorker(appContext, workerParams) {
+    val notification: Notification = NotificationHelper.createWorkerNotification(applicationContext, R.string.notification_prune_cache)
+
     override suspend fun doWork(): Result {
         for (account in accountManager.accounts) {
             Log.d(TAG, "Pruning database using account ID: ${account.id}")
@@ -40,6 +47,8 @@ class PruneCacheWorker(
         }
         return Result.success()
     }
+
+    override suspend fun getForegroundInfo() = ForegroundInfo(NOTIFICATION_ID_PRUNE_CACHE, notification)
 
     companion object {
         private const val TAG = "PruneCacheWorker"

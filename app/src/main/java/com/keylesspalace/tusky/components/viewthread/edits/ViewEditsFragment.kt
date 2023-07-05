@@ -53,7 +53,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class ViewEditsFragment :
@@ -111,13 +110,17 @@ class ViewEditsFragment :
                         binding.statusView.show()
                         binding.initialProgressBar.hide()
 
-                        if (uiState.throwable is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                viewModel.loadEdits(statusId, force = true)
+                        when (uiState.throwable) {
+                            is ViewEditsViewModel.MissingEditsException -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_friend_empty,
+                                    R.string.error_missing_edits
+                                )
                             }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                viewModel.loadEdits(statusId, force = true)
+                            else -> {
+                                binding.statusView.setup(uiState.throwable) {
+                                    viewModel.loadEdits(statusId, force = true)
+                                }
                             }
                         }
                     }

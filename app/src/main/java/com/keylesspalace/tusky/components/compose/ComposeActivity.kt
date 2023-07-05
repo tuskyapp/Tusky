@@ -77,6 +77,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
+import com.keylesspalace.tusky.components.compose.ComposeViewModel.ConfirmationKind
 import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
@@ -1110,16 +1111,19 @@ class ComposeActivity :
     private fun handleCloseButton() {
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
-        if (viewModel.didChange(contentText, contentWarning)) {
-            when (viewModel.composeKind) {
-                ComposeKind.NEW -> getSaveAsDraftOrDiscardDialog(contentText, contentWarning)
-                ComposeKind.EDIT_DRAFT -> getUpdateDraftOrDiscardDialog(contentText, contentWarning)
-                ComposeKind.EDIT_POSTED -> getContinueEditingOrDiscardDialog()
-                ComposeKind.EDIT_SCHEDULED -> getContinueEditingOrDiscardDialog()
-            }.show()
-        } else {
-            viewModel.stopUploads()
-            finishWithoutSlideOutAnimation()
+        when (viewModel.handleCloseButton(contentText, contentWarning)) {
+            ConfirmationKind.NONE -> {
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
+            ConfirmationKind.SAVE_OR_DISCARD ->
+                getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
+            ConfirmationKind.UPDATE_OR_DISCARD ->
+                getUpdateDraftOrDiscardDialog(contentText, contentWarning).show()
+            ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES ->
+                getContinueEditingOrDiscardDialog().show()
+            ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT ->
+                getDeleteEmptyDraftOrContinueEditing().show()
         }
     }
 
@@ -1181,6 +1185,23 @@ class ComposeActivity :
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
                 finishWithoutSlideOutAnimation()
+            }
+    }
+
+    /**
+     * User is editing an existing draft and making it empty.
+     * The user can either delete the empty draft or go back to editing.
+     */
+    private fun getDeleteEmptyDraftOrContinueEditing(): AlertDialog.Builder {
+        return AlertDialog.Builder(this)
+            .setMessage(R.string.compose_delete_draft)
+            .setPositiveButton(R.string.action_delete) { _, _ ->
+                viewModel.deleteDraft()
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
+            .setNegativeButton(R.string.action_continue_edit) { _, _ ->
+                // Do nothing, dialog will dismiss, user can continue editing
             }
     }
 

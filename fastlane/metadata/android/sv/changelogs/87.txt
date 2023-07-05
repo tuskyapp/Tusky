@@ -1,0 +1,8 @@
+Tusky v16.0
+
+– Tidslinjens laddningslogik har skrivits om helt för att vara snabbare, mindre buggig och lättare att underhålla.
+- Tusky kan nu animera anpassade emojis i APNG & Animated WebP-format.
+- Många buggfixar
+- Stöd för Android 11
+- Nya översättningar: skotsk gaeliska, galiciska, ukrainska
+- Förbättrade översättningar
