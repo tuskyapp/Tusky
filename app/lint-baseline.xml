@@ -4491,7 +4491,7 @@
         errorLine2="                             ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="162"
+            line="168"
             column="30"/>
     </issue>
 
@@ -6672,72 +6672,6 @@
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract AccountDao accountDao();"
-        errorLine2="                    ~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="53"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract InstanceDao instanceDao();"
-        errorLine2="                    ~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="54"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract ConversationsDao conversationDao();"
-        errorLine2="                    ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="55"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract TimelineDao timelineDao();"
-        errorLine2="                    ~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="56"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract DraftDao draftDao();"
-        errorLine2="                    ~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="57"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="        public Migration25_26(File oldDraftDirectory) {"
-        errorLine2="                              ~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="389"
-            column="31"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
         errorLine1="    public AccountManager accountManager;"
         errorLine2="           ~~~~~~~~~~~~~~">
         <location
@@ -7292,7 +7226,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="848"
+            line="847"
             column="55"/>
     </issue>
 
@@ -7303,7 +7237,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="923"
+            line="922"
             column="22"/>
     </issue>
 
@@ -7314,7 +7248,7 @@
         errorLine2="                                                           ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="923"
+            line="922"
             column="60"/>
     </issue>
 
@@ -7325,7 +7259,7 @@
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="923"
+            line="922"
             column="77"/>
     </issue>
 
@@ -7336,7 +7270,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="972"
+            line="971"
             column="15"/>
     </issue>
 
@@ -7347,7 +7281,7 @@
         errorLine2="                                       ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="972"
+            line="971"
             column="40"/>
     </issue>
 
@@ -7358,7 +7292,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="981"
+            line="980"
             column="15"/>
     </issue>
 
@@ -7369,7 +7303,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="981"
+            line="980"
             column="43"/>
     </issue>
 
@@ -7380,7 +7314,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1082"
+            line="1081"
             column="19"/>
     </issue>
 
@@ -7391,7 +7325,7 @@
         errorLine2="                  ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1084"
+            line="1083"
             column="19"/>
     </issue>
 
@@ -7402,7 +7336,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1085"
+            line="1084"
             column="19"/>
     </issue>
 
@@ -7413,7 +7347,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1086"
+            line="1085"
             column="19"/>
     </issue>
 
