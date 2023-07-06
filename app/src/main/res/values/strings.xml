@@ -461,12 +461,11 @@
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
     <string name="error_create_list">Could not create list</string>
-    <string name="error_rename_list">Could not rename list</string>
+    <string name="error_rename_list">Could not update list</string>
     <string name="error_delete_list">Could not delete list</string>
     <string name="action_create_list">Create a list</string>
-    <string name="action_rename_list">Rename the list</string>
+    <string name="action_rename_list">Update the list</string>
     <string name="action_delete_list">Delete the list</string>
-    <string name="action_edit_list">Edit the list</string>
     <string name="hint_search_people_list">Search for people you follow</string>
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
@@ -610,6 +609,7 @@
     <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
     <string name="error_list_load">Error loading lists</string>
+    <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>

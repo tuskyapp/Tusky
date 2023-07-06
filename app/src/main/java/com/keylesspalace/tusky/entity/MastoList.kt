@@ -22,5 +22,8 @@ package com.keylesspalace.tusky.entity
 
 data class MastoList(
     val id: String,
-    val title: String
-)
+    val title: String,
+    val exclusive: Boolean?,
+) {
+    override fun toString(): String = title
+}
