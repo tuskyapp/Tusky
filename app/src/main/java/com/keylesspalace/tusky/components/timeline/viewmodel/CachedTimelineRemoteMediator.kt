@@ -125,22 +125,30 @@ class CachedTimelineRemoteMediator(
                             )
                         )
                     }
-                    LoadType.PREPEND -> remoteKeyDao.upsert(
-                        RemoteKeyEntity(
-                            activeAccount.id,
-                            TIMELINE_ID,
-                            RemoteKeyKind.PREV,
-                            links.prev
+                    // May be null if there are no statuses, only set if non-null,
+                    // https://github.com/mastodon/mastodon/issues/25760
+                    LoadType.PREPEND -> links.prev?.let { prev ->
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.PREV,
+                                prev
+                            )
                         )
-                    )
-                    LoadType.APPEND -> remoteKeyDao.upsert(
-                        RemoteKeyEntity(
-                            activeAccount.id,
-                            TIMELINE_ID,
-                            RemoteKeyKind.NEXT,
-                            links.next
+                    }
+                    // May be null if there are no statuses, only set if non-null,
+                    // https://github.com/mastodon/mastodon/issues/25760
+                    LoadType.APPEND -> links.next?.let { next ->
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.NEXT,
+                                next
+                            )
                         )
-                    )
+                    }
                 }
                 replaceStatusRange(statuses, state)
             }
