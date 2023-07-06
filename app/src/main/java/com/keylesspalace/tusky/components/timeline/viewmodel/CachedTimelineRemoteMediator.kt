@@ -17,6 +17,7 @@
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -210,6 +211,8 @@ class CachedTimelineRemoteMediator(
 
     companion object {
         private const val TAG = "CachedTimelineRemoteMediator"
-        private const val TIMELINE_ID = "HOME"
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        const val TIMELINE_ID = "HOME"
     }
 }

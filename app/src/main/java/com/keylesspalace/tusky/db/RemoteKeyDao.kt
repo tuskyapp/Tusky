@@ -18,12 +18,14 @@
 package com.keylesspalace.tusky.db
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 
 @Dao
 interface RemoteKeyDao {
-    @Upsert
+    // TODO(https://issuetracker.google.com/issues/243039555), switch to @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(remoteKey: RemoteKeyEntity)
 
     @Query("SELECT * FROM RemoteKeyEntity WHERE accountId = :accountId AND timelineId = :timelineId AND kind = :kind")

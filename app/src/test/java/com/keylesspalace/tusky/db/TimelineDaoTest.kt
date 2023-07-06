@@ -9,7 +9,6 @@ import com.keylesspalace.tusky.entity.Status
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -269,45 +268,6 @@ class TimelineDaoTest {
 
         assertStatuses(listOf(statusWithBlueDomain, statusWithGreenDomain), statusesAccount1)
         assertStatuses(listOf(statusWithRedDomainOtherAccount, statusWithBlueDomainOtherAccount), statusesAccount2)
-    }
-
-    @Test
-    fun `should return null as topId when db is empty`() = runBlocking {
-        assertNull(timelineDao.getTopId(1))
-    }
-
-    @Test
-    fun `should return correct topId`() = runBlocking {
-        val statusData = listOf(
-            makeStatus(
-                statusId = 4,
-                accountId = 1,
-                domain = "mastodon.test",
-                authorServerId = "1"
-            ),
-            makeStatus(
-                statusId = 33,
-                accountId = 1,
-                domain = "mastodon.test",
-                authorServerId = "2"
-            ),
-            makeStatus(
-                statusId = 22,
-                accountId = 1,
-                domain = "mastodon.test",
-                authorServerId = "2"
-            )
-        )
-
-        for ((status, author, reblogAuthor) in statusData) {
-            timelineDao.insertAccount(author)
-            reblogAuthor?.let {
-                timelineDao.insertAccount(it)
-            }
-            timelineDao.insertStatus(status)
-        }
-
-        assertEquals("33", timelineDao.getTopId(1))
     }
 
     @Test

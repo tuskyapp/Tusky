@@ -13,14 +13,18 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
+import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator.Companion.TIMELINE_ID
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.db.RemoteKeyEntity
+import com.keylesspalace.tusky.db.RemoteKeyKind
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -354,7 +358,7 @@ class CachedTimelineRemoteMediatorTest {
 
     @Test
     @ExperimentalPagingApi
-    fun `should append statuses`() {
+    fun `should append statuses`() = runTest {
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("8"),
             mockStatusEntityWithAccount("7"),
@@ -362,6 +366,8 @@ class CachedTimelineRemoteMediatorTest {
         )
 
         db.insert(statusesAlreadyInDb)
+        db.remoteKeyDao().upsert(RemoteKeyEntity(1, TIMELINE_ID, RemoteKeyKind.PREV, "8"))
+        db.remoteKeyDao().upsert(RemoteKeyEntity(1, TIMELINE_ID, RemoteKeyKind.NEXT, "5"))
 
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
@@ -371,7 +377,10 @@ class CachedTimelineRemoteMediatorTest {
                         mockStatus("3"),
                         mockStatus("2"),
                         mockStatus("1")
-                    )
+                    ),
+                    Headers.Builder().add(
+                        "Link: <http://example.com/?min_id=3>; rel=\"prev\", <http://example.com/?max_id=1>; rel=\"next\""
+                    ).build()
                 )
             },
             db = db,
