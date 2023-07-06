@@ -33,7 +33,7 @@ glide = "4.15.1"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
 gson = "2.10.1"
-kotlin = "1.8.22"
+kotlin = "1.9.0"
 image-cropper = "4.3.2"
 material = "1.9.0"
 material-drawer = "8.4.5"
