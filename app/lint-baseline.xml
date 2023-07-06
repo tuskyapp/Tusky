@@ -839,7 +839,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="378"
+            line="379"
             column="5"/>
     </issue>
 
@@ -850,7 +850,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="557"
+            line="558"
             column="5"/>
     </issue>
 
@@ -861,7 +861,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="777"
+            line="778"
             column="5"/>
     </issue>
 
@@ -2033,33 +2033,11 @@
 
     <issue
         id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/windowBackgroundColor` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/windowBackgroundColor&quot;>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-sw640dp/fragment_timeline.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
         message="Possible overdraw: Root element paints background `?android:attr/colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
         errorLine1="    android:background=&quot;?android:attr/colorBackground&quot;>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/fragment_timeline_notifications.xml"
-            line="24"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/windowBackgroundColor` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/windowBackgroundColor&quot;>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-sw640dp/fragment_timeline_notifications.xml"
             line="24"
             column="5"/>
     </issue>
@@ -2126,51 +2104,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/item_hashtag.xml"
-            line="6"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?android:colorBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_bottom_sheet.xml"
-            line="8"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `@color/dividerColorOther` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;@color/dividerColorOther&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_placeholder.xml"
-            line="34"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?android:colorBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_tab_preference.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/selectableItemBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/selectableItemBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_tab_preference_small.xml"
-            line="7"
+            line="16"
             column="5"/>
     </issue>
 
@@ -2500,7 +2434,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="391"
+            line="392"
             column="13"/>
     </issue>
 
@@ -2511,7 +2445,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="450"
+            line="451"
             column="13"/>
     </issue>
 
@@ -2522,7 +2456,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="502"
+            line="503"
             column="13"/>
     </issue>
 
@@ -2533,7 +2467,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="506"
+            line="507"
             column="13"/>
     </issue>
 
@@ -2544,7 +2478,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="507"
+            line="508"
             column="13"/>
     </issue>
 
@@ -2555,7 +2489,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="508"
+            line="509"
             column="13"/>
     </issue>
 
@@ -2566,7 +2500,7 @@
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="509"
+            line="510"
             column="13"/>
     </issue>
 
@@ -2577,7 +2511,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="510"
+            line="511"
             column="13"/>
     </issue>
 
@@ -2588,7 +2522,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="511"
+            line="512"
             column="13"/>
     </issue>
 
@@ -2599,7 +2533,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="512"
+            line="513"
             column="13"/>
     </issue>
 
@@ -2610,7 +2544,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="513"
+            line="514"
             column="13"/>
     </issue>
 
@@ -2621,7 +2555,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="515"
+            line="516"
             column="13"/>
     </issue>
 
@@ -2632,7 +2566,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="600"
+            line="601"
             column="13"/>
     </issue>
 
@@ -2643,7 +2577,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="601"
+            line="602"
             column="13"/>
     </issue>
 
@@ -2654,7 +2588,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="615"
+            line="616"
             column="13"/>
     </issue>
 
@@ -2665,7 +2599,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="617"
+            line="618"
             column="13"/>
     </issue>
 
@@ -2676,7 +2610,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="618"
+            line="619"
             column="13"/>
     </issue>
 
@@ -2687,7 +2621,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="621"
+            line="622"
             column="13"/>
     </issue>
 
@@ -2698,7 +2632,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="666"
+            line="667"
             column="13"/>
     </issue>
 
@@ -2709,7 +2643,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="715"
+            line="716"
             column="13"/>
     </issue>
 
@@ -2720,7 +2654,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="721"
+            line="722"
             column="13"/>
     </issue>
 
@@ -2731,7 +2665,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="762"
+            line="763"
             column="13"/>
     </issue>
 
@@ -2742,7 +2676,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="798"
+            line="799"
             column="13"/>
     </issue>
 
@@ -2962,7 +2896,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="117"
+            line="116"
             column="17"/>
     </issue>
 
@@ -2973,7 +2907,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="124"
+            line="123"
             column="21"/>
     </issue>
 
@@ -2984,7 +2918,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="195"
+            line="181"
             column="17"/>
     </issue>
 
@@ -2995,7 +2929,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="205"
+            line="191"
             column="128"/>
     </issue>
 
@@ -3006,7 +2940,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="205"
+            line="191"
             column="128"/>
     </issue>
 
@@ -3017,7 +2951,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="207"
+            line="193"
             column="71"/>
     </issue>
 
@@ -3028,7 +2962,7 @@
         errorLine2="                                                              ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="207"
+            line="193"
             column="63"/>
     </issue>
 
@@ -3039,7 +2973,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="232"
+            line="218"
             column="21"/>
     </issue>
 
@@ -3050,7 +2984,7 @@
         errorLine2="                    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="234"
+            line="220"
             column="21"/>
     </issue>
 
@@ -3061,7 +2995,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="244"
+            line="230"
             column="128"/>
     </issue>
 
@@ -3072,7 +3006,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="244"
+            line="230"
             column="128"/>
     </issue>
 
@@ -3083,7 +3017,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="246"
+            line="232"
             column="71"/>
     </issue>
 
@@ -3094,7 +3028,7 @@
         errorLine2="                                                              ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="246"
+            line="232"
             column="63"/>
     </issue>
 
@@ -3204,7 +3138,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt"
-            line="163"
+            line="153"
             column="21"/>
     </issue>
 
@@ -3215,7 +3149,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt"
-            line="165"
+            line="155"
             column="29"/>
     </issue>
 
@@ -3270,7 +3204,7 @@
         errorLine2="                                  ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="92"
+            line="91"
             column="35"/>
     </issue>
 
@@ -3281,7 +3215,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="93"
+            line="92"
             column="25"/>
     </issue>
 
@@ -3292,7 +3226,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="94"
+            line="93"
             column="43"/>
     </issue>
 
@@ -3303,7 +3237,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="95"
+            line="94"
             column="25"/>
     </issue>
 
@@ -3314,7 +3248,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="207"
+            line="202"
             column="21"/>
     </issue>
 
@@ -3325,7 +3259,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/instancemute/fragment/InstanceListFragment.kt"
-            line="57"
+            line="56"
             column="21"/>
     </issue>
 
@@ -3589,7 +3523,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt"
-            line="188"
+            line="178"
             column="21"/>
     </issue>
 
@@ -3600,7 +3534,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt"
-            line="194"
+            line="184"
             column="21"/>
     </issue>
 
@@ -4491,7 +4425,7 @@
         errorLine2="            ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="89"
+            line="90"
             column="13"/>
     </issue>
 
@@ -4502,7 +4436,7 @@
         errorLine2="                ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="135"
+            line="136"
             column="17"/>
     </issue>
 
@@ -4513,7 +4447,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="145"
+            line="146"
             column="55"/>
     </issue>
 
@@ -4524,7 +4458,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="145"
+            line="146"
             column="55"/>
     </issue>
 
@@ -4535,7 +4469,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="266"
+            line="256"
             column="21"/>
     </issue>
 
@@ -4546,7 +4480,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="269"
+            line="259"
             column="33"/>
     </issue>
 
@@ -4557,7 +4491,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="271"
+            line="261"
             column="33"/>
     </issue>
 
@@ -4568,7 +4502,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="277"
+            line="267"
             column="21"/>
     </issue>
 
@@ -5096,7 +5030,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="748"
+            line="749"
             column="55"/>
     </issue>
 
@@ -5620,7 +5554,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_followed_hashtag.xml"
-            line="27"
+            line="14"
             column="6"/>
     </issue>
 
@@ -5631,7 +5565,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_list.xml"
-            line="9"
+            line="14"
             column="6"/>
     </issue>
 
@@ -6137,7 +6071,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_tab_preference.xml"
-            line="24"
+            line="26"
             column="6"/>
     </issue>
 
@@ -6445,7 +6379,7 @@
         errorLine2="         ~~~~~~~~~">
         <location
             file="src/main/res/layout/activity_account.xml"
-            line="469"
+            line="468"
             column="10"/>
     </issue>
 
@@ -6500,7 +6434,7 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src/main/res/layout/item_tab_preference.xml"
-            line="13"
+            line="14"
             column="6"/>
     </issue>
 
@@ -6749,77 +6683,11 @@
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract AccountDao accountDao();"
-        errorLine2="                    ~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="53"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract InstanceDao instanceDao();"
-        errorLine2="                    ~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="54"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract ConversationsDao conversationDao();"
-        errorLine2="                    ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="55"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract TimelineDao timelineDao();"
-        errorLine2="                    ~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="56"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract DraftDao draftDao();"
-        errorLine2="                    ~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="57"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="        public Migration25_26(File oldDraftDirectory) {"
-        errorLine2="                              ~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="389"
-            column="31"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
         errorLine1="    public AccountManager accountManager;"
         errorLine2="           ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="59"
+            line="63"
             column="12"/>
     </issue>
 
@@ -6830,7 +6698,7 @@
         errorLine2="                                                  ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="123"
+            line="165"
             column="51"/>
     </issue>
 
@@ -6841,7 +6709,7 @@
         errorLine2="                                         ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="129"
+            line="171"
             column="42"/>
     </issue>
 
@@ -6852,7 +6720,7 @@
         errorLine2="                                   ~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="157"
+            line="199"
             column="36"/>
     </issue>
 
@@ -6863,7 +6731,7 @@
         errorLine2="                                                                                                        ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="157"
+            line="199"
             column="105"/>
     </issue>
 
@@ -6874,7 +6742,7 @@
         errorLine2="                                         ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="165"
+            line="207"
             column="42"/>
     </issue>
 
@@ -6885,7 +6753,7 @@
         errorLine2="                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="165"
+            line="207"
             column="95"/>
     </issue>
 
@@ -6896,7 +6764,7 @@
         errorLine2="                                   ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="233"
+            line="275"
             column="36"/>
     </issue>
 
@@ -6907,7 +6775,7 @@
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="233"
+            line="275"
             column="58"/>
     </issue>
 
