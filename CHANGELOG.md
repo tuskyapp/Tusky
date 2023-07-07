@@ -6,6 +6,13 @@
 
 ### Significant bug fixes
 
+## v23.0 beta 2
+
+### Significant bug fixes
+
+- **Potential crash when editing profile fields**, [PR#3808](https://github.com/tuskyapp/Tusky/pull/3808) by [@nikclayton](https://mastodon.social/@nikclayton)
+- **Oversized context menu when editing image descriptions**, [PR#3787](https://github.com/tuskyapp/Tusky/pull/3787) by [@connyduck](https://chaos.social/@ConnyDuck)
+
 ## v23.0 beta 1
 
 ### New features and other improvements
