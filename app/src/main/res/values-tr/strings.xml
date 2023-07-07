@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Bir hata oluştu.</string>
-    <string name="error_network">Bir ağ hatası oluştu! Lütfen bağlantını kontrol et ve tekrar dene!</string>
+    <string name="error_network">Bir ağ hatası oluştu. Lütfen bağlantını kontrol et ve tekrar dene.</string>
     <string name="error_empty">Bu alan boş bırakılmaz.</string>
     <string name="error_invalid_domain">Girilen alan alanı geçersiz</string>
     <string name="error_failed_app_registration">Bu sunucuda kimlik doğrulama başarısız oldu. Sorun devam ederse menüdeki Tarayıcı ile Giriş Yap seçeneğini dene.</string>
@@ -17,7 +17,7 @@
     <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı gönderide yayınlanamaz.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
     <string name="error_sender_account_gone">Gönderi gönderilirken hata.</string>
-    <string name="title_home">Ana sayfa</string>
+    <string name="title_home">Anasayfa</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
     <string name="title_public_federated">Federe</string>
@@ -54,7 +54,7 @@
     <string name="report_comment_hint">Daha fazla yorum?</string>
     <string name="action_quick_reply">Hızlı yanıt</string>
     <string name="action_reply">Yanıtla</string>
-    <string name="action_reblog">Yinele</string>
+    <string name="action_reblog">Boostla</string>
     <string name="action_favourite">Favorile</string>
     <string name="action_more">Devamı</string>
     <string name="action_compose">Oluştur</string>
@@ -66,11 +66,11 @@
     <string name="action_block">Engelle</string>
     <string name="action_unblock">Engeli kaldır</string>
     <string name="action_hide_reblogs">Boostları gizle</string>
-    <string name="action_show_reblogs">Yinelemeleri göster</string>
+    <string name="action_show_reblogs">Boostsları göster</string>
     <string name="action_report">Bildir</string>
     <string name="action_delete">Sil</string>
-    <string name="action_send">İLET</string>
-    <string name="action_send_public">İLET!</string>
+    <string name="action_send">TOOTLA</string>
+    <string name="action_send_public">TOOTLA!</string>
     <string name="action_retry">Tekrar dene</string>
     <string name="action_close">Kapat</string>
     <string name="action_view_profile">Profil</string>
@@ -218,8 +218,8 @@
     <string name="about_bug_feature_request_site">&amp; özellik istekleri hata raporları:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'nin Profili</string>
-    <string name="post_share_content">İletinin içeriğini paylaş</string>
-    <string name="post_share_link">İletinin adresini paylaş</string>
+    <string name="post_share_content">Gönderinin içeriğini paylaş</string>
+    <string name="post_share_link">Gönderinin adresini paylaş</string>
     <string name="post_media_images">Görseller</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Takip edebilme istendi</string>
@@ -292,10 +292,10 @@
         <item quantity="other"><b>%1$s</b> Favori</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Yeniden Paylaşım</item>
-        <item quantity="other"><b>%s</b> Yeniden Paylaşım</item>
+        <item quantity="one"><b>%s</b> Yeniden Boosts</item>
+        <item quantity="other"><b>%s</b> Yeniden Boostlananlar</item>
     </plurals>
-    <string name="title_reblogged_by">tarafından yinelendi</string>
+    <string name="title_reblogged_by">tarafından boostlandı</string>
     <string name="title_favourited_by">Tarafından favorilendi</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s ve %2$s</string>
@@ -305,14 +305,14 @@
         <item quantity="other">azami %1$d sekmeler sayısına ulaşıldı</item>
     </plurals>
     <string name="title_domain_mutes">Gizli alan adları</string>
-    <string name="action_unreblog">Yinelemekten vazgeç</string>
+    <string name="action_unreblog">Boostlamaktan vazgeç</string>
     <string name="action_unfavourite">Favoriyi kaldır</string>
     <string name="action_view_domain_mutes">Gizli alan adları</string>
     <string name="action_mute_domain">%s alan adını sessize al</string>
     <string name="action_links">Bağlantılar</string>
-    <string name="action_hashtags">Hashtags\'ler</string>
+    <string name="action_hashtags">Etiketler</string>
     <string name="action_open_faved_by">Favorileri göster</string>
-    <string name="title_hashtags_dialog">Hashtag\'ler</string>
+    <string name="title_hashtags_dialog">Etiketler</string>
     <string name="title_links_dialog">Bağlantılar</string>
     <string name="download_media">Medya indir</string>
     <string name="downloading_media">Medya indiriliyor</string>
@@ -399,7 +399,7 @@
     <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
     <string name="pref_title_show_notifications_filter">Bildirim filtresini göster</string>
     <string name="action_mentions">Bahsedenler</string>
-    <string name="action_open_reblogger">Yineleyen yayıncıyı aç</string>
+    <string name="action_open_reblogger">Boost yazanını aç</string>
     <string name="action_open_reblogged_by">Yinelemeleri göster</string>
     <string name="title_mentions_dialog">Bahsedenler</string>
     <string name="action_open_media_n">#%d medyayı aç</string>
@@ -452,7 +452,7 @@
         <item quantity="one">%s kişi</item>
         <item quantity="other">%s kişiler</item>
     </plurals>
-    <string name="add_hashtag_title">Hashtag ekle</string>
+    <string name="add_hashtag_title">Etiket ekle</string>
     <string name="notification_follow_request_description">Takip istekleri ile ilgili bildirimler</string>
     <string name="notification_follow_request_name">Takip istekleri</string>
     <string name="pref_main_nav_position_option_bottom">Alt</string>
@@ -482,7 +482,7 @@
     <string name="action_unfollow_hashtag_format">Takibi bırak #%s\?</string>
     <string name="pref_title_wellbeing_mode">Huzur</string>
     <string name="account_note_saved">Kaydedildi!</string>
-    <string name="report_category_spam">Spam</string>
+    <string name="report_category_spam">İstenmeyen</string>
     <string name="report_category_other">Diğer</string>
     <string name="pref_show_self_username_always">Daima</string>
     <string name="pref_show_self_username_disambiguate">Birden fazla oturum açıldığında</string>
@@ -607,11 +607,11 @@
     <string name="title_edits">Düzenlemeler</string>
     <string name="hint_description">Açıklama</string>
     <string name="post_media_image">Görüntü</string>
-    <string name="label_filter_action">Filtreleme eylemi</string>
+    <string name="label_filter_action">Süzgeçleme eylemi</string>
     <string name="action_add">Ekle</string>
-    <string name="label_filter_context">Filtreleme bağlamları</string>
+    <string name="label_filter_context">Süzgeçleme bağlamları</string>
     <string name="filter_keyword_addition_title">Anahtar kelime ekle</string>
-    <string name="label_filter_keywords">Filtrelenecek anahtar kelimeler veya kelime öbekleri</string>
+    <string name="label_filter_keywords">Süzgeçlenecek anahtar kelimeler veya kelime öbekleri</string>
     <string name="filter_keyword_display_format">%s (tüm dünya)</string>
     <string name="action_post_failed">Yükleme başarısız</string>
     <string name="action_post_failed_detail">Gönderin yüklenemedi ve taslaklara kaydedildi.
@@ -650,13 +650,13 @@
     <string name="action_continue_edit">Düzenlemeye devam et</string>
     <string name="pref_title_account_filter_keywords">Profiller</string>
     <string name="filter_description_hide">Tamamen gizle</string>
-    <string name="hint_filter_title">Filtrem</string>
+    <string name="hint_filter_title">Süzgecim</string>
     <string name="label_filter_title">Başlık</string>
     <string name="filter_action_warn">Uyar</string>
     <string name="filter_action_hide">Gizle</string>
     <string name="filter_description_warn">Bir uyarı ile gizle</string>
     <string name="status_filtered_show_anyway">Yine de göster</string>
-    <string name="status_filter_placeholder_label_format">Filtrelendi: %s</string>
+    <string name="status_filter_placeholder_label_format">Süzgeçlendi: %s</string>
     <string name="filter_edit_keyword_title">Anahtar kelimeyi düzenle</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="pref_title_show_stat_inline">Gönderi istatistiklerini zaman tünelinde göster</string>
@@ -664,4 +664,14 @@
     <string name="total_usage">Toplam kullanım</string>
     <string name="total_accounts">Toplam hesap</string>
     <string name="accessibility_talking_about_tag">%1$d kişi %2$s etiketi hakkında konuşuyor</string>
+    <string name="pref_ui_text_size">UI yazı boyutu</string>
+    <string name="notification_listenable_worker_name">Arkaplan etkinliği</string>
+    <string name="notification_listenable_worker_description">Tusky arka planda çalışırken gelen bildirimler</string>
+    <string name="notification_notification_worker">Bildirimler getiriliyor…</string>
+    <string name="notification_prune_cache">Önbellek bakımı…</string>
+    <string name="load_newest_notifications">En yeni bildirimleri yükle</string>
+    <string name="compose_delete_draft">Taslağı sil\?</string>
+    <string name="error_missing_edits">Sunucunuz bu gönderinin düzenlendiğini bilir, ancak düzenlemelerin bir kopyası yoktur, bu nedenle bunlar size gösterilemez.
+\n
+\nBu <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon surununu #25398</a>.</string>
 </resources>
