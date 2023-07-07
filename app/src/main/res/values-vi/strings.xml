@@ -648,4 +648,12 @@
     <string name="select_list_empty">Bạn chưa có danh sách</string>
     <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
     <string name="compose_delete_draft">Xóa bản nháp\?</string>
+    <string name="error_missing_edits">Máy chủ của bạn biết tút đã được sửa, nhưng không có bản sao của lần sửa, nên nó không thể hiện.
+\n
+\nĐây là <a href="https://github.com/mastodon/mastodon/issues/25398">Lỗi Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Cỡ chữ</string>
+    <string name="notification_listenable_worker_name">Hoạt động chạy nền</string>
+    <string name="notification_listenable_worker_description">Thông báo khi Tusky hoạt động ngầm</string>
+    <string name="notification_notification_worker">Đang nạp thông báo…</string>
+    <string name="notification_prune_cache">Bảo trì bộ nhớ đệm…</string>
 </resources>
