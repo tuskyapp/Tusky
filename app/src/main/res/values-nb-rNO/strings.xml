@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">En feil har oppstått.</string>
-    <string name="error_network">En nettverksfeil har oppstått! Sjekk tilkoblingen, og prøv igjen!</string>
+    <string name="error_network">En nettverksfeil har oppstått. Sjekk tilkoblingen, og prøv igjen.</string>
     <string name="error_empty">Denne kan ikke være tom.</string>
     <string name="error_invalid_domain">Ugyldig domene</string>
-    <string name="error_failed_app_registration">Kunne ikke autentisere med den instansen.</string>
+    <string name="error_failed_app_registration">Kunne ikke autentisere med den instansen. Hvis dette fortsetter å skje, prøv å logge inn i nettleseren fra menyen.</string>
     <string name="error_no_web_browser_found">Fant ingen nettleser som kunne brukes.</string>
-    <string name="error_authorization_unknown">En ukjent autoriseringsfeil oppsto.</string>
-    <string name="error_authorization_denied">Autorisasjon ble nektet.</string>
-    <string name="error_retrieving_oauth_token">Henting av logintoken feilet.</string>
+    <string name="error_authorization_unknown">En ukjent autoriseringsfeil oppsto. Hvis dette fortsetter, prøv å logge inn i nettleseren fra menyen.</string>
+    <string name="error_authorization_denied">Autorisasjon ble nektet. Hvis du er sikker på at du ga riktige data, prøv å logge inn i nettleseren fra menyen.</string>
+    <string name="error_retrieving_oauth_token">Henting av logintoken feilet. Hvis dette fortsetter prøv å logge in i nettleseren fra menyen.</string>
     <string name="error_compose_character_limit">Innlegget er for langt!</string>
     <string name="error_media_upload_type">Den filtypen kan ikke lastes opp.</string>
     <string name="error_media_upload_opening">Den filen kunne ikke åpnes.</string>
@@ -60,7 +60,7 @@
     <string name="action_unfavourite">Fjern favoritt</string>
     <string name="action_more">Mer</string>
     <string name="action_compose">Skriv</string>
-    <string name="action_login">Logg inn med Mastodon</string>
+    <string name="action_login">Logg inn med Tusky</string>
     <string name="action_logout">Logg ut</string>
     <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\?</string>
     <string name="action_follow">Følg</string>
@@ -259,9 +259,9 @@
     <string name="abbreviated_in_years">om %dy</string>
     <string name="compose_active_account_description">Poster som %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Beskriv for de med nedsatt synsevne
+        <item quantity="one">Beskriv innhold for de med nedsatt synsevne
 \n(maks %d tegn)</item>
-        <item quantity="other">Beskriv for de med nedsatt synsevne
+        <item quantity="other">Beskriv innhold for de med nedsatt synsevne
 \n(maks %d tegn)</item>
     </plurals>
     <string name="action_set_caption">Sett bildetekst</string>
@@ -441,7 +441,7 @@
     <string name="no_drafts">Du har ikke lagret noen utkast.</string>
     <string name="warning_scheduling_interval">Mastodon har et minimums planleggingsinterval på 5 minutter.</string>
     <string name="pref_title_show_cards_in_timelines">Vis forhåndsvisning av linker i tidslinjer</string>
-    <string name="pref_title_confirm_reblogs">Vis bekreftelsesdialog før deling</string>
+    <string name="pref_title_confirm_reblogs">Vis bekreftelser før deling</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s person</item>
@@ -505,7 +505,7 @@
     <string name="dialog_delete_conversation_warning">Slett denne samtalen\?</string>
     <string name="action_delete_conversation">Slett samtale</string>
     <string name="action_unbookmark">Fjern bokmerke</string>
-    <string name="pref_title_confirm_favourites">Vis bekreftelsesdialog når favoritt skal legges til</string>
+    <string name="pref_title_confirm_favourites">Vis bekreftelser når favoritt skal legges til</string>
     <string name="duration_30_days">30 dager</string>
     <string name="duration_60_days">60 dager</string>
     <string name="duration_90_days">90 dager</string>
@@ -577,4 +577,96 @@
     <string name="report_category_other">Annet</string>
     <string name="action_unfollow_hashtag_format">Slutte å følge #%s\?</string>
     <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%s</string>
+    <string name="a11y_label_loading_thread">Laster tråd</string>
+    <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger. 
+\n
+\nFor å utforske kontoer kan du enten oppdage dem i en av tidslinjene dine, for eksempel den lokale tidslinjen for instansen din [iconics gmd_group], eller du kan søke etter navnet deres [iconics gmd_search]; søk for eksempel etter Tusky før å finne Mastodonkonten vår.</string>
+    <string name="pref_title_reading_order">Leserekkefølge</string>
+    <string name="pref_reading_order_oldest_first">Eldste først</string>
+    <string name="pref_ui_text_size">Skriftstørrelse for brukergrensesnitt</string>
+    <string name="pref_reading_order_newest_first">Nyeste først</string>
+    <string name="dialog_follow_hashtag_title">Følg emneknagger</string>
+    <string name="dialog_follow_hashtag_hint">#emneknagg</string>
+    <string name="accessibility_talking_about_tag">%1$d folk snakker om emneknaggen %2$s</string>
+    <string name="total_usage">Total bruk</string>
+    <string name="total_accounts">Totale kontoer</string>
+    <string name="pref_summary_http_proxy_missing">&lt;ikke satt&gt;</string>
+    <string name="pref_summary_http_proxy_disabled">Deaktivert</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;ugyldig&gt;</string>
+    <string name="notification_listenable_worker_name">Bakgrunnsaktivitet</string>
+    <string name="notification_listenable_worker_description">Varsler når Tusky arbeider i bakgrunnen</string>
+    <string name="notification_notification_worker">Henter varsler…</string>
+    <string name="notification_prune_cache">Cache-vedlikehold…</string>
+    <string name="mute_notifications_switch">Demp varsler</string>
+    <string name="title_edits">Endringer</string>
+    <string name="status_created_info">Skapt: %1$s</string>
+    <string name="status_edit_info">Endret: %1$s</string>
+    <string name="hint_media_description_missing">Media bør ha en beskrivelse.</string>
+    <string name="action_refresh">Oppdater</string>
+    <string name="hint_description">Beskrivelse</string>
+    <string name="post_media_image">Bilde</string>
+    <string name="ui_error_bookmark">Å bokmerke innlegget misslyktes: %s</string>
+    <string name="hint_filter_title">Mitt filter</string>
+    <string name="filter_edit_keyword_title">Endre nøkkelord</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="pref_title_http_proxy_port_message">Portnummer burde være mellom %d og %d</string>
+    <string name="action_post_failed">Opplastningen mislykkets</string>
+    <string name="action_post_failed_detail_plural">Opplastningen av innleggene dine mislykktes og de har blitt lagret som utkast.
+\n
+\nEnten kunne ikke tjeneren nås, eller så ble opplastningen nektet.</string>
+    <string name="action_post_failed_show_drafts">Vis utkast</string>
+    <string name="action_post_failed_do_nothing">Lukk</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="notification_unknown_name">Ukjent</string>
+    <string name="socket_timeout_exception">Det tok for lang tid å kontaktere tjeneren din</string>
+    <string name="ui_error_clear_notifications">Sletting av vasler feilet: %s</string>
+    <string name="ui_error_reject_follow_request">Avvisning av følgeforespørselen misslyktes: %s</string>
+    <string name="ui_error_accept_follow_request">Godtagelse av følgeforespørsel mislykktes: %s</string>
+    <string name="error_muting_hashtag_format">Kunne ikke dempe #%s</string>
+    <string name="error_unmuting_hashtag_format">Kunne ikke skru av dempingen av #%s</string>
+    <string name="action_browser_login">Logg inn med nettleseren</string>
+    <string name="description_browser_login">Kan støtte flere autentiseringsmetoder, men trenger en støttet nettleser.</string>
+    <string name="description_login">Virker som oftest. Ingen informasjon deles med andre apper.</string>
+    <string name="action_post_failed_detail">Opplastingen misslykktes og har blit lagret som utkast.
+\n
+\nEnten kunne tjeneren ikke kontakteres, eller den nektet opplastningen.</string>
+    <string name="ui_success_accepted_follow_request">Følgeforespørsel akseptert</string>
+    <string name="action_discard">Forkast endringer</string>
+    <string name="action_continue_edit">Fortsett endring</string>
+    <string name="compose_unsaved_changes">Du har ulagrede endringer.</string>
+    <string name="select_list_empty">Du har ingen lister, enda</string>
+    <string name="error_list_load">Feil under lading av lister</string>
+    <string name="select_list_manage">Forvalte lister</string>
+    <string name="ui_error_reblog">Deling av innlegget feilet: %s</string>
+    <string name="ui_error_unknown">ukjent grunn</string>
+    <string name="ui_error_favourite">Favorisering av innlegg feilet: %s</string>
+    <string name="ui_error_vote">Stemming mislykkes: %s</string>
+    <string name="filter_description_hide">Gjem helt</string>
+    <string name="label_filter_action">Filterhandling</string>
+    <string name="filter_action_hide">Gjem</string>
+    <string name="filter_description_warn">Gjem med et varsel</string>
+    <string name="action_share_account_link">Del link til profil</string>
+    <string name="action_share_account_username">Del brukernavnet til kontoen</string>
+    <string name="send_account_link_to">Del konto-URL med…</string>
+    <string name="send_account_username_to">Del kontoens brukernavn med…</string>
+    <string name="account_username_copied">Brukernavn kopiert</string>
+    <string name="error_status_source_load">Kunne ikke laste status fra tjeneren.</string>
+    <string name="status_filtered_show_anyway">Vis allikevel</string>
+    <string name="status_filter_placeholder_label_format">Filtrert: %s</string>
+    <string name="pref_title_account_filter_keywords">Profiler</string>
+    <string name="action_add">Legg til</string>
+    <string name="filter_keyword_display_format">%s (helt ord)</string>
+    <string name="label_filter_context">Filtrer sammenhenger</string>
+    <string name="label_filter_keywords">Nøkkelord eller fraser som filtreres</string>
+    <string name="ui_success_rejected_follow_request">Følgeforespørsel blokkert</string>
+    <string name="label_filter_title">Tittel</string>
+    <string name="filter_action_warn">Varsle</string>
+    <string name="filter_keyword_addition_title">Legg til nøkkelord</string>
+    <string name="title_public_trending_hashtags">Trendy hashtaggs</string>
+    <string name="pref_title_show_stat_inline">Vis poststatistikk i tidslinjen</string>
+    <string name="load_newest_notifications">Last de nyeste varslene</string>
+    <string name="compose_delete_draft">Del utkast\?</string>
+    <string name="error_missing_edits">Serveren din vet at denne posten ble endret, men har ingen kopi av entringene så de kann ikke vises. 
+\n
+\nDette er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
 </resources>
