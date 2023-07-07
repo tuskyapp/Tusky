@@ -521,7 +521,7 @@
     <string name="error_failed_app_registration">Dh’fhàillig leis an dearbhadh leis an ionstans ud. Ma mhaireas an duilgheadas seo, feuch “Clàraich a-steach le brabhsair” on chlàr-taice.</string>
     <string name="error_invalid_domain">Chuir thu a-steach àrainn-lìn mì-dhligheach</string>
     <string name="error_empty">Chan fhaod seo a bhith falamh.</string>
-    <string name="error_network">Thachair mearachd leis an lìonra! Thoir sùil air a’ cheangal agad is feuch ris a-rithist!</string>
+    <string name="error_network">Thachair mearachd leis an lìonra. Thoir sùil air a’ cheangal agad is feuch ris a-rithist.</string>
     <string name="error_generic">Thachair mearachd.</string>
     <string name="follow_requests_info">Ged nach eil an cunntas agad glaiste, tha sgioba %1$s dhen bheachd gum b’ fheàirrde thu lèirmheas a dhèanamh air na h-iarrtasan leantainn o na cunntasan seo a làimh.</string>
     <string name="dialog_delete_conversation_warning">A bheil thu airson an còmhradh seo a sguabadh às\?</string>
@@ -686,4 +686,9 @@
     <string name="error_missing_edits">Tha fios aig an fhrithealaiche gun deach am post seo a dheasachadh ach chan eil lethbhreac dhen deasachadh aige-san is chan urrainn dhuinn a shealltainn dhut.
 \n
 \nSeo <a href="https://github.com/mastodon/mastodon/issues/25398">duilgheadas Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Meud teacsa na eadar-aghaidh</string>
+    <string name="notification_listenable_worker_name">Gnìomhachd sa chùlaibh</string>
+    <string name="notification_listenable_worker_description">Brathan nuair a bhios Tusky ag obair sa chùlaibh</string>
+    <string name="notification_notification_worker">A’ faighinn nam brathan…</string>
+    <string name="notification_prune_cache">Obair-ghlèidhidh air an tasgadan…</string>
 </resources>
