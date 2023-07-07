@@ -272,7 +272,7 @@
     <string name="label_remote_account">ممکن است اطلاعات زیر نمایهٔ کاربر را ناقص نشان دهد. برای گشودن نمایهٔ کامل در مرورگر، لمس کنید.</string>
     <string name="unpin_action">برداشتن سنجاق</string>
     <string name="pin_action">سنجاق کردن</string>
-    <string name="error_network">یک خطای شبکه رخ داد! لطفا اتصال خود را بررسی و دوباره تلاش کنید!</string>
+    <string name="error_network">خطای شبکه‌ای رخ داد. لطفاً اتصالتان را بررسی و دوباره تلاش کنید.</string>
     <string name="title_direct_messages">پیام‌های مستقیم</string>
     <string name="title_tab_preferences">زبانه‌ها</string>
     <string name="title_posts_pinned">سنجاق شده</string>
@@ -595,8 +595,8 @@
     <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
     <string name="pref_title_reading_order">ترتیب خواندن</string>
     <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
-    <string name="status_edit_info">%1$s را ویراست</string>
-    <string name="status_created_info">%1$s  را ایجاد کرد</string>
+    <string name="status_edit_info">ویراسته: %1$s</string>
+    <string name="status_created_info">ایجاد شده: %1$s</string>
     <string name="action_post_failed">بارگذاری شکست خورد</string>
     <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
     <string name="action_post_failed_do_nothing">رد کردن</string>
@@ -669,4 +669,9 @@
     <string name="error_missing_edits">کارسازتان می‌داند که این فرسته ویرایش شده؛ ولی رونوشتی از ویرایش‌ها ندارد. پس نمی‌توانند نشانتان داده شوند.
 \n
 \nاین <a href="https://github.com/mastodon/mastodon/issues/25398">نکتهٔ ماستودون</a> را ببینید.</string>
+    <string name="pref_ui_text_size">اندازهٔ متن میانای کاربری</string>
+    <string name="notification_listenable_worker_name">فعّالیت پس‌زمینه</string>
+    <string name="notification_listenable_worker_description">آگاهی‌ها هنگامی که تاسکی در پس‌زمینه کار می‌کند</string>
+    <string name="notification_notification_worker">واکشی آگاهی‌ها…</string>
+    <string name="notification_prune_cache">نگه‌داری انباره…</string>
 </resources>
