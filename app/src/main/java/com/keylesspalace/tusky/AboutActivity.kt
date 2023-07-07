@@ -1,5 +1,8 @@
 package com.keylesspalace.tusky
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +12,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -76,6 +80,16 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 
         binding.aboutLicensesButton.setOnClickListener {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
+        }
+
+        binding.copyDeviceInfo.setOnClickListener {
+            val text = "${binding.versionTextView.text}\n\nDevice:\n\n${binding.deviceInfo.text}\n\nAccount:\n\n${binding.accountInfo.text}"
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Tusky version information", text)
+            clipboard.setPrimaryClip(clip)
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+                Toast.makeText(this, getString(R.string.about_copied), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

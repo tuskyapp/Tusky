@@ -32,40 +32,41 @@
 
                 <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_launcher"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    android:layout_marginStart="16dp" />
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/versionTextView"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/text_content_margin"
-                    android:layout_marginEnd="@dimen/text_content_margin"
+                    android:layout_marginTop="12dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold"
                     android:textIsSelectable="true"
+                    android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/logo"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/logo"
                     tools:text="Tusky Test" />
 
                 <TextView
                     android:id="@+id/deviceInfoTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="@dimen/text_content_margin"
+                    android:layout_marginEnd="@dimen/text_content_margin"
                     android:lineSpacingMultiplier="1.1"
+                    android:text="@string/about_device_info_title"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textIsSelectable="true"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/about_device_info_title"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
-                    app:layout_constraintStart_toStartOf="@+id/versionTextView"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/versionTextView"
                     tools:text="Your device" />
 
@@ -73,58 +74,65 @@
                     android:id="@+id/deviceInfo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:lineSpacingMultiplier="1.1"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textIsSelectable="true"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
-                    app:layout_constraintStart_toStartOf="@+id/versionTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/deviceInfoTitle"
+                    app:layout_constraintStart_toStartOf="@+id/deviceInfoTitle"
                     app:layout_constraintTop_toBottomOf="@id/deviceInfoTitle" />
 
                 <TextView
                     android:id="@+id/accountInfoTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:lineSpacingMultiplier="1.1"
+                    android:text="@string/about_account_info_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textIsSelectable="true"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/about_account_info_title"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
-                    app:layout_constraintStart_toStartOf="@+id/versionTextView"
-                    app:layout_constraintTop_toBottomOf="@id/deviceInfo"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:layout_constraintEnd_toStartOf="@+id/copyDeviceInfo"
+                    app:layout_constraintStart_toStartOf="@+id/deviceInfo"
+                    app:layout_constraintTop_toBottomOf="@id/deviceInfo"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/accountInfo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:lineSpacingMultiplier="1.1"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textIsSelectable="true"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
-                    app:layout_constraintStart_toStartOf="@+id/versionTextView"
-                    app:layout_constraintTop_toBottomOf="@id/accountInfoTitle"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    tools:text="Account info" />
+                    app:layout_constraintEnd_toEndOf="@+id/accountInfoTitle"
+                    app:layout_constraintStart_toStartOf="@+id/accountInfoTitle"
+                    app:layout_constraintTop_toBottomOf="@id/accountInfoTitle"
+                    tools:text="\@Tusky@mastodon.social\nVersion: xxx"
+                    tools:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/copyDeviceInfo"
+                    style="@style/TuskyImageButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/about_copy"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountInfo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_content_copy_24" />
 
                 <TextView
                     android:id="@+id/aboutPoweredByTusky"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="1dp"
-                    android:drawablePadding="16dp"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="16dp"
                     android:text="@string/about_powered_by_tusky"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
-                    app:layout_constraintStart_toStartOf="@+id/versionTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
+                    app:layout_constraintStart_toStartOf="@+id/deviceInfo"
                     app:layout_constraintTop_toBottomOf="@+id/accountInfo" />
 
                 <com.keylesspalace.tusky.view.ClickableSpanTextView
@@ -134,10 +142,9 @@
                     android:layout_marginTop="24dp"
                     android:hyphenationFrequency="full"
                     android:lineSpacingMultiplier="1.2"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textIsSelectable="true"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
-                    app:layout_constraintStart_toStartOf="@+id/logo"
+                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
+                    app:layout_constraintStart_toStartOf="@+id/accountInfo"
                     app:layout_constraintTop_toBottomOf="@id/aboutPoweredByTusky"
                     tools:text="@string/about_tusky_license" />
 
@@ -147,9 +154,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textIsSelectable="true"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/aboutLicenseInfoTextView"
                     app:layout_constraintStart_toStartOf="@+id/aboutLicenseInfoTextView"
                     app:layout_constraintTop_toBottomOf="@id/aboutLicenseInfoTextView"
                     tools:text="@string/about_project_site" />
@@ -162,8 +168,7 @@
                     android:lineSpacingMultiplier="1.2"
                     android:text="@string/about_bug_feature_request_site"
                     android:textIsSelectable="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    app:layout_constraintEnd_toEndOf="@+id/versionTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/aboutWebsiteInfoTextView"
                     app:layout_constraintStart_toStartOf="@+id/aboutWebsiteInfoTextView"
                     app:layout_constraintTop_toBottomOf="@id/aboutWebsiteInfoTextView" />
 
@@ -174,11 +179,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
+                    android:maxWidth="320dp"
                     android:text="@string/about_tusky_account"
                     android:textAllCaps="false"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/aboutBugsFeaturesInfoTextView"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    app:layout_constraintEnd_toStartOf="@+id/aboutLicensesButton"
                     app:layout_constraintStart_toStartOf="@+id/aboutBugsFeaturesInfoTextView"
                     app:layout_constraintTop_toBottomOf="@id/aboutBugsFeaturesInfoTextView" />
 
@@ -187,15 +193,16 @@
                     style="@style/TuskyButton.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:lineSpacingMultiplier="1.2"
+                    android:maxWidth="320dp"
                     android:text="@string/title_licenses"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/tuskyProfileButton"
-                    app:layout_constraintStart_toStartOf="@+id/tuskyProfileButton"
-                    app:layout_constraintTop_toBottomOf="@id/tuskyProfileButton" />
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tuskyProfileButton"
+                    app:layout_constraintTop_toTopOf="@+id/tuskyProfileButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
