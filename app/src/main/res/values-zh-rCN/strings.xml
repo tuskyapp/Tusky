@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">出错了。</string>
-    <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
+    <string name="error_network">网络请求出错，请检查互联网连接并重试。</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
     <string name="error_failed_app_registration">未能通过该实例的身份验证。如果这个问题持续，请从菜单处尝试“在浏览器中登录”。</string>
@@ -441,7 +441,7 @@
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找嘟文时出错 %s</string>
-    <string name="no_drafts">你没有草稿</string>
+    <string name="no_drafts">你没有草稿。</string>
     <string name="no_scheduled_posts">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
@@ -669,4 +669,9 @@
     <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。
 \n
 \n这是一个 <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>。</string>
+    <string name="pref_ui_text_size">用户界面文本大小</string>
+    <string name="notification_listenable_worker_description">Tusky 在后台工作时进行提示</string>
+    <string name="notification_notification_worker">获取通知中…</string>
+    <string name="notification_prune_cache">缓存维护…</string>
+    <string name="notification_listenable_worker_name">后台活动</string>
 </resources>
