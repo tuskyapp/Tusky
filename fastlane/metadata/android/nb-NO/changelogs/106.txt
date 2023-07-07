@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4 
+ 
+Fikser: 
+ 
+- Fikset gjentagene henting av varsler dersom flere kontoer er konfigurért
