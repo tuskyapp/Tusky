@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ein Fehler ist aufgetreten.</string>
-    <string name="error_network">Ein Netzwerkfehler ist aufgetreten! Bitte überprüfe deine Internetverbindung und versuche es erneut!</string>
+    <string name="error_network">Ein Netzwerkfehler ist aufgetreten. Bitte überprüfe deine Internetverbindung und versuche es erneut.</string>
     <string name="error_empty">Das darf nicht leer sein.</string>
     <string name="error_invalid_domain">Ungültige Domain angegeben</string>
     <string name="error_failed_app_registration">Authentifizieren mit dieser Instanz fehlgeschlagen. Falls das Problem weiter besteht, versuche dich über den Browser anzumelden.</string>
@@ -198,7 +198,7 @@
     <string name="post_privacy_public">Öffentlich</string>
     <string name="post_privacy_unlisted">Nicht gelistet</string>
     <string name="post_privacy_followers_only">Nur Follower</string>
-    <string name="pref_post_text_size">Schriftgröße</string>
+    <string name="pref_post_text_size">Schriftgröße von Beiträgen</string>
     <string name="post_text_size_smallest">Kleiner</string>
     <string name="post_text_size_small">Klein</string>
     <string name="post_text_size_medium">Normal</string>
@@ -613,8 +613,8 @@
     <string name="send_account_link_to">Profil-Link teilen an …</string>
     <string name="send_account_username_to">Profilname teilen an …</string>
     <string name="account_username_copied">Profilname kopiert</string>
-    <string name="status_edit_info">%1$s bearbeitete</string>
-    <string name="status_created_info">%1$s erstellte</string>
+    <string name="status_edit_info">Bearbeitet: %1$s</string>
+    <string name="status_created_info">Erstellt: %1$s</string>
     <string name="notification_report_format">Neue Meldung über %s</string>
     <string name="notification_report_description">Benachrichtigungen über Moderationsmeldungen</string>
     <string name="pref_title_notification_filter_reports">es eine neue Meldung gibt</string>
@@ -625,8 +625,8 @@
     <string name="error_status_source_load">Die Statusquelle konnte nicht vom Server geladen werden.</string>
     <string name="title_public_trending_hashtags">Angesagte Hashtags</string>
     <string name="accessibility_talking_about_tag">%1$d Leute schreiben über den Hashtag %2$s</string>
-    <string name="total_usage">Insgesamt verwendet</string>
-    <string name="total_accounts">Konten insgesamt</string>
+    <string name="total_usage">Insg. verwendet</string>
+    <string name="total_accounts">Konten insg.</string>
     <string name="dialog_follow_hashtag_title">Hashtag folgen</string>
     <string name="dialog_follow_hashtag_hint">#Hashtag</string>
     <string name="action_refresh">Aktualisieren</string>
@@ -664,4 +664,14 @@
 \nDamit du andere Konten entdeckst, kannst du entweder andere Timelines lesen – z. B. die Lokale Timeline deiner Instanz [iconics gmd_group] – oder du suchst nach Namen [iconics gmd_search] – z. B. Tusky, um unser Mastodon-Konto zu finden.</string>
     <string name="post_media_image">Bild</string>
     <string name="pref_title_show_stat_inline">Beitragsstatistiken in der Timeline anzeigen</string>
+    <string name="pref_ui_text_size">Schriftgröße der Oberfläche</string>
+    <string name="notification_prune_cache">Cache-Wartung …</string>
+    <string name="notification_listenable_worker_description">Benachrichtigungen, wenn Tusky im Hintergrund aktiv ist</string>
+    <string name="notification_listenable_worker_name">Hintergrundaktivität</string>
+    <string name="notification_notification_worker">Benachrichtigungen werden abgerufen …</string>
+    <string name="load_newest_notifications">Neueste Benachrichtigungen laden</string>
+    <string name="compose_delete_draft">Entwurf löschen\?</string>
+    <string name="error_missing_edits">Deinem Server ist bekannt, dass dieser Beitrag bearbeitet wurde. Allerdings besitzt er keine Kopien der Änderungen, weshalb diese nicht angezeigt werden können.
+\n
+\nHierbei handelt es sich um <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon Issue #25398</a>.</string>
 </resources>
