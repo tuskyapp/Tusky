@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Er deed zich een fout voor.</string>
-    <string name="error_network">Er deed zich een netwerkfout voor! Controleer je verbinding en probeer opnieuw!</string>
+    <string name="error_network">Er deed zich een netwerkfout voor. Controleer je verbinding en probeer opnieuw.</string>
     <string name="error_empty">Dit mag niet leeg zijn.</string>
     <string name="error_invalid_domain">Ongeldige domeinnaam ingevoerd</string>
     <string name="error_failed_app_registration">Authenticatie met die server is mislukt. Als het probleem blijft, probeer dan de browser login via het menu.</string>
