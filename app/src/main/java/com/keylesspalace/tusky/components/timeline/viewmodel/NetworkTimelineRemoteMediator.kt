@@ -23,7 +23,6 @@ import androidx.paging.RemoteMediator
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.toAccount
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.TimelineAccount
@@ -89,7 +88,7 @@ class NetworkTimelineRemoteMediator(
                 val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
                 val contentCollapsed = oldStatus?.isCollapsed ?: true
 
-                var inReplyToAccount:TimelineAccount? = null
+                var inReplyToAccount: TimelineAccount? = null
                 if (status.inReplyToAccountId != null) {
                     inReplyToAccount = accountDao.get(status.inReplyToAccountId)?.toAccount(gson)
                 }

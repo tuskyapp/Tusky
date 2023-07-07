@@ -46,7 +46,7 @@ fun Status.toViewData(
     isExpanded: Boolean,
     isCollapsed: Boolean,
     isDetailed: Boolean = false,
-    inReplyToAccount: TimelineAccount? = null,
+    inReplyToAccount: TimelineAccount? = null
 ): StatusViewData.Concrete {
     return StatusViewData.Concrete(
         status = this,
