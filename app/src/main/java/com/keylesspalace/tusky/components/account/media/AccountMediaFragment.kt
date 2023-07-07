@@ -83,13 +83,10 @@ class AccountMediaFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
 
         adapter = AccountMediaGridAdapter(
-            alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
             useBlurhash = useBlurhash,
             context = view.context,
             onAttachmentClickListener = ::onAttachmentClick

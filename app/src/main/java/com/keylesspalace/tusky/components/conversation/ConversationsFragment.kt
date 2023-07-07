@@ -299,7 +299,7 @@ class ConversationsFragment :
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         adapter.peek(position)?.let { conversation ->
-            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.status, false), view)
+            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.status), view)
         }
     }
 

@@ -132,7 +132,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         searchAdapter.peek(position)?.status?.actionableStatus?.let { actionable ->
             when (actionable.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                    val attachments = AttachmentViewData.list(actionable, false)
+                    val attachments = AttachmentViewData.list(actionable)
                     val intent = ViewMediaActivity.newIntent(
                         context,
                         attachments,

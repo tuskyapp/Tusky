@@ -88,7 +88,7 @@ class ReportStatusesFragment :
         status?.actionableStatus?.let { actionable ->
             when (actionable.attachments[idx].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                    val attachments = AttachmentViewData.list(actionable, false)
+                    val attachments = AttachmentViewData.list(actionable)
                     val intent = ViewMediaActivity.newIntent(context, attachments, idx)
                     if (v != null) {
                         val url = actionable.attachments[idx].url
