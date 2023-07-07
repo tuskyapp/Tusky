@@ -14,13 +14,13 @@ import android.text.util.Linkify
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,8 +61,8 @@ class AboutActivity : BottomSheetActivity(), Injectable {
                     account.domain,
                     instanceInfo.version
                 )
-                binding.accountInfoTitle.isVisible = true
-                binding.accountInfo.isVisible = true
+                binding.accountInfoTitle.show()
+                binding.accountInfo.show()
             }
         }
 
