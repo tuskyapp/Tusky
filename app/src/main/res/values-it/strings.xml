@@ -647,7 +647,7 @@
     <string name="title_public_trending_hashtags">Hashtag di tendenza</string>
     <string name="help_empty_home">Questa è la tua <b>Timeline principale</b>. Mostra i post più recenti degli account che segui.
 \n
-\nPer esplorare gli account puoi scopririli in una delle altre timeline. Per esempio la timeline locale della tua istanza [iconica gmd_group]. O puoi cercarli per fine [iconica gmd_search]; per esempio cerca \"Tusky\" per trovare il nostro account Mastodon.</string>
+\nPer esplorare gli account puoi scopririli in una delle altre timeline. Per esempio la timeline locale della tua istanza [iconica gmd_group]. O puoi cercarli per fine [iconica gmd_search]; per esempio cerca “Tusky” per trovare il nostro account Mastodon.</string>
     <string name="hint_description">Descrizione</string>
     <string name="notification_unknown_name">Sconosciuto</string>
     <string name="post_media_image">Immagine</string>
