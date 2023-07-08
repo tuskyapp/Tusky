@@ -14,8 +14,9 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
-import kotlinx.coroutines.delay
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -90,23 +91,24 @@ class NotificationFetcher @Inject constructor(
                         }
                     }
 
+                    val notificationsGrouped = groupByGroupId(account, notifications)
+
                     // Make and send the new notifications
                     // TODO: Use the batch notification API available in NotificationManagerCompat
                     // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
                     // when it is released.
-                    notifications.forEachIndexed { index, notification ->
-                        val androidNotification = NotificationHelper.make(
-                            context,
-                            notificationManager,
-                            notification,
-                            account,
-                            index == 0
-                        )
-                        notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
-                        // Android will rate limit / drop notifications if they're posted too
-                        // quickly. There is no indication to the user that this happened.
-                        // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-                        delay(1000.milliseconds)
+
+                    notificationsGrouped.forEach { notificationList ->
+                        notificationList.forEach { notification ->
+                            val androidNotification = NotificationHelper.make(
+                                context,
+                                notificationManager,
+                                notification,
+                                account,
+                                notificationList.size == 1
+                            )
+                            notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
+                        }
                     }
 
                     NotificationHelper.updateSummaryNotifications(
@@ -121,6 +123,32 @@ class NotificationFetcher @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun groupByGroupId(account: AccountEntity, notifications: List<Notification>): List<List<Notification>> {
+        if (notifications.size < 2) {
+            return listOf(notifications)
+        }
+
+        val groupingMap = HashMap<String, LinkedList<Notification>>(31)
+
+        notifications.forEach {notification ->
+            NotificationHelper.getChannelId(account, notification)?.let { groupId ->
+                if (!groupingMap.containsKey(groupId)) {
+                    groupingMap[groupId] = LinkedList<Notification>()
+                }
+
+                groupingMap[groupId]?.add(notification)
+            }
+        }
+
+        val groupedList = LinkedList<LinkedList<Notification>>()
+
+        groupingMap.forEach {
+            groupedList.add(it.value)
+        }
+
+        return groupedList
     }
 
     /**
