@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2023 Tusky contributors
  *
  * This file is a part of Tusky.
  *
@@ -16,11 +16,11 @@
 
 package com.keylesspalace.tusky.entity
 
-/**
- * Created by charlag on 1/4/18.
- */
-
 data class MastoList(
     val id: String,
     val title: String
-)
+) {
+    override fun toString(): String {
+        return title
+    }
+}
