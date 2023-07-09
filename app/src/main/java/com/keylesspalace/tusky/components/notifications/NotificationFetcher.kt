@@ -153,8 +153,8 @@ class NotificationFetcher @Inject constructor(
         // - account.notificationMarkerId
         // - account.lastNotificationId
         Log.d(TAG, "getting notification marker for ${account.fullName}")
-        val remoteMarkerId = 516362.toString() //fetchMarker(authHeader, account)?.lastReadId ?: "0"
-        val localMarkerId = 516362.toString() //account.notificationMarkerId
+        val remoteMarkerId = fetchMarker(authHeader, account)?.lastReadId ?: "0"
+        val localMarkerId = account.notificationMarkerId
         val markerId = if (remoteMarkerId.isLessThan(localMarkerId)) localMarkerId else remoteMarkerId
         val readingPosition = account.lastNotificationId
 
