@@ -36,6 +36,10 @@
     <!-- Ensure we are warned about errors in the baseline -->
     <issue id="LintBaseline" severity="warning" />
 
+    <!-- Warn about typos. The typo database in lint is not exhaustive, and it's unclear
+         how to add to it when it's wrong. -->
+    <issue id="Typos" severity="warning" />
+
     <!-- Mark all other lint issues as errors -->
     <issue id="all" severity="error" />
 </lint>

@@ -943,7 +943,10 @@ class ComposeActivity :
             val split = contentInfo.partition { item: ClipData.Item -> item.uri != null }
             split.first?.let { content ->
                 for (i in 0 until content.clip.itemCount) {
-                    pickMedia(content.clip.getItemAt(i).uri)
+                    pickMedia(
+                        content.clip.getItemAt(i).uri,
+                        contentInfo.clip.description.label as String?
+                    )
                 }
             }
             return split.second
@@ -1064,9 +1067,9 @@ class ComposeActivity :
         viewModel.removeMediaFromQueue(item)
     }
 
-    private fun pickMedia(uri: Uri) {
+    private fun pickMedia(uri: Uri, description: String? = null) {
         lifecycleScope.launch {
-            viewModel.pickMedia(uri).onFailure { throwable ->
+            viewModel.pickMedia(uri, description).onFailure { throwable ->
                 val errorString = when (throwable) {
                     is FileSizeException -> {
                         val decimalFormat = DecimalFormat("0.##")
