@@ -327,14 +327,14 @@ class TimelineFragment :
 
                 // Restore the user's reading position, if appropriate.
                 // Collect the first page submitted to the adapter, which will be the Refresh.
-                // Refresh. This should contain a status with an ID that matches the reading
-                // position. Find that status and scroll to it.
+                // This should contain a status with an ID that matches the reading position.
+                // Find that status and scroll to it.
                 launch {
                     if (shouldRestoreReadingPosition) {
                         adapter.onPagesUpdatedFlow.take(1).collect()
                         Log.d(TAG, "Page updated, should restore reading position")
                         adapter.snapshot()
-                            .indexOfFirst { it?.id == viewModel.readingPosition }
+                            .indexOfFirst { it?.id == viewModel.readingPositionId }
                             .takeIf { it != -1 }
                             ?.let { pos ->
                                 binding.recyclerView.post {

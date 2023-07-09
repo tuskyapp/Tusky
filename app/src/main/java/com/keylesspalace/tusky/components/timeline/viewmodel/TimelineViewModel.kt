@@ -307,7 +307,7 @@ abstract class TimelineViewModel(
     /** The ID of the status to which the user's reading position should be restored */
     // Not part of the UiState as it's only used once in the lifespan of the fragment.
     // Subclasses should set this if they support restoring the reading position.
-    open var readingPosition: String? = null
+    open var readingPositionId: String? = null
         protected set
 
     init {
