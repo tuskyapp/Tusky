@@ -14,11 +14,9 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
-import java.util.*
+import kotlinx.coroutines.delay
 import javax.inject.Inject
-import kotlin.collections.HashMap
 import kotlin.math.min
-import kotlin.time.Duration.Companion.milliseconds
 
 /** Models next/prev links from the "Links" header in an API response */
 data class Links(val next: String?, val prev: String?) {
@@ -91,24 +89,27 @@ class NotificationFetcher @Inject constructor(
                         }
                     }
 
-                    val notificationsGrouped = groupByGroupId(account, notifications)
+                    val notificationsGrouped = notifications.groupBy { it.type }
 
                     // Make and send the new notifications
                     // TODO: Use the batch notification API available in NotificationManagerCompat
                     // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
                     // when it is released.
 
-                    notificationsGrouped.forEach { notificationList ->
-                        notificationList.forEach { notification ->
+                    notificationsGrouped.forEach { notificationListEntry ->
+                        notificationListEntry.value.forEach { notification ->
                             val androidNotification = NotificationHelper.make(
                                 context,
                                 notificationManager,
                                 notification,
                                 account,
-                                notificationList.size == 1
+                                notificationListEntry.value.size == 1
                             )
                             notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
                         }
+
+                        // Leave some time between notifications from different types (to be able to distinguish them)
+                        delay(1000)
                     }
 
                     NotificationHelper.updateSummaryNotifications(
@@ -123,32 +124,6 @@ class NotificationFetcher @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun groupByGroupId(account: AccountEntity, notifications: List<Notification>): List<List<Notification>> {
-        if (notifications.size < 2) {
-            return listOf(notifications)
-        }
-
-        val groupingMap = HashMap<String, LinkedList<Notification>>(31)
-
-        notifications.forEach {notification ->
-            NotificationHelper.getChannelId(account, notification)?.let { groupId ->
-                if (!groupingMap.containsKey(groupId)) {
-                    groupingMap[groupId] = LinkedList<Notification>()
-                }
-
-                groupingMap[groupId]?.add(notification)
-            }
-        }
-
-        val groupedList = LinkedList<LinkedList<Notification>>()
-
-        groupingMap.forEach {
-            groupedList.add(it.value)
-        }
-
-        return groupedList
     }
 
     /**
@@ -178,8 +153,8 @@ class NotificationFetcher @Inject constructor(
         // - account.notificationMarkerId
         // - account.lastNotificationId
         Log.d(TAG, "getting notification marker for ${account.fullName}")
-        val remoteMarkerId = fetchMarker(authHeader, account)?.lastReadId ?: "0"
-        val localMarkerId = account.notificationMarkerId
+        val remoteMarkerId = 516362.toString() //fetchMarker(authHeader, account)?.lastReadId ?: "0"
+        val localMarkerId = 516362.toString() //account.notificationMarkerId
         val markerId = if (remoteMarkerId.isLessThan(localMarkerId)) localMarkerId else remoteMarkerId
         val readingPosition = account.lastNotificationId
 
