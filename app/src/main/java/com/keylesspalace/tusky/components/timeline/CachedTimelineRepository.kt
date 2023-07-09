@@ -53,6 +53,8 @@ class CachedTimelineRepository @Inject constructor(
 ) {
     private var factory: InvalidatingPagingSourceFactory<Int, TimelineStatusWithAccount>? = null
 
+    private val activeAccount = accountManager.activeAccount
+
     /** @return flow of Mastodon [TimelineStatusWithAccount], loaded in [pageSize] increments */
     @OptIn(ExperimentalPagingApi::class)
     fun getStatusStream(
@@ -63,12 +65,7 @@ class CachedTimelineRepository @Inject constructor(
         Log.d(TAG, "getStatusStream(): key: $initialKey")
 
         factory = InvalidatingPagingSourceFactory {
-            val activeAccount = accountManager.activeAccount
-            if (activeAccount == null) {
-                EmptyPagingSource()
-            } else {
-                appDatabase.timelineDao().getStatuses(activeAccount.id)
-            }
+            activeAccount?.let { appDatabase.timelineDao().getStatuses(it.id) } ?: EmptyPagingSource()
         }
 
         val row = initialKey?.let { key ->
@@ -77,7 +74,7 @@ class CachedTimelineRepository @Inject constructor(
             //
             // Instead, get all the status IDs for this account, in timeline order, and find the
             // row index that contains the status. The row index is the correct initialKey.
-            accountManager.activeAccount?.let { account ->
+            activeAccount?.let { account ->
                 appDatabase.timelineDao().getStatusRowNumber(account.id)
                     .indexOfFirst { it == key }.takeIf { it != -1 }
             }
@@ -97,7 +94,7 @@ class CachedTimelineRepository @Inject constructor(
     suspend fun invalidate() {
         // Invalidating when no statuses have been loaded can cause empty timelines because it
         // cancels the network load.
-        if (appDatabase.timelineDao().getStatusCount(accountManager.activeAccount!!.id) < 1) {
+        if (appDatabase.timelineDao().getStatusCount(activeAccount!!.id) < 1) {
             return
         }
 
@@ -107,40 +104,40 @@ class CachedTimelineRepository @Inject constructor(
     /** Set and store the "expanded" state of the given status, for the active account */
     suspend fun setExpanded(expanded: Boolean, statusId: String) = externalScope.launch {
         appDatabase.timelineDao()
-            .setExpanded(accountManager.activeAccount!!.id, statusId, expanded)
+            .setExpanded(activeAccount!!.id, statusId, expanded)
     }.join()
 
     /** Set and store the "content showing" state of the given status, for the active account */
     suspend fun setContentShowing(showing: Boolean, statusId: String) = externalScope.launch {
         appDatabase.timelineDao()
-            .setContentShowing(accountManager.activeAccount!!.id, statusId, showing)
+            .setContentShowing(activeAccount!!.id, statusId, showing)
     }.join()
 
     /** Set and store the "content collapsed" ("Show more") state of the given status, for the active account */
     suspend fun setContentCollapsed(collapsed: Boolean, statusId: String) = externalScope.launch {
         appDatabase.timelineDao()
-            .setContentCollapsed(accountManager.activeAccount!!.id, statusId, collapsed)
+            .setContentCollapsed(activeAccount!!.id, statusId, collapsed)
     }.join()
 
     /** Remove all statuses authored/boosted by the given account, for the active account */
     suspend fun removeAllByAccountId(accountId: String) = externalScope.launch {
-        appDatabase.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
+        appDatabase.timelineDao().removeAllByUser(activeAccount!!.id, accountId)
     }.join()
 
     /** Remove all statuses from the given instance, for the active account */
     suspend fun removeAllByInstance(instance: String) = externalScope.launch {
         appDatabase.timelineDao()
-            .deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+            .deleteAllFromInstance(activeAccount!!.id, instance)
     }.join()
 
     /** Clear the warning (remove the "filtered" setting) for the given status, for the active account */
     suspend fun clearStatusWarning(statusId: String) = externalScope.launch {
-        appDatabase.timelineDao().clearWarning(accountManager.activeAccount!!.id, statusId)
+        appDatabase.timelineDao().clearWarning(activeAccount!!.id, statusId)
     }.join()
 
     /** Remove all statuses and invalidate the pager, for the active account */
     suspend fun clearAndReload() = externalScope.launch {
-        appDatabase.timelineDao().removeAll(accountManager.activeAccount!!.id)
+        appDatabase.timelineDao().removeAll(activeAccount!!.id)
         factory?.invalidate()
     }.join()
 
