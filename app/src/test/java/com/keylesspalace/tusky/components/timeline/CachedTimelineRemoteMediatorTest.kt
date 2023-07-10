@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.components.timeline
 
 import android.os.Looper.getMainLooper
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadType
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
@@ -59,6 +60,8 @@ class CachedTimelineRemoteMediatorTest {
 
     private lateinit var db: AppDatabase
 
+    private lateinit var pagingSourceFactory: InvalidatingPagingSourceFactory<Int, TimelineStatusWithAccount>
+
     @Before
     @ExperimentalCoroutinesApi
     fun setup() {
@@ -68,6 +71,8 @@ class CachedTimelineRemoteMediatorTest {
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .addTypeConverter(Converters(Gson()))
             .build()
+
+        pagingSourceFactory = mock()
     }
 
     @After
@@ -84,6 +89,7 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -103,6 +109,7 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -119,6 +126,7 @@ class CachedTimelineRemoteMediatorTest {
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock(),
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -170,6 +178,7 @@ class CachedTimelineRemoteMediatorTest {
                     )
                 )
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -230,6 +239,7 @@ class CachedTimelineRemoteMediatorTest {
                     )
                 )
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -275,6 +285,7 @@ class CachedTimelineRemoteMediatorTest {
                     )
                 )
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -326,6 +337,7 @@ class CachedTimelineRemoteMediatorTest {
                     )
                 )
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )
@@ -383,6 +395,7 @@ class CachedTimelineRemoteMediatorTest {
                     ).build()
                 )
             },
+            factory = pagingSourceFactory,
             db = db,
             gson = Gson()
         )

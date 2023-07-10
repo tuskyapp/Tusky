@@ -667,7 +667,6 @@
     <string name="ui_error_reblog">Att knuffa inlägg misslyckades: %s</string>
     <string name="ui_error_vote">Rösta i omröstning misslyckades: %s</string>
     <string name="ui_error_accept_follow_request">Acceptera följarförfrågan misslyckades: %s</string>
-    <string name="pref_title_reading_order">Läsordning</string>
     <string name="ui_error_bookmark">Att bokmärka inlägg misslyckades: %s</string>
     <string name="ui_error_clear_notifications">Rensing av aviseringar misslyckades: %s</string>
     <string name="ui_error_favourite">Att favoritmarkera inlägg misslyckades: %s</string>

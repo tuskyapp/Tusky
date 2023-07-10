@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -421,6 +422,7 @@ abstract class TimelineViewModel(
         showMediaPreview = accountPreferenceDataStore.getBoolean(PrefKeys.MEDIA_PREVIEW_ENABLED, true)
     )
 
+    @CallSuper
     open fun init(timelineKind: TimelineKind) {
         this.timelineKind = timelineKind
 
@@ -448,8 +450,7 @@ abstract class TimelineViewModel(
             }
         }
 
-        // Increment `reload` to trigger creation of a new PagingSource.
-        // Optionally save the home timeline's visible ID.
+        // Clear the saved visible ID (if necessary), and reload from the newest status.
         viewModelScope.launch {
             uiAction
                 .filterIsInstance<InfallibleUiAction.LoadNewest>()
@@ -458,7 +459,7 @@ abstract class TimelineViewModel(
                         activeAccount.lastVisibleHomeTimelineStatusId = null
                         accountManager.saveAccount(activeAccount)
                     }
-                    reload.getAndUpdate { it + 1 }
+                    reloadFromNewest()
                 }
         }
 
@@ -507,7 +508,25 @@ abstract class TimelineViewModel(
 
     abstract fun handlePinEvent(pinEvent: PinEvent)
 
-    abstract fun fullReload()
+    /**
+     * Reload data for this timeline while preserving the user's reading position.
+     *
+     * Subclasses should call this, then start loading data.
+     */
+    @CallSuper
+    open fun reloadKeepingReadingPosition() {
+        reload.getAndUpdate { it + 1 }
+    }
+
+    /**
+     * Load the most recent data for this timeline, ignoring the user's reading position.
+     *
+     * Subclasses should call this, then start loading data.
+     */
+    @CallSuper
+    open fun reloadFromNewest() {
+        reload.getAndUpdate { it + 1 }
+    }
 
     abstract fun clearWarning(status: StatusViewData)
 
@@ -584,7 +603,7 @@ abstract class TimelineViewModel(
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = timelineKind is TimelineKind.Home && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
-                    fullReload()
+                    reloadKeepingReadingPosition()
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
@@ -592,7 +611,7 @@ abstract class TimelineViewModel(
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = timelineKind is TimelineKind.Home && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
-                    fullReload()
+                    reloadKeepingReadingPosition()
                 }
             }
         }
@@ -604,7 +623,7 @@ abstract class TimelineViewModel(
             is ReblogEvent -> handleReblogEvent(event)
             is BookmarkEvent -> handleBookmarkEvent(event)
             is PinEvent -> handlePinEvent(event)
-            is MuteConversationEvent -> fullReload()
+            is MuteConversationEvent -> reloadKeepingReadingPosition()
             is UnfollowEvent -> {
                 if (timelineKind is TimelineKind.Home) {
                     val id = event.accountId

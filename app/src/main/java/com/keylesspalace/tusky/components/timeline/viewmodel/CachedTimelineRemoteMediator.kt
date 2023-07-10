@@ -19,6 +19,7 @@ package com.keylesspalace.tusky.components.timeline.viewmodel
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
@@ -39,8 +40,9 @@ import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class CachedTimelineRemoteMediator(
-    accountManager: AccountManager,
     private val api: MastodonApi,
+    accountManager: AccountManager,
+    private val factory: InvalidatingPagingSourceFactory<Int, TimelineStatusWithAccount>,
     private val db: AppDatabase,
     private val gson: Gson
 ) : RemoteMediator<Int, TimelineStatusWithAccount>() {
@@ -69,6 +71,7 @@ class CachedTimelineRemoteMediator(
                             RemoteKeyKind.PREV
                         )
                     }
+                    Log.d(TAG, "Loading from remoteKey: $rke")
                     api.homeTimeline(minId = rke?.key, limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
@@ -101,12 +104,18 @@ class CachedTimelineRemoteMediator(
             }
 
             Log.d(TAG, "${statuses.size} - # statuses loaded")
-            if (statuses.isNotEmpty()) {
-                Log.d(TAG, "  ${statuses.first().id}..${statuses.last().id}")
+
+            // This request succeeded with no new data, and pagination ends (unless this is a
+            // REFRESH, which must always set endOfPaginationReached to false).
+            if (statuses.isEmpty()) {
+                factory.invalidate()
+                return MediatorResult.Success(endOfPaginationReached = loadType != LoadType.REFRESH)
             }
 
+            Log.d(TAG, "  ${statuses.first().id}..${statuses.last().id}")
+
+            val links = Links.from(response.headers()["link"])
             db.withTransaction {
-                val links = Links.from(response.headers()["link"])
                 when (loadType) {
                     LoadType.REFRESH -> {
                         remoteKeyDao.upsert(
@@ -126,7 +135,7 @@ class CachedTimelineRemoteMediator(
                             )
                         )
                     }
-                    // May be null if there are no statuses, only set if non-null,
+                    // links.prev may be null if there are no statuses, only set if non-null,
                     // https://github.com/mastodon/mastodon/issues/25760
                     LoadType.PREPEND -> links.prev?.let { prev ->
                         remoteKeyDao.upsert(
@@ -138,7 +147,7 @@ class CachedTimelineRemoteMediator(
                             )
                         )
                     }
-                    // May be null if there are no statuses, only set if non-null,
+                    // links.next may be null if there are no statuses, only set if non-null,
                     // https://github.com/mastodon/mastodon/issues/25760
                     LoadType.APPEND -> links.next?.let { next ->
                         remoteKeyDao.upsert(
@@ -154,7 +163,7 @@ class CachedTimelineRemoteMediator(
                 replaceStatusRange(statuses, state)
             }
 
-            return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
+            return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {

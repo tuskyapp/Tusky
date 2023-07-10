@@ -182,10 +182,16 @@ class NetworkTimelineViewModel @Inject constructor(
         repository.invalidate()
     }
 
-    override fun fullReload() {
+    override fun reloadKeepingReadingPosition() {
+        super.reloadKeepingReadingPosition()
         viewModelScope.launch {
             repository.reload()
         }
+    }
+
+    override fun reloadFromNewest() {
+        super.reloadFromNewest()
+        reloadKeepingReadingPosition()
     }
 
     override fun clearWarning(status: StatusViewData) {

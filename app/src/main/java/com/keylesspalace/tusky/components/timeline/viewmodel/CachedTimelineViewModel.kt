@@ -159,9 +159,17 @@ class CachedTimelineViewModel @Inject constructor(
         // handled by CacheUpdater
     }
 
-    override fun fullReload() {
+    override fun reloadKeepingReadingPosition() {
+        super.reloadKeepingReadingPosition()
         viewModelScope.launch {
             repository.clearAndReload()
+        }
+    }
+
+    override fun reloadFromNewest() {
+        super.reloadFromNewest()
+        viewModelScope.launch {
+            repository.clearAndReloadFromNewest()
         }
     }
 

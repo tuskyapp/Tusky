@@ -64,12 +64,14 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.PresentationState
 import com.keylesspalace.tusky.util.getDrawableRes
 import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.withPresentationState
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.mikepenz.iconics.IconicsDrawable
@@ -242,12 +244,10 @@ class TimelineFragment :
                             error.action?.let { action ->
                                 if (action !is StatusAction) return@let
 
-                                val position = adapter.snapshot().indexOfFirst {
-                                    it?.id == action.statusViewData.id
-                                }
-                                if (position != RecyclerView.NO_POSITION) {
-                                    adapter.notifyItemChanged(position)
-                                }
+                                adapter.snapshot()
+                                    .indexOfFirst { it?.id == action.statusViewData.id }
+                                    .takeIf { it != RecyclerView.NO_POSITION }
+                                    ?.let { adapter.notifyItemChanged(it) }
                             }
                         }
                     }
@@ -421,21 +421,28 @@ class TimelineFragment :
 
                 // Update the UI from the combined load state
                 adapter.loadStateFlow
-                    .collect { loadState ->
-//                        Log.d(TAG, "loadState: $loadState")
+                    .withPresentationState()
+                    .collect { (loadState, presentationState) ->
+                        Log.d(TAG, "loadState: $loadState")
+                        Log.d(TAG, "presentationState: $presentationState")
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
-                        Log.d(TAG, "  refresh?: ${loadState.refresh}")
-                        Log.d(TAG, "  source.refresh?: ${loadState.source.refresh}")
-                        Log.d(TAG, "  mediator.refresh?: ${loadState.mediator?.refresh}")
 
                         val listIsEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                        val initialLoadOrRefresh = presentationState == PresentationState.REMOTE_LOADING || presentationState == PresentationState.SOURCE_LOADING
 
-                        binding.statusView.isVisible = listIsEmpty
-                        binding.recyclerView.isVisible = adapter.itemCount != 0 || loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
-                        binding.progressBar.isVisible = loadState.mediator?.refresh is LoadState.Loading && listIsEmpty
-                        binding.swipeRefreshLayout.isRefreshing = loadState.mediator?.refresh is LoadState.Loading
+                        binding.progressBar.hide()
+                        binding.statusView.hide()
+                        binding.recyclerView.isVisible = !listIsEmpty
 
-                        if (listIsEmpty) {
+                        Log.d(TAG, "  initialLoadOrRefresh: $initialLoadOrRefresh")
+
+                        binding.progressBar.isVisible = presentationState != PresentationState.PRESENTED && listIsEmpty
+                        if (binding.swipeRefreshLayout.isRefreshing && (presentationState == PresentationState.PRESENTED || loadState.refresh is LoadState.Error)) {
+                            binding.swipeRefreshLayout.isRefreshing = false
+                        }
+
+                        if (listIsEmpty && presentationState == PresentationState.PRESENTED) {
+                            Log.d(TAG, "Showing empty state")
                             binding.statusView.setup(
                                 R.drawable.elephant_friend_empty,
                                 R.string.message_empty
@@ -444,15 +451,17 @@ class TimelineFragment :
                                 binding.statusView.showHelp(R.string.help_empty_home)
                             }
                             return@collect
+                        } else {
+                            Log.d(TAG, "Not showing empty state")
                         }
 
-                        if (loadState.mediator?.refresh is LoadState.Error) {
-                            val message = (loadState.mediator?.refresh as LoadState.Error).error.getErrorString(requireContext())
+                        if (loadState.refresh is LoadState.Error) {
+                            val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
 
                             // Show errors as a snackbar if there is existing content to show
                             // (either cached, or in the adapter), or as a full screen error
                             // otherwise.
-                            if (viewModel is CachedTimelineViewModel || adapter.itemCount > 0) {
+                            if (adapter.itemCount > 0) {
                                 snackbar = Snackbar.make(
                                     (activity as ActionButtonActivity).actionButton ?: binding.root,
                                     message,
@@ -463,7 +472,10 @@ class TimelineFragment :
                                 snackbar!!.show()
                             } else {
                                 val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
-                                binding.statusView.setup(drawableRes, message) { adapter.retry() }
+                                binding.statusView.setup(drawableRes, message) {
+                                    snackbar?.dismiss()
+                                    adapter.retry()
+                                }
                                 binding.statusView.show()
                             }
                         }
@@ -505,16 +517,21 @@ class TimelineFragment :
     }
 
     /**
-     * Save the ID of the last visible status in the list
+     * Save the ID of status at [position] in the adapter. If [position] is
+     * [RecyclerView.NO_POSITION] then the ID of the last completely visible status is used.
      */
-    fun saveVisibleId() = layoutManager
-        .findLastCompletelyVisibleItemPosition()
-        .takeIf { it != RecyclerView.NO_POSITION }
-        ?.let { position ->
-            adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
-                viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
+    fun saveVisibleId(position: Int = RecyclerView.NO_POSITION) {
+        if (position == RecyclerView.NO_POSITION) {
+            layoutManager.findLastCompletelyVisibleItemPosition()
+        } else {
+            position
+        }.takeIf { it != RecyclerView.NO_POSITION }
+            ?.let { pos ->
+                adapter.snapshot().getOrNull(pos)?.id?.let { statusId ->
+                    viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
+                }
             }
-        }
+    }
 
     private fun setupSwipeRefreshLayout() {
         binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
@@ -548,6 +565,7 @@ class TimelineFragment :
 
     override fun onRefresh() {
         binding.statusView.hide()
+        snackbar?.dismiss()
 
         adapter.refresh()
     }
@@ -720,6 +738,7 @@ class TimelineFragment :
         if (isAdded) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
+            saveVisibleId(0)
         }
     }
 

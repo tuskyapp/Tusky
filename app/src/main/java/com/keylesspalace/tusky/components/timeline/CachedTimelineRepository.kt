@@ -85,7 +85,13 @@ class CachedTimelineRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = pageSize),
             initialKey = row,
-            remoteMediator = CachedTimelineRemoteMediator(accountManager, mastodonApi, appDatabase, gson),
+            remoteMediator = CachedTimelineRemoteMediator(
+                mastodonApi,
+                accountManager,
+                factory!!,
+                appDatabase,
+                gson
+            ),
             pagingSourceFactory = factory!!
         ).flow
     }
@@ -140,6 +146,12 @@ class CachedTimelineRepository @Inject constructor(
         appDatabase.timelineDao().removeAll(activeAccount!!.id)
         factory?.invalidate()
     }.join()
+
+    suspend fun clearAndReloadFromNewest() = externalScope.launch {
+        appDatabase.timelineDao().removeAll(activeAccount!!.id)
+        appDatabase.remoteKeyDao().delete(activeAccount.id)
+        invalidate()
+    }
 
     companion object {
         private const val TAG = "CachedTimelineRepository"

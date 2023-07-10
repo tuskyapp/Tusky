@@ -111,13 +111,13 @@ class NetworkTimelineRemoteMediator(
                 Log.d(TAG, "     midPage: $page")
                 Log.d(TAG, "    nextPage: $nextPage")
                 page = page.merge(prevPage, nextPage)
-            }
 
-            if (BuildConfig.DEBUG && loadType == LoadType.REFRESH) {
-                // Verify page contains the expected key
-                state.anchorPosition?.let { state.closestItemToPosition(it) }?.id?.let { itemId ->
-                    page.data.find { it.id == itemId }
-                        ?: throw IllegalStateException("Fetched page with $key, it does not contain $itemId")
+                if (BuildConfig.DEBUG) {
+                    // Verify page contains the expected key
+                    state.anchorPosition?.let { state.closestItemToPosition(it) }?.id?.let { itemId ->
+                        page.data.find { it.id == itemId }
+                            ?: throw IllegalStateException("Fetched page with $key, it does not contain $itemId")
+                    }
                 }
             }
 
