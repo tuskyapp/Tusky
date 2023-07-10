@@ -6,6 +6,27 @@
 
 ### Significant bug fixes
 
+## v23.0
+
+### New features and other improvements
+
+- **New preference to scale UI text**, [PR#3248](https://github.com/tuskyapp/Tusky/pull/3248) by [@nikclayton](https://mastodon.social/@nikclayton)
+
+### Significant bug fixes
+
+- **Save account information correctly**, [PR#3720](https://github.com/tuskyapp/Tusky/pull/3720) by [@connyduck](https://chaos.social/@ConnyDuck)
+  - If you were logged in with multiple accounts it was possible to switch accounts in a way that the UI showed the new account, but database operations were happening using the old account.
+- **"pull" notifications on devices running Android versions <= 11**, [PR#3649](https://github.com/tuskyapp/Tusky/pull/3649) by [@nikclayton](https://mastodon.social/@nikclayton)
+  - Pull notifications (i.e., not using ntfy.sh) could silently fail on devices running Android 11 and below
+- **Work around Android bug where text fields could "forget" they can copy/paste**, [PR#3707](https://github.com/tuskyapp/Tusky/pull/3707) by [@nikclayton](https://mastodon.social/@nikclayton)
+- **Viewing "diffs" in edit history will not extend off screen edge**, [PR#3431](https://github.com/tuskyapp/Tusky/pull/3431) by [@nikclayton](https://mastodon.social/@nikclayton)
+- **Don't crash if your server has no post edit history**, [PR#3747](https://github.com/tuskyapp/Tusky/pull/3747) by [@nikclayton](https://mastodon.social/@nikclayton)
+  - Your Mastodon server might know that a post has been edited, but not know the details of those edits. Trying to view the history of those statuses no longer crashes.
+- **Add a "Delete" button when editing a filter**, [PR#3553](https://github.com/tuskyapp/Tusky/pull/3553) by [@Tak](https://mastodon.gamedev.place/@Tak)
+- **Show non-square emoji correctly**, [PR#3711](https://github.com/tuskyapp/Tusky/pull/3711) by [@connyduck](https://chaos.social/@ConnyDuck)
+- **Potential crash when editing profile fields**, [PR#3808](https://github.com/tuskyapp/Tusky/pull/3808) by [@nikclayton](https://mastodon.social/@nikclayton)
+- **Oversized context menu when editing image descriptions**, [PR#3787](https://github.com/tuskyapp/Tusky/pull/3787) by [@connyduck](https://chaos.social/@ConnyDuck)
+
 ## v23.0 beta 2
 
 ### Significant bug fixes
