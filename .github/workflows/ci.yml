@@ -25,6 +25,8 @@ jobs:
 
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
   
       - name: ktlint
         run: ./gradlew clean ktlintCheck
