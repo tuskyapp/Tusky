@@ -517,19 +517,19 @@ class TimelineFragment :
     }
 
     /**
-     * Save the ID of status at [position] in the adapter. If [position] is
-     * [RecyclerView.NO_POSITION] then the ID of the last completely visible status is used.
+     * Save [statusId] as the reading position. If null then the ID of the last completely visible
+     * status is used.
      */
-    fun saveVisibleId(position: Int = RecyclerView.NO_POSITION) {
-        if (position == RecyclerView.NO_POSITION) {
-            layoutManager.findLastCompletelyVisibleItemPosition()
-        } else {
-            position
-        }.takeIf { it != RecyclerView.NO_POSITION }
+    fun saveVisibleId(statusId: String? = null) {
+        statusId ?: layoutManager.findLastCompletelyVisibleItemPosition()
+            .takeIf { it != RecyclerView.NO_POSITION }
             ?.let { pos ->
-                adapter.snapshot().getOrNull(pos)?.id?.let { statusId ->
-                    viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = statusId))
-                }
+                val snapshot = adapter.snapshot()
+                adapter.snapshot().getOrNull(pos)?.id
+            }
+            ?.let {
+                Log.d(TAG, "Saving ID: $it")
+                viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = it))
             }
     }
 
@@ -738,7 +738,8 @@ class TimelineFragment :
         if (isAdded) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
-            saveVisibleId(0)
+            // The first item in an ItemSnapshotList may not be at index 0, hence firstOrNull()
+            saveVisibleId(adapter.snapshot().firstOrNull()?.id)
         }
     }
 
