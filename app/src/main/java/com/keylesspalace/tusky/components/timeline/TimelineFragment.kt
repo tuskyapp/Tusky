@@ -428,17 +428,16 @@ class TimelineFragment :
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
 
                         val listIsEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-                        val initialLoadOrRefresh = presentationState == PresentationState.REMOTE_LOADING || presentationState == PresentationState.SOURCE_LOADING
 
-                        binding.progressBar.hide()
-                        binding.statusView.hide()
-                        binding.recyclerView.isVisible = !listIsEmpty
+                        binding.progressBar.isVisible = presentationState != PresentationState.PRESENTED && binding.swipeRefreshLayout.isRefreshing == false
 
-                        Log.d(TAG, "  initialLoadOrRefresh: $initialLoadOrRefresh")
-
-                        binding.progressBar.isVisible = presentationState != PresentationState.PRESENTED && listIsEmpty
                         if (binding.swipeRefreshLayout.isRefreshing && (presentationState == PresentationState.PRESENTED || loadState.refresh is LoadState.Error)) {
                             binding.swipeRefreshLayout.isRefreshing = false
+                        }
+
+                        if (!listIsEmpty && presentationState == PresentationState.PRESENTED) {
+                            binding.recyclerView.show()
+                            binding.statusView.hide()
                         }
 
                         if (listIsEmpty && presentationState == PresentationState.PRESENTED) {
@@ -450,6 +449,8 @@ class TimelineFragment :
                             if (timelineKind == TimelineKind.Home) {
                                 binding.statusView.showHelp(R.string.help_empty_home)
                             }
+                            binding.statusView.show()
+                            binding.recyclerView.hide()
                             return@collect
                         } else {
                             Log.d(TAG, "Not showing empty state")
@@ -477,6 +478,7 @@ class TimelineFragment :
                                     adapter.retry()
                                 }
                                 binding.statusView.show()
+                                binding.recyclerView.hide()
                             }
                         }
                     }

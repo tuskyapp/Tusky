@@ -21,9 +21,6 @@ import android.util.Log
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.keylesspalace.tusky.util.PresentationState.INITIAL
-import com.keylesspalace.tusky.util.PresentationState.PRESENTED
-import com.keylesspalace.tusky.util.PresentationState.REMOTE_LOADING
-import com.keylesspalace.tusky.util.PresentationState.SOURCE_LOADING
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -41,7 +38,32 @@ enum class PresentationState {
     SOURCE_LOADING,
 
     /** The first request page of results is visible via the adapter */
-    PRESENTED
+    PRESENTED;
+
+    fun next(loadState: CombinedLoadStates): PresentationState {
+        return when (this) {
+            PRESENTED -> when (loadState.mediator?.refresh) {
+                is LoadState.Loading -> REMOTE_LOADING
+                else -> this
+            }
+
+            INITIAL -> when (loadState.mediator?.refresh) {
+                is LoadState.Loading -> REMOTE_LOADING
+                is LoadState.NotLoading -> SOURCE_LOADING.next(loadState)
+                else -> this
+            }
+
+            REMOTE_LOADING -> when (loadState.source.refresh) {
+                is LoadState.Loading -> SOURCE_LOADING
+                else -> this
+            }
+
+            SOURCE_LOADING -> when (loadState.source.refresh) {
+                is LoadState.NotLoading -> PRESENTED
+                else -> this
+            }
+        }
+    }
 }
 
 /**
@@ -59,27 +81,7 @@ fun Flow<CombinedLoadStates>.withPresentationState(): Flow<Pair<CombinedLoadStat
         Log.d(TAG, "state: $state")
         Log.d(TAG, "loadState.mediator.refresh: ${loadState.mediator?.refresh}")
         Log.d(TAG, "loadState.source.refresh: ${loadState.source.refresh}")
-        when (state) {
-            PRESENTED -> when (loadState.mediator?.refresh) {
-                is LoadState.Loading -> REMOTE_LOADING
-                else -> state
-            }
-
-            INITIAL -> when (loadState.mediator?.refresh) {
-                is LoadState.Loading -> REMOTE_LOADING
-                else -> state
-            }
-
-            REMOTE_LOADING -> when (loadState.source.refresh) {
-                is LoadState.Loading -> SOURCE_LOADING
-                else -> state
-            }
-
-            SOURCE_LOADING -> when (loadState.source.refresh) {
-                is LoadState.NotLoading -> PRESENTED
-                else -> state
-            }
-        }
+        state.next(loadState)
     }
         .distinctUntilChanged()
 
