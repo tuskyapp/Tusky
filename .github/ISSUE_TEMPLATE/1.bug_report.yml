@@ -9,7 +9,7 @@ body:
 
         Please use a concise and distinct title for the issue.
 
-        If possible, attach screenshots or videos to illustrate the problem.
+        If possible, attach screenshots, videos or links to posts to illustrate the problem.
   - type: textarea
     attributes:
       label: Detailed description
@@ -28,36 +28,14 @@ body:
       required: false
   - type: input
     attributes:
-      label: Tusky version
-      description: The exact Tusky version, from the 'About' screen
-      placeholder: Tusky Test 22.0-b814c2c0
+      label: Debug information
+      description: |
+        This info can be copied from the 'About' screen in Tusky 24+.
+        If you are on a lower version or can't access the screen, please provide us with the Tusky Version, Android Version, Device and the Mastodon instance this problem occurred on.
+      placeholder: |
+        Tusky Test 22.0-b814c2c0
+        Android 12
+        Fairphone 4
+        mastodon.social
     validations:
       required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: Where did you install Tusky from?
-      multiple: false
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-  - type: input
-    attributes:
-      label: Android version
-      placeholder: Android 12
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: Device
-      placeholder: Fairphone 4
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: Mastodon instance
-      placeholder: mastodon.social
-    validations:
-      required: false
