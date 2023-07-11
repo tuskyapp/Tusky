@@ -62,7 +62,7 @@
     <string name="action_compose">Bericht schrijven</string>
     <string name="action_login">Aanmelden met Tusky</string>
     <string name="action_logout">Uitloggen</string>
-    <string name="action_logout_confirm">Ben je er zeker van dat je het account %1$s wil afmelden?</string>
+    <string name="action_logout_confirm">Weet je zeker dat je %1$s wil afmelden\? Dit verwijdert alle lokale gegevens van het account, inclusief conceptberichten en voorkeuren.</string>
     <string name="action_follow">Volgen</string>
     <string name="action_unfollow">Ontvolgen</string>
     <string name="action_block">Blokkeren</string>
@@ -596,7 +596,7 @@
     <string name="action_post_failed">Upload mislukt</string>
     <string name="action_post_failed_detail">Je bericht kan niet worden geüpload en is opgeslagen in concepten.
 \n
-\nEr kon geen contact worden opgenomen met de server of de post werd geweigerd.</string>
+\nEr kon geen contact worden opgenomen met de server, of het bericht werd geweigerd.</string>
     <string name="action_post_failed_detail_plural">Je berichten kunnen niet worden geüpload en zijn opgeslagen in concepten.
 \n
 \nEr kon geen contact worden opgenomen met de server of de berichten werden geweigerd.</string>
