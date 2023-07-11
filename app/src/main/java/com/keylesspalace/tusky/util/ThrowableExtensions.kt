@@ -37,6 +37,6 @@ fun Throwable.getDrawableRes(): Int = when (this) {
 
 /** @return A string error message for this throwable */
 fun Throwable.getErrorString(context: Context): String = getServerErrorMessage() ?: when (this) {
-    is IOException -> context.getString(R.string.error_network)
-    else -> context.getString(R.string.error_generic)
+    is IOException -> context.getString(R.string.error_network_fmt, this.message)
+    else -> context.getString(R.string.error_generic_fmt, this.message)
 }

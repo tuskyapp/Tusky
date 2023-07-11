@@ -18,7 +18,9 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
+    <string name="error_generic_fmt">An error occurred: %s</string>
     <string name="error_network">A network error occurred. Please check your connection and try again.</string>
+    <string name="error_network_fmt">A network error occurred: %s</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance. If this persists, try "Login in Browser" from the menu.</string>
