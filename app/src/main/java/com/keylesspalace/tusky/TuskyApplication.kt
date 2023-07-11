@@ -118,7 +118,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
             ExistingPeriodicWorkPolicy.KEEP,
             pruneCacheWorker
         )
-        
+
         if (BuildConfig.DEBUG) loopAndCatchExceptions()
     }
 
