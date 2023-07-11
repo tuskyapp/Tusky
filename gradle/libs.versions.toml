@@ -109,7 +109,7 @@ filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filem
 filemojicompat-defaults = { module = "de.c1710:filemojicompat-defaults", version.ref = "filemoji-compat" }
 filemojicompat-ui = { module = "de.c1710:filemojicompat-ui", version.ref = "filemoji-compat" }
 glide-animation-plugin = { module = "com.github.penfeizhou.android.animation:glide-plugin", version.ref = "glide-animation-plugin" }
-glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
