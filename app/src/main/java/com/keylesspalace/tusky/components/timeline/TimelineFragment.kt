@@ -429,7 +429,19 @@ class TimelineFragment :
 
                         val listIsEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
 
-                        binding.progressBar.isVisible = presentationState != PresentationState.PRESENTED && binding.swipeRefreshLayout.isRefreshing == false
+                        // Only show the progress bar if:
+                        //
+                        // - The load hasn't errored
+                        // - The list hasn't been presented
+                        // - The swipe-refresh progress spinner isn't showing
+                        // - The adapter count is 0
+                        //
+                        // The last one is because there appears to be a race condition between the
+                        // presentation state changing and isRefreshing changing to true.
+                        binding.progressBar.isVisible = presentationState != PresentationState.ERROR
+                            && presentationState != PresentationState.PRESENTED
+                            && binding.swipeRefreshLayout.isRefreshing == false
+                            && adapter.itemCount == 0
 
                         if (binding.swipeRefreshLayout.isRefreshing && (presentationState == PresentationState.PRESENTED || loadState.refresh is LoadState.Error)) {
                             binding.swipeRefreshLayout.isRefreshing = false

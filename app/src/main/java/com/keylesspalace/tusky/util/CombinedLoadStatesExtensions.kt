@@ -21,7 +21,6 @@ import android.util.Log
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.keylesspalace.tusky.util.PresentationState.INITIAL
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -37,16 +36,20 @@ enum class PresentationState {
     /** PagingSource is loading the first requested page of results */
     SOURCE_LOADING,
 
+    /** There was an error loading the first page of results */
+    ERROR,
+
     /** The first request page of results is visible via the adapter */
     PRESENTED;
 
+    /**
+     * Take the next step in the PresentationState state machine, given [loadState]
+     */
     fun next(loadState: CombinedLoadStates): PresentationState {
-        return when (this) {
-            PRESENTED -> when (loadState.mediator?.refresh) {
-                is LoadState.Loading -> REMOTE_LOADING
-                else -> this
-            }
+        if (loadState.mediator?.refresh is LoadState.Error) return ERROR
+        if (loadState.source.refresh is LoadState.Error) return ERROR
 
+        return when (this) {
             INITIAL -> when (loadState.mediator?.refresh) {
                 is LoadState.Loading -> REMOTE_LOADING
                 is LoadState.NotLoading -> SOURCE_LOADING.next(loadState)
@@ -62,6 +65,13 @@ enum class PresentationState {
                 is LoadState.NotLoading -> PRESENTED
                 else -> this
             }
+
+            ERROR -> INITIAL.next(loadState)
+
+            PRESENTED -> when (loadState.mediator?.refresh) {
+                is LoadState.Loading -> REMOTE_LOADING
+                else -> this
+            }
         }
     }
 }
@@ -73,7 +83,6 @@ enum class PresentationState {
  *
  * @return Flow that combines the load state with its associated presentation state
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 fun Flow<CombinedLoadStates>.withPresentationState(): Flow<Pair<CombinedLoadStates, PresentationState>> {
     val TAG = "WithPresentationState"
 
