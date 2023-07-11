@@ -125,9 +125,7 @@ data class AccountEntity(
         other as AccountEntity
 
         if (id == other.id) return true
-        if (domain == other.domain && accountId == other.accountId) return true
-
-        return false
+        return domain == other.domain && accountId == other.accountId
     }
 
     override fun hashCode(): Int {
