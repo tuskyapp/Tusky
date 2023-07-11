@@ -466,7 +466,7 @@ abstract class TimelineViewModel(
         viewModelScope.launch {
             eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
-                .filter { FilterPrefs.contains(it.preferenceKey) }
+                .filter { FILTER_PREF_KEYS.contains(it.preferenceKey) }
                 .distinctUntilChanged()
                 .map { getFilters() }
                 .onStart { getFilters() }
@@ -546,20 +546,12 @@ abstract class TimelineViewModel(
         }
     }
 
-    private val FilterPrefs = setOf(
-        FilterV1.HOME,
-        FilterV1.NOTIFICATIONS,
-        FilterV1.THREAD,
-        FilterV1.PUBLIC,
-        FilterV1.ACCOUNT
-    )
-
     /** Updates the current set of filters if filter-related preferences change */
     // TODO: https://github.com/tuskyapp/Tusky/issues/3546, and update if a v2 filter is
     // updated as well.
     private fun updateFiltersFromPreferences() = eventHub.events
         .filterIsInstance<PreferenceChangedEvent>()
-        .filter { FilterPrefs.contains(it.preferenceKey) }
+        .filter { FILTER_PREF_KEYS.contains(it.preferenceKey) }
         .filter { filterContextMatchesKind(timelineKind, listOf(it.preferenceKey)) }
         .distinctUntilChanged()
         .map { getFilters() }
@@ -662,6 +654,15 @@ abstract class TimelineViewModel(
     companion object {
         private const val TAG = "TimelineViewModel"
         private val THROTTLE_TIMEOUT = 500.milliseconds
+
+        /** Preference keys that, if changed, indicate that a filter preference has changed */
+        private val FILTER_PREF_KEYS = setOf(
+            FilterV1.HOME,
+            FilterV1.NOTIFICATIONS,
+            FilterV1.THREAD,
+            FilterV1.PUBLIC,
+            FilterV1.ACCOUNT
+        )
 
         fun filterContextMatchesKind(
             timelineKind: TimelineKind,
