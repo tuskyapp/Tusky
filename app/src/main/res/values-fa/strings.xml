@@ -517,7 +517,7 @@
     <string name="notification_update_description">آگاهی‌ها هنگام ویرایش فرسته‌هایی که با آن‌ها تعامل داشته‌اید</string>
     <string name="action_unbookmark">برداشن نشانک</string>
     <string name="dialog_push_notification_migration_other_accounts">برای اعطای اجازهٔ اشتراک آگاهی‌های ارسالی به تاسکی، دوباره به حسابتان وارد شدید. با این حال هنوز حساب‌هایی دیگر دارید که این‌گونه مهاجرت داده نشده‌اند. به آن‌ها رفته و برای به کار انداختن پشتیبانی آگاهی‌های UnifiedPush یکی‌یکی دوباره وارد شوید.</string>
-    <string name="action_logout_confirm">مطمئنید که می‌خواهید از حساب %1$s خارج شوید؟</string>
+    <string name="action_logout_confirm">مطمئنید که می‌خواهید از %1$s خارج شوید؟ این کار تمامی داده‌های محلی از جمله پیش‌نویس‌ها و ترجیحات را حذف خواهد کرد.</string>
     <string name="duration_14_days">۱۴ روز</string>
     <string name="duration_30_days">۳۰ روز</string>
     <string name="duration_60_days">۶۰ روز</string>
