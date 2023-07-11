@@ -40,6 +40,9 @@
          how to add to it when it's wrong. -->
     <issue id="Typos" severity="warning" />
 
+    <!-- Set OldTargetApi back to warning -->
+    <issue id="OldTargetApi" severity="warning" />
+
     <!-- Mark all other lint issues as errors -->
     <issue id="all" severity="error" />
 </lint>
