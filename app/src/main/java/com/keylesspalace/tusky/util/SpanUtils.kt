@@ -128,7 +128,7 @@ private fun findPattern(string: String, fromIndex: Int): FindCharsResult {
     val result = FindCharsResult()
     for (i in fromIndex..string.lastIndex) {
         val c = string[i]
-        for (matchType in FoundMatchType.values()) {
+        for (matchType in FoundMatchType.entries) {
             val finder = finders[matchType]
             if (finder!!.searchCharacter == c &&
                 (
