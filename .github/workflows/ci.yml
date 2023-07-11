@@ -32,10 +32,10 @@ jobs:
         run: ./gradlew clean ktlintCheck
         
       - name: Regular lint
-        run: ./gradlew lintGreenDebug
+        run: ./gradlew app:lintGreenDebug
         
       - name: Test
         run: ./gradlew app:testGreenDebugUnitTest
         
       - name: Build
-        run: ./gradlew app:greenDebug
+        run: ./gradlew app:buildGreenDebug
