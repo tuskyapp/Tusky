@@ -132,12 +132,12 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
 }
 
 sealed interface EditsUiState {
-    object Initial : EditsUiState
-    object Loading : EditsUiState
+    data object Initial : EditsUiState
+    data object Loading : EditsUiState
 
     // "Refreshing" state is necessary, otherwise a refresh state transition is Success -> Success,
     // and state flows don't emit repeated states, so the UI never updates.
-    object Refreshing : EditsUiState
+    data object Refreshing : EditsUiState
     class Error(val throwable: Throwable) : EditsUiState
     data class Success(
         val edits: List<StatusEdit>

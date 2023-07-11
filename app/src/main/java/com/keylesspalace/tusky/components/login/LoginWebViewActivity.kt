@@ -99,7 +99,7 @@ sealed class LoginResult : Parcelable {
     data class Err(val errorMessage: String) : LoginResult()
 
     @Parcelize
-    object Cancel : LoginResult()
+    data object Cancel : LoginResult()
 }
 
 /** Activity to do Oauth process using WebView. */
