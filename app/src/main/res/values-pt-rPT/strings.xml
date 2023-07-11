@@ -563,4 +563,37 @@
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Erro ao deixar de seguir #%s</string>
     <string name="action_add_reaction">adicionar reação</string>
+    <string name="dialog_follow_hashtag_title">Seguir hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="pref_summary_http_proxy_disabled">Desativado</string>
+    <string name="pref_summary_http_proxy_missing">&lt;indefinido&gt;</string>
+    <string name="title_edits">Edições</string>
+    <string name="pref_title_notification_filter_reports">existe um novo relatório</string>
+    <string name="hint_media_description_missing">Imagem/Vídeo precisa de uma descrição.</string>
+    <string name="hint_description">Descrição</string>
+    <string name="pref_title_http_proxy_port_message">Porta deve ser entre %d e %d</string>
+    <string name="action_post_failed">Falha ao fazer upload</string>
+    <string name="action_post_failed_detail">A tua publicação não conseguiu ser enviada e foi salva nos rascunhos.
+\n
+\nO servidor não pode ser contactado, ou rejeitou a publicação.</string>
+    <string name="action_post_failed_detail_plural">As tuas publicações não conseguiram ser enviadas e foram salvas nos rascunhos.
+\n
+\nO servidor não pode ser contactado, ou rejeitou as publicações.</string>
+    <string name="action_post_failed_show_drafts">Mostrar rascunhos</string>
+    <string name="action_post_failed_do_nothing">Descartar</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="error_muting_hashtag_format">Erro a silenciar #%s</string>
+    <string name="action_browser_login">Iniciar sessão com navegador</string>
+    <string name="notification_header_report_format">%s reportou %s</string>
+    <string name="action_discard">Descartar alterações</string>
+    <string name="action_continue_edit">Continuar a editar</string>
+    <string name="action_share_account_link">Partilhar ligação para a conta</string>
+    <string name="action_share_account_username">Partilhar nome de utilizador da conta</string>
+    <string name="send_account_link_to">Partilhar URL da conta para…</string>
+    <string name="send_account_username_to">Partilhar nome de utilizador da conta para…</string>
+    <string name="account_username_copied">Nome de utilizador copiado</string>
+    <string name="confirmation_hashtag_unfollowed">Parou de seguir #%s</string>
+    <string name="post_edited">Editado %s</string>
+    <string name="title_followed_hashtags">Hashtags seguidas</string>
+    <string name="title_public_trending_hashtags">Hashtags populares</string>
 </resources>

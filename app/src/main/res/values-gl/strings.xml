@@ -584,8 +584,8 @@
     <string name="a11y_label_loading_thread">Cargando fío</string>
     <string name="mute_notifications_switch">Acalar notificacións</string>
     <string name="title_edits">Edicións</string>
-    <string name="status_edit_info">Editado por %1$s o %2$s</string>
-    <string name="status_created_info">Creado por %1$s o %2$s</string>
+    <string name="status_edit_info">Editada: %1$s</string>
+    <string name="status_created_info">Creado por %1$s</string>
     <string name="action_discard">Desbotar cambios</string>
     <string name="action_continue_edit">Continuar a edición</string>
     <string name="compose_unsaved_changes">Hai cambios non gardados.</string>
@@ -657,4 +657,9 @@
     <string name="select_list_empty">Aínda non tes listas</string>
     <string name="select_list_manage">Xestionar listas</string>
     <string name="error_list_load">Erro ao cargar as listas</string>
+    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edición, polo que non pode mostrarchas.
+\n
+\nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
+    <string name="load_newest_notifications">Cargar as notificacións máis recentes</string>
+    <string name="compose_delete_draft">Eliminar borrador\?</string>
 </resources>

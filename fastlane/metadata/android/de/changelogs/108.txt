@@ -1,0 +1,4 @@
+Tusky 22.0 Beta 6
+
+Behobener Fehler:
+- Leseposition wird im Tab »Benachrichtigung« häufiger gespeichert

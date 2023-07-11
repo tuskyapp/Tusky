@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Funksjoner som
+
+- Se trendy emneknagger
+- Endre bildebeskrivelser og fokuspunkt
+- "oppdateringmeny" for tilgjengelighet
+- Support Mastodon v4 filtre
+- Vis detaljerte endringer når en post har blitt endret
+- Mulighet til å vise poststatistikk i tidslinjen
+
+Fikser som:
+
+- Vis avspillingskontroll mens lyd blir avspillt
+- Riktig postlengdekalkulasjon
+- Publisér alltid bildetekster
+
+og mye mer

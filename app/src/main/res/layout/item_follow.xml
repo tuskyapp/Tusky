@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="@+id/notification_display_name"
         tools:text="\@testuser" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/notification_account_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

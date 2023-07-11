@@ -358,14 +358,10 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="action_add_to_list">Дадаць уліковы запіс у спіс</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Апісанне для людзей з дэфектам зроку
-\n(ліміт у %d сімвал)</item>
-        <item quantity="few">Апісанне для людзей з дэфектам зроку
-\n(ліміт у %d сімвалы)</item>
-        <item quantity="many">Апісанне для людзей з дэфектам зроку
-\n(ліміт у %d сімвалаў)</item>
-        <item quantity="other">Апісанне для людзей з дэфектам зроку
-\n(ліміт у %d сімвалаў)</item>
+        <item quantity="one">Апісанне змесціва для людзей з дэфектам зроку (ліміт у %d сімвал)</item>
+        <item quantity="few">Апісанне змесціва для людзей з дэфектам зроку (ліміт у %d сімвалы)</item>
+        <item quantity="many">Апісанне змесціва для людзей з дэфектам зроку (ліміт у %d сімвалаў)</item>
+        <item quantity="other">Апісанне змесціва для людзей з дэфектам зроку (ліміт у %d сімвалаў)</item>
     </plurals>
     <string name="compose_save_draft_loses_media">Захаваць чарнавік\? (Далучэнні будуць запампаваныя зноў, калі Вы аднавіце чарнавік.)</string>
     <string name="performing_lookup_title">Выконваю пошук…</string>
@@ -576,8 +572,8 @@
     <string name="account_date_joined">Далучыўся(-лася) %1$s</string>
     <string name="account_note_saved">Захавана!</string>
     <string name="dialog_push_notification_migration_other_accounts">Вы паўторна зайшлі ў бягучы ўліковы запіс, каб дазволіць Tusky падпісацца на push-апавяшчэнні. Але ў Вас яшчэ засталіся ўліковыя запісы, якія не мігрыравалі такім чынам. Пераключыцеся на іх і зайдзіце паўторна, каб уключыць падтрымку апавяшчэнняў праз UnifiedPush.</string>
-    <string name="status_edit_info">%1$s адрэдагаваў(-ла) %2$s</string>
-    <string name="status_created_info">%1$s стварыў(-ла) %2$s</string>
+    <string name="status_edit_info">%1$s адрэдагаваў(-ла)</string>
+    <string name="status_created_info">%1$s стварыў(-ла)</string>
     <string name="pref_title_hide_top_toolbar">Схаваць загаловак верхняй панэлі інструментаў</string>
     <string name="account_note_hint">Ваша асабістая нататка пра гэты ўліковы запіс</string>
     <string name="pref_title_confirm_favourites">Патрабаваць пацвярджэнне перад упадабаннем</string>
@@ -646,4 +642,33 @@
     <string name="status_filter_placeholder_label_format">Адфільтрована: %s</string>
     <string name="pref_title_account_filter_keywords">Профілі</string>
     <string name="title_public_trending_hashtags">Папулярныя хэштэгі</string>
+    <string name="description_browser_login">Можа падтрымліваць дадатковыя метады праверкі сапраўднасці, але для гэтага патрэбны адпаведны браузер.</string>
+    <string name="hint_description">Апісанне</string>
+    <string name="post_media_image">Відарыс</string>
+    <string name="action_refresh">Абнавіць</string>
+    <string name="select_list_empty">Яшчэ няма спісаў</string>
+    <string name="select_list_manage">Кіраванне спісамі</string>
+    <string name="error_list_load">Памылка загрузкі спісаў</string>
+    <string name="total_usage">Усяго выкарыстана</string>
+    <string name="total_accounts">Усяго ўліковых запісаў</string>
+    <string name="accessibility_talking_about_tag">%1$d людзей кажуць пра хэштэг %2$s</string>
+    <string name="pref_title_show_stat_inline">Паказваць статыстыку допісаў у стужцы</string>
+    <string name="ui_error_reblog">Не атрымалася пашырыць допіс: %s</string>
+    <string name="hint_filter_title">Мой фільтр</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="ui_error_bookmark">Не атрымалася дадаць допіс да закладак: %s</string>
+    <string name="ui_error_accept_follow_request">Не атрымалася пацвердзіць запыт на падпіску: %s</string>
+    <string name="ui_success_accepted_follow_request">Запыт на падпіску пацверджаны</string>
+    <string name="ui_success_rejected_follow_request">Запыт на падпіску заблакіраваны</string>
+    <string name="ui_error_clear_notifications">Не атрымалася ачысціць апавяшчэнні: %s</string>
+    <string name="ui_error_unknown">невядомая прычына</string>
+    <string name="label_filter_title">Загаловак</string>
+    <string name="filter_action_hide">Схаваць</string>
+    <string name="filter_description_hide">Схаваць поўнасцю</string>
+    <string name="label_filter_context">Фільтраваць кантэкст</string>
+    <string name="label_filter_keywords">Ключавыя словы альбо фразы для фільтравання</string>
+    <string name="action_add">Дадаць</string>
+    <string name="filter_keyword_display_format">%s (цэлае слова)</string>
+    <string name="filter_keyword_addition_title">Дадаць ключавое слова</string>
+    <string name="filter_edit_keyword_title">Змяніць ключавое слова</string>
 </resources>

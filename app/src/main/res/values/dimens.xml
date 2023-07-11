@@ -63,7 +63,4 @@
     <dimen name="graph_line_thickness">1dp</dimen>
 
     <dimen name="minimum_touch_target">48dp</dimen>
-
-    <dimen name="lrPaddedSpanRadius">4dp</dimen>
-
 </resources>

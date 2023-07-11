@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
@@ -146,22 +145,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private fun handleError(error: Throwable) {
         binding.messageView.show()
-        val retryAction = { _: View ->
+        binding.messageView.setup(error) { _: View ->
             binding.messageView.hide()
             viewModel.load(listId)
-        }
-        if (error is IOException) {
-            binding.messageView.setup(
-                R.drawable.elephant_offline,
-                R.string.error_network,
-                retryAction
-            )
-        } else {
-            binding.messageView.setup(
-                R.drawable.elephant_error,
-                R.string.error_generic,
-                retryAction
-            )
         }
     }
 

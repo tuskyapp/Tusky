@@ -1,0 +1,9 @@
+Tusky 22.0 Beta 2
+
+Behobene Fehler:
+- Ladegeschwindigkeit von Benachrichtigungen verbessert
+- 0/1/1+ werden bei Antworten wieder angezeigt
+- Bei gefilterten Beiträgen Filtertitel anstatt Filterschlagwörter anzeigen
+- Öffnen eines Beitrags öffnet keinen nicht zugehörigen Link mehr
+- »Hinzufügen« wird nun korrekt angezeigt, wenn keine Filter vorhanden sind
+- Diverse Abstürze behoben

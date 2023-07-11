@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Entre sus características se incluyen:
+
+- Visualización de etiquetas que son tendencia
+- Editar descripciones de imágenes y puntos de enfoque
+- Menú "Refrescar" Para fines de accesibilidad
+- Soporte para filtros de Mastodon v4 
+- Mostrar información detallada cuando se edita una publicación
+- Opción para mostrar estadísticas de publicaciones en la cronología
+
+Entre las correcciones se incluye:
+
+- Mostrar controles del reproductor durante la reproducción de audio
+- Calculación correcta de la longitud de una publicación
+- Siempre publicar descripciones de imágenes
+
+Entre otras

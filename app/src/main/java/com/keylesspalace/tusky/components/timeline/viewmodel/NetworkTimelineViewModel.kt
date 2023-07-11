@@ -255,6 +255,10 @@ class NetworkTimelineViewModel @Inject constructor(
         }
     }
 
+    override fun saveReadingPosition(statusId: String) {
+        /** Does nothing for non-cached timelines */
+    }
+
     override suspend fun invalidate() {
         currentSource?.invalidate()
     }

@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Stöd för inläggsredigering
+- Ny inställning för att styra önskad läsriktning
+- Större mediaförhandsvisningar och ett nytt överlägg för att indikera media med beskrivning
+– Det är nu möjligt att lägga till konton till listor från sin profil
+och mycket mer

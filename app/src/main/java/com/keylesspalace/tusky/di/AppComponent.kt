@@ -29,12 +29,14 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        CoroutineScopeModule::class,
         NetworkModule::class,
         AndroidSupportInjectionModule::class,
         ActivitiesModule::class,
         ServicesModule::class,
         BroadcastReceiverModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        WorkerModule::class
     ]
 )
 interface AppComponent {

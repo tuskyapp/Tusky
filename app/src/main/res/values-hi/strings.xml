@@ -401,4 +401,9 @@
     </plurals>
     <string name="error_compose_character_limit">पोस्ट बहुत लंबा है!</string>
     <string name="error_failed_app_registration">उस सर्वर से प्रमाणित करने में विफल।</string>
+    <string name="error_multimedia_size_limit">वीडियो और ऑडियो फ़ाइलों का आकार %s एमबी से अधिक नहीं हो सकता है।</string>
+    <string name="error_image_edit_failed">फोटो संपादित नहीं किया जा सका।</string>
+    <string name="error_media_upload_image_or_video">फोटो और वीडियो दोनों को एक ही पोस्ट से अटैच नहीं किया जा सकता है।</string>
+    <string name="error_loading_account_details">खाता विवरण लोड करने में विफल रहा</string>
+    <string name="error_could_not_load_login_page">लॉगिन पेज लोड नहीं किया जा सका।</string>
 </resources>

@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4
+
+Fixar:
+
+- Fixade upprepad hämtning av meddelanden om konfigurerad med flera konton

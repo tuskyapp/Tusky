@@ -610,8 +610,8 @@
     <string name="action_continue_edit">Продовжити редагування</string>
     <string name="mute_notifications_switch">Беззвучні сповіщення</string>
     <string name="title_edits">Редагування</string>
-    <string name="status_edit_info">%1$s редагує %2$s</string>
-    <string name="status_created_info">%1$s створює %2$s</string>
+    <string name="status_edit_info">%1$s редагує</string>
+    <string name="status_created_info">%1$s створює</string>
     <string name="a11y_label_loading_thread">Завантаження стрічки</string>
     <string name="action_share_account_link">Поділитися посиланням на обліковий запис</string>
     <string name="action_share_account_username">Поділитися іменем користувача облікового запису</string>
