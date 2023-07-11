@@ -20,15 +20,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.adapter.TrendingDateViewHolder
-import com.keylesspalace.tusky.adapter.TrendingTagViewHolder
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.databinding.ItemTrendingDateBinding
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 class TrendingAdapter(
-    private val trendingListener: LinkListener
+    private val onViewTag: (String) -> Unit
 ) : ListAdapter<TrendingViewData, RecyclerView.ViewHolder>(TrendingDifferCallback) {
 
     init {
@@ -42,7 +39,6 @@ class TrendingAdapter(
                     ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
                 TrendingTagViewHolder(binding)
             }
-
             else -> {
                 val binding =
                     ItemTrendingDateBinding.inflate(LayoutInflater.from(viewGroup.context))
@@ -52,38 +48,15 @@ class TrendingAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        bindViewHolder(viewHolder, position, null)
-    }
-
-    override fun onBindViewHolder(
-        viewHolder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: List<*>
-    ) {
-        bindViewHolder(viewHolder, position, payloads)
-    }
-
-    private fun bindViewHolder(
-        viewHolder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: List<*>?
-    ) {
-        when (val header = getItem(position)) {
+        when (val viewData = getItem(position)) {
             is TrendingViewData.Tag -> {
-                val maxTrendingValue = currentList
-                    .flatMap { trendingViewData ->
-                        trendingViewData.asTagOrNull()?.tag?.history.orEmpty()
-                    }
-                    .mapNotNull { it.uses.toLongOrNull() }
-                    .maxOrNull() ?: 1
-
                 val holder = viewHolder as TrendingTagViewHolder
-                holder.setup(header, maxTrendingValue, trendingListener)
+                holder.setup(viewData, onViewTag)
             }
 
             is TrendingViewData.Header -> {
                 val holder = viewHolder as TrendingDateViewHolder
-                holder.setup(header.start, header.end)
+                holder.setup(viewData.start, viewData.end)
             }
         }
     }
@@ -112,14 +85,7 @@ class TrendingAdapter(
                 oldItem: TrendingViewData,
                 newItem: TrendingViewData
             ): Boolean {
-                return false
-            }
-
-            override fun getChangePayload(
-                oldItem: TrendingViewData,
-                newItem: TrendingViewData
-            ): Any? {
-                return null
+                return oldItem == newItem
             }
         }
     }

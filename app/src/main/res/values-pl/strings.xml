@@ -602,8 +602,8 @@
     <string name="pref_reading_order_newest_first">Najpierw najnowsze</string>
     <string name="no_lists">Nie masz żadnych list.</string>
     <string name="mute_notifications_switch">Wycisz powiadomienia</string>
-    <string name="status_edit_info">%1$s edytował %2$s</string>
-    <string name="status_created_info">%1$s stworzył %2$s</string>
+    <string name="status_edit_info">%1$s edytował</string>
+    <string name="status_created_info">%1$s stworzył</string>
     <string name="title_edits">Edycje</string>
     <string name="compose_unsaved_changes">Masz niezapisane zmiany.</string>
     <string name="instance_rule_title">%s regulamin</string>

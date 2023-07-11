@@ -182,6 +182,9 @@ abstract class TimelineViewModel(
 
     abstract fun clearWarning(status: StatusViewData.Concrete)
 
+    /** Saves the user's reading position so it can be restored later */
+    abstract fun saveReadingPosition(statusId: String)
+
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 

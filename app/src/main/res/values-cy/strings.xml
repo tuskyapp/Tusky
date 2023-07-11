@@ -36,14 +36,14 @@
     <string name="post_sensitive_media_title">Cynnwys sensitif</string>
     <string name="post_media_hidden_title">Cyfryngau wedi\'u cuddio</string>
     <string name="post_sensitive_media_directions">Cliciwch i weld</string>
-    <string name="post_content_warning_show_more">Dangos mwy</string>
-    <string name="post_content_warning_show_less">Dangos llai</string>
+    <string name="post_content_warning_show_more">Dangos Mwy</string>
+    <string name="post_content_warning_show_less">Dangos Llai</string>
     <string name="post_content_show_more">Chwyddo</string>
     <string name="post_content_show_less">Lleihau</string>
     <string name="footer_empty">Dim byd yma. Tynnwch lawr i adnewyddu!</string>
-    <string name="notification_reblog_format">Mae %s wedi hybu\'ch neges</string>
-    <string name="notification_favourite_format">Mae %s wedi hoffi\'ch neges</string>
-    <string name="notification_follow_format">Mae %s wedi\'ch dilyn chi</string>
+    <string name="notification_reblog_format">Hybodd %s eich neges</string>
+    <string name="notification_favourite_format">Hoffodd %s eich neges</string>
+    <string name="notification_follow_format">Dilynodd %s chi</string>
     <string name="report_username_format">Adrodd @%s</string>
     <string name="report_comment_hint">Sylwadau ychwanegol?</string>
     <string name="action_quick_reply">Ymateb yn gyflym</string>
@@ -312,7 +312,7 @@
     <string name="error_following_hashtag_format">Gwall wrth ddilyn #%s</string>
     <string name="error_unfollowing_hashtag_format">Gwall wrth ddad-ddilyn #%s</string>
     <string name="action_unmute_domain">Dad-dewi %s</string>
-    <string name="notification_subscription_format">Mae %s newydd bostio</string>
+    <string name="notification_subscription_format">Postiodd %s</string>
     <string name="action_delete_conversation">Dileu\'r sgwrs</string>
     <string name="action_view_bookmarks">Nodau tudalen</string>
     <string name="action_add_poll">Ychwanegu pôl</string>
@@ -484,7 +484,7 @@
     <string name="review_notifications">Adolygu hysbysiadau</string>
     <string name="notification_report_format">Adroddiad newydd ar %s</string>
     <string name="notification_header_report_format">Adroddodd %s %s</string>
-    <string name="notification_summary_report_format">%s · %d neges wedi\'u hatodi</string>
+    <string name="notification_summary_report_format">%s · %d o negeseuon a atodwyd</string>
     <string name="pref_title_notification_filter_reports">mae yna adroddiad newydd</string>
     <string name="report_category_violation">Toriad rheol</string>
     <string name="report_category_spam">Sbam</string>
@@ -534,7 +534,7 @@
     <string name="drafts_failed_loading_reply">Wedi methu llwytho gwybodaeth Ateb</string>
     <string name="pref_title_alway_open_spoiler">Agor negeseuon wedi\'u marcio â rhybudd cynnwys bob tro</string>
     <string name="profile_metadata_label_label">Label</string>
-    <string name="post_edited">Wedi golygu %s</string>
+    <string name="post_edited">Golygwyd %s</string>
     <string name="confirmation_hashtag_unfollowed">#%s wedi ei ddad-ddilyn</string>
     <string name="pref_title_animate_custom_emojis">Animeiddio emojis cyfaddas</string>
     <string name="notification_subscription_description">Hysbysiadau pan fydd rhywun rydych wedi tanysgrifio iddyn nhw\'n cyhoeddi neges newydd</string>
@@ -628,22 +628,16 @@
         <item quantity="other">Nid oes modd i chi lanlwytho mwy na %1$d atodiad cyfryngau.</item>
     </plurals>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="zero">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
-\n(terfyn nodau o %d)</item>
-        <item quantity="one">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
-\n(terfyn nodau o %d)</item>
-        <item quantity="two">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
-\n(terfyn nodau o %d)</item>
-        <item quantity="few">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
-\n(terfyn nodau o %d)</item>
-        <item quantity="many">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
-\n(terfyn nodau o %d)</item>
-        <item quantity="other">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg
-\n(terfyn nodau o %d)</item>
+        <item quantity="zero">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="one">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="two">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="few">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="many">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="other">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
     </plurals>
     <string name="action_continue_edit">Parhau i olygu</string>
-    <string name="status_edit_info">Golygodd %1$s %2$s</string>
-    <string name="status_created_info">Creodd %1$s %2$s</string>
+    <string name="status_edit_info">Golygodd %1$s</string>
+    <string name="status_created_info">Creodd %1$s</string>
     <string name="title_edits">Golygiadau</string>
     <string name="post_media_alt">AMGEN</string>
     <string name="action_discard">Hepgor newidiadau</string>
@@ -714,7 +708,7 @@
     <string name="select_list_empty">Nid oes gennych retrau, eto</string>
     <string name="select_list_manage">Rheoli rhestrau</string>
     <string name="error_list_load">Gwall wrth lwytho rhestrau</string>
-    <string name="help_empty_home">Hwn yw eich <b>llinell amser cartref</b>. Mae’n dangos postiadau diweddar y cyfrifon rydych yn eu dilyn.
+    <string name="help_empty_home">Hwn yw eich <b>ffrwd cartref</b>. Mae’n dangos negeseuon diweddar y cyfrifon rydych yn eu dilyn.
 \n
 \nI archwilio cyfrifon gallwch un ai eu darganfod o fewn un o\'r llinellau amser eraill. Er enghraifft, mae llinell amser eich enghraifft chi [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwilio am Tusky i ganfod ein cyfrif Mastodon.</string>
     <string name="pref_title_show_stat_inline">Dangos ystadegau postiadau mewn llinell amser</string>

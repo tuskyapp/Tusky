@@ -298,10 +298,8 @@
     <string name="action_remove_from_list">Fjarlægja notandaaðganginn af listanum</string>
     <string name="compose_active_account_description">Sendi sem %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Lýstu þessu fyrir sjónskerta
-\n(hámark %d stafur)</item>
-        <item quantity="other">Lýstu þessu fyrir sjónskerta
-\n(hámark %d stafir)</item>
+        <item quantity="one">Lýstu þessu fyrir sjónskerta (hámark %d stafur)</item>
+        <item quantity="other">Lýstu þessu fyrir sjónskerta (hámark %d stafir)</item>
     </plurals>
     <string name="action_set_caption">Setja skýringatexta</string>
     <string name="action_remove">Fjarlægja</string>
@@ -591,8 +589,8 @@
     <string name="pref_summary_http_proxy_missing">&lt;ekki stillt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;ógilt&gt;</string>
     <string name="title_edits">Breytingar</string>
-    <string name="status_created_info">%1$s bjó til %2$s</string>
-    <string name="status_edit_info">%1$s breytti %2$s</string>
+    <string name="status_created_info">%1$s bjó til</string>
+    <string name="status_edit_info">%1$s breytti</string>
     <string name="post_media_alt">AUKA</string>
     <string name="action_discard">Henda breytingum</string>
     <string name="action_continue_edit">Halda breytingum áfram</string>
@@ -651,4 +649,12 @@
     <string name="filter_keyword_addition_title">Bæta við stikkorði</string>
     <string name="filter_edit_keyword_title">Breyta stikkorði</string>
     <string name="filter_description_format">%s: %s</string>
+    <string name="hint_description">Lýsing</string>
+    <string name="post_media_image">Mynd</string>
+    <string name="select_list_empty">Þú ert ekki með neina lista</string>
+    <string name="select_list_manage">Sýsla með lista</string>
+    <string name="error_list_load">Villa við að hlaða inn listum</string>
+    <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með.
+\n
+\nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns [iconics gmd_group]. Eða að þú leitar að þeim eftir nafni [iconics gmd_search]; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>
 </resources>
