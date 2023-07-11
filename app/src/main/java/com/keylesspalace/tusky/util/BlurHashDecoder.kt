@@ -44,7 +44,7 @@ object BlurHashDecoder {
 
     private fun decode83(str: String, from: Int = 0, to: Int = str.length): Int {
         var result = 0
-        for (i in from until to) {
+        for (i in from..<to) {
             val index = charMap[str[i]] ?: -1
             if (index != -1) {
                 result = result * 83 + index
@@ -90,13 +90,13 @@ object BlurHashDecoder {
         colors: Array<FloatArray>
     ): Bitmap {
         val imageArray = IntArray(width * height)
-        for (y in 0 until height) {
-            for (x in 0 until width) {
+        for (y in 0..<height) {
+            for (x in 0..<width) {
                 var r = 0f
                 var g = 0f
                 var b = 0f
-                for (j in 0 until numCompY) {
-                    for (i in 0 until numCompX) {
+                for (j in 0..<numCompY) {
+                    for (i in 0..<numCompX) {
                         val basis = (cos(PI * x * i / width) * cos(PI * y * j / height)).toFloat()
                         val color = colors[j * numCompX + i]
                         r += color[0] * basis

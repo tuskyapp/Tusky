@@ -10,7 +10,7 @@ private const val POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 fun randomAlphanumericString(count: Int): String {
     val chars = CharArray(count)
     val random = Random()
-    for (i in 0 until count) {
+    for (i in 0..<count) {
         chars[i] = POSSIBLE_CHARS[random.nextInt(POSSIBLE_CHARS.length)]
     }
     return String(chars)

@@ -36,7 +36,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
 
     private fun attachImageViews() {
         removeAllViews()
-        for (i in 0 until aspectRatios.size.coerceAtMost(imageViewCache.size)) {
+        for (i in 0..<aspectRatios.size.coerceAtMost(imageViewCache.size)) {
             addView(imageViewCache[i])
         }
     }
@@ -185,7 +185,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
     }
 
     inline fun forEachIndexed(action: (Int, MediaPreviewImageView, TextView) -> Unit) {
-        for (index in 0 until childCount) {
+        for (index in 0..<childCount) {
             val wrapper = getChildAt(index)
             action(
                 index,

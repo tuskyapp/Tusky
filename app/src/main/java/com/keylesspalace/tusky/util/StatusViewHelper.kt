@@ -90,7 +90,7 @@ class StatusViewHelper(private val itemView: View) {
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
-        for (i in 0 until n) {
+        for (i in 0..<n) {
             val attachment = attachments[i]
             val previewUrl = attachment.previewUrl
             val description = attachment.description
@@ -210,7 +210,7 @@ class StatusViewHelper(private val itemView: View) {
         }
 
         // Hide any of the placeholder previews beyond the ones set.
-        for (i in n until Status.MAX_MEDIA_ATTACHMENTS) {
+        for (i in n..<Status.MAX_MEDIA_ATTACHMENTS) {
             mediaPreviews[i].visibility = View.GONE
         }
     }
@@ -313,7 +313,7 @@ class StatusViewHelper(private val itemView: View) {
     private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>, animateEmojis: Boolean) {
         val options = poll.options
 
-        for (i in 0 until Status.MAX_POLL_OPTIONS) {
+        for (i in 0..<Status.MAX_POLL_OPTIONS) {
             if (i < options.size) {
                 val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 

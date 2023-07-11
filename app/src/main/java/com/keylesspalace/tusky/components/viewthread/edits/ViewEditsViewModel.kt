@@ -102,7 +102,7 @@ class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : Vie
                     var previousContent =
                         loader.load(sortedEdits[1].content.replace("<br>", "<br/>"))
 
-                    for (i in 1 until sortedEdits.size) {
+                    for (i in 1..<sortedEdits.size) {
                         processor.diff(previousContent, currentContent, output)
                         sortedEdits[i - 1] = sortedEdits[i - 1].copy(
                             content = output.xml.toString()
