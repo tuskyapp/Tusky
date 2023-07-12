@@ -55,8 +55,8 @@ class LocaleUtilsTest {
     }
 
     private fun getMockedInitialLanguages(configuredLanguages: Array<String?>): List<String> {
-        val appLanguages = LocaleListCompat.forLanguageTags(configuredLanguages.slice(2..<4).joinToString(","))
-        val systemLanguages = LocaleListCompat.forLanguageTags(configuredLanguages.slice(4..<configuredLanguages.size).joinToString(","))
+        val appLanguages = LocaleListCompat.forLanguageTags(configuredLanguages.slice(2 until 4).joinToString(","))
+        val systemLanguages = LocaleListCompat.forLanguageTags(configuredLanguages.slice(4 until configuredLanguages.size).joinToString(","))
 
         Mockito.mockStatic(AppCompatDelegate::class.java).use { appCompatDelegate ->
             appCompatDelegate.`when`<LocaleListCompat> { AppCompatDelegate.getApplicationLocales() }.thenReturn(appLanguages)

@@ -379,7 +379,7 @@ class TimelineFragment :
     private fun setupRecyclerView() {
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
-                if (pos in 0..<adapter.itemCount) {
+                if (pos in 0 until adapter.itemCount) {
                     adapter.peek(pos)
                 } else {
                     null

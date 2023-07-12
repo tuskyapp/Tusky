@@ -45,7 +45,7 @@ fun replaceCrashingCharacters(content: CharSequence): CharSequence? {
     var replacing = false
     var builder: SpannableStringBuilder? = null
     val length = content.length
-    for (index in 0..<length) {
+    for (index in 0 until length) {
         val character = content[index]
 
         // If there are more than one or two, switch to a map

@@ -25,7 +25,7 @@ private const val TAG: String = "LocaleUtils"
 
 private fun LocaleListCompat.toList(): List<Locale> {
     val list = mutableListOf<Locale>()
-    for (index in 0..<this.size()) {
+    for (index in 0 until this.size()) {
         this[index]?.let { list.add(it) }
     }
     return list

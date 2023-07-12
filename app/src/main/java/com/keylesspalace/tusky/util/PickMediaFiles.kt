@@ -41,7 +41,7 @@ class PickMediaFiles : ActivityResultContract<Boolean, List<Uri>>() {
                 return listOf(intentData)
             } else if (clipData != null) {
                 val result: MutableList<Uri> = mutableListOf()
-                for (i in 0..<clipData.itemCount) {
+                for (i in 0 until clipData.itemCount) {
                     result.add(clipData.getItemAt(i).uri)
                 }
                 return result

@@ -942,7 +942,7 @@ class ComposeActivity :
         if (contentInfo.clip.description.hasMimeType("image/*")) {
             val split = contentInfo.partition { item: ClipData.Item -> item.uri != null }
             split.first?.let { content ->
-                for (i in 0..<content.clip.itemCount) {
+                for (i in 0 until content.clip.itemCount) {
                     pickMedia(
                         content.clip.getItemAt(i).uri,
                         contentInfo.clip.description.label as String?

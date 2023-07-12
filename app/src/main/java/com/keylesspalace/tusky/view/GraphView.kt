@@ -278,7 +278,7 @@ class GraphView @JvmOverloads constructor(
             val pointDistance = dataSpacing(primaryLineData)
 
             // Vertical tick marks
-            for (i in 0..<primaryLineData.size + 1) {
+            for (i in 0 until primaryLineData.size + 1) {
                 drawLine(
                     i * pointDistance,
                     height.toFloat(),
