@@ -62,7 +62,7 @@
     <string name="action_compose">发表嘟文</string>
     <string name="action_login">用 Tusky 登录</string>
     <string name="action_logout">注销</string>
-    <string name="action_logout_confirm">确定要退出账号 %1$s 吗？</string>
+    <string name="action_logout_confirm">你确定要退出登录 %1$s 吗？这会删除账户的所有本地数据，包括草稿和选项。</string>
     <string name="action_follow">关注</string>
     <string name="action_unfollow">取消关注</string>
     <string name="action_block">屏蔽</string>
