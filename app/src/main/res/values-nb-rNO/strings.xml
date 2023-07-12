@@ -62,7 +62,7 @@
     <string name="action_compose">Skriv</string>
     <string name="action_login">Logg inn med Tusky</string>
     <string name="action_logout">Logg ut</string>
-    <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\?</string>
+    <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\? Dette vil slette all lokal data for kontoen, som utkast og instillinger.</string>
     <string name="action_follow">Følg</string>
     <string name="action_unfollow">Slutt å følge</string>
     <string name="action_block">Blokkér</string>
