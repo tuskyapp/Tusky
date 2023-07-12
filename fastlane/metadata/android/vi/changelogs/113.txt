@@ -1,0 +1,13 @@
+Tusky 23.0
+
+Mới:
+- Thu phóng chữ trên giao diện
+
+Sửa:
+- Lưu thông tin tài khoản chính xác
+- "đẩy" thông báo trên Android 11
+- Lỗi copy/paste không được
+- Xem lịch sử sửa tút
+- Không crash khi máy chủ của bạn không có lịch sử sửa
+- Hiện emoji không vuông chính xác
+- Lỗi crash khi sửa hồ sơ
