@@ -86,7 +86,7 @@ data class AccountEntity(
     var notificationMarkerId: String = "0",
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
-    var notificationsFilters: String = "[[\"follow_request\"], [\"follow_request\"]]",
+    var notificationsFilters: String = "[[\"follow_request\"], [\"reblog\",\"follow_request\",\"favourite\"]]",
     var notificationsFilterIndex: Int = 0,
     // Scope cannot be changed without re-login, so store it in case
     // the scope needs to be changed in the future
