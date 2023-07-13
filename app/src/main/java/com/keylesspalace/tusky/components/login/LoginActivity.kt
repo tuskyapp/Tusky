@@ -39,8 +39,6 @@ import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
-import com.keylesspalace.tusky.util.rickRoll
-import com.keylesspalace.tusky.util.shouldRickRoll
 import com.keylesspalace.tusky.util.viewBinding
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
@@ -157,11 +155,6 @@ class LoginActivity : BaseActivity(), Injectable {
         } catch (e: IllegalArgumentException) {
             setLoading(false)
             binding.domainTextInputLayout.error = getString(R.string.error_invalid_domain)
-            return
-        }
-
-        if (shouldRickRoll(this, domain)) {
-            rickRoll(this)
             return
         }
 
