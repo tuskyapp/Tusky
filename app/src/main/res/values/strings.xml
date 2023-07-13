@@ -611,6 +611,9 @@
     <string name="select_list_manage">Manage lists</string>
     <string name="error_list_load">Error loading lists</string>
     <string name="list">List</string>
+    <string name="notifications_swap">Swap</string>
+    <string name="notifications_swap_less">Less</string>
+    <string name="notifications_swap_more">More</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Apply</string>

@@ -267,19 +267,23 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
                         for (account in accountManager.accounts) {
-                            val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
+                            val notificationFilters = deserialize(account.notificationsFilters);
+                            for (idx in 0..notificationFilters.size) {
+                                var notificationFilter = notificationFilters[idx].toMutableSet()
 
-                            if (value == true) {
-                                notificationFilter.add(Notification.Type.FAVOURITE)
-                                notificationFilter.add(Notification.Type.FOLLOW)
-                                notificationFilter.add(Notification.Type.REBLOG)
-                            } else {
-                                notificationFilter.remove(Notification.Type.FAVOURITE)
-                                notificationFilter.remove(Notification.Type.FOLLOW)
-                                notificationFilter.remove(Notification.Type.REBLOG)
+                                if (value == true) {
+                                    notificationFilter.add(Notification.Type.FAVOURITE)
+                                    notificationFilter.add(Notification.Type.FOLLOW)
+                                    notificationFilter.add(Notification.Type.REBLOG)
+                                } else {
+                                    notificationFilter.remove(Notification.Type.FAVOURITE)
+                                    notificationFilter.remove(Notification.Type.FOLLOW)
+                                    notificationFilter.remove(Notification.Type.REBLOG)
+                                }
+                                notificationFilters[idx] = notificationFilter
                             }
 
-                            account.notificationsFilter = serialize(notificationFilter)
+                            account.notificationsFilters = serialize(notificationFilters)
                             accountManager.saveAccount(account)
                         }
                         true
