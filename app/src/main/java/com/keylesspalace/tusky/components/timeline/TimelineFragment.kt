@@ -390,8 +390,6 @@ class TimelineFragment :
                         Log.d(TAG, "presentationState: $presentationState")
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
 
-                        val listIsEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-
                         // Only show the progress bar if:
                         //
                         // - The load hasn't errored
@@ -410,12 +408,12 @@ class TimelineFragment :
                             binding.swipeRefreshLayout.isRefreshing = false
                         }
 
-                        if (!listIsEmpty && presentationState == PresentationState.PRESENTED) {
+                        if (adapter.itemCount != 0 && presentationState == PresentationState.PRESENTED) {
                             binding.recyclerView.show()
                             binding.statusView.hide()
                         }
 
-                        if (listIsEmpty && presentationState == PresentationState.PRESENTED) {
+                        if (adapter.itemCount == 0 && presentationState == PresentationState.PRESENTED) {
                             Log.d(TAG, "Showing empty state")
                             binding.statusView.setup(
                                 R.drawable.elephant_friend_empty,
@@ -426,7 +424,6 @@ class TimelineFragment :
                             }
                             binding.statusView.show()
                             binding.recyclerView.hide()
-                            return@collect
                         } else {
                             Log.d(TAG, "Not showing empty state")
                         }
