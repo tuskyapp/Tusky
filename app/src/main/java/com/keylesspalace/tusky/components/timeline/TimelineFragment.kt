@@ -351,70 +351,33 @@ class TimelineFragment :
                 // finished (so that DiffUtil has had a chance to process the data). See
                 // https://github.com/googlecodelabs/android-paging/issues/149
                 launch {
-                    var old: CombinedLoadStates? = null
-                    var refreshComplete = false
+                    var previousLoadState: CombinedLoadStates? = null
+                    var activeRefresh = false
 
                     if (isSwipeToRefreshEnabled) {
                         adapter.loadStateFlow
-                            .collect {
-                                if (old == null) {
-                                    Log.d("loadState", "No previous loadState")
-                                    old = it
+                            .withPresentationState()
+                            .collect { (loadState, presentationState) ->
+                                if (previousLoadState == null) {
+                                    previousLoadState = loadState
                                     return@collect
                                 }
 
-                                if (old?.refresh != it.refresh) {
-                                    Log.d("loadState", "refresh: ${old?.refresh} -> ${it.refresh}")
+                                if (presentationState != PresentationState.PRESENTED) {
+                                    activeRefresh = true
                                 }
 
-                                if (old?.prepend != it.prepend) {
-                                    Log.d("loadState", "prepend: ${old?.prepend} -> ${it.prepend}")
-                                }
-
-                                if (old?.append != it.append) {
-                                    Log.d("loadState", "append: ${old?.append} -> ${it.append}")
-                                }
-
-                                if (old?.source?.refresh != it.source.refresh) {
-                                    Log.d("loadState", "  source.refresh: ${old?.source?.refresh} -> ${it.source.refresh}")
-                                }
-
-                                if (old?.source?.prepend != it.source.prepend) {
-                                    Log.d("loadState", "  source.prepend: ${old?.source?.prepend} -> ${it.source.prepend}")
-                                }
-
-                                if (old?.source?.append != it.source.append) {
-                                    Log.d("loadState", "  source.append: ${old?.source?.append} -> ${it.source.append}")
-                                }
-
-                                if (old?.mediator?.refresh != it.mediator?.refresh) {
-                                    Log.d("loadState", "  mediator.refresh: ${old?.mediator?.refresh} -> ${it.mediator?.refresh}")
-                                }
-
-                                if (old?.mediator?.prepend != it.mediator?.prepend) {
-                                    Log.d("loadState", "  mediator.prepend: ${old?.mediator?.prepend} -> ${it.mediator?.prepend}")
-                                }
-
-                                if (old?.mediator?.append != it.mediator?.append) {
-                                    Log.d("loadState", "  mediator.append: ${old?.mediator?.append} -> ${it.mediator?.append}")
-                                }
-
-                                if (!refreshComplete) {
-                                    refreshComplete =
-                                        old?.refresh is LoadState.Loading && it.refresh is LoadState.NotLoading
-                                }
-
-                                if (refreshComplete) {
-                                    if (old?.prepend is LoadState.Loading && it.prepend is LoadState.NotLoading) {
-                                        refreshComplete = false
+                                if (presentationState == PresentationState.PRESENTED && activeRefresh) {
+                                    if (previousLoadState?.prepend is LoadState.Loading && loadState.prepend is LoadState.NotLoading) {
                                         Log.d("loadState", "mediator.prepend=NotLoading, scrolling to peek")
                                         binding.recyclerView.post {
                                             getView() ?: return@post
                                             binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
                                         }
+                                        activeRefresh = false
                                     }
                                 }
-                                old = it
+                                previousLoadState = loadState
                             }
                     }
                 }
