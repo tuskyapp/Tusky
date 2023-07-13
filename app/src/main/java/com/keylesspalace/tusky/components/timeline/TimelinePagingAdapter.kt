@@ -38,9 +38,10 @@ class TimelinePagingAdapter(
             VIEW_TYPE_STATUS_FILTERED -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, viewGroup, false))
             }
-            else -> {
+            VIEW_TYPE_STATUS -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status, viewGroup, false))
             }
+            else -> return object : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_placeholder, viewGroup, false)) {}
         }
     }
 
@@ -72,8 +73,8 @@ class TimelinePagingAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val viewData = getItem(position)
-        return if (viewData?.filterAction == Filter.Action.WARN) {
+        val viewData = getItem(position) ?: return VIEW_TYPE_PLACEHOLDER
+        return if (viewData.filterAction == Filter.Action.WARN) {
             VIEW_TYPE_STATUS_FILTERED
         } else {
             VIEW_TYPE_STATUS
@@ -81,8 +82,11 @@ class TimelinePagingAdapter(
     }
 
     companion object {
+        @Suppress("unused")
+        private const val TAG = "TimelinePagingAdapter"
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_STATUS_FILTERED = 1
+        private const val VIEW_TYPE_PLACEHOLDER = -1
 
         val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
             override fun areItemsTheSame(
