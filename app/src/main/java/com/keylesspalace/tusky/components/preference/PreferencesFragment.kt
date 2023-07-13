@@ -267,7 +267,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
                         for (account in accountManager.accounts) {
-                            val notificationFilters = deserialize(account.notificationsFilters);
+                            val notificationFilters = deserialize(account.notificationsFilters)
                             for (idx in 0..notificationFilters.size) {
                                 var notificationFilter = notificationFilters[idx].toMutableSet()
 

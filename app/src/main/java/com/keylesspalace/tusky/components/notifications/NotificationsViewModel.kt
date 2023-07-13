@@ -522,7 +522,6 @@ class NotificationsViewModel @Inject constructor(
             }.cachedIn(viewModelScope)
 
         uiState = combine(notificationFilters, notificationFilterActive, getUiPrefs()) { filters, filterIndex, prefs ->
-            Log.d(TAG, "Is $filterIndex; have " + serialize(filters.filters));
             UiState(
                 filters = filters.filters,
                 filterIndex = filterIndex.active,

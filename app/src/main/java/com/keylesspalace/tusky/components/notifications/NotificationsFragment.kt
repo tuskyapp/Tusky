@@ -124,7 +124,6 @@ class NotificationsFragment :
     }
 
     private fun updateFilterVisibility(showFilter: Boolean) {
-        Log.d(TAG,"I am HERE and $showFilter and " + viewModel.uiState.value.activeFilter.toString() + "," + viewModel.uiState.value.filterIndex.toString())
         val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
         if (showFilter) {
             binding.appBarOptions.setExpanded(true, false)
@@ -141,7 +140,7 @@ class NotificationsFragment :
         // FIXME: This politely skips if filters has not yet been populated, BUT if filters or filterIndex ever get set to "strange" values it could impolitely crash.
         if (viewModel.uiState.value.filters.size > 0) {
             val offset =
-                viewModel.uiState.value.filters[viewModel.uiState.value.filterIndex].size - viewModel.uiState.value.filters[1 - viewModel.uiState.value.filterIndex].size;
+                viewModel.uiState.value.filters[viewModel.uiState.value.filterIndex].size - viewModel.uiState.value.filters[1 - viewModel.uiState.value.filterIndex].size
             val swapText = if (offset < 0) {
                 R.string.notifications_swap_less
             } else if (offset > 0) {
@@ -230,7 +229,7 @@ class NotificationsFragment :
             footer = NotificationsLoadStateAdapter { adapter.retry() }
         )
 
-        //binding.buttonClear.setOnClickListener { confirmClearNotifications() }
+        // binding.buttonClear.setOnClickListener { confirmClearNotifications() }
         binding.buttonSwap.setOnClickListener { swapNotifications() }
         binding.buttonFilter.setOnClickListener { showFilterDialog() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
@@ -591,7 +590,7 @@ class NotificationsFragment :
     private fun swapNotifications() {
         binding.swipeRefreshLayout.isRefreshing = false
         binding.progressBar.isVisible = false
-        viewModel.accept(InfallibleUiAction.ActiveFilter(1-viewModel.uiState.value.filterIndex))
+        viewModel.accept(InfallibleUiAction.ActiveFilter(1 - viewModel.uiState.value.filterIndex))
     }
 
     private fun showFilterDialog() {

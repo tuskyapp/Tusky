@@ -24,9 +24,9 @@ import org.json.JSONArray
 
 fun serialize(data: Array<Set<Notification.Type>>?): String {
     val array = JSONArray()
-    data?.forEach {
+    data?.forEach { innerArray ->
         val filterArray = JSONArray()
-        it.forEach {
+        innerArray.forEach {
             filterArray.put(it.presentation)
         }
         array.put(filterArray)
@@ -34,7 +34,7 @@ fun serialize(data: Array<Set<Notification.Type>>?): String {
     return array.toString()
 }
 
-private fun deserializeInternal(array: JSONArray) : Set<Notification.Type> {
+private fun deserializeInternal(array: JSONArray): Set<Notification.Type> {
     val ret = HashSet<Notification.Type>()
     for (i in 0 until array.length()) {
         val item = array.getString(i)
@@ -47,19 +47,20 @@ private fun deserializeInternal(array: JSONArray) : Set<Notification.Type> {
 }
 
 // This performs an implied conversion from AppDatabase 51 to 52.
-private fun deserializeSingleFallback(array: JSONArray) : Array<Set<Notification.Type>> {
-    val orig = deserializeInternal(array);
+private fun deserializeSingleFallback(array: JSONArray): Array<Set<Notification.Type>> {
+    val orig = deserializeInternal(array)
     return arrayOf(orig, HashSet(orig))
 }
 
 fun deserialize(data: String?): Array<Set<Notification.Type>> {
-    val ret = mutableListOf<Set<Notification.Type>>();
+    val ret = mutableListOf<Set<Notification.Type>>()
     data?.let {
         val array = JSONArray(data)
         for (i in 0 until array.length()) {
-            val filterArray = array.optJSONArray(i);
-            if (filterArray == null)
-                return deserializeSingleFallback(array);
+            val filterArray = array.optJSONArray(i)
+            if (filterArray == null) {
+                return deserializeSingleFallback(array)
+            }
 
             ret.add(deserializeInternal(filterArray))
         }
