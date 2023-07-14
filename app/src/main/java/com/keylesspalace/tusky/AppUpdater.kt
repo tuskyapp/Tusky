@@ -95,14 +95,18 @@ fun checkForUpdate(activity: Activity, sharedPreferences: SharedPreferences) {
     appUpdateManager = AppUpdateManagerFactory.create(activity)
     appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
         if (info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-            if (info.updatePriority() >= MIN_IMMEDIATE_UPDATE_PRIORITY
-                && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+            if (info.updatePriority() >= MIN_IMMEDIATE_UPDATE_PRIORITY &&
+                info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
                 appUpdateType = UpdateType.Immediate
-                appUpdateManager.startUpdateFlowForResult(info, inAppUpdateResultLauncher,
-                    AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE))
-            } else if (info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-                && info.updatePriority() <= MAX_FLEXIBLE_UPDATE_PRIORITY) {
-
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    inAppUpdateResultLauncher,
+                    AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
+                )
+            } else if (info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE) &&
+                info.updatePriority() <= MAX_FLEXIBLE_UPDATE_PRIORITY
+            ) {
                 if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
                     val ignoredVersion = sharedPreferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
                     val versionCode = info.availableVersionCode()
@@ -121,8 +125,11 @@ fun checkForUpdate(activity: Activity, sharedPreferences: SharedPreferences) {
                     }
                 }
                 appUpdateManager.registerListener(updateListener)
-                appUpdateManager.startUpdateFlowForResult(info, inAppUpdateResultLauncher,
-                    AppUpdateOptions.defaultOptions(AppUpdateType.FLEXIBLE))
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    inAppUpdateResultLauncher,
+                    AppUpdateOptions.defaultOptions(AppUpdateType.FLEXIBLE)
+                )
             }
         }
         if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
@@ -135,8 +142,11 @@ fun handleAppUpdateOnActivityResult(activity: Activity, resultCode: Int) {
     if (resultCode == Activity.RESULT_CANCELED) {
         appUpdateManager.unregisterListener(updateListener)
     } else if (resultCode == ActivityResult.RESULT_IN_APP_UPDATE_FAILED) {
-        Snackbar.make(activity.findViewById(android.R.id.content),
-            R.string.update_failed, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(
+            activity.findViewById(android.R.id.content),
+            R.string.update_failed,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }
 
@@ -181,8 +191,11 @@ private fun handleImmediateUpdateOnResume(activity: Activity) {
 }
 
 private fun showSnackbarForDownloadedUpdate(activity: Activity) {
-    Snackbar.make(activity.findViewById(android.R.id.content),
-        R.string.update_flexible_complete, Snackbar.LENGTH_INDEFINITE).apply {
+    Snackbar.make(
+        activity.findViewById(android.R.id.content),
+        R.string.update_flexible_complete,
+        Snackbar.LENGTH_INDEFINITE
+    ).apply {
         setAction(R.string.update_flexible_restart) { appUpdateManager.completeUpdate() }
         show()
     }
