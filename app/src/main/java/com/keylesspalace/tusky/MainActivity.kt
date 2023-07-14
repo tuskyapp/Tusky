@@ -341,6 +341,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // "Post failed" dialog should display in this activity
         draftsAlert.observeInContext(this, true)
+
+        if (BuildConfig.FLAVOR_store == "google") {
+            checkForUpdate(this, binding.progressBar)
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

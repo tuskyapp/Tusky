@@ -48,13 +48,21 @@ android {
         }
     }
 
-    flavorDimensions += "color"
+    flavorDimensions "store", "color"
+
     productFlavors {
-        blue {}
+        blue {
+            dimension "color"
+        }
         green {
+            dimension "color"
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + gitSha
+        }
+
+        google {
+            dimension "store"
         }
     }
 
@@ -171,6 +179,9 @@ dependencies {
     implementation libs.unified.push
 
     implementation libs.bundles.xmldiff
+
+    googleImplementation 'com.google.android.play:app-update:2.1.0'
+    googleImplementation 'com.google.android.play:app-update-ktx:2.1.0'
 
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
