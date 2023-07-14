@@ -82,22 +82,26 @@ class TrendingViewModel @Inject constructor(
 
         mastodonApi.trendingTags().fold(
             { tagResponse ->
-                val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
-                    filter.context.contains(Filter.Kind.HOME.kind)
-                }
-                val tags = tagResponse
-                    .filter { tag ->
-                        homeFilters?.none { filter ->
-                            filter.keywords.any { keyword -> keyword.keyword.equals(tag.name, ignoreCase = true) }
-                        } ?: false
+
+                val firstTag = tagResponse.firstOrNull()
+                _uiState.value = if (firstTag == null) {
+                    TrendingUiState(emptyList(), LoadingState.LOADED)
+                } else {
+                    val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
+                        filter.context.contains(Filter.Kind.HOME.kind)
                     }
-                    .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
-                    .toViewData()
+                    val tags = tagResponse
+                        .filter { tag ->
+                            homeFilters?.none { filter ->
+                                filter.keywords.any { keyword -> keyword.keyword.equals(tag.name, ignoreCase = true) }
+                            } ?: false
+                        }
+                        .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
+                        .toViewData()
 
-                val firstTag = tagResponse.first()
-                val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
-
-                _uiState.value = TrendingUiState(listOf(header) + tags, LoadingState.LOADED)
+                    val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
+                    TrendingUiState(listOf(header) + tags, LoadingState.LOADED)
+                }
             },
             { error ->
                 Log.w(TAG, "failed loading trending tags", error)
