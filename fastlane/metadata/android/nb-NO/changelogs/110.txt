@@ -1,0 +1,20 @@
+Tusky 22.0 
+  
+Nye funksjoner:  
+  
+- Vis trendy emneknagger  
+- Følge nye emneknagger 
+- Bedre rekkefølge ved valg av språk 
+- Vis forskjellen mellom versoner av en tut  
+- Støtter nå mastodon v4 filtre 
+- Mulighet til å vise poststatistikk i tidslinjen 
+- Og mere...  
+  
+Fikser: 
+ 
+- Husk valgt fane og posisjon
+- Behold varsler til de er lest
+- Riktig visning av mikset HTV og VTH tekst i profiler 
+- Riktig postlengdeberegning 
+- Publisér alltid bildebeskrivelser 
+- Og mer.

@@ -514,7 +514,7 @@
     </plurals>
     <string name="pref_reading_order_oldest_first">Vecākos vispirms</string>
     <string name="pref_reading_order_newest_first">Jaunākos vispirms</string>
-    <string name="status_created_info">%1$s izveidoja %2$s</string>
+    <string name="status_created_info">%1$s izveidoja</string>
     <plurals name="poll_info_people">
         <item quantity="zero">%s personas</item>
         <item quantity="one">%s persona</item>
@@ -544,7 +544,7 @@
     <string name="action_post_failed_show_drafts">Rādīt melnrakstus</string>
     <string name="action_post_failed_do_nothing">Aizvākt</string>
     <string name="edit_hashtag_hint">Tēmturis bez #</string>
-    <string name="status_edit_info">%1$s laboja %2$s</string>
+    <string name="status_edit_info">%1$s laboja</string>
     <string name="action_browser_login">Pieslēgties ar pārlūku</string>
     <string name="description_login">Strādā vairumā gadījumu. Dati netiek nopludināti uz citām lietotnēm.</string>
     <string name="poll_info_time_absolute">beidzas %s</string>
@@ -608,4 +608,6 @@
     <string name="filter_action_warn">Brīdināt</string>
     <string name="filter_action_hide">Paslēpt</string>
     <string name="filter_description_warn">Paslēpt ar brīdinājumu</string>
+    <string name="filter_edit_keyword_title">Labot atslēgvārdu</string>
+    <string name="filter_keyword_addition_title">Pievienot atslēgvārdu</string>
 </resources>

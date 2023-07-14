@@ -636,8 +636,8 @@
         <item quantity="other">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
     </plurals>
     <string name="action_continue_edit">Parhau i olygu</string>
-    <string name="status_edit_info">Golygodd %1$s %2$s</string>
-    <string name="status_created_info">Creodd %1$s %2$s</string>
+    <string name="status_edit_info">Golygodd %1$s</string>
+    <string name="status_created_info">Creodd %1$s</string>
     <string name="title_edits">Golygiadau</string>
     <string name="post_media_alt">AMGEN</string>
     <string name="action_discard">Hepgor newidiadau</string>

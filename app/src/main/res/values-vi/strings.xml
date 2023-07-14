@@ -46,7 +46,7 @@
     <string name="action_reset_schedule">Làm tươi</string>
     <string name="action_search">Tìm kiếm</string>
     <string name="action_edit_profile">Hồ sơ</string>
-    <string name="action_view_account_preferences">Tài khoản</string>
+    <string name="action_view_account_preferences">Cá nhân</string>
     <string name="action_view_preferences">Cài đặt</string>
     <string name="action_logout">Đăng xuất</string>
     <string name="button_done">Xong</string>
@@ -152,7 +152,7 @@
     <string name="action_block">Chặn</string>
     <string name="action_unfollow">Bỏ theo dõi</string>
     <string name="action_follow">Theo dõi</string>
-    <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\?</string>
+    <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\? Dữ liệu của tài khoản sẽ bị xóa, bao gồm những bản nháp và thiết lập.</string>
     <string name="action_compose">Viết tút</string>
     <string name="action_more">Thêm</string>
     <string name="action_unfavourite">Bỏ lưu</string>
@@ -249,7 +249,7 @@
     <string name="post_text_size_medium">Trung bình</string>
     <string name="post_text_size_small">Nhỏ vừa</string>
     <string name="post_text_size_smallest">Nhỏ</string>
-    <string name="pref_post_text_size">Cỡ chữ</string>
+    <string name="pref_post_text_size">Cỡ chữ tút</string>
     <string name="post_privacy_followers_only">Chỉ người theo dõi</string>
     <string name="post_privacy_unlisted">Hạn chế</string>
     <string name="post_privacy_public">Công khai</string>
@@ -574,8 +574,8 @@
     <string name="action_continue_edit">Tiếp tục sửa</string>
     <string name="compose_unsaved_changes">Thay đổi chưa được lưu.</string>
     <string name="mute_notifications_switch">Ẩn thông báo</string>
-    <string name="status_edit_info">%1$s sửa %2$s</string>
-    <string name="status_created_info">%1$s đăng %2$s</string>
+    <string name="status_edit_info">%1$s sửa</string>
+    <string name="status_created_info">%1$s đăng</string>
     <string name="title_edits">Những lượt sửa tút</string>
     <string name="a11y_label_loading_thread">Đang tải thảo luận</string>
     <string name="action_share_account_link">Chia sẻ URL người dùng</string>
@@ -603,8 +603,8 @@
     <string name="action_post_failed_do_nothing">Bỏ qua</string>
     <string name="title_public_trending_hashtags">Hashtag nổi bật</string>
     <string name="accessibility_talking_about_tag">%1$d người đang thảo luận về %2$s</string>
-    <string name="total_usage">Lượt dùng</string>
-    <string name="total_accounts">Người dùng</string>
+    <string name="total_usage">lượt dùng</string>
+    <string name="total_accounts">người dùng</string>
     <string name="dialog_follow_hashtag_title">Theo dõi hashtag</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_refresh">Làm mới</string>
@@ -624,18 +624,18 @@
     <string name="status_filter_placeholder_label_format">Đã lọc: %s</string>
     <string name="pref_title_account_filter_keywords">Người</string>
     <string name="hint_filter_title">Bộ lọc của tôi</string>
-    <string name="label_filter_title">Tiêu đề</string>
+    <string name="label_filter_title">Tên bộ lọc</string>
     <string name="filter_action_warn">Cảnh báo</string>
-    <string name="filter_action_hide">Ẩn</string>
+    <string name="filter_action_hide">Đã ẩn</string>
     <string name="filter_description_warn">Ẩn với cảnh báo</string>
     <string name="filter_description_hide">Ẩn hoàn toàn</string>
-    <string name="label_filter_action">Hành động lọc</string>
-    <string name="label_filter_context">Bối cảnh lọc</string>
-    <string name="label_filter_keywords">Từ khóa hoặc cụm từ muốn lọc</string>
+    <string name="label_filter_action">Hành động</string>
+    <string name="label_filter_context">Nơi áp dụng</string>
+    <string name="label_filter_keywords">Từ hoặc cụm từ muốn lọc</string>
     <string name="action_add">Thêm</string>
     <string name="filter_keyword_display_format">%s (cả từ)</string>
-    <string name="filter_keyword_addition_title">Thêm từ khóa</string>
-    <string name="filter_edit_keyword_title">Sửa từ khóa</string>
+    <string name="filter_keyword_addition_title">Thêm từ</string>
+    <string name="filter_edit_keyword_title">Sửa từ</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="pref_title_show_stat_inline">Hiện số tương tác trên tút</string>
     <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện những tút gần đây từ những người bạn theo dõi.
@@ -646,4 +646,14 @@
     <string name="select_list_manage">Quản lý danh sách</string>
     <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
     <string name="select_list_empty">Bạn chưa có danh sách</string>
+    <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
+    <string name="compose_delete_draft">Xóa bản nháp\?</string>
+    <string name="error_missing_edits">Máy chủ của bạn biết tút đã được sửa, nhưng không có bản sao của lần sửa, nên nó không thể hiện.
+\n
+\nĐây là <a href="https://github.com/mastodon/mastodon/issues/25398">Lỗi Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Cỡ chữ giao diện</string>
+    <string name="notification_listenable_worker_name">Hoạt động chạy nền</string>
+    <string name="notification_listenable_worker_description">Thông báo khi Tusky hoạt động ngầm</string>
+    <string name="notification_notification_worker">Đang nạp thông báo…</string>
+    <string name="notification_prune_cache">Bảo trì bộ nhớ đệm…</string>
 </resources>

@@ -29,8 +29,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdk 23
         targetSdk 33
-        versionCode 110
-        versionName "22.0"
+        versionCode 113
+        versionName "23.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -159,7 +159,7 @@ dependencies {
     implementation libs.conscrypt.android
 
     implementation libs.bundles.glide
-    kapt libs.glide.compiler
+    ksp libs.glide.compiler
 
     implementation libs.bundles.rxjava3
 

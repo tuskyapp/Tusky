@@ -626,8 +626,8 @@
     <string name="pref_reading_order_newest_first">Les plus récents en premier</string>
     <string name="action_unfollow_hashtag_format">Arrêter de suivre #%s \?</string>
     <string name="failed_to_pin">Échec de l\'épinglage</string>
-    <string name="status_edit_info">Modification de %1$s le %2$s</string>
-    <string name="status_created_info">Création par %1$s le %2$s</string>
+    <string name="status_edit_info">Modification de %1$s</string>
+    <string name="status_created_info">Création par %1$s</string>
     <string name="compose_save_draft_loses_media">Enregistrer comme brouillon \? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
     <string name="no_lists">Vous n\'avez aucune liste.</string>
     <string name="language_display_name_format">%s (%s)</string>

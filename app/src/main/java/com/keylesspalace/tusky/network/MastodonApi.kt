@@ -782,5 +782,5 @@ interface MastodonApi {
     suspend fun unfollowTag(@Path("name") name: String): NetworkResult<HashTag>
 
     @GET("api/v1/trends/tags")
-    suspend fun trendingTags(): Response<List<TrendingTag>>
+    suspend fun trendingTags(): NetworkResult<List<TrendingTag>>
 }

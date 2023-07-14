@@ -21,6 +21,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeKind
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter.AutocompleteResult
 import com.keylesspalace.tusky.components.drafts.DraftHelper
@@ -94,7 +95,7 @@ class ComposeViewModel @Inject constructor(
     val media: MutableStateFlow<List<QueuedMedia>> = MutableStateFlow(emptyList())
     val uploadError = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    lateinit var composeKind: ComposeActivity.ComposeKind
+    lateinit var composeKind: ComposeKind
 
     // Used in ComposeActivity to pass state to result function when cropImage contract inflight
     var cropImageItemOld: QueuedMedia? = null
@@ -213,7 +214,28 @@ class ComposeViewModel @Inject constructor(
         this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
     }
 
-    fun didChange(content: String?, contentWarning: String?): Boolean {
+    fun handleCloseButton(contentText: String?, contentWarning: String?): ConfirmationKind {
+        return if (didChange(contentText, contentWarning)) {
+            when (composeKind) {
+                ComposeKind.NEW -> if (isEmpty(contentText, contentWarning)) {
+                    ConfirmationKind.NONE
+                } else {
+                    ConfirmationKind.SAVE_OR_DISCARD
+                }
+                ComposeKind.EDIT_DRAFT -> if (isEmpty(contentText, contentWarning)) {
+                    ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT
+                } else {
+                    ConfirmationKind.UPDATE_OR_DISCARD
+                }
+                ComposeKind.EDIT_POSTED -> ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES
+                ComposeKind.EDIT_SCHEDULED -> ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES
+            }
+        } else {
+            ConfirmationKind.NONE
+        }
+    }
+
+    private fun didChange(content: String?, contentWarning: String?): Boolean {
         val textChanged = content.orEmpty() != startingText.orEmpty()
         val contentWarningChanged = contentWarning.orEmpty() != startingContentWarning
         val mediaChanged = media.value.isNotEmpty()
@@ -221,6 +243,10 @@ class ComposeViewModel @Inject constructor(
         val didScheduledTimeChange = hasScheduledTimeChanged
 
         return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged || didScheduledTimeChange
+    }
+
+    private fun isEmpty(content: String?, contentWarning: String?): Boolean {
+        return !modifiedInitialState && (content.isNullOrBlank() && contentWarning.isNullOrBlank() && media.value.isEmpty() && poll.value == null)
     }
 
     fun contentWarningChanged(value: Boolean) {
@@ -390,7 +416,7 @@ class ComposeViewModel @Inject constructor(
             return
         }
 
-        composeKind = composeOptions?.kind ?: ComposeActivity.ComposeKind.NEW
+        composeKind = composeOptions?.kind ?: ComposeKind.NEW
 
         val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
 
@@ -485,6 +511,14 @@ class ComposeViewModel @Inject constructor(
 
     private companion object {
         const val TAG = "ComposeViewModel"
+    }
+
+    enum class ConfirmationKind {
+        NONE, // just close
+        SAVE_OR_DISCARD,
+        UPDATE_OR_DISCARD,
+        CONTINUE_EDITING_OR_DISCARD_CHANGES, // editing post
+        CONTINUE_EDITING_OR_DISCARD_DRAFT // edit draft
     }
 }
 

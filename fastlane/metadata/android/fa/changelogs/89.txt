@@ -1,7 +1,7 @@
 تاسکی ن۱۷٫۰
 
-- "Open as..." is now also available in the menu on account profiles when using multiple accounts
-- Login is now handled in a WebView within the app
-- Support for Android 12
-- support for the new Mastodon instance configuration API
-- and a lot of other small fixes and improvements
+- اکنون هنگام استفاده از چندین حساب «گشودن به عنوان…» در فهرست روی نمایه‌های حساب نیز موجود است
+- ورود اکنون در نمای وبی درون کاره مدیریت می‌شود
+- پشتیبانی از اندروید ۱۲
+- پشتیبانی از میانای جدید پیکربندی نمونهٔ ماستودون
+- و بسیاری از بهبودها و رفع مشکلات کوچک

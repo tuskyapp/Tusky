@@ -204,8 +204,9 @@ class NotificationsPagingSource @Inject constructor(
 
     override fun getRefreshKey(state: PagingState<String, Notification>): String? {
         return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey ?: anchorPage?.nextKey
+            val id = state.closestItemToPosition(anchorPosition)?.id
+            Log.d(TAG, "  getRefreshKey returning $id")
+            return id
         }
     }
 

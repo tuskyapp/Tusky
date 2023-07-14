@@ -80,14 +80,13 @@
             android:id="@+id/tag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="none"
+            android:ellipsize="end"
             android:importantForAccessibility="no"
             android:singleLine="true"
             android:textAlignment="textStart"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="?android:textColorPrimary"
             android:textStyle="normal"
-            app:layout_constrainedWidth="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="#itishashtagtuesdayitishashtagtuesday" />
@@ -107,7 +106,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tag"
-            tools:text="12 345" />
+            tools:text="12 34" />
 
         <TextView
             android:id="@+id/usageLabel"

@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class FollowedTagsActivity :
@@ -108,11 +107,7 @@ class FollowedTagsActivity :
                     binding.followedTagsView.hide()
                     binding.followedTagsMessageView.show()
                     val errorState = loadState.refresh as LoadState.Error
-                    if (errorState.error is IOException) {
-                        binding.followedTagsMessageView.setup(R.drawable.elephant_offline, R.string.error_network) { retry() }
-                    } else {
-                        binding.followedTagsMessageView.setup(R.drawable.elephant_error, R.string.error_generic) { retry() }
-                    }
+                    binding.followedTagsMessageView.setup(errorState.error) { retry() }
                     Log.w(TAG, "error loading followed hashtags", errorState.error)
                 } else {
                     binding.followedTagsView.show()
