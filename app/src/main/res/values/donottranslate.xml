@@ -255,4 +255,10 @@
         <item>OLDEST_FIRST</item>
         <item>NEWEST_FIRST</item>
     </string-array>
+
+    <string-array name="pref_update_notification_frequency_values">
+        <item>NEVER</item>
+        <item>ONCE_PER_VERSION</item>
+        <item>ALWAYS</item>
+    </string-array>
 </resources>

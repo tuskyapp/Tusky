@@ -18,7 +18,9 @@ package com.keylesspalace.tusky.components.preference
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.UpdateNotificationFrequency
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
@@ -282,6 +284,21 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_http_proxy_settings)
                     fragment = ProxyPreferencesFragment::class.qualifiedName
                     summaryProvider = ProxyPreferencesFragment.SummaryProvider
+                }
+            }
+
+            if (BuildConfig.FLAVOR_store == "google") {
+                preferenceCategory(R.string.pref_title_update_settings) {
+                    listPreference {
+                        setDefaultValue(UpdateNotificationFrequency.ALWAYS.name)
+                        setEntries(R.array.pref_update_notification_frequency_names)
+                        setEntryValues(R.array.pref_update_notification_frequency_values)
+                        key = PrefKeys.UPDATE_NOTIFICATION_FREQUENCY
+                        setSummaryProvider { entry }
+                        setTitle(R.string.pref_title_update_notification_frequency)
+                        isSingleLineTitle = false
+                        icon = makeIcon(GoogleMaterial.Icon.gmd_upgrade)
+                    }
                 }
             }
         }

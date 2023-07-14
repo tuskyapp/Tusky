@@ -51,13 +51,25 @@ android {
         debug {}
     }
 
-    flavorDimensions "color"
+    flavorDimensions "store", "color"
+
     productFlavors {
-        blue {}
+        blue {
+            dimension "color"
+        }
         green {
+            dimension "color"
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + getGitSha()
+        }
+
+        google {
+            dimension "store"
+        }
+
+        fdroid {
+            dimension "store"
         }
     }
 
@@ -144,6 +156,9 @@ dependencies {
 
     implementation libs.bouncycastle
     implementation libs.unified.push
+
+    googleImplementation libs.app.update
+    googleImplementation libs.app.update.ktx
 
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
