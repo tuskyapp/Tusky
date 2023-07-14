@@ -72,10 +72,15 @@ workflows:
         - project_location: $PROJECT_LOCATION
         - module: app
         - variant: googleGreenDebug
-    - android-build:
+    - gradle-runner@2:
         inputs:
-        - variant: googleGreenRelease
-        - module: app
+          - apk_file_include_filter: '*.aab'
+          - gradlew_path: ./gradlew
+          - gradle_options: ""
+          - gradle_task: bundleGoogleGreenRelease
+    - sign-apk@1:
+        inputs:
+          - apk_path: $BITRISE_AAB_PATH
     - deploy-to-bitrise-io@2.1:
         inputs:
         - debug_mode: "true"
