@@ -74,7 +74,7 @@ workflows:
         - variant: googleGreenDebug
     - android-build:
         inputs:
-        - variant: googleGreenDebug
+        - variant: googleGreenRelease
         - module: app
     - deploy-to-bitrise-io@2.1:
         inputs:
