@@ -810,4 +810,14 @@
         you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+        
+    <string name="pref_title_update_settings">Software updates</string>
+    <string name="pref_title_update_notification_frequency">Tell me about new Tusky versions</string>
+    <string name="pref_update_notification_frequency_never">Never</string>
+    <string name="pref_update_notification_frequency_once_per_version">Once per version</string>
+    <string name="pref_update_notification_frequency_always">Always</string>
+    <string name="update_flexible_progress_description">Update progress: %d%%</string>
+    <string name="update_failed">There was an error while updating</string>
+    <string name="update_flexible_complete">An update has just been downloaded</string>
+    <string name="update_flexible_restart">Restart Tusky</string>        
 </resources>

@@ -101,4 +101,7 @@ object PrefKeys {
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
+
+    const val UPDATE_NOTIFICATION_FREQUENCY = "updateNotificationFrequency"
+    const val UPDATE_NOTIFICATION_VERSIONCODE = "updateNotificationVersioncode"
 }

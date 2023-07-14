@@ -47,13 +47,25 @@ android {
         }
     }
 
-    flavorDimensions += "color"
+    flavorDimensions "store", "color"
+
     productFlavors {
-        blue {}
+        blue {
+            dimension "color"
+        }
         green {
+            dimension "color"
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + gitSha
+        }
+
+        google {
+            dimension "store"
+        }
+
+        fdroid {
+            dimension "store"
         }
     }
 
@@ -172,7 +184,9 @@ dependencies {
     implementation libs.unified.push
 
     implementation libs.bundles.xmldiff
-
+    googleImplementation libs.app.update
+    googleImplementation libs.app.update.ktx
+    
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
     testImplementation libs.bundles.mockito

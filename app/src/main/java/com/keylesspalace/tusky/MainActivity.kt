@@ -178,6 +178,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    init {
+        if (BuildConfig.FLAVOR_store == "google") {
+            createInAppUpdateResultLauncher(this)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -341,6 +347,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // "Post failed" dialog should display in this activity
         draftsAlert.observeInContext(this, true)
+
+        if (shouldCheckForUpdate()) {
+            checkForUpdate(this, preferences)
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -374,6 +384,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             )
             selectedEmojiPack = currentEmojiPack
             recreate()
+        }
+
+        if (shouldCheckForUpdate()) {
+            handleAppUpdateOnResume(this, preferences)
         }
     }
 
@@ -434,6 +448,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         startActivity(composeIntent)
         finish()
     }
+
+    private fun shouldCheckForUpdate() = BuildConfig.FLAVOR_store == "google" &&
+        UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null)) != UpdateNotificationFrequency.NEVER
 
     private fun setupDrawer(
         savedInstanceState: Bundle?,

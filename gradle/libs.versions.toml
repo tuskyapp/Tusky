@@ -20,6 +20,7 @@ androidx-testing = "2.2.0"
 androidx-viewpager2 = "1.0.0"
 androidx-work = "2.8.1"
 androidx-room = "2.5.1"
+app-update = "2.1.0"
 autodispose = "2.1.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
@@ -93,6 +94,8 @@ androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "andro
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
+app-update = { module = "com.google.android.play:app-update", version.ref = "app-update" }
+app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "app-update" }
 autodispose-android-lifecycle = { module = "com.uber.autodispose2:autodispose-androidx-lifecycle", version.ref = "autodispose" }
 autodispose-core = { module = "com.uber.autodispose2:autodispose", version.ref = "autodispose" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
