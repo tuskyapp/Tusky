@@ -35,6 +35,8 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.exoplayer.util.EventLogger
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
@@ -71,6 +73,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     private var isAudio = false
 
     companion object {
+        private const val TAG = "ViewVideoFragment"
         private const val TOOLBAR_HIDE_DELAY_MS = 3000L
     }
 
@@ -122,9 +125,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 DefaultMediaSourceFactory(requireContext()).setDataSourceFactory(dataSourceFactory)
             )
             .build()
-            .also { exoPlayer ->
-                binding.videoView.player = exoPlayer
-            }
+
+        if (BuildConfig.DEBUG) player.addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
+
+        binding.videoView.player = player
 
         val mediaItem = MediaItem.fromUri(url)
         player.setMediaItem(mediaItem)
