@@ -32,10 +32,12 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlin.math.abs
 
@@ -44,8 +46,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         fun onDismiss()
     }
 
-    private var _binding: FragmentViewVideoBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentViewVideoBinding::bind)
 
     private lateinit var videoActionsListener: VideoActionsListener
     private lateinit var toolbar: View
@@ -72,22 +73,18 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onResume() {
         super.onResume()
 
-        if (_binding != null) {
-            if (mediaActivity.isToolbarVisible && !isAudio) {
-                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
-            }
-            binding.videoView.player?.play()
+        if (mediaActivity.isToolbarVisible && !isAudio) {
+            hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         }
+        binding.videoView.player?.play()
     }
 
     override fun onPause() {
         super.onPause()
 
-        if (_binding != null) {
-            handler.removeCallbacks(hideToolbar)
-            binding.videoView.player?.pause()
-            // mediaController.hide()
-        }
+        handler.removeCallbacks(hideToolbar)
+        binding.videoView.player?.pause()
+        // mediaController.hide()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -119,6 +116,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         player.prepare()
 
         mediaPlayerListener = object : Player.Listener {
+            @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
             override fun onEvents(player: Player, events: Player.Events) {
                 if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
                     if (player.getPlaybackState() == Player.STATE_READY) {
@@ -234,8 +232,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mediaActivity = activity as ViewMediaActivity
         toolbar = mediaActivity.toolbar
-        _binding = FragmentViewVideoBinding.inflate(inflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_view_video, container, false)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -298,7 +295,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (_binding == null || !userVisibleHint) {
+        if (!userVisibleHint) {
             return
         }
 
@@ -313,9 +310,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.mediaDescription.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    if (_binding != null) {
-                        binding.mediaDescription.visible(isDescriptionVisible)
-                    }
+                    binding.mediaDescription.visible(isDescriptionVisible)
                     animation.removeListener(this)
                 }
             })
@@ -333,6 +328,5 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 }
