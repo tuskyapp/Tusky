@@ -816,4 +816,6 @@
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
     <string name="load_newest_notifications">Load newest notifications</string>
+
+    <string name="error_media_playback">Playback failed: %s</string>
 </resources>

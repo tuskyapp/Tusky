@@ -30,18 +30,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -194,6 +197,13 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 return super.dispatchKeyEvent(event)
             }
             */
+            override fun onPlayerError(error: PlaybackException) {
+                val message = getString(R.string.error_media_playback, error.getErrorString(requireContext()))
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+                    .setTextMaxLines(5)
+                    .setAction(R.string.action_retry) { player.prepare() }
+                    .show()
+            }
         }
 
         player.addListener(mediaPlayerListener)
