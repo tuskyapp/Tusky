@@ -24,19 +24,19 @@ import android.os.Handler
 import android.os.Looper
 import android.text.method.ScrollingMovementMethod
 import android.view.GestureDetector
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import androidx.core.view.GestureDetectorCompat
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.visible
-import com.keylesspalace.tusky.view.ExposedPlayPauseVideoView
 import kotlin.math.abs
 
 class ViewVideoFragment : ViewMediaFragment() {
@@ -54,10 +54,10 @@ class ViewVideoFragment : ViewMediaFragment() {
         // Hoist toolbar hiding to activity so it can track state across different fragments
         // This is explicitly stored as runnable so that we pass it to the handler later for cancellation
         mediaActivity.onPhotoTap()
-        mediaController.hide()
+        // mediaController.hide() // FIXME
     }
     private lateinit var mediaActivity: ViewMediaActivity
-    private lateinit var mediaController: MediaController
+    private lateinit var mediaPlayerListener: Player.Listener
     private var isAudio = false
 
     companion object {
@@ -76,7 +76,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             if (mediaActivity.isToolbarVisible && !isAudio) {
                 hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
             }
-            binding.videoView.start()
+            binding.videoView.player?.play()
         }
     }
 
@@ -85,8 +85,8 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         if (_binding != null) {
             handler.removeCallbacks(hideToolbar)
-            binding.videoView.pause()
-            mediaController.hide()
+            binding.videoView.player?.pause()
+            // mediaController.hide()
         }
     }
 
@@ -105,8 +105,58 @@ class ViewVideoFragment : ViewMediaFragment() {
         binding.mediaDescription.elevation = binding.videoView.elevation + 1
 
         binding.videoView.transitionName = url
-        binding.videoView.setVideoPath(url)
-        mediaController = object : MediaController(mediaActivity) {
+
+        val player = ExoPlayer.Builder(requireContext())
+            .build()
+            .also { exoPlayer ->
+                binding.videoView.player = exoPlayer
+            }
+
+        val mediaItem = MediaItem.fromUri(url)
+        player.setMediaItem(mediaItem)
+        // player.playWhenReady = playWhenReady
+        // player.seekTo(currentItem, playbackPosition)
+        player.prepare()
+
+        mediaPlayerListener = object : Player.Listener {
+            override fun onEvents(player: Player, events: Player.Events) {
+                if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
+                    if (player.getPlaybackState() == Player.STATE_READY) {
+/*
+                        // FIXME This causes the controls bar to move up. Why is it here?
+                        // Prepared (FIXME: Only fire this once?)
+                        val containerWidth = binding.videoContainer.measuredWidth.toFloat()
+                        val containerHeight = binding.videoContainer.measuredHeight.toFloat()
+                        val videoSize = player.videoSize
+                        val videoWidth = videoSize.width
+                        val videoHeight = videoSize.height
+
+                        if (isAudio) {
+                            binding.videoView.layoutParams.height = 1
+                            binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                        } else if (containerWidth / containerHeight > videoWidth / videoHeight) {
+                            binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                            binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                        } else {
+                            binding.videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                            binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                        }
+*/
+                        // Wait until the media is loaded before accepting taps as we don't want toolbar to
+                        // be hidden until then.
+                        binding.videoView.setOnTouchListener { _, _ ->
+                            mediaActivity.onPhotoTap()
+                            false
+                        }
+
+                        binding.progressBar.hide()
+                        binding.videoView.setUseController(true)
+                        binding.videoView.showController()
+                        player.setRepeatMode(Player.REPEAT_MODE_ONE) // FIXME what is this in player?
+                    }
+                }
+            }
+            /*
             override fun show(timeout: Int) {
                 // We're doing manual auto-close management.
                 // Also, take focus back from the pause button so we can use the back button.
@@ -124,11 +174,12 @@ class ViewVideoFragment : ViewMediaFragment() {
                 }
                 return super.dispatchKeyEvent(event)
             }
+            */
         }
 
-        mediaController.setMediaPlayer(binding.videoView)
-        binding.videoView.setMediaController(mediaController)
+        player.addListener(mediaPlayerListener)
         binding.videoView.requestFocus()
+/*
         binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
             override fun onPlay() {
                 if (!isAudio) {
@@ -143,11 +194,6 @@ class ViewVideoFragment : ViewMediaFragment() {
             }
         })
         binding.videoView.setOnPreparedListener { mp ->
-            val containerWidth = binding.videoContainer.measuredWidth.toFloat()
-            val containerHeight = binding.videoContainer.measuredHeight.toFloat()
-            val videoWidth = mp.videoWidth.toFloat()
-            val videoHeight = mp.videoHeight.toFloat()
-
             if (isAudio) {
                 binding.videoView.layoutParams.height = 1
                 binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -174,6 +220,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             binding.progressBar.hide()
             mp.isLooping = true
         }
+*/
 
         if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
             mediaActivity.onBringUp()
@@ -274,7 +321,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             })
             .start()
 
-        if (visible && binding.videoView.isPlaying && !isAudio) {
+        if (visible && (binding.videoView.player?.isPlaying() ?: false) && !isAudio) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
             handler.removeCallbacks(hideToolbar)
