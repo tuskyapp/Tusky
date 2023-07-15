@@ -31,20 +31,29 @@ import android.view.ViewGroup
 import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import okhttp3.OkHttpClient
+import javax.inject.Inject
 import kotlin.math.abs
 
-class ViewVideoFragment : ViewMediaFragment() {
+class ViewVideoFragment : ViewMediaFragment(), Injectable {
     interface VideoActionsListener {
         fun onDismiss()
     }
+
+    @Inject
+    lateinit var okHttpClient: OkHttpClient
 
     private val binding by viewBinding(FragmentViewVideoBinding::bind)
 
@@ -103,7 +112,15 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         binding.videoView.transitionName = url
 
+        val dataSourceFactory = DefaultDataSource.Factory(
+            requireContext(),
+            OkHttpDataSource.Factory(okHttpClient)
+        )
+
         val player = ExoPlayer.Builder(requireContext())
+            .setMediaSourceFactory(
+                DefaultMediaSourceFactory(requireContext()).setDataSourceFactory(dataSourceFactory)
+            )
             .build()
             .also { exoPlayer ->
                 binding.videoView.player = exoPlayer

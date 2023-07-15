@@ -19,9 +19,10 @@ import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 
-abstract class ViewMediaFragment : Fragment() {
+abstract class ViewMediaFragment : Fragment(), Injectable {
     private var toolbarVisibilityDisposable: Function0<Boolean>? = null
 
     abstract fun setupMediaView(
