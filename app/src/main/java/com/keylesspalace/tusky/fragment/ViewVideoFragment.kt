@@ -143,7 +143,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
             override fun onEvents(player: Player, events: Player.Events) {
                 if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
-                    if (player.getPlaybackState() == Player.STATE_READY) {
+                    if (player.playbackState == Player.STATE_READY) {
 /*
                         // FIXME This causes the controls bar to move up. Why is it here?
                         // Prepared (FIXME: Only fire this once?)
@@ -174,7 +174,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         binding.progressBar.hide()
                         binding.videoView.setUseController(true)
                         binding.videoView.showController()
-                        player.setRepeatMode(Player.REPEAT_MODE_ONE) // FIXME what is this in player?
+                        player.repeatMode = Player.REPEAT_MODE_ONE // FIXME what is this in player?
                     }
                 }
             }
@@ -347,7 +347,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             })
             .start()
 
-        if (visible && (binding.videoView.player?.isPlaying() ?: false) && !isAudio) {
+        if (visible && (binding.videoView.player?.isPlaying == true) && !isAudio) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
             handler.removeCallbacks(hideToolbar)
