@@ -23,21 +23,23 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.OptIn
 import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
+import androidx.media3.ui.PlayerControlView
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
@@ -53,6 +55,7 @@ import okhttp3.OkHttpClient
 import javax.inject.Inject
 import kotlin.math.abs
 
+@UnstableApi
 class ViewVideoFragment : ViewMediaFragment(), Injectable {
     interface VideoActionsListener {
         fun onDismiss()
@@ -78,7 +81,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     companion object {
         private const val TAG = "ViewVideoFragment"
-        private const val TOOLBAR_HIDE_DELAY_MS = 3000L
+        private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
     }
 
     override fun onAttach(context: Context) {
@@ -153,7 +156,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         )
 
         mediaPlayerListener = object : Player.Listener {
-            @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
+            @OptIn(UnstableApi::class)
             override fun onEvents(player: Player, events: Player.Events) {
                 if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
                     if (player.playbackState == Player.STATE_READY) {
@@ -269,8 +272,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         }
     }
 
-    private fun hideToolbarAfterDelay(delayMilliseconds: Long) {
-        handler.postDelayed(hideToolbar, delayMilliseconds)
+    private fun hideToolbarAfterDelay(delayMilliseconds: Int) {
+        handler.postDelayed(hideToolbar, delayMilliseconds.toLong())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
