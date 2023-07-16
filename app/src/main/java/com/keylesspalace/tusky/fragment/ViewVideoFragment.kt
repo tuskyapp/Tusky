@@ -160,26 +160,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             override fun onEvents(player: Player, events: Player.Events) {
                 if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
                     if (player.playbackState == Player.STATE_READY) {
-/*
-                        // FIXME This causes the controls bar to move up. Why is it here?
-                        // Prepared (FIXME: Only fire this once?)
-                        val containerWidth = binding.videoContainer.measuredWidth.toFloat()
-                        val containerHeight = binding.videoContainer.measuredHeight.toFloat()
-                        val videoSize = player.videoSize
-                        val videoWidth = videoSize.width
-                        val videoHeight = videoSize.height
-
-                        if (isAudio) {
-                            binding.videoView.layoutParams.height = 1
-                            binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                        } else if (containerWidth / containerHeight > videoWidth / videoHeight) {
-                            binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                            binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                        } else {
-                            binding.videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                            binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                        }
-*/
                         // Wait until the media is loaded before accepting taps as we don't want toolbar to
                         // be hidden until then.
                         binding.videoView.setOnTouchListener { _, e: MotionEvent ->
@@ -190,10 +170,11 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         binding.progressBar.hide()
                         binding.videoView.useController = true
                         binding.videoView.showController()
-                        player.repeatMode = Player.REPEAT_MODE_ONE // FIXME what is this in player?
+                        player.repeatMode = Player.REPEAT_MODE_ONE
                     }
                 }
             }
+
             /*
             override fun show(timeout: Int) {
                 // We're doing manual auto-close management.
