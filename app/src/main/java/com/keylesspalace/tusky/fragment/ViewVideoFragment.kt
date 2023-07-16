@@ -172,7 +172,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         }
 
                         binding.progressBar.hide()
-                        binding.videoView.setUseController(true)
+                        binding.videoView.useController = true
                         binding.videoView.showController()
                         player.repeatMode = Player.REPEAT_MODE_ONE // FIXME what is this in player?
                     }
