@@ -157,9 +157,9 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         mediaPlayerListener = object : Player.Listener {
             @OptIn(UnstableApi::class)
-            override fun onEvents(player: Player, events: Player.Events) {
-                if (events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)) {
-                    if (player.playbackState == Player.STATE_READY) {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_READY -> {
                         // Wait until the media is loaded before accepting taps as we don't want toolbar to
                         // be hidden until then.
                         binding.videoView.setOnTouchListener { _, e: MotionEvent ->
@@ -172,6 +172,16 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         binding.videoView.showController()
                         player.repeatMode = Player.REPEAT_MODE_ONE
                     }
+                    else -> { /* do nothing */ }
+                }
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isAudio) return
+                if (isPlaying) {
+                    hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                } else {
+                    handler.removeCallbacks(hideToolbar)
                 }
             }
 
@@ -206,19 +216,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         player.addListener(mediaPlayerListener)
         binding.videoView.requestFocus()
 /*
-        binding.videoView.setPlayPauseListener(object : ExposedPlayPauseVideoView.PlayPauseListener {
-            override fun onPlay() {
-                if (!isAudio) {
-                    hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
-                }
-            }
-
-            override fun onPause() {
-                if (!isAudio) {
-                    handler.removeCallbacks(hideToolbar)
-                }
-            }
-        })
         binding.videoView.setOnPreparedListener { mp ->
             if (isAudio) {
                 binding.videoView.layoutParams.height = 1
