@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -139,6 +140,18 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         // player.seekTo(currentItem, playbackPosition)
         player.prepare()
 
+        val tapDetector = GestureDetectorCompat(
+            requireContext(),
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent) = true
+
+                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                    mediaActivity.onPhotoTap()
+                    return false
+                }
+            }
+        )
+
         mediaPlayerListener = object : Player.Listener {
             @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
             override fun onEvents(player: Player, events: Player.Events) {
@@ -166,8 +179,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 */
                         // Wait until the media is loaded before accepting taps as we don't want toolbar to
                         // be hidden until then.
-                        binding.videoView.setOnTouchListener { _, _ ->
-                            mediaActivity.onPhotoTap()
+                        binding.videoView.setOnTouchListener { _, e: MotionEvent ->
+                            tapDetector.onTouchEvent(e)
                             false
                         }
 
