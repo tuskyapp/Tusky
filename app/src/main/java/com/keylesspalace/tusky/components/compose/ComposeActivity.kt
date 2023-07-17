@@ -95,6 +95,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
@@ -224,7 +225,7 @@ class ComposeActivity :
             accountManager.activeAccount
         } ?: return
 
-        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
+        val theme = preferences.getString(APP_THEME, APP_THEME_DEFAULT)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
