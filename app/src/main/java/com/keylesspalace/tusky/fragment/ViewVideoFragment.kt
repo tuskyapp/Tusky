@@ -319,8 +319,4 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     override fun onTransitionEnd() {
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }
