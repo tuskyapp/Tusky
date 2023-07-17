@@ -73,7 +73,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         // Hoist toolbar hiding to activity so it can track state across different fragments
         // This is explicitly stored as runnable so that we pass it to the handler later for cancellation
         mediaActivity.onPhotoTap()
-        // mediaController.hide() // FIXME
     }
     private lateinit var mediaActivity: ViewMediaActivity
     private lateinit var mediaPlayerListener: Player.Listener
@@ -103,7 +102,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         handler.removeCallbacks(hideToolbar)
         binding.videoView.player?.pause()
-        // mediaController.hide()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -215,35 +213,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         player.addListener(mediaPlayerListener)
         binding.videoView.requestFocus()
-/*
-        binding.videoView.setOnPreparedListener { mp ->
-            if (isAudio) {
-                binding.videoView.layoutParams.height = 1
-                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            } else if (containerWidth / containerHeight > videoWidth / videoHeight) {
-                binding.videoView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-            } else {
-                binding.videoView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                binding.videoView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            }
-
-            // Wait until the media is loaded before accepting taps as we don't want toolbar to
-            // be hidden until then.
-            binding.videoView.setOnTouchListener { _, _ ->
-                mediaActivity.onPhotoTap()
-                false
-            }
-
-            // Audio doesn't cause the controller to show automatically
-            if (isAudio) {
-                mediaController.show()
-            }
-
-            binding.progressBar.hide()
-            mp.isLooping = true
-        }
-*/
 
         if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
             mediaActivity.onBringUp()
