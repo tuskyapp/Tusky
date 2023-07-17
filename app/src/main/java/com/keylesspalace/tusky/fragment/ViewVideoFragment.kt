@@ -143,25 +143,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 }
             }
 
-            /*
-            override fun show(timeout: Int) {
-                // We're doing manual auto-close management.
-                // Also, take focus back from the pause button so we can use the back button.
-                super.show(0)
-                mediaController.requestFocus()
-            }
-
-            override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
-                if (event?.keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (event.action == KeyEvent.ACTION_UP) {
-                        hide()
-                        activity?.supportFinishAfterTransition()
-                    }
-                    return true
-                }
-                return super.dispatchKeyEvent(event)
-            }
-            */
             override fun onPlayerError(error: PlaybackException) {
                 val message = getString(R.string.error_media_playback, error.getErrorString(requireContext()))
                 Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
@@ -375,6 +356,5 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         }
     }
 
-    override fun onTransitionEnd() {
-    }
+    override fun onTransitionEnd() { }
 }
