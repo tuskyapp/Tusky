@@ -153,6 +153,75 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mediaActivity = activity as ViewMediaActivity
+        toolbar = mediaActivity.toolbar
+        return inflater.inflate(R.layout.fragment_view_video, container, false)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
+            ?: throw IllegalArgumentException("attachment has to be set")
+
+        val url = attachment.url
+        isAudio = attachment.type == Attachment.Type.AUDIO
+
+        val gestureDetector = GestureDetectorCompat(
+            requireContext(),
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(event: MotionEvent): Boolean {
+                    return true
+                }
+
+                override fun onFling(
+                    e1: MotionEvent,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    if (abs(velocityY) > abs(velocityX)) {
+                        videoActionsListener.onDismiss()
+                        return true
+                    }
+                    return false
+                }
+            }
+        )
+
+        var lastY = 0f
+        binding.root.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                lastY = event.rawY
+            } else if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_MOVE) {
+                val diff = event.rawY - lastY
+                if (binding.videoView.translationY != 0f || abs(diff) > 40) {
+                    binding.videoView.translationY += diff
+                    val scale = (-abs(binding.videoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                    binding.videoView.scaleY = scale
+                    binding.videoView.scaleX = scale
+                    lastY = event.rawY
+                    return@setOnTouchListener true
+                }
+            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                if (abs(binding.videoView.translationY) > 180) {
+                    videoActionsListener.onDismiss()
+                } else {
+                    binding.videoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
+                }
+            }
+
+            gestureDetector.onTouchEvent(event)
+        }
+
+        savedSeekPosition = savedInstanceState?.getLong(SEEK_POSITION) ?: 0
+
+        mediaAttachment = attachment
+
+        finalizeViewSetup(url, attachment.previewUrl, attachment.description)
+    }
+
     override fun onStart() {
         super.onStart()
         if (Build.VERSION.SDK_INT > 23) {
@@ -258,74 +327,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         handler.postDelayed(hideToolbar, delayMilliseconds.toLong())
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mediaActivity = activity as ViewMediaActivity
-        toolbar = mediaActivity.toolbar
-        return inflater.inflate(R.layout.fragment_view_video, container, false)
-    }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
-            ?: throw IllegalArgumentException("attachment has to be set")
-
-        val url = attachment.url
-        isAudio = attachment.type == Attachment.Type.AUDIO
-
-        val gestureDetector = GestureDetectorCompat(
-            requireContext(),
-            object : GestureDetector.SimpleOnGestureListener() {
-                override fun onDown(event: MotionEvent): Boolean {
-                    return true
-                }
-
-                override fun onFling(
-                    e1: MotionEvent,
-                    e2: MotionEvent,
-                    velocityX: Float,
-                    velocityY: Float
-                ): Boolean {
-                    if (abs(velocityY) > abs(velocityX)) {
-                        videoActionsListener.onDismiss()
-                        return true
-                    }
-                    return false
-                }
-            }
-        )
-
-        var lastY = 0f
-        binding.root.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                lastY = event.rawY
-            } else if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_MOVE) {
-                val diff = event.rawY - lastY
-                if (binding.videoView.translationY != 0f || abs(diff) > 40) {
-                    binding.videoView.translationY += diff
-                    val scale = (-abs(binding.videoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
-                    binding.videoView.scaleY = scale
-                    binding.videoView.scaleX = scale
-                    lastY = event.rawY
-                    return@setOnTouchListener true
-                }
-            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                if (abs(binding.videoView.translationY) > 180) {
-                    videoActionsListener.onDismiss()
-                } else {
-                    binding.videoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
-                }
-            }
-
-            gestureDetector.onTouchEvent(event)
-        }
-
-        savedSeekPosition = savedInstanceState?.getLong(SEEK_POSITION) ?: 0
-
-        mediaAttachment = attachment
-
-        finalizeViewSetup(url, attachment.previewUrl, attachment.description)
-    }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
         if (!userVisibleHint) {
