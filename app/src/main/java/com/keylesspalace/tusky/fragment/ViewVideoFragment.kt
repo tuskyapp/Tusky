@@ -78,6 +78,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     private lateinit var mediaPlayerListener: Player.Listener
     private var isAudio = false
 
+    private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
+
     companion object {
         private const val TAG = "ViewVideoFragment"
         private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
@@ -85,6 +87,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        mediaSourceFactory = DefaultMediaSourceFactory(context)
+            .setDataSourceFactory(DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient)))
+
         videoActionsListener = context as VideoActionsListener
     }
 
@@ -120,15 +126,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         binding.videoView.transitionName = url
 
-        val dataSourceFactory = DefaultDataSource.Factory(
-            requireContext(),
-            OkHttpDataSource.Factory(okHttpClient)
-        )
-
         val player = ExoPlayer.Builder(requireContext())
-            .setMediaSourceFactory(
-                DefaultMediaSourceFactory(requireContext()).setDataSourceFactory(dataSourceFactory)
-            )
+            .setMediaSourceFactory(mediaSourceFactory)
             .build()
 
         if (BuildConfig.DEBUG) player.addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
