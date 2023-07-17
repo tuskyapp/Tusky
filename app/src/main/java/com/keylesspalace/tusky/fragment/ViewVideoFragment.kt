@@ -84,11 +84,15 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     private var player: ExoPlayer? = null
 
+    /** The saved seek position, if the fragment is being resumed */
+    private var savedSeekPosition: Long = 0
+
     private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
 
     companion object {
         private const val TAG = "ViewVideoFragment"
         private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
+        private const val SEEK_POSITION = "seekPosition"
     }
 
     override fun onAttach(context: Context) {
@@ -190,6 +194,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     private fun releasePlayer() {
         player?.let {
+            savedSeekPosition = it.currentPosition
             it.release()
             player = null
             binding.videoView.player = null
@@ -220,6 +225,11 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putLong(SEEK_POSITION, savedSeekPosition)
+    }
+
     private fun initializePlayer() {
         if (mediaAttachment.url.isEmpty()) return // TODO: Is this necessary?
 
@@ -232,6 +242,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 addListener(mediaPlayerListener)
                 repeatMode = Player.REPEAT_MODE_ONE
                 playWhenReady = true
+                seekTo(savedSeekPosition)
                 prepare()
                 player = this
             }
@@ -254,9 +265,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         binding.mediaDescription.elevation = binding.videoView.elevation + 1
 
         binding.videoView.transitionName = url
-
-        // player.playWhenReady = playWhenReady
-        // player.seekTo(currentItem, playbackPosition)
 
         binding.videoView.requestFocus()
 
@@ -330,6 +338,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
             gestureDetector.onTouchEvent(event)
         }
+
+        savedSeekPosition = savedInstanceState?.getLong(SEEK_POSITION) ?: 0
 
         mediaAttachment = attachment
 
