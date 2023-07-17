@@ -33,6 +33,7 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
@@ -78,6 +79,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     private lateinit var mediaPlayerListener: Player.Listener
     private var isAudio = false
 
+    private lateinit var mediaAttachment: Attachment
+
+    private var player: ExoPlayer? = null
+
     private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
 
     companion object {
@@ -92,57 +97,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             .setDataSourceFactory(DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient)))
 
         videoActionsListener = context as VideoActionsListener
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (mediaActivity.isToolbarVisible && !isAudio) {
-            hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
-        }
-        binding.videoView.player?.play()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        handler.removeCallbacks(hideToolbar)
-        binding.videoView.player?.pause()
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun setupMediaView(
-        url: String,
-        previewUrl: String?,
-        description: String?,
-        showingDescription: Boolean
-    ) {
-        binding.mediaDescription.text = description
-        binding.mediaDescription.visible(showingDescription)
-        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
-
-        // Ensure the description is visible over the video
-        binding.mediaDescription.elevation = binding.videoView.elevation + 1
-
-        binding.videoView.transitionName = url
-
-        val player = ExoPlayer.Builder(requireContext())
-            .setMediaSourceFactory(mediaSourceFactory)
-            .build()
-
-        if (BuildConfig.DEBUG) player.addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
-
-        binding.videoView.player = player
-
-        val mediaItem = MediaItem.fromUri(url)
-        player.setMediaItem(mediaItem)
-        // player.playWhenReady = playWhenReady
-        // player.seekTo(currentItem, playbackPosition)
-        player.prepare()
-
-        val tapDetector = GestureDetectorCompat(
-            requireContext(),
-            object : GestureDetector.SimpleOnGestureListener() {
+        val tapDetector = GestureDetectorCompat(context, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
 
                 override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
@@ -153,6 +109,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         )
 
         mediaPlayerListener = object : Player.Listener {
+            @SuppressLint("ClickableViewAccessibility")
             @OptIn(UnstableApi::class)
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
@@ -167,7 +124,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         binding.progressBar.hide()
                         binding.videoView.useController = true
                         binding.videoView.showController()
-                        player.repeatMode = Player.REPEAT_MODE_ONE
                     }
                     else -> { /* do nothing */ }
                 }
@@ -205,12 +161,69 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 val message = getString(R.string.error_media_playback, error.getErrorString(requireContext()))
                 Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
                     .setTextMaxLines(5)
-                    .setAction(R.string.action_retry) { player.prepare() }
+                    .setAction(R.string.action_retry) { player?.prepare() }
                     .show()
             }
         }
+    }
 
-        player.addListener(mediaPlayerListener)
+    override fun onResume() {
+        super.onResume()
+
+        initializePlayer()
+
+        if (mediaActivity.isToolbarVisible && !isAudio) {
+            hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+        }
+        binding.videoView.player?.play()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        handler.removeCallbacks(hideToolbar)
+        binding.videoView.player?.pause()
+        binding.videoView.player = null
+        player?.release()
+    }
+
+    private fun initializePlayer() {
+        if (mediaAttachment.url.isEmpty()) return // TODO: Is this necessary?
+
+        Log.d(TAG, "initializePlayer()")
+        ExoPlayer.Builder(requireContext())
+            .setMediaSourceFactory(mediaSourceFactory)
+            .build().apply {
+                if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
+                setMediaItem(MediaItem.fromUri(mediaAttachment.url))
+                addListener(mediaPlayerListener)
+                repeatMode = Player.REPEAT_MODE_ONE
+                prepare()
+                player = this
+            }
+
+        binding.videoView.player = player
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun setupMediaView(
+        url: String,
+        previewUrl: String?,
+        description: String?,
+        showingDescription: Boolean
+    ) {
+        binding.mediaDescription.text = description
+        binding.mediaDescription.visible(showingDescription)
+        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
+
+        // Ensure the description is visible over the video
+        binding.mediaDescription.elevation = binding.videoView.elevation + 1
+
+        binding.videoView.transitionName = url
+
+        // player.playWhenReady = playWhenReady
+        // player.seekTo(currentItem, playbackPosition)
+
         binding.videoView.requestFocus()
 
         if (requireArguments().getBoolean(ARG_START_POSTPONED_TRANSITION)) {
@@ -283,6 +296,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
             gestureDetector.onTouchEvent(event)
         }
+
+        mediaAttachment = attachment
 
         finalizeViewSetup(url, attachment.previewUrl, attachment.description)
     }
