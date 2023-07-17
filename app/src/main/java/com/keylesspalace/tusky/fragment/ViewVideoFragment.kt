@@ -19,6 +19,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -167,24 +168,56 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (Build.VERSION.SDK_INT > 23) {
+            initializePlayer()
+            binding.videoView.onResume()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
 
-        initializePlayer()
-
-        if (mediaActivity.isToolbarVisible && !isAudio) {
-            hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+        if (Build.VERSION.SDK_INT <= 23 || player == null) {
+            initializePlayer()
+            if (mediaActivity.isToolbarVisible && !isAudio) {
+                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+            }
+            binding.videoView.onResume()
         }
-        binding.videoView.player?.play()
+    }
+
+    private fun releasePlayer() {
+        player?.let {
+            it.release()
+            player = null
+            binding.videoView.player = null
+        }
     }
 
     override fun onPause() {
         super.onPause()
 
-        handler.removeCallbacks(hideToolbar)
-        binding.videoView.player?.pause()
-        binding.videoView.player = null
-        player?.release()
+        // If <= API 23 then multi-window mode is not available, so this is a good time to
+        // pause everything
+        if (Build.VERSION.SDK_INT <= 23) {
+            binding.videoView.onPause()
+            releasePlayer()
+            handler.removeCallbacks(hideToolbar)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        // If > API 23 then this might be multi-window, and definitely wasn't paused in onPause,
+        // so pause everything now.
+        if (Build.VERSION.SDK_INT > 23) {
+            binding.videoView.onPause()
+            releasePlayer()
+            handler.removeCallbacks(hideToolbar)
+        }
     }
 
     private fun initializePlayer() {
@@ -198,6 +231,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 setMediaItem(MediaItem.fromUri(mediaAttachment.url))
                 addListener(mediaPlayerListener)
                 repeatMode = Player.REPEAT_MODE_ONE
+                playWhenReady = true
                 prepare()
                 player = this
             }
