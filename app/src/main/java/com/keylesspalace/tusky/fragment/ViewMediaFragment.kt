@@ -21,10 +21,9 @@ import androidx.annotation.OptIn
 import androidx.fragment.app.Fragment
 import androidx.media3.common.util.UnstableApi
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 
-abstract class ViewMediaFragment : Fragment(), Injectable {
+abstract class ViewMediaFragment : Fragment() {
     private var toolbarVisibilityDisposable: Function0<Boolean>? = null
 
     abstract fun setupMediaView(
