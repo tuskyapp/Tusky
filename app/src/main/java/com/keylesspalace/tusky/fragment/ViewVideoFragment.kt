@@ -362,6 +362,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             .setListener(object : AnimatorListenerAdapter() {
                 @SuppressLint("SyntheticAccessor")
                 override fun onAnimationEnd(animation: Animator) {
+                    view ?: return
                     binding.mediaDescription.visible(isDescriptionVisible)
                     animation.removeListener(this)
                 }
