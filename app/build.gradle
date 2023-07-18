@@ -170,8 +170,6 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
-    implementation libs.bundles.media3
-
     implementation libs.bundles.xmldiff
 
     testImplementation libs.androidx.test.junit
