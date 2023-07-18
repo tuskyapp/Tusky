@@ -91,12 +91,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
 
-    companion object {
-        private const val TAG = "ViewVideoFragment"
-        private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
-        private const val SEEK_POSITION = "seekPosition"
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -378,4 +372,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     override fun onTransitionEnd() { }
+
+    companion object {
+        private const val TAG = "ViewVideoFragment"
+        private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
+        private const val SEEK_POSITION = "seekPosition"
+    }
 }
