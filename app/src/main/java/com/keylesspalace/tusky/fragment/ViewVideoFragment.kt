@@ -37,7 +37,6 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
@@ -303,9 +302,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     private fun initializePlayer() {
-        if (mediaAttachment.url.isEmpty()) return // TODO: Is this necessary?
-
-        Log.d(TAG, "initializePlayer()")
         ExoPlayer.Builder(requireContext())
             .setMediaSourceFactory(mediaSourceFactory)
             .build().apply {
