@@ -105,7 +105,9 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         videoActionsListener = context as VideoActionsListener
 
-        val tapDetector = GestureDetectorCompat(context, object : GestureDetector.SimpleOnGestureListener() {
+        val tapDetector = GestureDetectorCompat(
+            context,
+            object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
 
                 override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
@@ -343,8 +345,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     private fun hideToolbarAfterDelay(delayMilliseconds: Int) {
         handler.postDelayed(hideToolbar, delayMilliseconds.toLong())
     }
-
-
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
         if (!userVisibleHint) {
