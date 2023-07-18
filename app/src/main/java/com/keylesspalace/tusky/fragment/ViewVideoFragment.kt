@@ -118,7 +118,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         )
 
         mediaPlayerListener = object : Player.Listener {
-            @SuppressLint("ClickableViewAccessibility")
+            @SuppressLint("ClickableViewAccessibility", "SyntheticAccessor")
             @OptIn(UnstableApi::class)
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
@@ -147,6 +147,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 }
             }
 
+            @SuppressLint("SyntheticAccessor")
             override fun onPlayerError(error: PlaybackException) {
                 binding.progressBar.hide()
                 val message = getString(
@@ -361,6 +362,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         binding.mediaDescription.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
+                @SuppressLint("SyntheticAccessor")
                 override fun onAnimationEnd(animation: Animator) {
                     binding.mediaDescription.visible(isDescriptionVisible)
                     animation.removeListener(this)
