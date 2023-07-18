@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -144,9 +143,13 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             }
 
             override fun onPlayerError(error: PlaybackException) {
-                val message = getString(R.string.error_media_playback, error.getErrorString(requireContext()))
+                binding.progressBar.hide()
+                val message = getString(
+                    R.string.error_media_playback,
+                    error.cause?.message ?: error.message
+                )
                 Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
-                    .setTextMaxLines(5)
+                    .setTextMaxLines(10)
                     .setAction(R.string.action_retry) { player?.prepare() }
                     .show()
             }
