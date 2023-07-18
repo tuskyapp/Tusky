@@ -44,6 +44,7 @@ import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
+import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerControlView
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig
@@ -98,18 +99,102 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             .setDataSourceFactory(DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient)))
 
         videoActionsListener = context as VideoActionsListener
+    }
 
-        val tapDetector = GestureDetectorCompat(
-            context,
-            object : GestureDetector.SimpleOnGestureListener() {
-                override fun onDown(e: MotionEvent) = true
+    @SuppressLint("PrivateResource", "MissingInflatedId")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mediaActivity = activity as ViewMediaActivity
+        toolbar = mediaActivity.toolbar
+        val rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
 
-                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                    mediaActivity.onPhotoTap()
-                    return false
+        // Move the controls to the bottom of the screen, with enough bottom margin to clear the seekbar
+        val controls = rootView.findViewById<LinearLayout>(androidx.media3.ui.R.id.exo_center_controls)
+        val layoutParams = controls.layoutParams as FrameLayout.LayoutParams
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+        layoutParams.bottomMargin = rootView.context.resources.getDimension(androidx.media3.ui.R.dimen.exo_styled_bottom_bar_height)
+            .toInt()
+        controls.layoutParams = layoutParams
+
+        return rootView
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
+            ?: throw IllegalArgumentException("attachment has to be set")
+
+        val url = attachment.url
+        isAudio = attachment.type == Attachment.Type.AUDIO
+
+        /**
+         * Handle single taps, flings, and dragging
+         */
+        val touchListener = object : View.OnTouchListener {
+            var lastY = 0f
+
+            /** The view that contains the playing content */
+            // binding.videoView is fullscreen, and includes the controls, so don't use that
+            // when scaling in response to the user dragging on the screen
+            val contentFrame = binding.videoView.findViewById<AspectRatioFrameLayout>(androidx.media3.ui.R.id.exo_content_frame)
+
+            /** Handle taps and flings */
+            val simpleGestureDetector = GestureDetectorCompat(
+                requireContext(),
+                object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onDown(e: MotionEvent) = true
+
+                    /** A single tap should show/hide the media description */
+                    override fun onSingleTapUp(e: MotionEvent): Boolean {
+                        mediaActivity.onPhotoTap()
+                        return false
+                    }
+
+                    /** A fling up/down should dismiss the fragment */
+                    override fun onFling(
+                        e1: MotionEvent,
+                        e2: MotionEvent,
+                        velocityX: Float,
+                        velocityY: Float
+                    ): Boolean {
+                        if (abs(velocityY) > abs(velocityX)) {
+                            videoActionsListener.onDismiss()
+                            return true
+                        }
+                        return false
+                    }
                 }
+            )
+
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onTouch(v: View?, event: MotionEvent): Boolean {
+                // Track movement, and scale / translate the video display accordingly
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    lastY = event.rawY
+                } else if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_MOVE) {
+                    val diff = event.rawY - lastY
+                    if (contentFrame.translationY != 0f || abs(diff) > 40) {
+                        contentFrame.translationY += diff
+                        val scale = (-abs(contentFrame.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                        contentFrame.scaleY = scale
+                        contentFrame.scaleX = scale
+                        lastY = event.rawY
+                    }
+                } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                    if (abs(contentFrame.translationY) > 180) {
+                        videoActionsListener.onDismiss()
+                    } else {
+                        contentFrame.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
+                    }
+                }
+
+                simpleGestureDetector.onTouchEvent(event)
+
+                // Allow the player's normal onTouch handler to run as well (e.g., to show the
+                // player controls on tap)
+                return false
             }
-        )
+        }
 
         mediaPlayerListener = object : Player.Listener {
             @SuppressLint("ClickableViewAccessibility", "SyntheticAccessor")
@@ -119,10 +204,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                     Player.STATE_READY -> {
                         // Wait until the media is loaded before accepting taps as we don't want toolbar to
                         // be hidden until then.
-                        binding.videoView.setOnTouchListener { _, e: MotionEvent ->
-                            tapDetector.onTouchEvent(e)
-                            false
-                        }
+                        binding.videoView.setOnTouchListener(touchListener)
 
                         binding.progressBar.hide()
                         binding.videoView.useController = true
@@ -153,80 +235,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                     .setAction(R.string.action_retry) { player?.prepare() }
                     .show()
             }
-        }
-    }
-
-    @SuppressLint("PrivateResource", "MissingInflatedId")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mediaActivity = activity as ViewMediaActivity
-        toolbar = mediaActivity.toolbar
-        val rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
-
-        // Move the controls to the bottom of the screen, with enough bottom margin to clear the seekbar
-        val controls = rootView.findViewById<LinearLayout>(androidx.media3.ui.R.id.exo_center_controls)
-        val layoutParams = controls.layoutParams as FrameLayout.LayoutParams
-        layoutParams.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-        layoutParams.bottomMargin = rootView.context.resources.getDimension(androidx.media3.ui.R.dimen.exo_styled_bottom_bar_height)
-            .toInt()
-        controls.layoutParams = layoutParams
-
-        return rootView
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
-            ?: throw IllegalArgumentException("attachment has to be set")
-
-        val url = attachment.url
-        isAudio = attachment.type == Attachment.Type.AUDIO
-
-        val gestureDetector = GestureDetectorCompat(
-            requireContext(),
-            object : GestureDetector.SimpleOnGestureListener() {
-                override fun onDown(event: MotionEvent): Boolean {
-                    return true
-                }
-
-                override fun onFling(
-                    e1: MotionEvent,
-                    e2: MotionEvent,
-                    velocityX: Float,
-                    velocityY: Float
-                ): Boolean {
-                    if (abs(velocityY) > abs(velocityX)) {
-                        videoActionsListener.onDismiss()
-                        return true
-                    }
-                    return false
-                }
-            }
-        )
-
-        var lastY = 0f
-        binding.root.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                lastY = event.rawY
-            } else if (event.pointerCount == 1 && event.action == MotionEvent.ACTION_MOVE) {
-                val diff = event.rawY - lastY
-                if (binding.videoView.translationY != 0f || abs(diff) > 40) {
-                    binding.videoView.translationY += diff
-                    val scale = (-abs(binding.videoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
-                    binding.videoView.scaleY = scale
-                    binding.videoView.scaleX = scale
-                    lastY = event.rawY
-                    return@setOnTouchListener true
-                }
-            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                if (abs(binding.videoView.translationY) > 180) {
-                    videoActionsListener.onDismiss()
-                } else {
-                    binding.videoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
-                }
-            }
-
-            gestureDetector.onTouchEvent(event)
         }
 
         savedSeekPosition = savedInstanceState?.getLong(SEEK_POSITION) ?: 0
