@@ -60,7 +60,7 @@
     <string name="action_compose">Oluştur</string>
     <string name="action_login">Tusky ile giriş yap</string>
     <string name="action_logout">Oturumu kapat</string>
-    <string name="action_logout_confirm">Bu %1$s oturumu sonlandırmak istediğinizden emin misiniz\?</string>
+    <string name="action_logout_confirm">Bu %1$s\? oturumu sonlandırmak istediğinizden emin misiniz\?</string>
     <string name="action_follow">Takip et</string>
     <string name="action_unfollow">Takibi bırak</string>
     <string name="action_block">Engelle</string>
