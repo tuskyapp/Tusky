@@ -147,7 +147,7 @@ dependencies {
     implementation libs.conscrypt.android
 
     implementation libs.bundles.glide
-    kapt libs.glide.compiler
+    ksp libs.glide.compiler
 
     implementation libs.bundles.rxjava3
 
