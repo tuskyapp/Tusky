@@ -21,18 +21,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.BundleCompat
+import androidx.core.view.GestureDetectorCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.github.chrisbanes.photoview.PhotoViewAttacher
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
@@ -52,7 +53,6 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private val binding by viewBinding(FragmentViewImageBinding::bind)
 
-    private lateinit var attacher: PhotoViewAttacher
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
     private var transition = BehaviorSubject.create<Unit>()
@@ -108,64 +108,82 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        attacher = PhotoViewAttacher(binding.photoView).apply {
-            // This prevents conflicts with ViewPager
-            setAllowParentInterceptOnEdge(true)
+        val flingDetector = GestureDetectorCompat(
+            requireContext(),
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent) = true
 
-            // Clicking outside the photo closes the viewer.
-            setOnOutsidePhotoTapListener { photoActionsListener.onDismiss() }
-            setOnClickListener { onMediaTap() }
-
-            /* A vertical swipe motion also closes the viewer. This is especially useful when the photo
-             * mostly fills the screen so clicking outside is difficult. */
-            setOnSingleFlingListener { _, _, velocityX, velocityY ->
-                var result = false
-                if (abs(velocityY) > abs(velocityX)) {
-                    photoActionsListener.onDismiss()
-                    result = true
+                override fun onFling(
+                    e1: MotionEvent,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    if (abs(velocityY) > abs(velocityX)) {
+                        photoActionsListener.onDismiss()
+                        return true
+                    }
+                    return false
                 }
-                result
             }
+        )
+
+        binding.photoView.setOnTouchListener { view: View, event: MotionEvent ->
+            var result = true
+            //can scroll horizontally checks if there's still a part of the image
+            //that can be scrolled until you reach the edge
+            if (event.pointerCount >= 2 || view.canScrollHorizontally(1)) { // && canScrollHorizontally(-1)) {
+                //multi-touch event
+                result = when (event.action) {
+                    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                        // Disallow RecyclerView to intercept touch events.
+                        view.parent.requestDisallowInterceptTouchEvent(true)
+                        false
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+                        // Allow RecyclerView to intercept touch events.
+                        view.parent.requestDisallowInterceptTouchEvent(false)
+                        true
+                    }
+
+                    else -> true
+                }
+            }
+            flingDetector.onTouchEvent(event)
+            result
         }
 
-        var lastY = 0f
-
-        binding.photoView.setOnTouchListener { v, event ->
-            // This part is for scaling/translating on vertical move.
-            // We use raw coordinates to get the correct ones during scaling
-
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                lastY = event.rawY
-            } else if (event.pointerCount == 1 &&
-                attacher.scale == 1f &&
-                event.action == MotionEvent.ACTION_MOVE
-            ) {
-                val diff = event.rawY - lastY
-                // This code is to prevent transformations during page scrolling
-                // If we are already translating or we reached the threshold, then transform.
-                if (binding.photoView.translationY != 0f || abs(diff) > 40) {
-                    binding.photoView.translationY += (diff)
-                    val scale = (-abs(binding.photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
-                    binding.photoView.scaleY = scale
-                    binding.photoView.scaleX = scale
-                    lastY = event.rawY
-                    return@setOnTouchListener true
-                }
-            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                onGestureEnd()
-            }
-            attacher.onTouch(v, event)
-        }
+//        var lastY = 0f
+//
+//        binding.photoView.setOnTouchListener { v, event ->
+//            // This part is for scaling/translating on vertical move.
+//            // We use raw coordinates to get the correct ones during scaling
+//
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                lastY = event.rawY
+//            } else if (event.pointerCount == 1 &&
+//                attacher.scale == 1f &&
+//                event.action == MotionEvent.ACTION_MOVE
+//            ) {
+//                val diff = event.rawY - lastY
+//                // This code is to prevent transformations during page scrolling
+//                // If we are already translating or we reached the threshold, then transform.
+//                if (binding.photoView.translationY != 0f || abs(diff) > 40) {
+//                    binding.photoView.translationY += (diff)
+//                    val scale = (-abs(binding.photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+//                    binding.photoView.scaleY = scale
+//                    binding.photoView.scaleX = scale
+//                    lastY = event.rawY
+//                    return@setOnTouchListener true
+//                }
+//            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+//                onGestureEnd()
+//            }
+//            attacher.onTouch(v, event)
+//        }
 
         finalizeViewSetup(url, attachment?.previewUrl, description)
-    }
-
-    private fun onGestureEnd() {
-        if (abs(binding.photoView.translationY) > 180) {
-            photoActionsListener.onDismiss()
-        } else {
-            binding.photoView.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
-        }
     }
 
     private fun onMediaTap() {
@@ -188,7 +206,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onDestroyView() {
-        Glide.with(this).clear(binding.photoView)
+//        Glide.with(this).clear(binding.photoView)
         transition.onComplete()
         super.onDestroyView()
     }
@@ -294,10 +312,6 @@ class ViewImageFragment : ViewMediaFragment() {
                     .take(1)
                     .subscribe {
                         target.onResourceReady(resource, null)
-                        // It's needed. Don't ask why, I don't know, setImageDrawable() should
-                        // do it by itself but somehow it doesn't work automatically.
-                        // Just do it. If you don't, image will jump around when touched.
-                        attacher.update()
                     }
             }
             return true
