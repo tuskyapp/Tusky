@@ -19,6 +19,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -45,6 +46,9 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerControlView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
@@ -316,6 +320,24 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             }
 
         binding.videoView.player = player
+
+        // Audio-only files might have a preview image. If they do, set it as the artwork
+        if (isAudio) {
+            mediaAttachment.previewUrl?.let { url ->
+                Glide.with(this).load(url).into(object : CustomTarget<Drawable>() {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        binding.videoView.defaultArtwork = resource
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        binding.videoView.defaultArtwork = null
+                    }
+                })
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
