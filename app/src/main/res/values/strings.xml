@@ -18,7 +18,7 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
-    <string name="error_network">A network error occurred! Please check your connection and try again!</string>
+    <string name="error_network">A network error occurred. Please check your connection and try again.</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance. If this persists, try "Login in Browser" from the menu.</string>
@@ -120,7 +120,7 @@
     <string name="action_login">Login with Tusky</string>
     <string name="action_browser_login">Login with Browser</string>
     <string name="action_logout">Log out</string>
-    <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
+    <string name="action_logout_confirm">Are you sure you want to log out of %1$s? This will delete all local data of the account, including drafts and preferences.</string>
     <string name="action_post_failed">Upload failed</string>
     <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.\n\nEither the server could not be contacted, or it rejected the post.</string>
     <string name="action_post_failed_detail_plural">Your posts failed to upload and have been saved to drafts.\n\nEither the server could not be contacted, or it rejected the posts.</string>
@@ -338,6 +338,7 @@
     <string name="post_privacy_unlisted">Unlisted</string>
     <string name="post_privacy_followers_only">Followers-only</string>
 
+    <string name="pref_ui_text_size">UI text size</string>
     <string name="pref_post_text_size">Post text size</string>
 
     <string name="post_text_size_smallest">Smallest</string>
@@ -370,6 +371,8 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
+    <string name="notification_listenable_worker_name">Background activity</string>
+    <string name="notification_listenable_worker_description">Notifications when Tusky is working in the background</string>
     <string name="notification_unknown_name">Unknown</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
@@ -380,6 +383,8 @@
         <item quantity="one">%d new interaction</item>
         <item quantity="other">%d new interactions</item>
     </plurals>
+    <string name="notification_notification_worker">Fetching notifications…</string>
+    <string name="notification_prune_cache">Cache maintenance…</string>
 
     <string name="description_account_locked">Locked Account</string>
 
@@ -471,8 +476,6 @@
 
     <string name="compose_active_account_description">Posting as %1$s</string>
 
-    <string name="error_failed_set_caption">Failed to set caption</string>
-    <string name="error_failed_set_focus">Failed to set focus point</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Describe contents for visually impaired (%d character limit)</item>
     </plurals>
@@ -483,6 +486,7 @@
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_delete_draft">Delete draft?</string>
     <string name="compose_save_draft">Save draft?</string>
     <string name="compose_save_draft_loses_media">Save draft? (Attachments will be uploaded again when you restore the draft.)</string>
     <string name="compose_unsaved_changes">You have unsaved changes.</string>
@@ -765,10 +769,9 @@
     <string name="pref_reading_order_oldest_first">Oldest first</string>
     <string name="pref_reading_order_newest_first">Newest first</string>
 
-    <!--@Tusky edited 19th December 2022 13:37 -->
-    <string name="status_edit_info">%1$s edited %2$s</string>
-    <!--@Tusky created 19th December 2022 13:12 -->
-    <string name="status_created_info">%1$s created %2$s</string>
+    <string name="status_edit_info">Edited: %1$s</string>
+    <string name="status_created_info">Created: %1$s</string>
+    <string name="error_missing_edits">Your server knows that this post was edited, but does not have a copy of the edits, so they can\'t be shown to you.\n\nThis is <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="a11y_label_loading_thread">Loading thread</string>
 
     <!--@knossos@fosstodon.org created 2023-01-07 -->
@@ -812,4 +815,5 @@
         you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="load_newest_notifications">Load newest notifications</string>
 </resources>

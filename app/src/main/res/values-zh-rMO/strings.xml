@@ -279,7 +279,6 @@
     <string name="action_add_to_list">添加用戶到列表</string>
     <string name="action_remove_from_list">從列表中移除用戶</string>
     <string name="compose_active_account_description">以 %1$s 發嘟文</string>
-    <string name="error_failed_set_caption">設定圖片標題失敗</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">為視覺障礙用戶提供的描述\n(限制 %d 字)</item>
     </plurals>

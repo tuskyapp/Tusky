@@ -234,7 +234,6 @@
     <string name="action_lists">Zerrendak</string>
     <string name="title_lists">Zerrendak</string>
     <string name="compose_active_account_description">%1$s kontuarekin tut egiten</string>
-    <string name="error_failed_set_caption">Akatsa deskribapena eranstean</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Ikusmen urritasuna dutenentzat deskribapena\n(%d karaktereko muga)</item>
     </plurals>
@@ -509,7 +508,7 @@
 \n
 \n - Gogokoak, bultzadak eta jarraitzaileen jakinarazpenak
 \n - Tutetan gogokoen eta bultzaden kopurua
-\n - Profiletan jarraitzaileen eta argitalpenen estatistikak 
+\n - Profiletan jarraitzaileen eta argitalpenen estatistikak
 \n
 \nPush-jakinarazpenek ez dute eraginik izango, baina jakinarazpenen hobespenak eskuz berrikus ditzakezu.</string>
     <string name="wellbeing_hide_stats_posts">Mezuetan estatistika kuantitatiboak ezkutatu</string>

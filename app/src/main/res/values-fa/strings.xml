@@ -117,11 +117,11 @@
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال وصل شدن…</string>
     <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، مثل mastodon.social, icosahedron.website, social.tchncs.de, و <a href="https://instances.social">بیش‌تر!</a>.
-\n 
-\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه مورد نظر را وارد کرده و در آن حسابی بسازید. 
-\n 
+\n
+\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه مورد نظر را وارد کرده و در آن حسابی بسازید.
+\n
 \n نمونه، جاییست که حسابتان رویش میزبانی می‌شود، ولی به راحتی می‌توانید با دیگر افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید.
-\n 
+\n
 \nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. </string>
     <string name="dialog_title_finishing_media_upload">پایان بارگذاری رسانه</string>
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
@@ -190,7 +190,7 @@
     <string name="notification_summary_medium">%1$s، %2$s و %3$s</string>
     <string name="notification_summary_small">%1$s و %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d برهم‌کنش جدید</item>
+        <item quantity="one">برهم‌کنشی جدید</item>
         <item quantity="other">%d برهم‌کنش جدید</item>
     </plurals>
     <string name="description_account_locked">حساب قفل‌شده</string>
@@ -204,7 +204,7 @@
     -->
     <string name="about_project_site">پایگاه وب پروژه :
 \n https://tusky.app</string>
-    <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها: 
+    <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">نمایهٔ تاسکی</string>
     <string name="post_share_content">هم‌رسانی محتوای فرسته</string>
@@ -228,7 +228,6 @@
     <string name="action_lists">فهرست‌ها</string>
     <string name="title_lists">فهرست‌ها</string>
     <string name="compose_active_account_description">فرستادن از طرف %1$s</string>
-    <string name="error_failed_set_caption">شکست در تنظیم عنوان</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">توصیف محتوا برای کم‌بینایان (کران ۱ نویسه)</item>
         <item quantity="other">توصیف محتوا برای کم‌بینایان (کران %d نویسه)</item>
@@ -273,7 +272,7 @@
     <string name="label_remote_account">ممکن است اطلاعات زیر نمایهٔ کاربر را ناقص نشان دهد. برای گشودن نمایهٔ کامل در مرورگر، لمس کنید.</string>
     <string name="unpin_action">برداشتن سنجاق</string>
     <string name="pin_action">سنجاق کردن</string>
-    <string name="error_network">یک خطای شبکه رخ داد! لطفا اتصال خود را بررسی و دوباره تلاش کنید!</string>
+    <string name="error_network">خطای شبکه‌ای رخ داد. لطفاً اتصالتان را بررسی و دوباره تلاش کنید.</string>
     <string name="title_direct_messages">پیام‌های مستقیم</string>
     <string name="title_tab_preferences">زبانه‌ها</string>
     <string name="title_posts_pinned">سنجاق شده</string>
@@ -340,7 +339,7 @@
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
-        <item quantity="one">۱ برگزیدن</item>
+        <item quantity="one"><b>%1$s</b> برگزیدن</item>
         <item quantity="other"><b>%1$s</b> برگزیدن</item>
     </plurals>
     <plurals name="reblogs">
@@ -518,7 +517,7 @@
     <string name="notification_update_description">آگاهی‌ها هنگام ویرایش فرسته‌هایی که با آن‌ها تعامل داشته‌اید</string>
     <string name="action_unbookmark">برداشن نشانک</string>
     <string name="dialog_push_notification_migration_other_accounts">برای اعطای اجازهٔ اشتراک آگاهی‌های ارسالی به تاسکی، دوباره به حسابتان وارد شدید. با این حال هنوز حساب‌هایی دیگر دارید که این‌گونه مهاجرت داده نشده‌اند. به آن‌ها رفته و برای به کار انداختن پشتیبانی آگاهی‌های UnifiedPush یکی‌یکی دوباره وارد شوید.</string>
-    <string name="action_logout_confirm">مطمئنید که می‌خواهید از حساب %1$s خارج شوید؟</string>
+    <string name="action_logout_confirm">مطمئنید که می‌خواهید از %1$s خارج شوید؟ این کار تمامی داده‌های محلی از جمله پیش‌نویس‌ها و ترجیحات را حذف خواهد کرد.</string>
     <string name="duration_14_days">۱۴ روز</string>
     <string name="duration_30_days">۳۰ روز</string>
     <string name="duration_60_days">۶۰ روز</string>
@@ -556,7 +555,6 @@
     <string name="pref_title_show_self_username">نمایش نام کاربری در نوارابزارها</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_add_reaction">افزودن واکنش</string>
-    <string name="error_failed_set_focus">شکست در تنظیم نقطهٔ تمرکز</string>
     <string name="action_set_focus">تنظیم نقطهٔ تمرکز</string>
     <string name="duration_no_change">(بدون تغییر)</string>
     <string name="error_loading_account_details">شکست در بار کردن جزییات حساب</string>
@@ -597,8 +595,8 @@
     <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
     <string name="pref_title_reading_order">ترتیب خواندن</string>
     <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
-    <string name="status_edit_info">%1$s %2$s را ویراست</string>
-    <string name="status_created_info">%1$s %2$s را ایجاد کرد</string>
+    <string name="status_edit_info">ویراسته: %1$s</string>
+    <string name="status_created_info">ایجاد شده: %1$s</string>
     <string name="action_post_failed">بارگذاری شکست خورد</string>
     <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
     <string name="action_post_failed_do_nothing">رد کردن</string>
@@ -666,4 +664,14 @@
     <string name="select_list_empty">هنوز هیچ سیاهه‌ای ندارید</string>
     <string name="select_list_manage">مدیریت سیاهه‌ها</string>
     <string name="error_list_load">خطا در بار کردن سیاهه‌ها</string>
+    <string name="load_newest_notifications">بار کردن جدیدترین آگاهی‌ها</string>
+    <string name="compose_delete_draft">حذف پیش‌نویس؟</string>
+    <string name="error_missing_edits">کارسازتان می‌داند که این فرسته ویرایش شده؛ ولی رونوشتی از ویرایش‌ها ندارد. پس نمی‌توانند نشانتان داده شوند.
+\n
+\nاین <a href="https://github.com/mastodon/mastodon/issues/25398">نکتهٔ ماستودون</a> را ببینید.</string>
+    <string name="pref_ui_text_size">اندازهٔ متن میانای کاربری</string>
+    <string name="notification_listenable_worker_name">فعّالیت پس‌زمینه</string>
+    <string name="notification_listenable_worker_description">آگاهی‌ها هنگامی که تاسکی در پس‌زمینه کار می‌کند</string>
+    <string name="notification_notification_worker">واکشی آگاهی‌ها…</string>
+    <string name="notification_prune_cache">نگه‌داری انباره…</string>
 </resources>

@@ -1,0 +1,9 @@
+Tusky 22.0 beta 7 
+ 
+Fikser: 
+  
+### Betydningsfulle bugfikser 
+   
+- Hent alle forblivende Mastodonvarsler når androidvarsler lages 
+- Hvis du klikker på "Skriv" fra et varsel ble feil konto valgt 
+- Sikkerstille at "Sist lest ID" er lagret till rett konto

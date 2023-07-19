@@ -152,10 +152,9 @@
         <activity android:name=".components.scheduled.ScheduledStatusActivity" />
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
-        <activity android:name="com.keylesspalace.tusky.components.filters.EditFilterActivity" />
+        <activity android:name="com.keylesspalace.tusky.components.filters.EditFilterActivity"
+            android:windowSoftInputMode="adjustResize" />
 
-        <receiver android:name=".receiver.NotificationClearBroadcastReceiver"
-            android:exported="false" />
         <receiver
             android:name=".receiver.SendStatusBroadcastReceiver"
             android:enabled="true"

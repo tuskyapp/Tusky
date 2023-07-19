@@ -1,0 +1,20 @@
+Tusky 22.0
+
+Nya egenskaper:
+
+- Se trendiga hashtaggar
+- Följ nya hashtaggar
+- Bättre ordning vid val av språk
+- Visa skillnaden mellan versioner av ett inlägg
+- Stöd Mastodon v4-filter
+- Möjlighet att visa inläggsstatistik i tidslinjen
+- Och mer...
+
+Fixar:
+
+- Kom ihåg vald flik och position
+- Behåll aviseringar tills de läses
+- Visa blandad RTL- och LTR-text korrekt i profiler
+- Korrekt beräkning av stolplängd
+- Publicera alltid bildtexter
+- Och mer...

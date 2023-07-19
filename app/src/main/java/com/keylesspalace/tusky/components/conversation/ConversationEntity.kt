@@ -64,6 +64,7 @@ data class ConversationAccountEntity(
             localUsername = localUsername,
             username = username,
             displayName = displayName,
+            note = "",
             url = "",
             avatar = avatar,
             emojis = emojis
@@ -88,7 +89,7 @@ data class ConversationStatusEntity(
     val bookmarked: Boolean,
     val sensitive: Boolean,
     val spoilerText: String,
-    val attachments: ArrayList<Attachment>,
+    val attachments: List<Attachment>,
     val mentions: List<Status.Mention>,
     val tags: List<HashTag>?,
     val showingHiddenContent: Boolean,

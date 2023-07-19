@@ -77,10 +77,8 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -243,16 +241,7 @@ class TimelineFragment :
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-
-                        if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                onRefresh()
-                            }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                onRefresh()
-                            }
-                        }
+                        binding.statusView.setup((loadState.refresh as LoadState.Error).error) { onRefresh() }
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()
@@ -478,7 +467,7 @@ class TimelineFragment :
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
-        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
+        statusIdBelowLoadMore = if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
         viewModel.loadMore(placeholder.id)
     }
 
@@ -577,6 +566,17 @@ class TimelineFragment :
     }
 
     private var talkBackWasEnabled = false
+
+    override fun onPause() {
+        super.onPause()
+        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                    viewModel.saveReadingPosition(statusId)
+                }
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()

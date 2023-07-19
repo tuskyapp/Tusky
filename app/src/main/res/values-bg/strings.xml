@@ -139,7 +139,6 @@
         <item quantity="other">Опишете за хора със зрителни увреждания
 \n(%d ограничение на знаците)</item>
     </plurals>
-    <string name="error_failed_set_caption">Неуспешно задаване на надпис</string>
     <string name="compose_active_account_description">Публикуване с акаунт %1$s</string>
     <string name="action_remove_from_list">Премахване на акаунт от списъка</string>
     <string name="action_add_to_list">Добавяне на акаунт към списъка</string>

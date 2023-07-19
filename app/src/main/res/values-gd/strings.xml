@@ -99,7 +99,7 @@
     <string name="account_note_hint">Nòta prìobhaideach agad mun chunntas seo</string>
     <string name="pref_title_hide_top_toolbar">Falaich tiotal a’ bhàir-inneal aig a’ bhàrr</string>
     <string name="dialog_mute_hide_notifications">Falaich na brathan</string>
-    <string name="pref_title_confirm_reblogs">Seall còmhradh dearbhaidh mus dèan thu brosnachadh</string>
+    <string name="pref_title_confirm_reblogs">Seall dearbhadh mus dèan thu brosnachadh</string>
     <string name="pref_title_show_cards_in_timelines">Seall ro-sheallaidhean air ceanglaichean sna loidhnichean-ama</string>
     <string name="warning_scheduling_interval">Feumaidh co-dhiù 5 mionaidean a bhith eadar postaichean sgeidealaichte air Mastodon.</string>
     <string name="no_scheduled_posts">Chan eil post sam bith air an sgeideal agad.</string>
@@ -248,16 +248,11 @@
     <string name="lock_account_label">Glais an cunntas</string>
     <string name="action_set_caption">Suidhich am fo-thiotal</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
-\n(%d charactar air a char as fhaide)</item>
-        <item quantity="two">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
-\n(%d charactar air a char as fhaide)</item>
-        <item quantity="few">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
-\n(%d caractaran air a char as fhaide)</item>
-        <item quantity="other">Mìnich e dhan fheadhainn air a bheil cion-lèirsinn
-\n(%d caractar air a char as fhaide)</item>
+        <item quantity="one">Mìnich an t-susbaint dhan fheadhainn air a bheil cion-lèirsinn (%d charactar air a char as fhaide)</item>
+        <item quantity="two">Mìnich an t-susbaint dhan fheadhainn air a bheil cion-lèirsinn (%d charactar air a char as fhaide)</item>
+        <item quantity="few">Mìnich an t-susbaint dhan fheadhainn air a bheil cion-lèirsinn (%d caractaran air a char as fhaide)</item>
+        <item quantity="other">Mìnich an t-susbaint dhan fheadhainn air a bheil cion-lèirsinn (%d caractar air a char as fhaide)</item>
     </plurals>
-    <string name="error_failed_set_caption">Cha deach leinn am fo-thiotal a shuidheachadh</string>
     <string name="compose_active_account_description">A’ postadh mar %1$s</string>
     <string name="action_remove_from_list">Thoir an cunntas air falbh on liosta</string>
     <string name="action_add_to_list">Cuir cunntas ris an liosta</string>
@@ -473,7 +468,7 @@
     <string name="action_view_mutes">Cleachdaichean mùchte</string>
     <string name="action_view_bookmarks">Comharran-lìn</string>
     <string name="action_view_profile">Pròifil</string>
-    <string name="action_logout_confirm">A bheil thu cinnteach gu bheil thu airson clàradh a-mach às a’ chunntas %1$s\?</string>
+    <string name="action_logout_confirm">A bheil thu cinnteach gu bheil thu airson clàradh a-mach à %1$s\? Thèid gach dàta ionadail a’ chunntais a sguabadh às, a’ gabhail a-staigh nan dreachdan is roghainnean.</string>
     <string name="action_unfavourite">Thoir air falbh o na h-annsachdan</string>
     <string name="action_bookmark">Cuir ris na comharran-lìn</string>
     <string name="action_favourite">Cuir ris na h-annsachdan</string>
@@ -526,13 +521,13 @@
     <string name="error_failed_app_registration">Dh’fhàillig leis an dearbhadh leis an ionstans ud. Ma mhaireas an duilgheadas seo, feuch “Clàraich a-steach le brabhsair” on chlàr-taice.</string>
     <string name="error_invalid_domain">Chuir thu a-steach àrainn-lìn mì-dhligheach</string>
     <string name="error_empty">Chan fhaod seo a bhith falamh.</string>
-    <string name="error_network">Thachair mearachd leis an lìonra! Thoir sùil air a’ cheangal agad is feuch ris a-rithist!</string>
+    <string name="error_network">Thachair mearachd leis an lìonra. Thoir sùil air a’ cheangal agad is feuch ris a-rithist.</string>
     <string name="error_generic">Thachair mearachd.</string>
     <string name="follow_requests_info">Ged nach eil an cunntas agad glaiste, tha sgioba %1$s dhen bheachd gum b’ fheàirrde thu lèirmheas a dhèanamh air na h-iarrtasan leantainn o na cunntasan seo a làimh.</string>
     <string name="dialog_delete_conversation_warning">A bheil thu airson an còmhradh seo a sguabadh às\?</string>
     <string name="action_delete_conversation">Sguab às an còmhradh</string>
     <string name="action_unbookmark">Thoir an comharra-lìn air falbh</string>
-    <string name="pref_title_confirm_favourites">Ceall còmhradh dearbhaidh mus dèid post ’na annsachd</string>
+    <string name="pref_title_confirm_favourites">Seall dearbhadh mus cuir thu post ris na h-annsachdan</string>
     <string name="duration_30_days">30 latha</string>
     <string name="duration_90_days">90 latha</string>
     <string name="duration_180_days">180 latha</string>
@@ -574,7 +569,6 @@
     <string name="pref_show_self_username_never">Chan ann idir</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Dh’fhàillig suidheachadh na puinge-fòcais</string>
     <string name="action_set_focus">Suidhich puing an fhòcais</string>
     <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
     <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %s.</string>
@@ -600,8 +594,8 @@
     <string name="title_edits">Deasachaidhean</string>
     <string name="status_created_at_now">an-dràsta</string>
     <string name="pref_default_post_language">Cànan bunaiteach nam post</string>
-    <string name="status_created_info">Chruthaich %1$s %2$s</string>
-    <string name="status_edit_info">Dheasaich %1$s %2$s</string>
+    <string name="status_created_info">Chruthaich %1$s</string>
+    <string name="status_edit_info">Dheasaich %1$s</string>
     <string name="no_lists">Chan eil liosta sam bith agad.</string>
     <string name="language_display_name_format">%s (%s)</string>
     <string name="pref_title_http_proxy_port_message">Bu chòir dhan phort a bhith eadar %d is %d</string>
@@ -642,4 +636,59 @@
     <string name="action_share_account_username">Co-roinn ainm-cleachdaiche a’ chunntais</string>
     <string name="send_account_link_to">Co-roinn URL a’ chunntais le…</string>
     <string name="send_account_username_to">Co-roinn ainm-cleachdaiche a’ chunntais le…</string>
+    <string name="dialog_follow_hashtag_title">Lean an taga hais</string>
+    <string name="dialog_follow_hashtag_hint">#TagaHais</string>
+    <string name="hint_description">Tuairisgeul</string>
+    <string name="post_media_image">Dealbh</string>
+    <string name="filter_action_warn">Thoir rabhadh</string>
+    <string name="filter_action_hide">Falaich</string>
+    <string name="action_refresh">Ath-nuadhaich</string>
+    <string name="notification_unknown_name">Neo-aithnichte</string>
+    <string name="socket_timeout_exception">Thug conaltradh ris an fhrithealaiche ro fhada</string>
+    <string name="ui_error_unknown">chan eil fhios dè an t-adhbhar</string>
+    <string name="ui_error_bookmark">Cha deach leinn comharra-lìn a chur ris a’ phost: %s</string>
+    <string name="ui_error_clear_notifications">Dh’fhàillig falamhachadh nam brathan: %s</string>
+    <string name="ui_error_favourite">Cha deach leinn am post a chur ris na h-annsachdan: %s</string>
+    <string name="ui_error_reblog">Dh’fhàillig brosnachadh a’ phuist: %s</string>
+    <string name="ui_error_vote">Dh’fhàillig bhòtadh sa chunntas-bheachd: %s</string>
+    <string name="ui_error_accept_follow_request">Dh’fhàillig le gabhail ris an iarrtas leantainn: %s</string>
+    <string name="ui_error_reject_follow_request">Dh’fhàillig le diùltadh an iarrtais leantainn: %s</string>
+    <string name="ui_success_accepted_follow_request">Chaidh gabhail ris an iarrtas leantainn</string>
+    <string name="ui_success_rejected_follow_request">Chaidh iarrtas leantainn a bhacadh</string>
+    <string name="select_list_manage">Stiùirich na liostaichean</string>
+    <string name="select_list_empty">Chan eil liosta agad fhathast</string>
+    <string name="error_list_load">Mearachd a’ luchdadh nan liostaichean</string>
+    <string name="status_filtered_show_anyway">Seall e co-dhiù</string>
+    <string name="status_filter_placeholder_label_format">Criathraichte: %s</string>
+    <string name="pref_title_account_filter_keywords">Pròifilean</string>
+    <string name="hint_filter_title">A’ chriathrag agam</string>
+    <string name="filter_description_warn">Falaich le rabhadh</string>
+    <string name="filter_description_hide">Falaich uile gu lèir</string>
+    <string name="label_filter_action">Gnìomh na criathraige</string>
+    <string name="label_filter_context">Co-theacsaichean na criathraige</string>
+    <string name="label_filter_keywords">Faclan no abairtean-luirg rin criathradh</string>
+    <string name="action_add">Cuir ris</string>
+    <string name="filter_edit_keyword_title">Deasaich am facal-luirg</string>
+    <string name="title_public_trending_hashtags">Tagaichean hais a’ treandadh</string>
+    <string name="accessibility_talking_about_tag">Tha %1$d a’ bruidhinn mun taga hais %2$s</string>
+    <string name="total_usage">Cleachdadh iomlan</string>
+    <string name="total_accounts">Cunntasan iomlan</string>
+    <string name="pref_title_show_stat_inline">Seall stadastaireachd nam post san loidhne-ama</string>
+    <string name="filter_keyword_display_format">%s (facal slàn)</string>
+    <string name="filter_keyword_addition_title">Cuir facal-luirg ris</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="label_filter_title">Tiotal</string>
+    <string name="help_empty_home">Seo <b>loidhne-ama do dhachaigh</b>. Seallaidh i na postaichean o chionn goirid aig na cunntasan a leanas tu.
+\n
+\nAirson cunntasan a rùrachadh, lorg iad air tè dhe na loidhnichean-ama eile; mar eisimpleir, loidhne-ama ionadail an ionstans agad [iconics gmd_group]. Air neo lorg cunntasan a-rèir ainm [iconics gmd_search]; mar eisimpleir, lorg “Tusky” ach am faigh thu grèim air a’ chunntas againne air Mastodon.</string>
+    <string name="compose_delete_draft">A bheil thu airson an dreachd a sguabadh às\?</string>
+    <string name="load_newest_notifications">Luchdaich na brathan as ùire</string>
+    <string name="error_missing_edits">Tha fios aig an fhrithealaiche gun deach am post seo a dheasachadh ach chan eil lethbhreac dhen deasachadh aige-san is chan urrainn dhuinn a shealltainn dhut.
+\n
+\nSeo <a href="https://github.com/mastodon/mastodon/issues/25398">duilgheadas Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Meud teacsa na eadar-aghaidh</string>
+    <string name="notification_listenable_worker_name">Gnìomhachd sa chùlaibh</string>
+    <string name="notification_listenable_worker_description">Brathan nuair a bhios Tusky ag obair sa chùlaibh</string>
+    <string name="notification_notification_worker">A’ faighinn nam brathan…</string>
+    <string name="notification_prune_cache">Obair-ghlèidhidh air an tasgadan…</string>
 </resources>
