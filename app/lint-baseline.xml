@@ -13,6 +13,28 @@
     </issue>
 
     <issue
+        id="CheckResult"
+        message="The result of `placeholder` is not used"
+        errorLine1="                            placeholder(R.drawable.avatar_default)"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
+            line="922"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="CheckResult"
+        message="The result of `placeholder` is not used"
+        errorLine1="                            placeholder(R.drawable.avatar_default)"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
+            line="960"
+            column="29"/>
+    </issue>
+
+    <issue
         id="InlinedApi"
         message="Field requires API level 33 (current min is 23): `android.Manifest.permission#POST_NOTIFICATIONS`"
         errorLine1="                arrayOf(Manifest.permission.POST_NOTIFICATIONS),"
@@ -54,166 +76,12 @@
     <issue
         id="NewApi"
         message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="        fields.forEach { field ->"
-        errorLine2="               ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="36"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="            uris.forEach { uri ->"
-        errorLine2="                 ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="174"
-            column="18"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
         errorLine1="        media.value.forEach { item ->"
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
-            line="278"
+            line="280"
             column="21"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="                draftAttachments.forEach { attachment ->"
-        errorLine2="                                 ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
-            line="443"
-            column="34"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="            composeOptions?.mediaAttachments?.forEach { a ->"
-        errorLine2="                                              ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
-            line="448"
-            column="47"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="    emojis.forEach { (shortcode, url, staticUrl) ->"
-        errorLine2="           ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/CustomEmojiHelper.kt"
-            line="49"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="        draftDao.loadDrafts(accountId).forEach { draft ->"
-        errorLine2="                                       ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/drafts/DraftHelper.kt"
-            line="149"
-            column="40"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="        draft.attachments.forEach { attachment ->"
-        errorLine2="                          ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/drafts/DraftHelper.kt"
-            line="155"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="            deletedDrafts.forEach {"
-        errorLine2="                          ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/drafts/DraftsViewModel.kt"
-            line="69"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="    data?.forEach {"
-        errorLine2="          ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/NotificationTypeConverter.kt"
-            line="27"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="    accountManager.accounts.forEach {"
-        errorLine2="                            ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/PushNotificationHelper.kt"
-            line="128"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="    accountManager.accounts.forEach {"
-        errorLine2="                            ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/PushNotificationHelper.kt"
-            line="142"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="        forEach {"
-        errorLine2="        ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt"
-            line="400"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="OldTargetApi"
-        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
-        errorLine1="        targetSdk 33"
-        errorLine2="        ~~~~~~~~~~~~">
-        <location
-            file="build.gradle"
-            line="31"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="ShowToast"
-        message="Snackbar created but not shown: did you forget to call `show()`?"
-        errorLine1="                Snackbar.make("
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="986"
-            column="17"/>
     </issue>
 
     <issue
@@ -346,1478 +214,6 @@
             file="src/main/res/layout/view_poll_preview.xml"
             line="15"
             column="9"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ar/strings.xml"
-            line="361"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-be/strings.xml"
-            line="104"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-bg/strings.xml"
-            line="303"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-bn-rIN/strings.xml"
-            line="117"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ca/strings.xml"
-            line="232"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ckb/strings.xml"
-            line="20"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-cs/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-cy/strings.xml"
-            line="367"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-de/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-eo/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="377"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-eu/strings.xml"
-            line="305"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-fa/strings.xml"
-            line="298"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-fi/strings.xml"
-            line="232"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-fr/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-fy/strings.xml"
-            line="133"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ga/strings.xml"
-            line="99"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-gd/strings.xml"
-            line="436"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-gl/strings.xml"
-            line="488"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-hi/strings.xml"
-            line="139"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-hu/strings.xml"
-            line="285"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-in/strings.xml"
-            line="219"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="133"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ja/strings.xml"
-            line="438"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ko/strings.xml"
-            line="120"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-lv/strings.xml"
-            line="356"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-nb-rNO/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-nl/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-oc/strings.xml"
-            line="288"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-pl/strings.xml"
-            line="295"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="301"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="149"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-ru/strings.xml"
-            line="117"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-sa/strings.xml"
-            line="112"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-si/strings.xml"
-            line="206"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-sk/strings.xml"
-            line="57"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-sl/strings.xml"
-            line="109"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-sv/strings.xml"
-            line="116"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-th/strings.xml"
-            line="305"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-tr/strings.xml"
-            line="405"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-uk/strings.xml"
-            line="444"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-vi/strings.xml"
-            line="100"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-zh-rMO/strings.xml"
-            line="117"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values-zh-rSG/strings.xml"
-            line="117"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `action_open_media_n`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                            context.getString(R.string.action_open_media_n, i + 1)"
-        errorLine2="                                                                            ~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt"
-            line="75"
-            column="77"/>
-        <location
-            file="src/main/res/values/strings.xml"
-            line="201"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-ar/strings.xml"
-            line="667"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-ar/strings.xml"
-            line="667"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-be/strings.xml"
-            line="654"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-be/strings.xml"
-            line="654"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-ca/strings.xml"
-            line="627"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-ca/strings.xml"
-            line="627"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-cy/strings.xml"
-            line="671"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-cy/strings.xml"
-            line="671"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-de/strings.xml"
-            line="627"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-de/strings.xml"
-            line="627"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="644"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="644"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-fa/strings.xml"
-            line="623"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-fa/strings.xml"
-            line="623"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-fr/strings.xml"
-            line="670"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-fr/strings.xml"
-            line="670"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-gd/strings.xml"
-            line="673"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-gd/strings.xml"
-            line="673"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-gl/strings.xml"
-            line="615"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-gl/strings.xml"
-            line="615"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-hu/strings.xml"
-            line="624"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-hu/strings.xml"
-            line="624"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="604"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="604"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="643"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="643"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-lv/strings.xml"
-            line="584"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-lv/strings.xml"
-            line="584"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-nb-rNO/strings.xml"
-            line="590"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-nb-rNO/strings.xml"
-            line="590"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-nl/strings.xml"
-            line="644"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-nl/strings.xml"
-            line="644"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-oc/strings.xml"
-            line="626"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-oc/strings.xml"
-            line="626"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-sv/strings.xml"
-            line="631"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-sv/strings.xml"
-            line="631"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-tr/strings.xml"
-            line="666"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-tr/strings.xml"
-            line="666"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-uk/strings.xml"
-            line="639"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-uk/strings.xml"
-            line="639"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-vi/strings.xml"
-            line="605"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-vi/strings.xml"
-            line="605"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-zh-rCN/strings.xml"
-            line="622"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values-zh-rCN/strings.xml"
-            line="622"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values/strings.xml"
-            line="778"
-            column="5"
-            message="Conflicting argument declaration here"/>
-    </issue>
-
-    <issue
-        id="StringFormatMatches"
-        message="Wrong argument type for formatting argument &apos;#1&apos; in `accessibility_talking_about_tag`: conversion is &apos;`d`&apos;, received `&lt;ErrorType>` (argument #2 in method call)"
-        errorLine1="                totalAccounts,"
-        errorLine2="                ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt"
-            line="53"
-            column="17"/>
-        <location
-            file="src/main/res/values/strings.xml"
-            line="778"
-            column="5"
-            message="Conflicting argument declaration here"/>
     </issue>
 
     <issue
@@ -2390,17 +786,6 @@
             file="src/main/res/values-tr/strings.xml"
             line="579"
             column="293"/>
-    </issue>
-
-    <issue
-        id="Typos"
-        message="&quot;Media&quot; is a common misspelling; did you mean &quot;Medier&quot;?"
-        errorLine1="    &lt;string name=&quot;hint_media_description_missing&quot;>Media bør ha en beskrivelse.&lt;/string>"
-        errorLine2="                                                  ^">
-        <location
-            file="src/main/res/values-nb-rNO/strings.xml"
-            line="604"
-            column="51"/>
     </issue>
 
     <issue
@@ -4682,6 +3067,17 @@
 
     <issue
         id="SyntheticAccessor"
+        message="Access to `private` method `getViewModel` of class `ComposeActivity` requires synthetic accessor"
+        errorLine1="                viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode"
+        errorLine2="                ~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
+            line="562"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
         message="Access to `private` method `formatUsername` of class `Companion` requires synthetic accessor"
         errorLine1="                    is AutocompleteResult.AccountResult -> formatUsername(resultValue)"
         errorLine2="                                                           ~~~~~~~~~~~~~~">
@@ -4765,6 +3161,28 @@
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
             line="113"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getViewModel` of class `EditFilterActivity` requires synthetic accessor"
+        errorLine1="                viewModel.setDuration("
+        errorLine2="                ~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
+            line="113"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getViewModel` of class `EditFilterActivity` requires synthetic accessor"
+        errorLine1="                viewModel.setDuration(0)"
+        errorLine2="                ~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
+            line="123"
             column="17"/>
     </issue>
 
@@ -5144,6 +3562,28 @@
 
     <issue
         id="SyntheticAccessor"
+        message="Access to `private` method `getBinding` of class `LoginWebViewActivity` requires synthetic accessor"
+        errorLine1="                binding.loginProgress.hide()"
+        errorLine2="                ~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
+            line="146"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
+        errorLine1="                sendResult(LoginResult.Err(getString(R.string.error_could_not_load_login_page)))"
+        errorLine2="                ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
+            line="155"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
         message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
         errorLine1="                sendResult(LoginResult.Err(getString(R.string.error_could_not_load_login_page)))"
         errorLine2="                ~~~~~~~~~~">
@@ -5161,6 +3601,28 @@
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
             line="176"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
+        errorLine1="                        sendResult(LoginResult.Err(error))"
+        errorLine2="                        ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
+            line="176"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
+        errorLine1="                        sendResult(LoginResult.Ok(code))"
+        errorLine2="                        ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
+            line="179"
             column="25"/>
     </issue>
 
@@ -5963,7 +4425,7 @@
         errorLine2="            ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="91"
+            line="90"
             column="13"/>
     </issue>
 
@@ -5974,7 +4436,7 @@
         errorLine2="                ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="137"
+            line="136"
             column="17"/>
     </issue>
 
@@ -5985,7 +4447,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="147"
+            line="146"
             column="55"/>
     </issue>
 
@@ -5996,7 +4458,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="147"
+            line="146"
             column="55"/>
     </issue>
 
@@ -6119,6 +4581,17 @@
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
             line="121"
             column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getPageTitle` of class `ViewMediaActivity` requires synthetic accessor"
+        errorLine1="                binding.toolbar.title = getPageTitle(position)"
+        errorLine2="                                        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
+            line="121"
+            column="41"/>
     </issue>
 
     <issue
@@ -6559,6 +5032,13 @@
             file="src/main/res/values/strings.xml"
             line="749"
             column="55"/>
+    </issue>
+
+    <issue
+        id="ConvertToWebp"
+        message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
+        <location
+            file="src/blue/res/mipmap-xxxhdpi/ic_launcher.png"/>
     </issue>
 
     <issue
@@ -7970,6 +6450,17 @@
     </issue>
 
     <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                        this.text = &quot;${reaction.name} ${reaction.count}&quot;"
+        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/announcements/AnnouncementAdapter.kt"
+            line="91"
+            column="37"/>
+    </issue>
+
+    <issue
         id="HardcodedText"
         message="Hardcoded string &quot;Filter: MyFilter&quot;, should use `@string` resource"
         errorLine1="        android:text=&quot;Filter: MyFilter&quot;"
@@ -8478,6 +6969,50 @@
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    protected LinearLayout filteredPlaceholder;"
+        errorLine2="              ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
+            line="117"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    protected TextView filteredPlaceholderLabel;"
+        errorLine2="              ~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
+            line="118"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    protected Button filteredPlaceholderShowButton;"
+        errorLine2="              ~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
+            line="119"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    protected ConstraintLayout statusContainer;"
+        errorLine2="              ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
+            line="120"
+            column="15"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
         errorLine1="    protected StatusBaseViewHolder(View itemView) {"
         errorLine2="                                   ~~~~">
         <location
@@ -8702,7 +7237,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="844"
+            line="846"
             column="55"/>
     </issue>
 
@@ -8713,7 +7248,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="22"/>
     </issue>
 
@@ -8724,7 +7259,7 @@
         errorLine2="                                                           ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="60"/>
     </issue>
 
@@ -8735,7 +7270,7 @@
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="77"/>
     </issue>
 
@@ -8746,7 +7281,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="970"
             column="15"/>
     </issue>
 
@@ -8757,7 +7292,7 @@
         errorLine2="                                       ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="970"
             column="40"/>
     </issue>
 
@@ -8768,7 +7303,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="979"
             column="15"/>
     </issue>
 
@@ -8779,7 +7314,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="979"
             column="43"/>
     </issue>
 
@@ -8790,7 +7325,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1078"
+            line="1080"
             column="19"/>
     </issue>
 
@@ -8801,7 +7336,7 @@
         errorLine2="                  ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1080"
+            line="1082"
             column="19"/>
     </issue>
 
@@ -8812,7 +7347,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1081"
+            line="1083"
             column="19"/>
     </issue>
 
@@ -8823,7 +7358,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1082"
+            line="1084"
             column="19"/>
     </issue>
 
