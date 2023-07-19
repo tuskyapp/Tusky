@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemEditFieldBinding
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.fixTextSelection
 
 class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {
 
@@ -81,12 +82,16 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
         }
 
         holder.binding.accountFieldNameText.doAfterTextChanged { newText ->
-            fieldData[holder.bindingAdapterPosition].first = newText.toString()
+            fieldData.getOrNull(holder.bindingAdapterPosition)?.first = newText.toString()
         }
 
         holder.binding.accountFieldValueText.doAfterTextChanged { newText ->
-            fieldData[holder.bindingAdapterPosition].second = newText.toString()
+            fieldData.getOrNull(holder.bindingAdapterPosition)?.second = newText.toString()
         }
+
+        // Ensure the textview contents are selectable
+        holder.binding.accountFieldNameText.fixTextSelection()
+        holder.binding.accountFieldValueText.fixTextSelection()
     }
 
     class MutableStringPair(var first: String, var second: String)

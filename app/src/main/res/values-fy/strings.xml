@@ -12,7 +12,6 @@
     <string name="compose_save_draft">Skets bewarje\?</string>
     <string name="action_remove">Fuortsmite</string>
     <string name="action_set_caption">Ûnderskrift pleatse</string>
-    <string name="error_failed_set_caption">Koe ûnderskrift net pleatse</string>
     <string name="action_add_to_list">Account oan de list tafoegje</string>
     <string name="hint_search_people_list">Sykje om minsken dy\'t jo folgje</string>
     <string name="action_edit_list">Pas de list oan</string>

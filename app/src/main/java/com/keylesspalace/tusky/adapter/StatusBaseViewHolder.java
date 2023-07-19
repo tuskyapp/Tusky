@@ -392,11 +392,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setReplyCount(int repliesCount) {
+    protected void setReplyCount(int repliesCount, boolean fullStats) {
         // This label only exists in the non-detailed view (to match the web ui)
-        if (replyCountLabel != null) {
-            replyCountLabel.setText(NumberUtils.shortNumber(repliesCount));
+        if (replyCountLabel == null) return;
+
+        if (fullStats) {
+            replyCountLabel.setText(NumberUtils.formatNumber(repliesCount, 1000));
+            return;
         }
+
+        // Show "0", "1", or "1+" for replies otherwise, so the user knows if there is a thread
+        // that they can click through to read.
+        replyCountLabel.setText((repliesCount > 1 ? replyCountLabel.getContext().getString(R.string.status_count_one_plus) : Integer.toString(repliesCount)));
     }
 
     private void setReblogged(boolean reblogged) {
@@ -630,10 +637,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar.setOnClickListener(profileButtonClickListener);
         displayName.setOnClickListener(profileButtonClickListener);
 
-        if (replyCountLabel != null) {
-            replyCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
-        }
-
         replyButton.setOnClickListener(v -> {
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
@@ -762,7 +765,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setUsername(status.getUsername());
             setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
-            setReplyCount(actionable.getRepliesCount());
+            setReplyCount(actionable.getRepliesCount(), statusDisplayOptions.showStatsInline());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
                     actionable.getAccount().getBot(), statusDisplayOptions);
             setReblogged(actionable.getReblogged());
@@ -824,18 +827,17 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         showFilteredPlaceholder(true);
 
-        String matchedKeyword = null;
+        Filter matchedFilter = null;
 
         for (FilterResult result : status.getActionable().getFiltered()) {
             Filter filter = result.getFilter();
-            List<String> keywords = result.getKeywordMatches();
-            if (filter.getAction() == Filter.Action.WARN && !keywords.isEmpty()) {
-                matchedKeyword = keywords.get(0);
+            if (filter.getAction() == Filter.Action.WARN) {
+                matchedFilter = filter;
                 break;
             }
         }
 
-        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedKeyword));
+        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilter.getTitle()));
         filteredPlaceholderShowButton.setOnClickListener(view -> {
             listener.clearWarningAction(getBindingAdapterPosition());
         });

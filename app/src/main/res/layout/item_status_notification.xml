@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:paddingRight="14dp"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/notification_top_text"
@@ -50,12 +51,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="0dp"
         android:paddingEnd="@dimen/status_display_name_padding_end"
         android:paddingBottom="4dp"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
@@ -77,19 +78,18 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toStartOf="@id/status_meta_info"
         app:layout_constraintStart_toEndOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/notification_top_text"
+        app:layout_constraintTop_toTopOf="@+id/status_display_name"
         tools:text="\@Entenhausen" />
 
     <TextView
         android:id="@+id/status_meta_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:paddingBottom="4dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification_top_text"
+        app:layout_constraintTop_toTopOf="@+id/status_username"
         tools:text="13:37" />
 
     <com.keylesspalace.tusky.view.ClickableSpanTextView
@@ -133,7 +133,6 @@
         android:layout_marginStart="14dp"
         android:hyphenationFrequency="full"
         android:lineSpacingMultiplier="1.1"
-        android:paddingBottom="10dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +147,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:minWidth="150dp"
         android:minHeight="0dp"
         android:paddingLeft="16dp"
@@ -160,6 +158,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/notification_status_avatar"
         app:layout_constraintTop_toBottomOf="@id/notification_content"
+        tools:visibility="visible"
         tools:text="@string/post_content_show_less" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

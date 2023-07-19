@@ -256,7 +256,6 @@
     <string name="action_add_to_list">Dodaj račun na seznam</string>
     <string name="action_remove_from_list">Odstrani račun iz seznama</string>
     <string name="compose_active_account_description">Objavljanje z računom %1$s</string>
-    <string name="error_failed_set_caption">Opisa ni bilo mogoče nastaviti</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Opišite za slabovidne
 \n(omejitev znakov - %d)</item>

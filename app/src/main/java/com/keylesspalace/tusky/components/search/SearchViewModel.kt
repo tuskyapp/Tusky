@@ -46,11 +46,8 @@ class SearchViewModel @Inject constructor(
 
     var currentQuery: String = ""
 
-    var activeAccount: AccountEntity?
+    val activeAccount: AccountEntity?
         get() = accountManager.activeAccount
-        set(value) {
-            accountManager.activeAccount = value
-        }
 
     val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false

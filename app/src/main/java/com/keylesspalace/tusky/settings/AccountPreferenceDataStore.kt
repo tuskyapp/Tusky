@@ -1,15 +1,21 @@
 package com.keylesspalace.tusky.settings
 
 import androidx.preference.PreferenceDataStore
+import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.ApplicationScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AccountPreferenceHandler(
-    private val account: AccountEntity,
+class AccountPreferenceDataStore @Inject constructor(
     private val accountManager: AccountManager,
-    private val dispatchEvent: (PreferenceChangedEvent) -> Unit
+    private val eventHub: EventHub,
+    @ApplicationScope private val externalScope: CoroutineScope
 ) : PreferenceDataStore() {
+    private val account: AccountEntity = accountManager.activeAccount!!
 
     override fun getBoolean(key: String, defValue: Boolean): Boolean {
         return when (key) {
@@ -29,6 +35,8 @@ class AccountPreferenceHandler(
 
         accountManager.saveAccount(account)
 
-        dispatchEvent(PreferenceChangedEvent(key))
+        externalScope.launch {
+            eventHub.dispatch(PreferenceChangedEvent(key))
+        }
     }
 }

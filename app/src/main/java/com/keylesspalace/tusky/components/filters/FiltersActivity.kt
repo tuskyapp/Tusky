@@ -82,7 +82,6 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                         } else {
                             binding.messageView.hide()
                             binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
-                            binding.filtersList.show()
                         }
                     }
                 }
@@ -91,7 +90,6 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     }
 
     private fun loadFilters() {
-        binding.filtersList.hide()
         viewModel.load()
     }
 

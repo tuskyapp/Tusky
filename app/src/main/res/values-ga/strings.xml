@@ -316,7 +316,6 @@
     <string name="action_add_to_list">Cuir cuntas leis an liosta</string>
     <string name="action_remove_from_list">Bain cuntas ón liosta</string>
     <string name="compose_active_account_description">Postáil le cuntas %1$s</string>
-    <string name="error_failed_set_caption">Theip ar an bhfotheideal a shocrú</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Déan cur síos ar dhaoine lagamhairc
 \n(teorainn carachtar %d)</item>

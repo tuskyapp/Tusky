@@ -1,0 +1,20 @@
+Tusky 22.0
+
+Nodweddion newydd:
+
+- Gwylio hashnodau tueddiadol
+- Dilyn hashnodau newydd
+- Gwell trefniadaeth wrth ddewis ieithoedd
+- Dangos y gwahaniaeth rhwng fersiynau o bost
+- Cefnogi hidlenni Mastodon v4
+- Opsiwn i ddangos ystadegau post yn y ffrwd
+- A mwy...
+
+Gwelliannau:
+
+- Cofio'r tab a ddewiswyd a'r safle
+- Cadw'r hysbysiadau tan eu ddarllen
+- Dangos testun RTL a LTR yn gywir ym mhroffiliau
+- Cywiro cyfrifiad hyd post
+- Cyhoeddi disgrifiadau delwedd bob amser
+- A mwy...

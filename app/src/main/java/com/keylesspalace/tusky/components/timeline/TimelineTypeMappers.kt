@@ -63,6 +63,7 @@ fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
         localUsername = localUsername,
         username = username,
         displayName = displayName,
+        note = "",
         url = url,
         avatar = avatar,
         bot = bot,

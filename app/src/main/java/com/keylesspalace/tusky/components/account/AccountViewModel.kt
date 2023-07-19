@@ -85,7 +85,7 @@ class AccountViewModel @Inject constructor(
                 mastodonApi.relationships(listOf(accountId))
                     .fold(
                         { relationships ->
-                            relationshipData.postValue(Success(relationships[0]))
+                            relationshipData.postValue(if (relationships.isNotEmpty()) Success(relationships[0]) else Error())
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining relationships", t)

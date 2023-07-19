@@ -1,0 +1,18 @@
+Tusky 22.0
+
+Tính năng mới:
+- Xem hashtag xu hướng
+- Theo dõi hashtag
+- Chọn ngôn ngữ dễ hơn
+- Xem lịch sử sửa tút
+- Hỗ trợ bộ lọc Mastodon v4
+- Hiện số tương tác tút trên bảng tin
+- Còn nữa...
+
+Sửa:
+- Nhớ tab đã chọn và vị trí
+- Giữ thông báo cho tới khi đọc
+- Nội dung RTL và LTR trên hồ sơ
+- Tính toán độ dài tút
+- Luôn đăng mô tả ảnh
+- Còn nữa...

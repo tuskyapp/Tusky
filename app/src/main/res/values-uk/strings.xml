@@ -186,7 +186,6 @@
         <item quantity="many">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
         <item quantity="other">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
     </plurals>
-    <string name="error_failed_set_caption">Не вдалося додати підпис</string>
     <string name="action_unsubscribe_account">Відписатися</string>
     <string name="action_subscribe_account">Підписатися</string>
     <string name="account_note_saved">Збережено!</string>
@@ -420,7 +419,7 @@
     <string name="dialog_download_image">Завантаження</string>
     <string name="dialog_message_uploading_media">Відвантаження…</string>
     <string name="dialog_title_finishing_media_upload">Завершення відвантаження медіа</string>
-    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a> 
+    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a>
 \n
 \nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис.
 \n
@@ -565,7 +564,6 @@
     <string name="description_post_language">Мова допису</string>
     <string name="duration_no_change">(Не змінено)</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Не вдалося налаштувати точку фокусування</string>
     <string name="action_set_focus">Налаштувати точку фокусування</string>
     <string name="pref_show_self_username_always">Завжди</string>
     <string name="set_focus_description">Торкніться або перетягніть коло, щоб вибрати точку фокусування, яку завжди буде видно на мініатюрах.</string>
@@ -612,8 +610,8 @@
     <string name="action_continue_edit">Продовжити редагування</string>
     <string name="mute_notifications_switch">Беззвучні сповіщення</string>
     <string name="title_edits">Редагування</string>
-    <string name="status_edit_info">%1$s редагує %2$s</string>
-    <string name="status_created_info">%1$s створює %2$s</string>
+    <string name="status_edit_info">%1$s редагує</string>
+    <string name="status_created_info">%1$s створює</string>
     <string name="a11y_label_loading_thread">Завантаження стрічки</string>
     <string name="action_share_account_link">Поділитися посиланням на обліковий запис</string>
     <string name="action_share_account_username">Поділитися іменем користувача облікового запису</string>

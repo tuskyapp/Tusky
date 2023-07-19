@@ -4,39 +4,6 @@
     <issue
         id="MissingPermission"
         message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="        notificationManager.notify(notificationId, builder.build());"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="263"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            notificationManager.notify((int) account.getId(), builder.setGroupSummary(true).build());"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="265"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            notificationManager.notify((int) account.getId(), summaryBuilder.build());"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="267"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
         errorLine1="                notificationManager.notify(notificationId, builder.build())"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -52,7 +19,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="923"
+            line="922"
             column="29"/>
     </issue>
 
@@ -63,7 +30,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="961"
+            line="960"
             column="29"/>
     </issue>
 
@@ -74,7 +41,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="341"
+            line="337"
             column="25"/>
     </issue>
 
@@ -113,7 +80,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
-            line="255"
+            line="280"
             column="21"/>
     </issue>
 
@@ -179,7 +146,7 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="495"
+            line="494"
             column="28"/>
     </issue>
 
@@ -311,7 +278,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bg/strings.xml"
-            line="200"
+            line="199"
             column="5"/>
     </issue>
 
@@ -355,7 +322,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-eu/strings.xml"
-            line="238"
+            line="237"
             column="5"/>
     </issue>
 
@@ -366,7 +333,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-sl/strings.xml"
-            line="260"
+            line="259"
             column="5"/>
     </issue>
 
@@ -388,7 +355,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bn-rIN/strings.xml"
-            line="288"
+            line="287"
             column="5"/>
     </issue>
 
@@ -399,18 +366,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="289"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="MissingQuantity"
-        message="For locale &quot;fr&quot; (French) the following quantities should also be defined: `many` (e.g. &quot;1000000 de jours&quot;), `one` (e.g. &quot;1 jour&quot;)"
-        errorLine1="    &lt;plurals name=&quot;hint_describe_for_visually_impaired&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-fr/strings.xml"
-            line="289"
+            line="288"
             column="5"/>
     </issue>
 
@@ -432,7 +388,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-ru/strings.xml"
-            line="309"
+            line="308"
             column="5"/>
     </issue>
 
@@ -454,7 +410,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-sl/strings.xml"
-            line="317"
+            line="316"
             column="5"/>
     </issue>
 
@@ -465,7 +421,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-ga/strings.xml"
-            line="320"
+            line="319"
             column="5"/>
     </issue>
 
@@ -476,7 +432,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="339"
+            line="338"
             column="5"/>
     </issue>
 
@@ -487,7 +443,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="344"
+            line="343"
             column="5"/>
     </issue>
 
@@ -498,7 +454,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bn-rIN/strings.xml"
-            line="348"
+            line="347"
             column="5"/>
     </issue>
 
@@ -509,7 +465,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="354"
+            line="353"
             column="5"/>
     </issue>
 
@@ -520,7 +476,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="380"
+            line="379"
             column="5"/>
     </issue>
 
@@ -531,7 +487,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="394"
+            line="393"
             column="5"/>
     </issue>
 
@@ -542,7 +498,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="399"
+            line="398"
             column="5"/>
     </issue>
 
@@ -553,7 +509,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="404"
+            line="403"
             column="5"/>
     </issue>
 
@@ -564,7 +520,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bg/strings.xml"
-            line="440"
+            line="439"
             column="5"/>
     </issue>
 
@@ -575,7 +531,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="492"
+            line="491"
             column="5"/>
     </issue>
 
@@ -586,7 +542,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="497"
+            line="496"
             column="5"/>
     </issue>
 
@@ -597,7 +553,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="502"
+            line="501"
             column="5"/>
     </issue>
 
@@ -784,7 +740,7 @@
         errorLine2="                ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="258"
+            line="257"
             column="17"/>
     </issue>
 
@@ -795,7 +751,7 @@
         errorLine2="                                          ^">
         <location
             file="src/main/res/values-nb-rNO/strings.xml"
-            line="327"
+            line="326"
             column="43"/>
     </issue>
 
@@ -806,7 +762,7 @@
         errorLine2="                                                                                                                 ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="440"
+            line="439"
             column="114"/>
     </issue>
 
@@ -817,7 +773,7 @@
         errorLine2="                                                                                     ^">
         <location
             file="src/main/res/values-nb-rNO/strings.xml"
-            line="461"
+            line="460"
             column="86"/>
     </issue>
 
@@ -828,29 +784,29 @@
         errorLine2="                                                                                                                                                                                                                                                                                                    ^">
         <location
             file="src/main/res/values-tr/strings.xml"
-            line="583"
+            line="579"
             column="293"/>
     </issue>
 
     <issue
         id="ImpliedQuantity"
         message="The quantity `&apos;one&apos;` matches more than one specific number in this locale (0, 1), but the message did not \&#xA;include a formatting argument (such as `%d`). This is usually an internationalization error. See full issue \&#xA;explanation for more."
-        errorLine1="        &lt;item quantity=&quot;one&quot;>توصیف برای کم‌بینایان"
-        errorLine2="        ^">
+        errorLine1="        &lt;item quantity=&quot;one&quot;>برهم‌کنشی جدید&lt;/item>"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-fa/strings.xml"
-            line="233"
+            line="193"
             column="9"/>
     </issue>
 
     <issue
         id="ImpliedQuantity"
         message="The quantity `&apos;one&apos;` matches more than one specific number in this locale (0, 1), but the message did not \&#xA;include a formatting argument (such as `%d`). This is usually an internationalization error. See full issue \&#xA;explanation for more."
-        errorLine1="        &lt;item quantity=&quot;one&quot;>۱ برگزیدن&lt;/item>"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="        &lt;item quantity=&quot;one&quot;>توصیف محتوا برای کم‌بینایان (کران ۱ نویسه)&lt;/item>"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-fa/strings.xml"
-            line="345"
+            line="232"
             column="9"/>
     </issue>
 
@@ -872,7 +828,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="320"
+            line="321"
             column="5"/>
     </issue>
 
@@ -883,7 +839,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="375"
+            line="379"
             column="5"/>
     </issue>
 
@@ -894,7 +850,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="552"
+            line="558"
             column="5"/>
     </issue>
 
@@ -905,7 +861,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="770"
+            line="778"
             column="5"/>
     </issue>
 
@@ -960,7 +916,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="256"
+            line="255"
             column="5"/>
     </issue>
 
@@ -971,7 +927,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="283"
+            line="282"
             column="5"/>
     </issue>
 
@@ -982,7 +938,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="306"
+            line="305"
             column="5"/>
     </issue>
 
@@ -993,7 +949,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="311"
+            line="310"
             column="5"/>
     </issue>
 
@@ -1004,7 +960,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="321"
+            line="320"
             column="5"/>
     </issue>
 
@@ -1015,7 +971,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="329"
+            line="328"
             column="5"/>
     </issue>
 
@@ -1026,7 +982,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="333"
+            line="332"
             column="5"/>
     </issue>
 
@@ -1037,7 +993,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="334"
+            line="333"
             column="5"/>
     </issue>
 
@@ -1048,7 +1004,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="338"
+            line="337"
             column="5"/>
     </issue>
 
@@ -1059,7 +1015,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="342"
+            line="341"
             column="5"/>
     </issue>
 
@@ -1070,7 +1026,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="346"
+            line="345"
             column="5"/>
     </issue>
 
@@ -1081,7 +1037,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="347"
+            line="346"
             column="5"/>
     </issue>
 
@@ -1092,7 +1048,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="348"
+            line="347"
             column="5"/>
     </issue>
 
@@ -1103,7 +1059,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="351"
+            line="350"
             column="5"/>
     </issue>
 
@@ -1114,6 +1070,17 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
+            line="354"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedQuantity"
+        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;poll_timespan_minutes&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es/strings.xml"
             line="355"
             column="5"/>
     </issue>
@@ -1121,22 +1088,11 @@
     <issue
         id="UnusedQuantity"
         message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_minutes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="356"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
         errorLine1="    &lt;plurals name=&quot;poll_timespan_seconds&quot;>"
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="361"
+            line="360"
             column="5"/>
     </issue>
 
@@ -1147,7 +1103,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="367"
+            line="366"
             column="5"/>
     </issue>
 
@@ -1158,7 +1114,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="377"
+            line="376"
             column="5"/>
     </issue>
 
@@ -1169,7 +1125,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="378"
+            line="377"
             column="5"/>
     </issue>
 
@@ -1180,7 +1136,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="381"
+            line="380"
             column="5"/>
     </issue>
 
@@ -1191,7 +1147,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="386"
+            line="385"
             column="5"/>
     </issue>
 
@@ -1202,7 +1158,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="388"
+            line="387"
             column="5"/>
     </issue>
 
@@ -1213,7 +1169,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="393"
+            line="392"
             column="5"/>
     </issue>
 
@@ -1224,7 +1180,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="395"
+            line="394"
             column="5"/>
     </issue>
 
@@ -1235,7 +1191,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="398"
+            line="397"
             column="5"/>
     </issue>
 
@@ -1246,7 +1202,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="403"
+            line="402"
             column="5"/>
     </issue>
 
@@ -1257,7 +1213,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="412"
+            line="411"
             column="5"/>
     </issue>
 
@@ -1268,7 +1224,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="417"
+            line="416"
             column="5"/>
     </issue>
 
@@ -1279,7 +1235,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="422"
+            line="421"
             column="5"/>
     </issue>
 
@@ -1290,7 +1246,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="425"
+            line="424"
             column="5"/>
     </issue>
 
@@ -1301,7 +1257,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="427"
+            line="426"
             column="5"/>
     </issue>
 
@@ -1312,7 +1268,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="430"
+            line="429"
             column="5"/>
     </issue>
 
@@ -1323,7 +1279,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="440"
+            line="439"
             column="5"/>
     </issue>
 
@@ -1334,7 +1290,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="445"
+            line="444"
             column="5"/>
     </issue>
 
@@ -1345,7 +1301,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="450"
+            line="449"
             column="5"/>
     </issue>
 
@@ -1356,7 +1312,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="455"
+            line="454"
             column="5"/>
     </issue>
 
@@ -1367,7 +1323,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="464"
+            line="463"
             column="5"/>
     </issue>
 
@@ -1378,7 +1334,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="470"
+            line="469"
             column="5"/>
     </issue>
 
@@ -1389,7 +1345,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="479"
+            line="478"
             column="5"/>
     </issue>
 
@@ -1400,7 +1356,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rBR/strings.xml"
-            line="494"
+            line="493"
             column="5"/>
     </issue>
 
@@ -1411,7 +1367,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="500"
+            line="499"
             column="5"/>
     </issue>
 
@@ -1422,7 +1378,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="505"
+            line="504"
             column="5"/>
     </issue>
 
@@ -1433,7 +1389,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-pt-rPT/strings.xml"
-            line="516"
+            line="515"
             column="5"/>
     </issue>
 
@@ -1576,7 +1532,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="42"
+            line="43"
             column="9"/>
     </issue>
 
@@ -1587,7 +1543,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="48"
+            line="49"
             column="9"/>
     </issue>
 
@@ -1697,492 +1653,8 @@
         errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="745"
+            line="877"
             column="57"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d(TAG, &quot;addAccount: saving account with id &quot; + it.id)"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AccountManager.kt"
-            line="71"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d(TAG, &quot;updateActiveAccount: saving account with id &quot; + it.id)"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AccountManager.kt"
-            line="158"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d(TAG, &quot;setActiveAccount: saving account with id &quot; + it.id)"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AccountManager.kt"
-            line="173"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.i(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                        Log.i("
-        errorLine2="                        ^">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/viewmodel/AccountsInListViewModel.kt"
-            line="67"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.i(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                        Log.i("
-        errorLine2="                        ^">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/viewmodel/AccountsInListViewModel.kt"
-            line="90"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.v(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                clickedSpan?.let { Log.v(TAG, &quot;padding click: ${(clickedSpan as URLSpan).url}&quot;) }"
-        errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/view/ClickableSpanTextView.kt"
-            line="232"
-            column="36"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.v(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.v(TAG, &quot;first: $first second: $second click: $x $y&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/view/ClickableSpanTextView.kt"
-            line="330"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;firstDiff: $firstDiff secondDiff: $secondDiff&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/view/ClickableSpanTextView.kt"
-            line="338"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d("
-        errorLine2="            ^">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/usecase/DeveloperToolsUseCase.kt"
-            line="33"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                    Log.d(TAG, &quot;User id $activeAccountId changed: Notification-worthy draft count $count&quot;)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/DraftsAlert.kt"
-            line="61"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                    Log.d(TAG, &quot;User id $activeAccountId: Clean out notification-worthy drafts&quot;)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/DraftsAlert.kt"
-            line="82"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(&quot;LoginWeb&quot;, &quot;Failed to load ${data.url}: $error&quot;)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="151"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(&quot;LoginWeb&quot;, &quot;Failed to load ${data.url}: $error&quot;)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="151"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Developer tools: $which&quot;)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="663"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;getting Notifications for &quot; + account.fullName)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationFetcher.kt"
-            line="41"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d(TAG, &quot;Fetched marker: $notificationMarker&quot;)"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationFetcher.kt"
-            line="72"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, Log.getStackTraceString(e));"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="162"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                        Log.d(TAG, error.toString())"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="259"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;load() with ${params.javaClass.simpleName} for key: ${params.key}&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsPagingSource.kt"
-            line="41"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;getNotificationsStream(), filtering: $filter&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsRepository.kt"
-            line="47"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;notificationFilter: $action&quot;)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModel.kt"
-            line="319"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                    Log.d(TAG, &quot;Saving visible ID: ${action.visibleId}&quot;)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModel.kt"
-            line="340"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;Restoring at $lastNotificationId&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModel.kt"
-            line="465"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;UnifiedPush registration succeeded for account ${account.id}&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/PushNotificationHelper.kt"
-            line="186"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d(TAG, &quot;UnifiedPush subscription updated for account ${account.id}&quot;)"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/PushNotificationHelper.kt"
-            line="205"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;UnifiedPush unregistration succeeded for account &quot; + account.id)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/PushNotificationHelper.kt"
-            line="220"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                { t -> Log.d(TAG, &quot;Failed to reblog status ${statusViewData.id}&quot;, t) }"
-        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/search/SearchViewModel.kt"
-            line="122"
-            column="24"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            .doOnError { t -> Log.d(TAG, &quot;Failed to vote in poll: ${statusViewData.id}&quot;, t) }"
-        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/search/SearchViewModel.kt"
-            line="149"
-            column="31"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;talkback was enabled: $wasEnabled, now $talkBackWasEnabled&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="581"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to reblog status &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/TimelineViewModel.kt"
-            line="116"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to favourite status &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/TimelineViewModel.kt"
-            line="126"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to bookmark status &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/TimelineViewModel.kt"
-            line="136"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to vote in poll: &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/TimelineViewModel.kt"
-            line="154"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;talkback was enabled: $wasEnabled, now $talkBackWasEnabled&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
-            line="275"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;Upgrading shared preferences: $oldVersion -> $newVersion&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/TuskyApplication.kt"
-            line="104"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;New message received for account $instance&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/receiver/UnifiedPushBroadcastReceiver.kt"
-            line="54"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;Endpoint available for account $instance: $endpoint&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/receiver/UnifiedPushBroadcastReceiver.kt"
-            line="62"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="        Log.d(TAG, &quot;Endpoint unregistered for account $instance&quot;)"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/receiver/UnifiedPushBroadcastReceiver.kt"
-            line="74"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                    Log.d(TAG, &quot;Download image result: $result&quot;)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="305"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="            Log.d(TAG, &quot;Finding status with: $id&quot;)"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt"
-            line="110"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to reblog status &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt"
-            line="201"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to favourite status &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt"
-            line="211"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to bookmark status &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt"
-            line="221"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="LogConditional"
-        message="The log call Log.d(...) should be conditional: surround with `if (Log.isLoggable(...))` or `if (BuildConfig.DEBUG) { ... }`"
-        errorLine1="                Log.d(TAG, &quot;Failed to vote in poll: &quot; + status.actionableId, t)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt"
-            line="241"
-            column="17"/>
     </issue>
 
     <issue
@@ -2555,18 +2027,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/fragment_timeline.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/windowBackgroundColor` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/windowBackgroundColor&quot;>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-sw640dp/fragment_timeline.xml"
-            line="7"
+            line="6"
             column="5"/>
     </issue>
 
@@ -2577,17 +2038,6 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/fragment_timeline_notifications.xml"
-            line="24"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/windowBackgroundColor` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/windowBackgroundColor&quot;>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-sw640dp/fragment_timeline_notifications.xml"
             line="24"
             column="5"/>
     </issue>
@@ -2654,51 +2104,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/item_hashtag.xml"
-            line="6"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?android:colorBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_bottom_sheet.xml"
-            line="8"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `@color/dividerColorOther` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;@color/dividerColorOther&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_placeholder.xml"
-            line="34"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:colorBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?android:colorBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_tab_preference.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="Overdraw"
-        message="Possible overdraw: Root element paints background `?attr/selectableItemBackground` with a theme that also paints a background (inferred theme is `@style/TuskyTheme`)"
-        errorLine1="    android:background=&quot;?attr/selectableItemBackground&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_tab_preference_small.xml"
-            line="7"
+            line="16"
             column="5"/>
     </issue>
 
@@ -2742,7 +2148,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="260"
+            line="262"
             column="19"/>
     </issue>
 
@@ -2753,7 +2159,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="265"
+            line="267"
             column="19"/>
     </issue>
 
@@ -2984,7 +2390,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="254"
+            line="255"
             column="13"/>
     </issue>
 
@@ -2995,7 +2401,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="255"
+            line="256"
             column="13"/>
     </issue>
 
@@ -3006,7 +2412,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="280"
+            line="281"
             column="13"/>
     </issue>
 
@@ -3017,7 +2423,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="310"
+            line="311"
             column="13"/>
     </issue>
 
@@ -3028,18 +2434,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="386"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.string.status_count_one_plus` appears to be unused"
-        errorLine1="    &lt;string name=&quot;status_count_one_plus&quot;>1+&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="413"
+            line="392"
             column="13"/>
     </issue>
 
@@ -3050,7 +2445,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="444"
+            line="451"
             column="13"/>
     </issue>
 
@@ -3061,7 +2456,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="497"
+            line="503"
             column="13"/>
     </issue>
 
@@ -3072,7 +2467,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="501"
+            line="507"
             column="13"/>
     </issue>
 
@@ -3083,7 +2478,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="502"
+            line="508"
             column="13"/>
     </issue>
 
@@ -3094,7 +2489,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="503"
+            line="509"
             column="13"/>
     </issue>
 
@@ -3105,7 +2500,7 @@
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="504"
+            line="510"
             column="13"/>
     </issue>
 
@@ -3116,7 +2511,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="505"
+            line="511"
             column="13"/>
     </issue>
 
@@ -3127,7 +2522,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="506"
+            line="512"
             column="13"/>
     </issue>
 
@@ -3138,7 +2533,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="507"
+            line="513"
             column="13"/>
     </issue>
 
@@ -3149,7 +2544,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="508"
+            line="514"
             column="13"/>
     </issue>
 
@@ -3160,7 +2555,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="510"
+            line="516"
             column="13"/>
     </issue>
 
@@ -3171,7 +2566,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="595"
+            line="601"
             column="13"/>
     </issue>
 
@@ -3182,7 +2577,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="596"
+            line="602"
             column="13"/>
     </issue>
 
@@ -3193,7 +2588,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="607"
+            line="616"
             column="13"/>
     </issue>
 
@@ -3204,7 +2599,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="609"
+            line="618"
             column="13"/>
     </issue>
 
@@ -3215,7 +2610,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="610"
+            line="619"
             column="13"/>
     </issue>
 
@@ -3226,7 +2621,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="613"
+            line="622"
             column="13"/>
     </issue>
 
@@ -3237,7 +2632,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="658"
+            line="667"
             column="13"/>
     </issue>
 
@@ -3248,7 +2643,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="707"
+            line="716"
             column="13"/>
     </issue>
 
@@ -3259,7 +2654,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="713"
+            line="722"
             column="13"/>
     </issue>
 
@@ -3270,7 +2665,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="754"
+            line="763"
             column="13"/>
     </issue>
 
@@ -3281,7 +2676,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="791"
+            line="799"
             column="13"/>
     </issue>
 
@@ -3468,7 +2863,7 @@
         errorLine2="                ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/accountlist/AccountListFragment.kt"
-            line="122"
+            line="133"
             column="17"/>
     </issue>
 
@@ -3479,7 +2874,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/preference/AccountPreferencesFragment.kt"
-            line="312"
+            line="310"
             column="25"/>
     </issue>
 
@@ -3490,7 +2885,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/preference/AccountPreferencesFragment.kt"
-            line="318"
+            line="316"
             column="21"/>
     </issue>
 
@@ -3501,7 +2896,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="117"
+            line="116"
             column="17"/>
     </issue>
 
@@ -3512,7 +2907,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="124"
+            line="123"
             column="21"/>
     </issue>
 
@@ -3523,7 +2918,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="195"
+            line="181"
             column="17"/>
     </issue>
 
@@ -3534,7 +2929,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="205"
+            line="191"
             column="128"/>
     </issue>
 
@@ -3545,7 +2940,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="205"
+            line="191"
             column="128"/>
     </issue>
 
@@ -3556,7 +2951,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="207"
+            line="193"
             column="71"/>
     </issue>
 
@@ -3567,7 +2962,7 @@
         errorLine2="                                                              ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="207"
+            line="193"
             column="63"/>
     </issue>
 
@@ -3578,7 +2973,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="232"
+            line="218"
             column="21"/>
     </issue>
 
@@ -3589,7 +2984,7 @@
         errorLine2="                    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="234"
+            line="220"
             column="21"/>
     </issue>
 
@@ -3600,7 +2995,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="244"
+            line="230"
             column="128"/>
     </issue>
 
@@ -3611,7 +3006,7 @@
         errorLine2="                                                                                                                               ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="244"
+            line="230"
             column="128"/>
     </issue>
 
@@ -3622,7 +3017,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="246"
+            line="232"
             column="71"/>
     </issue>
 
@@ -3633,7 +3028,7 @@
         errorLine2="                                                              ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt"
-            line="246"
+            line="232"
             column="63"/>
     </issue>
 
@@ -3655,7 +3050,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="544"
+            line="553"
             column="21"/>
     </issue>
 
@@ -3666,7 +3061,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="553"
+            line="562"
             column="17"/>
     </issue>
 
@@ -3677,7 +3072,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="553"
+            line="562"
             column="17"/>
     </issue>
 
@@ -3743,7 +3138,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt"
-            line="161"
+            line="153"
             column="21"/>
     </issue>
 
@@ -3754,7 +3149,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt"
-            line="163"
+            line="155"
             column="29"/>
     </issue>
 
@@ -3765,7 +3160,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="106"
+            line="113"
             column="17"/>
     </issue>
 
@@ -3776,7 +3171,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="106"
+            line="113"
             column="17"/>
     </issue>
 
@@ -3787,7 +3182,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="116"
+            line="123"
             column="17"/>
     </issue>
 
@@ -3798,7 +3193,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt"
-            line="116"
+            line="123"
             column="17"/>
     </issue>
 
@@ -3809,7 +3204,7 @@
         errorLine2="                                  ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="92"
+            line="91"
             column="35"/>
     </issue>
 
@@ -3820,7 +3215,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="93"
+            line="92"
             column="25"/>
     </issue>
 
@@ -3831,7 +3226,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="94"
+            line="93"
             column="43"/>
     </issue>
 
@@ -3842,7 +3237,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="95"
+            line="94"
             column="25"/>
     </issue>
 
@@ -3853,7 +3248,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt"
-            line="207"
+            line="202"
             column="21"/>
     </issue>
 
@@ -3864,19 +3259,8 @@
         errorLine2="                    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/instancemute/fragment/InstanceListFragment.kt"
-            line="57"
+            line="56"
             column="21"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `InstanceListFragment` requires synthetic accessor"
-        errorLine1="                        Snackbar.make(binding.recyclerView, getString(R.string.confirmation_domain_unmuted, instance), Snackbar.LENGTH_LONG)"
-        errorLine2="                                      ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/instancemute/fragment/InstanceListFragment.kt"
-            line="90"
-            column="39"/>
     </issue>
 
     <issue
@@ -4117,7 +3501,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ListsActivity.kt"
-            line="278"
+            line="282"
             column="21"/>
     </issue>
 
@@ -4128,7 +3512,7 @@
         errorLine2="                    ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ListsActivity.kt"
-            line="280"
+            line="284"
             column="21"/>
     </issue>
 
@@ -4139,7 +3523,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt"
-            line="188"
+            line="178"
             column="21"/>
     </issue>
 
@@ -4150,7 +3534,7 @@
         errorLine2="                    ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt"
-            line="194"
+            line="184"
             column="21"/>
     </issue>
 
@@ -4172,7 +3556,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="143"
+            line="146"
             column="17"/>
     </issue>
 
@@ -4183,7 +3567,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="143"
+            line="146"
             column="17"/>
     </issue>
 
@@ -4194,7 +3578,7 @@
         errorLine2="                ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="152"
+            line="155"
             column="17"/>
     </issue>
 
@@ -4205,7 +3589,7 @@
         errorLine2="                ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="152"
+            line="155"
             column="17"/>
     </issue>
 
@@ -4216,7 +3600,7 @@
         errorLine2="                        ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="173"
+            line="176"
             column="25"/>
     </issue>
 
@@ -4224,17 +3608,6 @@
         id="SyntheticAccessor"
         message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
         errorLine1="                        sendResult(LoginResult.Err(error))"
-        errorLine2="                        ~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="173"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
-        errorLine1="                        sendResult(LoginResult.Ok(code))"
         errorLine2="                        ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
@@ -4249,7 +3622,18 @@
         errorLine2="                        ~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
-            line="176"
+            line="179"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `sendResult` of class `LoginWebViewActivity` requires synthetic accessor"
+        errorLine1="                        sendResult(LoginResult.Ok(code))"
+        errorLine2="                        ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt"
+            line="179"
             column="25"/>
     </issue>
 
@@ -4260,7 +3644,7 @@
         errorLine2="                                    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="225"
+            line="222"
             column="37"/>
     </issue>
 
@@ -4271,7 +3655,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="229"
+            line="226"
             column="37"/>
     </issue>
 
@@ -4282,7 +3666,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="324"
+            line="320"
             column="25"/>
     </issue>
 
@@ -4293,7 +3677,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="325"
+            line="321"
             column="29"/>
     </issue>
 
@@ -4304,7 +3688,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="327"
+            line="323"
             column="25"/>
     </issue>
 
@@ -4315,7 +3699,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="328"
+            line="324"
             column="29"/>
     </issue>
 
@@ -4326,7 +3710,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="513"
+            line="512"
             column="17"/>
     </issue>
 
@@ -4337,7 +3721,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="516"
+            line="515"
             column="21"/>
     </issue>
 
@@ -4348,7 +3732,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="521"
+            line="520"
             column="17"/>
     </issue>
 
@@ -4359,7 +3743,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="525"
+            line="524"
             column="21"/>
     </issue>
 
@@ -4370,7 +3754,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="530"
+            line="529"
             column="17"/>
     </issue>
 
@@ -4381,7 +3765,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="533"
+            line="532"
             column="21"/>
     </issue>
 
@@ -4392,7 +3776,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="538"
+            line="537"
             column="17"/>
     </issue>
 
@@ -4403,7 +3787,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="541"
+            line="540"
             column="21"/>
     </issue>
 
@@ -4414,7 +3798,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="546"
+            line="545"
             column="17"/>
     </issue>
 
@@ -4425,7 +3809,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="549"
+            line="548"
             column="21"/>
     </issue>
 
@@ -4436,7 +3820,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="553"
+            line="552"
             column="17"/>
     </issue>
 
@@ -4447,7 +3831,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="556"
+            line="555"
             column="21"/>
     </issue>
 
@@ -4458,7 +3842,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="561"
+            line="560"
             column="17"/>
     </issue>
 
@@ -4469,7 +3853,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="564"
+            line="563"
             column="21"/>
     </issue>
 
@@ -4480,7 +3864,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="568"
+            line="567"
             column="17"/>
     </issue>
 
@@ -4491,7 +3875,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="572"
+            line="571"
             column="21"/>
     </issue>
 
@@ -4502,7 +3886,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="581"
+            line="580"
             column="17"/>
     </issue>
 
@@ -4513,7 +3897,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="584"
+            line="583"
             column="21"/>
     </issue>
 
@@ -4524,7 +3908,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="589"
+            line="588"
             column="17"/>
     </issue>
 
@@ -4535,7 +3919,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="592"
+            line="591"
             column="21"/>
     </issue>
 
@@ -4546,7 +3930,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="597"
+            line="596"
             column="17"/>
     </issue>
 
@@ -4557,7 +3941,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="600"
+            line="599"
             column="21"/>
     </issue>
 
@@ -4568,7 +3952,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="605"
+            line="604"
             column="17"/>
     </issue>
 
@@ -4579,7 +3963,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="608"
+            line="607"
             column="21"/>
     </issue>
 
@@ -4590,7 +3974,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="615"
+            line="614"
             column="21"/>
     </issue>
 
@@ -4601,7 +3985,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="618"
+            line="617"
             column="25"/>
     </issue>
 
@@ -4612,7 +3996,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="628"
+            line="627"
             column="21"/>
     </issue>
 
@@ -4623,7 +4007,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="631"
+            line="630"
             column="25"/>
     </issue>
 
@@ -4634,7 +4018,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="645"
+            line="644"
             column="17"/>
     </issue>
 
@@ -4645,18 +4029,18 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="649"
+            line="648"
             column="21"/>
     </issue>
 
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `MainActivity` requires synthetic accessor"
-        errorLine1="                binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)"
+        errorLine1="                binding.mainToolbar.title = tab.contentDescription"
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="741"
+            line="740"
             column="17"/>
     </issue>
 
@@ -4667,7 +4051,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="743"
+            line="742"
             column="17"/>
     </issue>
 
@@ -4678,7 +4062,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="754"
+            line="753"
             column="17"/>
     </issue>
 
@@ -4689,7 +4073,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="930"
+            line="929"
             column="33"/>
     </issue>
 
@@ -4700,7 +4084,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="942"
+            line="941"
             column="29"/>
     </issue>
 
@@ -4711,7 +4095,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="948"
+            line="947"
             column="33"/>
     </issue>
 
@@ -4722,7 +4106,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="968"
+            line="967"
             column="33"/>
     </issue>
 
@@ -4733,7 +4117,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="977"
+            line="976"
             column="29"/>
     </issue>
 
@@ -4744,7 +4128,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="986"
+            line="985"
             column="33"/>
     </issue>
 
@@ -4975,7 +4359,7 @@
         errorLine2="                         ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="185"
+            line="187"
             column="26"/>
     </issue>
 
@@ -4986,19 +4370,19 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="213"
+            line="228"
             column="21"/>
     </issue>
 
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `NotificationsFragment` requires synthetic accessor"
-        errorLine1="                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))"
-        errorLine2="                        ~~~~~~~">
+        errorLine1="                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))"
+        errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="214"
-            column="25"/>
+            line="230"
+            column="29"/>
     </issue>
 
     <issue
@@ -5008,7 +4392,7 @@
         errorLine2="                                               ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/SFragment.kt"
-            line="186"
+            line="183"
             column="48"/>
     </issue>
 
@@ -5041,7 +4425,7 @@
         errorLine2="            ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="77"
+            line="90"
             column="13"/>
     </issue>
 
@@ -5052,7 +4436,7 @@
         errorLine2="                ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="123"
+            line="136"
             column="17"/>
     </issue>
 
@@ -5063,7 +4447,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="133"
+            line="146"
             column="55"/>
     </issue>
 
@@ -5074,7 +4458,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="133"
+            line="146"
             column="55"/>
     </issue>
 
@@ -5085,7 +4469,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="259"
+            line="256"
             column="21"/>
     </issue>
 
@@ -5096,7 +4480,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="262"
+            line="259"
             column="33"/>
     </issue>
 
@@ -5107,7 +4491,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="264"
+            line="261"
             column="33"/>
     </issue>
 
@@ -5118,7 +4502,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="270"
+            line="267"
             column="21"/>
     </issue>
 
@@ -5129,7 +4513,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
-            line="124"
+            line="81"
             column="21"/>
     </issue>
 
@@ -5140,52 +4524,8 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
-            line="126"
+            line="83"
             column="29"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalUsage.text = formatNumber(totalUsage)"
-        errorLine2="                                  ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/adapter/TrendingTagViewHolder.kt"
-            line="42"
-            column="35"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalUsage.text = formatNumber(totalUsage)"
-        errorLine2="                                  ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/adapter/TrendingTagViewHolder.kt"
-            line="42"
-            column="35"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalAccounts.text = formatNumber(totalAccounts)"
-        errorLine2="                                     ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/adapter/TrendingTagViewHolder.kt"
-            line="45"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `formatNumber` of class `Companion` requires synthetic accessor"
-        errorLine1="        binding.totalAccounts.text = formatNumber(totalAccounts)"
-        errorLine2="                                     ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/adapter/TrendingTagViewHolder.kt"
-            line="45"
-            column="38"/>
     </issue>
 
     <issue
@@ -5195,7 +4535,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="187"
+            line="188"
             column="25"/>
     </issue>
 
@@ -5206,7 +4546,7 @@
         errorLine2="                                                     ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="272"
+            line="273"
             column="54"/>
     </issue>
 
@@ -5217,7 +4557,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="286"
+            line="287"
             column="17"/>
     </issue>
 
@@ -5228,7 +4568,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="294"
+            line="295"
             column="17"/>
     </issue>
 
@@ -5239,7 +4579,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="120"
+            line="121"
             column="17"/>
     </issue>
 
@@ -5250,7 +4590,7 @@
         errorLine2="                                        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="120"
+            line="121"
             column="41"/>
     </issue>
 
@@ -5261,7 +4601,7 @@
         errorLine2="                                        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="120"
+            line="121"
             column="41"/>
     </issue>
 
@@ -5272,7 +4612,7 @@
         errorLine2="                                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="148"
+            line="149"
             column="41"/>
     </issue>
 
@@ -5283,7 +4623,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt"
-            line="191"
+            line="192"
             column="21"/>
     </issue>
 
@@ -5307,721 +4647,6 @@
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
             line="270"
             column="25"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.action_account_share` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/action_account_share&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/menu/account_toolbar.xml"
-            line="14"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.action_expand_collapse_cw` appears to be unused"
-        errorLine1="    &lt;item name=&quot;action_expand_collapse_cw&quot; type=&quot;id&quot; />"
-        errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/actions.xml"
-            line="3"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.action_open_mention` appears to be unused"
-        errorLine1="    &lt;item name=&quot;action_open_mention&quot; type=&quot;id&quot; />"
-        errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/actions.xml"
-            line="16"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.composeMainScrollView` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/composeMainScrollView&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_compose.xml"
-            line="77"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_title_wrapper` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_title_wrapper&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="31"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_action_group` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_action_group&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="76"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_action_warn` appears to be unused"
-        errorLine1="                    android:id=&quot;@+id/filter_action_warn&quot;"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="80"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_action_hide` appears to be unused"
-        errorLine1="                    android:id=&quot;@+id/filter_action_hide&quot;"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="86"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_context_home` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_context_home&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="118"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_context_notifications` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_context_notifications&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="125"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_context_public` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_context_public&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="132"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_context_thread` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_context_thread&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="139"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_context_account` appears to be unused"
-        errorLine1="                android:id=&quot;@+id/filter_context_account&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="146"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.filter_save_button` appears to be unused"
-        errorLine1="            android:id=&quot;@+id/filter_save_button&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_filter.xml"
-            line="162"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.noteEditTextLayout` appears to be unused"
-        errorLine1="                    android:id=&quot;@+id/noteEditTextLayout&quot;"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_edit_profile.xml"
-            line="93"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.focusExplanation` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/focusExplanation&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_focus.xml"
-            line="8"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.imageContainer` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/imageContainer&quot;>"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/dialog_focus.xml"
-            line="20"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.topProgressBar` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/topProgressBar&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/fragment_timeline.xml"
-            line="43"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.topButtonsLayout` appears to be unused"
-        errorLine1="            android:id=&quot;@+id/topButtonsLayout&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/fragment_timeline_notifications.xml"
-            line="34"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.account_container` appears to be unused"
-        errorLine1="    android:id=&quot;@+id/account_container&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_account.xml"
-            line="5"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.account_bot_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/account_bot_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_account.xml"
-            line="25"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.blocked_user_bot_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/blocked_user_bot_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_blocked_user.xml"
-            line="22"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiThumbnail` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/emojiThumbnail&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="13"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiName` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/emojiName&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="27"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiCaption` appears to be unused"
-        errorLine1="        app:layout_constraintBottom_toTopOf=&quot;@+id/emojiCaption&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="34"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiProgress` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/emojiProgress&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="58"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiDownload` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/emojiDownload&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="72"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiDownloadCancel` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/emojiDownloadCancel&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="88"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.emojiRadioButton` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/emojiRadioButton&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_emoji_pref.xml"
-            line="104"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.notification_username` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/notification_username&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_follow.xml"
-            line="58"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.muted_domain_unmute` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/muted_domain_unmute&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_muted_domain.xml"
-            line="14"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.muted_domain` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/muted_domain&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_muted_domain.xml"
-            line="28"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.muted_user_bot_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/muted_user_bot_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_muted_user.xml"
-            line="23"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.muted_user_mute_notifications` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/muted_user_mute_notifications&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_muted_user.xml"
-            line="77"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.progress_bar` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/progress_bar&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_notifications_load_state_footer_view.xml"
-            line="26"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.error_msg` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/error_msg&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_notifications_load_state_footer_view.xml"
-            line="31"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.retry_button` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/retry_button&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_notifications_load_state_footer_view.xml"
-            line="39"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.status_poll_option_result` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/status_poll_option_result&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_poll.xml"
-            line="9"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.status_poll_radio_button` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/status_poll_radio_button&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_poll.xml"
-            line="26"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.status_poll_checkbox` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/status_poll_checkbox&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_poll.xml"
-            line="35"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.notification_report` appears to be unused"
-        errorLine1="    android:id=&quot;@+id/notification_report&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_report_notification.xml"
-            line="5"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.notification_category` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/notification_category&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_report_notification.xml"
-            line="66"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.status_edit_info` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/status_edit_info&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_edit.xml"
-            line="25"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.status_edit_poll_description` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/status_edit_poll_description&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_edit.xml"
-            line="135"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.notification_container` appears to be unused"
-        errorLine1="    android:id=&quot;@+id/notification_container&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_notification.xml"
-            line="4"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.button_toggle_notification_content` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/button_toggle_notification_content&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_notification.xml"
-            line="119"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.notification_notification_avatar` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/notification_notification_avatar&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status_notification.xml"
-            line="153"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.trending_container` appears to be unused"
-        errorLine1="    android:id=&quot;@+id/trending_container&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_trending_cell.xml"
-            line="5"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.legend_container` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/legend_container&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_trending_cell.xml"
-            line="68"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header` appears to be unused"
-        errorLine1="    android:id=&quot;@+id/material_drawer_account_header&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="5"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_background` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_background&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="12"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_statusbar_guideline` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_statusbar_guideline&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="22"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_current` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_current&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="29"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_current_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_current_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="44"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_small_first` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_small_first&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="61"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_small_first_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_small_first_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="76"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_small_second` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_small_second&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="93"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_small_second_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_small_second_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="108"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_small_third` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_small_third&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="125"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_small_third_badge` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_small_third_badge&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="140"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_text_guideline` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_text_guideline&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="157"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_name` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_name&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="164"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_email` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_email&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="179"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.material_drawer_account_header_text_switcher` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/material_drawer_account_header_text_switcher&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="194"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedIds"
-        message="The resource `R.id.status_share` appears to be unused"
-        errorLine1="        android:id=&quot;@+id/status_share&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/menu/status_more.xml"
-            line="4"
-            column="9"/>
     </issue>
 
     <issue
@@ -6053,7 +4678,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-ja/strings.xml"
-            line="287"
+            line="286"
             column="37"/>
     </issue>
 
@@ -6064,7 +4689,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-sl/strings.xml"
-            line="287"
+            line="286"
             column="37"/>
     </issue>
 
@@ -6075,7 +4700,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="314"
+            line="313"
             column="37"/>
     </issue>
 
@@ -6086,7 +4711,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-ga/strings.xml"
-            line="345"
+            line="344"
             column="37"/>
     </issue>
 
@@ -6130,7 +4755,7 @@
         errorLine2="                                                     ~~~~~~~~~~">
         <location
             file="src/main/res/values-ko/strings.xml"
-            line="374"
+            line="373"
             column="54"/>
     </issue>
 
@@ -6229,7 +4854,7 @@
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="90"
+            line="89"
             column="32"/>
     </issue>
 
@@ -6240,7 +4865,7 @@
         errorLine2="                                          ~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="94"
+            line="93"
             column="43"/>
     </issue>
 
@@ -6251,7 +4876,7 @@
         errorLine2="                                          ~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="95"
+            line="94"
             column="43"/>
     </issue>
 
@@ -6262,7 +4887,7 @@
         errorLine2="                                        ~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="96"
+            line="95"
             column="41"/>
     </issue>
 
@@ -6273,7 +4898,7 @@
         errorLine2="                                       ~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="97"
+            line="96"
             column="40"/>
     </issue>
 
@@ -6284,18 +4909,18 @@
         errorLine2="                                        ~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="98"
+            line="97"
             column="41"/>
     </issue>
 
     <issue
         id="TypographyQuotes"
         message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;dialog_whats_an_instance&quot;>কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &amp;lt;a href=\&quot;https://instances.social\&quot;&amp;gt; আরও! &amp;lt;/a&amp;gt; "
+        errorLine1="    &lt;string name=&quot;dialog_whats_an_instance&quot;>কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &amp;lt;a href=\&quot;https://instances.social\&quot;&amp;gt; আরও! &amp;lt;/a&amp;gt;"
         errorLine2="                                            ^">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="184"
+            line="183"
             column="45"/>
     </issue>
 
@@ -6328,7 +4953,7 @@
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="224"
+            line="223"
             column="35"/>
     </issue>
 
@@ -6339,7 +4964,7 @@
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="226"
+            line="225"
             column="35"/>
     </issue>
 
@@ -6350,7 +4975,7 @@
         errorLine2="                                            ^">
         <location
             file="src/main/res/values-bg/strings.xml"
-            line="264"
+            line="263"
             column="45"/>
     </issue>
 
@@ -6361,7 +4986,7 @@
         errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="342"
+            line="341"
             column="45"/>
     </issue>
 
@@ -6372,7 +4997,7 @@
         errorLine2="                                          ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="377"
+            line="376"
             column="43"/>
     </issue>
 
@@ -6383,7 +5008,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="379"
+            line="378"
             column="40"/>
     </issue>
 
@@ -6394,7 +5019,7 @@
         errorLine2="                                           ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-bn-rBD/strings.xml"
-            line="387"
+            line="386"
             column="44"/>
     </issue>
 
@@ -6405,7 +5030,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="740"
+            line="749"
             column="55"/>
     </issue>
 
@@ -6885,7 +5510,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow.xml"
-            line="57"
+            line="59"
             column="6"/>
     </issue>
 
@@ -6896,7 +5521,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow_request.xml"
-            line="10"
+            line="11"
             column="6"/>
     </issue>
 
@@ -6907,7 +5532,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow_request.xml"
-            line="47"
+            line="49"
             column="6"/>
     </issue>
 
@@ -6918,7 +5543,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_follow_request.xml"
-            line="63"
+            line="65"
             column="6"/>
     </issue>
 
@@ -6929,7 +5554,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_followed_hashtag.xml"
-            line="27"
+            line="14"
             column="6"/>
     </issue>
 
@@ -6940,7 +5565,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_list.xml"
-            line="9"
+            line="14"
             column="6"/>
     </issue>
 
@@ -7380,7 +6005,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_edit.xml"
-            line="24"
+            line="13"
             column="6"/>
     </issue>
 
@@ -7391,7 +6016,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_edit.xml"
-            line="74"
+            line="55"
             column="6"/>
     </issue>
 
@@ -7402,41 +6027,41 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="11"
+            line="12"
             column="6"/>
     </issue>
 
     <issue
         id="SelectableText"
         message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
-        errorLine1="        &lt;TextView"
-        errorLine2="         ~~~~~~~~">
+        errorLine1="    &lt;TextView"
+        errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="35"
-            column="10"/>
+            line="49"
+            column="6"/>
     </issue>
 
     <issue
         id="SelectableText"
         message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
-        errorLine1="        &lt;TextView"
-        errorLine2="         ~~~~~~~~">
+        errorLine1="    &lt;TextView"
+        errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="50"
-            column="10"/>
+            line="70"
+            column="6"/>
     </issue>
 
     <issue
         id="SelectableText"
         message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
-        errorLine1="        &lt;TextView"
-        errorLine2="         ~~~~~~~~">
+        errorLine1="    &lt;TextView"
+        errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="62"
-            column="10"/>
+            line="84"
+            column="6"/>
     </issue>
 
     <issue
@@ -7446,7 +6071,7 @@
         errorLine2="     ~~~~~~~~">
         <location
             file="src/main/res/layout/item_tab_preference.xml"
-            line="24"
+            line="26"
             column="6"/>
     </issue>
 
@@ -7534,7 +6159,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout-land/item_trending_cell.xml"
-            line="95"
+            line="94"
             column="10"/>
     </issue>
 
@@ -7545,7 +6170,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout/item_trending_cell.xml"
-            line="95"
+            line="94"
             column="10"/>
     </issue>
 
@@ -7556,7 +6181,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout-land/item_trending_cell.xml"
-            line="126"
+            line="125"
             column="10"/>
     </issue>
 
@@ -7567,7 +6192,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/res/layout/item_trending_cell.xml"
-            line="127"
+            line="126"
             column="10"/>
     </issue>
 
@@ -7591,17 +6216,6 @@
             file="src/main/res/layout/simple_list_item_1.xml"
             line="19"
             column="2"/>
-    </issue>
-
-    <issue
-        id="SelectableText"
-        message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
-        errorLine1="    &lt;TextView"
-        errorLine2="     ~~~~~~~~">
-        <location
-            file="src/main/res/layout/view_background_message.xml"
-            line="18"
-            column="6"/>
     </issue>
 
     <issue
@@ -7765,7 +6379,7 @@
         errorLine2="         ~~~~~~~~~">
         <location
             file="src/main/res/layout/activity_account.xml"
-            line="469"
+            line="468"
             column="10"/>
     </issue>
 
@@ -7809,7 +6423,7 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src/main/res/layout/item_status_notification.xml"
-            line="152"
+            line="42"
             column="6"/>
     </issue>
 
@@ -7820,7 +6434,7 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src/main/res/layout/item_tab_preference.xml"
-            line="13"
+            line="14"
             column="6"/>
     </issue>
 
@@ -7920,28 +6534,6 @@
         <location
             file="src/main/res/layout/item_follow.xml"
             line="22"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="    android:paddingStart=&quot;16dp&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_follow_request.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="RtlSymmetry"
-        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="        android:paddingStart=&quot;28dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_follow_request.xml"
-            line="19"
             column="9"/>
     </issue>
 
@@ -8091,77 +6683,11 @@
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract AccountDao accountDao();"
-        errorLine2="                    ~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="37"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract InstanceDao instanceDao();"
-        errorLine2="                    ~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="38"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract ConversationsDao conversationDao();"
-        errorLine2="                    ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="39"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract TimelineDao timelineDao();"
-        errorLine2="                    ~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="40"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public abstract DraftDao draftDao();"
-        errorLine2="                    ~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="41"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="        public Migration25_26(File oldDraftDirectory) {"
-        errorLine2="                              ~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/db/AppDatabase.java"
-            line="373"
-            column="31"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
         errorLine1="    public AccountManager accountManager;"
         errorLine2="           ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="59"
+            line="63"
             column="12"/>
     </issue>
 
@@ -8172,7 +6698,7 @@
         errorLine2="                                                  ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="123"
+            line="165"
             column="51"/>
     </issue>
 
@@ -8183,7 +6709,7 @@
         errorLine2="                                         ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="129"
+            line="171"
             column="42"/>
     </issue>
 
@@ -8194,7 +6720,7 @@
         errorLine2="                                   ~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="157"
+            line="199"
             column="36"/>
     </issue>
 
@@ -8205,7 +6731,7 @@
         errorLine2="                                                                                                        ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="157"
+            line="199"
             column="105"/>
     </issue>
 
@@ -8216,7 +6742,7 @@
         errorLine2="                                         ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="165"
+            line="207"
             column="42"/>
     </issue>
 
@@ -8227,7 +6753,7 @@
         errorLine2="                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="165"
+            line="207"
             column="95"/>
     </issue>
 
@@ -8238,7 +6764,7 @@
         errorLine2="                                   ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="233"
+            line="275"
             column="36"/>
     </issue>
 
@@ -8249,41 +6775,85 @@
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/BaseActivity.java"
-            line="233"
+            line="275"
             column="58"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
-        errorLine2="                                  ~~~~~~~">
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                      ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="139"
-            column="35"/>
+            line="159"
+            column="55"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
-        errorLine2="                                                   ~~~~~~~~~~~~">
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                                       ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="139"
-            column="52"/>
+            line="159"
+            column="72"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static void make(final Context context, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
-        errorLine2="                                                                      ~~~~~~~~~~~~~">
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                                                                                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="139"
-            column="71"/>
+            line="159"
+            column="113"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {"
+        errorLine2="                                                                                                                                   ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="159"
+            column="132"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {"
+        errorLine2="                                                  ~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="281"
+            column="51"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {"
+        errorLine2="                                                                   ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="281"
+            column="68"/>
+    </issue>
+
+    <issue
+        id="UnknownNullness"
+        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
+        errorLine1="    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {"
+        errorLine2="                                                                                                            ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
+            line="281"
+            column="109"/>
     </issue>
 
     <issue
@@ -8293,7 +6863,7 @@
         errorLine2="                                               ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="494"
+            line="627"
             column="48"/>
     </issue>
 
@@ -8304,74 +6874,30 @@
         errorLine2="                                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="512"
+            line="655"
             column="49"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification notification,"
-        errorLine2="                                             ~~~~~~~~~~~~~">
+        errorLine1="    public static boolean filterNotification(NotificationManager notificationManager, AccountEntity account, @NonNull Notification notification) {"
+        errorLine2="                                             ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="533"
+            line="671"
             column="46"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification notification,"
-        errorLine2="                                                                    ~~~~~~~~~~~~">
+        errorLine1="    public static boolean filterNotification(NotificationManager notificationManager, AccountEntity account, @NonNull Notification notification) {"
+        errorLine2="                                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="533"
-            column="69"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="                                              Context context) {"
-        errorLine2="                                              ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="534"
-            column="47"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification.Type type,"
-        errorLine2="                                             ~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="538"
-            column="46"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public static boolean filterNotification(AccountEntity account, Notification.Type type,"
-        errorLine2="                                                                    ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="538"
-            column="69"/>
-    </issue>
-
-    <issue
-        id="UnknownNullness"
-        message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="                                              Context context) {"
-        errorLine2="                                              ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="539"
-            column="47"/>
+            line="671"
+            column="87"/>
     </issue>
 
     <issue
@@ -8590,7 +7116,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="485"
+            line="492"
             column="19"/>
     </issue>
 
@@ -8601,7 +7127,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="487"
+            line="494"
             column="19"/>
     </issue>
 
@@ -8612,7 +7138,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="578"
+            line="585"
             column="34"/>
     </issue>
 
@@ -8623,7 +7149,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="579"
+            line="586"
             column="40"/>
     </issue>
 
@@ -8634,7 +7160,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="624"
+            line="631"
             column="39"/>
     </issue>
 
@@ -8645,7 +7171,7 @@
         errorLine2="                                      ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="625"
+            line="632"
             column="39"/>
     </issue>
 
@@ -8656,7 +7182,7 @@
         errorLine2="                                      ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="626"
+            line="633"
             column="39"/>
     </issue>
 
@@ -8667,7 +7193,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="627"
+            line="634"
             column="33"/>
     </issue>
 
@@ -8678,7 +7204,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="750"
+            line="753"
             column="33"/>
     </issue>
 
@@ -8689,7 +7215,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="750"
+            line="753"
             column="71"/>
     </issue>
 
@@ -8700,7 +7226,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="751"
+            line="754"
             column="33"/>
     </issue>
 
@@ -8711,7 +7237,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="844"
+            line="846"
             column="55"/>
     </issue>
 
@@ -8722,7 +7248,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="22"/>
     </issue>
 
@@ -8733,7 +7259,7 @@
         errorLine2="                                                           ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="60"/>
     </issue>
 
@@ -8744,7 +7270,7 @@
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="921"
             column="77"/>
     </issue>
 
@@ -8755,7 +7281,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="970"
             column="15"/>
     </issue>
 
@@ -8766,7 +7292,7 @@
         errorLine2="                                       ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="970"
             column="40"/>
     </issue>
 
@@ -8777,7 +7303,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="979"
             column="15"/>
     </issue>
 
@@ -8788,7 +7314,7 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="979"
             column="43"/>
     </issue>
 
@@ -8799,7 +7325,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1078"
+            line="1080"
             column="19"/>
     </issue>
 
@@ -8810,7 +7336,7 @@
         errorLine2="                  ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1080"
+            line="1082"
             column="19"/>
     </issue>
 
@@ -8821,7 +7347,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1081"
+            line="1083"
             column="19"/>
     </issue>
 
@@ -8832,7 +7358,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1082"
+            line="1084"
             column="19"/>
     </issue>
 

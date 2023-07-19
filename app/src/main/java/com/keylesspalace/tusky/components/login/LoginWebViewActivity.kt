@@ -33,6 +33,7 @@ import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
@@ -61,7 +62,9 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         return if (resultCode == Activity.RESULT_CANCELED) {
             LoginResult.Cancel
         } else {
-            intent!!.getParcelableExtra(RESULT_EXTRA)!!
+            intent?.let {
+                IntentCompat.getParcelableExtra(it, RESULT_EXTRA, LoginResult::class.java)
+            } ?: LoginResult.Err("failed parsing LoginWebViewActivity result")
         }
     }
 
@@ -70,7 +73,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         private const val DATA_EXTRA = "data"
 
         fun parseData(intent: Intent): LoginData {
-            return intent.getParcelableExtra(DATA_EXTRA)!!
+            return IntentCompat.getParcelableExtra(intent, DATA_EXTRA, LoginData::class.java)!!
         }
 
         fun makeResultIntent(result: LoginResult): Intent {

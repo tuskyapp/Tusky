@@ -225,7 +225,6 @@
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
     <string name="compose_active_account_description">Publicar coma %1$s</string>
-    <string name="error_failed_set_caption">Fracàs en apondre una legenda</string>
     <string name="action_set_caption">Apondre una legenda</string>
     <string name="action_remove">Levar</string>
     <string name="lock_account_label">Clavar lo compte</string>
@@ -321,10 +320,8 @@
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Descriure pels mal vesents
-\n(%d caractèr maximum)</item>
-        <item quantity="other">Descriure pels mal vesents
-\n(%d caractèrs maximum)</item>
+        <item quantity="one">Descriure lo contengut pels mal vesents (%d caractèr maximum)</item>
+        <item quantity="other">Descriure los contenguts pels mal vesents (%d caractèrs maximum)</item>
     </plurals>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -565,7 +562,6 @@
     <string name="report_category_other">Autre</string>
     <string name="failed_to_add_to_list">Fracàs de l’apondon del compte a la lista</string>
     <string name="failed_to_remove_from_list">Fracàs de la supression del compte de la lista</string>
-    <string name="error_failed_set_focus">Fracàs de la definicion del punt focal</string>
     <string name="notification_sign_up_description">Notificacions quand qualqu’un crèa un compte novèl</string>
     <string name="notification_report_description">Notificacions a prepaus dels senhalament a la moderacion</string>
     <string name="notification_update_description">Notificacions quand una publicacion ont avètz reagit es modificada</string>
@@ -594,9 +590,9 @@
     <string name="description_post_edited">Modificada</string>
     <string name="error_status_source_load">Fracàs del cargament de l’estatut a partir del servidor.</string>
     <string name="mute_notifications_switch">Amudir las notificacions</string>
-    <string name="status_created_info">%1$s creèt %2$s</string>
+    <string name="status_created_info">%1$s creèt</string>
     <string name="title_edits">Modificacions</string>
-    <string name="status_edit_info">%1$s modifiquèt %2$s</string>
+    <string name="status_edit_info">%1$s modifiquèt</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Ignorar las modificacions</string>
     <string name="action_continue_edit">Téner de modificar</string>
@@ -658,4 +654,21 @@
     <string name="label_filter_keywords">Mots clau o frasas de filtrar</string>
     <string name="hint_description">Descripcion</string>
     <string name="post_media_image">Imatge</string>
+    <string name="select_list_empty">Avètz pas encara de lista</string>
+    <string name="select_list_manage">Gerir las listas</string>
+    <string name="error_list_load">Error en cargant las litas</string>
+    <string name="ui_error_favourite">Fracàs de la mes en favorit : %s</string>
+    <string name="ui_error_reblog">Fracàs en partejant : %s</string>
+    <string name="ui_error_vote">Fracàs del vòt : %s</string>
+    <string name="ui_error_accept_follow_request">Fracàs de l’acceptacion de la demanda : %s</string>
+    <string name="ui_error_reject_follow_request">Fracàs del refús de la demanda : %s</string>
+    <string name="pref_title_show_stat_inline">Mostrar las estatisticas dins la cronologia</string>
+    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
+\n
+\nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància [iconics gmd_group], siá los trapar per lor nom [iconics gmd_search], per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
+    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar.
+\n
+\nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
+    <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
+    <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
 </resources>
