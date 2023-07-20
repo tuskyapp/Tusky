@@ -186,3 +186,20 @@ dependencies {
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
 }
+
+// Work around warnings of:
+// WARNING: Illegal reflective access by org.jetbrains.kotlin.kapt3.util.ModuleManipulationUtilsKt (file:/C:/Users/Andi/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.8.22/28dab7e0ee9ce62c03bf97de3543c911dc653700/kotlin-annotation-processing-gradle-1.8.22.jar) to constructor com.sun.tools.javac.util.Context()
+// See https://youtrack.jetbrains.com/issue/KT-30589/Kapt-An-illegal-reflective-access-operation-has-occurred
+tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask) {
+    kaptProcessJvmArgs.addAll([
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"])
+}
