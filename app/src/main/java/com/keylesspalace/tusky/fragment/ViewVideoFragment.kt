@@ -329,10 +329,12 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         resource: Drawable,
                         transition: Transition<in Drawable>?
                     ) {
+                        view ?: return
                         binding.videoView.defaultArtwork = resource
                     }
 
                     override fun onLoadCleared(placeholder: Drawable?) {
+                        view ?: return
                         binding.videoView.defaultArtwork = null
                     }
                 })
