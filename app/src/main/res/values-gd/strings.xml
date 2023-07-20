@@ -468,7 +468,7 @@
     <string name="action_view_mutes">Cleachdaichean mùchte</string>
     <string name="action_view_bookmarks">Comharran-lìn</string>
     <string name="action_view_profile">Pròifil</string>
-    <string name="action_logout_confirm">A bheil thu cinnteach gu bheil thu airson clàradh a-mach às a’ chunntas %1$s\?</string>
+    <string name="action_logout_confirm">A bheil thu cinnteach gu bheil thu airson clàradh a-mach à %1$s\? Thèid gach dàta ionadail a’ chunntais a sguabadh às, a’ gabhail a-staigh nan dreachdan is roghainnean.</string>
     <string name="action_unfavourite">Thoir air falbh o na h-annsachdan</string>
     <string name="action_bookmark">Cuir ris na comharran-lìn</string>
     <string name="action_favourite">Cuir ris na h-annsachdan</string>
