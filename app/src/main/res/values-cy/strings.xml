@@ -54,7 +54,7 @@
     <string name="action_compose">Creu</string>
     <string name="action_login">Mewngofnodi â Tusky</string>
     <string name="action_logout">Allgofnodi</string>
-    <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s?</string>
+    <string name="action_logout_confirm">Ydych chi\'n siŵr eich bod am allgofnodi o\'r cyfrif %1$s\? Bydd hyn yn dileu\'r holl ddata lleol, gan gynnwys drafftiau a chyfeiriadau.</string>
     <string name="action_follow">Dilyn</string>
     <string name="action_unfollow">Dad-ddilyn</string>
     <string name="action_block">Rhwystro</string>
@@ -712,4 +712,14 @@
 \n
 \nI archwilio cyfrifon gallwch un ai eu darganfod o fewn un o\'r llinellau amser eraill. Er enghraifft, mae llinell amser eich enghraifft chi [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwilio am Tusky i ganfod ein cyfrif Mastodon.</string>
     <string name="pref_title_show_stat_inline">Dangos ystadegau postiadau mewn llinell amser</string>
+    <string name="pref_ui_text_size">Maint testun rhyngwyneb</string>
+    <string name="notification_listenable_worker_name">Gweithgaredd cefndirol</string>
+    <string name="notification_listenable_worker_description">Hysbysiadau pan fydd Tusky\'n gweithio\'n y cefndir</string>
+    <string name="notification_notification_worker">Yn estyn hysbysiadau…</string>
+    <string name="notification_prune_cache">Cynnal a chadw\'r storfan…</string>
+    <string name="error_missing_edits">Mae\'r gweinydd yn gwybod fod y postiad wedi ei olygu, ond nid oes ganddo gopi o\'r golygiadau, felly nid oes modd eu dangos i chi.
+\n
+\nHwn yw <a href="https://github.com/mastodon/mastodon/issues/25398">mater Mastodon #25398</a>.</string>
+    <string name="load_newest_notifications">Llwytho\'r hysbys diweddaraf</string>
+    <string name="compose_delete_draft">Dileu\'r drafft\?</string>
 </resources>
