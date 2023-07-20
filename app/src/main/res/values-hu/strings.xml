@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Hiba történt.</string>
-    <string name="error_network">Hálózati hiba történt! Kérjük, ellenőrizd a kapcsolatot, és próbálja meg újra!</string>
+    <string name="error_network">Hálózati hiba történt. Kérjük, ellenőrizd a kapcsolatot, és próbáld meg újra.</string>
     <string name="error_empty">Ez nem lehet üres.</string>
     <string name="error_invalid_domain">Helytelen domain</string>
     <string name="error_failed_app_registration">Sikertelen hitelesítés ezen a példányon. Ha ez továbbra is fennáll, próbáld a Bejelentkezés Böngészőben opciót a menüben.</string>
@@ -597,8 +597,8 @@
     <string name="pref_summary_http_proxy_missing">&lt;nincs beállítva&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;érvénytelen&gt;</string>
     <string name="title_edits">Szerkesztések</string>
-    <string name="status_created_info">%1$s létrehozta</string>
-    <string name="status_edit_info">%1$s szerkesztette</string>
+    <string name="status_created_info">%1$s-kor létrehozta</string>
+    <string name="status_edit_info">%1$s-kor szerkesztette</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Változtatások elvetése</string>
     <string name="action_continue_edit">Szerkesztés folytatása</string>
@@ -665,4 +665,14 @@
     <string name="select_list_empty">Még nincsenek listáid</string>
     <string name="select_list_manage">Listák kezelése</string>
     <string name="error_list_load">Hiba a listák betöltése során</string>
+    <string name="pref_ui_text_size">UI betűméret</string>
+    <string name="notification_listenable_worker_name">Háttértevékenység</string>
+    <string name="notification_listenable_worker_description">Értesítések, amikor a Tusky a háttérben működik</string>
+    <string name="notification_notification_worker">Értesítések lekérése…</string>
+    <string name="notification_prune_cache">Gyorsítótár karbantartása…</string>
+    <string name="load_newest_notifications">Legújabb értesítések betöltése</string>
+    <string name="compose_delete_draft">Töröljük a vázlatot\?</string>
+    <string name="error_missing_edits">A kiszolgálód tudja, hogy ezt a bejegyzést szerkesztették, de erről nincs másolata, így ezt nem tudjuk neked megmutatni.
+\n
+\nEz egy <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon hiba #25398</a>.</string>
 </resources>

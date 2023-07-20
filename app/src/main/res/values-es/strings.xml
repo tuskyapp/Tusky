@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ha ocurrido un error.</string>
-    <string name="error_network">¡Se ha producido un error de red! Por favor, comprueba tu conexión e inténtalo de nuevo.</string>
+    <string name="error_network">Se ha producido un error de red. Por favor, comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
     <string name="error_failed_app_registration">Fallo de autenticación con esta instancia. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
@@ -685,4 +685,8 @@
     <string name="action_add">Añadir</string>
     <string name="filter_keyword_display_format">%s (palabra completa)</string>
     <string name="filter_keyword_addition_title">Añadir palabra</string>
+    <string name="pref_ui_text_size">Tamaño de fuente</string>
+    <string name="notification_notification_worker">Obteniendo notificaciones…</string>
+    <string name="load_newest_notifications">Cargar nuevas notificaciones</string>
+    <string name="compose_delete_draft">¿Eliminar borrador\?</string>
 </resources>
