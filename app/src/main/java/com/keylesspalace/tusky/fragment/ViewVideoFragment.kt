@@ -325,6 +325,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         if (isAudio) {
             mediaAttachment.previewUrl?.let { url ->
                 Glide.with(this).load(url).into(object : CustomTarget<Drawable>() {
+                    @SuppressLint("SyntheticAccessor")
                     override fun onResourceReady(
                         resource: Drawable,
                         transition: Transition<in Drawable>?
@@ -333,6 +334,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                         binding.videoView.defaultArtwork = resource
                     }
 
+                    @SuppressLint("SyntheticAccessor")
                     override fun onLoadCleared(placeholder: Drawable?) {
                         view ?: return
                         binding.videoView.defaultArtwork = null
