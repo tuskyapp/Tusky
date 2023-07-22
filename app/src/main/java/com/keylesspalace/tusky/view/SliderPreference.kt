@@ -11,6 +11,8 @@ import com.google.android.material.slider.LabelFormatter.LABEL_GONE
 import com.google.android.material.slider.Slider
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.PrefSliderBinding
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import java.lang.Float.max
 import java.lang.Float.min
 
