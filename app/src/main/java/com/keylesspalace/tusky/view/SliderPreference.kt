@@ -132,7 +132,7 @@ class SliderPreference @JvmOverloads constructor(
         binding.root.isClickable = false
 
         binding.slider.clearOnChangeListeners()
-        binding.slicer.clearOnSliderTouchListeners()
+        binding.slider.clearOnSliderTouchListeners()
         binding.slider.addOnChangeListener(this)
         binding.slider.addOnSliderTouchListener(this)
         binding.slider.value = value // sliderValue
