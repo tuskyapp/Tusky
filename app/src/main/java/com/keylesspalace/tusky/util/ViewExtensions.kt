@@ -37,7 +37,7 @@ fun View.visible(visible: Boolean, or: Int = View.GONE) {
 /**
  * Reduce ViewPager2's sensitivity to horizontal swipes.
  */
-fun ViewPager2.reduceSwipeSensitivity() {
+fun ViewPager2.reduceSwipeSensitivity(scaleMetric: Int) {
     // ViewPager2 is very sensitive to horizontal motion when swiping vertically, and will
     // trigger a page transition if the user's swipe is only a few tens of degrees off from
     // vertical. This is a problem if the underlying content is a list that the user wants
@@ -58,11 +58,12 @@ fun ViewPager2.reduceSwipeSensitivity() {
         val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
         touchSlopField.isAccessible = true
         val touchSlop = touchSlopField.get(recyclerView) as Int
+        val scaleFactor = 1.0f - scaleMetric.toFloat() / 4.0f // Value is negative for easy display
+        Log.d("reduceSwipeSensitivity", "Original touch slop: $touchSlop Factor: $scaleFactor")
         // Experimentally, 2 seems to be a sweet-spot, requiring a downward swipe that's at least
         // 45 degrees off the vertical to trigger a change. This is consistent with maximum angle
         // supported to open the nav. drawer.
-        val scaleFactor = 2
-        touchSlopField.set(recyclerView, touchSlop * scaleFactor)
+        touchSlopField.set(recyclerView, (touchSlop * scaleFactor).toInt())
     } catch (e: Exception) {
         Log.w("reduceSwipeSensitivity", e)
     }

@@ -68,7 +68,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
     }
 
     private fun setupPages() {
-        binding.pages.reduceSwipeSensitivity()
+        binding.pages.reduceSwipeSensitivity(preferences.getInt(PrefKeys.DECREASE_SWIPE_SENSITIVITY, -4))
         binding.pages.adapter = SearchPagerAdapter(this)
 
         val enableSwipeForTabs = preferences.getBoolean(PrefKeys.ENABLE_SWIPE_FOR_TABS, true)

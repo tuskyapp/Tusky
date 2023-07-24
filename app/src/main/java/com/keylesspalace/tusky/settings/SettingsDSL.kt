@@ -13,6 +13,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
+import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreference
 import com.keylesspalace.tusky.view.SliderPreference
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference

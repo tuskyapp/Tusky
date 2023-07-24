@@ -242,6 +242,19 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_show_stat_inline)
                     isSingleLineTitle = false
                 }
+
+                sliderPreference {
+                    setDefaultValue(-4.0f) // Comes out to "default/2"
+                    key = PrefKeys.DECREASE_SWIPE_SENSITIVITY
+                    setTitle(R.string.pref_title_decrease_swipe_sensitivity)
+                    valueFrom = -8.0f
+                    valueTo = 0.0f
+                    stepSize = 1.0f
+                    // Must duplicate ViewPager2.reduceSwipeSensitivity()
+                    formatter = { metric:Float ->
+                        "%d%%".format((100.0f/(1.0f - metric / 4.0f)).toInt())
+                    }
+                }
             }
 
             preferenceCategory(R.string.pref_title_browser_settings) {
