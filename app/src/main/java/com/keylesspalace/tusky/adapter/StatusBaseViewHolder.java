@@ -37,6 +37,7 @@ import com.google.android.material.color.MaterialColors;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -1031,18 +1032,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             pollButton.setVisibility(View.VISIBLE);
 
             pollButton.setOnClickListener(v -> {
-
                 int position = getBindingAdapterPosition();
-
                 if (position != RecyclerView.NO_POSITION) {
-
                     List<Integer> pollResult = pollAdapter.getSelected();
-
                     if (!pollResult.isEmpty()) {
                         listener.onVoteInPoll(position, pollResult);
+                    } else {
+                        Snackbar.make(
+                            itemView,
+                            "pollAdapter.getSelected() returned an empty list",
+                            Snackbar.LENGTH_INDEFINITE
+                        ).show();
                     }
+                } else {
+                    Snackbar.make(
+                        itemView,
+                        "getBindingAdapterPosition() returned NO_POSITION",
+                        Snackbar.LENGTH_INDEFINITE
+                    ).show();
                 }
-
             });
         }
 

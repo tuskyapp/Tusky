@@ -565,8 +565,22 @@ class TimelineFragment :
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val statusViewData = adapter.peek(position) ?: return
-        val poll = statusViewData.status.poll ?: return
+        val statusViewData = adapter.peek(position) ?: run {
+            Snackbar.make(
+                binding.root,
+                "null at adapter.peek($position)",
+                Snackbar.LENGTH_INDEFINITE
+            ).show()
+            null
+        } ?: return
+        val poll = statusViewData.status.poll ?: run {
+            Snackbar.make(
+                binding.root,
+                "statusViewData had null poll",
+                Snackbar.LENGTH_INDEFINITE
+            ).show()
+            null
+        } ?: return
         viewModel.accept(StatusAction.VoteInPoll(poll, choices, statusViewData))
     }
 
