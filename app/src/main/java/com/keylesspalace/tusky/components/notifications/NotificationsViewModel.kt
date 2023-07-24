@@ -73,7 +73,13 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.ExperimentalTime
 
 data class UiState(
-    /** Filtered notification types */
+    /** All saved sets for filtered notification types */
+    val filters: Array<Set<Notification.Type>> = emptyArray(),
+
+    /** Currently active index within filters */
+    val filterIndex: Int = 0,
+
+    /** Filtered notification types-- should be a reference into filters */
     val activeFilter: Set<Notification.Type> = emptySet(),
 
     /** True if the UI to filter and clear notifications should be shown */
@@ -115,7 +121,10 @@ sealed class InfallibleUiAction : UiAction() {
     // This saves the list to the local database, which triggers a refresh of the data.
     // Saving the data can't fail, which is why this is infallible. Refreshing the
     // data may fail, but that's handled by the paging system / adapter refresh logic.
-    data class ApplyFilter(val filter: Set<Notification.Type>) : InfallibleUiAction()
+    data class ApplyFilters(val filters: Array<Set<Notification.Type>>) : InfallibleUiAction()
+
+    /** Select which of the two filters are active */
+    data class ActiveFilter(val active: Int) : InfallibleUiAction()
 
     /**
      * User is leaving the fragment, save the ID of the visible notification.
@@ -334,20 +343,38 @@ class NotificationsViewModel @Inject constructor(
 
     init {
         // Handle changes to notification filters
-        val notificationFilter = uiAction
-            .filterIsInstance<InfallibleUiAction.ApplyFilter>()
+        val notificationFilters = uiAction
+            .filterIsInstance<InfallibleUiAction.ApplyFilters>()
             .distinctUntilChanged()
             // Save each change back to the active account
             .onEach { action ->
-                Log.d(TAG, "notificationFilter: $action")
-                account.notificationsFilter = serialize(action.filter)
+                Log.d(TAG, "notificationFilters: $action")
+                account.notificationsFilters = serialize(action.filters)
                 accountManager.saveAccount(account)
             }
             // Load the initial filter from the active account
             .onStart {
                 emit(
-                    InfallibleUiAction.ApplyFilter(
-                        filter = deserialize(account.notificationsFilter)
+                    InfallibleUiAction.ApplyFilters(
+                        filters = deserialize(account.notificationsFilters)
+                    )
+                )
+            }
+
+        val notificationFilterActive = uiAction
+            .filterIsInstance<InfallibleUiAction.ActiveFilter>()
+            .distinctUntilChanged()
+            // Save each change back to the active account
+            .onEach { action ->
+                Log.d(TAG, "notificationsFilterIndex: $action")
+                account.notificationsFilterIndex = action.active
+                accountManager.saveAccount(account)
+            }
+            // Load the initial filter from the active account
+            .onStart {
+                emit(
+                    InfallibleUiAction.ActiveFilter(
+                        active = account.notificationsFilterIndex
                     )
                 )
             }
@@ -489,14 +516,16 @@ class NotificationsViewModel @Inject constructor(
 
         // Re-fetch notifications if either of `notificationFilter` or `reload` flows have
         // new items.
-        pagingData = combine(notificationFilter, reload) { action, _ -> action }
+        pagingData = combine(notificationFilters, notificationFilterActive, reload) { filters, filterIndex, _ -> filters.filters[filterIndex.active] }
             .flatMapLatest { action ->
-                getNotifications(filters = action.filter, initialKey = getInitialKey())
+                getNotifications(filters = action, initialKey = getInitialKey())
             }.cachedIn(viewModelScope)
 
-        uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
+        uiState = combine(notificationFilters, notificationFilterActive, getUiPrefs()) { filters, filterIndex, prefs ->
             UiState(
-                activeFilter = filter.filter,
+                filters = filters.filters,
+                filterIndex = filterIndex.active,
+                activeFilter = filters.filters[filterIndex.active],
                 showFilterOptions = prefs.showFilter,
                 showFabWhileScrolling = prefs.showFabWhileScrolling
             )

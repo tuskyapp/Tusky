@@ -136,6 +136,20 @@ class NotificationsFragment :
             // Clear behaviour to hide app bar
             params.behavior = null
         }
+        // Set name of "Swap" button
+        // FIXME: This politely skips if filters has not yet been populated, BUT if filters or filterIndex ever get set to "strange" values it could impolitely crash.
+        if (viewModel.uiState.value.filters.size > 0) {
+            val offset =
+                viewModel.uiState.value.filters[viewModel.uiState.value.filterIndex].size - viewModel.uiState.value.filters[1 - viewModel.uiState.value.filterIndex].size
+            val swapText = if (offset < 0) {
+                R.string.notifications_swap_less
+            } else if (offset > 0) {
+                R.string.notifications_swap_more
+            } else {
+                R.string.notifications_swap
+            }
+            binding.buttonSwap.setText(swapText)
+        }
     }
 
     private fun confirmClearNotifications() {
@@ -215,7 +229,8 @@ class NotificationsFragment :
             footer = NotificationsLoadStateAdapter { adapter.retry() }
         )
 
-        binding.buttonClear.setOnClickListener { confirmClearNotifications() }
+        // binding.buttonClear.setOnClickListener { confirmClearNotifications() }
+        binding.buttonSwap.setOnClickListener { swapNotifications() }
         binding.buttonFilter.setOnClickListener { showFilterDialog() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
@@ -572,10 +587,18 @@ class NotificationsFragment :
         viewModel.accept(FallibleUiAction.ClearNotifications)
     }
 
+    private fun swapNotifications() {
+        binding.swipeRefreshLayout.isRefreshing = false
+        binding.progressBar.isVisible = false
+        viewModel.accept(InfallibleUiAction.ActiveFilter(1 - viewModel.uiState.value.filterIndex))
+    }
+
     private fun showFilterDialog() {
         FilterDialogFragment(viewModel.uiState.value.activeFilter) { filter ->
             if (viewModel.uiState.value.activeFilter != filter) {
-                viewModel.accept(InfallibleUiAction.ApplyFilter(filter))
+                val filters = viewModel.uiState.value.filters.copyOf()
+                filters[viewModel.uiState.value.filterIndex] = filter
+                viewModel.accept(InfallibleUiAction.ApplyFilters(filters))
             }
         }
             .show(parentFragmentManager, "dialogFilter")

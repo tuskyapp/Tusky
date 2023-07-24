@@ -22,25 +22,48 @@ import org.json.JSONArray
  * Serialize to string array and deserialize notifications type
  */
 
-fun serialize(data: Set<Notification.Type>?): String {
+fun serialize(data: Array<Set<Notification.Type>>?): String {
     val array = JSONArray()
-    data?.forEach {
-        array.put(it.presentation)
+    data?.forEach { innerArray ->
+        val filterArray = JSONArray()
+        innerArray.forEach {
+            filterArray.put(it.presentation)
+        }
+        array.put(filterArray)
     }
     return array.toString()
 }
 
-fun deserialize(data: String?): Set<Notification.Type> {
+private fun deserializeInternal(array: JSONArray): Set<Notification.Type> {
     val ret = HashSet<Notification.Type>()
-    data?.let {
-        val array = JSONArray(data)
-        for (i in 0 until array.length()) {
-            val item = array.getString(i)
-            val type = Notification.Type.byString(item)
-            if (type != Notification.Type.UNKNOWN) {
-                ret.add(type)
-            }
+    for (i in 0 until array.length()) {
+        val item = array.getString(i)
+        val type = Notification.Type.byString(item)
+        if (type != Notification.Type.UNKNOWN) {
+            ret.add(type)
         }
     }
     return ret
+}
+
+// This performs an implied conversion from AppDatabase 51 to 52.
+private fun deserializeSingleFallback(array: JSONArray): Array<Set<Notification.Type>> {
+    val orig = deserializeInternal(array)
+    return arrayOf(orig, HashSet(orig))
+}
+
+fun deserialize(data: String?): Array<Set<Notification.Type>> {
+    val ret = mutableListOf<Set<Notification.Type>>()
+    data?.let {
+        val array = JSONArray(data)
+        for (i in 0 until array.length()) {
+            val filterArray = array.optJSONArray(i)
+            if (filterArray == null) {
+                return deserializeSingleFallback(array)
+            }
+
+            ret.add(deserializeInternal(filterArray))
+        }
+    }
+    return ret.toTypedArray()
 }

@@ -37,21 +37,21 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonClear"
-                style="@style/TuskyButton.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/notifications_clear"
-                android:textSize="?attr/status_text_medium" />
-
-            <Button
                 android:id="@+id/buttonFilter"
                 style="@style/TuskyButton.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/notifications_apply_filter"
+                android:textSize="?attr/status_text_medium" />
+
+            <Button
+                android:id="@+id/buttonSwap"
+                style="@style/TuskyButton.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/notifications_swap"
                 android:textSize="?attr/status_text_medium" />
 
         </LinearLayout>

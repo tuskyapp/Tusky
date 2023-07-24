@@ -42,7 +42,7 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 51,
+    version = 52,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
@@ -673,4 +673,12 @@ public abstract class AppDatabase extends RoomDatabase {
 
     @DeleteColumn(tableName = "AccountEntity", columnName = "activeNotifications")
     static class MIGRATION_49_50 implements AutoMigrationSpec { }
+
+    public static final Migration MIGRATION_51_52 = new Migration(51, 52) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` RENAME COLUMN `notificationFilter` TO `notificationFilters`");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `notificationsFilterIndex` INTEGER NOT NULL DEFAULT 0");
+        }
+    };
 }
