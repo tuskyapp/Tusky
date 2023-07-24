@@ -403,7 +403,6 @@
     <string name="failed_fetch_posts">게시물을 불러오지 못했습니다</string>
     <string name="report_description_1">인스턴스 관리자에게 신고합니다. 이 계정을 신고하려는 이유를 작성하실 수 있습니다:</string>
     <string name="report_description_remote_instance">이 유저는 다른 인스턴스에 속해 있습니다. 그 인스턴스에도 익명으로 신고 내용을 보내시겠습니까\?</string>
-    <string name="pref_title_show_notifications_filter">알림 필터 보이기</string>
     <string name="action_open_as">%s(으)로 열기</string>
     <string name="title_accounts">계정</string>
     <string name="failed_search">검색하지 못했습니다</string>

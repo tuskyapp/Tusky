@@ -37,7 +37,6 @@ class NotificationsViewModelTestUiState : NotificationsViewModelTestBase() {
 
     private val initialUiState = UiState(
         activeFilter = setOf(Notification.Type.FOLLOW),
-        showFilterOptions = true,
         showFabWhileScrolling = true
     )
 
@@ -64,25 +63,6 @@ class NotificationsViewModelTestUiState : NotificationsViewModelTestBase() {
         // Then
         viewModel.uiState.test {
             assertThat(expectMostRecentItem().showFabWhileScrolling).isFalse()
-        }
-    }
-
-    @Test
-    fun `showFilterOptions depends on SHOW_NOTIFICATIONS_FILTER preference`() = runTest {
-        // Prior
-        viewModel.uiState.test {
-            assertThat(expectMostRecentItem().showFilterOptions).isTrue()
-        }
-
-        // Given
-        sharedPreferencesMap[PrefKeys.SHOW_NOTIFICATIONS_FILTER] = false
-
-        // When
-        eventHub.dispatch(PreferenceChangedEvent(PrefKeys.SHOW_NOTIFICATIONS_FILTER))
-
-        // Then
-        viewModel.uiState.test {
-            assertThat(expectMostRecentItem().showFilterOptions).isFalse()
         }
     }
 }

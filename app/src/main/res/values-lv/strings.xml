@@ -426,7 +426,6 @@
     <string name="pref_title_show_self_username">Rādīt lietotājvārdu rīkjoslās</string>
     <string name="pref_title_confirm_reblogs">Pirms pastiprināšanas rādīt apstiprināšanas dialogu</string>
     <string name="failed_search">Meklēšana neizdevās</string>
-    <string name="pref_title_show_notifications_filter">Rādīt paziņojumu filtru</string>
     <string name="pref_title_enable_swipe_for_tabs">Iespējot vilkšanas žestu, lai pārslēgtos starp cilnēm</string>
     <string name="pref_title_hide_top_toolbar">Paslēpt augšējās rīkjoslas virsrakstu</string>
     <string name="pref_title_notification_filter_reports">iesniegts jauns ziņojums</string>

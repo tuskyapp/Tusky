@@ -76,23 +76,18 @@ data class UiState(
     /** Filtered notification types */
     val activeFilter: Set<Notification.Type> = emptySet(),
 
-    /** True if the UI to filter and clear notifications should be shown */
-    val showFilterOptions: Boolean = false,
-
     /** True if the FAB should be shown while scrolling */
     val showFabWhileScrolling: Boolean = true
 )
 
 /** Preferences the UI reacts to */
 data class UiPrefs(
-    val showFabWhileScrolling: Boolean,
-    val showFilter: Boolean
+    val showFabWhileScrolling: Boolean
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
-            PrefKeys.FAB_HIDE,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER
+            PrefKeys.FAB_HIDE
         )
     }
 }
@@ -497,7 +492,6 @@ class NotificationsViewModel @Inject constructor(
         uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
             UiState(
                 activeFilter = filter.filter,
-                showFilterOptions = prefs.showFilter,
                 showFabWhileScrolling = prefs.showFabWhileScrolling
             )
         }.stateIn(
@@ -546,8 +540,7 @@ class NotificationsViewModel @Inject constructor(
         .onStart { emit(toPrefs()) }
 
     private fun toPrefs() = UiPrefs(
-        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
-        showFilter = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
+        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false)
     )
 
     companion object {

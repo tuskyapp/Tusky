@@ -100,7 +100,6 @@ abstract class NotificationsViewModelTestBase {
             PrefKeys.CONFIRM_REBLOGS to true,
             PrefKeys.CONFIRM_FAVOURITES to false,
             PrefKeys.WELLBEING_HIDE_STATS_POSTS to false,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER to true,
             PrefKeys.FAB_HIDE to false
         )
 

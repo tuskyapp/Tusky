@@ -440,7 +440,6 @@
     <string name="report_description_remote_instance">Is ó fhreastalaí eile an cuntas. Seol cóip gan ainm den tuarascáil ansin freisin\?</string>
     <string name="title_accounts">Cuntais</string>
     <string name="failed_search">Theip ar chuardach</string>
-    <string name="pref_title_show_notifications_filter">Taispeáin scagaire Fógraí</string>
     <string name="pref_title_enable_swipe_for_tabs">Cumasaigh gotha swipe aistriú idir cluaisíní</string>
     <string name="create_poll_title">Vótaíocht</string>
     <string name="duration_5_min">5 nóiméid</string>

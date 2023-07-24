@@ -441,7 +441,6 @@
     <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer\?</string>
     <string name="title_accounts">Konta</string>
     <string name="failed_search">Wyszukiwanie nie powidło się</string>
-    <string name="pref_title_show_notifications_filter">Pokaż filtr powiadomień</string>
     <string name="create_poll_title">Głosowanie</string>
     <string name="duration_5_min">5 minut</string>
     <string name="duration_30_min">30 minut</string>

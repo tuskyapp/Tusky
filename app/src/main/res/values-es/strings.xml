@@ -432,7 +432,6 @@
     <string name="failed_fetch_posts">Fallo al obtener estados</string>
     <string name="report_description_1">El reporte será enviado a un moderador de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
-    <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
     <string name="pref_title_alway_open_spoiler">Mostrar siempre publicaciones marcadas con avisos de contenido</string>
     <string name="title_accounts">Cuentas</string>
     <string name="failed_search">Error al buscar</string>

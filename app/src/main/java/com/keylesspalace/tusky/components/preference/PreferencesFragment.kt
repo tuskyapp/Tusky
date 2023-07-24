@@ -210,13 +210,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 switchPreference {
                     setDefaultValue(true)
-                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
-                    setTitle(R.string.pref_title_show_notifications_filter)
-                    isSingleLineTitle = false
-                }
-
-                switchPreference {
-                    setDefaultValue(true)
                     key = PrefKeys.CONFIRM_REBLOGS
                     setTitle(R.string.pref_title_confirm_reblogs)
                     isSingleLineTitle = false

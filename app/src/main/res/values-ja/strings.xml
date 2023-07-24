@@ -390,7 +390,6 @@
     <string name="poll_info_closed">投票終了</string>
     <string name="title_accounts">アカウント</string>
     <string name="failed_search">検索に失敗しました</string>
-    <string name="pref_title_show_notifications_filter">通知フィルターを表示</string>
     <string name="action_reset_schedule">リセット</string>
     <string name="title_bookmarks">ブックマーク</string>
     <string name="action_bookmark">ブックマーク</string>

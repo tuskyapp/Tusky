@@ -472,7 +472,6 @@
     <string name="label_duration">期間</string>
     <string name="create_poll_title">投票</string>
     <string name="pref_title_enable_swipe_for_tabs">啟用在分頁間切換的滑動手勢</string>
-    <string name="pref_title_show_notifications_filter">顯示通知過濾器</string>
     <string name="failed_search">搜尋失敗</string>
     <string name="title_accounts">帳號</string>
     <string name="failed_fetch_posts">擷取狀態失敗</string>

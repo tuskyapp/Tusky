@@ -379,7 +379,6 @@
     <string name="duration_5_min">५ निमेषाः</string>
     <string name="create_poll_title">मतपेटिका</string>
     <string name="pref_title_enable_swipe_for_tabs">सारणहावभावस्य संयुतनं पीठिकापरिवर्तनार्थं कार्यम्</string>
-    <string name="pref_title_show_notifications_filter">सूचनाशोधकं दृश्यताम्</string>
     <string name="failed_search">अन्वेषणे विफलता जाता</string>
     <string name="title_accounts">व्यक्तित्वविवरणलेखाः</string>
     <string name="report_description_remote_instance">अन्यजालवितारकादियं व्यक्तित्वविवरणलेखा । आवेदनस्य रक्षितप्रतिलिपिरपि प्रेष्यतां वा \?</string>

@@ -434,7 +434,6 @@
     <string name="failed_fetch_posts">Не удалось получить статусы</string>
     <string name="report_description_1">Жалоба будет отправлена модератору вашего узла. Ниже вы можете добавить пояснение о причинах жалобы:</string>
     <string name="report_description_remote_instance">Этот аккаунт расположен на другом узле. Отправить анонимную копию жалобы туда\?</string>
-    <string name="pref_title_show_notifications_filter">Показать фильтр уведомлений</string>
     <string name="action_add_poll">Создать опрос</string>
     <string name="pref_title_alway_open_spoiler">Всегда разворачивать посты с предупреждением о содержимом</string>
     <string name="title_accounts">Аккаунты</string>

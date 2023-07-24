@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -34,7 +35,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
@@ -178,6 +181,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -256,6 +260,23 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         binding.mainToolbar.visible(!hideTopToolbar)
+
+        // Configure a faux-options menu if the top toolbar is hidden
+        if (hideTopToolbar) {
+            val navOnBottom = preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom"
+            val view = if (navOnBottom) binding.bottomNavOptionsMenu else binding.topNavOptionsMenu
+            val popup = PopupMenu(this, view)
+            popup.setOnMenuItemClickListener {
+                this@MainActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, it)
+            }
+            view.contentDescription = binding.mainToolbar.navigationContentDescription
+            view.setOnClickListener {
+                popup.menu.clear()
+                onCreatePanelMenu(Window.FEATURE_OPTIONS_PANEL, popup.menu)
+                onPreparePanel(Window.FEATURE_OPTIONS_PANEL, view, popup.menu)
+                popup.show()
+            }
+        }
 
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
@@ -886,9 +907,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
 
             val avatarView = if (navOnBottom) {
+                binding.bottomNavOptionsMenu.show()
                 binding.bottomNavAvatar.show()
                 binding.bottomNavAvatar
             } else {
+                binding.topNavOptionsMenu.show()
                 binding.topNavAvatar.show()
                 binding.topNavAvatar
             }
@@ -906,6 +929,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     .into(avatarView)
             }
         } else {
+            binding.topNavOptionsMenu.hide()
+            binding.bottomNavOptionsMenu.hide()
             binding.bottomNavAvatar.hide()
             binding.topNavAvatar.hide()
 

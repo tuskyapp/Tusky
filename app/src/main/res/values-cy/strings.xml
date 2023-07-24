@@ -308,7 +308,6 @@
     <string name="notification_clear_text">Ydych chi\'n siŵr eich bod chi am glirio\'ch holl hysbysiadau\'n barhaol\?</string>
     <string name="error_multimedia_size_limit">Ni all ffeiliau fideo a sain fod yn fwy na %s MB.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="pref_title_show_notifications_filter">Dangos yr hidlydd hysbysiadau</string>
     <string name="error_following_hashtag_format">Gwall wrth ddilyn #%s</string>
     <string name="error_unfollowing_hashtag_format">Gwall wrth ddad-ddilyn #%s</string>
     <string name="action_unmute_domain">Dad-dewi %s</string>

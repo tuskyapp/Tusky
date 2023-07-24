@@ -400,7 +400,6 @@
     <string name="failed_fetch_posts">شکست در واکشی فرسته‌ها</string>
     <string name="title_accounts">حساب‌ها</string>
     <string name="failed_search">شکست در جست‌وجو</string>
-    <string name="pref_title_show_notifications_filter">نمایش پالایهٔ آگاهی‌ها</string>
     <string name="create_poll_title">نظرسنجی</string>
     <string name="duration_5_min">۵ دقیقه</string>
     <string name="duration_30_min">۳۰ دقیقه</string>
