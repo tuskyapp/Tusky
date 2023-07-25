@@ -64,6 +64,14 @@ android {
         google {
             dimension "store"
         }
+
+        google {
+            dimension "store"
+        }
+
+        fdroid {
+            dimension "store"
+        }
     }
 
     lint {
@@ -180,8 +188,8 @@ dependencies {
 
     implementation libs.bundles.xmldiff
 
-    googleImplementation 'com.google.android.play:app-update:2.1.0'
-    googleImplementation 'com.google.android.play:app-update-ktx:2.1.0'
+    googleImplementation libs.app.update
+    googleImplementation libs.app.update.ktx
 
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric

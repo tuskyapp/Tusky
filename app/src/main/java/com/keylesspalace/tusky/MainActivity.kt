@@ -171,12 +171,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
-
+    
     /** Mediate between binding.viewPager and the chosen tab layout */
     private var tabLayoutMediator: TabLayoutMediator? = null
 
     /** Adapter for the different timeline tabs */
-    private lateinit var tabAdapter: MainPagerAdapter
+    private lateinit var tabAdapter: MainPagerAdapter    
+
+    init {
+        if (BuildConfig.FLAVOR_store == "google") {
+            createInAppUpdateResultLauncher(this)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -379,6 +385,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             selectedEmojiPack = currentEmojiPack
             recreate()
         }
+
+        if (shouldCheckForUpdate()) {
+            handleAppUpdateOnResume(this, preferences)
+        }
     }
 
     override fun onStart() {
@@ -439,11 +449,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun setupDrawer(
-        savedInstanceState: Bundle?,
-        addSearchButton: Boolean,
-        addTrendingButton: Boolean
-    ) {
+    private fun shouldCheckForUpdate() = BuildConfig.FLAVOR_store == "google" &&
+        UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null)) != UpdateNotificationFrequency.NEVER
+
+    private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
+
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)

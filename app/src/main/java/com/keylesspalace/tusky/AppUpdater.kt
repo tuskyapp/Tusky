@@ -27,10 +27,12 @@
 package com.keylesspalace.tusky
 
 import android.app.Activity
-import android.widget.ProgressBar
+import android.content.SharedPreferences
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
-import androidx.core.view.isVisible
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -40,7 +42,10 @@ import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.installStatus
+import com.keylesspalace.tusky.settings.PrefKeys
 
+private const val TAG = "AppUpdater"
 private const val MIN_IMMEDIATE_UPDATE_PRIORITY = 4
 private const val MAX_FLEXIBLE_UPDATE_PRIORITY = 3
 
@@ -52,9 +57,41 @@ enum class UpdateType {
     Flexible, Immediate, Unknown
 }
 
+enum class UpdateNotificationFrequency {
+    /** Never prompt the user to update */
+    NEVER,
+
+    /** Prompt the user to update once per version */
+    ONCE_PER_VERSION,
+
+    /** Always prompt the user to update */
+    ALWAYS;
+
+    companion object {
+        fun from(s: String?): UpdateNotificationFrequency {
+            s ?: return ALWAYS
+
+            return try {
+                valueOf(s.uppercase())
+            } catch (_: Throwable) {
+                ALWAYS
+            }
+        }
+    }
+}
+
 private var appUpdateType = UpdateType.Unknown
 
-fun checkForUpdate(activity: Activity, progressBar: ProgressBar) {
+fun createInAppUpdateResultLauncher(activity: AppCompatActivity) {
+    inAppUpdateResultLauncher = activity.registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+        handleAppUpdateOnActivityResult(activity, it.resultCode)
+    }
+}
+
+fun checkForUpdate(activity: Activity, sharedPreferences: SharedPreferences) {
+    val frequency = UpdateNotificationFrequency.from(sharedPreferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
+    if (frequency == UpdateNotificationFrequency.NEVER) return
+
     appUpdateManager = AppUpdateManagerFactory.create(activity)
     appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
         if (info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
@@ -65,30 +102,31 @@ fun checkForUpdate(activity: Activity, progressBar: ProgressBar) {
                     AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE))
             } else if (info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
                 && info.updatePriority() <= MAX_FLEXIBLE_UPDATE_PRIORITY) {
+
+                if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
+                    val ignoredVersion = sharedPreferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
+                    val versionCode = info.availableVersionCode()
+                    if (versionCode == ignoredVersion) {
+                        Log.d(TAG, "Ignoring update to $versionCode")
+                        return@addOnSuccessListener
+                    } else {
+                        Log.d(TAG, "Showing update to $versionCode (ignored: $ignoredVersion")
+                    }
+                }
+
                 appUpdateType = UpdateType.Flexible
                 updateListener = InstallStateUpdatedListener { state ->
-                    when {
-                        state.installStatus() == InstallStatus.DOWNLOADING -> {
-                            progressBar!!.isVisible = true
-                            val bytesDownloaded = state.bytesDownloaded()
-                            val totalBytesToDownload = state.totalBytesToDownload()
-                            val currentProgress = (bytesDownloaded / totalBytesToDownload).toInt() * 100
-//                            progressBar.setProgressCompat(currentProgress, true)
-                            progressBar.progress = currentProgress
-                            progressBar.contentDescription = activity.getString(R.string.update_flexible_progress_description, currentProgress)
-                        }
-                        state.installStatus() in InstallStatus.FAILED..InstallStatus.CANCELED -> {
-                            progressBar!!.isVisible = false
-                        }
-                        state.installStatus() == InstallStatus.DOWNLOADED -> {
-                            showSnackbarForDownloadedUpdate(activity)
-                        }
+                    if (state.installStatus == InstallStatus.DOWNLOADED) {
+                        showSnackbarForDownloadedUpdate(activity)
                     }
                 }
                 appUpdateManager.registerListener(updateListener)
                 appUpdateManager.startUpdateFlowForResult(info, inAppUpdateResultLauncher,
                     AppUpdateOptions.defaultOptions(AppUpdateType.FLEXIBLE))
             }
+        }
+        if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+            appUpdateManager.startUpdateFlow(info, activity, AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE))
         }
     }
 }
@@ -102,17 +140,32 @@ fun handleAppUpdateOnActivityResult(activity: Activity, resultCode: Int) {
     }
 }
 
-fun handleAppUpdateOnResume(activity: Activity) {
+fun handleAppUpdateOnResume(activity: Activity, sharedPreferences: SharedPreferences) {
+    Log.d(TAG, "appUpdateType: $appUpdateType")
     if (appUpdateType == UpdateType.Flexible) {
-        handleFlexibleUpdateOnResume(activity)
+        handleFlexibleUpdateOnResume(activity, sharedPreferences)
     } else if (appUpdateType == UpdateType.Immediate) {
         handleImmediateUpdateOnResume(activity)
     }
 }
 
-private fun handleFlexibleUpdateOnResume(activity: Activity) {
+private fun handleFlexibleUpdateOnResume(activity: Activity, sharedPreferences: SharedPreferences) {
     appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
-        if (info.installStatus() == InstallStatus.DOWNLOADED) {
+        if (info.installStatus == InstallStatus.UNKNOWN) {
+            // Happens if the user clicks the "X" on the dialog that's prompting them to install.
+            // Record the version code (if appropriate) so the user is not prompted about this
+            // version again
+            val frequency = UpdateNotificationFrequency.from(sharedPreferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
+            if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
+                with(sharedPreferences.edit()) {
+                    val versionCode = info.availableVersionCode()
+                    Log.d(TAG, "Ignoring updates for $versionCode")
+                    putInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, versionCode)
+                    apply()
+                }
+            }
+        }
+        if (info.installStatus == InstallStatus.DOWNLOADED) {
             appUpdateManager.unregisterListener(updateListener)
             showSnackbarForDownloadedUpdate(activity)
         }

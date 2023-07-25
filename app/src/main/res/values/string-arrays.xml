@@ -41,4 +41,10 @@
         <item>@string/filter_action_warn</item>
         <item>@string/filter_action_hide</item>
     </string-array>
+    
+    <string-array name="pref_update_notification_frequency_names">
+        <item>@string/pref_update_notification_frequency_never</item>
+        <item>@string/pref_update_notification_frequency_once_per_version</item>
+        <item>@string/pref_update_notification_frequency_always</item>
+    </string-array>    
 </resources>
