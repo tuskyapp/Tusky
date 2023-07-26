@@ -38,6 +38,7 @@
     <string name="error_media_download_permission">Permission to store media is required.</string>
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same post.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
+    <string name="error_media_upload_sending_fmt">The upload failed: %s</string>
     <string name="error_sender_account_gone">Error sending post.</string>
     <string name="error_following_hashtag_format">Error following #%s</string>
     <string name="error_unfollowing_hashtag_format">Error unfollowing #%s</string>
