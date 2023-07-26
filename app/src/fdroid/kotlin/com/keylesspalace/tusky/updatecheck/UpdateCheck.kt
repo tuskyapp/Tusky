@@ -15,16 +15,16 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.updatecheck
 
 import android.content.Intent
 import android.net.Uri
-import com.keylesspalace.tusky.updatecheck.FdroidService
+import com.keylesspalace.tusky.BuildConfig
 import javax.inject.Inject
 
-class AppUpdater @Inject constructor(
+class UpdateCheck @Inject constructor(
     private val fdroidService: FdroidService
-) : AppUpdaterBase() {
+) : UpdateCheckBase() {
     override val updateIntent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
     }

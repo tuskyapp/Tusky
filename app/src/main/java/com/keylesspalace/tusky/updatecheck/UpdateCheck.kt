@@ -15,9 +15,10 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.updatecheck
 
 import android.content.Intent
+import com.keylesspalace.tusky.BuildConfig
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
@@ -48,7 +49,7 @@ enum class UpdateNotificationFrequency {
 
 @OptIn(ExperimentalTime::class)
 @Singleton
-abstract class AppUpdaterBase {
+abstract class UpdateCheckBase {
     /** The last time the latest version was checked */
     private var lastCheck = markNow() - MINIMUM_DURATION_BETWEEN_CHECKS
 

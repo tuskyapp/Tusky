@@ -89,6 +89,8 @@ import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.updatecheck.UpdateCheck
+import com.keylesspalace.tusky.updatecheck.UpdateNotificationFrequency
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.await
@@ -156,7 +158,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     lateinit var developerToolsUseCase: DeveloperToolsUseCase
 
     @Inject
-    lateinit var appUpdater: AppUpdater
+    lateinit var updateCheck: UpdateCheck
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -380,7 +382,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             recreate()
         }
 
-        if (shouldCheckForUpdate()) checkForUpdate()
+        checkForUpdate()
     }
 
     /**
@@ -391,12 +393,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
      * notifications.
      */
     private fun checkForUpdate() = lifecycleScope.launch {
-        val latestVersionCode = appUpdater.getLatestVersionCode() ?: return@launch
+        val frequency = UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
+        if (frequency == UpdateNotificationFrequency.NEVER) return@launch
+
+        val latestVersionCode = updateCheck.getLatestVersionCode() ?: return@launch
 
 //        if (mostRecentVersion <= BuildConfig.VERSION_CODE) return@launch
         if (latestVersionCode <= 112) return@launch
 
-        val frequency = UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
         if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
             val ignoredVersion = preferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
             if (latestVersionCode == ignoredVersion) {
@@ -407,7 +411,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         Log.d(TAG, "New version is: $latestVersionCode")
         when (showUpdateDialog()) {
-            AlertDialog.BUTTON_POSITIVE -> startActivity(appUpdater.updateIntent)
+            AlertDialog.BUTTON_POSITIVE -> startActivity(updateCheck.updateIntent)
             AlertDialog.BUTTON_NEUTRAL -> {
                 with(preferences.edit()) {
                     putInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, latestVersionCode)
@@ -491,9 +495,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         startActivity(composeIntent)
         finish()
     }
-
-    private fun shouldCheckForUpdate() =
-        UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null)) != UpdateNotificationFrequency.NEVER
 
     private fun setupDrawer(
         savedInstanceState: Bundle?,

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
@@ -15,30 +15,33 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.updatecheck
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.keylesspalace.tusky.updatecheck.GitHubService
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.keylesspalace.tusky.BuildConfig
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 
-class AppUpdater @Inject constructor(
-    private val gitHubService: GitHubService
-) : AppUpdaterBase() {
-    private val versionCodeExtractor = """(\d+)\.apk""".toRegex()
+class UpdateCheck @Inject constructor(
+    val context: Context
+) : UpdateCheckBase() {
+    private var appUpdateManager = AppUpdateManagerFactory.create(context)
 
     override val updateIntent = Intent(Intent.ACTION_VIEW).apply {
-        data = Uri.parse("https://www.github.com/tuskyapp/tusky/releases/latest")
+        data = Uri.parse(
+            "https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")
+        setPackage("com.android.vending")
     }
 
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     override suspend fun remoteFetchLatestVersionCode(): Int? {
-        val release = gitHubService.getLatestRelease("tuskyapp", "tusky").getOrNull() ?: return null
-        for (asset in release.assets) {
-            if (asset.contentType != "application/vnd.android.package-archive") continue
-            return versionCodeExtractor.find(asset.name)?.groups?.get(1)?.value?.toIntOrNull() ?: continue
+        return suspendCancellableCoroutine { cont ->
+            appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+                cont.resume(info.availableVersionCode()) {}
+            }
         }
-
-        return null
     }
-
 }

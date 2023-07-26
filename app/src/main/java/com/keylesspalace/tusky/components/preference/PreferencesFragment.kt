@@ -19,7 +19,6 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.UpdateNotificationFrequency
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
@@ -32,6 +31,7 @@ import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
+import com.keylesspalace.tusky.updatecheck.UpdateNotificationFrequency
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.makeIcon
