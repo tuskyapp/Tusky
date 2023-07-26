@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
+/** A reply-tree of statuses which have been saved to disk. */
 @Entity(primaryKeys = ["id", "accountId"])
 @TypeConverters(Converters::class)
 data class ConversationEntity(
@@ -50,6 +51,7 @@ data class ConversationEntity(
     }
 }
 
+/** The account information associated with a status saved to disk. */
 data class ConversationAccountEntity(
     val id: String,
     val localUsername: String,
@@ -72,6 +74,7 @@ data class ConversationAccountEntity(
     }
 }
 
+/** A previously-displayed status which has been saved to disk. */
 @TypeConverters(Converters::class)
 data class ConversationStatusEntity(
     val id: String,
@@ -87,20 +90,20 @@ data class ConversationStatusEntity(
     val repliesCount: Int,
     val favourited: Boolean,
     val bookmarked: Boolean,
-    // If true, attachments have been marked as sensitive.
+    /** If true, post attachments are marked as sensitive content. */
     val sensitive: Boolean,
-    // If nonempty, post text has a spoiler/content warning.
+    /** If nonempty, post text has a spoiler/content warning. */
     val spoilerText: String,
     val attachments: List<Attachment>,
     val mentions: List<Status.Mention>,
     val tags: List<HashTag>?,
-    // If sensitive is true, then this is true when the user has chosen to expose the attachments.
+    /** If sensitive is true, then this is true when the user has chosen to expose the attachments. */
     val showingHiddenContent: Boolean,
-    // If spoilerText is nonempty, then this is true when the user has chosen to show the text.
+    /** If spoilerText is nonempty, then this is true when the user has chosen to show the text. */
     val expanded: Boolean,
-    // If content is long (see shouldTrimStatus()), then this is *false* when the user has chosen to show all content.
+    /** If content is long (see shouldTrimStatus()), then this is *false* when the user has chosen to show all content. */
     val collapsed: Boolean,
-    // If true, the user has chosen not to see further notifications for this status.
+    /** If true, the user has chosen not to see further notifications for this status. */
     val muted: Boolean,
     val poll: Poll?,
     val language: String?

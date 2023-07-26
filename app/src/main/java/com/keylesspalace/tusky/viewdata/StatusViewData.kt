@@ -25,24 +25,40 @@ import com.keylesspalace.tusky.util.shouldTrimStatus
 /**
  * Created by charlag on 11/07/2017.
  *
- * Class to represent data required to display either a notification or a placeholder.
+ * Class to represent data required to display either a status or a placeholder ("Load More" bar).
  * It is either a [StatusViewData.Concrete] or a [StatusViewData.Placeholder].
+ * Can be created either from a ConversationStatusEntity, or by helpers in ViewDataUtils.
  */
 sealed class StatusViewData {
     abstract val id: String
     var filterAction: Filter.Action = Filter.Action.NONE
 
     data class Concrete(
+        /** The Mastodon-API level information about the status. */
         val status: Status,
+        /**
+         * If StatusViewData spoilerText is nonempty, specifies whether the text content of this post
+         * is currently hidden.
+         *
+         * @return If true, post is shown. If false, it is hidden.
+         */
         val isExpanded: Boolean,
+        /**
+         * Specifies whether attachments are currently hidden as sensitive.
+         *
+         * @return If true, attachments are shown. If false, they is hidden.
+         */
         val isShowingContent: Boolean,
         /**
-         * Specifies whether the content of this post is currently limited in visibility to the first
-         * 500 characters or not.
+         * If StatusViewData isCollapsible, specifies whether the content of this post is currently
+         * limited in visibility to the first characters or not.
          *
-         * @return Whether the post is collapsed or fully expanded.
+         * @return If true, post is collapsed. If false, it is fully expanded.
          */
         val isCollapsed: Boolean,
+        /**
+         * If true, the status is "big" (has been selected by the user for detailed display).
+         */
         val isDetailed: Boolean = false
     ) : StatusViewData() {
         override val id: String
@@ -50,16 +66,21 @@ sealed class StatusViewData {
 
         /**
          * Specifies whether the content of this post is long enough to be automatically
-         * collapsed or if it should show all content regardless.
+         * collapsed or if it should show all content regardless. (See shouldTrimStatus())
          *
          * @return Whether the post is collapsible or never collapsed.
          */
         val isCollapsible: Boolean
-
         val content: Spanned
+       /**
+         * @return If nonempty, the spoiler/content warning text. If empty, there is no warning.
+         */
         val spoilerText: String
         val username: String
 
+       /**
+         * @return The "true" status (same as status unless this is a reblog)
+         */
         val actionable: Status
             get() = status.actionableStatus
 
