@@ -398,8 +398,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         val latestVersionCode = updateCheck.getLatestVersionCode() ?: return@launch
 
-//        if (mostRecentVersion <= BuildConfig.VERSION_CODE) return@launch
-        if (latestVersionCode <= 112) return@launch
+        if (latestVersionCode <= BuildConfig.VERSION_CODE) return@launch
 
         if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
             val ignoredVersion = preferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
