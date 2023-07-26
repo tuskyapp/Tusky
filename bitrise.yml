@@ -71,7 +71,7 @@ workflows:
         inputs:
         - project_location: $PROJECT_LOCATION
         - module: app
-        - variant: green
+        - variant: greenFdroidDebug
     - android-build:
         inputs:
         - variant: green
