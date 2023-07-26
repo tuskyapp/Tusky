@@ -48,7 +48,6 @@ class AccountListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         val type = intent.getSerializableExtra(EXTRA_TYPE) as Type
         val id: String? = intent.getStringExtra(EXTRA_ID)
-        val accountLocked: Boolean = intent.getBooleanExtra(EXTRA_ACCOUNT_LOCKED, false)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.apply {
@@ -66,7 +65,7 @@ class AccountListActivity : BottomSheetActivity(), HasAndroidInjector {
         }
 
         supportFragmentManager.commit {
-            replace(R.id.fragment_container, AccountListFragment.newInstance(type, id, accountLocked))
+            replace(R.id.fragment_container, AccountListFragment.newInstance(type, id))
         }
     }
 
@@ -75,13 +74,11 @@ class AccountListActivity : BottomSheetActivity(), HasAndroidInjector {
     companion object {
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_ID = "id"
-        private const val EXTRA_ACCOUNT_LOCKED = "acc_locked"
 
-        fun newIntent(context: Context, type: Type, id: String? = null, accountLocked: Boolean = false): Intent {
+        fun newIntent(context: Context, type: Type, id: String? = null): Intent {
             return Intent(context, AccountListActivity::class.java).apply {
                 putExtra(EXTRA_TYPE, type)
                 putExtra(EXTRA_ID, id)
-                putExtra(EXTRA_ACCOUNT_LOCKED, accountLocked)
             }
         }
     }
