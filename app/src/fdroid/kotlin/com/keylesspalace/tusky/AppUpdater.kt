@@ -15,26 +15,21 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.updatecheck
+package com.keylesspalace.tusky
 
-import at.connyduck.calladapter.networkresult.NetworkResult
-import retrofit2.http.GET
-import retrofit2.http.Path
+import android.content.Intent
+import android.net.Uri
+import com.keylesspalace.tusky.updatecheck.FdroidService
+import javax.inject.Inject
 
-data class FdroidPackageVersion(
-    val versionName: String,
-    val versionCode: Int
-)
+class AppUpdater @Inject constructor(
+    private val fdroidService: FdroidService
+) : AppUpdaterBase() {
+    override val updateIntent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
+    }
 
-data class FdroidPackage(
-    val packageName: String,
-    val suggestedVersionCode: Int,
-    val packages: List<FdroidPackageVersion>
-)
-
-interface FdroidService {
-    @GET("/api/v1/packages/{package}")
-    suspend fun getPackage(
-        @Path("package") pkg: String
-    ): NetworkResult<FdroidPackage>
+    override suspend fun remoteFetchLatestVersionCode(): Int? {
+        return fdroidService.getPackage(BuildConfig.APPLICATION_ID).getOrNull()?.suggestedVersionCode
+    }
 }

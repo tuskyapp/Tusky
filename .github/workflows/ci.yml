@@ -27,15 +27,15 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
-  
+
       - name: ktlint
         run: ./gradlew clean ktlintCheck
-        
+
       - name: Regular lint
-        run: ./gradlew app:lintGreenDebug
-        
+        run: ./gradlew app:lintGreenGoogleDebug
+
       - name: Test
-        run: ./gradlew app:testGreenDebugUnitTest
-        
+        run: ./gradlew app:testGreenGoogleDebugUnitTest
+
       - name: Build
-        run: ./gradlew app:buildGreenDebug
+        run: ./gradlew app:buildGreenGoogleDebug

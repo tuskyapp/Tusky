@@ -91,6 +91,7 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
+import com.keylesspalace.tusky.util.await
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
@@ -154,6 +155,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     @Inject
     lateinit var developerToolsUseCase: DeveloperToolsUseCase
 
+    @Inject
+    lateinit var appUpdater: AppUpdater
+
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
     private lateinit var header: AccountHeaderView
@@ -171,18 +175,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
-    
+
     /** Mediate between binding.viewPager and the chosen tab layout */
     private var tabLayoutMediator: TabLayoutMediator? = null
 
     /** Adapter for the different timeline tabs */
-    private lateinit var tabAdapter: MainPagerAdapter    
-
-    init {
-        if (BuildConfig.FLAVOR_store == "google") {
-            createInAppUpdateResultLauncher(this)
-        }
-    }
+    private lateinit var tabAdapter: MainPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -347,10 +345,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // "Post failed" dialog should display in this activity
         draftsAlert.observeInContext(this, true)
-
-        if (BuildConfig.FLAVOR_store == "google") {
-            checkForUpdate(this, binding.progressBar)
-        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -386,10 +380,59 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             recreate()
         }
 
-        if (shouldCheckForUpdate()) {
-            handleAppUpdateOnResume(this, preferences)
+        if (shouldCheckForUpdate()) checkForUpdate()
+    }
+
+    /**
+     * Check for available updates, and prompt user to update.
+     *
+     * Show a dialog prompting the user to update if a newer version of the app is available.
+     * The user can start an update, ignore this version, or dismiss all future update
+     * notifications.
+     */
+    private fun checkForUpdate() = lifecycleScope.launch {
+        val latestVersionCode = appUpdater.getLatestVersionCode() ?: return@launch
+
+//        if (mostRecentVersion <= BuildConfig.VERSION_CODE) return@launch
+        if (latestVersionCode <= 112) return@launch
+
+        val frequency = UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
+        if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
+            val ignoredVersion = preferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
+            if (latestVersionCode == ignoredVersion) {
+                Log.d(TAG, "Ignoring update to $latestVersionCode")
+                return@launch
+            }
+        }
+
+        Log.d(TAG, "New version is: $latestVersionCode")
+        when (showUpdateDialog()) {
+            AlertDialog.BUTTON_POSITIVE -> startActivity(appUpdater.updateIntent)
+            AlertDialog.BUTTON_NEUTRAL -> {
+                with(preferences.edit()) {
+                    putInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, latestVersionCode)
+                    apply()
+                }
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                with(preferences.edit()) {
+                    putString(
+                        PrefKeys.UPDATE_NOTIFICATION_FREQUENCY,
+                        UpdateNotificationFrequency.NEVER.name
+                    )
+                    apply()
+                }
+            }
         }
     }
+
+    private suspend fun showUpdateDialog() = AlertDialog.Builder(this)
+        .setTitle(R.string.update_dialog_title)
+        .setMessage(R.string.update_dialog_message)
+        .setCancelable(true)
+        .setIcon(R.mipmap.ic_launcher)
+        .create()
+        .await(R.string.update_dialog_positive, R.string.update_dialog_negative, R.string.update_dialog_neutral)
 
     override fun onStart() {
         super.onStart()
@@ -449,11 +492,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         finish()
     }
 
-    private fun shouldCheckForUpdate() = BuildConfig.FLAVOR_store == "google" &&
+    private fun shouldCheckForUpdate() =
         UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null)) != UpdateNotificationFrequency.NEVER
 
-    private fun setupDrawer(savedInstanceState: Bundle?, addSearchButton: Boolean) {
-
+    private fun setupDrawer(
+        savedInstanceState: Bundle?,
+        addSearchButton: Boolean,
+        addTrendingButton: Boolean
+    ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)

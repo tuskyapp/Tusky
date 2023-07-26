@@ -18,23 +18,28 @@
 package com.keylesspalace.tusky.updatecheck
 
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.google.gson.annotations.SerializedName
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-data class FdroidPackageVersion(
-    val versionName: String,
-    val versionCode: Int
+data class GitHubReleaseAsset(
+    /** File name for the asset, e.g., "113.apk" */
+    val name: String,
+
+    /** MIME content type for the asset, e.g., "application/vnd.android.package-archive" */
+    @SerializedName("content_type") val contentType: String
 )
 
-data class FdroidPackage(
-    val packageName: String,
-    val suggestedVersionCode: Int,
-    val packages: List<FdroidPackageVersion>
+data class GitHubRelease(
+    /** URL for the release's web page */
+    @SerializedName("html_url") val htmlUrl: String,
+    val assets: List<GitHubReleaseAsset>
 )
 
-interface FdroidService {
-    @GET("/api/v1/packages/{package}")
-    suspend fun getPackage(
-        @Path("package") pkg: String
-    ): NetworkResult<FdroidPackage>
+interface GitHubService {
+    @GET("/repos/{owner}/{repo}/releases/latest")
+    suspend fun getLatestRelease(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ): NetworkResult<GitHubRelease>
 }

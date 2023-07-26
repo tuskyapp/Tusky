@@ -822,8 +822,8 @@
     <string name="pref_update_notification_frequency_never">Never</string>
     <string name="pref_update_notification_frequency_once_per_version">Once per version</string>
     <string name="pref_update_notification_frequency_always">Always</string>
-    <string name="update_flexible_progress_description">Update progress: %d%%</string>
-    <string name="update_failed">There was an error while updating</string>
-    <string name="update_flexible_complete">An update has just been downloaded</string>
-    <string name="update_flexible_restart">Restart Tusky</string>
+    <string name="update_dialog_title">An update is available</string>
+    <string name="update_dialog_neutral">Don\'t remind me for this version</string>
+    <string name="update_dialog_negative">Never remind me</string>
+
 </resources>

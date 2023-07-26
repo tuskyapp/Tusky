@@ -15,47 +15,13 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-/*
- * Copyright 2023 Krzysztof Nawrot
- *
- * This file is a lightly altered copy of
- * https://github.com/Parseus/codecinfo/blob/master/app/src/nonFreeMobile/java/com/parseus/codecinfo/utils/ThirdPartyUtils.kt
- * available under the Apache 2.0 license,
- * https://github.com/Parseus/codecinfo/blob/4c8e2a5bc7db1ca7a5435e4ee1e72c3c327bf175/LICENSE
- */
-
 package com.keylesspalace.tusky
 
-import android.app.Activity
-import android.content.SharedPreferences
-import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.appupdate.AppUpdateOptions
-import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.ActivityResult
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.ktx.installStatus
-import com.keylesspalace.tusky.settings.PrefKeys
-
-private const val TAG = "AppUpdater"
-private const val MIN_IMMEDIATE_UPDATE_PRIORITY = 4
-private const val MAX_FLEXIBLE_UPDATE_PRIORITY = 3
-
-private lateinit var appUpdateManager: AppUpdateManager
-private lateinit var updateListener: InstallStateUpdatedListener
-private lateinit var inAppUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
-
-enum class UpdateType {
-    Flexible, Immediate, Unknown
-}
+import android.content.Intent
+import javax.inject.Singleton
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeSource.Monotonic.markNow
 
 enum class UpdateNotificationFrequency {
     /** Never prompt the user to update */
@@ -80,110 +46,42 @@ enum class UpdateNotificationFrequency {
     }
 }
 
-private var appUpdateType = UpdateType.Unknown
+@OptIn(ExperimentalTime::class)
+@Singleton
+abstract class AppUpdaterBase {
+    /** The last time the latest version was checked */
+    private var lastCheck = markNow() - MINIMUM_DURATION_BETWEEN_CHECKS
 
-fun createInAppUpdateResultLauncher(activity: AppCompatActivity) {
-    inAppUpdateResultLauncher = activity.registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
-        handleAppUpdateOnActivityResult(activity, it.resultCode)
-    }
-}
+    /** The latest known version code */
+    private var latestVersionCode = BuildConfig.VERSION_CODE
 
-fun checkForUpdate(activity: Activity, sharedPreferences: SharedPreferences) {
-    val frequency = UpdateNotificationFrequency.from(sharedPreferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
-    if (frequency == UpdateNotificationFrequency.NEVER) return
+    /** An intent that can be used to start the upgrade process (e.g., open a store listing) */
+    abstract val updateIntent: Intent
 
-    appUpdateManager = AppUpdateManagerFactory.create(activity)
-    appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
-        if (info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-            if (info.updatePriority() >= MIN_IMMEDIATE_UPDATE_PRIORITY
-                && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                appUpdateType = UpdateType.Immediate
-                appUpdateManager.startUpdateFlowForResult(info, inAppUpdateResultLauncher,
-                    AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE))
-            } else if (info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-                && info.updatePriority() <= MAX_FLEXIBLE_UPDATE_PRIORITY) {
-
-                if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
-                    val ignoredVersion = sharedPreferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
-                    val versionCode = info.availableVersionCode()
-                    if (versionCode == ignoredVersion) {
-                        Log.d(TAG, "Ignoring update to $versionCode")
-                        return@addOnSuccessListener
-                    } else {
-                        Log.d(TAG, "Showing update to $versionCode (ignored: $ignoredVersion")
-                    }
-                }
-
-                appUpdateType = UpdateType.Flexible
-                updateListener = InstallStateUpdatedListener { state ->
-                    if (state.installStatus == InstallStatus.DOWNLOADED) {
-                        showSnackbarForDownloadedUpdate(activity)
-                    }
-                }
-                appUpdateManager.registerListener(updateListener)
-                appUpdateManager.startUpdateFlowForResult(info, inAppUpdateResultLauncher,
-                    AppUpdateOptions.defaultOptions(AppUpdateType.FLEXIBLE))
-            }
+    /**
+     * @return The newest available versionCode, or null, if [MINIMUM_DURATION_BETWEEN_CHECKS]
+     *    has not elapsed since the last check.
+     */
+    suspend fun getLatestVersionCode(): Int? {
+        if (lastCheck.elapsedNow() < MINIMUM_DURATION_BETWEEN_CHECKS) {
+            return null
         }
-        if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-            appUpdateManager.startUpdateFlow(info, activity, AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE))
-        }
-    }
-}
+        lastCheck = markNow()
 
-fun handleAppUpdateOnActivityResult(activity: Activity, resultCode: Int) {
-    if (resultCode == Activity.RESULT_CANCELED) {
-        appUpdateManager.unregisterListener(updateListener)
-    } else if (resultCode == ActivityResult.RESULT_IN_APP_UPDATE_FAILED) {
-        Snackbar.make(activity.findViewById(android.R.id.content),
-            R.string.update_failed, Snackbar.LENGTH_LONG).show()
+        remoteFetchLatestVersionCode()?.let { latestVersionCode = it }
+        return latestVersionCode
     }
-}
 
-fun handleAppUpdateOnResume(activity: Activity, sharedPreferences: SharedPreferences) {
-    Log.d(TAG, "appUpdateType: $appUpdateType")
-    if (appUpdateType == UpdateType.Flexible) {
-        handleFlexibleUpdateOnResume(activity, sharedPreferences)
-    } else if (appUpdateType == UpdateType.Immediate) {
-        handleImmediateUpdateOnResume(activity)
-    }
-}
+    /**
+     * Fetch the version code of the latest available version of Tusky from whatever
+     * remote service the running version was downloaded from.
+     *
+     * @return The latest version code, or null if it could not be determined
+     */
+    abstract suspend fun remoteFetchLatestVersionCode(): Int?
 
-private fun handleFlexibleUpdateOnResume(activity: Activity, sharedPreferences: SharedPreferences) {
-    appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
-        if (info.installStatus == InstallStatus.UNKNOWN) {
-            // Happens if the user clicks the "X" on the dialog that's prompting them to install.
-            // Record the version code (if appropriate) so the user is not prompted about this
-            // version again
-            val frequency = UpdateNotificationFrequency.from(sharedPreferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
-            if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
-                with(sharedPreferences.edit()) {
-                    val versionCode = info.availableVersionCode()
-                    Log.d(TAG, "Ignoring updates for $versionCode")
-                    putInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, versionCode)
-                    apply()
-                }
-            }
-        }
-        if (info.installStatus == InstallStatus.DOWNLOADED) {
-            appUpdateManager.unregisterListener(updateListener)
-            showSnackbarForDownloadedUpdate(activity)
-        }
-    }
-}
-
-private fun handleImmediateUpdateOnResume(activity: Activity) {
-    appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
-        if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-            appUpdateManager.startUpdateFlow(info, activity, AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE))
-        }
-    }
-}
-
-private fun showSnackbarForDownloadedUpdate(activity: Activity) {
-    Snackbar.make(activity.findViewById(android.R.id.content),
-        R.string.update_flexible_complete, Snackbar.LENGTH_INDEFINITE).apply {
-        setAction(R.string.update_flexible_restart) { appUpdateManager.completeUpdate() }
-        show()
+    companion object {
+        /** How much time should elapse between version checks */
+        private val MINIMUM_DURATION_BETWEEN_CHECKS = 24.hours
     }
 }
