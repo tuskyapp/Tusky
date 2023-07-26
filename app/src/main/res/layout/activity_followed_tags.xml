@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:visibility="gone"
         />
 
     <ProgressBar
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:visibility="gone"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

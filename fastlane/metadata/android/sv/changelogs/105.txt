@@ -1,0 +1,11 @@
+Tusky 22.0 beta 3
+
+Fixar inkluderar:
+
+- Fixade en krasch vid visning av en tråd
+- Fixat kraschbehandling av Mastodon-filter
+- Länkar i bios för meddelanden om följ/följ-förfrågningar är klickbara
+- Uppdateringar av Android-aviseringar
+   - Android-avisering för en Mastodon-avisering bör endast visas en gång
+   - Android-aviseringar grupperas efter Mastodon-meddelandetyp (följ, nämn, boost, etc)
+   - Potentialen för saknade aviseringar har tagits bort

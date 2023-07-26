@@ -19,22 +19,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.commit
-import com.keylesspalace.tusky.BottomSheetActivity
+import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.databinding.ActivityTrendingBinding
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class TrendingActivity : BottomSheetActivity(), HasAndroidInjector {
+class TrendingActivity : BaseActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    lateinit var eventHub: EventHub
 
     private val binding: ActivityTrendingBinding by viewBinding(ActivityTrendingBinding::inflate)
 
@@ -44,10 +40,8 @@ class TrendingActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        val title = getString(R.string.title_public_trending_hashtags)
-
         supportActionBar?.run {
-            setTitle(title)
+            setTitle(R.string.title_public_trending_hashtags)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
@@ -63,10 +57,6 @@ class TrendingActivity : BottomSheetActivity(), HasAndroidInjector {
     override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
-        const val TAG = "TrendingActivity"
-
-        @JvmStatic
-        fun getIntent(context: Context) =
-            Intent(context, TrendingActivity::class.java)
+        fun getIntent(context: Context) = Intent(context, TrendingActivity::class.java)
     }
 }

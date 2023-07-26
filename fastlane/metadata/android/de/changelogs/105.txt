@@ -1,0 +1,9 @@
+Tusky 22.0 Beta 3
+
+Behobene Fehler:
+- Abstürze beim Ansehen eines Threads und beim Verarbeiten von Mastodonfiltern behoben
+- Links in »Über mich« bei Benachrichtigungen für Folgeanfragen sind anklickbar
+- Aktualisierte Android-Benachrichtigungen:
+  - Mastodon-Benachrichtigungen sollten nur noch einmal angezeigt werden
+  - Werden anhand des Typs von Mastodon-Benachrichtigungen gruppiert (Beitrag geteilt, erwähnt, usw.)
+  - Möglichkeit, Benachrichtigungen zu verpassen, wurde beseitigt

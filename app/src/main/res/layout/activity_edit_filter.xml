@@ -144,14 +144,30 @@
                 android:minHeight="48dp"
                 android:text="@string/pref_title_account_filter_keywords" />
 
-            <Button
-                android:id="@+id/filter_save_button"
-                android:layout_width="wrap_content"
-                android:layout_gravity="end"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/action_save" />
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                android:gravity="end"
+                style="?android:attr/buttonBarStyle">
+
+                <Button
+                    android:id="@+id/filter_delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_delete"
+                    style="?android:attr/buttonBarButtonStyle" />
+
+                <Button
+                    android:id="@+id/filter_save_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/action_save"
+                    style="?android:attr/buttonBarButtonStyle" />
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

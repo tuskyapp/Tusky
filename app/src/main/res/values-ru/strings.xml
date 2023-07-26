@@ -540,8 +540,8 @@
     <string name="a11y_label_loading_thread">Загрузка ветки</string>
     <string name="pref_reading_order_newest_first">Сначала новые</string>
     <string name="title_edits">Правки</string>
-    <string name="status_edit_info">%1$s отредактировали %2$s</string>
-    <string name="status_created_info">%1$s создали %2$s</string>
+    <string name="status_edit_info">%1$s отредактировали</string>
+    <string name="status_created_info">%1$s создали</string>
     <string name="title_login">Войти</string>
     <string name="action_browser_login">Вход через Браузер</string>
 </resources>

@@ -508,8 +508,8 @@
     <string name="action_post_failed_do_nothing">उत्सृज्यताम्</string>
     <string name="action_post_failed_show_drafts">लेखविकर्षान् दर्शयतु</string>
     <string name="description_post_edited">सम्पादनं कृतम्</string>
-    <string name="status_created_info">%1$s निर्मितम् %2$s</string>
-    <string name="status_edit_info">%1$s सम्पादितम् %2$s</string>
+    <string name="status_created_info">%1$s निर्मितम्</string>
+    <string name="status_edit_info">%1$s सम्पादितम्</string>
     <string name="action_subscribe_account">ग्राहकता</string>
     <string name="draft_deleted">प्रारूपं निष्कासितम्</string>
     <string name="report_category_violation">नियम-उल्लङ्घनम्</string>

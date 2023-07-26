@@ -1,0 +1,10 @@
+Tusky 22.0 beta 7
+
+Fixes:
+
+
+### Significant bug fixes
+
+- Fetch all outstanding Mastodon notifications when creating Android notifications
+- Clicking "Compose" from a notification would set the wrong account
+- Ensure "last read notification ID" is saved to the correct account

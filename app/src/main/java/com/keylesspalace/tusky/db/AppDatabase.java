@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.db;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.DeleteColumn;
@@ -50,11 +51,11 @@ import java.io.File;
 )
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract AccountDao accountDao();
-    public abstract InstanceDao instanceDao();
-    public abstract ConversationsDao conversationDao();
-    public abstract TimelineDao timelineDao();
-    public abstract DraftDao draftDao();
+    @NonNull public abstract AccountDao accountDao();
+    @NonNull public abstract InstanceDao instanceDao();
+    @NonNull public abstract ConversationsDao conversationDao();
+    @NonNull public abstract TimelineDao timelineDao();
+    @NonNull public abstract DraftDao draftDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -386,7 +387,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
         private final File oldDraftDirectory;
 
-        public Migration25_26(File oldDraftDirectory) {
+        public Migration25_26(@Nullable File oldDraftDirectory) {
             super(25, 26);
             this.oldDraftDirectory = oldDraftDirectory;
         }
