@@ -17,19 +17,16 @@
 
 package com.keylesspalace.tusky.updatecheck
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.keylesspalace.tusky.BuildConfig
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 
 class UpdateCheck @Inject constructor(
-    val context: Context
+    private val appUpdateManager: AppUpdateManager
 ) : UpdateCheckBase() {
-    private var appUpdateManager = AppUpdateManagerFactory.create(context)
-
     override val updateIntent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse(
             "https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")

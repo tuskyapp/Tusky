@@ -32,8 +32,6 @@ import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_SERVER
 import com.keylesspalace.tusky.settings.ProxyConfiguration
-import com.keylesspalace.tusky.updatecheck.FdroidService
-import com.keylesspalace.tusky.updatecheck.GitHubService
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
@@ -143,32 +141,6 @@ class NetworkModule {
             .build()
             .create()
     }
-
-    @Provides
-    @Singleton
-    fun providesFdroidService(
-        httpClient: OkHttpClient,
-        gson: Gson
-    ): FdroidService = Retrofit.Builder()
-        .baseUrl("https://f-droid.org")
-        .client(httpClient)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
-        .build()
-        .create()
-
-    @Provides
-    @Singleton
-    fun providesGitHubService(
-        httpClient: OkHttpClient,
-        gson: Gson
-    ): GitHubService = Retrofit.Builder()
-        .baseUrl("https://api.github.com")
-        .client(httpClient)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
-        .build()
-        .create()
 
     companion object {
         private const val TAG = "NetworkModule"

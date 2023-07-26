@@ -35,6 +35,7 @@ import javax.inject.Singleton
         ActivitiesModule::class,
         ServicesModule::class,
         BroadcastReceiverModule::class,
+        UpdateCheckModule::class,
         ViewModelModule::class,
         WorkerModule::class
     ]

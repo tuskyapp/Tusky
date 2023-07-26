@@ -19,7 +19,6 @@ package com.keylesspalace.tusky.updatecheck
 
 import android.content.Intent
 import android.net.Uri
-import com.keylesspalace.tusky.updatecheck.GitHubService
 import javax.inject.Inject
 
 class UpdateCheck @Inject constructor(
