@@ -87,14 +87,20 @@ data class ConversationStatusEntity(
     val repliesCount: Int,
     val favourited: Boolean,
     val bookmarked: Boolean,
+    // If true, attachments have been marked as sensitive.
     val sensitive: Boolean,
+    // If nonempty, post text has a spoiler/content warning.
     val spoilerText: String,
     val attachments: List<Attachment>,
     val mentions: List<Status.Mention>,
     val tags: List<HashTag>?,
+    // If sensitive is true, then this is true when the user has chosen to expose the attachments.
     val showingHiddenContent: Boolean,
+    // If spoilerText is nonempty, then this is true when the user has chosen to show the text.
     val expanded: Boolean,
+    // If content is long (see shouldTrimStatus()), then this is *false* when the user has chosen to show all content.
     val collapsed: Boolean,
+    // If true, the user has chosen not to see further notifications for this status.
     val muted: Boolean,
     val poll: Poll?,
     val language: String?
