@@ -39,5 +39,4 @@ class UpdateCheck @Inject constructor(
 
         return null
     }
-
 }
