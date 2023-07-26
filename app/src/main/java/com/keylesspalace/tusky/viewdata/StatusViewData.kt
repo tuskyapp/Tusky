@@ -72,6 +72,7 @@ sealed class StatusViewData {
          */
         val isCollapsible: Boolean
         val content: Spanned
+
         /**
          * @return If nonempty, the spoiler/content warning text. If empty, there is no warning.
          */
