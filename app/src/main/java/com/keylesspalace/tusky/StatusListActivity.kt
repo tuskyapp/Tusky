@@ -71,7 +71,10 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
         val title = when (timelineKind) {
             is TimelineKind.Favourites -> getString(R.string.title_favourites)
             is TimelineKind.Bookmarks -> getString(R.string.title_bookmarks)
-            is TimelineKind.Tag -> getString(R.string.title_tag).format((timelineKind as TimelineKind.Tag).tags.first())
+            is TimelineKind.Tag -> {
+                hashtag = (timelineKind as TimelineKind.Tag).tags.first()
+                getString(R.string.title_tag).format(hashtag)
+            }
             is TimelineKind.UserList -> (timelineKind as TimelineKind.UserList).title
             else -> "Missing title!!!"
         }
@@ -316,10 +319,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
-
         private const val EXTRA_KIND = "kind"
-        private const val EXTRA_LIST_ID = "id"
-        const val TAG = "StatusListActivity"
+        private const val TAG = "StatusListActivity"
 
         fun newFavouritesIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
