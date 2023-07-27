@@ -161,7 +161,7 @@ class ViewImageFragment : ViewMediaFragment() {
                     }
 
                     // The user is dragging the un-zoomed image to possibly fling it up or down
-                    // to dismiss. lastY may be null (the user might have been performing a
+                    // to dismiss.
                     if (event.action == MotionEvent.ACTION_MOVE) {
                         // lastY may be null; e.g., the user was performing a two-finger drag,
                         // and has lifted one finger. In this case do nothing
