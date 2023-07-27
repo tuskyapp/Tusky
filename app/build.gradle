@@ -65,13 +65,6 @@ android {
         baseline = file("lint-baseline.xml")
     }
 
-    ktlint {
-        reporters {
-            reporter "plain"
-            reporter "checkstyle"
-        }
-    }
-
     buildFeatures {
         buildConfig true
         resValues true
