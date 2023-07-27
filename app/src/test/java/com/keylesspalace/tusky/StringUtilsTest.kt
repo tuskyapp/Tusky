@@ -29,7 +29,7 @@ class StringUtilsTest {
             "ab" to "abc",
             "cb" to "abc",
             "1" to "2",
-            "abc" to "abc",
+            "abc" to "abc"
         )
         lessList.forEach { (l, r) -> assertTrue("$l < $r", l.isLessThanOrEqual(r)) }
         val notLessList = lessList.filterNot { (l, r) -> l == r }.map { (l, r) -> r to l }

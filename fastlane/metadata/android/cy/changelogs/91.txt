@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Cefnogaeth ar gyfer mathau newydd o hysbysiadau Mastodon 3.5
+- Mae'r bathodyn bot bellach yn edrych yn well ac yn addasu i'r thema a ddewiswyd
+- Bellach gellir dewis testun ar olwg manylion y post
+- Trwsio llawer o fygiau, gan gynnwys un a oedd yn atal mewngofnodi ar Android 6 ac yn is

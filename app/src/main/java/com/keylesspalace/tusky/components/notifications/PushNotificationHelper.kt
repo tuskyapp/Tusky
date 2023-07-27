@@ -14,6 +14,7 @@
  * see <http://www.gnu.org/licenses>. */
 
 @file:JvmName("PushNotificationHelper")
+
 package com.keylesspalace.tusky.components.notifications
 
 import android.app.NotificationManager
@@ -36,7 +37,6 @@ import com.keylesspalace.tusky.util.CryptoUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
-import retrofit2.HttpException
 
 private const val TAG = "PushNotificationHelper"
 
@@ -151,8 +151,9 @@ fun disableAllNotifications(context: Context, accountManager: AccountManager) {
 
 private fun buildSubscriptionData(context: Context, account: AccountEntity): Map<String, Boolean> =
     buildMap {
-        Notification.Type.asList.forEach {
-            put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(account, it, context))
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        Notification.Type.visibleTypes.forEach {
+            put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(notificationManager, account, it))
         }
     }
 
@@ -164,7 +165,6 @@ suspend fun registerUnifiedPushEndpoint(
     account: AccountEntity,
     endpoint: String
 ) = withContext(Dispatchers.IO) {
-
     // Generate a prime256v1 key pair for WebPush
     // Decryption is unimplemented for now, since Mastodon uses an old WebPush
     // standard which does not send needed information for decryption in the payload
@@ -174,8 +174,11 @@ suspend fun registerUnifiedPushEndpoint(
     val auth = CryptoUtil.secureRandomBytesEncoded(16)
 
     api.subscribePushNotifications(
-        "Bearer ${account.accessToken}", account.domain,
-        endpoint, keyPair.pubkey, auth,
+        "Bearer ${account.accessToken}",
+        account.domain,
+        endpoint,
+        keyPair.pubkey,
+        auth,
         buildSubscriptionData(context, account)
     ).onFailure { throwable ->
         Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
@@ -196,7 +199,8 @@ suspend fun registerUnifiedPushEndpoint(
 suspend fun updateUnifiedPushSubscription(context: Context, api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
     withContext(Dispatchers.IO) {
         api.updatePushNotificationSubscription(
-            "Bearer ${account.accessToken}", account.domain,
+            "Bearer ${account.accessToken}",
+            account.domain,
             buildSubscriptionData(context, account)
         ).onSuccess {
             Log.d(TAG, "UnifiedPush subscription updated for account ${account.id}")
@@ -210,10 +214,8 @@ suspend fun updateUnifiedPushSubscription(context: Context, api: MastodonApi, ac
 suspend fun unregisterUnifiedPushEndpoint(api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
     withContext(Dispatchers.IO) {
         api.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
-            .onFailure {
-                Log.d(TAG, "Error unregistering push endpoint for account " + account.id)
-                Log.d(TAG, Log.getStackTraceString(it))
-                Log.d(TAG, (it as HttpException).response().toString())
+            .onFailure { throwable ->
+                Log.w(TAG, "Error unregistering push endpoint for account " + account.id, throwable)
             }
             .onSuccess {
                 Log.d(TAG, "UnifiedPush unregistration succeeded for account " + account.id)

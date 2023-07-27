@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4
+
+Javítások:
+
+- Több fiók használata esetén az értesítések újra történő lekérésének megoldása

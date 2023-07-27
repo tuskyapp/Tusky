@@ -36,7 +36,6 @@ class NetworkTimelineRemoteMediator(
         loadType: LoadType,
         state: PagingState<String, StatusViewData>
     ): MediatorResult {
-
         try {
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
@@ -80,7 +79,6 @@ class NetworkTimelineRemoteMediator(
             }
 
             if (loadType == LoadType.REFRESH && viewModel.statusData.isNotEmpty()) {
-
                 val insertPlaceholder = if (statuses.isNotEmpty()) {
                     !viewModel.statusData.removeAll { statusViewData ->
                         statuses.any { status -> status.id == statusViewData.asStatusOrNull()?.id }

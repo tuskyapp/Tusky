@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Dukungan untuk tipe notifikasi baru pada Mastodon 3.5
+- Lencana bot sekarang terlihat lebih baik dan menyesuaikan dengan tema yang dipilih
+- Teks sekarang dapat dipilih pada tampilan detail posting
+- Memperbaiki banyak bug, termasuk yang mencegah login di Android 6 dan lebih rendah

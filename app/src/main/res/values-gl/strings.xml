@@ -50,9 +50,9 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_follow">Seguir</string>
-    <string name="action_logout_confirm">Tes a certeza de que queres pechar sesión da conta %1$s\?</string>
+    <string name="action_logout_confirm">Tes a certeza de querer pechar a sesión %1$s\? Isto eliminará todos os datos locais da conta, incluíndo borradores e preferencias.</string>
     <string name="action_logout">Pechar sesión</string>
-    <string name="action_login">Accede con Mastodon</string>
+    <string name="action_login">Acceder con Tusky</string>
     <string name="action_compose">Redactar</string>
     <string name="action_more">Máis</string>
     <string name="action_unfavourite">Eliminar favorito</string>
@@ -111,14 +111,14 @@
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
     <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
-    <string name="error_retrieving_oauth_token">Fallou a obtención do token de acceso.</string>
-    <string name="error_authorization_denied">A autorización foi rexeitada.</string>
-    <string name="error_authorization_unknown">Aconteceu un erro non identificado de autorización.</string>
+    <string name="error_retrieving_oauth_token">Non se obtivo o token de acceso. Se non o consigues, inténtao desde Acceder no Navegador.</string>
+    <string name="error_authorization_denied">A autorización foi rexeitada. Se tes a certeza de que as credenciais son correctas, inténtao desde Acceder no Navegador no menú.</string>
+    <string name="error_authorization_unknown">Aconteceu un erro non identificado na autorización. Se persiste, inténtao desde Acceder no Navedor.</string>
     <string name="error_no_web_browser_found">Non se atopou un navegador para utilizar.</string>
-    <string name="error_failed_app_registration">Fallou a autenticación nesta instancia.</string>
+    <string name="error_failed_app_registration">Fallou a autenticación nesta instancia. Se persiste, inténtao desde Acceder no Navegador no menú.</string>
     <string name="error_invalid_domain">O dominio escrito non é válido</string>
     <string name="error_empty">Esto non pode estar baleiro.</string>
-    <string name="error_network">Houbo un fallo na rede! Comproba a túa conexión e inténtao outra vez!</string>
+    <string name="error_network">Houbo un fallo na rede. Comproba a conexión e inténtao outra vez.</string>
     <string name="error_generic">Algo fallou.</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="action_unsubscribe_account">Desubscribir</string>
@@ -255,12 +255,9 @@
     <string name="action_remove">Eliminar</string>
     <string name="action_set_caption">Escribir descrición</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Describe para persoas con deficiencias visuais
-\n(límite %d caracter)</item>
-        <item quantity="other">Describe para persoas con deficiencias visuais
-\n(%d caracteres como máximo)</item>
+        <item quantity="one">Describe para persoas con deficiencias visuais (límite %d caracter)</item>
+        <item quantity="other">Describe para persoas con deficiencias visuais (%d caracteres como máximo)</item>
     </plurals>
-    <string name="error_failed_set_caption">Fallou establecemento do texto</string>
     <string name="compose_active_account_description">Publicar como %1$s</string>
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
@@ -281,8 +278,8 @@
     <string name="filter_dialog_whole_word">Palabra completa</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
-    <string name="filter_addition_dialog_title">Engadir filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
+    <string name="filter_addition_title">Engadir filtro</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="pref_title_public_filter_keywords">Cronoloxías públicas</string>
     <string name="load_more_placeholder_text">cargar máis</string>
@@ -353,7 +350,7 @@
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
     <string name="pref_failed_to_sync">Fallou a sincronización dos axustes</string>
-    <string name="pref_publishing">Publicando (sincronizado co servidor)</string>
+    <string name="pref_publishing">Ao publicar (sincronizado co servidor)</string>
     <string name="pref_default_media_sensitivity">Marcar sempre multimedia como sensible</string>
     <string name="pref_default_post_privacy">Privacidade por defecto da publicación</string>
     <string name="pref_title_http_proxy_port">Porto proxy HTTP</string>
@@ -506,7 +503,7 @@
     <string name="dialog_delete_conversation_warning">Eliminar esta conversa\?</string>
     <string name="action_delete_conversation">Eliminar conversa</string>
     <string name="action_unbookmark">Eliminar marcador</string>
-    <string name="pref_title_confirm_favourites">Mostrar diálogo de confirmación antes de favorecer</string>
+    <string name="pref_title_confirm_favourites">Pedir confirmación antes de favorecer</string>
     <string name="duration_14_days">14 días</string>
     <string name="duration_30_days">30 días</string>
     <string name="duration_60_days">60 días</string>
@@ -524,7 +521,7 @@
     <string name="tips_push_notification_migration">Volve a acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
-    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí ou nas preferencias da Conta a opción de volver a acceder conservarás os borradores locais e caché.</string>
+    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí, ou nas preferencias da Conta, a opción de volver a acceder conservarás os borradores locais e caché.</string>
     <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve a conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
     <string name="title_migration_relogin">Volve a acceder para ter notificacións push</string>
     <string name="notification_update_format">%s editou a publicación</string>
@@ -542,7 +539,6 @@
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
     <string name="description_post_language">Idioma de publicación</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Fallou o establecemento do foco</string>
     <string name="action_set_focus">Establece foco</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
@@ -575,7 +571,7 @@
     <string name="notification_report_format">Nova denuncia en %s</string>
     <string name="notification_header_report_format">%s denunciou a %s</string>
     <string name="notification_summary_report_format">%s · %d publicacións fixadas</string>
-    <string name="confirmation_hashtag_unfollowed">Xa non segues #%s</string>
+    <string name="confirmation_hashtag_unfollowed">Xa non segues a #%s</string>
     <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
     <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
     <string name="pref_title_http_proxy_port_message">O porto debe estar entre %d e %d</string>
@@ -588,8 +584,8 @@
     <string name="a11y_label_loading_thread">Cargando fío</string>
     <string name="mute_notifications_switch">Acalar notificacións</string>
     <string name="title_edits">Edicións</string>
-    <string name="status_edit_info">Editado por %1$s o %2$s</string>
-    <string name="status_created_info">Creado por %1$s o %2$s</string>
+    <string name="status_edit_info">Editada: %1$s</string>
+    <string name="status_created_info">Creado por %1$s</string>
     <string name="action_discard">Desbotar cambios</string>
     <string name="action_continue_edit">Continuar a edición</string>
     <string name="compose_unsaved_changes">Hai cambios non gardados.</string>
@@ -598,4 +594,77 @@
     <string name="send_account_link_to">Compartir URL da conta en…</string>
     <string name="send_account_username_to">Compartir identificador da conta en…</string>
     <string name="account_username_copied">Identificador copiado</string>
+    <string name="pref_title_reading_order">Orde de lectura</string>
+    <string name="pref_reading_order_oldest_first">Antigo primeiro</string>
+    <string name="pref_reading_order_newest_first">Novidades primeiro</string>
+    <string name="pref_summary_http_proxy_missing">&lt;non establecido&gt;</string>
+    <string name="pref_summary_http_proxy_disabled">Desactivado</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;non válido&gt;</string>
+    <string name="action_post_failed">Fallou a subida</string>
+    <string name="action_post_failed_detail">Fallou a subida da publicación e gardouse non borradores.
+\n
+\nPode que o servidor non estive accesible ou que rexeitase a publicación.</string>
+    <string name="action_post_failed_detail_plural">Fallou a subida das túas publicacións e gardáronse nos borradores.
+\n
+\nPode que o servidor non estivese accesible ou que rexeitase as publicacións.</string>
+    <string name="action_post_failed_show_drafts">Mostrar borradores</string>
+    <string name="action_post_failed_do_nothing">Desbotar</string>
+    <string name="action_browser_login">Acceder no Navegador</string>
+    <string name="description_browser_login">Pode ter soporte para métodos adicionais de autenticación, pero require un navegador soportado.</string>
+    <string name="description_login">Funciona case sempre. Non se filtran datos a outras apps.</string>
+    <string name="accessibility_talking_about_tag">%1$d persoas están falando acerca do cancelo %2$s</string>
+    <string name="title_public_trending_hashtags">Cancelos en voga</string>
+    <string name="total_usage">Uso total</string>
+    <string name="total_accounts">Total de contas</string>
+    <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
+    <string name="dialog_follow_hashtag_hint">#cancelo</string>
+    <string name="hint_description">Descrición</string>
+    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
+\n
+\nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia [iconics gmd_group]. Ou buscalas polo seu nome [iconics gmd_search]; por exemplo busca Tusky para atopar a nosa conta en Mastodon.</string>
+    <string name="post_media_image">Imaxe</string>
+    <string name="hint_filter_title">O meu filtro</string>
+    <string name="action_refresh">Actualizar</string>
+    <string name="notification_unknown_name">Descoñecido</string>
+    <string name="socket_timeout_exception">Estamos tardando demasiado en conectar co servidor</string>
+    <string name="ui_error_unknown">razón descoñecida</string>
+    <string name="ui_error_bookmark">Fallou engadir a marcadores: %s</string>
+    <string name="ui_error_clear_notifications">Fallou a limpeza das notificacións: %s</string>
+    <string name="ui_error_vote">Fallou a votación na enquisa: %s</string>
+    <string name="ui_error_favourite">Fallou favorecer a publicación: %s</string>
+    <string name="ui_error_reblog">Fallou promover a publicación: %s</string>
+    <string name="ui_error_accept_follow_request">Fallou a aceptación da solicitude de seguimento: %s</string>
+    <string name="ui_error_reject_follow_request">Fallou o rexeitamento da solicitude de seguimento: %s</string>
+    <string name="ui_success_accepted_follow_request">Aceptado o seguimento</string>
+    <string name="ui_success_rejected_follow_request">Bloqueada a solicitude de seguimento</string>
+    <string name="status_filtered_show_anyway">Mostrar igualmente</string>
+    <string name="status_filter_placeholder_label_format">Filtrado: %s</string>
+    <string name="pref_title_account_filter_keywords">Perfís</string>
+    <string name="label_filter_title">Título</string>
+    <string name="filter_action_warn">Aviso</string>
+    <string name="filter_action_hide">Agochar</string>
+    <string name="filter_description_warn">Agochar cun aviso</string>
+    <string name="filter_description_hide">Agochar completamente</string>
+    <string name="label_filter_action">Acción do filtro</string>
+    <string name="label_filter_context">Ámbitos para o filtro</string>
+    <string name="label_filter_keywords">Palabras chave a filtrar</string>
+    <string name="action_add">Engadir</string>
+    <string name="filter_keyword_display_format">%s (palabra completa)</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="pref_title_show_stat_inline">Mostrar estatísticas da publicación na cronoloxía</string>
+    <string name="filter_keyword_addition_title">Engadir palabra</string>
+    <string name="filter_edit_keyword_title">Editar palabra</string>
+    <string name="select_list_empty">Aínda non tes listas</string>
+    <string name="select_list_manage">Xestionar listas</string>
+    <string name="error_list_load">Erro ao cargar as listas</string>
+    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edición, polo que non pode mostrarchas.
+\n
+\nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
+    <string name="load_newest_notifications">Cargar as notificacións máis recentes</string>
+    <string name="compose_delete_draft">Eliminar borrador\?</string>
+    <string name="pref_ui_text_size">Tamaño da letra</string>
+    <string name="notification_listenable_worker_name">Actividade en segundo plano</string>
+    <string name="notification_listenable_worker_description">Notificacións cando Tusky está a funcionar en segundo plano</string>
+    <string name="notification_notification_worker">Obtendo as notificacións…</string>
+    <string name="notification_prune_cache">Mantemento da caché…</string>
 </resources>

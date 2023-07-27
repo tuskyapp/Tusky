@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.db
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
@@ -29,6 +30,12 @@ interface DraftDao {
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId ORDER BY id ASC")
     fun draftsPagingSource(accountId: Long): PagingSource<Int, DraftEntity>
+
+    @Query("SELECT COUNT(*) FROM DraftEntity WHERE accountId = :accountId AND failedToSendNew = 1")
+    fun draftsNeedUserAlert(accountId: Long): LiveData<Int>
+
+    @Query("UPDATE DraftEntity SET failedToSendNew = 0 WHERE accountId = :accountId AND failedToSendNew = 1")
+    suspend fun draftsClearNeedUserAlert(accountId: Long)
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId")
     suspend fun loadDrafts(accountId: Long): List<DraftEntity>

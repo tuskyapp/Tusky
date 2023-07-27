@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Mae ceisiadau dilyn bellach bob amser yn cael eu dangos yn y brif ddewislen.
+- Mae gan y dewisiad amser ar gyfer amserlennu post ddyluniad sy'n gyson â gweddill yr app nawr
+Log newid llawn: https://github.com/tuskyapp/Tusky/releases

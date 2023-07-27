@@ -41,11 +41,11 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
@@ -63,10 +63,10 @@ class AccountsInListFragment : DialogFragment(), Injectable {
     private val adapter = Adapter()
     private val searchAdapter = SearchAdapter()
 
-    private val radius by lazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
-    private val pm by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
-    private val animateAvatar by lazy { pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
-    private val animateEmojis by lazy { pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
+    private val radius by unsafeLazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
+    private val pm by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
+    private val animateAvatar by unsafeLazy { pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
+    private val animateEmojis by unsafeLazy { pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,7 +113,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.searchView.isSubmitButtonEnabled = true
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.search(query ?: "")
+                viewModel.search(query.orEmpty())
                 return true
             }
 
@@ -145,20 +145,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private fun handleError(error: Throwable) {
         binding.messageView.show()
-        val retryAction = { _: View ->
+        binding.messageView.setup(error) { _: View ->
             binding.messageView.hide()
             viewModel.load(listId)
-        }
-        if (error is IOException) {
-            binding.messageView.setup(
-                R.drawable.elephant_offline,
-                R.string.error_network, retryAction
-            )
-        } else {
-            binding.messageView.setup(
-                R.drawable.elephant_error,
-                R.string.error_generic, retryAction
-            )
         }
     }
 

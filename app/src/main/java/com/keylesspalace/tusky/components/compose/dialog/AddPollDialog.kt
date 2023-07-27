@@ -35,7 +35,6 @@ fun showAddPollDialog(
     maxDuration: Int,
     onUpdatePoll: (NewPoll) -> Unit
 ) {
-
     val binding = DialogAddPollBinding.inflate(LayoutInflater.from(context))
 
     val dialog = AlertDialog.Builder(context)
@@ -63,7 +62,7 @@ fun showAddPollDialog(
     var durations = context.resources.getIntArray(R.array.poll_duration_values).toList()
     val durationLabels = context.resources.getStringArray(R.array.poll_duration_names).filterIndexed { index, _ -> durations[index] in minDuration..maxDuration }
     binding.pollDurationSpinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, durationLabels).apply {
-        setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
     durations = durations.filter { it in minDuration..maxDuration }
 
@@ -76,8 +75,10 @@ fun showAddPollDialog(
         }
     }
 
+    val DAY_SECONDS = 60 * 60 * 24
+    val desiredDuration = poll?.expiresIn ?: DAY_SECONDS
     val pollDurationId = durations.indexOfLast {
-        it <= (poll?.expiresIn ?: 0)
+        it <= desiredDuration
     }
 
     binding.pollDurationSpinner.setSelection(pollDurationId)

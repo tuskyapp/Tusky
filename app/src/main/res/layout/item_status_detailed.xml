@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@id/status_display_name"
         tools:text="\@ConnyDuck\@mastodon.social" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/status_content_warning_description"
         tools:text="@string/post_content_warning_show_more" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

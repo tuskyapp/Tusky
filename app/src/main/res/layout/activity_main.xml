@@ -42,8 +42,9 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/avatar_default"
-                    app:shapeAppearance="@style/ShapeAppearance.Avatar" />
+                    android:contentDescription="@string/action_open_drawer"
+                    app:shapeAppearance="@style/ShapeAppearance.Avatar"
+                    tools:src="@drawable/avatar_default" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
@@ -53,6 +54,7 @@
                     app:tabGravity="fill"
                     app:tabMaxWidth="0dp"
                     app:tabMode="fixed" />
+
             </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -85,8 +87,9 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/avatar_default"
-                    app:shapeAppearance="@style/ShapeAppearance.Avatar" />
+                    android:contentDescription="@string/action_open_drawer"
+                    app:shapeAppearance="@style/ShapeAppearance.Avatar"
+                    tools:src="@drawable/avatar_default" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/bottomTabLayout"

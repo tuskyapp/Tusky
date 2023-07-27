@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ha ocurrido un error.</string>
-    <string name="error_network">¡Se ha producido un error de red! ¡Por favor, comprueba tu conexión e inténtalo de nuevo!</string>
+    <string name="error_network">Se ha producido un error de red. Por favor, comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="error_empty">Este campo no puede estar vacío.</string>
     <string name="error_invalid_domain">Nombre de dominio incorrecto</string>
-    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia.</string>
+    <string name="error_failed_app_registration">Fallo de autenticación con esta instancia. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
     <string name="error_no_web_browser_found">No se ha encontrado ningún navegador web.</string>
-    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado.</string>
-    <string name="error_authorization_denied">La autorización falló.</string>
-    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login.</string>
+    <string name="error_authorization_unknown">Ocurrió un error de autorización no identificado. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
+    <string name="error_authorization_denied">La autorización falló. Si estás seguro de que has suministrado las credenciales correctas, prueba en el menú Iniciar sesión con el navegador.</string>
+    <string name="error_retrieving_oauth_token">Fallo al obtener identificador de login. Si esto persiste, prueba en el menú Iniciar sesión con el navegador.</string>
     <string name="error_compose_character_limit">¡La publicación es demasiado larga!</string>
     <string name="error_media_upload_type">No se admite este tipo de archivo.</string>
     <string name="error_media_upload_opening">No pudo abrirse el fichero.</string>
@@ -21,7 +21,7 @@
     <string name="title_notifications">Notificaciones</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_federated">Federada</string>
-    <string name="title_direct_messages">Mensajes Directos</string>
+    <string name="title_direct_messages">Mensajes directos</string>
     <string name="title_tab_preferences">Pestañas</string>
     <string name="title_view_thread">Hilo</string>
     <string name="title_posts">Estados</string>
@@ -58,7 +58,7 @@
     <string name="action_favourite">Favorito</string>
     <string name="action_more">Más</string>
     <string name="action_compose">Redactar</string>
-    <string name="action_login">Iniciar sesión</string>
+    <string name="action_login">Iniciar sesión con Tusky</string>
     <string name="action_logout">Cerrar sesión</string>
     <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
     <string name="action_follow">Seguir</string>
@@ -69,7 +69,7 @@
     <string name="action_show_reblogs">Mostrar impulsos</string>
     <string name="action_report">Reportar</string>
     <string name="action_delete">Borrar</string>
-    <string name="action_send">Enviar</string>
+    <string name="action_send">TOOT</string>
     <string name="action_send_public">¡Publicar!</string>
     <string name="action_retry">Reintentar</string>
     <string name="action_close">Cerrar</string>
@@ -157,7 +157,7 @@
     <string name="pref_title_notification_filter_reblogs">mis posts son impulsados</string>
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
-    <string name="pref_title_app_theme">Tema</string>
+    <string name="pref_title_app_theme">Tema de la app</string>
     <string name="pref_title_timelines">Cronologia</string>
     <string name="app_them_dark">Oscuro</string>
     <string name="app_theme_light">Claro</string>
@@ -252,13 +252,12 @@
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
     <string name="compose_active_account_description">Publicar como %1$s</string>
-    <string name="error_failed_set_caption">Error al añadir leyenda</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Descripción para personas con problemas de visión 
+        <item quantity="one">Descripción para personas con problemas de visión
 \n(Límite de %d caracter)</item>
-        <item quantity="many">Descripción para personas con problemas de visión 
+        <item quantity="many">Descripción para personas con problemas de visión
 \n(Límite de %d caracteres)</item>
-        <item quantity="other">Descripción para personas con problemas de visión 
+        <item quantity="other">Descripción para personas con problemas de visión
 \n(Límite de %d caracteres)</item>
     </plurals>
     <string name="action_set_caption">Añadir leyenda</string>
@@ -382,8 +381,8 @@
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
     <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversaciones</string>
-    <string name="filter_addition_dialog_title">Añadir filtro</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_addition_title">Añadir filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
     <string name="error_create_list">No se pudo crear la lista</string>
@@ -473,7 +472,7 @@
     <string name="action_unmute_conversation">Dejar de silenciar conversación</string>
     <string name="notification_follow_request_description">Notificaciones de solicitudes</string>
     <string name="pref_title_notification_filter_follow_requests">solicitud de seguimiento</string>
-    <string name="pref_title_confirm_reblogs">Mostrar diálogo de confirmación antes de impulsar</string>
+    <string name="pref_title_confirm_reblogs">Pedir confirmación antes de impulsar</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar previsualización de enlaces en la cronología</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilitar gesto de deslizar para alternar entre pestañas</string>
     <plurals name="poll_info_people">
@@ -533,7 +532,7 @@
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
     <string name="action_unsubscribe_account">Darse de baja</string>
     <string name="action_delete_conversation">Eliminar conversación</string>
-    <string name="pref_title_confirm_favourites">Mostrar diálogo de confirmación antes de marcar como favorito</string>
+    <string name="pref_title_confirm_favourites">Pedir confirmación antes de marcar como favorito</string>
     <string name="pref_title_notification_filter_updates">una publicación con la que interactué se editó</string>
     <string name="error_multimedia_size_limit">Los archivos de video y audio no pueden pesar más de %s MB.</string>
     <string name="error_image_edit_failed">Esta imagen no puede ser editada.</string>
@@ -559,17 +558,16 @@
     <string name="duration_14_days">14 días</string>
     <string name="duration_365_days">365 días</string>
     <string name="tips_push_notification_migration">Inicia sesión de nuevo en todas las cuentas para activar las notificaciones push.</string>
-    <string name="dialog_push_notification_migration">Para poder usar las notificaciones push con UnifiedPush, Tusky necesita permiso para suscribirse a las notificaciones de tu servidor de Mastodon. Es necesario volver a acceder para cambiar los parámetros OAuth concedidos a Tusky. Usar aquí, o en las Preferencias de la Cuenta, la opción de volver a acceder conservarás los borradores y la caché.</string>
+    <string name="dialog_push_notification_migration">Para poder usar las notificaciones push con UnifiedPush, Tusky necesita permiso para suscribirse a las notificaciones de tu servidor de Mastodon. Es necesario volver a acceder para cambiar los parámetros OAuth concedidos a Tusky. Usar aquí, o en las Preferencias de la cuenta, la opción de volver a acceder conservará los borradores y la caché.</string>
     <string name="failed_to_pin">Fallo al fijar</string>
     <string name="failed_to_unpin">Fallo al quitarlo</string>
-    <string name="pref_show_self_username_disambiguate">Cuando se utilizan varias cuentas</string>
+    <string name="pref_show_self_username_disambiguate">Cuando hay varias cuentas ingresadas</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="notification_sign_up_description">Notificaciones de nuevos usuarios</string>
     <string name="notification_update_name">Ediciones de una publicación</string>
     <string name="notification_update_description">Notificaciones cuando se editan publicaciones con las que has interactuado</string>
     <string name="status_count_one_plus">1+</string>
     <string name="filter_expiration_format">%s (%s)</string>
-    <string name="error_failed_set_focus">Fallo al establecer foco</string>
     <string name="action_set_focus">Establece el foco</string>
     <string name="description_post_language">Idioma de publicación</string>
     <string name="duration_30_days">30 días</string>
@@ -607,11 +605,88 @@
     <string name="report_category_other">Otros</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_unfollow_hashtag_format">¿Dejar de seguir a #%s\?</string>
-    <string name="post_edited">Editado %s</string>
+    <string name="post_edited">%s editado</string>
     <string name="error_status_source_load">Fallo al cargar el estado desde el servidor.</string>
     <string name="confirmation_hashtag_unfollowed">Dejaste de seguir a #%s</string>
     <string name="pref_title_notification_filter_reports">Hay una nueva denuncia</string>
     <string name="action_discard">Descartar cambios</string>
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Tienes cambios sin guardar.</string>
+    <string name="title_edits">Ediciones</string>
+    <string name="action_post_failed">La subida falló</string>
+    <string name="action_post_failed_do_nothing">Descartar</string>
+    <string name="action_browser_login">Iniciar sesión con el navegador</string>
+    <string name="a11y_label_loading_thread">Cargando hilo</string>
+    <string name="mute_notifications_switch">Silenciar notificaciones</string>
+    <string name="pref_title_reading_order">Orden de lectura</string>
+    <string name="pref_reading_order_oldest_first">Más antiguas primero</string>
+    <string name="pref_reading_order_newest_first">Más recientes primero</string>
+    <string name="status_edit_info">%1$s ha editado</string>
+    <string name="status_created_info">%1$s ha editado</string>
+    <string name="pref_summary_http_proxy_disabled">Desactivado</string>
+    <string name="pref_summary_http_proxy_missing">&lt;sin establecer&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;inválido&gt;</string>
+    <string name="action_post_failed_detail">No se ha podido subir tu publicación y se ha guardado en Borradores.
+\n
+\nO no se ha podido contactar con el servidor, o ha rechazado tu publicación.</string>
+    <string name="action_post_failed_detail_plural">Tus publicaciones no se han podido subir y se han guardado en Borradores.
+\n
+\nO no se ha podido contactar con el servidor o, o ha rechazado tus publicaciones.</string>
+    <string name="action_post_failed_show_drafts">Mostrar borradores</string>
+    <string name="send_account_username_to">Compartir nombre de usuario de la cuenta a…</string>
+    <string name="account_username_copied">Nombre de usuario copiado</string>
+    <string name="description_browser_login">Puede soportar métodos de autenticación adicionales, pero hace falta un navegador soportado.</string>
+    <string name="description_login">Funcionar en la mayoría de los casos. No se comparten datos con otras apps.</string>
+    <string name="action_share_account_username">Compartir el nombre de usuario de la cuenta</string>
+    <string name="send_account_link_to">Compartir URL de la cuenta con…</string>
+    <string name="action_share_account_link">Compartir enlace a la cuenta</string>
+    <string name="title_public_trending_hashtags">Hashtags en tendencia</string>
+    <string name="accessibility_talking_about_tag">%1$d personas están hablando de #%2$s</string>
+    <string name="total_usage">Uso total</string>
+    <string name="total_accounts">Cuentas totales</string>
+    <string name="dialog_follow_hashtag_title">Seguir etiqueta</string>
+    <string name="dialog_follow_hashtag_hint">#etiqueta</string>
+    <string name="hint_description">Descripción</string>
+    <string name="post_media_image">Imagen</string>
+    <string name="pref_title_account_filter_keywords">Perfiles</string>
+    <string name="action_refresh">Volver a cargar</string>
+    <string name="notification_unknown_name">Desconocido</string>
+    <string name="status_filtered_show_anyway">Mostrar de todas formas</string>
+    <string name="status_filter_placeholder_label_format">Filtrado: %s</string>
+    <string name="pref_title_show_stat_inline">Mostrar estadísticas de la entrada en la línea de tiempo</string>
+    <string name="ui_error_unknown">razón desconocida</string>
+    <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
+    <string name="select_list_empty">Todavía no tienes listas</string>
+    <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues.
+\n
+\nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia [iconics gmd_group]. O puedes buscarlas por nombre [iconics gmd_search]; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
+    <string name="ui_error_bookmark">Fallo al añadir a marcadores: %s</string>
+    <string name="select_list_manage">Gestionar listas</string>
+    <string name="error_list_load">Error al cargar listas</string>
+    <string name="ui_error_favourite">Fallo al favoritear publicación: %s</string>
+    <string name="ui_error_clear_notifications">Fallo al limpiar notificaciones: %s</string>
+    <string name="ui_error_accept_follow_request">Fallo al aceptar solicitud de seguimiento: %s</string>
+    <string name="ui_error_reject_follow_request">Fallo al rechazar la solicitud de seguimiento: %s</string>
+    <string name="ui_success_accepted_follow_request">Solicitud de seguimiento aceptada</string>
+    <string name="ui_success_rejected_follow_request">Solicitud de seguimiento bloqueada</string>
+    <string name="hint_filter_title">Mi filtro</string>
+    <string name="filter_edit_keyword_title">Editar palabra</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="ui_error_reblog">Fallo al impulsar publicación: %s</string>
+    <string name="ui_error_vote">Fallo al votar en la encuesta: %s</string>
+    <string name="label_filter_title">Título</string>
+    <string name="filter_action_warn">Aviso</string>
+    <string name="filter_description_hide">Ocultar completamente</string>
+    <string name="filter_description_warn">Ocultar con un aviso</string>
+    <string name="filter_action_hide">Ocultar</string>
+    <string name="label_filter_action">Acción del filtro</string>
+    <string name="label_filter_context">Lugares donde se aplica el filtro</string>
+    <string name="label_filter_keywords">Palabras y frases clave para filtrar</string>
+    <string name="action_add">Añadir</string>
+    <string name="filter_keyword_display_format">%s (palabra completa)</string>
+    <string name="filter_keyword_addition_title">Añadir palabra</string>
+    <string name="pref_ui_text_size">Tamaño de fuente</string>
+    <string name="notification_notification_worker">Obteniendo notificaciones…</string>
+    <string name="load_newest_notifications">Cargar nuevas notificaciones</string>
+    <string name="compose_delete_draft">¿Eliminar borrador\?</string>
 </resources>

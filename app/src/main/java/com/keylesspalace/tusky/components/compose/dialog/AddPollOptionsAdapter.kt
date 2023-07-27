@@ -19,11 +19,11 @@ import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAddPollOptionBinding
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.visible
 
 class AddPollOptionsAdapter(
@@ -46,7 +46,7 @@ class AddPollOptionsAdapter(
         val holder = BindingHolder(binding)
         binding.optionEditText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
 
-        binding.optionEditText.onTextChanged { s, _, _, _ ->
+        binding.optionEditText.doOnTextChanged { s, _, _, _ ->
             val pos = holder.bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 options[pos] = s.toString()

@@ -1,0 +1,6 @@
+<resources>
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">@string/action_post_failed_detail</item>
+        <item quantity="other">@string/action_post_failed_detail_plural</item>
+    </plurals>
+</resources>

@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import javax.inject.Inject
 
-class AccountMediaViewModel @Inject constructor (
+class AccountMediaViewModel @Inject constructor(
     api: MastodonApi
 ) : ViewModel() {
 

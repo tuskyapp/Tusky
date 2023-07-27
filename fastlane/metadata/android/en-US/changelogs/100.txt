@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Support for post editing
+- New setting to control preferred reading direction
+- Larger media previews and a new overlay to indicate media with description
+- It is now possible to add accounts to lists from their profile
+and much more

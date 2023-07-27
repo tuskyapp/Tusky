@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">ଗୃହ</string>
+    <string name="title_notifications">ଵିଜ୍ଞପ୍ତି</string>
+    <string name="post_content_show_more">ପ୍ରସାରଣ</string>
+    <string name="post_content_show_less">ସଙ୍କୋଚନ</string>
+    <string name="action_reply">ପ୍ରତ୍ୟୁତ୍ତର</string>
+    <string name="action_retry">ପୁନଃଚେଷ୍ଟା କରିବା</string>
+    <string name="action_hide_media">ମିଡ଼ିଆ ଲୁଚାଅ</string>
+    <string name="action_edit_own_profile">ସମ୍ପାଦନା</string>
+    <string name="action_undo">ପୂର୍ଵଵତ୍</string>
+    <string name="action_search">ସନ୍ଧାନ</string>
+    <string name="action_more">ଅଧିକ</string>
+    <string name="action_edit">ସମ୍ପାଦନା</string>
+    <string name="action_view_media">ମିଡ଼ିଆ</string>
+    <string name="action_details">ଵିଵରଣୀ</string>
+</resources>

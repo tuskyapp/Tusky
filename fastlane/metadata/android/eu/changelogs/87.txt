@@ -1,0 +1,8 @@
+Tusky 16.0 bertsioa
+
+- Denbora-lerroaren karga-logika guztiz berridatzia izan da, azkarragoa eta mantentzeko errazagoa izateko, baita akats gutxiago eduki dezan ere.
+- Orain, Tusky aplikazioak APNG eta animaziodun WebP formatudun emoji pertsonalizatuak anima ditzake.
+- Akats-zuzenketa ugari
+- Android 11rekin bateragarria
+- Itzulpen berriak: Eskoziako gaelera, galiziera eta ukrainera
+- Hobetutako itzulpenak

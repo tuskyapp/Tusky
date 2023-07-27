@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_login">Skrá inn með Mastodon</string>
+    <string name="action_login">Skrá inn með Tusky</string>
     <string name="link_whats_an_instance">Hvað er tilvik\?</string>
     <string name="title_favourites">Eftirlæti</string>
     <string name="title_drafts">Drög</string>
@@ -13,14 +13,14 @@
     <string name="action_lists">Listar</string>
     <string name="title_lists">Listar</string>
     <string name="error_generic">Villa kom upp.</string>
-    <string name="error_network">Villa í netkerfi: Athugaðu nettenginguna þína og prófaðu svo aftur!</string>
+    <string name="error_network">Villa kom upp í netkerfi. Athugaðu nettenginguna þína og prófaðu svo aftur.</string>
     <string name="error_empty">Þetta má ekki vera tómt.</string>
     <string name="error_invalid_domain">Ógilt lén sett inn</string>
-    <string name="error_failed_app_registration">Mistókst að auðkenna gagnvart þessu tilviki.</string>
+    <string name="error_failed_app_registration">Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
     <string name="error_no_web_browser_found">Gat ekki fundið neinn vafra til að nota.</string>
-    <string name="error_authorization_unknown">Óskilgreind auðkenningarvilla kom upp.</string>
-    <string name="error_authorization_denied">Heimild var hafnað.</string>
-    <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn.</string>
+    <string name="error_authorization_unknown">Óskilgreind auðkenningarvilla kom upp. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
+    <string name="error_authorization_denied">Heimild var hafnað. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
+    <string name="error_retrieving_oauth_token">Mistókst að fá innskráningarteikn. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \'Skrá inn í vafra\' úr valmyndinni.</string>
     <string name="error_compose_character_limit">Færslan er of löng!</string>
     <string name="error_media_upload_type">Þessa tegund skrár er ekki hægt að senda inn.</string>
     <string name="error_media_upload_opening">Ekki var hægt að opna skrána.</string>
@@ -74,7 +74,7 @@
     <string name="action_unfavourite">Fjarlægja eftirlæti</string>
     <string name="action_more">Meira</string>
     <string name="action_compose">Semja skilaboð</string>
-    <string name="action_logout_confirm">Ertu viss um að þú viljir skrá þig út af notandaaðgangnum %1$s\?</string>
+    <string name="action_logout_confirm">Ertu viss um að þú viljir skrá þig út af notandaaðgangnum %1$s\? Þetta mun eyða öllum staðværum gögnum af aðgangnum, þar með talið drögum og kjörstillingum.</string>
     <string name="action_follow">Fylgja</string>
     <string name="action_unfollow">Hætta að fylgjast með</string>
     <string name="action_block">Útiloka</string>
@@ -157,11 +157,11 @@
     <string name="label_avatar">Auðkennismynd</string>
     <string name="label_header">Haus</string>
     <string name="login_connection">Tengist…</string>
-    <string name="dialog_whats_an_instance">Hægt er að setja hér inn vistfang eða lén á hvaða tilviki sem er, svo sem mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">fleiri!</a> 
+    <string name="dialog_whats_an_instance">Hægt er að setja hér inn vistfang eða lén á hvaða tilviki sem er, svo sem mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">fleiri!</a>
 \n
 \nEf þú ert ekki ennþá með notandaaðgang, geturðu sett inn nafnið á því tilviki sem þú vilt tilheyra og búið til aðgang þar.
 \n
-\nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu. 
+\nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu.
 \n
 \nNánari upplýsingar má finna á <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Klára innsendingu myndefnis</string>
@@ -277,8 +277,8 @@
     <string name="load_more_placeholder_text">hlaða inn fleiru</string>
     <string name="pref_title_public_filter_keywords">Opinberar tímalínur</string>
     <string name="pref_title_thread_filter_keywords">Samtöl</string>
-    <string name="filter_addition_dialog_title">Bæta við síu</string>
-    <string name="filter_edit_dialog_title">Breyta síu</string>
+    <string name="filter_addition_title">Bæta við síu</string>
+    <string name="filter_edit_title">Breyta síu</string>
     <string name="filter_dialog_remove_button">Fjarlægja</string>
     <string name="filter_dialog_update_button">Uppfæra</string>
     <string name="filter_dialog_whole_word">Heil orð</string>
@@ -297,12 +297,9 @@
     <string name="action_add_to_list">Bæta notandaaðgangi á listann</string>
     <string name="action_remove_from_list">Fjarlægja notandaaðganginn af listanum</string>
     <string name="compose_active_account_description">Sendi sem %1$s</string>
-    <string name="error_failed_set_caption">Ekki tókst að setja skýringatexta</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Lýstu þessu fyrir sjónskerta
-\n(hámark %d stafur)</item>
-        <item quantity="other">Lýstu þessu fyrir sjónskerta
-\n(hámark %d stafir)</item>
+        <item quantity="one">Lýstu þessu fyrir sjónskerta (hámark %d stafur)</item>
+        <item quantity="other">Lýstu þessu fyrir sjónskerta (hámark %d stafir)</item>
     </plurals>
     <string name="action_set_caption">Setja skýringatexta</string>
     <string name="action_remove">Fjarlægja</string>
@@ -446,7 +443,7 @@
     <string name="account_note_saved">Vistað!</string>
     <string name="account_note_hint">Þín eigin einkaathugasemd um þennan aðgang</string>
     <string name="pref_title_hide_top_toolbar">Fela titil á verkfærastikunni efst</string>
-    <string name="pref_title_confirm_reblogs">Birta staðfestingarglugga áður en endurbirting fer fram</string>
+    <string name="pref_title_confirm_reblogs">Birta staðfestingu áður en endurbirting fer fram</string>
     <string name="pref_title_show_cards_in_timelines">Birta forskoðun tengla á tímalínum</string>
     <string name="no_announcements">Það eru engar tilkynningar.</string>
     <string name="pref_title_enable_swipe_for_tabs">Virkja strokuhreyfingu til að skipta milli flipa</string>
@@ -504,7 +501,7 @@
     <string name="notification_subscription_format">%s sendi inn rétt í þessu</string>
     <string name="follow_requests_info">Jafnvel þótt aðgangurinn þinn sé ekki læstur, fannst starfsfólki %1$s að þú gætir viljað yfirfara handvirkt fylgjendabeiðnir frá þessum aðgöngum.</string>
     <string name="action_unbookmark">Fjarlægja bókamerki</string>
-    <string name="pref_title_confirm_favourites">Birta staðfestingarglugga áður en sett er í eftirlæti</string>
+    <string name="pref_title_confirm_favourites">Birta staðfestingu áður en sett er í eftirlæti</string>
     <string name="dialog_delete_conversation_warning">Eyða þessu samtali\?</string>
     <string name="action_delete_conversation">Eyða samtali</string>
     <string name="duration_30_days">30 dagar</string>
@@ -553,7 +550,6 @@
     <string name="pref_show_self_username_always">Alltaf</string>
     <string name="pref_show_self_username_disambiguate">Þegar er skráð inn á mörgum aðgöngum</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Mistókst að setja virknistað</string>
     <string name="action_set_focus">Setja virknistað</string>
     <string name="pref_show_self_username_never">Aldrei</string>
     <string name="pref_title_show_self_username">Birta notandanafn á verkfærastikum</string>
@@ -593,8 +589,8 @@
     <string name="pref_summary_http_proxy_missing">&lt;ekki stillt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;ógilt&gt;</string>
     <string name="title_edits">Breytingar</string>
-    <string name="status_created_info">%1$s bjó til %2$s</string>
-    <string name="status_edit_info">%1$s breytti %2$s</string>
+    <string name="status_created_info">%1$s bjó til</string>
+    <string name="status_edit_info">%1$s breytti</string>
     <string name="post_media_alt">AUKA</string>
     <string name="action_discard">Henda breytingum</string>
     <string name="action_continue_edit">Halda breytingum áfram</string>
@@ -604,4 +600,71 @@
     <string name="send_account_username_to">Deila notandanafni aðgangs til…</string>
     <string name="account_username_copied">Notandanafn afritað</string>
     <string name="mute_notifications_switch">Þagga tilkynningar</string>
+    <string name="title_public_trending_hashtags">Vinsæl myllumerki</string>
+    <string name="accessibility_talking_about_tag">%1$d manns eru að tala um myllumerkið %2$s</string>
+    <string name="action_post_failed">Innsending mistókst</string>
+    <string name="action_post_failed_show_drafts">Birta drög</string>
+    <string name="action_post_failed_do_nothing">Afgreiða</string>
+    <string name="action_post_failed_detail">Ekki tókst að senda inn færsluna þína og hefur hún verið vistuð í Drög.
+\n
+\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunni.</string>
+    <string name="action_post_failed_detail_plural">Ekki tókst að senda inn færslurnar þína og hafa þær verið vistaðar í Drög.
+\n
+\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunum.</string>
+    <string name="action_browser_login">Skrá inn í vafra</string>
+    <string name="description_login">Virkar í flestum tilvikum. Engum gögnum er lekið til annarra forrita.</string>
+    <string name="description_browser_login">Gæti stutt fleiri aðferðir til auðkenningar, en krefst studds vafra.</string>
+    <string name="total_usage">Heildarnotkun</string>
+    <string name="total_accounts">Aðgangar alls</string>
+    <string name="dialog_follow_hashtag_title">Fylgjast með myllumerki</string>
+    <string name="dialog_follow_hashtag_hint">#myllumerki</string>
+    <string name="notification_unknown_name">Óþekkt</string>
+    <string name="action_refresh">Endurlesa</string>
+    <string name="status_filtered_show_anyway">Birta samt</string>
+    <string name="status_filter_placeholder_label_format">Síað: %s</string>
+    <string name="pref_title_account_filter_keywords">Notendasnið</string>
+    <string name="pref_title_show_stat_inline">Sýna tölfræði færslu í tímalínu</string>
+    <string name="ui_error_favourite">Mistókst að setja færslu í eftirlæti: %s</string>
+    <string name="ui_error_reblog">Mistókst að endurbirta færslu: %s</string>
+    <string name="ui_error_vote">Mistókst að greiða atkvæði í könnun: %s</string>
+    <string name="ui_error_accept_follow_request">Mistókst að samþykkja fylgjendabeiðni: %s</string>
+    <string name="hint_filter_title">Sían mín</string>
+    <string name="label_filter_title">Titill</string>
+    <string name="filter_action_warn">Aðvörun</string>
+    <string name="filter_action_hide">Fela</string>
+    <string name="filter_description_warn">Fela með aðvörun</string>
+    <string name="filter_description_hide">Fela alveg</string>
+    <string name="ui_error_bookmark">Mistókst að bókamerkja færslu: %s</string>
+    <string name="socket_timeout_exception">Rann út á tíma við að tengjast netþjóninum þínum</string>
+    <string name="ui_error_unknown">óþekkt ástæða</string>
+    <string name="ui_error_clear_notifications">Vandamál með hreinsun á tilkynningum: %s</string>
+    <string name="ui_error_reject_follow_request">Mistókst að hafna fylgjendabeiðni: %s</string>
+    <string name="ui_success_accepted_follow_request">Samþykkt beiðni um að fylgjast með</string>
+    <string name="ui_success_rejected_follow_request">Lokað á beiðni um að fylgjast með</string>
+    <string name="label_filter_action">Aðgerð síu</string>
+    <string name="label_filter_context">Samhengi síu</string>
+    <string name="label_filter_keywords">Stikkorð eða setningar sem á að sía</string>
+    <string name="action_add">Bæta við</string>
+    <string name="filter_keyword_display_format">%s (heilt orð)</string>
+    <string name="filter_keyword_addition_title">Bæta við stikkorði</string>
+    <string name="filter_edit_keyword_title">Breyta stikkorði</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="hint_description">Lýsing</string>
+    <string name="post_media_image">Mynd</string>
+    <string name="select_list_empty">Þú ert ekki með neina lista</string>
+    <string name="select_list_manage">Sýsla með lista</string>
+    <string name="error_list_load">Villa við að hlaða inn listum</string>
+    <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með.
+\n
+\nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns [iconics gmd_group]. Eða að þú leitar að þeim eftir nafni [iconics gmd_search]; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>
+    <string name="pref_ui_text_size">Textastærð viðmóts</string>
+    <string name="notification_listenable_worker_name">Bakgrunnsvirkni</string>
+    <string name="notification_listenable_worker_description">Tilkynningar þegar Tusky er að vinna í bakgrunni</string>
+    <string name="notification_notification_worker">Sæki tilkynningar…</string>
+    <string name="notification_prune_cache">Viðhaldsvinna biðminnis…</string>
+    <string name="load_newest_notifications">Hlaða inn nýjustu tilkynningum</string>
+    <string name="compose_delete_draft">Eyða drögum\?</string>
+    <string name="error_missing_edits">Þjónninn þinn veit að þessari færslu hefur verið breytt, en er hins vegar ekki með afrit af breytingunum, þannig að ekki er hægt að sýna þér þær.
+\n
+\nÞetta er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon verkbeiðni #25398</a>.</string>
 </resources>

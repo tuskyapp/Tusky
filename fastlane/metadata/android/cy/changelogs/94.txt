@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- Cefnogaeth i Unified Push. I actifadu'r gefnogaeth bydd yn rhaid i chi ail-fewngofnodi i'ch cyfrifon.
+- Mae nifer yr ymatebion i swydd bellach wedi'i nodi mewn llinellau amser.
+- Bellach gellir tocio delweddau wrth gyfansoddi post.
+- Mae proffiliau bellach yn dangos y dyddiad y cawsant eu creu.
+- Wrth edrych ar restr mae'r teitl nawr yn cael ei arddangos yn y bar offer.
+- Llawer o atgyweiriadau byg
+- Gwelliannau cyfieithu

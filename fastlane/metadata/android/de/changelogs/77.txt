@@ -1,10 +1,10 @@
 Tusky v13.0
 
 - Unterstützung für Profilnotizen (Mastodon 3.2.0 Funktion)
-- Unterstützung für Ankündigungen von Administratoren (Mastodon 3.1.0 Funktion)
+- Unterstützung für Ankündigungen von Admins (Mastodon 3.1.0 Funktion)
 
-- Der Avatar des ausgewählten Kontos wird nun in der Hauptnavigation angezeigt
-- Klicken auf einen Anzeigenamen in einer Timeline öffnet jetzt das Profil dieses Nutzers
+- Das Profilbild des ausgewählten Kontos wird nun in der Hauptnavigation angezeigt
+- Ein Klick auf den Anzeigenamen in einer Timeline öffnet nun die Profilseite des jeweiligen Profils
 
 - Viele Fehlerkorrekturen und kleine Verbesserungen
 - Verbesserte Übersetzungen

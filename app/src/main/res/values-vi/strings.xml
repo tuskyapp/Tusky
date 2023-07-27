@@ -10,7 +10,7 @@
     </plurals>
     <string name="notification_summary_small">%1$s và %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, và %3$s</string>
-    <string name="notification_summary_large">%1$s, %2$s, %3$s và %4$d người khác</string>
+    <string name="notification_summary_large">%1$s, %2$s, %3$s và %4$d người</string>
     <string name="notification_mention_format">%s nhắc tới bạn</string>
     <string name="notification_mention_name">Nhắc đến tôi</string>
     <string name="notification_follow_request_format">%s yêu cầu theo dõi bạn</string>
@@ -20,7 +20,6 @@
     <string name="post_lookup_error_format">Lỗi khi tìm tút %s</string>
     <string name="error_no_custom_emojis">Máy chủ %s không có emoji tùy chỉnh</string>
     <string name="send_post_notification_error_title">Lỗi đăng tút</string>
-    <string name="error_failed_set_caption">Thêm nội dung thất bại</string>
     <string name="error_delete_list">Không thể xóa danh sách</string>
     <string name="error_rename_list">Không thể đổi tên danh sách</string>
     <string name="error_create_list">Không thể tạo danh sách</string>
@@ -47,7 +46,7 @@
     <string name="action_reset_schedule">Làm tươi</string>
     <string name="action_search">Tìm kiếm</string>
     <string name="action_edit_profile">Hồ sơ</string>
-    <string name="action_view_account_preferences">Tài khoản</string>
+    <string name="action_view_account_preferences">Cá nhân</string>
     <string name="action_view_preferences">Cài đặt</string>
     <string name="action_logout">Đăng xuất</string>
     <string name="button_done">Xong</string>
@@ -60,17 +59,17 @@
     <string name="action_login">Đăng nhập Mastodon</string>
     <string name="dialog_redraft_post_warning">Xóa và viết lại tút này\?</string>
     <string name="dialog_delete_post_warning">Xóa tút này\?</string>
-    <string name="dialog_unfollow_warning">Ngưng theo dõi người này\?</string>
+    <string name="dialog_unfollow_warning">Bỏ theo dõi người này\?</string>
     <string name="dialog_message_cancel_follow_request">Hủy yêu cầu theo dõi\?</string>
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a> 
-\n 
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước. 
-\n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
-\n 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a>
+\n
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước.
+\n
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác.
+\n
 \nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
@@ -93,7 +92,7 @@
     <string name="send_post_link_to">Đăng lại URL tút với…</string>
     <string name="send_post_content_to">Đăng lại tút với…</string>
     <string name="downloading_media">Đang lưu vào thiết bị</string>
-    <string name="download_media">Tải về</string>
+    <string name="download_media">Tải xuống</string>
     <string name="action_share_as">Đăng lại với tư cách …</string>
     <string name="action_open_as">Mở với tư cách %s</string>
     <string name="action_copy_link">Chép URL</string>
@@ -151,9 +150,9 @@
     <string name="action_hide_reblogs">Ẩn lượt đăng lại</string>
     <string name="action_unblock">Bỏ chặn</string>
     <string name="action_block">Chặn</string>
-    <string name="action_unfollow">Ngưng theo dõi</string>
+    <string name="action_unfollow">Bỏ theo dõi</string>
     <string name="action_follow">Theo dõi</string>
-    <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\?</string>
+    <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\? Dữ liệu của tài khoản sẽ bị xóa, bao gồm những bản nháp và thiết lập.</string>
     <string name="action_compose">Viết tút</string>
     <string name="action_more">Thêm</string>
     <string name="action_unfavourite">Bỏ lưu</string>
@@ -187,7 +186,7 @@
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
     <string name="title_posts_pinned">Ghim</string>
-    <string name="title_posts_with_replies">Trả lời</string>
+    <string name="title_posts_with_replies">Lượt trả lời</string>
     <string name="title_posts">Tút</string>
     <string name="title_view_thread">Nội dung tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
@@ -204,7 +203,7 @@
     <string name="pref_title_show_boosts">Hiện lượt đăng lại</string>
     <string name="pref_title_post_tabs">Tabs</string>
     <string name="pref_title_post_filter">Lọc bảng tin</string>
-    <string name="pref_title_gradient_for_media">Che mờ nội dung nhạy cảm</string>
+    <string name="pref_title_gradient_for_media">Phủ màu media nhạy cảm</string>
     <string name="pref_title_animate_gif_avatars">Ảnh đại diện GIF</string>
     <string name="pref_title_bot_overlay">Icon cho tài khoản Bot</string>
     <string name="pref_title_language">Ngôn ngữ</string>
@@ -250,7 +249,7 @@
     <string name="post_text_size_medium">Trung bình</string>
     <string name="post_text_size_small">Nhỏ vừa</string>
     <string name="post_text_size_smallest">Nhỏ</string>
-    <string name="pref_post_text_size">Cỡ chữ</string>
+    <string name="pref_post_text_size">Cỡ chữ tút</string>
     <string name="post_privacy_followers_only">Chỉ người theo dõi</string>
     <string name="post_privacy_unlisted">Hạn chế</string>
     <string name="post_privacy_public">Công khai</string>
@@ -282,11 +281,11 @@
     <string name="notification_favourite_description">Thông báo khi ai đó thích tút của bạn</string>
     <string name="notification_favourite_name">Lượt thích</string>
     <string name="filter_dialog_whole_word">Toàn bộ chữ có chứa cụm từ này</string>
-    <string name="filter_edit_dialog_title">Sửa bộ lọc</string>
-    <string name="filter_addition_dialog_title">Thêm bộ lọc</string>
+    <string name="filter_edit_title">Sửa bộ lọc</string>
+    <string name="filter_addition_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Thảo luận</string>
     <string name="pref_title_public_filter_keywords">Liên hợp</string>
-    <string name="load_more_placeholder_text">tải tút chưa đọc</string>
+    <string name="load_more_placeholder_text">hiện những tút chưa đọc</string>
     <string name="replying_to">Trả lời @%s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
@@ -388,8 +387,8 @@
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
-    <string name="title_favourited_by">Những người thích tút này</string>
-    <string name="title_reblogged_by">Những người đăng lại tút này</string>
+    <string name="title_favourited_by">Lượt thích tút này</string>
+    <string name="title_reblogged_by">Lượt đăng lại tút này</string>
     <plurals name="reblogs">
         <item quantity="other"><b>%s</b> Đăng lại</item>
     </plurals>
@@ -423,7 +422,7 @@
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
     <string name="action_open_post">Đọc tút</string>
     <string name="expand_collapse_all_posts">Mở rộng/Thu gọn toàn bộ tút</string>
-    <string name="performing_lookup_title">Đang tìm kiếm…</string>
+    <string name="performing_lookup_title">Đang tra cứu…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>
@@ -455,7 +454,7 @@
     <string name="action_unmute_domain">Bỏ ẩn %s</string>
     <string name="pref_title_hide_top_toolbar">Ẩn tiêu đề tab</string>
     <string name="account_note_saved">Đã lưu!</string>
-    <string name="account_note_hint">Ghi chú</string>
+    <string name="account_note_hint">Ghi chú về người này</string>
     <string name="no_announcements">Chưa có thông báo.</string>
     <string name="title_announcements">Có gì mới\?</string>
     <string name="wellbeing_hide_stats_profile">Ẩn số liệu trên trang hồ sơ</string>
@@ -487,7 +486,7 @@
     <string name="drafts_failed_loading_reply">Chưa tải được bình luận</string>
     <string name="drafts_post_failed_to_send">Đăng tút không thành công!</string>
     <string name="pref_title_animate_custom_emojis">Emoji GIF</string>
-    <string name="action_unsubscribe_account">Ngưng nhận thông báo</string>
+    <string name="action_unsubscribe_account">Dừng nhận thông báo</string>
     <string name="action_subscribe_account">Nhận thông báo</string>
     <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên duyệt thủ công yêu cầu theo dõi từ những người lạ.</string>
     <string name="dialog_delete_conversation_warning">Xóa cuộc thảo luận này\?</string>
@@ -503,7 +502,7 @@
     <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
     <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
     <string name="notification_sign_up_format">%s tham gia máy chủ</string>
-    <string name="notification_sign_up_name">Người mới tham gia máy chủ</string>
+    <string name="notification_sign_up_name">Thành viên mới</string>
     <string name="notification_sign_up_description">Thông báo về người mới tham gia máy chủ</string>
     <string name="notification_update_format">%s đã sửa tút của họ</string>
     <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
@@ -525,12 +524,11 @@
     <string name="error_loading_account_details">Không thể tải thông tin tài khoản</string>
     <string name="error_multimedia_size_limit">Video và audio không thể quá %s MB.</string>
     <string name="error_following_hashtag_format">Lỗi khi theo dõi #%s</string>
-    <string name="error_unfollowing_hashtag_format">Lỗi khi ngưng theo dõi #%s</string>
+    <string name="error_unfollowing_hashtag_format">Lỗi khi bỏ theo dõi #%s</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Không đổi)</string>
     <string name="description_post_language">Ngôn ngữ đăng</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Không thể chọn tâm điểm</string>
     <string name="action_set_focus">Chọn tâm điểm</string>
     <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
     <string name="pref_title_show_self_username">Hiện URL của tôi trên tab</string>
@@ -548,12 +546,12 @@
     <string name="action_add_or_remove_from_list">Thêm hoặc xoá khỏi danh sách</string>
     <string name="failed_to_add_to_list">Không thể thêm người vào danh sách</string>
     <string name="failed_to_remove_from_list">Không thể xoá người khỏi danh sách</string>
-    <string name="action_unfollow_hashtag_format">Ngưng theo dõi #%s\?</string>
+    <string name="action_unfollow_hashtag_format">Bỏ theo dõi #%s\?</string>
     <string name="status_created_at_now">vừa xong</string>
     <string name="notification_report_format">Báo cáo mới trên %s</string>
     <string name="notification_header_report_format">%s báo cáo %s</string>
     <string name="notification_summary_report_format">%s trước · %d tút</string>
-    <string name="confirmation_hashtag_unfollowed">Đã ngưng theo dõi #%s</string>
+    <string name="confirmation_hashtag_unfollowed">Đã bỏ theo dõi #%s</string>
     <string name="pref_title_notification_filter_reports">có một báo cáo mới</string>
     <string name="notification_report_name">Báo cáo</string>
     <string name="no_lists">Chưa có danh sách nào.</string>
@@ -571,13 +569,13 @@
     <string name="hint_media_description_missing">Hình ảnh phải có mô tả.</string>
     <string name="error_status_source_load">Không xác định được trạng thái máy chủ.</string>
     <string name="pref_title_http_proxy_port_message">Cổng nên là khoảng giữa %d đến %d</string>
-    <string name="post_media_alt">✤</string>
+    <string name="post_media_alt">✦</string>
     <string name="action_discard">Hủy bỏ thay đổi</string>
     <string name="action_continue_edit">Tiếp tục sửa</string>
     <string name="compose_unsaved_changes">Thay đổi chưa được lưu.</string>
     <string name="mute_notifications_switch">Ẩn thông báo</string>
-    <string name="status_edit_info">%1$s sửa %2$s</string>
-    <string name="status_created_info">%1$s đăng %2$s</string>
+    <string name="status_edit_info">%1$s sửa</string>
+    <string name="status_created_info">%1$s đăng</string>
     <string name="title_edits">Những lượt sửa tút</string>
     <string name="a11y_label_loading_thread">Đang tải thảo luận</string>
     <string name="action_share_account_link">Chia sẻ URL người dùng</string>
@@ -591,4 +589,71 @@
     <string name="pref_summary_http_proxy_disabled">Tắt</string>
     <string name="pref_summary_http_proxy_missing">&lt;không đặt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;không hợp lệ&gt;</string>
+    <string name="description_browser_login">Có thể hỗ trợ các phương thức xác thực bổ sung nhưng yêu cầu trình duyệt được hỗ trợ.</string>
+    <string name="action_browser_login">Đăng nhập bằng trình duyệt</string>
+    <string name="description_login">Đăng nhập ổn định. Dữ liệu sẽ không bị lộ.</string>
+    <string name="action_post_failed">Tải lên thất bại</string>
+    <string name="action_post_failed_detail">Tút của bạn không tải lên được và đã được lưu nháp.
+\n
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+    <string name="action_post_failed_detail_plural">Tút của bạn không tải lên được và đã được lưu nháp.
+\n
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+    <string name="action_post_failed_show_drafts">Xem bản nháp</string>
+    <string name="action_post_failed_do_nothing">Bỏ qua</string>
+    <string name="title_public_trending_hashtags">Hashtag nổi bật</string>
+    <string name="accessibility_talking_about_tag">%1$d người đang thảo luận về %2$s</string>
+    <string name="total_usage">lượt dùng</string>
+    <string name="total_accounts">người dùng</string>
+    <string name="dialog_follow_hashtag_title">Theo dõi hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Làm mới</string>
+    <string name="notification_unknown_name">Chưa biết</string>
+    <string name="socket_timeout_exception">Mất thời gian kết nối quá lâu</string>
+    <string name="ui_error_unknown">chưa rõ lý do</string>
+    <string name="ui_error_bookmark">Lưu tút không thành công: %s</string>
+    <string name="ui_error_clear_notifications">Xóa thông báo không thành công: %s</string>
+    <string name="ui_error_favourite">Thích tút không thành công: %s</string>
+    <string name="ui_error_reblog">Đăng lại tút không thành công: %s</string>
+    <string name="ui_error_vote">Bình chọn không thành công: %s</string>
+    <string name="ui_error_accept_follow_request">Chấp nhận theo dõi không thành công: %s</string>
+    <string name="ui_error_reject_follow_request">Từ chối theo dõi không thành công: %s</string>
+    <string name="ui_success_accepted_follow_request">Đã chấp nhận yêu cầu theo dõi</string>
+    <string name="ui_success_rejected_follow_request">Đã từ chối yêu cầu theo dõi</string>
+    <string name="status_filtered_show_anyway">Vẫn hiện</string>
+    <string name="status_filter_placeholder_label_format">Đã lọc: %s</string>
+    <string name="pref_title_account_filter_keywords">Người</string>
+    <string name="hint_filter_title">Bộ lọc của tôi</string>
+    <string name="label_filter_title">Tên bộ lọc</string>
+    <string name="filter_action_warn">Cảnh báo</string>
+    <string name="filter_action_hide">Đã ẩn</string>
+    <string name="filter_description_warn">Ẩn với cảnh báo</string>
+    <string name="filter_description_hide">Ẩn hoàn toàn</string>
+    <string name="label_filter_action">Hành động</string>
+    <string name="label_filter_context">Nơi áp dụng</string>
+    <string name="label_filter_keywords">Từ hoặc cụm từ muốn lọc</string>
+    <string name="action_add">Thêm</string>
+    <string name="filter_keyword_display_format">%s (cả từ)</string>
+    <string name="filter_keyword_addition_title">Thêm từ</string>
+    <string name="filter_edit_keyword_title">Sửa từ</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="pref_title_show_stat_inline">Hiện số tương tác trên tút</string>
+    <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện những tút gần đây từ những người bạn theo dõi.
+\n
+\nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
+    <string name="hint_description">Mô tả</string>
+    <string name="post_media_image">Hình ảnh</string>
+    <string name="select_list_manage">Quản lý danh sách</string>
+    <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
+    <string name="select_list_empty">Bạn chưa có danh sách</string>
+    <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
+    <string name="compose_delete_draft">Xóa bản nháp\?</string>
+    <string name="error_missing_edits">Máy chủ của bạn biết tút đã được sửa, nhưng không có bản sao của lần sửa, nên nó không thể hiện.
+\n
+\nĐây là <a href="https://github.com/mastodon/mastodon/issues/25398">Lỗi Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Cỡ chữ giao diện</string>
+    <string name="notification_listenable_worker_name">Hoạt động chạy nền</string>
+    <string name="notification_listenable_worker_description">Thông báo khi Tusky hoạt động ngầm</string>
+    <string name="notification_notification_worker">Đang nạp thông báo…</string>
+    <string name="notification_prune_cache">Bảo trì bộ nhớ đệm…</string>
 </resources>

@@ -98,7 +98,7 @@
     <style name="TuskyDialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:letterSpacing">0</item>
         <item name="dialogCornerRadius">8dp</item>
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
     <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
@@ -106,7 +106,7 @@
     </style>
 
     <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:textSize">?attr/status_text_medium</item>
+        <item name="tabTextAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:textAllCaps">true</item>
         <item name="tabIndicatorHeight">3dp</item>
     </style>
@@ -157,7 +157,7 @@
         <item name="colorBackgroundHighlight">@color/tusky_grey_40</item>
         <item name="colorBackgroundAccent">@color/tusky_grey_20</item>
 
-        <item name="dividerColor">@color/tusky_grey_10</item>
+        <item name="dividerColor">@color/tusky_grey_20</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
@@ -184,5 +184,4 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12.5%</item>
     </style>
-
 </resources>

@@ -1,0 +1,15 @@
+Tusky 23.0 beta 1
+
+New features:
+
+- New preference to scale UI text
+
+Fixes:
+
+- Save account information correctly
+- "pull" notifications on devices running Android versions <= 11
+- Work around Android bug where text fields could "forget" they can copy/paste
+- Viewing "diffs" in edit history will not extend off screen edge
+- Don't crash if your server has no post edit history
+- Add a "Delete" button when editing a filter
+- Show non-square emoji correctly

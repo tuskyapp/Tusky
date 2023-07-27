@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- "Abrir como..." agora também está disponível no menu dos perfis de conta ao usar várias contas
+- O login agora é feito em um WebView dentro do aplicativo
+- Suporte para Android 12
+- suporte para a nova API de configuração de instância Mastodon
+- e muitas outras pequenas correções e melhorias

@@ -72,7 +72,6 @@ class EditProfileViewModel @Inject constructor(
 
     fun obtainProfile() = viewModelScope.launch {
         if (profileData.value == null || profileData.value is Error) {
-
             profileData.postValue(Loading())
 
             mastodonApi.accountVerifyCredentials().fold(
@@ -100,7 +99,6 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
-
         if (saveData.value is Loading || profileData.value !is Success) {
             return
         }
@@ -176,7 +174,8 @@ class EditProfileViewModel @Inject constructor(
             val newProfileSource = profileData.value?.data?.source?.copy(note = newNote, fields = newFields)
             val newProfile = profileData.value?.data?.copy(
                 displayName = newDisplayName,
-                locked = newLocked, source = newProfileSource
+                locked = newLocked,
+                source = newProfileSource
             )
 
             profileData.postValue(Success(newProfile))

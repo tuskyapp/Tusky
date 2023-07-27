@@ -30,8 +30,9 @@ class DomainMutesAdapter(
 
     override fun getItemCount(): Int {
         var count = instances.size
-        if (bottomLoading)
+        if (bottomLoading) {
             ++count
+        }
         return count
     }
 

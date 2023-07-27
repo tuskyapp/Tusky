@@ -1,21 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <ImageView
         android:id="@+id/blocked_user_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="24dp"
-        android:contentDescription="@string/action_view_profile" />
+        android:contentDescription="@string/action_view_profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/avatar_default" />
+
+    <ImageView
+        android:id="@+id/blocked_user_bot_badge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/profile_badge_bot_text"
+        android:src="@drawable/bot_badge"
+        app:layout_constraintBottom_toBottomOf="@id/blocked_user_avatar"
+        app:layout_constraintEnd_toEndOf="@id/blocked_user_avatar" />
+
+    <TextView
+        android:id="@+id/blocked_user_display_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        android:textStyle="normal|bold"
+        app:layout_constraintBottom_toTopOf="@id/blocked_user_username"
+        app:layout_constraintEnd_toStartOf="@id/blocked_user_unblock"
+        app:layout_constraintStart_toEndOf="@id/blocked_user_avatar"
+        app:layout_constraintTop_toTopOf="@id/blocked_user_avatar"
+        tools:text="Display name" />
+
+    <TextView
+        android:id="@+id/blocked_user_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/blocked_user_avatar"
+        app:layout_constraintEnd_toStartOf="@id/blocked_user_unblock"
+        app:layout_constraintStart_toEndOf="@id/blocked_user_avatar"
+        app:layout_constraintTop_toBottomOf="@id/blocked_user_display_name"
+        tools:text="\@username" />
 
     <ImageButton
         android:id="@+id/blocked_user_unblock"
@@ -28,37 +69,9 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_unblock"
         android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/blocked_user_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/blocked_user_avatar"
         app:srcCompat="@drawable/ic_clear_24dp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toEndOf="@id/blocked_user_avatar"
-        android:layout_toStartOf="@id/blocked_user_unblock"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/blocked_user_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="?attr/status_text_large"
-            android:textStyle="normal|bold"
-            tools:text="Display name" />
-
-        <TextView
-            android:id="@+id/blocked_user_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="\@username" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

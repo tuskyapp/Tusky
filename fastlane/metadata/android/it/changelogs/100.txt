@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Supporto per la modifica dei toot
+- Nuova impostazione per selezionare la direzione di lettura preferita
+- Anteprima dei media più grande e nuovo overlay per indicare i media con una descrizione
+- È ora possibile account alle liste dal loro profilo
+e molto altro

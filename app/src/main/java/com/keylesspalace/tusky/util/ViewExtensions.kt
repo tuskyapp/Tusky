@@ -16,11 +16,9 @@
 
 package com.keylesspalace.tusky.util
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
@@ -36,37 +34,6 @@ fun View.visible(visible: Boolean, or: Int = View.GONE) {
     this.visibility = if (visible) View.VISIBLE else or
 }
 
-open class DefaultTextWatcher : TextWatcher {
-    override fun afterTextChanged(s: Editable) {
-    }
-
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-    }
-
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-    }
-}
-
-inline fun EditText.onTextChanged(
-    crossinline callback: (s: CharSequence, start: Int, before: Int, count: Int) -> Unit
-) {
-    addTextChangedListener(object : DefaultTextWatcher() {
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            callback(s, start, before, count)
-        }
-    })
-}
-
-inline fun EditText.afterTextChanged(
-    crossinline callback: (s: Editable) -> Unit
-) {
-    addTextChangedListener(object : DefaultTextWatcher() {
-        override fun afterTextChanged(s: Editable) {
-            callback(s)
-        }
-    })
-}
-
 /**
  * Reduce ViewPager2's sensitivity to horizontal swipes.
  */
@@ -77,7 +44,7 @@ fun ViewPager2.reduceSwipeSensitivity() {
     // to scroll vertically -- it's far too easy to trigger an accidental horizontal swipe.
     //
     // One way to stop this is to reach in to ViewPager2's RecyclerView and adjust the amount
-    // of touch slop it has. Scaling by 2 appears to work well.
+    // of touch slop it has.
     //
     // See https://issuetracker.google.com/issues/139867645 and
     // https://bladecoder.medium.com/fixing-recyclerview-nested-scrolling-in-opposite-direction-f587be5c1a04
@@ -91,12 +58,23 @@ fun ViewPager2.reduceSwipeSensitivity() {
         val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
         touchSlopField.isAccessible = true
         val touchSlop = touchSlopField.get(recyclerView) as Int
-        // 4 seems to be a sweet-spot. 2-3 still causes a horizontal swipe right if the user drags
-        // down-left at ~ 45 degree angle. Experimentally, 4 requires the swipe to be +/- ~ 10 degrees
-        // from horizontal to register as a horizontal and not a vertical swipe.
-        val scaleFactor = 4
+        // Experimentally, 2 seems to be a sweet-spot, requiring a downward swipe that's at least
+        // 45 degrees off the vertical to trigger a change. This is consistent with maximum angle
+        // supported to open the nav. drawer.
+        val scaleFactor = 2
         touchSlopField.set(recyclerView, touchSlop * scaleFactor)
     } catch (e: Exception) {
         Log.w("reduceSwipeSensitivity", e)
     }
+}
+
+/**
+ * TextViews with an ancestor RecyclerView can forget that they are selectable. Toggling
+ * calls to [TextView.setTextIsSelectable] fixes this.
+ *
+ * @see https://issuetracker.google.com/issues/37095917
+ */
+fun TextView.fixTextSelection() {
+    setTextIsSelectable(false)
+    post { setTextIsSelectable(true) }
 }

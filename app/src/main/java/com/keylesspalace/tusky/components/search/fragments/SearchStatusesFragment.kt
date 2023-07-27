@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
@@ -62,8 +63,11 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
+    @Inject
+    lateinit var accountManager: AccountManager
 
     override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
@@ -83,7 +87,10 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
         binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
@@ -127,7 +134,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
                     val intent = ViewMediaActivity.newIntent(
-                        context, attachments,
+                        context,
+                        attachments,
                         attachmentIndex
                     )
                     if (view != null) {
@@ -135,7 +143,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         ViewCompat.setTransitionName(view, url)
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             requireActivity(),
-                            view, url
+                            view,
+                            url
                         )
                         startActivity(intent, options.toBundle())
                     } else {
@@ -183,6 +192,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             viewModel.voteInPoll(it, choices)
         }
     }
+
+    override fun clearWarningAction(position: Int) {}
 
     private fun removeItem(position: Int) {
         searchAdapter.peek(position)?.let {
@@ -391,7 +402,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private fun showOpenAsDialog(statusUrl: String, dialogTitle: CharSequence?) {
         bottomSheetActivity?.showAccountChooserDialog(
-            dialogTitle, false,
+            dialogTitle,
+            false,
             object : AccountSelectionListener {
                 override fun onAccountSelected(account: AccountEntity) {
                     bottomSheetActivity?.openAsAccount(statusUrl, account)
@@ -468,7 +480,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                 val intent = ComposeActivity.startIntent(
                                     requireContext(),
                                     ComposeOptions(
-                                        content = redraftStatus.text ?: "",
+                                        content = redraftStatus.text.orEmpty(),
                                         inReplyToId = redraftStatus.inReplyToId,
                                         visibility = redraftStatus.visibility,
                                         contentWarning = redraftStatus.spoilerText,
@@ -507,7 +519,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         language = status.language,
                         statusId = source.id,
                         poll = status.poll?.toNewPoll(status.createdAt),
-                        kind = ComposeActivity.ComposeKind.EDIT_POSTED,
+                        kind = ComposeActivity.ComposeKind.EDIT_POSTED
                     )
                     startActivity(ComposeActivity.startIntent(requireContext(), composeOptions))
                 },

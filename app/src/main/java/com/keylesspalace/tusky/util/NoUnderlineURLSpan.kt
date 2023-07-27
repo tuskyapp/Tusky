@@ -19,9 +19,14 @@ import android.text.TextPaint
 import android.text.style.URLSpan
 import android.view.View
 
-open class NoUnderlineURLSpan(
-    url: String
-) : URLSpan(url) {
+open class NoUnderlineURLSpan constructor(val url: String) : URLSpan(url) {
+
+    // This should not be necessary. But if you don't do this the [StatusLengthTest] tests
+    // fail. Without this, accessing the `url` property, or calling `getUrl()` (which should
+    // automatically call through to [UrlSpan.getURL]) returns null.
+    override fun getURL(): String {
+        return url
+    }
 
     override fun updateDrawState(ds: TextPaint) {
         super.updateDrawState(ds)
@@ -32,3 +37,8 @@ open class NoUnderlineURLSpan(
         view.context.openLink(url)
     }
 }
+
+/**
+ * Mentions of other users ("@user@example.org")
+ */
+open class MentionSpan(url: String) : NoUnderlineURLSpan(url)

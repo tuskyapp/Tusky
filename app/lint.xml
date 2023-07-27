@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2023 Tusky Contributors
+  ~
+  ~ This file is a part of Tusky.
+  ~
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the
+  ~ GNU General Public License as published by the Free Software Foundation; either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+  ~ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+  ~ Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Tusky; if not,
+  ~ see <http://www.gnu.org/licenses>.
+  -->
+
+<lint>
+    <!-- Missing translations are OK -->
+    <issue id="MissingTranslation" severity="ignore" />
+
+    <!-- Duplicate strings are OK. This can happen when e.g., "favourite" appears as both
+         a noun and a verb -->
+    <issue id="DuplicateStrings" severity="ignore" />
+
+    <!-- Resource IDs used in viewbinding are incorrectly reported as unused,
+         https://issuetracker.google.com/issues/204797401.
+
+         Disable these for the time being. -->
+    <issue id="UnusedIds" severity="ignore" />
+
+    <!-- Logs are stripped in release builds. -->
+    <issue id="LogConditional" severity="ignore" />
+
+    <!-- Ensure we are warned about errors in the baseline -->
+    <issue id="LintBaseline" severity="warning" />
+
+    <!-- Warn about typos. The typo database in lint is not exhaustive, and it's unclear
+         how to add to it when it's wrong. -->
+    <issue id="Typos" severity="warning" />
+
+    <!-- Set OldTargetApi back to warning -->
+    <issue id="OldTargetApi" severity="warning" />
+
+    <!-- Mark all other lint issues as errors -->
+    <issue id="all" severity="error" />
+</lint>

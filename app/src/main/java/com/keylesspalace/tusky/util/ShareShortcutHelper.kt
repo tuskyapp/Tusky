@@ -35,9 +35,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 fun updateShortcut(context: Context, account: AccountEntity) {
-
     Single.fromCallable {
-
         val innerSize = context.resources.getDimensionPixelSize(R.dimen.adaptive_bitmap_inner_size)
         val outerSize = context.resources.getDimensionPixelSize(R.dimen.adaptive_bitmap_outer_size)
 
@@ -94,6 +92,5 @@ fun updateShortcut(context: Context, account: AccountEntity) {
 }
 
 fun removeShortcut(context: Context, account: AccountEntity) {
-
     ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(account.id.toString()))
 }
