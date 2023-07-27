@@ -174,6 +174,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
      */
     private fun updateMuteTagMenuItems() {
         val tag = hashtag ?: return
+        val hashedTag = if (tag.startsWith('#')) tag else "#" + tag
 
         muteTagItem?.isVisible = true
         muteTagItem?.isEnabled = false
@@ -184,7 +185,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 { filters ->
                     mutedFilter = filters.firstOrNull { filter ->
                         filter.context.contains(Filter.Kind.HOME.kind) && filter.keywords.any {
-                            it.keyword == tag
+                            it.keyword == hashedTag
                         }
                     }
                     updateTagMuteState(mutedFilter != null)
@@ -194,7 +195,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         mastodonApi.getFiltersV1().fold(
                             { filters ->
                                 mutedFilterV1 = filters.firstOrNull { filter ->
-                                    tag == filter.phrase && filter.context.contains(FilterV1.HOME)
+                                    hashedTag == filter.phrase && filter.context.contains(FilterV1.HOME)
                                 }
                                 updateTagMuteState(mutedFilterV1 != null)
                             },
@@ -224,10 +225,10 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun muteTag(): Boolean {
         val tag = hashtag ?: return true
-        val hashedTag = if (tag.startsWith('#')) tag else "#" + tag
 
         lifecycleScope.launch {
             var filterCreateSuccess = false
+            val hashedTag = if (tag.startsWith('#')) tag else "#" + tag
 
             mastodonApi.createFilter(
                 title = "#$tag",
@@ -236,7 +237,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 expiresInSeconds = null
             ).fold(
                 { filter ->
-                    if (mastodonApi.addFilterKeyword(filterId = filter.id, keyword = tag, wholeWord = true).isSuccess) {
+                    if (mastodonApi.addFilterKeyword(filterId = filter.id, keyword = hashedTag, wholeWord = true).isSuccess) {
                         mutedFilter = filter
                         // TODO the preference key here ("home") is not meaningful; should probably be another event if any
                         eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
@@ -249,7 +250,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 { throwable ->
                     if (throwable is HttpException && throwable.code() == 404) {
                         mastodonApi.createFilterV1(
-                            tag,
+                            hashedTag,
                             listOf(FilterV1.HOME),
                             irreversible = false,
                             wholeWord = true,
