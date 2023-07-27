@@ -22,7 +22,6 @@ import android.content.Context
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -125,13 +124,11 @@ class ViewImageFragment : ViewMediaFragment() {
         binding.photoView.setOnTouchCoordinatesListener(object : OnTouchCoordinatesListener {
             var lastY: Float? = null
             override fun onTouchCoordinate(view: View, event: MotionEvent, bitmapPoint: PointF) {
-                Log.d("OTC", "${event.pointerCount} $lastY $event")
-
                 singleTapDetector.onTouchEvent(event)
 
                 // Two fingers have gone down after a single finger drag. Finish the drag
                 if (event.pointerCount == 2 && lastY != null) {
-                    onGestureEnd(true)
+                    onGestureEnd()
                     lastY = null
                 }
 
@@ -188,7 +185,7 @@ class ViewImageFragment : ViewMediaFragment() {
                     // appropriate, and end the gesture.
                     if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
                         view.parent.requestDisallowInterceptTouchEvent(false)
-                        onGestureEnd(wasDragging = lastY != null)
+                        if (lastY != null) onGestureEnd()
                         lastY = null
                         return
                     }
@@ -205,9 +202,7 @@ class ViewImageFragment : ViewMediaFragment() {
      * If the user was previously dragging, and the image has been dragged a sufficient distance
      * then we are done. Otherwise, animate the image back to its starting position.
      */
-    private fun onGestureEnd(wasDragging: Boolean) {
-        if (!wasDragging) return
-        Log.d("OTC", "wasDragging, ${binding.photoView.translationY}")
+    private fun onGestureEnd() {
         if (abs(binding.photoView.translationY) > 180) {
             photoActionsListener.onDismiss()
         } else {
