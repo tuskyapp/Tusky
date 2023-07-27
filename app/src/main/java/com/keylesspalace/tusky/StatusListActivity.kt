@@ -27,6 +27,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
@@ -184,6 +185,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             mastodonApi.getFilters().fold(
                 { filters ->
                     mutedFilter = filters.firstOrNull { filter ->
+                        // TODO shouldn't this be an exact match (only one keyword; exactly the hashtag)?
                         filter.context.contains(Filter.Kind.HOME.kind) && filter.keywords.any {
                             it.keyword == hashedTag
                         }
@@ -238,7 +240,9 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             ).fold(
                 { filter ->
                     if (mastodonApi.addFilterKeyword(filterId = filter.id, keyword = hashedTag, wholeWord = true).isSuccess) {
-                        mutedFilter = filter
+                        // must be requested again; otherwise does not contain the keyword (but server does)
+                        mutedFilter = mastodonApi.getFilter(filter.id).getOrNull()
+
                         // TODO the preference key here ("home") is not meaningful; should probably be another event if any
                         eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
                         filterCreateSuccess = true
@@ -276,8 +280,16 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             if (filterCreateSuccess) {
                 updateTagMuteState(true)
                 Snackbar.make(binding.root, getString(R.string.muting_hashtag_success_format, tag), Snackbar.LENGTH_LONG).apply {
-                    setAction(R.string.action_view_filters) {
-                        startActivityWithSlideInAnimation(Intent(this@StatusListActivity, FiltersActivity::class.java))
+                    setAction(R.string.action_view_filter) {
+                        val intent = if (mutedFilter != null) {
+                            Intent(this@StatusListActivity, EditFilterActivity::class.java).apply {
+                                putExtra(EditFilterActivity.FILTER_TO_EDIT, mutedFilter)
+                            }
+                        } else {
+                            Intent(this@StatusListActivity, FiltersActivity::class.java)
+                        }
+
+                        startActivityWithSlideInAnimation(intent)
                     }
                     show()
                 }
