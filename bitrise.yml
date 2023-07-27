@@ -27,7 +27,7 @@ workflows:
         - apk_file_include_filter: '*.aab'
         - gradlew_path: ./gradlew
         - gradle_options: ""
-        - gradle_task: ktlintCheck lintGreenDebug testGreenReleaseUnitTest bundleGreenRelease
+        - gradle_task: ktlintCheck lintGreenGoogleDebug testGreenGoogleReleaseUnitTest bundleGreenGoogleRelease
     - sign-apk@1:
         inputs:
         - apk_path: $BITRISE_AAB_PATH
@@ -70,15 +70,15 @@ workflows:
         - retry_on_failure: "no"
         - gradlew_path: ./gradlew
         - gradle_options: --no-daemon
-        - gradle_task: ktlintCheck lintGreenDebug
+        - gradle_task: ktlintCheck lintGreenFdroidDebug
     - android-unit-test@1.0:
         inputs:
         - project_location: $PROJECT_LOCATION
         - module: app
-        - variant: greenDebug
+        - variant: greenFdroidDebug
     - android-build:
         inputs:
-        - variant: greenDebug
+        - variant: greenFdroidDebug
         - module: app
     - deploy-to-bitrise-io@2.1:
         inputs:
@@ -101,7 +101,7 @@ workflows:
         inputs:
         - apk_file_include_filter: ""
         - gradlew_path: ./gradlew
-        - gradle_task: assembleBlueRelease bundleBlueRelease
+        - gradle_task: assembleBlueGoogleRelease bundleBlueGoogleRelease
     - sign-apk:
         inputs:
         - debuggable_permitted: "false"
@@ -138,10 +138,10 @@ app:
     MODULE: app
   - opts:
       is_expand: false
-    BUILD_VARIANT: GreenDebug
+    BUILD_VARIANT: GreenFdroidDebug
   - opts:
       is_expand: false
-    TEST_VARIANT: GreenDebug
+    TEST_VARIANT: GreenFdroidDebug
 meta:
   bitrise.io:
     stack: linux-docker-android-20.04

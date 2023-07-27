@@ -817,4 +817,14 @@
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
     <string name="load_newest_notifications">Load newest notifications</string>
+
+    <string name="pref_title_update_settings">Software updates</string>
+    <string name="pref_title_update_notification_frequency">Tell me about new Tusky versions</string>
+    <string name="pref_update_notification_frequency_never">Never</string>
+    <string name="pref_update_notification_frequency_once_per_version">Once per version</string>
+    <string name="pref_update_notification_frequency_always">Always</string>
+    <string name="update_dialog_title">An update is available</string>
+    <string name="update_dialog_neutral">Don\'t remind me for this version</string>
+    <string name="update_dialog_negative">Never remind me</string>
+
 </resources>

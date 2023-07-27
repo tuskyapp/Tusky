@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
+import com.keylesspalace.tusky.updatecheck.UpdateNotificationFrequency
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.makeIcon
@@ -304,6 +305,19 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_http_proxy_settings)
                     fragment = ProxyPreferencesFragment::class.qualifiedName
                     summaryProvider = ProxyPreferencesFragment.SummaryProvider
+                }
+            }
+
+            preferenceCategory(R.string.pref_title_update_settings) {
+                listPreference {
+                    setDefaultValue(UpdateNotificationFrequency.ALWAYS.name)
+                    setEntries(R.array.pref_update_notification_frequency_names)
+                    setEntryValues(R.array.pref_update_notification_frequency_values)
+                    key = PrefKeys.UPDATE_NOTIFICATION_FREQUENCY
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_update_notification_frequency)
+                    isSingleLineTitle = false
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_upgrade)
                 }
             }
         }

@@ -41,6 +41,10 @@ android {
         buildConfigField("String", "SUPPORT_ACCOUNT_URL", "\"$SUPPORT_ACCOUNT_URL\"")
     }
     buildTypes {
+        debug {
+            getIsDefault().set(true)
+        }
+
         release {
             minifyEnabled true
             shrinkResources true
@@ -48,13 +52,30 @@ android {
         }
     }
 
-    flavorDimensions += "color"
+    flavorDimensions "color", "store"
+
     productFlavors {
-        blue {}
+        blue {
+            dimension "color"
+        }
         green {
+            dimension "color"
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + gitSha
+        }
+
+        fdroid {
+            dimension "store"
+            getIsDefault().set(true)
+        }
+
+        github {
+            dimension "store"
+        }
+
+        google {
+            dimension "store"
         }
     }
 
@@ -171,6 +192,9 @@ dependencies {
     implementation libs.unified.push
 
     implementation libs.bundles.xmldiff
+
+    googleImplementation libs.app.update
+    googleImplementation libs.app.update.ktx
 
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric

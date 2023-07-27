@@ -89,8 +89,11 @@ import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.updatecheck.UpdateCheck
+import com.keylesspalace.tusky.updatecheck.UpdateNotificationFrequency
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
+import com.keylesspalace.tusky.util.await
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
@@ -153,6 +156,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     @Inject
     lateinit var developerToolsUseCase: DeveloperToolsUseCase
+
+    @Inject
+    lateinit var updateCheck: UpdateCheck
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -373,7 +379,61 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             selectedEmojiPack = currentEmojiPack
             recreate()
         }
+
+        checkForUpdate()
     }
+
+    /**
+     * Check for available updates, and prompt user to update.
+     *
+     * Show a dialog prompting the user to update if a newer version of the app is available.
+     * The user can start an update, ignore this version, or dismiss all future update
+     * notifications.
+     */
+    private fun checkForUpdate() = lifecycleScope.launch {
+        val frequency = UpdateNotificationFrequency.from(preferences.getString(PrefKeys.UPDATE_NOTIFICATION_FREQUENCY, null))
+        if (frequency == UpdateNotificationFrequency.NEVER) return@launch
+
+        val latestVersionCode = updateCheck.getLatestVersionCode() ?: return@launch
+
+        if (latestVersionCode <= BuildConfig.VERSION_CODE) return@launch
+
+        if (frequency == UpdateNotificationFrequency.ONCE_PER_VERSION) {
+            val ignoredVersion = preferences.getInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, -1)
+            if (latestVersionCode == ignoredVersion) {
+                Log.d(TAG, "Ignoring update to $latestVersionCode")
+                return@launch
+            }
+        }
+
+        Log.d(TAG, "New version is: $latestVersionCode")
+        when (showUpdateDialog()) {
+            AlertDialog.BUTTON_POSITIVE -> startActivity(updateCheck.updateIntent)
+            AlertDialog.BUTTON_NEUTRAL -> {
+                with(preferences.edit()) {
+                    putInt(PrefKeys.UPDATE_NOTIFICATION_VERSIONCODE, latestVersionCode)
+                    apply()
+                }
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                with(preferences.edit()) {
+                    putString(
+                        PrefKeys.UPDATE_NOTIFICATION_FREQUENCY,
+                        UpdateNotificationFrequency.NEVER.name
+                    )
+                    apply()
+                }
+            }
+        }
+    }
+
+    private suspend fun showUpdateDialog() = AlertDialog.Builder(this)
+        .setTitle(R.string.update_dialog_title)
+        .setMessage(R.string.update_dialog_message)
+        .setCancelable(true)
+        .setIcon(R.mipmap.ic_launcher)
+        .create()
+        .await(R.string.update_dialog_positive, R.string.update_dialog_negative, R.string.update_dialog_neutral)
 
     override fun onStart() {
         super.onStart()
