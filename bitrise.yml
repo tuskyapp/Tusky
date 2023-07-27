@@ -15,6 +15,9 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@8.0: {}
     - cache-pull@2.7: {}
+    - activate-build-cache-for-gradle:
+        inputs:
+        - push: 'true'
     - install-missing-android-tools:
         inputs:
         - gradlew_path: $PROJECT_LOCATION/gradlew
@@ -51,6 +54,7 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}
     - cache-pull@2.7: {}
+    - activate-build-cache-for-gradle: {}
     - install-missing-android-tools:
         inputs:
         - gradlew_path: $PROJECT_LOCATION/gradlew
@@ -87,6 +91,9 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}
     - cache-pull@2.7: {}
+    - activate-build-cache-for-gradle:
+        inputs:
+        - push: 'true'
     - install-missing-android-tools@3.1:
         inputs:
         - gradlew_path: $PROJECT_LOCATION/gradlew
