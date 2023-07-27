@@ -4,6 +4,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.annotation.WorkerThread
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.components.notifications.NotificationHelper.filterNotification
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
@@ -46,7 +48,8 @@ data class Links(val next: String?, val prev: String?) {
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
-    private val context: Context
+    private val context: Context,
+    private val eventHub: EventHub
 ) {
     suspend fun fetchAndShow() {
         for (account in accountManager.getAllAccountsOrderedByActive()) {
@@ -59,6 +62,10 @@ class NotificationFetcher @Inject constructor(
                         .filter { filterNotification(notificationManager, account, it) }
                         .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
                         .toMutableList()
+
+                    // TODO do this before filter above? But one could argue that (for example) a tab badge is also a notification
+                    //   (and should therefore adhere to the notification config).
+                    eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
 
                     // There's a maximum limit on the number of notifications an Android app
                     // can display. If the total number of notifications (current notifications,

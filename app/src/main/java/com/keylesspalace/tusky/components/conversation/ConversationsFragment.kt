@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.conversation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -40,6 +41,7 @@ import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
@@ -54,6 +56,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.isAnyLoading
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -64,6 +67,7 @@ import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -127,6 +131,12 @@ class ConversationsFragment :
 
             binding.statusView.hide()
             binding.progressBar.hide()
+
+            if (loadState.isAnyLoading()) {
+                runBlocking {
+                    eventHub.dispatch(ConversationsLoadingEvent(accountManager.activeAccount?.accountId ?: ""))
+                }
+            }
 
             if (adapter.itemCount == 0) {
                 when (loadState.refresh) {

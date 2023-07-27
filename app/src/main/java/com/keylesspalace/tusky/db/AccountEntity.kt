@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -104,7 +105,10 @@ data class AccountEntity(
 
     /** true if the connected Mastodon account is locked (has to manually approve all follow requests **/
     @ColumnInfo(defaultValue = "0")
-    var locked: Boolean = false
+    var locked: Boolean = false,
+
+    @ColumnInfo(defaultValue = "0")
+    var hasDirectMessageBadge: Boolean = false
 ) {
 
     val identifier: String
