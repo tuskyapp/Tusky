@@ -231,8 +231,12 @@ class ViewImageFragment : ViewMediaFragment() {
             .start()
     }
 
+    override fun onStop() {
+        super.onStop()
+        Glide.with(this).clear(binding.photoView)
+    }
+
     override fun onDestroyView() {
-//        Glide.with(this).clear(binding.photoView)
         transition.onComplete()
         super.onDestroyView()
     }
