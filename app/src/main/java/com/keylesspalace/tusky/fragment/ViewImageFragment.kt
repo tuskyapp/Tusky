@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.ortiz.touchview.OnTouchCoordinatesListener
+import com.ortiz.touchview.TouchImageView
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
 
@@ -128,7 +129,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
                 // Two fingers have gone down after a single finger drag. Finish the drag
                 if (event.pointerCount == 2 && lastY != null) {
-                    onGestureEnd()
+                    onGestureEnd(view)
                     lastY = null
                 }
 
@@ -151,7 +152,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 // The user is dragging the image around
                 if (event.pointerCount == 1) {
                     // If the image is zoomed then the swipe-to-dismiss functionality is disabled
-                    if (binding.photoView.isZoomed) return
+                    if ((view as TouchImageView).isZoomed) return
 
                     // The user's finger just went down, start recording where they are dragging from
                     if (event.action == MotionEvent.ACTION_DOWN) {
@@ -169,13 +170,13 @@ class ViewImageFragment : ViewMediaFragment() {
                         // Compute the Y offset of the drag, and scale/translate the photoview
                         // accordingly.
                         val diff = event.rawY - lastY!!
-                        if (binding.photoView.translationY != 0f || abs(diff) > 40) {
+                        if (view.translationY != 0f || abs(diff) > 40) {
                             // Drag has definitely started, stop the parent from interfering
                             view.parent.requestDisallowInterceptTouchEvent(true)
-                            binding.photoView.translationY += diff
-                            val scale = (-abs(binding.photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
-                            binding.photoView.scaleY = scale
-                            binding.photoView.scaleX = scale
+                            view.translationY += diff
+                            val scale = (-abs(view.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                            view.scaleY = scale
+                            view.scaleX = scale
                             lastY = event.rawY
                         }
                         return
@@ -185,29 +186,29 @@ class ViewImageFragment : ViewMediaFragment() {
                     // appropriate, and end the gesture.
                     if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
                         view.parent.requestDisallowInterceptTouchEvent(false)
-                        if (lastY != null) onGestureEnd()
+                        if (lastY != null) onGestureEnd(view)
                         lastY = null
                         return
                     }
                 }
             }
+
+            /**
+             * Handle the end of the user's gesture.
+             *
+             * If the user was previously dragging, and the image has been dragged a sufficient
+             * distance then we are done. Otherwise, animate the image back to its starting position.
+             */
+            private fun onGestureEnd(view: View) {
+                if (abs(view.translationY) > 180) {
+                    photoActionsListener.onDismiss()
+                } else {
+                    view.animate().translationY(0f).scaleX(1f).start()
+                }
+            }
         })
 
         finalizeViewSetup(url, attachment?.previewUrl, description)
-    }
-
-    /**
-     * Handle the end of the user's gesture.
-     *
-     * If the user was previously dragging, and the image has been dragged a sufficient distance
-     * then we are done. Otherwise, animate the image back to its starting position.
-     */
-    private fun onGestureEnd() {
-        if (abs(binding.photoView.translationY) > 180) {
-            photoActionsListener.onDismiss()
-        } else {
-            binding.photoView.animate().translationY(0f).scaleX(1f).start()
-        }
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
