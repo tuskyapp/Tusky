@@ -19,8 +19,10 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -41,6 +43,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import com.ortiz.touchview.OnTouchCoordinatesListener
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
 
@@ -108,86 +111,108 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        val flingDetector = GestureDetectorCompat(
+        val singleTapDetector = GestureDetectorCompat(
             requireContext(),
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
-
-                override fun onFling(
-                    e1: MotionEvent,
-                    e2: MotionEvent,
-                    velocityX: Float,
-                    velocityY: Float
-                ): Boolean {
-                    if (abs(velocityY) > abs(velocityX)) {
-                        photoActionsListener.onDismiss()
-                        return true
-                    }
+                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                    photoActionsListener.onPhotoTap()
                     return false
                 }
             }
         )
 
-        binding.photoView.setOnTouchListener { view: View, event: MotionEvent ->
-            var result = true
-            //can scroll horizontally checks if there's still a part of the image
-            //that can be scrolled until you reach the edge
-            if (event.pointerCount >= 2 || view.canScrollHorizontally(1)) { // && canScrollHorizontally(-1)) {
-                //multi-touch event
-                result = when (event.action) {
-                    MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                        // Disallow RecyclerView to intercept touch events.
-                        view.parent.requestDisallowInterceptTouchEvent(true)
-                        false
+        binding.photoView.setOnTouchCoordinatesListener(object : OnTouchCoordinatesListener {
+            var lastY: Float? = null
+            override fun onTouchCoordinate(view: View, event: MotionEvent, bitmapPoint: PointF) {
+                Log.d("OTC", "${event.pointerCount} $lastY $event")
+
+                singleTapDetector.onTouchEvent(event)
+
+                // Two fingers have gone down after a single finger drag. Finish the drag
+                if (event.pointerCount == 2 && lastY != null) {
+                    onGestureEnd(true)
+                    lastY = null
+                }
+
+                // The user is starting or stopping a pinch-zoom. If starting then disable touch
+                // events on the parent, so it does not attempt to scroll horizontally. If stopping
+                // then re-enable, to allow the user to swipe horizontally.
+                if (event.pointerCount >= 2 || view.canScrollHorizontally(1) && view.canScrollHorizontally(-1)) {
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                            view.parent.requestDisallowInterceptTouchEvent(true)
+                        }
+
+                        MotionEvent.ACTION_UP -> {
+                            view.parent.requestDisallowInterceptTouchEvent(false)
+                        }
+                    }
+                    return
+                }
+
+                // The user is dragging the image around
+                if (event.pointerCount == 1) {
+                    // If the image is zoomed then the swipe-to-dismiss functionality is disabled
+                    if (binding.photoView.isZoomed) return
+
+                    // The user's finger just went down, start recording where they are dragging from
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        lastY = event.rawY
+                        return
                     }
 
-                    MotionEvent.ACTION_UP -> {
-                        // Allow RecyclerView to intercept touch events.
+                    // The user is dragging the un-zoomed image to possibly fling it up or down
+                    // to dismiss. lastY may be null (the user might have been performing a
+                    if (event.action == MotionEvent.ACTION_MOVE) {
+                        // lastY may be null; e.g., the user was performing a two-finger drag,
+                        // and has lifted one finger. In this case do nothing
+                        lastY ?: return
+
+                        // Compute the Y offset of the drag, and scale/translate the photoview
+                        // accordingly.
+                        val diff = event.rawY - lastY!!
+                        if (binding.photoView.translationY != 0f || abs(diff) > 40) {
+                            // Drag has definitely started, stop the parent from interfering
+                            view.parent.requestDisallowInterceptTouchEvent(true)
+                            binding.photoView.translationY += diff
+                            val scale = (-abs(binding.photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
+                            binding.photoView.scaleY = scale
+                            binding.photoView.scaleX = scale
+                            lastY = event.rawY
+                        }
+                        return
+                    }
+
+                    // The user has finished dragging. Allow the parent to handle touch events if
+                    // appropriate, and end the gesture.
+                    if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
                         view.parent.requestDisallowInterceptTouchEvent(false)
-                        true
+                        onGestureEnd(wasDragging = lastY != null)
+                        lastY = null
+                        return
                     }
-
-                    else -> true
                 }
             }
-            flingDetector.onTouchEvent(event)
-            result
-        }
-
-//        var lastY = 0f
-//
-//        binding.photoView.setOnTouchListener { v, event ->
-//            // This part is for scaling/translating on vertical move.
-//            // We use raw coordinates to get the correct ones during scaling
-//
-//            if (event.action == MotionEvent.ACTION_DOWN) {
-//                lastY = event.rawY
-//            } else if (event.pointerCount == 1 &&
-//                attacher.scale == 1f &&
-//                event.action == MotionEvent.ACTION_MOVE
-//            ) {
-//                val diff = event.rawY - lastY
-//                // This code is to prevent transformations during page scrolling
-//                // If we are already translating or we reached the threshold, then transform.
-//                if (binding.photoView.translationY != 0f || abs(diff) > 40) {
-//                    binding.photoView.translationY += (diff)
-//                    val scale = (-abs(binding.photoView.translationY) / 720 + 1).coerceAtLeast(0.5f)
-//                    binding.photoView.scaleY = scale
-//                    binding.photoView.scaleX = scale
-//                    lastY = event.rawY
-//                    return@setOnTouchListener true
-//                }
-//            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-//                onGestureEnd()
-//            }
-//            attacher.onTouch(v, event)
-//        }
+        })
 
         finalizeViewSetup(url, attachment?.previewUrl, description)
     }
 
-    private fun onMediaTap() {
-        photoActionsListener.onPhotoTap()
+    /**
+     * Handle the end of the user's gesture.
+     *
+     * If the user was previously dragging, and the image has been dragged a sufficient distance
+     * then we are done. Otherwise, animate the image back to its starting position.
+     */
+    private fun onGestureEnd(wasDragging: Boolean) {
+        if (!wasDragging) return
+        Log.d("OTC", "wasDragging, ${binding.photoView.translationY}")
+        if (abs(binding.photoView.translationY) > 180) {
+            photoActionsListener.onDismiss()
+        } else {
+            binding.photoView.animate().translationY(0f).scaleX(1f).start()
+        }
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
@@ -198,6 +223,7 @@ class ViewImageFragment : ViewMediaFragment() {
         binding.captionSheet.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
+                    view ?: return
                     binding.captionSheet.visible(isDescriptionVisible)
                     animation.removeListener(this)
                 }
