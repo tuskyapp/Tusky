@@ -29,7 +29,7 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import androidx.annotation.DrawableRes
+import androidx.annotation.AttrRes
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
@@ -147,13 +147,13 @@ class CompositeWithOpaqueBackground(val view: View) : BitmapTransformation() {
         }
 
         /**
-         * @param attr default drawable if no background is set on this view or any of its
-         *      ancestors
+         * @param attr attribute reference for the default drawable if no background is set on
+         *      this view or any of its ancestors.
          * @return The first non-null background drawable from this view, or its ancestors,
-         *      falling back to the drawable given by `attr` if none of the views have a
+         *      falling back to the attribute resource given by `attr` if none of the views have a
          *      background.
          */
-        private fun View.getFirstNonNullBackgroundOrAttr(@DrawableRes attr: Int): Drawable? =
+        fun View.getFirstNonNullBackgroundOrAttr(@AttrRes attr: Int): Drawable? =
             background ?: (parent as? View)?.getFirstNonNullBackgroundOrAttr(attr) ?: run {
                 val v = TypedValue()
                 context.theme.resolveAttribute(attr, v, true)
