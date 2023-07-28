@@ -175,7 +175,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
      */
     private fun updateMuteTagMenuItems() {
         val tag = hashtag ?: return
-        val hashedTag = if (tag.startsWith('#')) tag else "#" + tag
+        val hashedTag = if (tag.startsWith('#')) tag else "#$tag"
 
         muteTagItem?.isVisible = true
         muteTagItem?.isEnabled = false
@@ -230,7 +230,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         lifecycleScope.launch {
             var filterCreateSuccess = false
-            val hashedTag = if (tag.startsWith('#')) tag else "#" + tag
+            val hashedTag = if (tag.startsWith('#')) tag else "#$tag"
 
             mastodonApi.createFilter(
                 title = "#$tag",
@@ -313,7 +313,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 } else {
                     mastodonApi.deleteFilter(filter.id)
                 }
-
             } else if (mutedFilterV1 != null) {
                 mutedFilterV1?.let { filter ->
                     if (filter.context.size > 1) {
