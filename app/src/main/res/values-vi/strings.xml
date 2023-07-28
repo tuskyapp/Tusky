@@ -656,4 +656,5 @@
     <string name="notification_listenable_worker_description">Thông báo khi Tusky hoạt động ngầm</string>
     <string name="notification_notification_worker">Đang nạp thông báo…</string>
     <string name="notification_prune_cache">Bảo trì bộ nhớ đệm…</string>
+    <string name="error_media_upload_sending_fmt">Không thể tải lên: %s</string>
 </resources>
