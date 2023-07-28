@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_empty">Αυτό δεν μπορεί να είναι κενό.</string>
-    <string name="error_network">Προέκυψε σφάλμα δικτύου! Παρακαλώ ελέγξτε τη σύνδεσή σας και προσπαθήστε ξανά!</string>
+    <string name="error_network">Προέκυψε σφάλμα δικτύου! Παρακαλώ ελέγξτε τη σύνδεσή σας και προσπαθήστε ξανά.</string>
     <string name="error_generic">Προέκυψε ένα σφάλμα.</string>
     <string name="action_view_blocks">Αποκλεισμένοι χρήστες</string>
     <string name="dialog_message_cancel_follow_request">Ακύρωση αιτήματος ακολούθησης;</string>
@@ -103,4 +103,12 @@
     <string name="post_sensitive_media_directions">Κλικ για να δείτε</string>
     <string name="notification_update_format">ο/η %s επεξεργάστηκε τη δημοσίευσή του/της</string>
     <string name="dialog_redraft_post_warning">Διαγραφή και αναδιατύπωση αυτής της δημοσίευσης;</string>
+    <string name="error_following_hashtag_format">Σφάλμα ακολουθίας #%s</string>
+    <string name="error_unfollowing_hashtag_format">Σφάλμα μη-ακολουθίας #%s</string>
+    <string name="error_media_upload_sending_fmt">Το ανέβασμα απέτυχε: %s</string>
+    <string name="error_media_upload_sending">Το ανέβασμα αρχείου απέτυχε.</string>
+    <string name="error_loading_account_details">Η φόρτωση λεπτομερειών λογαριασμού απέτυχε</string>
+    <string name="title_home">Αρχική Σελίδα</string>
+    <string name="error_sender_account_gone">Σφάλμα αποστολής ανάρτησης.</string>
+    <string name="error_could_not_load_login_page">Δεν ήταν δυνατή η φόρτωση της σελίδας εισόδου χρήστη.</string>
 </resources>
