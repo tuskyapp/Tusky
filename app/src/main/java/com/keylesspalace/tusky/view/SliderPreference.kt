@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.View.VISIBLE
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
@@ -12,6 +11,8 @@ import com.google.android.material.slider.LabelFormatter.LABEL_GONE
 import com.google.android.material.slider.Slider
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.PrefSliderBinding
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
 import java.lang.Float.max
 import java.lang.Float.min
 
@@ -130,6 +131,8 @@ class SliderPreference @JvmOverloads constructor(
 
         binding.root.isClickable = false
 
+        binding.slider.clearOnChangeListeners()
+        binding.slider.clearOnSliderTouchListeners()
         binding.slider.addOnChangeListener(this)
         binding.slider.addOnSliderTouchListener(this)
         binding.slider.value = value // sliderValue
@@ -141,24 +144,24 @@ class SliderPreference @JvmOverloads constructor(
         binding.slider.labelBehavior = LABEL_GONE
         binding.slider.isEnabled = isEnabled
 
-        binding.summary.visibility = VISIBLE
+        binding.summary.show()
         binding.summary.text = formatter(value)
 
         decrementIcon?.let { icon ->
             binding.decrement.icon = icon
-            binding.decrement.visibility = VISIBLE
+            binding.decrement.show()
             binding.decrement.setOnClickListener {
                 value -= stepSize
             }
-        }
+        } ?: binding.decrement.hide()
 
         incrementIcon?.let { icon ->
             binding.increment.icon = icon
-            binding.increment.visibility = VISIBLE
+            binding.increment.show()
             binding.increment.setOnClickListener {
                 value += stepSize
             }
-        }
+        } ?: binding.increment.hide()
     }
 
     override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
