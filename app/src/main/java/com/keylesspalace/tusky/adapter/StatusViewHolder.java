@@ -67,29 +67,31 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
         if (payloads == null) {
-
             boolean sensitive = !TextUtils.isEmpty(status.getActionable().getSpoilerText());
             boolean expanded = status.isExpanded();
 
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            TimelineAccount repliedTo = status.getInReplyToAccount();
-            boolean isReplyOnly = repliedTo != null && reblogging == null;
+            boolean isReply = status.getStatus().getInReplyToId() != null;
+            boolean isReplyOnly = isReply && reblogging == null;
 
-            boolean hasStatusContext = reblogging != null || repliedTo != null;
+            boolean hasStatusContext = reblogging != null || isReply;
 
             if (!hasStatusContext || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
-                String accountName = "<unknown>";
+                String accountName = "";
                 List<Emoji> emojis = Collections.emptyList();
                 if (reblogging != null) {
                     accountName = reblogging.getAccount().getName();
                     emojis = reblogging.getAccount().getEmojis();
-                } else if (repliedTo != null) { // TODO Why would this be always != null (as code inspection warns)?
-                    accountName = repliedTo.getName();
-                    emojis = repliedTo.getEmojis();
+                } else if (isReply) {
+                    TimelineAccount repliedTo = status.getInReplyToAccount();
+                    if (repliedTo != null) {
+                        accountName = repliedTo.getName();
+                        emojis = repliedTo.getEmojis();
+                    }
                 }
 
                 setStatusInfoText(isReplyOnly, accountName, emojis, statusDisplayOptions);
@@ -110,13 +112,18 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                                    final CharSequence name,
                                    final List<Emoji> accountEmoji,
                                    final StatusDisplayOptions statusDisplayOptions) {
+
         Context context = statusInfo.getContext();
-        CharSequence wrappedName = StringUtils.unicodeWrap(name);
-        CharSequence statusContextText = context.getString(isReply ? R.string.post_replied_format : R.string.post_boosted_format, wrappedName);
-        CharSequence emojifiedText = CustomEmojiHelper.emojify(
+        if (name.length() > 0) {
+            CharSequence wrappedName = StringUtils.unicodeWrap(name);
+            CharSequence statusContextText = context.getString(isReply ? R.string.post_replied_format : R.string.post_boosted_format, wrappedName);
+            CharSequence emojifiedText = CustomEmojiHelper.emojify(
                 statusContextText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
-        );
-        statusInfo.setText(emojifiedText);
+            );
+            statusInfo.setText(emojifiedText);
+        } else {
+            statusInfo.setText(context.getString(R.string.post_replied));
+        }
         statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_24dp : R.drawable.ic_reblog_24dp, 0, 0, 0);
 
         statusInfo.setVisibility(View.VISIBLE);
