@@ -264,7 +264,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING)
+            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS)
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -289,7 +289,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TRENDING)
+                            addTrendingButton = !event.newTabs.hasTab(TRENDING_TAGS)
                         )
 
                         setupTabs(false)

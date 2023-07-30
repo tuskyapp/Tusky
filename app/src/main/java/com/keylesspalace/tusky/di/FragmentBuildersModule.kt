@@ -32,7 +32,7 @@ import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragmen
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
-import com.keylesspalace.tusky.components.trending.TrendingFragment
+import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
 import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import dagger.Module
@@ -102,5 +102,5 @@ abstract class FragmentBuildersModule {
     abstract fun listsForAccountFragment(): ListsForAccountFragment
 
     @ContributesAndroidInjector
-    abstract fun trendingFragment(): TrendingFragment
+    abstract fun trendingTagsFragment(): TrendingTagsFragment
 }
