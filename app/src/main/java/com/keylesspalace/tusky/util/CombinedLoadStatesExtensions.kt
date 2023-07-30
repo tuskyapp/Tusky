@@ -52,7 +52,6 @@ enum class PresentationState {
         return when (this) {
             INITIAL -> when (loadState.mediator?.refresh) {
                 is LoadState.Loading -> REMOTE_LOADING
-                is LoadState.NotLoading -> SOURCE_LOADING.next(loadState)
                 else -> this
             }
 
@@ -79,7 +78,7 @@ enum class PresentationState {
 /**
  * [CombinedLoadStates] are stateful -- you can't fully interpret the meaning of the state unless
  * previous states have been observed. This tracks those states and provides a [PresentationState]
- * that describes whether the most refresh has presented the data via the associated adapter.
+ * that describes whether the most recent refresh has presented the data via the associated adapter.
  *
  * @return Flow that combines the load state with its associated presentation state
  */
