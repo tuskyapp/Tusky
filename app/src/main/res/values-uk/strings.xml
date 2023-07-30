@@ -691,4 +691,5 @@
     <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому вони не можуть бути вам показані.
 \n
 \nЦе <a href="https://github.com/mastodon/mastodon/issues/25398">помилка #25398 у Mastodon</a>.</string>
+    <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %s</string>
 </resources>
