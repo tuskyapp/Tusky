@@ -123,14 +123,16 @@ class ViewImageFragment : ViewMediaFragment() {
         )
 
         binding.photoView.setOnTouchCoordinatesListener(object : OnTouchCoordinatesListener {
-            var lastY: Float? = null
+            /** Y coordinate of the last single-finger drag */
+            var lastDragY: Float? = null
+
             override fun onTouchCoordinate(view: View, event: MotionEvent, bitmapPoint: PointF) {
                 singleTapDetector.onTouchEvent(event)
 
                 // Two fingers have gone down after a single finger drag. Finish the drag
-                if (event.pointerCount == 2 && lastY != null) {
+                if (event.pointerCount == 2 && lastDragY != null) {
                     onGestureEnd(view)
-                    lastY = null
+                    lastDragY = null
                 }
 
                 // The user is starting or stopping a pinch-zoom. If starting then disable touch
@@ -156,20 +158,20 @@ class ViewImageFragment : ViewMediaFragment() {
 
                     // The user's finger just went down, start recording where they are dragging from
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        lastY = event.rawY
+                        lastDragY = event.rawY
                         return
                     }
 
                     // The user is dragging the un-zoomed image to possibly fling it up or down
                     // to dismiss.
                     if (event.action == MotionEvent.ACTION_MOVE) {
-                        // lastY may be null; e.g., the user was performing a two-finger drag,
+                        // lastDragY may be null; e.g., the user was performing a two-finger drag,
                         // and has lifted one finger. In this case do nothing
-                        lastY ?: return
+                        lastDragY ?: return
 
                         // Compute the Y offset of the drag, and scale/translate the photoview
                         // accordingly.
-                        val diff = event.rawY - lastY!!
+                        val diff = event.rawY - lastDragY!!
                         if (view.translationY != 0f || abs(diff) > 40) {
                             // Drag has definitely started, stop the parent from interfering
                             view.parent.requestDisallowInterceptTouchEvent(true)
@@ -177,7 +179,7 @@ class ViewImageFragment : ViewMediaFragment() {
                             val scale = (-abs(view.translationY) / 720 + 1).coerceAtLeast(0.5f)
                             view.scaleY = scale
                             view.scaleX = scale
-                            lastY = event.rawY
+                            lastDragY = event.rawY
                         }
                         return
                     }
@@ -186,8 +188,8 @@ class ViewImageFragment : ViewMediaFragment() {
                     // appropriate, and end the gesture.
                     if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
                         view.parent.requestDisallowInterceptTouchEvent(false)
-                        if (lastY != null) onGestureEnd(view)
-                        lastY = null
+                        if (lastDragY != null) onGestureEnd(view)
+                        lastDragY = null
                         return
                     }
                 }
