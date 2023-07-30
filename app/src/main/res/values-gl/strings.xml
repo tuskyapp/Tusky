@@ -50,7 +50,7 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_follow">Seguir</string>
-    <string name="action_logout_confirm">Tes a certeza de que queres pechar sesión da conta %1$s\?</string>
+    <string name="action_logout_confirm">Tes a certeza de querer pechar a sesión %1$s\? Isto eliminará todos os datos locais da conta, incluíndo borradores e preferencias.</string>
     <string name="action_logout">Pechar sesión</string>
     <string name="action_login">Acceder con Tusky</string>
     <string name="action_compose">Redactar</string>
@@ -667,4 +667,5 @@
     <string name="notification_listenable_worker_description">Notificacións cando Tusky está a funcionar en segundo plano</string>
     <string name="notification_notification_worker">Obtendo as notificacións…</string>
     <string name="notification_prune_cache">Mantemento da caché…</string>
+    <string name="error_media_upload_sending_fmt">Fallou a subida: %s</string>
 </resources>
