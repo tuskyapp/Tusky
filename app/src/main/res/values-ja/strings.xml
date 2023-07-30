@@ -624,8 +624,8 @@
     <string name="load_newest_notifications">最新の通知を読み込む</string>
     <string name="compose_delete_draft">下書きを削除しますか？</string>
     <string name="error_media_upload_sending_fmt">アップロードに失敗しました: %1$s</string>
-    <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。
-\n
+    <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。 
+\n 
 \nこれは<a href="https://github.com/mastodon/mastodon/issues/25398">Mastodonのissue #25398</a>です。</string>
     <string name="title_public_trending_statuses">トレンドの投稿</string>
     <string name="about_device_info">%1$s %2$s
