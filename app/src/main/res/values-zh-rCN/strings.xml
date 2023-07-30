@@ -670,4 +670,5 @@
     <string name="notification_notification_worker">获取通知中…</string>
     <string name="notification_prune_cache">缓存维护…</string>
     <string name="notification_listenable_worker_name">后台活动</string>
+    <string name="error_media_upload_sending_fmt">上传失败了：%s</string>
 </resources>
