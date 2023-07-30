@@ -135,9 +135,17 @@ class ViewImageFragment : ViewMediaFragment() {
                     lastDragY = null
                 }
 
-                // The user is starting or stopping a pinch-zoom. If starting then disable touch
-                // events on the parent, so it does not attempt to scroll horizontally. If stopping
-                // then re-enable, to allow the user to swipe horizontally.
+                // Stop the parent view from handling touches if either (a) the user has 2+
+                // fingers on the screen, or (b) the image has been zoomed in, and can be scrolled
+                // horizontally in both directions.
+                //
+                // This stops things like ViewPager2 from trying to intercept a left/right swipe
+                // and ensures that the image does not appear to "stick" to the screen as different
+                // views fight over who should be handling the swipe.
+                //
+                // If the view can be scrolled in one direction it's OK to let the parent intercept,
+                // which allows the user to swipe between images even if one or more of them have
+                // been zoomed in.
                 if (event.pointerCount >= 2 || view.canScrollHorizontally(1) && view.canScrollHorizontally(-1)) {
                     when (event.action) {
                         MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
