@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
+<issues format="6" by="lint 8.1.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.0.2)" variant="all" version="8.1.0">
 
     <issue
         id="MissingPermission"
@@ -19,7 +19,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="922"
+            line="918"
             column="29"/>
     </issue>
 
@@ -30,7 +30,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="960"
+            line="956"
             column="29"/>
     </issue>
 
@@ -41,7 +41,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="337"
+            line="335"
             column="25"/>
     </issue>
 
@@ -82,6 +82,17 @@
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
             line="280"
             column="21"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1="        targetSdk 33"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="31"
+            column="9"/>
     </issue>
 
     <issue
@@ -146,7 +157,7 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="494"
+            line="492"
             column="28"/>
     </issue>
 
@@ -789,6 +800,17 @@
     </issue>
 
     <issue
+        id="Typos"
+        message="&quot;Media&quot; is a common misspelling; did you mean &quot;Medier&quot;?"
+        errorLine1="    &lt;string name=&quot;hint_media_description_missing&quot;>Media bør ha en beskrivelse.&lt;/string>"
+        errorLine2="                                                  ^">
+        <location
+            file="src/main/res/values-nb-rNO/strings.xml"
+            line="604"
+            column="51"/>
+    </issue>
+
+    <issue
         id="ImpliedQuantity"
         message="The quantity `&apos;one&apos;` matches more than one specific number in this locale (0, 1), but the message did not \&#xA;include a formatting argument (such as `%d`). This is usually an internationalization error. See full issue \&#xA;explanation for more."
         errorLine1="        &lt;item quantity=&quot;one&quot;>برهم‌کنشی جدید&lt;/item>"
@@ -817,7 +839,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="105"
+            line="106"
             column="5"/>
     </issue>
 
@@ -828,7 +850,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="321"
+            line="322"
             column="5"/>
     </issue>
 
@@ -839,7 +861,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="379"
+            line="380"
             column="5"/>
     </issue>
 
@@ -850,7 +872,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="558"
+            line="559"
             column="5"/>
     </issue>
 
@@ -861,535 +883,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="778"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;notification_title_summary&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="7"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;notification_title_summary&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="203"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;notification_title_summary&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="204"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;notification_title_summary&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="217"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;hint_describe_for_visually_impaired&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="255"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;hint_describe_for_visually_impaired&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="282"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;favs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="305"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;reblogs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="310"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;max_tab_number_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="320"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;hint_describe_for_visually_impaired&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="328"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;favs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="332"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;hint_describe_for_visually_impaired&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="333"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;reblogs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="337"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;favs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="341"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_days&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="345"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;reblogs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="346"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;max_tab_number_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="347"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_hours&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="350"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;max_tab_number_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="354"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_minutes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="355"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_seconds&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="360"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_votes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="366"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_votes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="376"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_votes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="377"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;favs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="380"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;reblogs&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="385"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_days&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="387"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_hours&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="392"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;max_tab_number_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="394"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_minutes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="397"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_seconds&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="402"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_days&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="411"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_hours&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="416"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_minutes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="421"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_votes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="424"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_seconds&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="426"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_people&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="429"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_days&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="439"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_hours&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="444"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_minutes&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="449"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_timespan_seconds&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="454"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_people&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="463"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_people&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="469"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;poll_info_people&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="478"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;error_upload_max_media_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rBR/strings.xml"
-            line="493"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;es&quot; (Spanish) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;error_upload_max_media_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="499"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;it&quot; (Italian) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;error_upload_max_media_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-it/strings.xml"
-            line="504"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnusedQuantity"
-        message="For language &quot;pt&quot; (Portuguese) the following quantities are not relevant: `many`"
-        errorLine1="    &lt;plurals name=&quot;error_upload_max_media_reached&quot;>"
-        errorLine2="    ^">
-        <location
-            file="src/main/res/values-pt-rPT/strings.xml"
-            line="515"
+            line="779"
             column="5"/>
     </issue>
 
@@ -2148,7 +1642,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="262"
+            line="263"
             column="19"/>
     </issue>
 
@@ -2159,7 +1653,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="267"
+            line="268"
             column="19"/>
     </issue>
 
@@ -2313,7 +1807,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="44"
+            line="45"
             column="13"/>
     </issue>
 
@@ -2324,7 +1818,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="86"
+            line="87"
             column="13"/>
     </issue>
 
@@ -2335,7 +1829,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="94"
+            line="95"
             column="13"/>
     </issue>
 
@@ -2346,7 +1840,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="108"
+            line="109"
             column="13"/>
     </issue>
 
@@ -2357,7 +1851,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="117"
+            line="118"
             column="13"/>
     </issue>
 
@@ -2368,7 +1862,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="155"
+            line="156"
             column="13"/>
     </issue>
 
@@ -2379,7 +1873,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="218"
+            line="219"
             column="13"/>
     </issue>
 
@@ -2390,7 +1884,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="255"
+            line="256"
             column="13"/>
     </issue>
 
@@ -2401,7 +1895,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="256"
+            line="257"
             column="13"/>
     </issue>
 
@@ -2412,7 +1906,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="281"
+            line="282"
             column="13"/>
     </issue>
 
@@ -2423,7 +1917,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="311"
+            line="312"
             column="13"/>
     </issue>
 
@@ -2434,7 +1928,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="392"
+            line="393"
             column="13"/>
     </issue>
 
@@ -2445,7 +1939,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="451"
+            line="452"
             column="13"/>
     </issue>
 
@@ -2456,7 +1950,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="503"
+            line="504"
             column="13"/>
     </issue>
 
@@ -2467,7 +1961,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="507"
+            line="508"
             column="13"/>
     </issue>
 
@@ -2478,7 +1972,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="508"
+            line="509"
             column="13"/>
     </issue>
 
@@ -2489,7 +1983,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="509"
+            line="510"
             column="13"/>
     </issue>
 
@@ -2500,7 +1994,7 @@
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="510"
+            line="511"
             column="13"/>
     </issue>
 
@@ -2511,7 +2005,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="511"
+            line="512"
             column="13"/>
     </issue>
 
@@ -2522,7 +2016,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="512"
+            line="513"
             column="13"/>
     </issue>
 
@@ -2533,7 +2027,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="513"
+            line="514"
             column="13"/>
     </issue>
 
@@ -2544,7 +2038,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="514"
+            line="515"
             column="13"/>
     </issue>
 
@@ -2555,7 +2049,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="516"
+            line="517"
             column="13"/>
     </issue>
 
@@ -2566,7 +2060,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="601"
+            line="602"
             column="13"/>
     </issue>
 
@@ -2577,7 +2071,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="602"
+            line="603"
             column="13"/>
     </issue>
 
@@ -2588,7 +2082,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="616"
+            line="617"
             column="13"/>
     </issue>
 
@@ -2599,7 +2093,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="618"
+            line="619"
             column="13"/>
     </issue>
 
@@ -2610,7 +2104,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="619"
+            line="620"
             column="13"/>
     </issue>
 
@@ -2621,7 +2115,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="622"
+            line="623"
             column="13"/>
     </issue>
 
@@ -2632,7 +2126,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="667"
+            line="668"
             column="13"/>
     </issue>
 
@@ -2643,7 +2137,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="716"
+            line="717"
             column="13"/>
     </issue>
 
@@ -2654,7 +2148,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="722"
+            line="723"
             column="13"/>
     </issue>
 
@@ -2665,7 +2159,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="763"
+            line="764"
             column="13"/>
     </issue>
 
@@ -2676,7 +2170,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="799"
+            line="800"
             column="13"/>
     </issue>
 
@@ -2863,7 +2357,7 @@
         errorLine2="                ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/accountlist/AccountListFragment.kt"
-            line="133"
+            line="135"
             column="17"/>
     </issue>
 
@@ -3050,7 +2544,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="553"
+            line="558"
             column="21"/>
     </issue>
 
@@ -3061,7 +2555,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="562"
+            line="567"
             column="17"/>
     </issue>
 
@@ -3072,7 +2566,7 @@
         errorLine2="                ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="562"
+            line="567"
             column="17"/>
     </issue>
 
@@ -3644,7 +3138,7 @@
         errorLine2="                                    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="222"
+            line="220"
             column="37"/>
     </issue>
 
@@ -3655,7 +3149,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="226"
+            line="224"
             column="37"/>
     </issue>
 
@@ -3666,7 +3160,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="320"
+            line="318"
             column="25"/>
     </issue>
 
@@ -3677,7 +3171,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="321"
+            line="319"
             column="29"/>
     </issue>
 
@@ -3688,7 +3182,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="323"
+            line="321"
             column="25"/>
     </issue>
 
@@ -3699,7 +3193,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="324"
+            line="322"
             column="29"/>
     </issue>
 
@@ -3710,7 +3204,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="512"
+            line="510"
             column="17"/>
     </issue>
 
@@ -3721,7 +3215,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="515"
+            line="513"
             column="21"/>
     </issue>
 
@@ -3732,7 +3226,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="520"
+            line="518"
             column="17"/>
     </issue>
 
@@ -3743,7 +3237,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="524"
+            line="522"
             column="21"/>
     </issue>
 
@@ -3754,7 +3248,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="529"
+            line="527"
             column="17"/>
     </issue>
 
@@ -3765,7 +3259,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="532"
+            line="530"
             column="21"/>
     </issue>
 
@@ -3776,7 +3270,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="537"
+            line="535"
             column="17"/>
     </issue>
 
@@ -3787,7 +3281,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="540"
+            line="538"
             column="21"/>
     </issue>
 
@@ -3798,7 +3292,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="545"
+            line="543"
             column="17"/>
     </issue>
 
@@ -3809,7 +3303,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="548"
+            line="546"
             column="21"/>
     </issue>
 
@@ -3820,7 +3314,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="552"
+            line="550"
             column="17"/>
     </issue>
 
@@ -3831,7 +3325,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="555"
+            line="553"
             column="21"/>
     </issue>
 
@@ -3842,7 +3336,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="560"
+            line="558"
             column="17"/>
     </issue>
 
@@ -3853,7 +3347,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="563"
+            line="561"
             column="21"/>
     </issue>
 
@@ -3864,7 +3358,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="567"
+            line="565"
             column="17"/>
     </issue>
 
@@ -3875,7 +3369,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="571"
+            line="569"
             column="21"/>
     </issue>
 
@@ -3886,7 +3380,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="580"
+            line="578"
             column="17"/>
     </issue>
 
@@ -3897,7 +3391,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="583"
+            line="581"
             column="21"/>
     </issue>
 
@@ -3908,7 +3402,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="588"
+            line="586"
             column="17"/>
     </issue>
 
@@ -3919,7 +3413,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="591"
+            line="589"
             column="21"/>
     </issue>
 
@@ -3930,7 +3424,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="596"
+            line="594"
             column="17"/>
     </issue>
 
@@ -3941,7 +3435,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="599"
+            line="597"
             column="21"/>
     </issue>
 
@@ -3952,7 +3446,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="604"
+            line="602"
             column="17"/>
     </issue>
 
@@ -3963,7 +3457,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="607"
+            line="605"
             column="21"/>
     </issue>
 
@@ -3974,7 +3468,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="614"
+            line="612"
             column="21"/>
     </issue>
 
@@ -3985,7 +3479,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="617"
+            line="615"
             column="25"/>
     </issue>
 
@@ -3996,7 +3490,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="627"
+            line="625"
             column="21"/>
     </issue>
 
@@ -4007,7 +3501,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="630"
+            line="628"
             column="25"/>
     </issue>
 
@@ -4018,7 +3512,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="644"
+            line="642"
             column="17"/>
     </issue>
 
@@ -4029,7 +3523,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="648"
+            line="646"
             column="21"/>
     </issue>
 
@@ -4038,6 +3532,17 @@
         message="Access to `private` method `getBinding` of class `MainActivity` requires synthetic accessor"
         errorLine1="                binding.mainToolbar.title = tab.contentDescription"
         errorLine2="                ~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
+            line="738"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `refreshComposeButtonState` of class `MainActivity` requires synthetic accessor"
+        errorLine1="                refreshComposeButtonState(tabAdapter, tab.position)"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
             line="740"
@@ -4051,18 +3556,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="742"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `refreshComposeButtonState` of class `MainActivity` requires synthetic accessor"
-        errorLine1="                refreshComposeButtonState(tabAdapter, tab.position)"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="753"
+            line="751"
             column="17"/>
     </issue>
 
@@ -4073,7 +3567,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="929"
+            line="925"
             column="33"/>
     </issue>
 
@@ -4084,7 +3578,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="941"
+            line="937"
             column="29"/>
     </issue>
 
@@ -4095,7 +3589,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="947"
+            line="943"
             column="33"/>
     </issue>
 
@@ -4106,7 +3600,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="967"
+            line="963"
             column="33"/>
     </issue>
 
@@ -4117,7 +3611,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="976"
+            line="972"
             column="29"/>
     </issue>
 
@@ -4128,7 +3622,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="985"
+            line="981"
             column="33"/>
     </issue>
 
@@ -4425,7 +3919,7 @@
         errorLine2="            ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="90"
+            line="91"
             column="13"/>
     </issue>
 
@@ -4436,7 +3930,7 @@
         errorLine2="                ~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="136"
+            line="137"
             column="17"/>
     </issue>
 
@@ -4447,7 +3941,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="146"
+            line="147"
             column="55"/>
     </issue>
 
@@ -4458,7 +3952,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt"
-            line="146"
+            line="147"
             column="55"/>
     </issue>
 
@@ -4757,281 +4251,6 @@
             file="src/main/res/values-ko/strings.xml"
             line="373"
             column="54"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;error_failed_app_registration&quot;>Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \&apos;Skrá inn í vafra\&apos; úr valmyndinni.&lt;/string>"
-        errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="19"
-            column="50"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;error_authorization_unknown&quot;>Óskilgreind auðkenningarvilla kom upp. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \&apos;Skrá inn í vafra\&apos; úr valmyndinni.&lt;/string>"
-        errorLine2="                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="21"
-            column="48"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;error_authorization_denied&quot;>Heimild var hafnað. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \&apos;Skrá inn í vafra\&apos; úr valmyndinni.&lt;/string>"
-        errorLine2="                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="22"
-            column="47"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;error_retrieving_oauth_token&quot;>Mistókst að fá innskráningarteikn. Mistókst að auðkenna gagnvart þessu tilviki. Ef þetta er viðvarandi skaltu prófa \&apos;Skrá inn í vafra\&apos; úr valmyndinni.&lt;/string>"
-        errorLine2="                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-is/strings.xml"
-            line="23"
-            column="49"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;error_failed_app_registration&quot;>Failed authenticating with that instance. If this persists, try &quot;Login in Browser&quot; from the menu.&lt;/string>"
-        errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="24"
-            column="50"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;error_authorization_unknown&quot;>An unidentified authorization error occurred. If this persists, try &quot;Login in Browser&quot; from the menu.&lt;/string>"
-        errorLine2="                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="26"
-            column="48"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;error_authorization_denied&quot;>Authorization was denied. If you\&apos;re sure that you supplied the correct credentials, try &quot;Login in Browser&quot; from the menu.&lt;/string>"
-        errorLine2="                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="27"
-            column="47"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;error_retrieving_oauth_token&quot;>Failed getting a login token. If this persists, try &quot;Login in Browser&quot; from the menu.&lt;/string>"
-        errorLine2="                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="28"
-            column="49"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;replying_to&quot;>\&apos;@%s কে উত্তর দিচ্ছে\&apos;&lt;/string>"
-        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="89"
-            column="32"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;abbreviated_in_seconds&quot;>\&apos;%ds এ\&apos;&lt;/string>"
-        errorLine2="                                          ~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="93"
-            column="43"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;abbreviated_in_minutes&quot;>\&apos;%dm এ\&apos;&lt;/string>"
-        errorLine2="                                          ~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="94"
-            column="43"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;abbreviated_in_hours&quot;>\&apos;%dh এ\&apos;&lt;/string>"
-        errorLine2="                                        ~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="95"
-            column="41"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;abbreviated_in_days&quot;>\&apos;%dd এ\&apos;&lt;/string>"
-        errorLine2="                                       ~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="96"
-            column="40"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;abbreviated_in_years&quot;>\&apos;%dy এ\&apos;&lt;/string>"
-        errorLine2="                                        ~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="97"
-            column="41"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;dialog_whats_an_instance&quot;>কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &amp;lt;a href=\&quot;https://instances.social\&quot;&amp;gt; আরও! &amp;lt;/a&amp;gt;"
-        errorLine2="                                            ^">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="183"
-            column="45"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;about_tusky_license&quot;>Tusky software libre eta kode askekoa da."
-        errorLine2="                                       ^">
-        <location
-            file="src/main/res/values-eu/strings.xml"
-            line="199"
-            column="40"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;about_tusky_license&quot;>Tusky es un software libre y de código abierto."
-        errorLine2="                                       ^">
-        <location
-            file="src/main/res/values-es/strings.xml"
-            line="212"
-            column="40"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;action_open_as&quot;>\&apos;%s হিসাবে খুলুন\&apos;&lt;/string>"
-        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="223"
-            column="35"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;download_image&quot;>\&apos;%1$s ডাউনলোড হচ্ছে\&apos;&lt;/string>"
-        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="225"
-            column="35"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;dialog_whats_an_instance&quot;>Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и &amp;lt;a href=\&quot;https://instances.social\&quot;&amp;gt;други!&amp;lt;/a&amp;gt;"
-        errorLine2="                                            ^">
-        <location
-            file="src/main/res/values-bg/strings.xml"
-            line="263"
-            column="45"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;post_lookup_error_format&quot;>\&apos;%s পোস্ট অনুসন্ধানে ত্রুটি\&apos;&lt;/string>"
-        errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="341"
-            column="45"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;report_remote_instance&quot;>\&apos;%s এ ফরওয়ার্ড করুন\&apos;&lt;/string>"
-        errorLine2="                                          ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="376"
-            column="43"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;report_sent_success&quot;>\&apos;%s এ সফলভাবে রিপোর্ট করা হয়েছে\&apos;&lt;/string>"
-        errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="378"
-            column="40"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&apos;&apos;) with directional quotes (‘’, &amp;#8216; and &amp;#8217;) ?"
-        errorLine1="    &lt;string name=&quot;poll_info_time_absolute&quot;>\&apos;%s এ শেষ হবে\&apos;&lt;/string>"
-        errorLine2="                                           ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values-bn-rBD/strings.xml"
-            line="386"
-            column="44"/>
-    </issue>
-
-    <issue
-        id="TypographyQuotes"
-        message="Replace straight quotes (&quot;) with directional quotes (“”, &amp;#8220; and &amp;#8221;) ?"
-        errorLine1="    &lt;string name=&quot;dialog_push_notification_migration&quot;>In order to use push notifications via UnifiedPush, Tusky needs permission to subscribe to notifications on your Mastodon server. This requires a re-login to change the OAuth scopes granted to Tusky. Using the re-login option here or in &quot;Account preferences&quot; will preserve all of your local drafts and cache.&lt;/string>"
-        errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="749"
-            column="55"/>
     </issue>
 
     <issue
@@ -6337,6 +5556,17 @@
             file="src/main/res/layout/dialog_filter.xml"
             line="9"
             column="6"/>
+    </issue>
+
+    <issue
+        id="ReportShortcutUsage"
+        message="Calling this method indicates use of dynamic shortcuts, but there are no calls to methods that track shortcut usage, such as `pushDynamicShortcut` or `reportShortcutUsed`. Calling these methods is recommended, as they track shortcut usage and allow launchers to adjust which shortcuts appear based on activation history. Please see https://developer.android.com/develop/ui/views/launch/shortcuts/managing-shortcuts#track-usage"
+        errorLine1="        ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/util/ShareShortcutHelper.kt"
+            line="87"
+            column="9"/>
     </issue>
 
     <issue

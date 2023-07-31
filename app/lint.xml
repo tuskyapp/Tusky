@@ -33,6 +33,12 @@
     <!-- Logs are stripped in release builds. -->
     <issue id="LogConditional" severity="ignore" />
 
+    <!-- Newer dependencies are handled by Renovate, and don't need a warning -->
+    <issue id="GradleDependency" severity="ignore" />
+
+    <!-- Typographical quotes are not something we care about at the moment -->
+    <issue id="TypographyQuotes" severity="ignore" />
+
     <!-- Ensure we are warned about errors in the baseline -->
     <issue id="LintBaseline" severity="warning" />
 
