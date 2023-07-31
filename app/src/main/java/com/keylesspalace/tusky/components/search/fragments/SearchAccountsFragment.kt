@@ -15,15 +15,28 @@
 
 package com.keylesspalace.tusky.components.search.fragments
 
+import android.os.Bundle
+import android.view.View
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import kotlinx.coroutines.flow.Flow
 
 class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.searchRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                binding.searchRecyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+    }
+
     override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
 

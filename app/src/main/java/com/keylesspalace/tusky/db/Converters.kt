@@ -102,8 +102,8 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun jsonToAttachmentList(attachmentListJson: String?): ArrayList<Attachment>? {
-        return gson.fromJson(attachmentListJson, object : TypeToken<ArrayList<Attachment>>() {}.type)
+    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment>? {
+        return gson.fromJson(attachmentListJson, object : TypeToken<List<Attachment>>() {}.type)
     }
 
     @TypeConverter

@@ -19,7 +19,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import java.util.ArrayList
 import java.util.Date
 
 data class Status(
@@ -42,7 +41,7 @@ data class Status(
     val sensitive: Boolean,
     @SerializedName("spoiler_text") val spoilerText: String,
     val visibility: Visibility,
-    @SerializedName("media_attachments") val attachments: ArrayList<Attachment>,
+    @SerializedName("media_attachments") val attachments: List<Attachment>,
     val mentions: List<Mention>,
     val tags: List<HashTag>?,
     val application: Application?,

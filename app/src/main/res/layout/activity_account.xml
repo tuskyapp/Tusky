@@ -443,8 +443,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorSurface"
                 app:tabGravity="center"
-                app:tabMode="scrollable"
-                app:tabTextAppearance="@style/TuskyTabAppearance" />
+                app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

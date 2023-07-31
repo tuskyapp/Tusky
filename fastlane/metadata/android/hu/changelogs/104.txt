@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Javítások:
+
+- Javított értesítés-betöltési sebesség
+- Újra mutatjuk a 0/1/1+ a válaszoknál
+- Szűrőcímek mutatása, nem a kulcsszavaké a szűrt bejegyzéseken
+- Hibajavítás: egy bejegyzés megnyitása megnyithatott egy nem kapcsolódó hivatkozást
+- Mutassuk a "Hozzáadás" a megfelelő helyen, ha nincsenek szűrők
+- Különböző programleállások javítása

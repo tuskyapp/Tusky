@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Få ett meddelande när en användare gör inlägg - klicka på klockikonen på sin profil! (Mastodon 3.3.0-funktion)
+- Draft-funktionen i Tusky har gjorts om helt för att vara snabbare, mer användarvänlig och mindre buggig.
+- Ett nytt välmåendeläge som låter dig begränsa vissa Tusky-funktioner har lagts till.
+- Tusky kan nu animera anpassade emojis.
+Fullständig ändringslogg: https://github.com/tuskyapp/Tusky/releases
