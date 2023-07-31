@@ -33,7 +33,7 @@ const val NOTIFICATIONS = "Notifications"
 const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
-const val TRENDING_TAGS = "Trending"
+const val TRENDING_TAGS = "TrendingTags"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
 
