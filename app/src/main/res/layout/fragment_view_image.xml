@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <com.ortiz.touchview.TouchImageView
         android:id="@+id/photoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
