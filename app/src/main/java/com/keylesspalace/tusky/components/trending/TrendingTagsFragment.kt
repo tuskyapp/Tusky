@@ -247,7 +247,7 @@ class TrendingTagsFragment :
     }
 
     companion object {
-        private const val TAG = "TrendingFragment"
+        private const val TAG = "TrendingTagsFragment"
 
         fun newInstance() = TrendingTagsFragment()
     }
