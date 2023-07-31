@@ -264,7 +264,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS)
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -289,7 +288,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS)
                         )
 
                         setupTabs(false)
@@ -436,7 +434,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun setupDrawer(
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
-        addTrendingTagsButton: Boolean
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -497,12 +494,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
-            refreshMainDrawerItems(addSearchButton, addTrendingTagsButton)
+            refreshMainDrawerItems(addSearchButton)
             setSavedInstance(savedInstanceState)
         }
     }
 
-    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingTagsButton: Boolean) {
+    private fun refreshMainDrawerItems(addSearchButton: Boolean) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
             tintStatusBar = true
@@ -619,18 +616,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 )
             }
 
-            if (addTrendingTagsButton) {
-                binding.mainDrawer.addItemsAtPosition(
-                    5,
-                    primaryDrawerItem {
-                        nameRes = R.string.title_public_trending_hashtags
-                        iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
-                        onClick = {
-                            startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
-                        }
+            binding.mainDrawer.addItemsAtPosition(
+                5,
+                primaryDrawerItem {
+                    nameRes = R.string.title_public_trending
+                    iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
+                    onClick = {
+                        startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
                     }
-                )
-            }
+                }
+            )
         }
 
         if (BuildConfig.DEBUG) {

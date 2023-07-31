@@ -51,7 +51,11 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
-    <string name="title_public_trending_hashtags">Trending hashtags</string>
+    <string name="title_public_trending">Trending</string>
+    <string name="title_public_trending_hashtags">Trending Hashtags</string>
+    <string name="title_public_trending_links">Trending Links</string>
+    <string name="title_tab_public_trending_hashtags">Hashtags</string>
+    <string name="title_tab_public_trending_links">Links</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_direct_messages">Direct messages</string>
     <string name="title_tab_preferences">Tabs</string>

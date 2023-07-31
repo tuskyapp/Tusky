@@ -18,16 +18,24 @@ package com.keylesspalace.tusky.components.trending
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.commit
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityTrendingBinding
+import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class TrendingActivity : BaseActivity(), HasAndroidInjector {
+class TrendingActivity : BaseActivity(), HasAndroidInjector, MenuProvider {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -41,22 +49,52 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector {
         setSupportActionBar(binding.includedToolbar.toolbar)
 
         supportActionBar?.run {
-            setTitle(R.string.title_public_trending_hashtags)
+            setTitle(R.string.title_public_trending)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
 
-        if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
-            supportFragmentManager.commit {
-                val fragment = TrendingTagsFragment.newInstance()
-                replace(R.id.fragmentContainer, fragment)
-            }
-        }
+        val adapter = TrendingFragmentAdapter(this)
+        binding.pager.adapter = adapter
+        binding.pager.reduceSwipeSensitivity()
+
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+            tab.text = adapter.title(position)
+        }.attach()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.activity_trending, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return super.onOptionsItemSelected(menuItem)
     }
 
     override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         fun getIntent(context: Context) = Intent(context, TrendingActivity::class.java)
+    }
+
+}
+
+class TrendingFragmentAdapter(val activity: FragmentActivity) : FragmentStateAdapter(activity) {
+    override fun getItemCount() = 2
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> TrendingTagsFragment.newInstance()
+            1 -> TrendingLinksFragment.newInstance()
+            else -> throw IllegalStateException()
+        }
+    }
+
+    fun title(position: Int): CharSequence {
+        return when (position) {
+            0 -> activity.getString(R.string.title_tab_public_trending_hashtags)
+            1 -> activity.getString(R.string.title_tab_public_trending_links)
+            else -> throw IllegalStateException()
+        }
     }
 }
