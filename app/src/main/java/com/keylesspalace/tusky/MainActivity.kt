@@ -264,7 +264,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS)
+            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS)
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -289,7 +289,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TRENDING_TAGS)
+                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS)
                         )
 
                         setupTabs(false)
@@ -436,7 +436,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun setupDrawer(
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
-        addTrendingButton: Boolean
+        addTrendingTagsButton: Boolean
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -497,12 +497,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
-            refreshMainDrawerItems(addSearchButton, addTrendingButton)
+            refreshMainDrawerItems(addSearchButton, addTrendingTagsButton)
             setSavedInstance(savedInstanceState)
         }
     }
 
-    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingButton: Boolean) {
+    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingTagsButton: Boolean) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
             tintStatusBar = true
@@ -619,7 +619,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 )
             }
 
-            if (addTrendingButton) {
+            if (addTrendingTagsButton) {
                 binding.mainDrawer.addItemsAtPosition(
                     5,
                     primaryDrawerItem {
