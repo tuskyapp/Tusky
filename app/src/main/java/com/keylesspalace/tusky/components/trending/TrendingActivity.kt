@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -61,6 +62,15 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector, MenuProvider {
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = adapter.title(position)
         }.attach()
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (binding.pager.currentItem != 0) binding.pager.currentItem = 0 else finish()
+                }
+            }
+        )
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
