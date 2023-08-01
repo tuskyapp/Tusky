@@ -28,8 +28,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.timeline.TimelineFragment
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.ActivityTrendingBinding
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.viewBinding
@@ -37,7 +39,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class TrendingActivity : BaseActivity(), HasAndroidInjector, MenuProvider {
+class TrendingActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -91,12 +93,13 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector, MenuProvider {
 }
 
 class TrendingFragmentAdapter(val activity: FragmentActivity) : FragmentStateAdapter(activity) {
-    override fun getItemCount() = 2
+    override fun getItemCount() = 3
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> TrendingTagsFragment.newInstance()
             1 -> TrendingLinksFragment.newInstance()
+            2 -> TimelineFragment.newInstance(TimelineViewModel.Kind.TRENDING_STATUSES)
             else -> throw IllegalStateException()
         }
     }
@@ -105,6 +108,7 @@ class TrendingFragmentAdapter(val activity: FragmentActivity) : FragmentStateAda
         return when (position) {
             0 -> activity.getString(R.string.title_tab_public_trending_hashtags)
             1 -> activity.getString(R.string.title_tab_public_trending_links)
+            2 -> activity.getString(R.string.title_tab_public_trending_statuses)
             else -> throw IllegalStateException()
         }
     }

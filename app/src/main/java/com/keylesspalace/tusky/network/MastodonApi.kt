@@ -787,4 +787,7 @@ interface MastodonApi {
 
     @GET("api/v1/trends/links")
     suspend fun trendingLinks(): NetworkResult<List<TrendsLink>>
+
+    @GET("api/v1/trends/statuses")
+    suspend fun trendingStatuses(): Response<List<Status>>
 }

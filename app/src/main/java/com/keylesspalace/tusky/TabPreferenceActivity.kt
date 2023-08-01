@@ -386,6 +386,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         if (!currentTabs.contains(trendingLinksTab)) {
             addableTabs.add(trendingLinksTab)
         }
+        createTabDataFromId(TRENDING_STATUSES).apply {
+            currentTabs.contains(this) || addableTabs.add(this)
+        }
 
         addableTabs.add(createTabDataFromId(HASHTAG))
         addableTabs.add(createTabDataFromId(LIST))
