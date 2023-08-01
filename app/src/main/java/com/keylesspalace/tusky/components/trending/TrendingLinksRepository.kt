@@ -23,7 +23,5 @@ import javax.inject.Inject
 class TrendingLinksRepository @Inject constructor(
     private val api: MastodonApi
 ) {
-    // TODO: Shouldn't return an emptyList by default. If there's a network error
-    // it should be returned so it can be surfaced to the user.
     suspend fun getTrendingLinks() = api.trendingLinks()
 }
