@@ -31,12 +31,19 @@ fun Throwable.getServerErrorMessage(): String? {
 /** @return A drawable resource to accompany the error message for this throwable */
 fun Throwable.getDrawableRes(): Int = when (this) {
     is IOException -> R.drawable.elephant_offline
-    is HttpException -> R.drawable.elephant_offline
+    is HttpException -> {
+        if (this.code() == 404) {
+            R.drawable.elephant_friend_empty
+        } else {
+            R.drawable.elephant_offline
+        }
+    }
     else -> R.drawable.elephant_error
 }
 
 /** @return A string error message for this throwable */
 fun Throwable.getErrorString(context: Context): String = getServerErrorMessage() ?: when (this) {
     is IOException -> context.getString(R.string.error_network)
+    is HttpException -> if (this.code() == 404) context.getString(R.string.error_404_not_found) else context.getString(R.string.error_generic)
     else -> context.getString(R.string.error_generic)
 }

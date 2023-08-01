@@ -55,6 +55,7 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class TrendingLinksFragment :
@@ -120,16 +121,23 @@ class TrendingLinksFragment :
                         binding.swipeRefreshLayout.isRefreshing = false
                         binding.recyclerView.hide()
                         if (adapter.itemCount != 0) {
-                            Snackbar.make(
+                            val snackbar = Snackbar.make(
                                 binding.root,
                                 it.throwable.message ?: "Error",
                                 Snackbar.LENGTH_INDEFINITE
                             )
-                                .setAction("Retry") { viewModel.accept(InfallibleUiAction.Reload) }
-                                .show()
+
+                            if (it.throwable !is HttpException || it.throwable.code() != 404) {
+                                snackbar.setAction("Retry") { viewModel.accept(InfallibleUiAction.Reload) }
+                            }
+                            snackbar.show()
                         } else {
-                            binding.messageView.setup(it.throwable) {
-                                viewModel.accept(InfallibleUiAction.Reload)
+                            if (it.throwable !is HttpException || it.throwable.code() != 404) {
+                                binding.messageView.setup(it.throwable) {
+                                    viewModel.accept(InfallibleUiAction.Reload)
+                                }
+                            } else {
+                                binding.messageView.setup(it.throwable)
                             }
                             binding.messageView.show()
                         }

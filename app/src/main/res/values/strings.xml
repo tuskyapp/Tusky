@@ -30,6 +30,7 @@
     <string name="error_could_not_load_login_page">Could not load the login page.</string>
     <string name="error_compose_character_limit">The post is too long!</string>
     <string name="error_multimedia_size_limit">Video and audio files cannot exceed %s MB in size.</string>
+    <string name="error_404_not_found">Your server does not support this feature</string>
 
     <string name="error_image_edit_failed">The image could not be edited.</string>
     <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
