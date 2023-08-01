@@ -90,9 +90,12 @@ class TrendingLinkViewHolder(
                 .load(link.image)
                 .dontTransform()
             if (statusDisplayOptions.useBlurhash && !link.blurhash.isNullOrBlank()) {
-                builder.placeholder(decodeBlurHash(binding.cardImage.context, link.blurhash))
+                builder
+                    .placeholder(decodeBlurHash(binding.cardImage.context, link.blurhash))
+                    .into(binding.cardImage)
+            } else {
+                builder.into(binding.cardImage)
             }
-            builder.into(binding.cardImage)
         } else if (statusDisplayOptions.useBlurhash && !link.blurhash.isNullOrBlank()) {
             binding.statusCardView.orientation = LinearLayout.HORIZONTAL
             binding.cardImage.layoutParams.height = MATCH_PARENT
