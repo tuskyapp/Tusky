@@ -17,6 +17,7 @@
 
 package com.keylesspalace.tusky.components.trending
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -30,7 +31,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.color.MaterialColors
@@ -77,7 +78,12 @@ class TrendingLinksFragment :
 
     private var talkBackWasEnabled = false
 
-    // TODO: onConfigurationChanged to show multiple columns?
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        binding.recyclerView.layoutManager = getLayoutManager(
+            requireContext().resources.getInteger(R.integer.trending_column_count)
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -161,11 +167,13 @@ class TrendingLinksFragment :
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = getLayoutManager(requireContext().resources.getInteger(R.integer.trending_column_count))
         binding.recyclerView.setHasFixedSize(true)
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.recyclerView.adapter = adapter
     }
+
+    private fun getLayoutManager(columnCount: Int) = GridLayoutManager(context, columnCount)
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_trending_links, menu)
