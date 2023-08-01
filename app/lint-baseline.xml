@@ -1542,7 +1542,7 @@
         errorLine1="    android:background=&quot;?android:attr/colorBackground&quot;>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/res/layout/fragment_trending.xml"
+            file="src/main/res/layout/fragment_trending_tags.xml"
             line="7"
             column="5"/>
     </issue>
@@ -4002,22 +4002,22 @@
 
     <issue
         id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TrendingFragment` requires synthetic accessor"
+        message="Access to `private` method `getBinding` of class `TrendingTagsFragment` requires synthetic accessor"
         errorLine1="                    binding.recyclerView.post {"
         errorLine2="                    ~~~~~~~">
         <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
+            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagsFragment.kt"
             line="81"
             column="21"/>
     </issue>
 
     <issue
         id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TrendingFragment` requires synthetic accessor"
+        message="Access to `private` method `getBinding` of class `TrendingTagsFragment` requires synthetic accessor"
         errorLine1="                            binding.recyclerView.scrollBy("
         errorLine2="                            ~~~~~~~">
         <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
+            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagsFragment.kt"
             line="83"
             column="29"/>
     </issue>
@@ -4025,34 +4025,34 @@
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `ViewImageFragment` requires synthetic accessor"
-        errorLine1="                        binding.captionSheet.visible(isDescriptionVisible)"
-        errorLine2="                        ~~~~~~~">
+        errorLine1="                    binding.captionSheet.visible(isDescriptionVisible)"
+        errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="188"
-            column="25"/>
+            line="233"
+            column="21"/>
     </issue>
 
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `ViewImageFragment` requires synthetic accessor"
-        errorLine1="            if (!isCacheRequest &amp;&amp; _binding != null) binding.progressBar.hide()"
-        errorLine2="                                                     ~~~~~~~">
+        errorLine1="            if (!isCacheRequest) binding.progressBar.hide()"
+        errorLine2="                                 ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="273"
-            column="54"/>
+            line="320"
+            column="34"/>
     </issue>
 
     <issue
         id="SyntheticAccessor"
         message="Access to `private` method `getBinding` of class `ViewImageFragment` requires synthetic accessor"
-        errorLine1="                binding.progressBar.hide() // Always hide the progress bar on success"
-        errorLine2="                ~~~~~~~">
+        errorLine1="            binding.progressBar.hide() // Always hide the progress bar on success"
+        errorLine2="            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="287"
-            column="17"/>
+            line="333"
+            column="13"/>
     </issue>
 
     <issue
@@ -4062,7 +4062,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt"
-            line="295"
+            line="340"
             column="17"/>
     </issue>
 
