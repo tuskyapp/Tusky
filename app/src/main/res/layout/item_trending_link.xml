@@ -19,6 +19,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingStart="14dp"
     android:paddingEnd="14dp">
 
@@ -64,7 +65,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:lines="1"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="?attr/status_text_medium" />
+                android:textSize="?attr/status_text_medium"
+                tools:ignore="SelectableText" />
 
             <TextView
                 android:id="@+id/card_description"
@@ -75,7 +77,8 @@
                 android:lineSpacingMultiplier="1.1"
                 android:maxLines="2"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="?attr/status_text_medium" />
+                android:textSize="?attr/status_text_medium"
+                tools:ignore="SelectableText" />
 
             <TextView
                 android:id="@+id/card_link"
@@ -84,7 +87,8 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="?android:textColorTertiary"
-                android:textSize="?attr/status_text_medium" />
+                android:textSize="?attr/status_text_medium"
+                tools:ignore="SelectableText" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

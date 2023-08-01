@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.trending
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -66,6 +67,7 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector, MenuProvider {
         onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
+                @SuppressLint("SyntheticAccessor")
                 override fun handleOnBackPressed() {
                     if (binding.pager.currentItem != 0) binding.pager.currentItem = 0 else finish()
                 }

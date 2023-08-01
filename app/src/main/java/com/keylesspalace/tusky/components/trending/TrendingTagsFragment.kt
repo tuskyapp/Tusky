@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.trending
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -89,6 +90,7 @@ class TrendingTagsFragment :
         setupRecyclerView()
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            @SuppressLint("SyntheticAccessor")
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
