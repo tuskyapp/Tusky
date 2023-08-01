@@ -105,7 +105,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         TRENDING_LINKS -> TabData(
             id = TRENDING_LINKS,
             text = R.string.title_public_trending_links,
-            icon =  R.drawable.ic_trending_up_24px,
+            icon = R.drawable.ic_trending_up_24px,
             fragment = { TrendingLinksFragment.newInstance() }
         )
         HASHTAG -> TabData(

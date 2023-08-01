@@ -263,7 +263,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupDrawer(
             savedInstanceState,
-            addSearchButton = hideTopToolbar,
+            addSearchButton = hideTopToolbar
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -287,7 +287,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
-                            addSearchButton = hideTopToolbar,
+                            addSearchButton = hideTopToolbar
                         )
 
                         setupTabs(false)
@@ -433,7 +433,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun setupDrawer(
         savedInstanceState: Bundle?,
-        addSearchButton: Boolean,
+        addSearchButton: Boolean
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 

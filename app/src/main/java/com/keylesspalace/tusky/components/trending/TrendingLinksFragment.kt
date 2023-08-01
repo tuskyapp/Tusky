@@ -104,7 +104,8 @@ class TrendingLinksFragment :
                         binding.progressBar.hide()
                         binding.swipeRefreshLayout.isRefreshing = false
                         if (it.data.isEmpty()) {
-                            binding.messageView.setup(R.drawable.elephant_friend_empty,
+                            binding.messageView.setup(
+                                R.drawable.elephant_friend_empty,
                                 R.string.message_empty,
                                 null
                             )
@@ -125,7 +126,7 @@ class TrendingLinksFragment :
                                 Snackbar.LENGTH_INDEFINITE
                             )
                                 .setAction("Retry") { viewModel.accept(InfallibleUiAction.Reload) }
-                                    .show()
+                                .show()
                         } else {
                             binding.messageView.setup(it.throwable) {
                                 viewModel.accept(InfallibleUiAction.Reload)

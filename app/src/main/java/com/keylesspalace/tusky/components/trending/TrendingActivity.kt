@@ -76,7 +76,6 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector, MenuProvider {
     companion object {
         fun getIntent(context: Context) = Intent(context, TrendingActivity::class.java)
     }
-
 }
 
 class TrendingFragmentAdapter(val activity: FragmentActivity) : FragmentStateAdapter(activity) {

@@ -17,7 +17,6 @@
 
 package com.keylesspalace.tusky.components.trending
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView.ScaleType
@@ -72,7 +71,7 @@ class TrendingLinkViewHolder(
                 binding.cardImage.layoutParams.width = MATCH_PARENT
                 binding.cardInfo.layoutParams.height = MATCH_PARENT
                 binding.cardInfo.layoutParams.width = WRAP_CONTENT
-                cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
+                cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius)
                 cardImageShape.setTopRightCorner(CornerFamily.ROUNDED, radius)
             } else {
                 binding.statusCardView.orientation = LinearLayout.HORIZONTAL
@@ -80,7 +79,7 @@ class TrendingLinkViewHolder(
                 binding.cardImage.layoutParams.width = binding.cardImage.resources.getDimensionPixelSize(R.dimen.card_image_horizontal_width)
                 binding.cardInfo.layoutParams.height = WRAP_CONTENT
                 binding.cardInfo.layoutParams.width = MATCH_PARENT
-                cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
+                cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius)
                 cardImageShape.setBottomLeftCorner(CornerFamily.ROUNDED, radius)
             }
 
