@@ -189,7 +189,6 @@ class TrendingLinksFragment :
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
                 refreshContent()
                 true
             }
@@ -197,7 +196,10 @@ class TrendingLinksFragment :
         }
     }
 
-    override fun refreshContent() = onRefresh()
+    override fun refreshContent() {
+        binding.swipeRefreshLayout.isRefreshing = true
+        onRefresh()
+    }
 
     override fun onRefresh() = viewModel.accept(InfallibleUiAction.Reload)
 
