@@ -131,6 +131,7 @@ class TrendingLinksFragment :
                             binding.messageView.setup(it.throwable) {
                                 viewModel.accept(InfallibleUiAction.Reload)
                             }
+                            binding.messageView.show()
                         }
                     }
                 }
