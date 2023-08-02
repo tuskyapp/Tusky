@@ -256,8 +256,6 @@
     <string name="description_post_media">Медіа: %s</string>
     <string name="title_reblogged_by">Поширює</string>
     <string name="profile_metadata_content_label">Вміст</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="profile_badge_bot_text">Бот</string>
     <string name="restart">Перезапустити</string>
     <string name="later">Пізніше</string>
@@ -515,7 +513,6 @@
     <string name="profile_metadata_label_label">Ярлик</string>
     <string name="profile_metadata_add">додати дані</string>
     <string name="profile_metadata_label">Метадані профілю</string>
-    <string name="license_apache_2">Ліцензовано ліцензією Apache (копія знизу)</string>
     <string name="license_description">Tusky містить код та засоби з таких проєктів з відкритим кодом:</string>
     <string name="unreblog_private">Скасувати поширення</string>
     <string name="reblog_private">Поширити початковій аудиторії</string>

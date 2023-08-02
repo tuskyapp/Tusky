@@ -291,9 +291,6 @@
     <string name="reblog_private">Volver a compartir</string>
     <string name="unreblog_private">Dejar de compartir</string>
     <string name="license_description">Tusky contiene código y recursos de los siguientes proyectos:</string>
-    <string name="license_apache_2">Licenciado bajo Apache License (texto bajo la lista)</string>
-    <string name="license_cc_by_4">CC BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Información adicional</string>
     <string name="profile_metadata_add">añadir campo</string>
     <string name="profile_metadata_label_label">Etiqueta</string>

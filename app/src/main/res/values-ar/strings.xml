@@ -323,9 +323,6 @@
     <string name="reblog_private">المشاركة إلى الجمهور الأصلي</string>
     <string name="unreblog_private">إلغاء المشاركة</string>
     <string name="license_description">يحتوي توسكي على شيفرة وأوصول صادرة مِن المشاريع المفتوحة التالية :</string>
-    <string name="license_apache_2">مرخص تحت رخصة أباتشي (النسخة أسفله)</string>
-    <string name="license_cc_by_4">المشاع الإبداعي CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">المشاع الإبداعي CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">البيانات الوصفية للملف الشخصي</string>
     <string name="profile_metadata_add">إضافة بيانات</string>
     <string name="profile_metadata_label_label">الوسم</string>

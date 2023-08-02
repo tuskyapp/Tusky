@@ -263,7 +263,6 @@
     <string name="reblog_private">تقویت برای مخاطب اصلی</string>
     <string name="unreblog_private">ناتقویت</string>
     <string name="license_description">تاسکی کد و دارایی‌هایی از پروژه‌های نرم‌افزار آزاد زیر دارد:</string>
-    <string name="license_apache_2">ذیل پروانهٔ آپاچی (رونوشت در ادامه)</string>
     <string name="profile_metadata_label">فرادادهٔ نمایه</string>
     <string name="profile_metadata_add">افزودن داده</string>
     <string name="profile_metadata_label_label">برچسب</string>
@@ -336,8 +335,6 @@
     <string name="action_add_to_list">افزودن حساب به فهرست</string>
     <string name="action_remove_from_list">برداشتن حساب از فهرست</string>
     <string name="caption_notoemoji">مجموعه اموجی کنونی گوگل</string>
-    <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
-    <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> برگزیدن</item>
         <item quantity="other"><b>%1$s</b> برگزیدن</item>

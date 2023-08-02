@@ -93,9 +93,6 @@
     <string name="profile_metadata_label_label">ป้าย</string>
     <string name="profile_metadata_add">เพิ่มข้อมูล</string>
     <string name="profile_metadata_label">ข้อมูลอภิพันธุ์</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">ภายใต้สัญญาอนุญาต Apache License (คัดลอกด้านล่าง)</string>
     <string name="license_description">Tusky มีโค้ดและสินทรัพย์จากโครงการโอเพนซอร์สต่อไปนี้:</string>
     <string name="unreblog_private">ยกเลิกบูสต์</string>
     <string name="reblog_private">บูสต์โพสต์ต้นฉบับ</string>

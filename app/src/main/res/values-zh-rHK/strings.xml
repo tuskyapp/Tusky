@@ -320,9 +320,6 @@
     <string name="reblog_private">轉嘟（可見者不變）</string>
     <string name="unreblog_private">取消轉嘟</string>
     <string name="license_description">Tusky 使用了以下開源專案的原始碼：</string>
-    <string name="license_apache_2">以 Apache License 授權（詳見下方）</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">個人資料附加資訊</string>
     <string name="profile_metadata_add">新增資訊</string>
     <string name="profile_metadata_label_label">標籤</string>
