@@ -46,6 +46,10 @@
         <item name="android:fontFamily">@font/lexend</item>
     </style>
 
+    <style name="FontLuciole">
+        <item name="android:fontFamily">@font/luciole</item>
+    </style>
+
     <style name="FontOpenDyslexic">
         <item name="android:fontFamily">@font/opendyslexic</item>
     </style>
