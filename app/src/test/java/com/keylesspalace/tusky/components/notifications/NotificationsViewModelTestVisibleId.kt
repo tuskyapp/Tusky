@@ -19,13 +19,11 @@ package com.keylesspalace.tusky.components.notifications
 
 import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.db.AccountEntity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.verify
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestVisibleId : NotificationsViewModelTestBase() {
 
     @Test

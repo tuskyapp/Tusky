@@ -21,7 +21,6 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.entity.Relationship
 import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.any
@@ -39,7 +38,6 @@ import org.mockito.kotlin.verify
  *   This is only tested in the success case; if it passed there it must also
  *   have passed in the error case.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestBase() {
     /** Dummy relationship */
     private val relationship = Relationship(
