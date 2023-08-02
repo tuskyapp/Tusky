@@ -39,7 +39,6 @@ import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,7 +52,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 class ComposeViewModel @Inject constructor(
     private val api: MastodonApi,
     private val accountManager: AccountManager,
@@ -95,7 +93,7 @@ class ComposeViewModel @Inject constructor(
     val media: MutableStateFlow<List<QueuedMedia>> = MutableStateFlow(emptyList())
     val uploadError = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    lateinit var composeKind: ComposeKind
+    private lateinit var composeKind: ComposeKind
 
     // Used in ComposeActivity to pass state to result function when cropImage contract inflight
     var cropImageItemOld: QueuedMedia? = null
