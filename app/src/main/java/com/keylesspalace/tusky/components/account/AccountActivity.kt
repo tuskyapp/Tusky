@@ -24,8 +24,9 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -35,11 +36,13 @@ import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
+import androidx.core.widget.doAfterTextChanged
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -72,7 +75,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
@@ -88,6 +90,10 @@ import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.text.NumberFormat
@@ -97,12 +103,14 @@ import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, LinkListener {
+class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, HasAndroidInjector, LinkListener {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     @Inject
     lateinit var draftsAlert: DraftsAlert
 
@@ -128,14 +136,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
     // fields for scroll animation
     private var hideFab: Boolean = false
     private var oldOffset: Int = 0
+
     @ColorInt
     private var toolbarColor: Int = 0
+
     @ColorInt
     private var statusBarColorTransparent: Int = 0
+
     @ColorInt
     private var statusBarColorOpaque: Int = 0
 
     private var avatarSize: Float = 0f
+
     @Px
     private var titleVisibleHeight: Int = 0
     private lateinit var domain: String
@@ -148,11 +160,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
 
     private lateinit var adapter: AccountPagerAdapter
 
+    private var noteWatcher: TextWatcher? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadResources()
         makeNotificationBarTransparent()
         setContentView(binding.root)
+        addMenuProvider(this)
 
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
@@ -333,7 +348,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-
                 if (verticalOffset == oldOffset) {
                     return
                 }
@@ -414,14 +428,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         draftsAlert.observeInContext(this, true)
     }
 
+    private fun onRefresh() {
+        viewModel.refresh()
+        adapter.refreshContent()
+    }
+
     /**
      * Setup swipe to refresh layout
      */
     private fun setupRefreshLayout() {
-        binding.swipeToRefreshLayout.setOnRefreshListener {
-            viewModel.refresh()
-            adapter.refreshContent()
-        }
+        binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
         viewModel.isRefreshing.observe(
             this
         ) { isRefreshing ->
@@ -454,8 +470,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
-        accountFieldAdapter.fields = account.fields ?: emptyList()
-        accountFieldAdapter.emojis = account.emojis ?: emptyList()
+        accountFieldAdapter.fields = account.fields.orEmpty()
+        accountFieldAdapter.emojis = account.emojis.orEmpty()
         accountFieldAdapter.notifyDataSetChanged()
 
         binding.accountLockedImageView.visible(account.locked)
@@ -639,10 +655,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             binding.accountSubscribeButton.setOnClickListener {
                 viewModel.changeSubscribingState()
             }
-            if (relation.notifying != null)
+            if (relation.notifying != null) {
                 subscribing = relation.notifying
-            else if (relation.subscribing != null)
+            } else if (relation.subscribing != null) {
                 subscribing = relation.subscribing
+            }
         }
 
         // remove the listener so it doesn't fire on non-user changes
@@ -651,15 +668,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         binding.accountNoteTextInputLayout.visible(relation.note != null)
         binding.accountNoteTextInputLayout.editText?.setText(relation.note)
 
-        binding.accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
-
-        updateButtons()
-    }
-
-    private val noteWatcher = object : DefaultTextWatcher() {
-        override fun afterTextChanged(s: Editable) {
+        noteWatcher = binding.accountNoteTextInputLayout.editText?.doAfterTextChanged { s ->
             viewModel.noteChanged(s.toString())
         }
+
+        updateButtons()
     }
 
     private fun updateFollowButton() {
@@ -710,7 +723,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         invalidateOptionsMenu()
 
         if (loadedAccount?.moved == null) {
-
             binding.accountFollowButton.show()
             updateFollowButton()
             updateSubscribeButton()
@@ -731,7 +743,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.account_toolbar, menu)
 
         val openAsItem = menu.findItem(R.id.action_open_as)
@@ -743,7 +755,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         }
 
         if (!viewModel.isSelf) {
-
             val block = menu.findItem(R.id.action_block)
             block.title = if (blocking) {
                 getString(R.string.action_unblock)
@@ -796,7 +807,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             menu.removeItem(R.id.action_add_or_remove_from_list)
         }
 
-        return super.onCreateOptionsMenu(menu)
+        menu.findItem(R.id.action_search)?.apply {
+            icon = IconicsDrawable(this@AccountActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.collapsingToolbar, android.R.attr.textColorPrimary)
+            }
+        }
     }
 
     private fun showFollowRequestPendingDialog() {
@@ -884,7 +900,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
         viewUrl(url)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_open_in_web -> {
                 // If the account isn't loaded yet, eat the input.
@@ -896,7 +912,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
             R.id.action_open_as -> {
                 loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
-                        item.title, false,
+                        item.title,
+                        false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
                                 openAsAccount(loadedAccount.url, account)
@@ -949,6 +966,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 viewModel.changeShowReblogsState()
                 return true
             }
+            R.id.action_refresh -> {
+                binding.swipeToRefreshLayout.isRefreshing = true
+                onRefresh()
+                return true
+            }
             R.id.action_report -> {
                 loadedAccount?.let { loadedAccount ->
                     startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount.username))
@@ -956,13 +978,15 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidI
                 return true
             }
         }
-        return super.onOptionsItemSelected(item)
+        return false
     }
 
     override fun getActionButton(): FloatingActionButton? {
         return if (!blocking) {
             binding.accountFloatingActionButton
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun getFullUsername(account: Account): String {

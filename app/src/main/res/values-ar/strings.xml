@@ -136,12 +136,12 @@
     <string name="label_header">صورة رأس الصفحة</string>
     <string name="link_whats_an_instance">ماذا نعني بمثيل الخادم؟</string>
     <string name="login_connection">الإتصال جارٍ…</string>
-    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social">لاكتشاف المزيد !</a> 
-\n 
+    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social">لاكتشاف المزيد !</a>
+\n
 \n إن كنت لا تملك حسابا بإمكانك إدخال اسم مثيل خادوم تريد الانضمام إليه قصد إنشاء حسابك عليه.
-\n 
-\n نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى. 
-\n 
+\n
+\n نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى.
+\n
 \n للمزيد مِن التفاصيل إطّلع على <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">الإرسال جارٍ…</string>
@@ -258,8 +258,8 @@
     <string name="load_more_placeholder_text">حمِّل المزيد</string>
     <string name="pref_title_public_filter_keywords">الخطوط الزمنية العمومية</string>
     <string name="pref_title_thread_filter_keywords">المحادثات</string>
-    <string name="filter_addition_dialog_title">إضافة عامل تصفية</string>
-    <string name="filter_edit_dialog_title">تعديل عامل التصفية</string>
+    <string name="filter_addition_title">إضافة عامل تصفية</string>
+    <string name="filter_edit_title">تعديل عامل التصفية</string>
     <string name="filter_dialog_remove_button">إزالة</string>
     <string name="filter_dialog_update_button">تحديث</string>
     <string name="filter_add_description">العبارة التي يلزم تصفيتها</string>
@@ -278,7 +278,6 @@
     <string name="action_add_to_list">إضافة الحساب إلى القائمة</string>
     <string name="action_remove_from_list">إزالة الحساب مِن القائمة</string>
     <string name="compose_active_account_description">النشر بإسم %1$s</string>
-    <string name="error_failed_set_caption">تعذرت عملية إضافة الشرح</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="zero">وصف لضعاف البصر
 \n(%d أحرف على أقصى تقدير)</item>
@@ -561,8 +560,8 @@
     <string name="pref_title_notification_filter_sign_ups">أحدهم أنشأ حسابا جديدا</string>
     <string name="notification_update_name">منشورات تم تعديلها</string>
     <string name="notification_update_format">قام %s بتعديل منشوره</string>
-    <string name="a11y_label_loading_thread">تحميل المناقشة</string>
-    <string name="hint_media_description_missing">يجب أن تضع وصف للوسائط.</string>
+    <string name="a11y_label_loading_thread">تحميل خيط المحادثة</string>
+    <string name="hint_media_description_missing">يجب أن تضع وصفًا للوسائط.</string>
     <string name="error_multimedia_size_limit">لا يمكن أن يتجاوز حجم ملفات الفيديو والصوت %s ميغا بايت.</string>
     <string name="error_image_edit_failed">لا يمكن تحرير الصورة.</string>
     <string name="title_edits">التعديلات</string>
@@ -576,15 +575,15 @@
     <string name="compose_save_draft_loses_media">حفظ المسودة؟ (سيتم رفع المرفقات مرة أخرى عند استعادة المسودة.)</string>
     <string name="compose_unsaved_changes">لديك تعديلات لم تحفظ.</string>
     <string name="no_lists">ليس لديك أي قوائم.</string>
-    <string name="post_edited">%s تعديل</string>
-    <string name="notification_report_format">تقرير جديد عن%s</string>
-    <string name="status_edit_info">%1$s معدل في %2$s</string>
-    <string name="status_created_info">%1$s انشأت في %2$s</string>
+    <string name="post_edited">عدَّلَ %s</string>
+    <string name="notification_report_format">شكوى جديدة عن %s</string>
+    <string name="status_edit_info">عدّله %1$s</string>
+    <string name="status_created_info">أنشأه %1$s</string>
     <string name="wellbeing_mode_notice">سيتم إخفاء بعض المعلومات التي قد تؤثر على صحتك العقلية. هذا يتضمن:
 \n
-\n- المفضلة/المشراكات/متابعة الاشعارات
+\n- المفضلة/المشاركات/متابعة الاشعارات
 \n- المفضلة/عدد المشاركات على المنشور
-\n- - إحصائيات المتابعين/و الاحصائات على المنشورات في الملفات الشخصية
+\n- إحصائيات المتابعين/و الاحصائات على المنشورات في الملفات الشخصية
 \n
 \nلن تتأثر الاشعارات، ولكن يمكنك مراجعة اعدادات الاشعارات يدويا.</string>
     <string name="confirmation_hashtag_unfollowed">#%s الغاء متابعة</string>
@@ -594,7 +593,7 @@
     <string name="description_post_edited">تم تعديله</string>
     <string name="duration_no_change">(لا تعديل)</string>
     <string name="pref_title_show_self_username">إظهار اسم المستخدم في أشرطة الأدوات</string>
-    <string name="follow_requests_info">على الرغم ان حسابك غير مقفل، اعتقد موظفو %1$s أنك قد ترغب في مراجعة طلبات المتابعة من هذه الحسابات يدويًا.</string>
+    <string name="follow_requests_info">على الرغم ان حسابك غير مقفل، اعتقد فريق %1$s أنك قد ترغب في مراجعة طلبات المتابعة من هذه الحسابات يدويًا.</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="zero">لا يمكنك رفع أكثر من %1$d مرفق.</item>
         <item quantity="one">لا يمكنك رفع أكثر من %1$d مرفق.</item>
@@ -616,36 +615,35 @@
     <string name="notification_sign_up_description">ارسال إشعار عندما يقوم مستخدم جديد بالتسجيل</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="failed_to_unpin">فشل إلغاء التثبيت</string>
-    <string name="error_following_hashtags_unsupported">هذا المثال لا يدعم الوسوم التالية.</string>
+    <string name="error_following_hashtags_unsupported">مثيل الخادم هذا لا يدعم متابعة الوسوم.</string>
     <string name="action_discard">تجاهل التعديلات</string>
     <string name="action_continue_edit">الاستمرار في التعديل</string>
     <string name="pref_show_self_username_always">دائماً</string>
     <string name="post_media_alt">ALT</string>
     <string name="notification_header_report_format">%s أبلغ عن %s</string>
-    <string name="notification_summary_report_format">%s · %d المنشورات الملحقة</string>
+    <string name="notification_summary_report_format">%s · %d منشورات ملحقة</string>
     <string name="failed_to_pin">فشل التثبيت</string>
-    <string name="instance_rule_info">بتسجيل الدخول ، أنت توافق على %s.</string>
+    <string name="instance_rule_info">بتسجيل الدخول، أنت توافق على %s.</string>
     <string name="description_post_language">لغة المنشور</string>
-    <string name="delete_scheduled_post_warning">هل تريد حذف هذه المنشور المجدول؟</string>
+    <string name="delete_scheduled_post_warning">هل تريد حذف هذا المنشور المُبَرمَج؟</string>
     <string name="tips_push_notification_migration">أعد تسجيل الدخول إلى جميع الحسابات لتمكين دعم الإشعارات.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">ضبط نقطة التركيز</string>
     <string name="action_edit_image">تعديل الصورة</string>
-    <string name="error_failed_set_focus">فشل في تعيين نقطة التركيز</string>
     <string name="action_add_reaction">إضافة رد فعل</string>
     <string name="action_share_account_link">مشاركة رابط الحساب</string>
     <string name="action_share_account_username">مشاركة اسم مستخدم الحساب</string>
     <string name="send_account_link_to">شارك رابط الحساب الى…</string>
-    <string name="send_account_username_to">شارك اسم المستجدم الخاص بالحساب الى…</string>
-    <string name="account_username_copied">تم نسج اسم المستخدم</string>
+    <string name="send_account_username_to">شارك اسم مستخدم الحساب إلى…</string>
+    <string name="account_username_copied">تم نسخ اسم المستخدم</string>
     <string name="pref_show_self_username_disambiguate">عند تسجيل الدخول إلى حسابات متعددة</string>
-    <string name="status_created_at_now">الأن</string>
+    <string name="status_created_at_now">الآن</string>
     <string name="failed_to_remove_from_list">فشل إزالة الحساب من القائمة</string>
     <string name="action_unfollow_hashtag_format">الغاء متابعة #%s ؟</string>
     <string name="mute_notifications_switch">كتم الاشعارات</string>
     <string name="error_following_hashtag_format">خطأ في متابعة %s#</string>
-    <string name="error_unfollowing_hashtag_format">خطأ في إلغاء المتابعة %s#</string>
-    <string name="title_followed_hashtags">الوسوم المتابعة</string>
+    <string name="error_unfollowing_hashtag_format">خطأ في إلغاء متابعة %s#</string>
+    <string name="title_followed_hashtags">الوسوم المتابَعة</string>
     <string name="error_status_source_load">فشل تحميل مصدر المنشور من الخادم.</string>
     <string name="report_category_violation">انتهاك الشروط</string>
     <string name="dialog_push_notification_migration">من أجل استخدام الإشعارات عبر UnifiedPush ، يحتاج Tusky إلى إذن للإشتراك في الإشعارات على خادم Mastodon الخاص بك. يتطلب هذا إعادة تسجيل الدخول لتغيير نطاقات OAuth الممنوحة لـ Tusky. سيؤدي استخدام خيار إعادة تسجيل الدخول هنا أو في اعدادات الحساب إلى الاحتفاظ بجميع المسودات المحلية وذاكرة التخزين المؤقت.</string>
@@ -666,4 +664,9 @@
     <string name="pref_reading_order_newest_first">الأحدث أولاً</string>
     <string name="action_browser_login">الولوج باستخدام متصفح</string>
     <string name="title_public_trending_hashtags">الوسوم المتداولة</string>
+    <string name="accessibility_talking_about_tag">هناك %1$d أشخاص يتحدثون عن الوسم %2$s</string>
+    <string name="total_usage">الاستخدام الإجمالي</string>
+    <string name="ui_error_unknown">سبب مجهول</string>
+    <string name="socket_timeout_exception">طال الاتصال بخادمك كثيرًا</string>
+    <string name="action_add">إضافة</string>
 </resources>

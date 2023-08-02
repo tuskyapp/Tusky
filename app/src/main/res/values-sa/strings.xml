@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_public_local">स्थानीयाः</string>
-    <string name="title_notifications">सूचनाः</string>
+    <string name="title_notifications">ज्ञापनसूचनाः</string>
     <string name="title_home">गृहम्</string>
     <string name="error_sender_account_gone">दौत्यप्रेषणं विफलं जातम् ।</string>
     <string name="error_media_upload_sending">उपारोपणं विफलं जातम् ।</string>
@@ -63,7 +63,7 @@
     <string name="action_hide_reblogs">प्रकाशनानि छाद्यन्ताम्</string>
     <string name="action_unblock">अवरोधो नश्यताम्</string>
     <string name="action_block">अवरुध्यताम्</string>
-    <string name="action_unfollow">अनुसरणं नश्यताम्</string>
+    <string name="action_unfollow">अनुसरणं अपाकुरुताम्</string>
     <string name="action_follow">अनुस्रियताम्</string>
     <string name="action_logout_confirm">नूनमेव बहिर्गन्तुमीहते %1$s इति व्यक्तित्वलेखात् \?</string>
     <string name="action_logout">बहिर्गम्यताम्</string>
@@ -159,33 +159,33 @@
     <string name="post_sent_long">सफलं प्रत्युत्तरप्रेषणम् ।</string>
     <string name="post_sent">प्रेषितम्!</string>
     <string name="confirmation_domain_unmuted">%s अनावृतः</string>
-    <string name="pref_title_notification_filters">सूच्यतां मे यदा</string>
-    <string name="pref_title_notification_alert_light">ज्योत्या सूच्यताम्</string>
-    <string name="pref_title_notification_alert_vibrate">कम्पनेन सूच्यताम्</string>
-    <string name="pref_title_notification_alert_sound">ध्वनिना सूच्यताम्</string>
-    <string name="pref_title_notification_alerts">सतर्कताः</string>
-    <string name="pref_title_notifications_enabled">सूचनाः</string>
-    <string name="pref_title_edit_notification_settings">सूचनाः</string>
+    <string name="pref_title_notification_filters">अहं ज्ञप्यतां यदा</string>
+    <string name="pref_title_notification_alert_light">ज्योत्या ज्ञप्यताम्</string>
+    <string name="pref_title_notification_alert_vibrate">कम्पनेन ज्ञप्यताम्</string>
+    <string name="pref_title_notification_alert_sound">ध्वनिना ज्ञप्यताम्</string>
+    <string name="pref_title_notification_alerts">सतर्कत-ज्ञापनसूचनाः</string>
+    <string name="pref_title_notifications_enabled">ज्ञापनसूचनाः</string>
+    <string name="pref_title_edit_notification_settings">ज्ञापनसूचनाः</string>
     <string name="visibility_direct">प्रत्यक्षम् - केवलमुल्लिखितयोक्तृभ्यः प्रकट्यताम्</string>
     <string name="visibility_private">केवलमनुसर्तृृणाम् :- कृते प्रकट्यताम्</string>
     <string name="visibility_unlisted">अनिर्दिष्टः = सार्वजनिकसमयतालिकायां मा प्रकट्यताम्</string>
     <string name="visibility_public">सार्वजनिकः‍‍‍‍= प्रकट्यतां सार्वजनिकसमयतालिकासु</string>
-    <string name="dialog_mute_hide_notifications">सूचनाः छाद्यन्ताम्</string>
+    <string name="dialog_mute_hide_notifications">ज्ञापनसूचनाः छाद्यन्ताम्</string>
     <string name="dialog_mute_warning">निःशब्दं क्रियताम् @%s\?</string>
     <string name="dialog_block_warning">किल अवरुध्यताम् @%s\?</string>
     <string name="mute_domain_warning_dialog_ok">प्रदेशः छाद्यताम्</string>
     <string name="mute_domain_warning">निश्चियेन सर्वमेव निषिद्धं भवेदेतस्य जनस्य %s \? कोऽपि विषयो न द्रष्टुं शक्यते तत्प्रदेशात् कस्यामपि समयतालिकायामुत वा ते सूचनापेटिकायाम् । भवदनुसर्तारः तस्मात्प्रदेशान्निष्क्रियन्ते ।</string>
     <string name="dialog_redraft_post_warning">विनश्य पुनः लिख्यताम् \?</string>
     <string name="dialog_delete_post_warning">दौत्यमेतन्नश्यताम्\?</string>
-    <string name="dialog_unfollow_warning">अनुसरणं नश्यताम् \?</string>
+    <string name="dialog_unfollow_warning">व्यक्तित्वविवरणलेखायाः अनुसरणम् अपाकरणीयं किम् \?</string>
     <string name="dialog_download_image">अवारोप्यताम्</string>
     <string name="dialog_message_uploading_media">उपारोप्यमाणम्…</string>
     <string name="dialog_title_finishing_media_upload">सामग्रीणामुपारोपणसिद्धिः वर्तमाना</string>
-    <string name="dialog_whats_an_instance">कस्याऽपि विशिष्टस्थलस्य सङ्केतसूत्रमत्र टङ्कयितुं शक्यते mastodon.social, icosahedron.website, social.tchncs.de, तथेैव<a href="https://instances.social">अधिकम्</a> 
+    <string name="dialog_whats_an_instance">कस्याऽपि विशिष्टस्थलस्य सङ्केतसूत्रमत्र टङ्कयितुं शक्यते mastodon.social, icosahedron.website, social.tchncs.de, तथेैव<a href="https://instances.social">अधिकम्</a>
 \n
 \nयदि युष्माकं व्यक्तिगतलेखाऽत्र न वर्तते तर्हि तस्य विशिष्टस्थलस्य नाम टङ्कयित्वा तत्र निर्मातुं शक्नुथ ।
 \n
-\nविशिष्टस्थलमित्युक्ते स्थलमेकं यत्र युष्माकं लेखाः आश्रिताः, किन्तु साफल्येनैवाऽन्यविशिष्टस्थलीयैः सह सम्पर्कयितुं शक्यते । 
+\nविशिष्टस्थलमित्युक्ते स्थलमेकं यत्र युष्माकं लेखाः आश्रिताः, किन्तु साफल्येनैवाऽन्यविशिष्टस्थलीयैः सह सम्पर्कयितुं शक्यते ।
 \n
 \nअधिकमत्र प्राप्यते <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="hint_search_people_list">येषामुसरणं करोषि तेष्वन्विष्यताम्</string>
@@ -206,8 +206,8 @@
     <string name="filter_dialog_whole_word">सर्वः शब्दः</string>
     <string name="filter_dialog_update_button">नवीक्रियताम्</string>
     <string name="filter_dialog_remove_button">नश्यताम्</string>
-    <string name="filter_edit_dialog_title">शोधकं सम्पाद्यताम्</string>
-    <string name="filter_addition_dialog_title">शोधकं युज्यताम्</string>
+    <string name="filter_edit_title">शोधकं सम्पाद्यताम्</string>
+    <string name="filter_addition_title">शोधकं युज्यताम्</string>
     <string name="pref_title_thread_filter_keywords">आलापाः</string>
     <string name="pref_title_public_filter_keywords">सार्वजनिकतालिकाः</string>
     <string name="load_more_placeholder_text">अधिकमारोप्यताम्</string>
@@ -242,7 +242,8 @@
     <string name="about_title_activity">विज्ञप्तिः</string>
     <string name="description_account_locked">कपाटितव्यक्तिविवरणलेखः</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d नवपरस्परक्रियाः</item>
+        <item quantity="one">%d नवपरस्परक्रिया</item>
+        <item quantity="other">%d नवपरस्परक्रिये</item>
     </plurals>
     <string name="notification_summary_small">%1$s च %2$s च</string>
     <string name="notification_summary_medium">%1$s, %2$s, तथैव %3$s</string>
@@ -250,14 +251,14 @@
     <string name="notification_mention_format">%s मित्रेण भवन्नामोल्लिखितम्</string>
     <string name="notification_poll_description">मतदाने समाप्ते सति सूचनाः</string>
     <string name="notification_poll_name">मतदानानि</string>
-    <string name="notification_favourite_description">प्रीतिः इत्यङ्किते सति सूचनाः</string>
+    <string name="notification_favourite_description">प्रीतिः इत्यङ्किते सति ज्ञापनसूचनाः</string>
     <string name="notification_favourite_name">प्रियाः</string>
-    <string name="notification_boost_description">दौत्यप्रकाशने सति सूचनाः</string>
+    <string name="notification_boost_description">दौत्यप्रकाशने सति ज्ञापनसूचनाः</string>
     <string name="notification_boost_name">प्रकाशनानि</string>
-    <string name="notification_follow_request_description">अनुसरणानुरोधान्नधिकृत्य सूचनाः</string>
+    <string name="notification_follow_request_description">अनुसरणानुरोधान्नधिकृत्य ज्ञापनसूचनाः</string>
     <string name="notification_follow_request_name">अनुसरणार्थमनुरोधाः</string>
-    <string name="notification_mention_descriptions">नवोल्लेखान्नधिकृत्य सूचनाः</string>
-    <string name="notification_follow_description">नवानुसर्तृृन्नधिकृत्य सूचनाः</string>
+    <string name="notification_mention_descriptions">नवोल्लेखान्नधिकृत्य ज्ञापनसूचनाः</string>
+    <string name="notification_follow_description">नवानुसर्तृृन्नधिकृत्य ज्ञापनसूचनाः</string>
     <string name="notification_follow_name">नवानुसर्तारः</string>
     <string name="notification_mention_name">नवोल्लेखाः</string>
     <string name="post_text_size_largest">स्थूलतमः</string>
@@ -327,7 +328,6 @@
         <item quantity="other">दृष्ट्यां येषां समस्याऽस्ति तेषांं कृते विवरणम्
 \n(%d परिमिता न्यूनाक्षरसङ्ख्या)</item>
     </plurals>
-    <string name="error_failed_set_caption">शीर्षकवाक्यं लेखितुमशक्यम्</string>
     <string name="compose_active_account_description">%1$s लेखया प्रकटनं क्रियते</string>
     <string name="action_remove_from_list">सूच्याः लेखा नश्यताम्</string>
     <string name="action_add_to_list">सूच्यां लेखा स्थाप्यताम्</string>
@@ -508,8 +508,8 @@
     <string name="action_post_failed_do_nothing">उत्सृज्यताम्</string>
     <string name="action_post_failed_show_drafts">लेखविकर्षान् दर्शयतु</string>
     <string name="description_post_edited">सम्पादनं कृतम्</string>
-    <string name="status_created_info">%1$s निर्मितम् %2$s</string>
-    <string name="status_edit_info">%1$s सम्पादितम् %2$s</string>
+    <string name="status_created_info">%1$s निर्मितम्</string>
+    <string name="status_edit_info">%1$s सम्पादितम्</string>
     <string name="action_subscribe_account">ग्राहकता</string>
     <string name="draft_deleted">प्रारूपं निष्कासितम्</string>
     <string name="report_category_violation">नियम-उल्लङ्घनम्</string>
@@ -546,5 +546,25 @@
     <string name="error_image_edit_failed">चित्रं सम्पादयितुं न शक्यते।</string>
     <string name="error_loading_account_details">व्यक्तित्वलेखस्य विवरणानि दर्शनं विफलं जातम्</string>
     <string name="error_could_not_load_login_page">सम्प्रवेशपुटं दर्शयितुं न शक्यते।</string>
-    <string name="title_migration_relogin">पुनःसम्प्रवेशाय विज्ञापन-सूचनाः</string>
+    <string name="title_migration_relogin">पुनःसम्प्रवेशाय विज्ञापन-ज्ञापनसूचनाः</string>
+    <string name="dialog_follow_hashtag_hint">#निश्रेणिचिह्नशीर्षकः</string>
+    <string name="dialog_follow_hashtag_title">व्यक्तित्वविवरणलेखा अनुसरतु</string>
+    <string name="limit_notifications">कालानुक्रमपङ्क्त्याः सूचनाः परिमिताः कुरुताम्</string>
+    <string name="notification_report_description">परिमितावेदनानि प्रति ज्ञापनसूचनाः</string>
+    <string name="compose_unsaved_changes">भवतः अरक्षितानि परिवर्तनानि सन्ति।</string>
+    <string name="pref_title_notification_filter_reports">नूतनम् आवेदनमस्ति</string>
+    <string name="pref_title_wellbeing_mode">सुस्थितिः</string>
+    <string name="delete_scheduled_post_warning">इदं कालबद्धदौत्यं विनश्येत् किम् \?</string>
+    <string name="drafts_failed_loading_reply">प्रत्युत्तरसमाचारस्य आरोपनं विफलं जातम्</string>
+    <string name="post_media_alt">आल्ट्</string>
+    <string name="pref_title_animate_custom_emojis">स्वीयानुकूलानि भावचिह्नानि सञ्जीव्यताम्</string>
+    <string name="notification_report_format">%s-विषये नूतनम् आवेदनम्</string>
+    <string name="action_share_account_username">लेखायाः उपभोक्तृनाम्नः संविभागं कुरुताम्</string>
+    <string name="action_share_account_link">लेखायै शृङ्खलायाः संविभागं कुरुताम्</string>
+    <string name="action_unfollow_hashtag_format">#%s-चिह्नस्य अनुसरणम् अपाकरणीयं किम् \?</string>
+    <string name="title_followed_hashtags">अनुसृताः निश्रेणिचिह्नशीर्षकाः</string>
+    <string name="title_public_trending_hashtags">जनप्रियाः निश्रेणिचिह्नशीर्षकाः</string>
+    <string name="send_account_username_to">लेखायाः उपभोक्तृनाम्नः संविभागं कुरुताम् अस्मै…</string>
+    <string name="confirmation_hashtag_unfollowed">#%s अनुसरणम् अपाकृतम्</string>
+    <string name="send_account_link_to">लेखायाः निरपेक्ष-सार्वत्रिक-वस्तुसङ्केतस्य संविभागं कुरुताम् अस्मै…</string>
 </resources>

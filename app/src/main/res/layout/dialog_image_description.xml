@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
+
+    <com.ortiz.touchview.TouchImageView
+        android:id="@+id/imageDescriptionView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/post_media_image"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TuskyTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        app:hintEnabled="false"
+        app:counterEnabled="false"
+        app:counterTextColor="?android:textColorTertiary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imageDescriptionText"
+            android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/hint_description"
+            android:gravity="start"
+            android:importantForAutofill="no" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

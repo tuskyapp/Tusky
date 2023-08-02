@@ -51,7 +51,6 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 }
 
 private fun TextView.setClickableTextWithoutUnderlines(@StringRes textId: Int) {
-
     val text = SpannableString(context.getText(textId))
 
     Linkify.addLinks(text, Linkify.WEB_URLS)

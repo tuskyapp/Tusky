@@ -35,7 +35,6 @@ fun showAddPollDialog(
     maxDuration: Int,
     onUpdatePoll: (NewPoll) -> Unit
 ) {
-
     val binding = DialogAddPollBinding.inflate(LayoutInflater.from(context))
 
     val dialog = AlertDialog.Builder(context)
@@ -76,8 +75,10 @@ fun showAddPollDialog(
         }
     }
 
+    val DAY_SECONDS = 60 * 60 * 24
+    val desiredDuration = poll?.expiresIn ?: DAY_SECONDS
     val pollDurationId = durations.indexOfLast {
-        it <= (poll?.expiresIn ?: 0)
+        it <= desiredDuration
     }
 
     binding.pollDurationSpinner.setSelection(pollDurationId)

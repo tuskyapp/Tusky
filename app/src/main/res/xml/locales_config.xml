@@ -20,6 +20,7 @@
     <locale android:name="nl"/>
     <locale android:name="nb-NO"/>
     <locale android:name="oc"/>
+    <locale android:name="or"/>
     <locale android:name="pl"/>
     <locale android:name="pt-BR"/>
     <locale android:name="pt-PT"/>

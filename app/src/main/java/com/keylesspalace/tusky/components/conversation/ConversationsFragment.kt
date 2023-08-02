@@ -17,13 +17,18 @@ package com.keylesspalace.tusky.components.conversation
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,7 +36,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.autoDispose
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
@@ -52,16 +57,23 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class ConversationsFragment : SFragment(), StatusActionListener, Injectable, ReselectableFragment {
+class ConversationsFragment :
+    SFragment(),
+    StatusActionListener,
+    Injectable,
+    ReselectableFragment,
+    MenuProvider {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -82,6 +94,8 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
 
         val statusDisplayOptions = StatusDisplayOptions(
@@ -94,7 +108,10 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
         adapter = ConversationAdapter(statusDisplayOptions, this)
@@ -121,12 +138,7 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-
-                        if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
-                        }
+                        binding.statusView.setup((loadState.refresh as LoadState.Error).error) { refreshContent() }
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()
@@ -171,22 +183,48 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
             }
         }
 
-        lifecycleScope.launchWhenResumed {
-            val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-            while (!useAbsoluteTime) {
-                adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
-                delay(1.toDuration(DurationUnit.MINUTES))
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
+                while (!useAbsoluteTime) {
+                    adapter.notifyItemRangeChanged(
+                        0,
+                        adapter.itemCount,
+                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    )
+                    delay(1.toDuration(DurationUnit.MINUTES))
+                }
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {
                     onPreferenceChanged(event.preferenceKey)
                 }
             }
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_conversations, menu)
+        menu.findItem(R.id.action_refresh)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshContent()
+                true
+            }
+            else -> false
+        }
     }
 
     private fun setupRecyclerView() {
@@ -200,10 +238,12 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         binding.recyclerView.adapter = adapter.withLoadStateFooter(ConversationLoadStateAdapter(adapter::retry))
     }
 
+    private fun refreshContent() {
+        adapter.refresh()
+    }
+
     private fun initSwipeToRefresh() {
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            adapter.refresh()
-        }
+        binding.swipeRefreshLayout.setOnRefreshListener { refreshContent() }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
@@ -309,6 +349,9 @@ class ConversationsFragment : SFragment(), StatusActionListener, Injectable, Res
         adapter.peek(position)?.let { conversation ->
             viewModel.voteInPoll(choices, conversation)
         }
+    }
+
+    override fun clearWarningAction(position: Int) {
     }
 
     override fun onReselect() {

@@ -27,14 +27,16 @@ class FocusIndicatorView
 
     fun setImageSize(width: Int, height: Int) {
         this.imageSize = Point(width, height)
-        if (focus != null)
+        if (focus != null) {
             invalidate()
+        }
     }
 
     fun setFocus(focus: Attachment.Focus) {
         this.focus = focus
-        if (imageSize != null)
+        if (imageSize != null) {
             invalidate()
+        }
     }
 
     // Assumes setFocus called first
@@ -46,8 +48,9 @@ class FocusIndicatorView
     // so base it on the view width/height whenever the first access occurs.
     private fun getCircleRadius(): Float {
         val circleRadius = this.circleRadius
-        if (circleRadius != null)
+        if (circleRadius != null) {
             return circleRadius
+        }
         val newCircleRadius = min(this.width, this.height).toFloat() / 4.0f
         this.circleRadius = newCircleRadius
         return newCircleRadius
@@ -67,8 +70,9 @@ class FocusIndicatorView
 
     @SuppressLint("ClickableViewAccessibility") // Android Studio wants us to implement PerformClick for accessibility, but that unfortunately cannot be made meaningful for this widget.
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.actionMasked == MotionEvent.ACTION_CANCEL)
+        if (event.actionMasked == MotionEvent.ACTION_CANCEL) {
             return false
+        }
 
         val imageSize = this.imageSize ?: return false
 

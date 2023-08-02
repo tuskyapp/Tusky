@@ -26,23 +26,21 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.FiltersActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -73,6 +71,9 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var eventHub: EventHub
 
+    @Inject
+    lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
+
     private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -85,7 +86,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
                 }
                 setOnPreferenceClickListener {
-                    openNotificationPrefs()
+                    openNotificationSystemPrefs()
                     true
                 }
             }
@@ -177,6 +178,15 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
+            preference {
+                setTitle(R.string.pref_title_timeline_filters)
+                setIcon(R.drawable.ic_filter_24dp)
+                setOnPreferenceClickListener {
+                    launchFilterActivity()
+                    true
+                }
+            }
+
             preferenceCategory(R.string.pref_publishing) {
                 listPreference {
                     setTitle(R.string.pref_default_post_privacy)
@@ -184,14 +194,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
                     setSummaryProvider { entry }
-                    val visibility = accountManager.activeAccount?.defaultPostPrivacy
-                        ?: Status.Visibility.PUBLIC
+                    val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.serverString()
                     setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
                         syncWithServer(visibility = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -208,13 +216,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
                     icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
-                    value = accountManager.activeAccount?.defaultPostLanguage ?: ""
+                    value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
                     setSummaryProvider { entry }
 
                     setOnPreferenceChangeListener { _, newValue ->
                         syncWithServer(language = (newValue as String))
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
@@ -224,102 +231,40 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setIcon(R.drawable.ic_eye_24dp)
                     key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
                     isSingleLineTitle = false
-                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity
-                        ?: false
+                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity ?: false
                     setDefaultValue(sensitivity)
                     setIcon(getIconForSensitivity(sensitivity))
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(getIconForSensitivity(newValue as Boolean))
                         syncWithServer(sensitive = newValue)
-                        eventHub.dispatch(PreferenceChangedEvent(key))
                         true
                     }
                 }
             }
 
             preferenceCategory(R.string.pref_title_timelines) {
+                // TODO having no activeAccount in this fragment does not really make sense, enforce it?
+                //   All other locations here make it optional, however.
+
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
                     setTitle(R.string.pref_title_show_media_preview)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.mediaPreviewEnabled ?: true
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.mediaPreviewEnabled = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceDataStore
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
                     setTitle(R.string.pref_title_alway_show_sensitive_media)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysShowSensitiveMedia ?: false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.alwaysShowSensitiveMedia = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceDataStore
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_OPEN_SPOILER
                     setTitle(R.string.pref_title_alway_open_spoiler)
                     isSingleLineTitle = false
-                    isChecked = accountManager.activeAccount?.alwaysOpenSpoiler ?: false
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { it.alwaysOpenSpoiler = newValue as Boolean }
-                        eventHub.dispatch(PreferenceChangedEvent(key))
-                        true
-                    }
-                }
-            }
-
-            preferenceCategory(R.string.pref_title_timeline_filters) {
-                preference {
-                    setTitle(R.string.pref_title_public_filter_keywords)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.PUBLIC,
-                            R.string.pref_title_public_filter_keywords
-                        )
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_notifications)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.NOTIFICATIONS, R.string.title_notifications)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_home)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.HOME, R.string.title_home)
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.pref_title_thread_filter_keywords)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(
-                            Filter.THREAD,
-                            R.string.pref_title_thread_filter_keywords
-                        )
-                        true
-                    }
-                }
-
-                preference {
-                    setTitle(R.string.title_accounts)
-                    setOnPreferenceClickListener {
-                        launchFilterActivity(Filter.ACCOUNT, R.string.title_accounts)
-                        true
-                    }
+                    preferenceDataStore = accountPreferenceDataStore
                 }
             }
         }
@@ -330,7 +275,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         requireActivity().setTitle(R.string.action_view_account_preferences)
     }
 
-    private fun openNotificationPrefs() {
+    private fun openNotificationSystemPrefs() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val intent = Intent()
             intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
@@ -345,25 +290,19 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    private inline fun updateAccount(changer: (AccountEntity) -> Unit) {
-        accountManager.activeAccount?.let { account ->
-            changer(account)
-            accountManager.saveAccount(account)
-        }
-    }
-
     private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null, language: String? = null) {
+        // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issue #3204
+
         mastodonApi.accountUpdateSource(visibility, sensitive, language)
             .enqueue(object : Callback<Account> {
                 override fun onResponse(call: Call<Account>, response: Response<Account>) {
                     val account = response.body()
                     if (response.isSuccessful && account != null) {
-
                         accountManager.activeAccount?.let {
                             it.defaultPostPrivacy = account.source?.privacy
                                 ?: Status.Visibility.PUBLIC
                             it.defaultMediaSensitivity = account.source?.sensitive ?: false
-                            it.defaultPostLanguage = language ?: ""
+                            it.defaultPostLanguage = language.orEmpty()
                             accountManager.saveAccount(it)
                         }
                     } else {
@@ -407,10 +346,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
         }
     }
 
-    private fun launchFilterActivity(filterContext: String, titleResource: Int) {
+    private fun launchFilterActivity() {
         val intent = Intent(context, FiltersActivity::class.java)
-        intent.putExtra(FiltersActivity.FILTERS_CONTEXT, filterContext)
-        intent.putExtra(FiltersActivity.FILTERS_TITLE, getString(titleResource))
         activity?.startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }

@@ -73,7 +73,7 @@ class LocaleUtilsTest {
                         clientId = null,
                         clientSecret = null,
                         isActive = true,
-                        defaultPostLanguage = configuredLanguages[1] ?: "",
+                        defaultPostLanguage = configuredLanguages[1].orEmpty()
                     )
                 )
             }

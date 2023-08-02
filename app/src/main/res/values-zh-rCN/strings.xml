@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">出错了。</string>
-    <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
+    <string name="error_network">网络请求出错，请检查互联网连接并重试。</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
     <string name="error_failed_app_registration">未能通过该实例的身份验证。如果这个问题持续，请从菜单处尝试“在浏览器中登录”。</string>
@@ -62,7 +62,7 @@
     <string name="action_compose">发表嘟文</string>
     <string name="action_login">用 Tusky 登录</string>
     <string name="action_logout">注销</string>
-    <string name="action_logout_confirm">确定要退出账号 %1$s 吗？</string>
+    <string name="action_logout_confirm">你确定要退出登录 %1$s 吗？这会删除账户的所有本地数据，包括草稿和选项。</string>
     <string name="action_follow">关注</string>
     <string name="action_unfollow">取消关注</string>
     <string name="action_block">屏蔽</string>
@@ -266,8 +266,8 @@
     <string name="load_more_placeholder_text">加载更多</string>
     <string name="pref_title_public_filter_keywords">公共时间轴</string>
     <string name="pref_title_thread_filter_keywords">对话</string>
-    <string name="filter_addition_dialog_title">添加新的过滤器</string>
-    <string name="filter_edit_dialog_title">编辑过滤器</string>
+    <string name="filter_addition_title">添加新的过滤器</string>
+    <string name="filter_edit_title">编辑过滤器</string>
     <string name="filter_dialog_remove_button">移除</string>
     <string name="filter_dialog_update_button">更新</string>
     <string name="filter_add_description">需要过滤的文字</string>
@@ -286,10 +286,8 @@
     <string name="action_add_to_list">添加用户到列表</string>
     <string name="action_remove_from_list">从列表中移除用户</string>
     <string name="compose_active_account_description">以 %1$s 身份发布嘟文</string>
-    <string name="error_failed_set_caption">设置图片标题失败</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">为视觉障碍用户提供的描述
-\n（限制 %d 字符）</item>
+        <item quantity="other">为视觉障碍用户描述内容（最多 %d 个字符）</item>
     </plurals>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove">移除</string>
@@ -425,7 +423,7 @@
     <string name="report_remote_instance">转发到 %s</string>
     <string name="failed_report">举报失败</string>
     <string name="failed_fetch_posts">无法获取嘟文</string>
-    <string name="report_description_1">该报告将发送给给您的服务器管理员。您可以在下面提供有关回报此账户的原因的说明：</string>
+    <string name="report_description_1">举报将发送给你所在服务器的管理员。你可以在下面提供举报此账户的相关说明：</string>
     <string name="report_description_remote_instance">该账户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
     <string name="failed_search">搜索失败</string>
@@ -443,7 +441,7 @@
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找嘟文时出错 %s</string>
-    <string name="no_drafts">您没有草稿。</string>
+    <string name="no_drafts">你没有草稿。</string>
     <string name="no_scheduled_posts">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
@@ -488,12 +486,12 @@
     <string name="review_notifications">反馈通知</string>
     <string name="wellbeing_hide_stats_posts">隐藏嘟文的统计信息</string>
     <string name="limit_notifications">限制时间线通知</string>
-    <string name="wellbeing_mode_notice">一些可能影响您精神状态的信息将被隐藏，这些信息包括： 
-\n 
-\n - 喜欢、转发、关注通知 
-\n - 喜欢、转发数 
-\n - 账号的已关注数量、嘟文数量 
-\n 
+    <string name="wellbeing_mode_notice">一些可能影响你精神状态的信息将被隐藏，包括：
+\n
+\n - 喜欢、转发、关注通知
+\n - 嘟文的喜欢、转发数
+\n - 账号的已关注数量、嘟文数量
+\n
 \n 推送通知不会被影响，但可以在通知设置中手动禁用。</string>
     <string name="pref_title_wellbeing_mode">健康模式</string>
     <string name="duration_indefinite">永久</string>
@@ -508,10 +506,10 @@
     <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
     <string name="pref_title_notification_filter_subscriptions">关注的人发布了新嘟文</string>
     <string name="notification_subscription_format">%s 刚刚发送了新嘟文</string>
-    <string name="follow_requests_info">即使您的账号未上锁，管理员 %1$s 认为您可能需要手动处理来自这些账号的关注请求。</string>
+    <string name="follow_requests_info">即使你的账号未上锁，但 %1$s 的管理员认为你可能需要手动处理这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
     <string name="action_delete_conversation">删除对话</string>
-    <string name="pref_title_confirm_favourites">喜欢前显示确认对话框</string>
+    <string name="pref_title_confirm_favourites">收藏前提示确认</string>
     <string name="action_unbookmark">删除书签</string>
     <string name="duration_30_days">30 天</string>
     <string name="duration_60_days">60 天</string>
@@ -549,7 +547,6 @@
     <string name="duration_no_change">(无更改)</string>
     <string name="description_post_language">嘟文语言</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">设置焦点失败</string>
     <string name="action_set_focus">设置焦点</string>
     <string name="set_focus_description">轻按或拖动圆圈选择始终在缩略图中可见的焦点。</string>
     <string name="pref_show_self_username_disambiguate">登录多个账户时</string>
@@ -559,7 +556,7 @@
     <string name="delete_scheduled_post_warning">删除这条定时嘟文吗？</string>
     <string name="instance_rule_info">登录即表示您同意 %s 的规定。</string>
     <string name="instance_rule_title">%s 的规定</string>
-    <string name="compose_save_draft_loses_media">保存草稿？（当您恢复草稿时附件将被再次上传。）</string>
+    <string name="compose_save_draft_loses_media">保存草稿？（恢复草稿时附件将被再次上传）</string>
     <string name="failed_to_pin">固定失败</string>
     <string name="failed_to_unpin">取消固定失败</string>
     <string name="action_add_reaction">添加回应</string>
@@ -594,10 +591,10 @@
     <string name="action_discard">放弃更改</string>
     <string name="action_continue_edit">继续编辑</string>
     <string name="compose_unsaved_changes">你有未保存的更改。</string>
-    <string name="status_created_info">%1$s 创建了 %2$s</string>
+    <string name="status_created_info">%1$s 创建了</string>
     <string name="mute_notifications_switch">将通知静音</string>
     <string name="title_edits">编辑</string>
-    <string name="status_edit_info">%1$s 编辑了 %2$s</string>
+    <string name="status_edit_info">%1$s 编辑了</string>
     <string name="a11y_label_loading_thread">加载帖子</string>
     <string name="action_share_account_link">分享账户链接</string>
     <string name="action_share_account_username">分享账户用户名</string>
@@ -628,4 +625,54 @@
     <string name="total_accounts">总账户</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="dialog_follow_hashtag_title">关注话题标签</string>
+    <string name="action_refresh">刷新</string>
+    <string name="notification_unknown_name">未知</string>
+    <string name="socket_timeout_exception">联系你的服务器花了太长时间</string>
+    <string name="ui_error_unknown">未知原因</string>
+    <string name="ui_error_clear_notifications">未能清除通知：%s</string>
+    <string name="ui_error_bookmark">未能将嘟文将入书签：%s</string>
+    <string name="ui_error_favourite">收藏嘟文失败：%s</string>
+    <string name="ui_error_reblog">转发嘟文失败：%s</string>
+    <string name="ui_error_vote">投票失败：%s</string>
+    <string name="ui_error_accept_follow_request">未能接受关注请求：%s</string>
+    <string name="ui_error_reject_follow_request">未能拒绝关注请求：%s</string>
+    <string name="ui_success_accepted_follow_request">关注请求被接受</string>
+    <string name="ui_success_rejected_follow_request">关注请求被拦截</string>
+    <string name="status_filtered_show_anyway">仍要显示</string>
+    <string name="status_filter_placeholder_label_format">已过滤：%s</string>
+    <string name="pref_title_account_filter_keywords">个人资料</string>
+    <string name="hint_filter_title">我的筛选器</string>
+    <string name="label_filter_title">标题</string>
+    <string name="filter_action_warn">警告</string>
+    <string name="filter_action_hide">隐藏</string>
+    <string name="filter_description_warn">隐藏但显示警告信息</string>
+    <string name="label_filter_action">过滤操作</string>
+    <string name="label_filter_context">筛选器上下文</string>
+    <string name="action_add">添加</string>
+    <string name="filter_keyword_display_format">%s (整词)</string>
+    <string name="filter_keyword_addition_title">添加关键词</string>
+    <string name="filter_edit_keyword_title">编辑关键词</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="filter_description_hide">完全隐藏</string>
+    <string name="label_filter_keywords">关键词或短语过滤</string>
+    <string name="pref_title_show_stat_inline">在时间线中显示嘟文统计数字</string>
+    <string name="help_empty_home">这是你的 <b>主时间线</b>。它展示你所关注账户最近发表的嘟文。
+\n
+\n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
+    <string name="post_media_image">图片</string>
+    <string name="hint_description">描述</string>
+    <string name="select_list_manage">管理列表</string>
+    <string name="error_list_load">加载列表出错</string>
+    <string name="select_list_empty">你还没有列表</string>
+    <string name="load_newest_notifications">加载最新通知</string>
+    <string name="compose_delete_draft">删除草稿？</string>
+    <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。
+\n
+\n这是一个 <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>。</string>
+    <string name="pref_ui_text_size">用户界面文本大小</string>
+    <string name="notification_listenable_worker_description">Tusky 在后台工作时进行提示</string>
+    <string name="notification_notification_worker">获取通知中…</string>
+    <string name="notification_prune_cache">缓存维护…</string>
+    <string name="notification_listenable_worker_name">后台活动</string>
+    <string name="error_media_upload_sending_fmt">上传失败了：%s</string>
 </resources>

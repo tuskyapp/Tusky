@@ -20,6 +20,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
+import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.Status
 
 /**
@@ -84,6 +85,7 @@ data class TimelineStatusEntity(
     val pinned: Boolean,
     val card: String?,
     val language: String?,
+    val filtered: List<FilterResult>?
 ) {
     val isPlaceholder: Boolean
         get() = this.authorServerId == null

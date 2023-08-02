@@ -41,7 +41,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023021501
+const val SCHEMA_VERSION = 2023022701
 
 object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give
@@ -67,6 +67,7 @@ object PrefKeys {
     const val CONFIRM_FAVOURITES = "confirmFavourites"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
     const val ANIMATE_CUSTOM_EMOJIS = "animateCustomEmojis"
+    const val SHOW_STATS_INLINE = "showStatsInline"
 
     const val CUSTOM_TABS = "customTabs"
     const val WELLBEING_LIMITED_NOTIFICATIONS = "wellbeingModeLimitedNotifications"
@@ -100,4 +101,7 @@ object PrefKeys {
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
+
+    /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
+    const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
 }

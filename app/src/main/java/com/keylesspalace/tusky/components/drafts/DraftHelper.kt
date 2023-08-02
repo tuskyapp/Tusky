@@ -66,7 +66,7 @@ class DraftHelper @Inject constructor(
         failedToSendAlert: Boolean,
         scheduledAt: String?,
         language: String?,
-        statusId: String?,
+        statusId: String?
     ) = withContext(Dispatchers.IO) {
         val externalFilesDir = context.getExternalFilesDir("Tusky")
 
@@ -127,7 +127,7 @@ class DraftHelper @Inject constructor(
             failedToSendNew = failedToSendAlert,
             scheduledAt = scheduledAt,
             language = language,
-            statusId = statusId,
+            statusId = statusId
         )
 
         draftDao.insertOrReplace(draft)

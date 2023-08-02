@@ -5,7 +5,6 @@ import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import java.util.ArrayList
 import java.util.Date
 
 private val fixedDate = Date(1638889052000)
@@ -26,6 +25,7 @@ fun mockStatus(
         localUsername = "connyduck",
         username = "connyduck@mastodon.example",
         displayName = "Conny Duck",
+        note = "This is their bio",
         url = "https://mastodon.example/@ConnyDuck",
         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
     ),
@@ -54,6 +54,7 @@ fun mockStatus(
     poll = null,
     card = null,
     language = null,
+    filtered = null
 )
 
 fun mockStatusViewData(
@@ -109,7 +110,7 @@ fun mockStatusEntityWithAccount(
 
 fun mockPlaceholderEntityWithAccount(
     id: String,
-    userId: Long = 1,
+    userId: Long = 1
 ): TimelineStatusWithAccount {
     return TimelineStatusWithAccount(
         status = Placeholder(id, false).toEntity(userId)

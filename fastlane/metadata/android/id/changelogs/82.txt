@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Permintaan ikuti sekarang selalu ditampilkan di menu utama.
+- Pemilih waktu untuk menjadwalkan posting memiliki desain yang konsisten dengan aplikasi lainnya sekarang
+Changelog lengkap: https://github.com/tuskyapp/Tusky/releases

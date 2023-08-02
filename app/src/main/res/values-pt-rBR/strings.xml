@@ -127,12 +127,12 @@
     <string name="label_header">Capa</string>
     <string name="link_whats_an_instance">O que é uma instância?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> 
-\n 
-\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá. 
-\n 
-\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site. 
-\n 
+    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a>
+\n
+\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá.
+\n
+\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site.
+\n
 \n Mais informações podem ser encontradas em <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
@@ -246,7 +246,6 @@
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
     <string name="compose_active_account_description">Postando como %1$s</string>
-    <string name="error_failed_set_caption">Erro ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>
     <string name="action_remove">Remover</string>
     <string name="lock_account_label">Trancar perfil</string>
@@ -311,8 +310,8 @@
     <string name="notification_poll_description">Notificar sobre enquetes que já terminaram</string>
     <string name="pref_title_public_filter_keywords">Linhas públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
-    <string name="filter_addition_dialog_title">Criar filtro</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_addition_title">Criar filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_dialog_remove_button">Excluir</string>
     <string name="filter_dialog_update_button">Atualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
@@ -563,7 +562,7 @@
     <string name="failed_to_unpin">Falha ao desafixar</string>
     <string name="compose_save_draft_loses_media">Salvar rascunho\? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
     <string name="tips_push_notification_migration">Faça login novamente em todas as contas para habilitar o suporte de notificação push.</string>
-    <string name="status_created_info">%1$s publicou em %2$s</string>
+    <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
     <string name="pref_title_notification_filter_reports">há uma nova denúncia</string>
@@ -588,7 +587,7 @@
     <string name="description_login">Funciona na maioria dos casos. Nenhum dado é vazado para outros aplicativos.</string>
     <string name="description_browser_login">Pode oferecer suporte a métodos de autenticação adicionais, mas requer um navegador compatível.</string>
     <string name="failed_to_remove_from_list">Falha ao remover a conta da lista</string>
-    <string name="status_edit_info">%1$s editou em %2$s</string>
+    <string name="status_edit_info">%1$s editou</string>
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Você tem alterações não salvas.</string>
     <string name="description_post_edited">Editado</string>
@@ -603,7 +602,6 @@
     <string name="error_following_hashtags_unsupported">Esta instância não oferece o recurso de seguir hashtags.</string>
     <string name="pref_title_notification_filter_updates">um toot que eu interagi foi editado</string>
     <string name="notification_sign_up_description">Notificações sobre novos usuários</string>
-    <string name="error_failed_set_focus">Falha ao definir o ponto de foco</string>
     <string name="action_set_focus">Definir ponto de foco</string>
     <string name="action_edit_image">Editar imagem</string>
     <string name="pref_title_notification_filter_sign_ups">alguém se inscreveu</string>

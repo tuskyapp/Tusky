@@ -44,6 +44,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_report"
         android:title="@string/action_report" />
 </menu>
