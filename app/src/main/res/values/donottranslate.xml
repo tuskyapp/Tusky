@@ -32,12 +32,14 @@
     <string-array name="pref_font_family_names">
         <item>@string/system_default</item>
         <item>Atkinson Hyperlegible</item>
+        <item>Estedad</item>
         <item>OpenDyslexic</item>
     </string-array>
 
     <string-array name="pref_font_family_values">
         <item>default</item>
         <item>atkinson_hyperlegible</item>
+        <item>estedad</item>
         <item>opendyslexic</item>
     </string-array>
 
