@@ -54,9 +54,7 @@ data class TabData(
         other as TabData
 
         if (id != other.id) return false
-        if (arguments != other.arguments) return false
-
-        return true
+        return arguments == other.arguments
     }
 
     override fun hashCode() = Objects.hash(id, arguments)
