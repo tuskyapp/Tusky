@@ -56,10 +56,6 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.ERROR_OTHER
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.INITIAL
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADED
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADING
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.launch

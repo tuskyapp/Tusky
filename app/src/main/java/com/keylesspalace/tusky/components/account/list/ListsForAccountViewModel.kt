@@ -18,17 +18,13 @@ package com.keylesspalace.tusky.components.account.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
@@ -84,9 +80,9 @@ class ListsForAccountViewModel @Inject constructor(
                     }
                 )
             }
-            .onFailure {
-                _loadError.emit(it)
-            }
+                .onFailure {
+                    _loadError.emit(it)
+                }
         }
     }
 
