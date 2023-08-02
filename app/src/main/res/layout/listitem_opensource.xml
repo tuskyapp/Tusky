@@ -78,9 +78,9 @@
             android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
             android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textIsSelectable="false"
             android:textStyle="bold"
-            android:textIsSelectable="true"
-            app:layout_constraintEnd_toStartOf="@+id/libraryVersion"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -112,13 +112,13 @@
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textIsSelectable="true"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="@id/libraryName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/libraryName"
             tools:text="Version" />
 
         <TextView
             android:id="@+id/libraryLicense"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:maxLines="1"
@@ -128,9 +128,8 @@
             android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textIsSelectable="true"
-            app:layout_constraintEnd_toEndOf="@+id/libraryVersion"
-            app:layout_constraintStart_toEndOf="@+id/libraryCreator"
-            app:layout_constraintTop_toBottomOf="@+id/libraryName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/libraryCreator"
             tools:text="License" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
