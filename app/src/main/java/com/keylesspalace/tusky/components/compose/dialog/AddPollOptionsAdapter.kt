@@ -75,10 +75,6 @@ class AddPollOptionsAdapter(
     }
 
     private fun validateInput(): Boolean {
-        if (options.contains("") || options.distinct().size != options.size) {
-            return false
-        }
-
-        return true
+        return !(options.contains("") || options.distinct().size != options.size)
     }
 }
