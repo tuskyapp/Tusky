@@ -33,6 +33,7 @@
         <item>@string/system_default</item>
         <item>Atkinson Hyperlegible</item>
         <item>Estedad</item>
+        <item>Lexend</item>
         <item>OpenDyslexic</item>
     </string-array>
 
@@ -40,6 +41,7 @@
         <item>default</item>
         <item>atkinson_hyperlegible</item>
         <item>estedad</item>
+        <item>lexend</item>
         <item>opendyslexic</item>
     </string-array>
 

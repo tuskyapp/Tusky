@@ -38,6 +38,10 @@
         <item name="android:fontFamily">@font/estedad</item>
     </style>
 
+    <style name="FontLexend">
+        <item name="android:fontFamily">@font/lexend</item>
+    </style>
+
     <style name="FontOpenDyslexic">
         <item name="android:fontFamily">@font/opendyslexic</item>
     </style>
