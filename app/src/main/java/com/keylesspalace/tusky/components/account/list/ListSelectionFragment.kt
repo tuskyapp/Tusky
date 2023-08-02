@@ -67,7 +67,7 @@ class ListSelectionFragment : DialogFragment(), Injectable {
 
     private val adapter = Adapter()
 
-    private var selectListener: ListSelectionListener? =  null
+    private var selectListener: ListSelectionListener? = null
     private var accountId: String? = null
 
     override fun onAttach(context: Context) {
