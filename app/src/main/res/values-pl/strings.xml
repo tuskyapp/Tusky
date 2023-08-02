@@ -229,7 +229,6 @@
     <string name="action_lists">Listy</string>
     <string name="title_lists">Listy</string>
     <string name="compose_active_account_description">Publikowanie jako %1$s</string>
-    <string name="error_failed_set_caption">Nie udało się ustawić podpisu</string>
     <string name="action_set_caption">Ustaw podpis</string>
     <string name="action_remove">Usuń</string>
     <string name="lock_account_label">Zablokuj konto</string>
@@ -318,8 +317,8 @@
     <string name="pref_title_alway_open_spoiler">Zawsze rozwijaj wpisy z ostrzeżeniami o zawartości</string>
     <string name="pref_title_public_filter_keywords">Publiczne osi czasu</string>
     <string name="pref_title_thread_filter_keywords">Konwersacje</string>
-    <string name="filter_addition_dialog_title">Dodaj filtr</string>
-    <string name="filter_edit_dialog_title">Edytuj filtr</string>
+    <string name="filter_addition_title">Dodaj filtr</string>
+    <string name="filter_edit_title">Edytuj filtr</string>
     <string name="filter_dialog_remove_button">Usuń</string>
     <string name="filter_dialog_update_button">Aktualizuj</string>
     <string name="filter_dialog_whole_word">Całe słowo</string>
@@ -336,13 +335,13 @@
     <string name="action_add_to_list">Dodaj konto do listy</string>
     <string name="action_remove_from_list">Usuń konto z listy</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Wprowadź opis dla niewidomych i niedowidzących 
+        <item quantity="one">Wprowadź opis dla niewidomych i niedowidzących
 \n(maksymalna długość: %d)</item>
-        <item quantity="few">Wprowadź opis dla niewidomych i niedowidzących 
+        <item quantity="few">Wprowadź opis dla niewidomych i niedowidzących
 \n(maksymalna długość: %d)</item>
-        <item quantity="many">Wprowadź opis dla niewidomych i niedowidzących 
+        <item quantity="many">Wprowadź opis dla niewidomych i niedowidzących
 \n(maksymalna długość: %d)</item>
-        <item quantity="other">Wprowadź opis dla niewidomych i niedowidzących 
+        <item quantity="other">Wprowadź opis dla niewidomych i niedowidzących
 \n(maksymalna długość: %d)</item>
     </plurals>
     <string name="caption_notoemoji">Aktualny zestaw emoji Google</string>
@@ -587,7 +586,6 @@
     <string name="pref_show_self_username_always">Zawsze</string>
     <string name="pref_show_self_username_disambiguate">Gdy wiele kont jest zalogowanych</string>
     <string name="status_created_at_now">teraz</string>
-    <string name="error_failed_set_focus">Nie udało się ustawić punktu centralnego</string>
     <string name="action_add_reaction">dodaj reakcję</string>
     <string name="notification_header_report_format">%s zgłosił/a %s</string>
     <string name="confirmation_hashtag_unfollowed">Odobserwowano #%s</string>
@@ -604,8 +602,8 @@
     <string name="pref_reading_order_newest_first">Najpierw najnowsze</string>
     <string name="no_lists">Nie masz żadnych list.</string>
     <string name="mute_notifications_switch">Wycisz powiadomienia</string>
-    <string name="status_edit_info">%1$s edytował %2$s</string>
-    <string name="status_created_info">%1$s stworzył %2$s</string>
+    <string name="status_edit_info">%1$s edytował</string>
+    <string name="status_created_info">%1$s stworzył</string>
     <string name="title_edits">Edycje</string>
     <string name="compose_unsaved_changes">Masz niezapisane zmiany.</string>
     <string name="instance_rule_title">%s regulamin</string>

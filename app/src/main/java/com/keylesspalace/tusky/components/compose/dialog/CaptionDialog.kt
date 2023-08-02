@@ -21,79 +21,60 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.github.chrisbanes.photoview.PhotoView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.DialogImageDescriptionBinding
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
 
 class CaptionDialog : DialogFragment() {
-
     private lateinit var listener: Listener
     private lateinit var input: EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = requireContext()
-        val dialogLayout = LinearLayout(context)
-        val padding = Utils.dpToPx(context, 8)
-        dialogLayout.setPadding(padding, padding, padding, padding)
 
-        dialogLayout.orientation = LinearLayout.VERTICAL
-        val imageView = PhotoView(context).apply {
-            maximumScale = 6f
-        }
+        val binding = DialogImageDescriptionBinding.inflate(layoutInflater)
 
-        val margin = Utils.dpToPx(context, 4)
-        dialogLayout.addView(imageView)
-        (imageView.layoutParams as LinearLayout.LayoutParams).weight = 1f
-        imageView.layoutParams.height = 0
-        (imageView.layoutParams as LinearLayout.LayoutParams).setMargins(0, margin, 0, 0)
+        input = binding.imageDescriptionText
+        val imageView = binding.imageDescriptionView
+        imageView.maxZoom = 6f
 
-        input = EditText(context)
         input.hint = resources.getQuantityString(
             R.plurals.hint_describe_for_visually_impaired,
-            MEDIA_DESCRIPTION_CHARACTER_LIMIT, MEDIA_DESCRIPTION_CHARACTER_LIMIT
+            MEDIA_DESCRIPTION_CHARACTER_LIMIT,
+            MEDIA_DESCRIPTION_CHARACTER_LIMIT
         )
-        dialogLayout.addView(input)
-        (input.layoutParams as LinearLayout.LayoutParams).setMargins(margin, margin, margin, margin)
-        input.setLines(2)
-        input.inputType = (
-            InputType.TYPE_CLASS_TEXT
-                or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-            )
         input.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
         input.setText(arguments?.getString(EXISTING_DESCRIPTION_ARG))
 
         val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
         val dialog = AlertDialog.Builder(context)
-            .setView(dialogLayout)
+            .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 listener.onUpdateDescription(localId, input.text.toString())
             }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
 
-        isCancelable = false
+        isCancelable = true
         val window = dialog.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        val previewUri = arguments?.getParcelable<Uri>(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
+        val previewUri = BundleCompat.getParcelable(requireArguments(), PREVIEW_URI_ARG, Uri::class.java) ?: error("Preview Uri is null")
         // Load the image and manually set it into the ImageView because it doesn't have a fixed size.
         Glide.with(this)
             .load(previewUri)
@@ -105,7 +86,7 @@ class CaptionDialog : DialogFragment() {
 
                 override fun onResourceReady(
                     resource: Drawable,
-                    transition: Transition<in Drawable>?,
+                    transition: Transition<in Drawable>?
                 ) {
                     imageView.setImageDrawable(resource)
                 }
@@ -122,7 +103,7 @@ class CaptionDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View? {
         savedInstanceState?.getString(DESCRIPTION_KEY)?.let {
             input.setText(it)
@@ -143,12 +124,12 @@ class CaptionDialog : DialogFragment() {
         fun newInstance(
             localId: Int,
             existingDescription: String?,
-            previewUri: Uri,
+            previewUri: Uri
         ) = CaptionDialog().apply {
             arguments = bundleOf(
                 LOCAL_ID_ARG to localId,
                 EXISTING_DESCRIPTION_ARG to existingDescription,
-                PREVIEW_URI_ARG to previewUri,
+                PREVIEW_URI_ARG to previewUri
             )
         }
 

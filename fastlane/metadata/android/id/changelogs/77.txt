@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- Dukungan untuk catatan profil (fitur Mastodon 3.2.0)
+- Dukungan untuk pengumuman admin (fitur Mastodon 3.1.0)
+
+- Avatar akun yang dipilih sekarang akan ditampilkan di toolbar utama
+- Mengklik nama tampilan dalam timeline sekarang akan membuka halaman profil pengguna tersebut
+
+- Banyak perbaikan bug dan perbaikan kecil
+- Terjemahan yang ditingkatkan

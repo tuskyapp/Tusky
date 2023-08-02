@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Funktioner inklusive:
+
+- Se trendiga hashtaggar
+- Redigera bildbeskrivningar och fokuspunkt
+- "Uppdatera"-menyn för tillgänglighet
+- Stöd Mastodon v4-filter
+- Visa detaljerade skillnader när ett inlägg redigeras
+- Möjlighet att visa inläggsstatistik i tidslinjen
+
+Fixar inkluderar:
+
+- Visa spelarkontroller under ljuduppspelning
+- Korrekt beräkning av stolplängd
+- Publicera alltid bildtexter
+
+och mycket mer

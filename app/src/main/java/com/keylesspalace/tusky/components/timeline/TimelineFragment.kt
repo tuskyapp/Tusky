@@ -18,10 +18,14 @@ package com.keylesspalace.tusky.components.timeline
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -34,12 +38,14 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
+import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
@@ -61,14 +67,18 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -78,7 +88,8 @@ class TimelineFragment :
     StatusActionListener,
     Injectable,
     ReselectableFragment,
-    RefreshableFragment {
+    RefreshableFragment,
+    MenuProvider {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -86,7 +97,7 @@ class TimelineFragment :
     @Inject
     lateinit var eventHub: EventHub
 
-    private val viewModel: TimelineViewModel by lazy {
+    private val viewModel: TimelineViewModel by unsafeLazy {
         if (kind == TimelineViewModel.Kind.HOME) {
             ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
         } else {
@@ -158,7 +169,7 @@ class TimelineFragment :
         viewModel.init(
             kind,
             id,
-            tags,
+            tags
         )
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
@@ -176,11 +187,18 @@ class TimelineFragment :
                     PrefKeys.SHOW_CARDS_IN_TIMELINES,
                     false
                 )
-            ) CardViewMode.INDENTED else CardViewMode.NONE,
+            ) {
+                CardViewMode.INDENTED
+            } else {
+                CardViewMode.NONE
+            },
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
         adapter = TimelinePagingAdapter(
             statusDisplayOptions,
@@ -197,6 +215,8 @@ class TimelineFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         setupSwipeRefreshLayout()
         setupRecyclerView()
 
@@ -213,17 +233,15 @@ class TimelineFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                            if (kind == TimelineViewModel.Kind.HOME) {
+                                binding.statusView.showHelp(R.string.help_empty_home)
+                            }
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-
-                        if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
-                        }
+                        binding.statusView.setup((loadState.refresh as LoadState.Error).error) { onRefresh() }
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()
@@ -239,7 +257,9 @@ class TimelineFragment :
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
                                 binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                            } else binding.recyclerView.scrollToPosition(0)
+                            } else {
+                                binding.recyclerView.scrollToPosition(0)
+                            }
                         }
                     }
                 }
@@ -276,10 +296,8 @@ class TimelineFragment :
             })
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 when (event) {
                     is PreferenceChangedEvent -> {
                         onPreferenceChanged(event.preferenceKey)
@@ -288,8 +306,41 @@ class TimelineFragment :
                         val status = event.status
                         handleStatusComposeEvent(status)
                     }
+                    is StatusEditedEvent -> {
+                        handleStatusComposeEvent(event.status)
+                    }
                 }
             }
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        if (isSwipeToRefreshEnabled) {
+            menuInflater.inflate(R.menu.fragment_timeline, menu)
+            menu.findItem(R.id.action_refresh)?.apply {
+                icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                    sizeDp = 20
+                    colorInt =
+                        MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+                }
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                if (isSwipeToRefreshEnabled) {
+                    binding.swipeRefreshLayout.isRefreshing = true
+
+                    refreshContent()
+                    true
+                } else {
+                    false
+                }
+            }
+            else -> false
+        }
     }
 
     /**
@@ -376,6 +427,11 @@ class TimelineFragment :
         viewModel.voteInPoll(choices, status)
     }
 
+    override fun clearWarningAction(position: Int) {
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.clearWarning(status)
+    }
+
     override fun onMore(view: View, position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
         super.more(status.status, view, position)
@@ -411,7 +467,7 @@ class TimelineFragment :
     override fun onLoadMore(position: Int) {
         val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
-        statusIdBelowLoadMore = adapter.peek(position + 1)?.id
+        statusIdBelowLoadMore = if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
         viewModel.loadMore(placeholder.id)
     }
 
@@ -510,6 +566,17 @@ class TimelineFragment :
     }
 
     private var talkBackWasEnabled = false
+
+    override fun onPause() {
+        super.onPause()
+        (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()?.let { position ->
+            if (position != RecyclerView.NO_POSITION) {
+                adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                    viewModel.saveReadingPosition(statusId)
+                }
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()

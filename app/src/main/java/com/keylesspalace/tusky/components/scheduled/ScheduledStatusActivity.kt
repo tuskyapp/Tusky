@@ -18,13 +18,17 @@ package com.keylesspalace.tusky.components.scheduled
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import autodispose2.androidx.lifecycle.autoDispose
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -36,12 +40,20 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.keylesspalace.tusky.util.viewBinding
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, Injectable {
+class ScheduledStatusActivity :
+    BaseActivity(),
+    ScheduledStatusActionListener,
+    MenuProvider,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -51,13 +63,15 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
 
     private val viewModel: ScheduledStatusViewModel by viewModels { viewModelFactory }
 
+    private val binding by viewBinding(ActivityScheduledStatusBinding::inflate)
+
     private val adapter = ScheduledStatusAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityScheduledStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        addMenuProvider(this)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
@@ -84,10 +98,10 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Error) {
                 binding.progressBar.hide()
-                binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    refreshStatuses()
-                }
                 binding.errorMessageView.show()
+
+                val errorState = loadState.refresh as LoadState.Error
+                binding.errorMessageView.setup(errorState.error) { refreshStatuses() }
             }
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -103,14 +117,34 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this)
-            .subscribe { event ->
+        lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 if (event is StatusScheduledEvent) {
                     adapter.refresh()
                 }
             }
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.activity_announcements, menu)
+        menu.findItem(R.id.action_search)?.apply {
+            icon = IconicsDrawable(this@ScheduledStatusActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.includedToolbar.toolbar, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshStatuses()
+                true
+            }
+            else -> false
+        }
     }
 
     private fun refreshStatuses() {

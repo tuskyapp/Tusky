@@ -38,7 +38,10 @@ class StatusesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusViewHolder {
         val binding = ItemReportStatusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StatusViewHolder(
-            binding, statusDisplayOptions, statusViewState, adapterHandler,
+            binding,
+            statusDisplayOptions,
+            statusViewState,
+            adapterHandler,
             statusForPosition
         )
     }

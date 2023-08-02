@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Soporte para edición de publicacións
+- Novo axuste para controlar a dirección de lectura
+- Vistas previas de maior tamaño e indicador de descrición da imaxe
+- Agora podes engadir contas ás listas desde o seu perfil
+e moito máis

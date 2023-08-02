@@ -278,8 +278,8 @@
     <string name="replying_to">Ag freagairt do @%s</string>
     <string name="load_more_placeholder_text">Lódáil a thuilleadh</string>
     <string name="pref_title_thread_filter_keywords">Comhráite</string>
-    <string name="filter_addition_dialog_title">Cuir scagaire leis</string>
-    <string name="filter_edit_dialog_title">Cuir scagaire in eagar</string>
+    <string name="filter_addition_title">Cuir scagaire leis</string>
+    <string name="filter_edit_title">Cuir scagaire in eagar</string>
     <string name="filter_dialog_remove_button">Bain</string>
     <string name="pref_title_public_filter_keywords">Amlínte poiblí</string>
     <string name="expand_collapse_all_posts">Leathnaigh/Fill na postálacha go léir</string>
@@ -316,7 +316,6 @@
     <string name="action_add_to_list">Cuir cuntas leis an liosta</string>
     <string name="action_remove_from_list">Bain cuntas ón liosta</string>
     <string name="compose_active_account_description">Postáil le cuntas %1$s</string>
-    <string name="error_failed_set_caption">Theip ar an bhfotheideal a shocrú</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Déan cur síos ar dhaoine lagamhairc
 \n(teorainn carachtar %d)</item>

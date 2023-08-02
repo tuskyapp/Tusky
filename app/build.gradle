@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.aboutlibraries)
 }
 
-final def gitSha = providers.exec {
-    commandLine('git', 'rev-parse', '--short=7', 'HEAD')
-}.standardOutput.asText.get().trim()
+apply from: 'getGitSha.gradle'
+
+final def gitSha = ext.getGitSha()
 
 // The app name
 final def APP_NAME = "Tusky"
@@ -29,8 +30,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdk 23
         targetSdk 33
-        versionCode 100
-        versionName "21.0"
+        versionCode 113
+        versionName "23.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -46,7 +47,6 @@ android {
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
         }
-        debug {}
     }
 
     flavorDimensions += "color"
@@ -60,8 +60,12 @@ android {
     }
 
     lint {
-        disable 'MissingTranslation'
+        lintConfig file("lint.xml")
+        // Regenerate by deleting app/lint-baseline.xml, then run:
+        //   ./gradlew lintBlueDebug
+        baseline = file("lint-baseline.xml")
     }
+
     buildFeatures {
         buildConfig true
         resValues true
@@ -74,6 +78,7 @@ android {
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
+            systemProperty 'robolectric.lazyload', 'ON'
         }
     }
     sourceSets {
@@ -96,12 +101,11 @@ android {
         includeInApk false
         includeInBundle false
     }
+    // Can remove this once https://issuetracker.google.com/issues/260059413 is fixed.
+    // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
@@ -111,11 +115,16 @@ android {
     }
 }
 
-kapt {
-    arguments {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", "true")
-    }
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+}
+
+configurations {
+    // JNI-only libraries don't play nicely with Robolectric
+    // see https://github.com/tuskyapp/Tusky/pull/3367
+    testImplementation.exclude group: "org.conscrypt", module: "conscrypt-android"
+    testRuntime.exclude group: "org.conscrypt", module: "conscrypt-android"
 }
 
 aboutLibraries {
@@ -129,7 +138,7 @@ dependencies {
 
     implementation libs.bundles.androidx
     implementation libs.bundles.room
-    kapt libs.androidx.room.compiler
+    ksp libs.androidx.room.compiler
 
     implementation libs.android.material
 
@@ -143,7 +152,7 @@ dependencies {
     implementation libs.conscrypt.android
 
     implementation libs.bundles.glide
-    kapt libs.glide.compiler
+    ksp libs.glide.compiler
 
     implementation libs.bundles.rxjava3
 
@@ -154,7 +163,7 @@ dependencies {
 
     implementation libs.sparkbutton
 
-    implementation libs.photoview
+    implementation libs.touchimageview
 
     implementation libs.bundles.material.drawer
     implementation libs.material.typeface
@@ -166,6 +175,8 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
+    implementation libs.bundles.xmldiff
+    
     implementation libs.bundles.aboutlibraries
 
     testImplementation libs.androidx.test.junit
@@ -175,8 +186,27 @@ dependencies {
     testImplementation libs.androidx.core.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
+    testImplementation libs.truth
+    testImplementation libs.turbine
 
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
+}
+
+// Work around warnings of:
+// WARNING: Illegal reflective access by org.jetbrains.kotlin.kapt3.util.ModuleManipulationUtilsKt (file:/C:/Users/Andi/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.8.22/28dab7e0ee9ce62c03bf97de3543c911dc653700/kotlin-annotation-processing-gradle-1.8.22.jar) to constructor com.sun.tools.javac.util.Context()
+// See https://youtrack.jetbrains.com/issue/KT-30589/Kapt-An-illegal-reflective-access-operation-has-occurred
+tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask) {
+    kaptProcessJvmArgs.addAll([
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"])
 }

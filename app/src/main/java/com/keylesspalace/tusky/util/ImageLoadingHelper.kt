@@ -14,7 +14,6 @@ import com.keylesspalace.tusky.R
 private val centerCropTransformation = CenterCrop()
 
 fun loadAvatar(url: String?, imageView: ImageView, @Px radius: Int, animate: Boolean) {
-
     if (url.isNullOrBlank()) {
         Glide.with(imageView)
             .load(R.drawable.avatar_default)

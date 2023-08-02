@@ -1,12 +1,35 @@
 package com.keylesspalace.tusky.util
 
+import org.junit.AfterClass
 import org.junit.Assert.assertEquals
+import org.junit.BeforeClass
 import org.junit.Test
 import java.time.Instant
-import java.util.Date
-import java.util.TimeZone
+import java.util.*
 
 class AbsoluteTimeFormatterTest {
+    companion object {
+        /** Default locale before this test started */
+        private lateinit var locale: Locale
+
+        /**
+         * Ensure the Locale is ENGLISH so that tests against literal strings like
+         * "Apr" later, even if the test host's locale is e.g. FRENCH which would
+         * normally report "avr.".
+         */
+        @BeforeClass
+        @JvmStatic
+        fun beforeClass() {
+            locale = Locale.getDefault()
+            Locale.setDefault(Locale.ENGLISH)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            Locale.setDefault(locale)
+        }
+    }
 
     private val formatter = AbsoluteTimeFormatter(TimeZone.getTimeZone("UTC"))
     private val now = Date.from(Instant.parse("2022-04-11T00:00:00.00Z"))

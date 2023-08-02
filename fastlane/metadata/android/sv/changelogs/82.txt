@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Följ förfrågningar visas nu alltid i huvudmenyn.
+– Tidsväljaren för att schemalägga ett inlägg har en design som överensstämmer med resten av appen nu
+Fullständig ändringslogg: https://github.com/tuskyapp/Tusky/releases

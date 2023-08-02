@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- Anda sekarang dapat bookmark status & daftar bookmark Anda di Tusky.
+- Anda sekarang dapat menjadwalkan toot dengan Tusky. Perhatikan bahwa waktu yang Anda pilih harus setidaknya 5 menit di masa mendatang.
+- Anda sekarang dapat menambahkan daftar ke layar utama.
+- Anda sekarang dapat memposting lampiran audio dengan Tusky.
+
+Dan banyak perbaikan kecil dan perbaikan bug lainnya!

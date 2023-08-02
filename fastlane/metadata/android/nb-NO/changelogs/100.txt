@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Støtte for postendringer 
+- Ny innstilling for å styre ønsket leseretning 
+- Større mediaforhåndsvisninger og et nytt overlegg for å indikere media med beskrivelse 
+- Det er nå mulig å legge til kontoer til lister ifra dere profil
+og mye mer

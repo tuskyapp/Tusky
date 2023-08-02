@@ -3,14 +3,14 @@
     <string name="error_empty">Kolom ini tidak boleh kosong.</string>
     <string name="error_invalid_domain">Domain yang dimasukkan tidak valid</string>
     <string name="error_no_web_browser_found">Tidak dapat menemukan browser untuk digunakan.</string>
-    <string name="error_authorization_unknown">Terjadi kesalahan otorisasi yang tidak diketahui.</string>
-    <string name="error_authorization_denied">Otorisasi ditolak.</string>
-    <string name="error_retrieving_oauth_token">Gagal mendapatkan token masuk.</string>
+    <string name="error_authorization_unknown">"Terjadi kesalahan otorisasi yang tidak diketahui. Jika ini  berlanjut, coba Masuk di Browser dari menu."</string>
+    <string name="error_authorization_denied">Otorisasi ditolak. Jika Anda yakin telah memberikan kredensial yang benar, coba Masuk di Browser dari menu.</string>
+    <string name="error_retrieving_oauth_token">Gagal mendapatkan token masuk. Jika ini terus berlanjut, coba Masuk di Browser dari menu.</string>
     <string name="title_login">Masuk</string>
     <string name="title_home">Beranda</string>
     <string name="title_notifications">Notifikasi</string>
     <string name="title_public_local">Lokal</string>
-    <string name="title_direct_messages">Pesan Langsung</string>
+    <string name="title_direct_messages">Pesan langsung</string>
     <string name="error_multimedia_size_limit">Berkas video dan audio tidak boleh melebihi %s MB.</string>
     <string name="error_image_edit_failed">Gambar tidak dapat diubah.</string>
     <string name="error_media_upload_type">Jenis berkas tersebut tidak dapat diunggah.</string>
@@ -164,7 +164,7 @@
     <string name="add_account_name">Tambah Akun</string>
     <string name="error_create_list">Tidak dapat membuat daftar</string>
     <string name="later">Nanti</string>
-    <string name="error_failed_app_registration">Autentikasi gagal dilakukan.</string>
+    <string name="error_failed_app_registration">Gagal mengautentikasi dengan instance tersebut. Jika ini berlanjut, coba Masuk di Browser dari menu.</string>
     <string name="tusky_compose_post_quicksetting_label">Tulis Postingan</string>
     <string name="error_media_upload_image_or_video">Gambar dan video tidak dapat disematkan ke dalam post yang sama.</string>
     <string name="title_public_federated">Federasi</string>
@@ -246,4 +246,9 @@
     <string name="pref_title_notification_filter_poll">pemilihan telah berakhir</string>
     <string name="pref_title_notification_filter_subscriptions">seseorang yang saya langganani menerbitkan sebuah post baru</string>
     <string name="pref_title_notification_filter_sign_ups">seseorang mendaftar</string>
+    <string name="error_following_hashtags_unsupported">Instance ini tidak mendukung hashtag berikut.</string>
+    <string name="error_muting_hashtag_format">Kesalahan menonaktifkan #%s</string>
+    <string name="error_unmuting_hashtag_format">Kesalahan mengaktifkan #%s</string>
+    <string name="error_status_source_load">Gagal memuat sumber status dari server.</string>
+    <string name="title_public_trending_hashtags">Hashtag yang sedang tren</string>
 </resources>

@@ -1,7 +1,24 @@
+<!--
+  ~ Copyright 2023 Tusky Contributors
+  ~
+  ~ This file is a part of Tusky.
+  ~
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the
+  ~ GNU General Public License as published by the Free Software Foundation; either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+  ~ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+  ~ Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Tusky; if not,
+  ~ see <http://www.gnu.org/licenses>.
+  -->
+
 <resources>
 
     <string name="error_generic">An error occurred.</string>
-    <string name="error_network">A network error occurred! Please check your connection and try again!</string>
+    <string name="error_network">A network error occurred. Please check your connection and try again.</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance. If this persists, try "Login in Browser" from the menu.</string>
@@ -21,6 +38,7 @@
     <string name="error_media_download_permission">Permission to store media is required.</string>
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same post.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
+    <string name="error_media_upload_sending_fmt">The upload failed: %s</string>
     <string name="error_sender_account_gone">Error sending post.</string>
     <string name="error_following_hashtag_format">Error following #%s</string>
     <string name="error_unfollowing_hashtag_format">Error unfollowing #%s</string>
@@ -33,6 +51,7 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
+    <string name="title_public_trending_hashtags">Trending hashtags</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_direct_messages">Direct messages</string>
     <string name="title_tab_preferences">Tabs</string>
@@ -56,6 +75,9 @@
     <string name="title_licenses">Licenses</string>
     <string name="title_followed_hashtags">Followed hashtags</string>
     <string name="title_edits">Edits</string>
+
+    <string name="dialog_follow_hashtag_title">Follow hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
 
     <string name="post_username_format">\@%s</string>
     <string name="post_boosted_format">%s boosted</string>
@@ -99,7 +121,7 @@
     <string name="action_login">Login with Tusky</string>
     <string name="action_browser_login">Login with Browser</string>
     <string name="action_logout">Log out</string>
-    <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
+    <string name="action_logout_confirm">Are you sure you want to log out of %1$s? This will delete all local data of the account, including drafts and preferences.</string>
     <string name="action_post_failed">Upload failed</string>
     <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.\n\nEither the server could not be contacted, or it rejected the post.</string>
     <string name="action_post_failed_detail_plural">Your posts failed to upload and have been saved to drafts.\n\nEither the server could not be contacted, or it rejected the posts.</string>
@@ -209,6 +231,7 @@
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
     <string name="hint_search">Search…</string>
+    <string name="hint_description">Description</string>
     <string name="hint_media_description_missing">Media should have a description.</string>
 
     <string name="search_no_results">No results</string>
@@ -316,6 +339,7 @@
     <string name="post_privacy_unlisted">Unlisted</string>
     <string name="post_privacy_followers_only">Followers-only</string>
 
+    <string name="pref_ui_text_size">UI text size</string>
     <string name="pref_post_text_size">Post text size</string>
 
     <string name="post_text_size_smallest">Smallest</string>
@@ -348,6 +372,9 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
+    <string name="notification_listenable_worker_name">Background activity</string>
+    <string name="notification_listenable_worker_description">Notifications when Tusky is working in the background</string>
+    <string name="notification_unknown_name">Unknown</string>
 
     <string name="notification_mention_format">%s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -357,6 +384,8 @@
         <item quantity="one">%d new interaction</item>
         <item quantity="other">%d new interactions</item>
     </plurals>
+    <string name="notification_notification_worker">Fetching notifications…</string>
+    <string name="notification_prune_cache">Cache maintenance…</string>
 
     <string name="description_account_locked">Locked Account</string>
 
@@ -384,12 +413,15 @@
 
     <string name="post_share_content">Share content of post</string>
     <string name="post_share_link">Share link to post</string>
+    <string name="post_media_image">Image</string>
     <string name="post_media_images">Images</string>
     <string name="post_media_video">Video</string>
     <string name="post_media_audio">Audio</string>
     <string name="post_media_attachments">Attachments</string>
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">now</string>
+    <string name="status_filtered_show_anyway">Show anyway</string>
+    <string name="status_filter_placeholder_label_format">Filtered: %s</string>
 
     <string name="state_follow_requested">Follow requested</string>
 
@@ -414,8 +446,9 @@
 
     <string name="pref_title_public_filter_keywords">Public timelines</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Add filter</string>
-    <string name="filter_edit_dialog_title">Edit filter</string>
+    <string name="pref_title_account_filter_keywords">Profiles</string>
+    <string name="filter_addition_title">Add filter</string>
+    <string name="filter_edit_title">Edit filter</string>
     <string name="filter_dialog_remove_button">Remove</string>
     <string name="filter_dialog_update_button">Update</string>
     <string name="filter_dialog_whole_word">Whole word</string>
@@ -444,10 +477,8 @@
 
     <string name="compose_active_account_description">Posting as %1$s</string>
 
-    <string name="error_failed_set_caption">Failed to set caption</string>
-    <string name="error_failed_set_focus">Failed to set focus point</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Describe for visually impaired\n(%d character limit)</item>
+        <item quantity="other">Describe contents for visually impaired (%d character limit)</item>
     </plurals>
     <string name="set_focus_description">Tap or drag the circle to choose the focal point which will always be visible in thumbnails.</string>
     <string name="action_set_caption">Set caption</string>
@@ -456,6 +487,7 @@
     <string name="action_remove">Remove</string>
     <string name="lock_account_label">Lock account</string>
     <string name="lock_account_label_description">Requires you to manually approve followers</string>
+    <string name="compose_delete_draft">Delete draft?</string>
     <string name="compose_save_draft">Save draft?</string>
     <string name="compose_save_draft_loses_media">Save draft? (Attachments will be uploaded again when you restore the draft.)</string>
     <string name="compose_unsaved_changes">You have unsaved changes.</string>
@@ -576,6 +608,9 @@
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
+    <string name="select_list_empty">You have no lists, yet</string>
+    <string name="select_list_manage">Manage lists</string>
+    <string name="error_list_load">Error loading lists</string>
     <string name="list">List</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>
@@ -639,6 +674,7 @@
 
     <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
+    <string name="pref_title_show_stat_inline">Show post statistics in timeline</string>
 
 
     <string name="create_poll_title">Poll</string>
@@ -671,8 +707,8 @@
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
-    <string name="pref_title_confirm_reblogs">Show confirmation dialog before boosting</string>
-    <string name="pref_title_confirm_favourites">Show confirmation dialog before favoriting</string>
+    <string name="pref_title_confirm_reblogs">Show confirmation before boosting</string>
+    <string name="pref_title_confirm_favourites">Show confirmation before favoriting</string>
     <string name="pref_title_hide_top_toolbar">Hide the title of the top toolbar</string>
     <string name="pref_title_wellbeing_mode">Wellbeing</string>
     <string name="account_note_hint">Your private note about this account</string>
@@ -726,6 +762,7 @@
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
+    <string name="action_refresh">Refresh</string>
     <string name="mute_notifications_switch">Mute notifications</string>
 
     <!-- Reading order preference -->
@@ -733,10 +770,51 @@
     <string name="pref_reading_order_oldest_first">Oldest first</string>
     <string name="pref_reading_order_newest_first">Newest first</string>
 
-    <!--@Tusky edited 19th December 2022 13:37 -->
-    <string name="status_edit_info">%1$s edited %2$s</string>
-    <!--@Tusky created 19th December 2022 13:12 -->
-    <string name="status_created_info">%1$s created %2$s</string>
-
+    <string name="status_edit_info">Edited: %1$s</string>
+    <string name="status_created_info">Created: %1$s</string>
+    <string name="error_missing_edits">Your server knows that this post was edited, but does not have a copy of the edits, so they can\'t be shown to you.\n\nThis is <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="a11y_label_loading_thread">Loading thread</string>
+
+    <!--@knossos@fosstodon.org created 2023-01-07 -->
+    <string name="accessibility_talking_about_tag">%1$d people are talking about hashtag %2$s</string>
+    <string name="total_usage">Total usage</string>
+    <string name="total_accounts">Total accounts</string>
+
+    <!-- User friendly error messages for different network errors -->
+    <string name="socket_timeout_exception">Contacting your server took too long</string>
+
+    <!-- Error messages, displayed in snackbars, when something failed -->
+    <string name="ui_error_unknown">unknown reason</string>
+    <string name="ui_error_bookmark">Bookmarking post failed: %s</string>
+    <string name="ui_error_clear_notifications">Clearing notifications failed: %s</string>
+    <string name="ui_error_favourite">Favoriting post failed: %s</string>
+    <string name="ui_error_reblog">Boosting post failed: %s</string>
+    <string name="ui_error_vote">Voting in poll failed: %s</string>
+    <string name="ui_error_accept_follow_request">Accepting follow request failed: %s</string>
+    <string name="ui_error_reject_follow_request">Rejecting follow request failed: %s</string>
+
+    <!-- Success messages, displayed in snackbars, when an action succeeded -->
+    <string name="ui_success_accepted_follow_request">Follow request accepted</string>
+    <string name="ui_success_rejected_follow_request">Follow request blocked</string>
+
+    <string name="hint_filter_title">My filter</string>
+    <string name="label_filter_title">Title</string>
+    <string name="filter_action_warn">Warn</string>
+    <string name="filter_action_hide">Hide</string>
+    <string name="filter_description_warn">Hide with a warning</string>
+    <string name="filter_description_hide">Hide completely</string>
+    <string name="label_filter_action">Filter action</string>
+    <string name="label_filter_context">Filter contexts</string>
+    <string name="label_filter_keywords">Keywords or phrases to filter</string>
+    <string name="action_add">Add</string>
+    <string name="filter_keyword_display_format">%s (whole word)</string>
+    <string name="filter_keyword_addition_title">Add keyword</string>
+    <string name="filter_edit_keyword_title">Edit keyword</string>
+    <string name="filter_description_format">%s: %s</string>
+
+    <string name="help_empty_home">This is your <b>home timeline</b>. It shows the recent posts of the accounts
+        you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
+        For example the local timeline of your instance [iconics gmd_group]. Or you can search them
+        by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="load_newest_notifications">Load newest notifications</string>
 </resources>

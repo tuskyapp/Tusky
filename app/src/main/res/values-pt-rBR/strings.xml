@@ -127,12 +127,12 @@
     <string name="label_header">Capa</string>
     <string name="link_whats_an_instance">O que é uma instância?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> 
-\n 
-\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá. 
-\n 
-\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site. 
-\n 
+    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a>
+\n
+\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá.
+\n
+\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site.
+\n
 \n Mais informações podem ser encontradas em <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
@@ -188,9 +188,9 @@
     <string name="post_text_size_medium">Médio</string>
     <string name="post_text_size_large">Grande</string>
     <string name="post_text_size_largest">Maior</string>
-    <string name="notification_mention_name">Menções</string>
+    <string name="notification_mention_name">Novas menções</string>
     <string name="notification_mention_descriptions">Notificações sobre menções</string>
-    <string name="notification_follow_name">Novos Seguidores</string>
+    <string name="notification_follow_name">Novos seguidores</string>
     <string name="notification_follow_description">Notificações sobre novos seguidores</string>
     <string name="notification_boost_name">Boosts</string>
     <string name="notification_boost_description">Notificações quando derem boost em meus toots</string>
@@ -202,6 +202,7 @@
     <string name="notification_summary_small">%1$s e %2$s</string>
     <plurals name="notification_title_summary">
         <item quantity="one">%d nova interação</item>
+        <item quantity="many">%d novas interações</item>
         <item quantity="other">%d novas interações</item>
     </plurals>
     <string name="description_account_locked">Perfil trancado</string>
@@ -245,7 +246,6 @@
     <string name="action_lists">Listas</string>
     <string name="title_lists">Listas</string>
     <string name="compose_active_account_description">Postando como %1$s</string>
-    <string name="error_failed_set_caption">Erro ao incluir descrição</string>
     <string name="action_set_caption">Descrever</string>
     <string name="action_remove">Remover</string>
     <string name="lock_account_label">Trancar perfil</string>
@@ -285,8 +285,8 @@
     <string name="pref_title_absolute_time">Usar tempo absoluto</string>
     <string name="title_reblogged_by">Levou boost de</string>
     <string name="title_favourited_by">Favoritado por</string>
-    <string name="description_visibility_public">Público    </string>
-    <string name="description_visibility_private">Privado</string>
+    <string name="description_visibility_public">Público</string>
+    <string name="description_visibility_private">Seguidores</string>
     <string name="error_network">Ocorreu um erro de conexão! Por favor, verifique sua internet e tente novamente!</string>
     <string name="title_posts_pinned">Fixado</string>
     <string name="post_username_format">\@%s</string>
@@ -310,8 +310,8 @@
     <string name="notification_poll_description">Notificar sobre enquetes que já terminaram</string>
     <string name="pref_title_public_filter_keywords">Linhas públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
-    <string name="filter_addition_dialog_title">Criar filtro</string>
-    <string name="filter_edit_dialog_title">Editar filtro</string>
+    <string name="filter_addition_title">Criar filtro</string>
+    <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_dialog_remove_button">Excluir</string>
     <string name="filter_dialog_update_button">Atualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
@@ -376,6 +376,7 @@
     <string name="poll_info_format"> <!-- 15 votos • 1 hora restante --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voto</item>
+        <item quantity="many">%s votos</item>
         <item quantity="other">%s votos</item>
     </plurals>
     <string name="poll_info_time_absolute">termina em %s</string>
@@ -385,18 +386,22 @@
     <string name="poll_ended_created">Sua enquete terminou</string>
     <plurals name="poll_timespan_days">
         <item quantity="one">%d dia restante</item>
+        <item quantity="many">%d dias restantes</item>
         <item quantity="other">%d dias restantes</item>
     </plurals>
     <plurals name="poll_timespan_hours">
         <item quantity="one">%d hora restante</item>
+        <item quantity="many">%d horas restantes</item>
         <item quantity="other">%d horas restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
         <item quantity="one">%d minuto restante</item>
+        <item quantity="many">%d minutos restantes</item>
         <item quantity="other">%d minutos restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d segundo restante</item>
+        <item quantity="many">%d segundos restantes</item>
         <item quantity="other">%d segundos restantes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Reproduzir GIFs</string>
@@ -463,6 +468,7 @@
     <string name="notification_follow_request_description">Notificações sobre seguidores pendentes</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s pessoa</item>
+        <item quantity="many">%s pessoas</item>
         <item quantity="other">%s pessoas</item>
     </plurals>
     <string name="pref_title_enable_swipe_for_tabs">Ativar deslizar para alternar entre abas</string>
@@ -556,7 +562,7 @@
     <string name="failed_to_unpin">Falha ao desafixar</string>
     <string name="compose_save_draft_loses_media">Salvar rascunho\? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
     <string name="tips_push_notification_migration">Faça login novamente em todas as contas para habilitar o suporte de notificação push.</string>
-    <string name="status_created_info">%1$s publicou em %2$s</string>
+    <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
     <string name="pref_title_notification_filter_reports">há uma nova denúncia</string>
@@ -581,7 +587,7 @@
     <string name="description_login">Funciona na maioria dos casos. Nenhum dado é vazado para outros aplicativos.</string>
     <string name="description_browser_login">Pode oferecer suporte a métodos de autenticação adicionais, mas requer um navegador compatível.</string>
     <string name="failed_to_remove_from_list">Falha ao remover a conta da lista</string>
-    <string name="status_edit_info">%1$s editou em %2$s</string>
+    <string name="status_edit_info">%1$s editou</string>
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Você tem alterações não salvas.</string>
     <string name="description_post_edited">Editado</string>
@@ -596,10 +602,10 @@
     <string name="error_following_hashtags_unsupported">Esta instância não oferece o recurso de seguir hashtags.</string>
     <string name="pref_title_notification_filter_updates">um toot que eu interagi foi editado</string>
     <string name="notification_sign_up_description">Notificações sobre novos usuários</string>
-    <string name="error_failed_set_focus">Falha ao definir o ponto de foco</string>
     <string name="action_set_focus">Definir ponto de foco</string>
     <string name="action_edit_image">Editar imagem</string>
     <string name="pref_title_notification_filter_sign_ups">alguém se inscreveu</string>
     <string name="saving_draft">Salvando rascunho…</string>
     <string name="title_login">Entrar</string>
+    <string name="instance_rule_title">%s regras</string>
 </resources>

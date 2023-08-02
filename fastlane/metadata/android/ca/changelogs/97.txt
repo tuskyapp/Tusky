@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Nova icona de l'aplicació de Dzuk https://dzuk.zone/
+- Ara podeu seguir els hashtags. Feu clic a un hashtag i després a la icona de la barra d'eines.
+- Suport per a Android 13
+- nou menú desplegable a la vista de redacció per definir l'idioma d'una publicació
+- La pestanya multimèdia dels perfils ara respecta les imatges sensibles i es carrega més suaument.
+- Ara és possible establir el punt d'enfocament d'una imatge abans de publicar-la
+- Nova opció per mostrar el vostre nom d'usuari complet a la barra d'eines

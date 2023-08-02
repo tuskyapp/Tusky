@@ -30,7 +30,7 @@ val Locale.modernLanguageCode: String
 fun Locale.getTuskyDisplayName(context: Context): String {
     return context.getString(
         R.string.language_display_name_format,
-        this?.displayLanguage,
-        this?.getDisplayLanguage(this)
+        displayLanguage,
+        getDisplayLanguage(this)
     )
 }

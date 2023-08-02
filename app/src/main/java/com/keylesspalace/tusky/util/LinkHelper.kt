@@ -11,7 +11,8 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 @file:JvmName("LinkHelper")
 
 package com.keylesspalace.tusky.util
@@ -21,12 +22,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.URLSpan
 import android.util.Log
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
@@ -68,7 +72,7 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
             setClickableText(it, this, mentions, tags, listener)
         }
     }
-    view.movementMethod = LinkMovementMethod.getInstance()
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
 }
 
 @VisibleForTesting
@@ -82,7 +86,7 @@ fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBu
             false
         } else {
             val text = spannableContent.subSequence(start, spannableContent.getSpanEnd(it)).toString()
-                .split(' ').lastOrNull() ?: ""
+                .split(' ').lastOrNull().orEmpty()
             var textDomain = getDomain(text)
             if (textDomain.isBlank()) {
                 textDomain = getDomain("https://$text")
@@ -125,13 +129,6 @@ fun setClickableText(
 
     removeSpan(span)
     setSpan(customSpan, start, end, flags)
-
-    /* Add zero-width space after links in end of line to fix its too large hitbox.
-     * See also : https://github.com/tuskyapp/Tusky/issues/846
-     *            https://github.com/tuskyapp/Tusky/pull/916 */
-    if (end >= length || subSequence(end, end + 1).toString() == "\n") {
-        insert(end, "\u200B")
-    }
 }
 
 @VisibleForTesting
@@ -159,7 +156,7 @@ private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, list
 }
 
 private fun getCustomSpanForMentionUrl(url: String, mentionId: String, listener: LinkListener): ClickableSpan {
-    return object : NoUnderlineURLSpan(url) {
+    return object : MentionSpan(url) {
         override fun onClick(view: View) = listener.onViewAccount(mentionId)
     }
 }
@@ -199,12 +196,10 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
             append("@")
             append(mention.localUsername)
             setSpan(customSpan, start, end, flags)
-            append("\u200B") // same reasoning as in setClickableText
-            end += 1 // shift position to take the previous character into account
             start = end
         }
     }
-    view.movementMethod = LinkMovementMethod.getInstance()
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
 }
 
 fun createClickableText(text: String, link: String): CharSequence {
@@ -322,3 +317,35 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
 }
 
 private const val TAG = "LinkHelper"
+
+/**
+ * [LinkMovementMethod] that doesn't add a leading/trailing clickable area.
+ *
+ * [LinkMovementMethod] has a bug in its calculation of the clickable width of a span on a line. If
+ * the span is the last thing on the line the clickable area extends to the end of the view. So the
+ * user can tap what appears to be whitespace and open a link.
+ *
+ * Fix this by overriding ACTION_UP touch events and calculating the true start and end of the
+ * content on the line that was tapped. Then ignore clicks that are outside this area.
+ *
+ * See https://github.com/tuskyapp/Tusky/issues/1567.
+ */
+object NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
+    override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
+        val action = event.action
+        if (action != ACTION_UP) return super.onTouchEvent(widget, buffer, event)
+
+        val x = event.x.toInt()
+        val y = event.y.toInt() - widget.totalPaddingTop + widget.scrollY
+        val line = widget.layout.getLineForVertical(y)
+        val lineLeft = widget.layout.getLineLeft(line)
+        val lineRight = widget.layout.getLineRight(line)
+        if (x > lineRight || x >= 0 && x < lineLeft) {
+            return true
+        }
+
+        return super.onTouchEvent(widget, buffer, event)
+    }
+
+    fun getInstance() = NoTrailingSpaceLinkMovementMethod
+}

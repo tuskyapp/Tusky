@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -64,9 +65,25 @@ data class AccountEntity(
     var alwaysShowSensitiveMedia: Boolean = false,
     /** True if content behind a content warning is shown by default */
     var alwaysOpenSpoiler: Boolean = false,
+
+    /**
+     * True if the "Download media previews" preference is true. This implies
+     * that media previews are shown as well as downloaded.
+     */
     var mediaPreviewEnabled: Boolean = true,
+    /**
+     * ID of the last notification the user read on the Notification, list, and should be restored
+     * to view when the user returns to the list.
+     *
+     * May not be the ID of the most recent notification if the user has scrolled down the list.
+     */
     var lastNotificationId: String = "0",
-    var activeNotifications: String = "[]",
+    /**
+     *  ID of the most recent Mastodon notification that Tusky has fetched to show as an
+     *  Android notification.
+     */
+    @ColumnInfo(defaultValue = "0")
+    var notificationMarkerId: String = "0",
     var emojis: List<Emoji> = emptyList(),
     var tabPreferences: List<TabData> = defaultTabs(),
     var notificationsFilter: String = "[\"follow_request\"]",
@@ -78,6 +95,16 @@ data class AccountEntity(
     var pushPrivKey: String = "",
     var pushAuth: String = "",
     var pushServerKey: String = "",
+
+    /**
+     * ID of the status at the top of the visible list in the home timeline when the
+     * user navigated away.
+     */
+    var lastVisibleHomeTimelineStatusId: String? = null,
+
+    /** true if the connected Mastodon account is locked (has to manually approve all follow requests **/
+    @ColumnInfo(defaultValue = "0")
+    var locked: Boolean = false
 ) {
 
     val identifier: String
@@ -102,9 +129,7 @@ data class AccountEntity(
         other as AccountEntity
 
         if (id == other.id) return true
-        if (domain == other.domain && accountId == other.accountId) return true
-
-        return false
+        return domain == other.domain && accountId == other.accountId
     }
 
     override fun hashCode(): Int {

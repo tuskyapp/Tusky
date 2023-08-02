@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- "Buka sebagai..." kini tersedia di menu pada profil akun saat menggunakan beberapa akun
+- Login sekarang ditangani di WebView dalam aplikasi
+- Dukungan untuk Android 12
+- Dukungan untuk API konfigurasi instans Mastodon baru
+- dan banyak perbaikan dan peningkatan kecil lainnya

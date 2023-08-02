@@ -201,7 +201,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/account_note_hint" />
+                            android:hint="@string/account_note_hint"
+                            android:textDirection="firstStrong" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -215,7 +216,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountNoteTextInputLayout" />
 
-                    <TextView
+                    <com.keylesspalace.tusky.view.ClickableSpanTextView
                         android:id="@+id/accountNoteTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -225,6 +226,7 @@
                         android:textColor="?android:textColorTertiary"
                         android:textIsSelectable="true"
                         android:textSize="?attr/status_text_medium"
+                        android:textDirection="firstStrong"
                         app:layout_constraintTop_toBottomOf="@id/saveNoteInfo"
                         tools:text="This is a test description. Descriptions can be quite looooong." />
 
@@ -441,8 +443,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorSurface"
                 app:tabGravity="center"
-                app:tabMode="scrollable"
-                app:tabTextAppearance="@style/TuskyTabAppearance" />
+                app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

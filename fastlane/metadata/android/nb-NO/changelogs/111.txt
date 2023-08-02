@@ -1,0 +1,15 @@
+Tusky 23.0 beta 1 
+  
+Nye funksjoner: 
+  
+- Ny instilling for å skalére tekst i brukergrenesnittet. 
+  
+Fikser:  
+ 
+- Lagre kontoinformasjon korrekt  
+- "Pull" varsler på enheter som har androidversjoner <= 11  
+- Unnvik androidbug der hvor tekstfelt kunne "glemme" at de kann klippe/lime  
+- Vise "differ" i endringshistorien blir ikke forlenget over skjermkanten  
+- Ikke krasj dersom tjeneren din ikke har postendringshistorie  
+- Legg til en "Slette"-knapp ved endring av et filter  
+- Vis ikke-firkantede emojier riktig

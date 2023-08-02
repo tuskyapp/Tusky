@@ -247,8 +247,8 @@
     <string name="action_set_caption">कैप्शन सेट करें</string>
     <string name="add_account_name">खाता जोड़ो</string>
     <string name="filter_dialog_whole_word">पूरा शब्द</string>
-    <string name="filter_edit_dialog_title">फ़िल्टर संपादित करें</string>
-    <string name="filter_addition_dialog_title">फिल्टर लगाएं</string>
+    <string name="filter_edit_title">फ़िल्टर संपादित करें</string>
+    <string name="filter_addition_title">फिल्टर लगाएं</string>
     <string name="pref_title_public_filter_keywords">सार्वजनिक टाइमलाइन</string>
     <string name="load_more_placeholder_text">और लोड करें</string>
     <string name="pref_title_show_cards_in_timelines">टाइमलाइन में लिंक प्रीव्यू दिखाएं</string>
@@ -311,7 +311,6 @@
         <item quantity="other">दृष्टिहीन लोगों के लिए वर्णन करें
 \n(%d वर्ण सीमा)</item>
     </plurals>
-    <string name="error_failed_set_caption">कैप्शन सेट करने में विफल</string>
     <string name="compose_active_account_description">%1$s खाते के साथ पोस्ट कर रहे</string>
     <string name="action_remove_from_list">सूची से खाता निकालें</string>
     <string name="action_add_to_list">सूची में खाता जोड़ें</string>
@@ -402,4 +401,9 @@
     </plurals>
     <string name="error_compose_character_limit">पोस्ट बहुत लंबा है!</string>
     <string name="error_failed_app_registration">उस सर्वर से प्रमाणित करने में विफल।</string>
+    <string name="error_multimedia_size_limit">वीडियो और ऑडियो फ़ाइलों का आकार %s एमबी से अधिक नहीं हो सकता है।</string>
+    <string name="error_image_edit_failed">फोटो संपादित नहीं किया जा सका।</string>
+    <string name="error_media_upload_image_or_video">फोटो और वीडियो दोनों को एक ही पोस्ट से अटैच नहीं किया जा सकता है।</string>
+    <string name="error_loading_account_details">खाता विवरण लोड करने में विफल रहा</string>
+    <string name="error_could_not_load_login_page">लॉगिन पेज लोड नहीं किया जा सका।</string>
 </resources>

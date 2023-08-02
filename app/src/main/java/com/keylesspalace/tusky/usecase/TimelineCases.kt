@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.usecase
 
 import android.util.Log
 import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
@@ -31,11 +32,11 @@ import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -47,52 +48,42 @@ class TimelineCases @Inject constructor(
     private val eventHub: EventHub
 ) {
 
-    /**
-     * Unused yet but can be use for cancellation later. It's always a good idea to save
-     * Disposables.
-     */
-    private val cancelDisposable = CompositeDisposable()
-
-    fun reblog(statusId: String, reblog: Boolean): Single<Status> {
-        val call = if (reblog) {
+    suspend fun reblog(statusId: String, reblog: Boolean): NetworkResult<Status> {
+        return if (reblog) {
             mastodonApi.reblogStatus(statusId)
         } else {
             mastodonApi.unreblogStatus(statusId)
-        }
-        return call.doAfterSuccess {
+        }.onSuccess {
             eventHub.dispatch(ReblogEvent(statusId, reblog))
         }
     }
 
-    fun favourite(statusId: String, favourite: Boolean): Single<Status> {
-        val call = if (favourite) {
+    suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {
+        return if (favourite) {
             mastodonApi.favouriteStatus(statusId)
         } else {
             mastodonApi.unfavouriteStatus(statusId)
-        }
-        return call.doAfterSuccess {
+        }.onSuccess {
             eventHub.dispatch(FavoriteEvent(statusId, favourite))
         }
     }
 
-    fun bookmark(statusId: String, bookmark: Boolean): Single<Status> {
-        val call = if (bookmark) {
+    suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> {
+        return if (bookmark) {
             mastodonApi.bookmarkStatus(statusId)
         } else {
             mastodonApi.unbookmarkStatus(statusId)
-        }
-        return call.doAfterSuccess {
+        }.onSuccess {
             eventHub.dispatch(BookmarkEvent(statusId, bookmark))
         }
     }
 
-    fun muteConversation(statusId: String, mute: Boolean): Single<Status> {
-        val call = if (mute) {
+    suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> {
+        return if (mute) {
             mastodonApi.muteConversation(statusId)
         } else {
             mastodonApi.unmuteConversation(statusId)
-        }
-        return call.doAfterSuccess {
+        }.onSuccess {
             eventHub.dispatch(MuteConversationEvent(statusId, mute))
         }
     }
@@ -121,30 +112,36 @@ class TimelineCases @Inject constructor(
             .onFailure { Log.w(TAG, "Failed to delete status", it) }
     }
 
-    fun pin(statusId: String, pin: Boolean): Single<Status> {
-        // Replace with extension method if we use RxKotlin
-        return (if (pin) mastodonApi.pinStatus(statusId) else mastodonApi.unpinStatus(statusId))
-            .doOnError { e ->
-                Log.w(TAG, "Failed to change pin state", e)
-            }
-            .onErrorResumeNext(::convertError)
-            .doAfterSuccess {
-                eventHub.dispatch(PinEvent(statusId, pin))
-            }
+    suspend fun pin(statusId: String, pin: Boolean): NetworkResult<Status> {
+        return if (pin) {
+            mastodonApi.pinStatus(statusId)
+        } else {
+            mastodonApi.unpinStatus(statusId)
+        }.fold({ status ->
+            eventHub.dispatch(PinEvent(statusId, pin))
+            NetworkResult.success(status)
+        }, { e ->
+            Log.w(TAG, "Failed to change pin state", e)
+            NetworkResult.failure(TimelineError(e.getServerErrorMessage()))
+        })
     }
 
-    fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
+    suspend fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): NetworkResult<Poll> {
         if (choices.isEmpty()) {
-            return Single.error(IllegalStateException())
+            return NetworkResult.failure(IllegalStateException())
         }
 
-        return mastodonApi.voteInPoll(pollId, choices).doAfterSuccess {
-            eventHub.dispatch(PollVoteEvent(statusId, it))
+        return mastodonApi.voteInPoll(pollId, choices).onSuccess { poll ->
+            eventHub.dispatch(PollVoteEvent(statusId, poll))
         }
     }
 
-    private fun <T : Any> convertError(e: Throwable): Single<T> {
-        return Single.error(TimelineError(e.getServerErrorMessage()))
+    fun acceptFollowRequest(accountId: String): Single<Relationship> {
+        return mastodonApi.authorizeFollowRequest(accountId)
+    }
+
+    fun rejectFollowRequest(accountId: String): Single<Relationship> {
+        return mastodonApi.rejectFollowRequest(accountId)
     }
 
     companion object {
