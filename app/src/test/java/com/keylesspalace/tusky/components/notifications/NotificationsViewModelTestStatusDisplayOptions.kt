@@ -23,7 +23,6 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -34,7 +33,6 @@ import org.junit.Test
  * - Does the make() function correctly use an updated preference?
  * - Is the correct update emitted when a relevant preference changes?
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestStatusDisplayOptions : NotificationsViewModelTestBase() {
 
     private val defaultStatusDisplayOptions = StatusDisplayOptions(
