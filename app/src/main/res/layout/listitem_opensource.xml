@@ -20,6 +20,50 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/descriptionBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="libraryName,libraryCreator,libraryVersion,libraryLicense" />
+
+        <View
+            android:id="@+id/libraryDescriptionDivider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
+            android:layout_marginBottom="@dimen/aboutLibraries_card_divider_padding"
+            app:layout_constraintBottom_toTopOf="@id/libraryDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionBarrier" />
+
+        <TextView
+            android:id="@+id/libraryDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/aboutLibraries_card_inner_padding"
+            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
+            android:layout_marginRight="@dimen/aboutLibraries_card_inner_padding"
+            android:maxLines="20"
+            android:paddingBottom="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionBarrier"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in aliquet justo. Donec tincidunt, leo imperdiet pretium posuere, sapien leo auctor mi, ac scelerisque diam leo vel sapien. Morbi lobortis, sem sed molestie fermentum." />
+
+        <View
+            android:id="@+id/libraryBottomDivider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
+            android:layout_marginBottom="@dimen/aboutLibraries_card_divider_padding"
+            app:layout_constraintBottom_toTopOf="@id/libraryLicense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/libraryDescription" />
+
         <TextView
             android:id="@+id/libraryName"
             android:layout_width="0dp"
@@ -60,53 +104,12 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:paddingStart="0dp"
-            android:paddingLeft="0dp"
             android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
-            android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@id/libraryName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/libraryName"
-            app:layout_constraintVertical_bias="1.0"
             tools:text="Version" />
-
-        <View
-            android:id="@+id/libraryDescriptionDivider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
-            android:layout_marginBottom="@dimen/aboutLibraries_card_divider_padding"
-            app:layout_constraintBottom_toTopOf="@id/libraryDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/libraryCreator" />
-
-        <TextView
-            android:id="@+id/libraryDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/aboutLibraries_card_inner_padding"
-            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
-            android:layout_marginRight="@dimen/aboutLibraries_card_inner_padding"
-            android:maxLines="20"
-            android:paddingBottom="8dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/libraryCreator"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in aliquet justo. Donec tincidunt, leo imperdiet pretium posuere, sapien leo auctor mi, ac scelerisque diam leo vel sapien. Morbi lobortis, sem sed molestie fermentum." />
-
-        <View
-            android:id="@+id/libraryBottomDivider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
-            android:layout_marginBottom="@dimen/aboutLibraries_card_divider_padding"
-            app:layout_constraintBottom_toTopOf="@id/libraryLicense"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/libraryDescription" />
 
         <TextView
             android:id="@+id/libraryLicense"
@@ -119,11 +122,11 @@
             android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
             android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            app:layout_constraintBaseline_toBaselineOf="@id/libraryCreator"
             app:layout_constraintEnd_toEndOf="@+id/libraryVersion"
             app:layout_constraintStart_toEndOf="@+id/libraryCreator"
-            app:layout_constraintTop_toTopOf="@id/libraryCreator"
+            app:layout_constraintTop_toBottomOf="@+id/libraryName"
             tools:text="License" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
