@@ -214,9 +214,6 @@
     <string name="profile_metadata_label_label">Leubail</string>
     <string name="profile_metadata_add">cuir dàta ris</string>
     <string name="profile_metadata_label">Meata-dàta na pròifile</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">Fo cheadachas Apache License (chì thu lethbhreac dheth gu h-ìosal)</string>
     <string name="license_description">Tha còs is maoin o na pròiseactan open source seo am broinn Tusky:</string>
     <string name="unreblog_private">Na brosnaich tuilleadh</string>
     <string name="reblog_private">Brosnaich dhan èisteachd thùsail</string>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- From https://github.com/mikepenz/AboutLibraries/blob/develop/aboutlibraries/src/main/res/layout/listitem_opensource.xml,
+     modified to have smaller fonts -->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    tools:ignore="UnusedResources">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/descriptionBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="libraryName,libraryCreator,libraryVersion,libraryLicense" />
+
+        <View
+            android:id="@+id/libraryDescriptionDivider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
+            android:layout_marginBottom="@dimen/aboutLibraries_card_divider_padding"
+            app:layout_constraintBottom_toTopOf="@id/libraryDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionBarrier" />
+
+        <TextView
+            android:id="@+id/libraryDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/aboutLibraries_card_inner_padding"
+            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
+            android:layout_marginRight="@dimen/aboutLibraries_card_inner_padding"
+            android:maxLines="20"
+            android:paddingBottom="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textIsSelectable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionBarrier"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in aliquet justo. Donec tincidunt, leo imperdiet pretium posuere, sapien leo auctor mi, ac scelerisque diam leo vel sapien. Morbi lobortis, sem sed molestie fermentum." />
+
+        <View
+            android:id="@+id/libraryBottomDivider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/aboutLibraries_card_divider_padding"
+            android:layout_marginBottom="@dimen/aboutLibraries_card_divider_padding"
+            app:layout_constraintBottom_toTopOf="@id/libraryLicense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/libraryDescription" />
+
+        <TextView
+            android:id="@+id/libraryName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingLeft="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            android:textIsSelectable="true"
+            app:layout_constraintEnd_toStartOf="@+id/libraryVersion"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Library name" />
+
+        <TextView
+            android:id="@+id/libraryCreator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingStart="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingLeft="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textIsSelectable="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/libraryName"
+            tools:text="Creator" />
+
+        <TextView
+            android:id="@+id/libraryVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingStart="0dp"
+            android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textIsSelectable="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@id/libraryName"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Version" />
+
+        <TextView
+            android:id="@+id/libraryLicense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingLeft="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
+            android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textIsSelectable="true"
+            app:layout_constraintEnd_toEndOf="@+id/libraryVersion"
+            app:layout_constraintStart_toEndOf="@+id/libraryCreator"
+            app:layout_constraintTop_toBottomOf="@+id/libraryName"
+            tools:text="License" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

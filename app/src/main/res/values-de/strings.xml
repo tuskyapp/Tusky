@@ -296,9 +296,6 @@
     <string name="reblog_private">An ursprüngliches Publikum teilen</string>
     <string name="unreblog_private">Nicht mehr teilen</string>
     <string name="license_description">Tusky enthält Code und Inhalte von den folgenden Open-Source-Projekten:</string>
-    <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profil-Metadaten</string>
     <string name="profile_metadata_add">Feld hinzufügen</string>
     <string name="profile_metadata_label_label">Bezeichnung</string>

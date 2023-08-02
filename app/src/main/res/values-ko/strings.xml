@@ -327,9 +327,6 @@
     <string name="reblog_private">원래의 수신자들에게 부스트</string>
     <string name="unreblog_private">부스트 해제</string>
     <string name="license_description">Tusky에는 다음 오픈 소스 프로젝트의 요소/코드를 일부 활용하였습니다:</string>
-    <string name="license_apache_2">Apache License()에 의해 배포됨</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">프로필 메타데이터</string>
     <string name="profile_metadata_add">항목 추가</string>
     <string name="profile_metadata_label_label">라벨</string>

@@ -247,7 +247,6 @@
     <string name="reblog_private">அசலான பார்வையாளர்களுக்கு மட்டும் மேலேற்று</string>
     <string name="unreblog_private">மேலேற்றத்தை தவிர்</string>
     <string name="license_description">Tusky கொண்டுள்ள நிரல்  மற்றும் துணுக்குகள் பின்வரும் திறந்த மூல திட்டங்கள்:</string>
-    <string name="license_apache_2">Apache License (copy below)-ன் கீழ் உரிமமளிக்கப்பட்டுள்ளது</string>
     <string name="profile_metadata_label">சுயவிவர  மேனிலை தரவு</string>
     <string name="profile_metadata_add">தகவலை இணைக்க</string>
     <string name="profile_metadata_label_label">விவரத்துணுக்கு</string>

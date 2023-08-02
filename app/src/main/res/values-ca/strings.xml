@@ -322,9 +322,6 @@
     <string name="reblog_private">Tornar a impulsar</string>
     <string name="unreblog_private">No impulsar</string>
     <string name="license_description">Tusky conté codi i recursos dels següents projectes:</string>
-    <string name="license_apache_2">Sota llicencia Apache (text a sota)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Metadades del perfil</string>
     <string name="profile_metadata_add">Afegir dada</string>
     <string name="profile_metadata_label_label">Etiqueta</string>

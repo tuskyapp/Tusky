@@ -219,9 +219,6 @@
     <string name="profile_metadata_label_label">Etiqueta</string>
     <string name="profile_metadata_add">engadir datos</string>
     <string name="profile_metadata_label">Metadatos do perfil</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">Con licenza Apache License (ver abaixo)</string>
     <string name="license_description">Tusky ten código e ferramentas dos seguintes proxectos de código aberto:</string>
     <string name="unreblog_private">Retirar promoción</string>
     <string name="reblog_private">Promover para a audiencia orixinal</string>

@@ -295,9 +295,6 @@
     <string name="reblog_private">Del til opprinnelig publikum</string>
     <string name="unreblog_private">Fjern deling</string>
     <string name="license_description">Tusky inneholder programkode og elementer fra følgende åpen kildekode-prosjekter:</string>
-    <string name="license_apache_2">Lisensiert under Apache License (kopi under)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilmetadata</string>
     <string name="profile_metadata_add">legg til data</string>
     <string name="profile_metadata_label_label">Ledetekst</string>
@@ -578,7 +575,7 @@
     <string name="action_unfollow_hashtag_format">Slutte å følge #%s\?</string>
     <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%s</string>
     <string name="a11y_label_loading_thread">Laster tråd</string>
-    <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger. 
+    <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger.
 \n
 \nFor å utforske kontoer kan du enten oppdage dem i en av tidslinjene dine, for eksempel den lokale tidslinjen for instansen din [iconics gmd_group], eller du kan søke etter navnet deres [iconics gmd_search]; søk for eksempel etter Tusky før å finne Mastodonkonten vår.</string>
     <string name="pref_title_reading_order">Leserekkefølge</string>
@@ -666,7 +663,7 @@
     <string name="pref_title_show_stat_inline">Vis poststatistikk i tidslinjen</string>
     <string name="load_newest_notifications">Last de nyeste varslene</string>
     <string name="compose_delete_draft">Del utkast\?</string>
-    <string name="error_missing_edits">Serveren din vet at denne posten ble endret, men har ingen kopi av entringene så de kann ikke vises. 
+    <string name="error_missing_edits">Serveren din vet at denne posten ble endret, men har ingen kopi av entringene så de kann ikke vises.
 \n
 \nDette er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
 </resources>
