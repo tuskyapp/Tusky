@@ -98,6 +98,7 @@
             android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textIsSelectable="true"
+            app:layout_constraintEnd_toStartOf="@+id/libraryVersion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/libraryName"
             tools:text="Creator" />
@@ -118,16 +119,15 @@
 
         <TextView
             android:id="@+id/libraryLicense"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:maxLines="1"
             android:paddingStart="@dimen/aboutLibraries_card_inner_padding"
             android:paddingLeft="@dimen/aboutLibraries_card_inner_padding"
             android:paddingEnd="@dimen/aboutLibraries_card_inner_padding"
             android:paddingRight="@dimen/aboutLibraries_card_inner_padding"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textIsSelectable="true"
+            app:layout_constraintEnd_toEndOf="@+id/libraryCreator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/libraryCreator"
             tools:text="License" />
