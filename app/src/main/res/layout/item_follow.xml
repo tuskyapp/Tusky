@@ -65,7 +65,7 @@
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toEndOf="@+id/notification_display_name"
-        app:layout_constraintTop_toTopOf="@+id/notification_display_name"
+        app:layout_constraintBaseline_toBaselineOf="@id/notification_display_name"
         tools:text="\@testuser" />
 
     <com.keylesspalace.tusky.view.ClickableSpanTextView

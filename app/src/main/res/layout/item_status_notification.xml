@@ -78,7 +78,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toStartOf="@id/status_meta_info"
         app:layout_constraintStart_toEndOf="@id/status_display_name"
-        app:layout_constraintTop_toTopOf="@+id/status_display_name"
+        app:layout_constraintBaseline_toBaselineOf="@id/status_display_name"
         tools:text="\@Entenhausen" />
 
     <TextView
@@ -89,7 +89,7 @@
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/status_username"
+        app:layout_constraintBaseline_toBaselineOf="@id/status_display_name"
         tools:text="13:37" />
 
     <com.keylesspalace.tusky.view.ClickableSpanTextView
