@@ -772,8 +772,10 @@ class ComposeActivity :
             addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            binding.composeTootButton.isEnabled = false
         } else {
             composeOptionsBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            binding.composeTootButton.isEnabled = true
         }
     }
 
@@ -791,8 +793,10 @@ class ComposeActivity :
             composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            binding.composeTootButton.isEnabled = false
         } else {
             scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            binding.composeTootButton.isEnabled = true
         }
     }
 
@@ -807,8 +811,10 @@ class ComposeActivity :
                     composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+                    binding.composeTootButton.isEnabled = false
                 } else {
                     emojiBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+                    binding.composeTootButton.isEnabled = true
                 }
             }
         }
@@ -820,8 +826,10 @@ class ComposeActivity :
             composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             scheduleBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            binding.composeTootButton.isEnabled = false
         } else {
             addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            binding.composeTootButton.isEnabled = true
         }
     }
 
