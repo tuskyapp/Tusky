@@ -99,7 +99,8 @@ class InstanceInfoRepository @Inject constructor(
                     maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
                     maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
                     maxFieldNameLength = instanceInfo?.maxFieldNameLength,
-                    maxFieldValueLength = instanceInfo?.maxFieldValueLength
+                    maxFieldValueLength = instanceInfo?.maxFieldValueLength,
+                    version = instanceInfo?.version
                 )
             }
     }
