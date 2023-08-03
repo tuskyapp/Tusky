@@ -48,6 +48,8 @@
 
     <style name="FontLuciole">
         <item name="android:fontFamily">@font/luciole</item>
+        <!-- Luciole requires more vertical height than the other fonts -->
+        <item name="actionBarSizeWithSubtitle">62dp</item>
     </style>
 
     <style name="FontOpenDyslexic">
@@ -113,6 +115,8 @@
         <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
+
+        <item name="actionBarSizeWithSubtitle">?attr/actionBarSize</item>
     </style>
 
     <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
