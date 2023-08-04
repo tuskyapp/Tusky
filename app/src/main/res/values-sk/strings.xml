@@ -104,8 +104,6 @@
     <string name="later">Neskôr</string>
     <string name="restart">Reštartovať</string>
     <string name="profile_badge_bot_text">Robot</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Metadáta profilu</string>
     <string name="profile_metadata_add">pridať dáta</string>
     <string name="profile_metadata_content_label">Obsah</string>

@@ -348,9 +348,6 @@
     <string name="profile_metadata_label_label">ناونیشان</string>
     <string name="profile_metadata_add">داتا زیاد بکە</string>
     <string name="profile_metadata_label">مێتاداتای پرۆفایل</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">مۆڵەتدراوە لەژێر مۆڵەتی ئەپاچی (لەبەرگیراوە لە خوارەوە)</string>
     <string name="unreblog_private">بێ هێزکردن</string>
     <string name="reblog_private">بەرزکردنەوە بۆ جەماوەری ڕەسەن</string>
     <string name="account_moved_description">%1$s گواسترایەوە بۆ:</string>

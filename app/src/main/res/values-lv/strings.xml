@@ -142,8 +142,6 @@
     <string name="system_default">Sistēmas noklusējuma</string>
     <string name="action_open_post">Atvērt ierakstu</string>
     <string name="profile_metadata_content_label">Saturs</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profila metadati</string>
     <string name="profile_metadata_add">pievienot datus</string>
     <string name="conversation_more_recipients">%1$s, %2$s un %3$d citi</string>
@@ -375,7 +373,6 @@
     <string name="compose_active_account_description">Publicē kā %1$s</string>
     <string name="failed_to_add_to_list">Neizdevās pievienot kontu sarakstam</string>
     <string name="failed_to_remove_from_list">Neizdevās noņemt kontu no saraksta</string>
-    <string name="license_apache_2">Licencēts saskaņā ar Apache licenci (kopija zemāk)</string>
     <string name="compose_shortcut_long_label">Rakstīt ziņu</string>
     <string name="compose_shortcut_short_label">Rakstīt</string>
     <string name="poll_ended_voted">Aptauja, kurā tu balsoji, ir noslēgusies</string>

@@ -1,4 +1,5 @@
 [versions]
+aboutlibraries = "10.8.3"
 agp = "8.0.2"
 androidx-activity = "1.7.2"
 androidx-appcompat = "1.6.1"
@@ -55,6 +56,7 @@ unified-push = "2.1.1"
 xmlwriter = "1.0.4"
 
 [plugins]
+aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 google-ksp = "com.google.devtools.ksp:1.9.0-1.0.13"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -63,6 +65,8 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 ktlint = "org.jlleitschuh.gradle.ktlint:11.5.0"
 
 [libraries]
+aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutlibraries" }
+aboutlibraries-legacy-ui = { module = "com.mikepenz:aboutlibraries", version.ref = "aboutlibraries" }
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -141,6 +145,7 @@ unified-push = { module = "com.github.UnifiedPush:android-connector", version.re
 xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }
 
 [bundles]
+aboutlibraries = ["aboutlibraries-core", "aboutlibraries-legacy-ui"]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",
     "androidx-recyclerview", "androidx-exifinterface", "androidx-cardview", "androidx-preference-ktx", "androidx-sharetarget",
     "androidx-emoji2-core", "androidx-emoji2-views-core", "androidx-emoji2-view-helper", "androidx-lifecycle-viewmodel-ktx",

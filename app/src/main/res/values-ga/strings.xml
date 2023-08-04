@@ -347,7 +347,6 @@
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">Tá %1$s tar éis bogadh go:</string>
     <string name="reblog_private">Athchraol don bhunlucht léite</string>
-    <string name="license_apache_2">Ceadúnaithe faoin gCeadúnas Apache (cóip thíos)</string>
     <string name="profile_metadata_label">Meiteashonraí próifíle</string>
     <string name="profile_metadata_add">cuir sonraí leis</string>
     <string name="profile_metadata_label_label">Lipéad</string>
@@ -478,8 +477,6 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="unreblog_private">Bain athchraoladh</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="unpin_action">Unpin</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="description_post_reblogged">Reblogged</string>

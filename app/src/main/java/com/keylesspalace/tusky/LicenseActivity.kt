@@ -16,14 +16,9 @@
 package com.keylesspalace.tusky
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
-import androidx.annotation.RawRes
+import androidx.fragment.app.commit
 import com.keylesspalace.tusky.databinding.ActivityLicenseBinding
-import com.keylesspalace.tusky.util.closeQuietly
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
+import com.mikepenz.aboutlibraries.LibsBuilder
 
 class LicenseActivity : BaseActivity() {
 
@@ -40,27 +35,12 @@ class LicenseActivity : BaseActivity() {
 
         setTitle(R.string.title_licenses)
 
-        loadFileIntoTextView(R.raw.apache, binding.licenseApacheTextView)
-    }
-
-    private fun loadFileIntoTextView(@RawRes fileId: Int, textView: TextView) {
-        val sb = StringBuilder()
-
-        val br = BufferedReader(InputStreamReader(resources.openRawResource(fileId)))
-
-        try {
-            var line: String? = br.readLine()
-            while (line != null) {
-                sb.append(line)
-                sb.append('\n')
-                line = br.readLine()
+        val fragment = LibsBuilder().supportFragment()
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add(R.id.fragment_licenses, fragment)
             }
-        } catch (e: IOException) {
-            Log.w("LicenseActivity", e)
         }
-
-        br.closeQuietly()
-
-        textView.text = sb.toString()
     }
 }

@@ -333,9 +333,6 @@
     <string name="reblog_private">Endurbirta til upphaflegra lesenda</string>
     <string name="unreblog_private">Taka úr endurbirtingu</string>
     <string name="license_description">Tusky inniheldur kóða og gögn frá eftirfarandi verkefnum með opinn grunnkóða:</string>
-    <string name="license_apache_2">Notkunarleyfi er samkvæmt Apache hugbúnaðarleyfinu (afrit fyrir neðan)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Lýsigögn notandasniðs</string>
     <string name="profile_metadata_add">bæta við gögnum</string>
     <string name="profile_metadata_label_label">Merking</string>

@@ -262,8 +262,6 @@
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
     <string name="license_description">A Tusky a következő nyílt forráskódú projektekből tartalmaz programkódot és más elemeket:</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profil metaadatok</string>
     <string name="profile_metadata_add">adatok hozzáadása</string>
     <string name="profile_metadata_label_label">Címke</string>
@@ -348,7 +346,6 @@
     <string name="caption_notoemoji">A Google jelenlegi emodzsi készlete</string>
     <string name="reblog_private">Megtolás az eredeti közönségnek</string>
     <string name="unreblog_private">Megtolás visszavonása</string>
-    <string name="license_apache_2">Apache licenc alatt közzétéve (másolat alább)</string>
     <string name="unpin_action">Kitűzés eltávolítása</string>
     <string name="pin_action">Kitűzés</string>
     <plurals name="favs">

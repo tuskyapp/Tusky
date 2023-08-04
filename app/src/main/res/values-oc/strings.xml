@@ -256,7 +256,6 @@
     <string name="reblog_private">Partejar al public d’origina</string>
     <string name="unreblog_private">Quitar de partejar</string>
     <string name="license_description">Tusky content de còdis e compausants dels projèctes liures seguents :</string>
-    <string name="license_apache_2">Licéncia Apache License (còpia çai-jos)</string>
     <string name="profile_metadata_label">Metadonada del perfil</string>
     <string name="profile_metadata_add">Contengut</string>
     <string name="profile_metadata_label_label">Nom</string>
@@ -323,8 +322,6 @@
         <item quantity="one">Descriure lo contengut pels mal vesents (%d caractèr maximum)</item>
         <item quantity="other">Descriure los contenguts pels mal vesents (%d caractèrs maximum)</item>
     </plurals>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <plurals name="favs">
         <item quantity="one"><b>%1$s</b> Favorit</item>
         <item quantity="other"><b>%1$s</b> Favorits</item>

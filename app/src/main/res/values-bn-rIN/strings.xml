@@ -320,9 +320,6 @@
     <string name="reblog_private">মূল শ্রোতাদেড় সমথন পাঠাও</string>
     <string name="unreblog_private">সমর্থন ফেরত</string>
     <string name="license_description">টাস্কি নিম্নলিখিত ওপেন সোর্স প্রকল্প থেকে কোড এবং সম্পদ রয়েছে:</string>
-    <string name="license_apache_2">এপাচে লাইসেন্সের অধীনে লাইসেন্স (নীচের কপি)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">প্রোফাইল মেটাডেটা</string>
     <string name="profile_metadata_add">তথ্য যোগ করুন</string>
     <string name="profile_metadata_label_label">লেবেল</string>

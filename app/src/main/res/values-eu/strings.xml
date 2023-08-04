@@ -268,7 +268,6 @@
     <string name="reblog_private">Berriz bultzatu</string>
     <string name="unreblog_private">Bultzatzea utzi</string>
     <string name="license_description">Tusky-k ondorengo proiektuetako kode eta baliabideak ditu:</string>
-    <string name="license_apache_2">Apache Lizentziapean (testua zerrendaren azpian)</string>
     <string name="profile_metadata_label">Informazio gehigarria</string>
     <string name="profile_metadata_add">Eremua gehitu</string>
     <string name="profile_metadata_label_label">Etiketa</string>
@@ -346,8 +345,6 @@
     <string name="action_add_to_list">Gehitu kontua zerrendan</string>
     <string name="action_remove_from_list">Kendu kontua zerrendatik</string>
     <string name="caption_notoemoji">Google-ren egungo emoji multzoa</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <plurals name="favs">
         <item quantity="one">Gogoko <b>%1$s</b></item>
         <item quantity="other"><b>%1$s</b> Gogoko</item>

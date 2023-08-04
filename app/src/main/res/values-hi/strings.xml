@@ -231,8 +231,6 @@
     <string name="description_post_media_no_description_placeholder">कोई विवरण नहीं</string>
     <string name="description_post_media">मीडिया: %s</string>
     <string name="profile_metadata_add">जानकारी जोड़ें</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="profile_metadata_label">प्रोफ़ाइल मेटाडेटा</string>
     <string name="download_failed">डाउनलोड विफल</string>
     <string name="action_open_post">टूट खोलें</string>
@@ -292,7 +290,6 @@
     <string name="pref_title_absolute_time">पूर्ण समय का उपयोग करें</string>
     <string name="profile_metadata_content_label">विषय वस्तु</string>
     <string name="profile_metadata_label_label">लेबल</string>
-    <string name="license_apache_2">अपाचे लाइसेंस के तहत लाइसेंस प्राप्त (प्रतिलिपि नीचे उपलब्ध)</string>
     <string name="account_moved_description">%1$s यहां चले गए हैं:</string>
     <string name="profile_badge_bot_text">बोट</string>
     <string name="caption_notoemoji">गूगल का इमोजी सेट</string>

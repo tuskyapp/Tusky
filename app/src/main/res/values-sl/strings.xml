@@ -291,9 +291,6 @@
     <string name="reblog_private">Spodbudi izvirnemu občinstvu</string>
     <string name="unreblog_private">Prekini spodbudo</string>
     <string name="license_description">Tusky vsebuje kodo in sredstva iz naslednjih odprtokodnih projektov:</string>
-    <string name="license_apache_2">Licencirano pod licenco Apache (spodaj)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Metapodatki profila</string>
     <string name="profile_metadata_add">dodaj podatke</string>
     <string name="profile_metadata_label_label">Oznaka</string>
