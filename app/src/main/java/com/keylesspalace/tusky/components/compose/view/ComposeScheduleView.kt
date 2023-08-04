@@ -152,6 +152,7 @@ class ComposeScheduleView
                 .setMinute(it[Calendar.MINUTE])
         }
 
+        pickerBuilder.setTitleText(dateFormat.format(scheduleDateTimeUtc!!.timeInMillis))
         pickerBuilder.setTimeFormat(getTimeFormat(context))
 
         val picker = pickerBuilder.build()
