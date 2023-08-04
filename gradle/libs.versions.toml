@@ -33,7 +33,7 @@ glide = "4.15.1"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
 gson = "2.10.1"
-kotlin = "1.8.22"
+kotlin = "1.9.0"
 image-cropper = "4.3.2"
 material = "1.9.0"
 material-drawer = "8.4.5"
@@ -47,8 +47,8 @@ robolectric = "4.10.3"
 rxandroid3 = "3.0.2"
 rxjava3 = "3.1.6"
 rxkotlin3 = "3.0.1"
-photoview = "2.3.0"
 sparkbutton = "4.1.0"
+touchimageview = "3.5"
 truth = "1.1.5"
 turbine = "1.0.0"
 unified-push = "2.1.1"
@@ -56,7 +56,7 @@ xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-ksp = "com.google.devtools.ksp:1.8.22-1.0.11"
+google-ksp = "com.google.devtools.ksp:1.9.0-1.0.13"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
@@ -113,7 +113,6 @@ glide-compiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glid
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -127,7 +126,6 @@ mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-photoview = { module = "com.github.chrisbanes:PhotoView", version.ref = "photoview" }
 retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -136,6 +134,7 @@ rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rx
 rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
+touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }

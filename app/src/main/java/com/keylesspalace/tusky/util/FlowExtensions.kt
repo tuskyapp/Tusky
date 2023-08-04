@@ -20,7 +20,6 @@ package com.keylesspalace.tusky.util
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
 
@@ -54,7 +53,6 @@ import kotlin.time.TimeSource
  * @param timeout Emissions within this duration of the last emission are filtered
  * @param timeSource Used to measure elapsed time. Normally only overridden in tests
  */
-@OptIn(ExperimentalTime::class)
 fun <T> Flow<T>.throttleFirst(
     timeout: Duration,
     timeSource: TimeSource = TimeSource.Monotonic
