@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="tusky_blue">#2b90d9</color>
+    <color name="tusky_blue_darker">#217aba</color>
     <color name="tusky_blue_light">#56a7e1</color>
     <color name="tusky_orange">#ca8f04</color>
     <color name="tusky_orange_light">#fab207</color>
@@ -18,6 +19,7 @@
     <!-- the number roughly corresponds to the % lightness of the grey -->
     <color name="tusky_grey_05">#070b14</color>
     <color name="tusky_grey_10">#16191f</color>
+    <color name="tusky_grey_15">#21222c</color>
     <color name="tusky_grey_20">#282c37</color>
     <color name="tusky_grey_25">#313543</color>
     <color name="tusky_grey_30">#444b5d</color>

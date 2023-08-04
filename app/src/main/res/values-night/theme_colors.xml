@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">@color/tusky_blue</color>
+    <color name="colorSecondary">@color/tusky_blue</color>
     <color name="colorSurface">@color/tusky_grey_30</color>
     <color name="colorPrimaryDark">@color/tusky_grey_25</color>
 
