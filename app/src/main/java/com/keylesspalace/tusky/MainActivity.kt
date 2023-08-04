@@ -1086,7 +1086,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         /**
-         * switches the active account to the accountId and takes the user to correct place according to the notification they clicked
+         * Switches the active account to the accountId and takes the user to the correct place according to the notification they clicked
          */
         @JvmStatic
         fun openNotificationIntent(context: Context, tuskyAccountId: Long, type: Notification.Type): Intent {
