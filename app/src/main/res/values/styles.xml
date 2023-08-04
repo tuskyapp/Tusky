@@ -48,10 +48,10 @@
         <item name="status_text_medium">16sp</item>
         <item name="status_text_large">18sp</item>
 
-        <item name="colorPrimary">@color/tusky_blue</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/white</item>
 
-        <item name="colorSecondary">@color/tusky_blue</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <item name="colorSurface">@color/colorSurface</item>
