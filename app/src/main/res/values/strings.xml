@@ -303,6 +303,7 @@
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Hide compose button while scrolling</string>
+    <string name="pref_title_font_family">Font family</string>
     <string name="pref_title_language">Language</string>
     <string name="pref_title_bot_overlay">Show indicator for bots</string>
     <string name="pref_title_animate_gif_avatars">Animate GIF avatars</string>
@@ -333,7 +334,6 @@
     <string name="pref_main_nav_position">Main navigation position</string>
     <string name="pref_main_nav_position_option_top">Top</string>
     <string name="pref_main_nav_position_option_bottom">Bottom</string>
-
 
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Unlisted</string>
@@ -521,9 +521,6 @@
     <string name="unreblog_private">Unboost</string>
 
     <string name="license_description">Tusky contains code and assets from the following open source projects:</string>
-    <string name="license_apache_2">Licensed under the Apache License (copy below)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
 
     <string name="profile_metadata_label">Profile metadata</string>
     <string name="profile_metadata_add">add data</string>

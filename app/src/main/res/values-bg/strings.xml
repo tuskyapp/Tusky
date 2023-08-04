@@ -100,9 +100,6 @@
     <string name="profile_metadata_label_label">Етикет</string>
     <string name="profile_metadata_add">добавяне на данни</string>
     <string name="profile_metadata_label">Профилни метаданни</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_apache_2">Лицензиран под лиценза Apache (копие по-долу)</string>
     <string name="license_description">Tusky съдържа код и активи от следните проекти с отворен код:</string>
     <string name="unreblog_private">Отсподеляне</string>
     <string name="reblog_private">Споделяне с оригиналната аудитория</string>

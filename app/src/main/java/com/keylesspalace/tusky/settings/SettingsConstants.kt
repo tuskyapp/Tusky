@@ -52,6 +52,7 @@ object PrefKeys {
     const val EMOJI = "selected_emoji_font"
     const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
+    const val FONT_FAMILY = "fontFamily"
     const val STATUS_TEXT_SIZE = "statusTextSize"
     const val READING_ORDER = "readingOrder"
     const val MAIN_NAV_POSITION = "mainNavPosition"

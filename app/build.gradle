@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.aboutlibraries)
 }
 
 apply from: 'getGitSha.gradle'
@@ -126,6 +127,13 @@ configurations {
     testRuntime.exclude group: "org.conscrypt", module: "conscrypt-android"
 }
 
+aboutLibraries {
+    configPath = "licenses"
+    includePlatform = false
+    duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+    prettyPrint = true
+}
+
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
 dependencies {
     implementation libs.kotlinx.coroutines.android
@@ -171,6 +179,8 @@ dependencies {
     implementation libs.unified.push
 
     implementation libs.bundles.xmldiff
+    
+    implementation libs.bundles.aboutlibraries
 
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric

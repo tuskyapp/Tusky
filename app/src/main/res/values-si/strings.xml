@@ -155,7 +155,6 @@
     <string name="conversation_more_recipients">%1$s, %2$s සහ තවත් %3$d</string>
     <string name="pref_title_timelines">කාලරේඛා</string>
     <string name="action_mute_domain">%s නිහඬ කරන්න</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="replying_to">\@%s වෙත පිළිතුරු දෙමින්</string>
     <string name="action_block">අවහිර</string>
     <string name="download_media">මාධ්‍ය බාගන්න</string>
@@ -189,7 +188,6 @@
     <string name="abbreviated_minutes_ago">වි. %d</string>
     <string name="failed_search">සෙවීමට අසමත් විය</string>
     <string name="no_announcements">නිවේදන නැත.</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="action_save">සුරකින්න</string>
     <string name="title_mutes">නිහඬ කළ පරිශීලකයින්</string>
     <string name="no_drafts">ඔබ සතුව කටුපිටපත් නැත.</string>

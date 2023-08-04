@@ -44,4 +44,7 @@
     <attr name="status_text_medium" format="dimension" />
     <attr name="status_text_large" format="dimension" />
 
+    <!-- Height of a toolbar that contains a title and a subtitle -->
+    <!-- Some custom fonts require this to be larger than the default -->
+    <attr name="actionBarSizeWithSubtitle" format="dimension|reference" />
 </resources>

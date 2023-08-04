@@ -264,7 +264,6 @@
     <string name="reblog_private">Hybu i\'r gynulleidfa wreiddiol</string>
     <string name="unreblog_private">Dad-hybu</string>
     <string name="license_description">Mae Tusky yn cynnwys cod ac asedau o\'r projectau cod agored canlynol:</string>
-    <string name="license_apache_2">Yn cael ei drwyddedu o Drwydded Apache (copi isod)</string>
     <string name="profile_metadata_label">Metadata\'r proffil</string>
     <string name="profile_metadata_add">ychwanegu data</string>
     <string name="profile_metadata_content_label">Cynnwys</string>
@@ -400,7 +399,6 @@
     <string name="action_edit_list">Golygu\'r rhestr</string>
     <string name="hint_search_people_list">Chwilio am bobl rydych chi\'n eu dilyn</string>
     <string name="profile_badge_bot_text">Bot</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="action_edit_image">Golygu llun</string>
     <string name="title_reblogged_by">Hybwyd gan</string>
     <string name="label_duration">Hyd</string>
@@ -449,7 +447,6 @@
     <string name="about_powered_by_tusky">Pwerir gan Tusky</string>
     <string name="title_accounts">Cyfrifon</string>
     <string name="create_poll_title">Pôl</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="action_delete_list">Dileu\'r rhestr</string>
     <string name="add_hashtag_title">Ychwanegu hashnod</string>
     <string name="status_count_one_plus">1+</string>

@@ -277,7 +277,6 @@
     <string name="reblog_private">Dar boost para o mesmo público</string>
     <string name="unreblog_private">Desfazer boost</string>
     <string name="license_description">O Tusky contém código e recursos dos seguintes projetos de código aberto:</string>
-    <string name="license_apache_2">Licenciado sob a licença Apache (cópia abaixo)</string>
     <string name="profile_metadata_label">Metadados do perfil</string>
     <string name="profile_metadata_add">Adicionar</string>
     <string name="profile_metadata_label_label">Rótulo</string>
@@ -333,8 +332,6 @@
         <item quantity="other">Descreva para deficientes visuais
 \n(até %d caracteres)</item>
     </plurals>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="label_remote_account">As informações abaixo podem refletir incompletamente o perfil do usuário. Toque aqui para abrir o perfil completo no navegador.</string>
     <string name="unpin_action">Desafixar</string>
     <string name="pin_action">Fixar</string>

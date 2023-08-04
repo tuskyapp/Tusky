@@ -276,9 +276,6 @@
     <string name="account_moved_description">%1$s buraya taşındı:</string>
     <string name="unreblog_private">Yeniden paylaşımı iptal et</string>
     <string name="license_description">Tusky aşağıdakı açık kaynaklı projelerden kod ve materyal içeriyor:</string>
-    <string name="license_apache_2">Apache Lisansı altında lisanslanmıştır (kopya aşağıda)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profil meta verileri</string>
     <string name="profile_metadata_add">veri ekle</string>
     <string name="profile_metadata_label_label">Etiket</string>

@@ -1,0 +1,19 @@
+{
+    "uniqueId": "com.lexend:lexend",
+    "artifactVersion": "7894f02b",
+    "developers": [
+        {
+            "name": "Bonnie Shaver-Troup, EdD"
+        },
+        {
+            "name": "Thomas Jockin"
+        }
+    ],
+    "description": "Lexend is a variable typeface designed by Bonnie Shaver-Troup and Thomas Jockin in 2018. Applying the Shaver-Troup Individually Optimal Text Formation Factors, studies have found readers instantaneously improve their reading fluency.",
+    "name": "Lexend font",
+    "tag": "font",
+    "licenses": [
+        "sil_ofl_1_1"
+    ],
+    "website": "https://www.lexend.com/"
+}

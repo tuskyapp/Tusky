@@ -23,8 +23,6 @@
     <string name="duration_5_min">5 minuuttia</string>
     <string name="add_hashtag_title">Lisää aihetunniste</string>
     <string name="description_post_media_no_description_placeholder">Ei kuvausta</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="download_failed">Lataus epäonnistui</string>
     <string name="action_open_post">Avaa tuuttaus</string>
     <string name="system_default">Järjestelmän oletus</string>

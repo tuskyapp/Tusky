@@ -1,0 +1,17 @@
+{
+    "uniqueId": "org.opendyslexic:opendyslexic",
+    "developers": [
+        {
+            "name": "Abbie Gonzalez",
+            "organisationUrl": "https://abbiecodes.zohodesk.com/portal/en/home"
+        }
+    ],
+    "artifactVersion": "0.910.12-rc2-2019.10.17",
+    "description": "OpenDyslexic is a new open sourced font created to increase readability for readers with dyslexia.",
+    "name": "OpenDyslexic font",
+    "tag": "font",
+    "licenses": [
+        "sil_ofl_1_1"
+    ],
+    "website": "https://opendyslexic.org/"
+}

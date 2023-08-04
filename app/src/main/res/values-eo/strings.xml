@@ -316,9 +316,6 @@
     <string name="reblog_private">Diskonigi al la originala atentaro</string>
     <string name="unreblog_private">Maldiskonigi</string>
     <string name="license_description">Tusky enhavas kodon kaj risurcojn el la sekvantaj malfermitkodaj projetkoj:</string>
-    <string name="license_apache_2">Laŭ la permesilo «Apache» (kopio sube)</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Profilaj metadatumoj</string>
     <string name="profile_metadata_add">aldoni datumon</string>
     <string name="profile_metadata_label_label">Etikedo</string>

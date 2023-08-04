@@ -1,0 +1,12 @@
+{
+    "uniqueId": "com.luciole-vision:luciole",
+    "artifactVersion": "7894f02b",
+    "developers": [],
+    "description": "Luciole (French for “firefly”) is a new typeface developed explicitly for visually impaired people. The result of a two-year collaboration between the Centre Technique Régional pour la Déficience Visuelle (the Regional Technical Center for Visual Impairment) and the type-design studio typographies.fr, this project received a grant from the Swiss Ceres Foundation and support from the DIPHE laboratory at the Université Lumière Lyon 2.",
+    "name": "Luciole font",
+    "tag": "font",
+    "licenses": [
+        "CC-BY-SA-4.0"
+    ],
+    "website": "https://www.luciole-vision.com/"
+}

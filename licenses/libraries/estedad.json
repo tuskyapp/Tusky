@@ -1,0 +1,16 @@
+{
+    "uniqueId": "com.github.aminabedi68:Estedad",
+    "artifactVersion": "7.3",
+    "developers": [
+        {
+            "name": "Amin Abedi",
+            "organisationUrl": "https://fontamin.com/"
+        }
+    ],
+    "description": "Estedad (\"Talent\" in Persian) is an Arabic-Latin Sans-Serif typeface in 9 standard weights. Estedad has wide codepoint range support for most Arabic and Latin languages. The design is simple, smooth, compact, legible, low contrast, lowest optical size (a bit higher in bold and above weights) and optimized for web-like environments",
+    "name": "Estedad font",
+    "tag": "font",
+    "licenses": [
+        "sil_ofl_1_1"
+    ]
+}

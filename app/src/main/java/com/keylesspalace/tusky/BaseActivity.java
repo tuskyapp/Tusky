@@ -32,6 +32,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -48,6 +49,7 @@ import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.EmbeddedFontFamily;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -87,8 +89,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
-        int style = textStyle(preferences.getString("statusTextSize", "medium"));
+        int style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"));
         getTheme().applyStyle(style, true);
+
+        EmbeddedFontFamily fontFamily = EmbeddedFontFamily.Companion.from(preferences.getString(PrefKeys.FONT_FAMILY, "default"));
+        if (fontFamily != EmbeddedFontFamily.DEFAULT) {
+            getTheme().applyStyle(fontFamily.getStyle(), true);
+        }
 
         if(requiresLogin()) {
             redirectIfNotLoggedIn();
@@ -139,7 +146,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return true;
     }
 
-    private static int textStyle(String name) {
+    private static @StyleRes int textStyle(String name) {
         int style;
         switch (name) {
             case "smallest":

@@ -19,6 +19,7 @@ import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -42,6 +43,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
@@ -91,6 +93,7 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
+import com.keylesspalace.tusky.util.EmbeddedFontFamily
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
@@ -116,6 +119,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IProfile
+import com.mikepenz.materialdrawer.model.interfaces.Typefaceable
 import com.mikepenz.materialdrawer.model.interfaces.descriptionRes
 import com.mikepenz.materialdrawer.model.interfaces.descriptionText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
@@ -648,6 +652,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             )
         }
+
+        updateMainDrawerTypeface(preferences)
     }
 
     private fun buildDeveloperToolsDialog(): AlertDialog {
@@ -671,6 +677,22 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 }
             }
             .create()
+    }
+
+    /**
+     * The drawer library forces the `android:fontFamily` attribute, overriding the value in the
+     * theme. Force-ably set the typeface for everything in the drawer if using a non-default font.
+     */
+    private fun updateMainDrawerTypeface(preferences: SharedPreferences) {
+        val fontFamily = EmbeddedFontFamily.from(preferences.getString(PrefKeys.FONT_FAMILY, "default"))
+        if (fontFamily == EmbeddedFontFamily.DEFAULT) return
+
+        val typeface = ResourcesCompat.getFont(this, fontFamily.font) ?: return
+        for (i in 0..binding.mainDrawer.adapter.itemCount) {
+            val item = binding.mainDrawer.adapter.getItem(i)
+            if (item !is Typefaceable) continue
+            item.typeface = typeface
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

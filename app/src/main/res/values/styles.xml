@@ -30,6 +30,32 @@
         <item name="status_text_large">22sp</item>
     </style>
 
+    <style name="FontAtkinsonHyperlegible">
+        <item name="android:fontFamily">@font/atkinson_hyperlegible</item>
+    </style>
+
+    <style name="FontComicNeue">
+        <item name="android:fontFamily">@font/comicneue</item>
+    </style>
+
+    <style name="FontEstedad">
+        <item name="android:fontFamily">@font/estedad</item>
+    </style>
+
+    <style name="FontLexend">
+        <item name="android:fontFamily">@font/lexend</item>
+    </style>
+
+    <style name="FontLuciole">
+        <item name="android:fontFamily">@font/luciole</item>
+        <!-- Luciole requires more vertical height than the other fonts -->
+        <item name="actionBarSizeWithSubtitle">62dp</item>
+    </style>
+
+    <style name="FontOpenDyslexic">
+        <item name="android:fontFamily">@font/opendyslexic</item>
+    </style>
+
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <item name="windowSplashScreenBackground">@color/tusky_grey_20</item>
@@ -89,6 +115,8 @@
         <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
+
+        <item name="actionBarSizeWithSubtitle">?attr/actionBarSize</item>
     </style>
 
     <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">

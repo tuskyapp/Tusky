@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.makeIcon
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.unsafeLazy
+import com.keylesspalace.tusky.view.FontFamilyDialogFragment
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
@@ -111,6 +112,16 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     decrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_out)
                     incrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_in)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
+                }
+
+                listPreference {
+                    setDefaultValue("default")
+                    setEntries(R.array.pref_font_family_names)
+                    setEntryValues(R.array.pref_font_family_values)
+                    key = PrefKeys.FONT_FAMILY
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_font_family)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_font_download)
                 }
 
                 listPreference {
@@ -319,6 +330,12 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
+        if (PrefKeys.FONT_FAMILY == preference.key) {
+            val fragment = FontFamilyDialogFragment.newInstance(PrefKeys.FONT_FAMILY)
+            fragment.setTargetFragment(this, 0)
+            fragment.show(parentFragmentManager, FontFamilyDialogFragment.TXN_TAG)
+            return
+        }
         if (!EmojiPickerPreference.onDisplayPreferenceDialog(this, preference)) {
             super.onDisplayPreferenceDialog(preference)
         }

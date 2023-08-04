@@ -1,0 +1,17 @@
+{
+    "uniqueId": "org.brailleinstitute:atkinson_hyperlegible",
+    "developers": [
+        {
+            "name": "Braille Institute",
+            "organisationUrl": "https://brailleinstitute.org"
+        }
+    ],
+    "artifactVersion": "2020.0514",
+    "description": "Atkinson Hyperlegible font is named after Braille Institute founder, J. Robert Atkinson.  What makes it different from traditional typography design is that it focuses on letterform distinction to increase character recognition, ultimately improving readability.",
+    "name": "Atkinson Hyperlegible font",
+    "tag": "font",
+    "licenses": [
+        "atkinson_hyperlegible_2020_1104"
+    ],
+    "website": "https://brailleinstitute.org/freefont"
+}

@@ -321,9 +321,6 @@
     <string name="reblog_private">转嘟（可见者不变）</string>
     <string name="unreblog_private">取消转嘟</string>
     <string name="license_description">Tusky 使用了以下开源项目的源码：</string>
-    <string name="license_apache_2">以 Apache License 授权（详见下方）</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">个人资料附加信息</string>
     <string name="profile_metadata_add">添加信息</string>
     <string name="profile_metadata_label_label">标签</string>

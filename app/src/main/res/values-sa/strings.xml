@@ -352,9 +352,6 @@
     <string name="profile_metadata_label_label">लक्षः</string>
     <string name="profile_metadata_add">दत्तं युज्यताम्</string>
     <string name="profile_metadata_label">व्यक्तिगतविवरणदत्तांशः</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA ४.०</string>
-    <string name="license_cc_by_4">CC-BY ४.०</string>
-    <string name="license_apache_2">Apache Licence (अनुलिख्यताम्) इत्यनुज्ञप्तिपत्रेणाऽनुज्ञापितः</string>
     <string name="license_description">टस्कीत्यस्मिन्निम्नलिखितेभ्योऽनावृतस्रोतःप्रकल्पेभ्यो विध्यादेशाः सन्ति:</string>
     <string name="unreblog_private">प्रकाशनंं नश्यताम्</string>
     <string name="reblog_private">मूलदर्शकेभ्यः प्रकाश्यताम्</string>

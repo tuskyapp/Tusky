@@ -353,8 +353,6 @@
     <string name="title_edits">Рэдагаванні</string>
     <string name="failed_to_add_to_list">Не атрымалася дадаць уліковы запіс у спіс</string>
     <string name="action_add_or_remove_from_list">Дадаць ці выдаліць са спіса</string>
-    <string name="license_apache_2">Выкарыстоўваецца ліцэнзія Apache License (копія знізу)</string>
-    <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="action_add_to_list">Дадаць уліковы запіс у спіс</string>
     <plurals name="hint_describe_for_visually_impaired">
@@ -369,7 +367,6 @@
     <string name="caption_twemoji">Тыповы набор эмодзі Mastodon</string>
     <string name="download_failed">Не атрымалася спампаваць</string>
     <string name="unreblog_private">Скасаваць пашырэнне</string>
-    <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="pin_action">Замацаваць</string>
     <string name="unpin_action">Адмацаваць</string>
     <string name="failed_to_pin">Не атрымалася замацаваць</string>

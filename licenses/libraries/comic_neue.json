@@ -1,0 +1,16 @@
+{
+    "uniqueId": "com.comicneue:comicneue",
+    "artifactVersion": "2.51",
+    "developers": [
+        {
+            "name": "Craig Rozynski"
+        }
+    ],
+    "description": "Comic Neue aspires to be the casual script choice for everyone including the typographically savvy.\n\nThe squashed, wonky, and weird glyphs of Comic Sans have been beaten into shape while maintaining the honesty that made Comic Sans so popular.",
+    "name": "Comic Neue font",
+    "tag": "font",
+    "licenses": [
+        "sil_ofl_1_1"
+    ],
+    "website": "https://comicneue.com/"
+}
