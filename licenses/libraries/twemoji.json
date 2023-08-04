@@ -1,0 +1,17 @@
+{
+    "uniqueId": "com.twitter:twemoji",
+    "developers": [
+        {
+            "name": "Twitter",
+            "organisationUrl": "https://www.twitter.com"
+        }
+    ],
+    "artifactVersion": "14.0.2",
+    "description": "Twitter’s open source emoji.",
+    "name": "Twitter emoji",
+    "tag": "emoji",
+    "licenses": [
+        "CC-BY-4.0"
+    ],
+    "website": "https://github.com/twitter/twemoji"
+}

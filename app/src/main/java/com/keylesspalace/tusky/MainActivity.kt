@@ -162,7 +162,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private lateinit var header: AccountHeaderView
 
-    private var notificationTabPosition = 0
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
     private var unreadAnnouncementsCount = 0
@@ -776,8 +775,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             activeTabLayout.addOnTabSelectedListener(it)
         }
 
-        val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
-        supportActionBar?.title = tabs[activeTabPosition].title(this@MainActivity)
+        supportActionBar?.title = tabs[position].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
             (tabAdapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }

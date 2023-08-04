@@ -1,0 +1,20 @@
+{
+    "uniqueId": "com.github.tuskyapp:artwork",
+    "developers": [
+        {
+            "name": "Erb Ordonez",
+            "organisationUrl": "https://erbmakes.art/"
+        },
+        {
+            "name": "Dzuk",
+            "organisationUrl": "https://dzuk.zone/"
+        }
+    ],
+    "artifactVersion": "2f597913",
+    "description": "Tusky elephant artwork and icons",
+    "name": "Tusky artwork",
+    "licenses": [
+        "CC-BY-SA-4.0"
+    ],
+    "website": "https://github.com/tuskyapp/artwork"
+}
