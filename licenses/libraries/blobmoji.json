@@ -1,0 +1,17 @@
+{
+    "uniqueId": "com.github.c1710:blobmoji",
+    "developers": [
+        {
+            "name": "Constantin A.",
+            "organisationUrl": "https://github.com/C1710"
+        }
+    ],
+    "artifactVersion": "15",
+    "description": "Continued development of the Blob emojis",
+    "name": "Blob emoji",
+    "tag": "emoji",
+    "licenses": [
+        "sil_ofl_1_1"
+    ],
+    "website": "https://github.com/c1710/blobmoji"
+}

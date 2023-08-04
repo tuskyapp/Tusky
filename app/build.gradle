@@ -128,8 +128,10 @@ configurations {
 }
 
 aboutLibraries {
+    configPath = "licenses"
     includePlatform = false
     duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+    prettyPrint = true
 }
 
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
