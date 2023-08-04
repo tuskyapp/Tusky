@@ -105,16 +105,32 @@ class ComposeScheduleView
     }
 
     fun openPickDateDialog() {
-        val yesterday = Calendar.getInstance().timeInMillis - 24 * 60 * 60 * 1000
+        // The earliest point in time the calendar should display. Start with current date/time
+        val earliest = calendar().apply {
+            // Add the minimum scheduling interval. This may roll the calendar over to the
+            // next day (e.g. if the current time is 23:57).
+            add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS)
+            // Clear out the time components, so it's midnight
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(
-                DateValidatorPointForward.from(yesterday)
-            )
+            .setValidator(DateValidatorPointForward.from(earliest.timeInMillis))
             .build()
         initializeSuggestedTime()
+
+        // Work around a misfeature in MaterialDatePicker. The `selection` is treated as
+        // millis-from-epoch, in UTC, which is good. However, it is also *displayed* in UTC
+        // instead of converting to the user's local timezone.
+        //
+        // So we have to add the TZ offset before setting it in the picker
+        val tzOffset = TimeZone.getDefault().getOffset(scheduleDateTimeUtc!!.timeInMillis)
+
         val picker = MaterialDatePicker.Builder
             .datePicker()
-            .setSelection(scheduleDateTimeUtc!!.timeInMillis)
+            .setSelection(scheduleDateTimeUtc!!.timeInMillis + tzOffset)
             .setCalendarConstraints(calendarConstraints)
             .build()
         picker.addOnPositiveButtonClickListener { selection: Long -> onDateSet(selection) }
