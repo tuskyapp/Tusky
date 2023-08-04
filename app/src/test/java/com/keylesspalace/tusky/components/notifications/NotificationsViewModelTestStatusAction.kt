@@ -22,7 +22,6 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.FilterV1Test.Companion.mockStatus
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.any
@@ -40,7 +39,6 @@ import org.mockito.kotlin.verify
  *   This is only tested in the success case; if it passed there it must also
  *   have passed in the error case.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() {
     private val status = mockStatus(pollOptions = listOf("Choice 1", "Choice 2", "Choice 3"))
     private val statusViewData = StatusViewData(

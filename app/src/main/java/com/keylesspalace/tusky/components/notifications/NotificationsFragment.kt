@@ -294,7 +294,7 @@ class NotificationsFragment :
                             val position = adapter.snapshot().indexOfFirst {
                                 it?.statusViewData?.status?.id == action.statusViewData.id
                             }
-                            if (position != RecyclerView.NO_POSITION) {
+                            if (position != NO_POSITION) {
                                 adapter.notifyItemChanged(position)
                             }
                         }
