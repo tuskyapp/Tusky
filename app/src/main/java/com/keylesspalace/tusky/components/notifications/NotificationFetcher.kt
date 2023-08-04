@@ -17,6 +17,7 @@ import com.keylesspalace.tusky.util.isLessThan
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
 
 /** Models next/prev links from the "Links" header in an API response */
 data class Links(val next: String?, val prev: String?) {
@@ -106,10 +107,12 @@ class NotificationFetcher @Inject constructor(
                                 notificationListEntry.value.size == 1
                             )
                             notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
-                        }
 
-                        // Leave some time between notifications from different types (to be able to distinguish them)
-                        delay(1000)
+                            // Android will rate limit / drop notifications if they're posted too
+                            // quickly. There is no indication to the user that this happened.
+                            // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
+                            delay(1000.milliseconds)
+                        }
                     }
 
                     NotificationHelper.updateSummaryNotifications(
