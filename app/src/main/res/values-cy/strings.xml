@@ -203,10 +203,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Gwefan y project:
-\n https://tusky.app</string>
+    <string name="about_project_site">Gwefan y project: https://tusky.app</string>
     <string name="about_bug_feature_request_site">Adrodd ar wallau a cheisiadau nodweddion:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Proffil Tusky</string>
     <string name="post_share_content">Rhannu cynnwys y neges</string>
     <string name="post_share_link">Rhannu dolen i\'r neges</string>
@@ -658,7 +657,7 @@
     <string name="action_browser_login">Mewngofnodi â phorwr</string>
     <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
     <string name="description_browser_login">Gall gefnogi dulliau dilysu ychwanegol, ond mae angen porwr a gefnogir.</string>
-    <string name="action_post_failed_detail">Methodd eich neges â lanlwytho a chafodd ei chadw i\'ch ddrafftiau.
+    <string name="action_post_failed_detail">Methodd eich neges â lanlwytho a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y neges.</string>
     <string name="action_post_failed">Wedi methu lanlwytho</string>
@@ -723,4 +722,13 @@
     <string name="load_newest_notifications">Llwytho\'r hysbys diweddaraf</string>
     <string name="compose_delete_draft">Dileu\'r drafft\?</string>
     <string name="error_media_upload_sending_fmt">Methodd y lanlwytho: %s</string>
+    <string name="about_device_info_title">Eich dyfais</string>
+    <string name="about_device_info">%s %s
+\nFersiwn Android: %s
+\nFersiwn SDK: %d</string>
+    <string name="about_account_info_title">Eich cyfrif</string>
+    <string name="about_account_info">\@%s@%s
+\nFersiwn: %s</string>
+    <string name="about_copy">Copïo fersiwn a gwybodaeth dyfais</string>
+    <string name="about_copied">Copïwyd fersiwn a gwybodaeth dyfais</string>
 </resources>
