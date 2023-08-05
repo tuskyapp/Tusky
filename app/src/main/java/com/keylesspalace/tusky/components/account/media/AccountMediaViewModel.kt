@@ -37,6 +37,8 @@ class AccountMediaViewModel @Inject constructor(
 
     var currentSource: AccountMediaPagingSource? = null
 
+    val activeAccount = accountManager.activeAccount!!
+
     @OptIn(ExperimentalPagingApi::class)
     val media = Pager(
         config = PagingConfig(
@@ -50,7 +52,7 @@ class AccountMediaViewModel @Inject constructor(
                 currentSource = source
             }
         },
-        remoteMediator = AccountMediaRemoteMediator(api, accountManager, this)
+        remoteMediator = AccountMediaRemoteMediator(api, activeAccount, this)
     ).flow
         .cachedIn(viewModelScope)
 
