@@ -19,7 +19,6 @@ package com.keylesspalace.tusky.components.notifications
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.doReturn
@@ -34,7 +33,6 @@ import org.mockito.kotlin.verify
  *   This is only tested in the success case; if it passed there it must also
  *   have passed in the error case.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestClearNotifications : NotificationsViewModelTestBase() {
     @Test
     fun `clearing notifications succeeds && invalidate the repository`() = runTest {

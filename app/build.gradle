@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
@@ -28,8 +29,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdk 23
         targetSdk 33
-        versionCode 107
-        versionName "22.0 beta 5"
+        versionCode 113
+        versionName "23.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -102,8 +103,8 @@ android {
     // Can remove this once https://issuetracker.google.com/issues/260059413 is fixed.
     // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
@@ -113,11 +114,9 @@ android {
     }
 }
 
-kapt {
-    arguments {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", "true")
-    }
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
 }
 
 configurations {
@@ -134,7 +133,7 @@ dependencies {
 
     implementation libs.bundles.androidx
     implementation libs.bundles.room
-    kapt libs.androidx.room.compiler
+    ksp libs.androidx.room.compiler
 
     implementation libs.android.material
 
@@ -148,7 +147,7 @@ dependencies {
     implementation libs.conscrypt.android
 
     implementation libs.bundles.glide
-    kapt libs.glide.compiler
+    ksp libs.glide.compiler
 
     implementation libs.bundles.rxjava3
 
@@ -159,7 +158,7 @@ dependencies {
 
     implementation libs.sparkbutton
 
-    implementation libs.photoview
+    implementation libs.touchimageview
 
     implementation libs.bundles.material.drawer
     implementation libs.material.typeface
@@ -186,4 +185,21 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
+}
+
+// Work around warnings of:
+// WARNING: Illegal reflective access by org.jetbrains.kotlin.kapt3.util.ModuleManipulationUtilsKt (file:/C:/Users/Andi/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.8.22/28dab7e0ee9ce62c03bf97de3543c911dc653700/kotlin-annotation-processing-gradle-1.8.22.jar) to constructor com.sun.tools.javac.util.Context()
+// See https://youtrack.jetbrains.com/issue/KT-30589/Kapt-An-illegal-reflective-access-operation-has-occurred
+tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask) {
+    kaptProcessJvmArgs.addAll([
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"])
 }

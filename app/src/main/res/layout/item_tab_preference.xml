@@ -6,9 +6,10 @@
     android:layout_height="wrap_content"
     android:background="?android:colorBackground"
     android:orientation="horizontal"
-    android:paddingStart="16dp"
     android:paddingTop="8dp"
-    android:paddingEnd="16dp">
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall">
 
     <ImageView
         android:id="@+id/imageView"
@@ -19,7 +20,8 @@
         android:paddingBottom="8dp"
         android:src="@drawable/ic_drag_indicator_24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/textView"/>
 
     <TextView
         android:id="@+id/textView"
@@ -30,8 +32,7 @@
         android:drawablePadding="12dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="?attr/status_text_large"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         app:drawableTint="?android:attr/textColorSecondary"
         app:layout_constraintBottom_toTopOf="@id/chipGroup"
         app:layout_constraintEnd_toEndOf="parent"

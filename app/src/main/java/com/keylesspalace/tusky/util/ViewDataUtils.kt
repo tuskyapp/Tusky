@@ -40,7 +40,6 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
-@JvmName("statusToViewData")
 fun Status.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
@@ -56,7 +55,6 @@ fun Status.toViewData(
     )
 }
 
-@JvmName("notificationToViewData")
 fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
@@ -71,9 +69,20 @@ fun Notification.toViewData(
     )
 }
 
-@JvmName("tagToViewData")
-fun TrendingTag.toViewData(): TrendingViewData.Tag {
-    return TrendingViewData.Tag(
-        tag = this
-    )
+fun List<TrendingTag>.toViewData(): List<TrendingViewData.Tag> {
+    val maxTrendingValue = flatMap { tag -> tag.history }
+        .mapNotNull { it.uses.toLongOrNull() }
+        .maxOrNull() ?: 1
+
+    return map { tag ->
+
+        val reversedHistory = tag.history.asReversed()
+
+        TrendingViewData.Tag(
+            name = tag.name,
+            usage = reversedHistory.mapNotNull { it.uses.toLongOrNull() },
+            accounts = reversedHistory.mapNotNull { it.accounts.toLongOrNull() },
+            maxTrendingValue = maxTrendingValue
+        )
+    }
 }

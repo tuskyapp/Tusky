@@ -72,6 +72,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                         binding.messageView.show()
                     }
                     FiltersViewModel.LoadingState.LOADED -> {
+                        binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         if (state.filters.isEmpty()) {
                             binding.messageView.setup(
                                 R.drawable.elephant_friend_empty,
@@ -81,7 +82,6 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                             binding.messageView.show()
                         } else {
                             binding.messageView.hide()
-                            binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         }
                     }
                 }

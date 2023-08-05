@@ -117,10 +117,6 @@ class NotificationsPagingAdapter(
         )
     }
 
-    init {
-        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
-    }
-
     override fun getItemViewType(position: Int): Int {
         return NotificationViewKind.from(getItem(position)?.type).ordinal
     }
@@ -128,7 +124,7 @@ class NotificationsPagingAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        return when (NotificationViewKind.values()[viewType]) {
+        return when (NotificationViewKind.entries[viewType]) {
             NotificationViewKind.STATUS -> {
                 StatusViewHolder(
                     ItemStatusBinding.inflate(inflater, parent, false),

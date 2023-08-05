@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Nye fikser:
+
+- Forbedret fart for lasting av varler
+- 0/1/1+ vises igjen for svar
+- Vis filtertitler ikke filterord på filtrede poster
+- Fikset en bug som ved åpning av status kunne åpne en urelatert lenke
+- Vis "legg til"-knappen på riktig plass når det ikke er noen filtre
+- Fikse diverse krasj

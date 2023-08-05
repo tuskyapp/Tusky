@@ -321,7 +321,7 @@
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descriure lo contengut pels mal vesents (%d caractèr maximum)</item>
-        <item quantity="other">"Descriure  los contenguts pels mal vesents (%d caractèrs maximum)"</item>
+        <item quantity="other">Descriure los contenguts pels mal vesents (%d caractèrs maximum)</item>
     </plurals>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -590,9 +590,9 @@
     <string name="description_post_edited">Modificada</string>
     <string name="error_status_source_load">Fracàs del cargament de l’estatut a partir del servidor.</string>
     <string name="mute_notifications_switch">Amudir las notificacions</string>
-    <string name="status_created_info">%1$s creèt %2$s</string>
+    <string name="status_created_info">%1$s creèt</string>
     <string name="title_edits">Modificacions</string>
-    <string name="status_edit_info">%1$s modifiquèt %2$s</string>
+    <string name="status_edit_info">%1$s modifiquèt</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Ignorar las modificacions</string>
     <string name="action_continue_edit">Téner de modificar</string>
@@ -666,4 +666,9 @@
     <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
 \n
 \nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància [iconics gmd_group], siá los trapar per lor nom [iconics gmd_search], per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
+    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar.
+\n
+\nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
+    <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
+    <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
 </resources>

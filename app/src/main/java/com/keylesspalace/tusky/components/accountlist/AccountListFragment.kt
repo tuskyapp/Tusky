@@ -107,13 +107,15 @@ class AccountListFragment :
         val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val showBotOverlay = pm.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
 
+        val activeAccount = accountManager.activeAccount!!
+
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.FOLLOW_REQUESTS -> {
                 val headerAdapter = FollowRequestsHeaderAdapter(
-                    instanceName = accountManager.activeAccount!!.domain,
-                    accountLocked = arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true
+                    instanceName = activeAccount.domain,
+                    accountLocked = activeAccount.locked
                 )
                 val followRequestsAdapter = FollowRequestsAdapter(this, this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
@@ -393,16 +395,9 @@ class AccountListFragment :
 
         if (adapter.itemCount == 0) {
             binding.messageView.show()
-            if (throwable is IOException) {
-                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                    binding.messageView.hide()
-                    this.fetchAccounts(null)
-                }
-            } else {
-                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    binding.messageView.hide()
-                    this.fetchAccounts(null)
-                }
+            binding.messageView.setup(throwable) {
+                binding.messageView.hide()
+                this.fetchAccounts(null)
             }
         }
     }
@@ -411,14 +406,12 @@ class AccountListFragment :
         private const val TAG = "AccountList" // logging tag
         private const val ARG_TYPE = "type"
         private const val ARG_ID = "id"
-        private const val ARG_ACCOUNT_LOCKED = "acc_locked"
 
-        fun newInstance(type: Type, id: String? = null, accountLocked: Boolean = false): AccountListFragment {
+        fun newInstance(type: Type, id: String? = null): AccountListFragment {
             return AccountListFragment().apply {
                 arguments = Bundle(3).apply {
                     putSerializable(ARG_TYPE, type)
                     putString(ARG_ID, id)
-                    putBoolean(ARG_ACCOUNT_LOCKED, accountLocked)
                 }
             }
         }
