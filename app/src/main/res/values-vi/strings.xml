@@ -153,7 +153,7 @@
     <string name="action_unfollow">Bỏ theo dõi</string>
     <string name="action_follow">Theo dõi</string>
     <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\? Dữ liệu của tài khoản sẽ bị xóa, bao gồm những bản nháp và thiết lập.</string>
-    <string name="action_compose">Viết tút</string>
+    <string name="action_compose">Soạn tút</string>
     <string name="action_more">Thêm</string>
     <string name="action_unfavourite">Bỏ lưu</string>
     <string name="action_bookmark">Lưu</string>
@@ -270,8 +270,7 @@
     <string name="notification_follow_request_description">Thông báo về lượt yêu cầu theo dõi</string>
     <string name="about_bug_feature_request_site">Báo lỗi và đề xuất tính năng
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">Trang chủ
-\nhttps://tusky.app</string>
+    <string name="about_project_site">Website dự án: https://tusky.app</string>
     <string name="about_tusky_license">Tusky là phần mềm mã nguồn mở, được phân phối với giấy phép GNU General Public License Version 3. Bạn có thể tham khảo thêm tại: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -360,8 +359,8 @@
     </plurals>
     <string name="poll_info_format"> <!-- 15 người bình chọn • còn 1 giờ --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
-    <string name="compose_shortcut_short_label">Viết</string>
-    <string name="compose_shortcut_long_label">Viết tút</string>
+    <string name="compose_shortcut_short_label">Soạn</string>
+    <string name="compose_shortcut_long_label">Soạn tút</string>
     <string name="filter_apply">Áp dụng</string>
     <string name="notifications_apply_filter">Lọc</string>
     <string name="notifications_clear">Xóa hết</string>
@@ -426,7 +425,7 @@
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>
-    <string name="action_compose_shortcut">Viết</string>
+    <string name="action_compose_shortcut">Soạn</string>
     <string name="compose_save_draft">Lưu nháp\?</string>
     <string name="lock_account_label_description">Tự bạn sẽ phê duyệt người theo dõi</string>
     <string name="lock_account_label">Tài khoản riêng tư</string>
@@ -499,7 +498,7 @@
     <string name="duration_90_days">90 ngày</string>
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
-    <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
+    <string name="tusky_compose_post_quicksetting_label">Soạn tút</string>
     <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
     <string name="notification_sign_up_format">%s tham gia máy chủ</string>
     <string name="notification_sign_up_name">Thành viên mới</string>
@@ -657,4 +656,13 @@
     <string name="notification_notification_worker">Đang nạp thông báo…</string>
     <string name="notification_prune_cache">Bảo trì bộ nhớ đệm…</string>
     <string name="error_media_upload_sending_fmt">Không thể tải lên: %s</string>
+    <string name="about_device_info">%s %s
+\nAndroid %s
+\nSDK %d</string>
+    <string name="about_account_info_title">Tài khoản của bạn</string>
+    <string name="about_account_info">\@%s@%s
+\nPhiên bản: %s</string>
+    <string name="about_copy">Sao chép phiên bản và thông tin thiết bị</string>
+    <string name="about_copied">Đã sao chép phiên bản và thông tin thiết bị</string>
+    <string name="about_device_info_title">Thiết bị của bạn</string>
 </resources>
