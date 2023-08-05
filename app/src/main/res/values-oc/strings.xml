@@ -671,4 +671,17 @@
 \nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
     <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
     <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
+    <string name="pref_ui_text_size">talha tèxte UI</string>
+    <string name="notification_listenable_worker_name">activitat en rèireplan</string>
+    <string name="notification_listenable_worker_description">Notificacions quand Tuska s’executa en rèireplan</string>
+    <string name="notification_notification_worker">Recuperacion de las notificacions…</string>
+    <string name="notification_prune_cache">Manteniment del cache…</string>
+    <string name="about_device_info_title">Vòstre aparelh</string>
+    <string name="about_device_info">%s %s
+\nversion d’Android : %s
+\nversion del SDK : %d</string>
+    <string name="about_account_info_title">Vòstre compte</string>
+    <string name="about_account_info">\@%s@%s
+\nVersion : %s</string>
+    <string name="error_media_upload_sending_fmt">Fracàs del mandadís : %s</string>
 </resources>
