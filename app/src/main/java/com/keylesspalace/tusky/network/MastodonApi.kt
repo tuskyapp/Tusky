@@ -547,7 +547,7 @@ interface MastodonApi {
     suspend fun updateList(
         @Path("listId") listId: String,
         @Field("title") title: String,
-        @Field("exclusive") exclusive: Boolean?,
+        @Field("exclusive") exclusive: Boolean?
     ): NetworkResult<MastoList>
 
     @DELETE("api/v1/lists/{listId}")
