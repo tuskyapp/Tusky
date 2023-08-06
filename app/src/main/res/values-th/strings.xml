@@ -136,7 +136,6 @@
     <string name="action_remove_from_list">ลบบัญชีออกจากรายการ</string>
     <string name="action_add_to_list">เพิ่มบัญชีไปใส่รายการ</string>
     <string name="hint_search_people_list">ค้นหาผู้ติดตาม</string>
-    <string name="action_edit_list">แก้ไขรายการ</string>
     <string name="action_delete_list">ลบรายการ</string>
     <string name="action_rename_list">เปลี่ยนชื่อรายการ</string>
     <string name="action_create_list">สร้างรายการ</string>

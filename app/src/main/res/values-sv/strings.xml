@@ -273,7 +273,6 @@
     <string name="action_create_list">Skapa en lista</string>
     <string name="action_rename_list">Byt namn på listan</string>
     <string name="action_delete_list">Ta bort listan</string>
-    <string name="action_edit_list">Redigera lista</string>
     <string name="hint_search_people_list">Sök efter personer du följer</string>
     <string name="action_add_to_list">Lägg till konto i listan</string>
     <string name="action_remove_from_list">Ta bort kontot från listan</string>

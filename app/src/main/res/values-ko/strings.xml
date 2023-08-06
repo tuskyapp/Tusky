@@ -285,7 +285,6 @@
     <string name="action_create_list">리스트 생성</string>
     <string name="action_rename_list">리스트 이름 바꾸기</string>
     <string name="action_delete_list">리스트 삭제</string>
-    <string name="action_edit_list">리스트 편집</string>
     <string name="hint_search_people_list">당신을 팔로우하는 사람 검색</string>
     <string name="action_add_to_list">리스트에 계정 추가</string>
     <string name="action_remove_from_list">리스트에서 계정 삭제</string>

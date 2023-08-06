@@ -314,7 +314,6 @@
     <string name="action_create_list">Crear una lista</string>
     <string name="action_rename_list">Renomenar la lista</string>
     <string name="action_delete_list">Suprimir la lista</string>
-    <string name="action_edit_list">Modificar la lista</string>
     <string name="hint_search_people_list">Cercar lo monde que seguètz</string>
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>

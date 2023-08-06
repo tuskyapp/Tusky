@@ -211,7 +211,6 @@
     <string name="notification_favourite_format">%s lisäsi julkaisusi suosikkeihinsa</string>
     <string name="action_open_reblogged_by">Näytä jaot</string>
     <string name="action_show_reblogs">Näytä jaetut julkaisut</string>
-    <string name="action_edit_list">Muokkaa listaa</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s ja %4$d muuta</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Kuvaa näkövammaisille

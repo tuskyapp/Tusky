@@ -130,7 +130,6 @@
     <string name="action_create_list">Izveidot sarakstu</string>
     <string name="action_rename_list">Pārsaukt sarakstu</string>
     <string name="action_delete_list">Dzēst sarakstu</string>
-    <string name="action_edit_list">Labot sarakstu</string>
     <string name="action_add_to_list">Pievienot kontu sarakstam</string>
     <string name="action_remove_from_list">Noņemt kontu no saraksta</string>
     <string name="action_edit_image">Labot attēlu</string>

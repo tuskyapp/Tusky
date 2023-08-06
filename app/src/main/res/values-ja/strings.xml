@@ -364,7 +364,6 @@
     <string name="error_delete_list">リストを削除できませんでした</string>
     <string name="action_create_list">リストの作成</string>
     <string name="action_delete_list">リストの削除</string>
-    <string name="action_edit_list">リストの編集</string>
     <string name="hint_search_people_list">フォロワーを検索</string>
     <string name="action_add_to_list">リストにアカウントを追加</string>
     <string name="action_remove_from_list">リストからアカウントを削除</string>

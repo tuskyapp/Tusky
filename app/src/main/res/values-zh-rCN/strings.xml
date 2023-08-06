@@ -275,7 +275,6 @@
     <string name="action_create_list">新建列表</string>
     <string name="action_rename_list">重命名列表</string>
     <string name="action_delete_list">删除列表</string>
-    <string name="action_edit_list">编辑列表</string>
     <string name="hint_search_people_list">搜索已关注的用户</string>
     <string name="action_add_to_list">添加用户到列表</string>
     <string name="action_remove_from_list">从列表中移除用户</string>

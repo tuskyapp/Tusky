@@ -346,7 +346,6 @@
     <string name="action_create_list">Lijst aanmaken</string>
     <string name="action_rename_list">Lijst hernoemen</string>
     <string name="action_delete_list">Lijst verwijderen</string>
-    <string name="action_edit_list">Lijst bewerken</string>
     <string name="hint_search_people_list">Naar mensen zoeken die je volgt</string>
     <string name="action_add_to_list">Account aan de lijst toevoegen</string>
     <string name="action_remove_from_list">Account uit de lijst verwijderen</string>

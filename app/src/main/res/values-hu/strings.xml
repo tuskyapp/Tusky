@@ -317,7 +317,6 @@
     <string name="action_create_list">Lista létrehozása</string>
     <string name="action_rename_list">Lista átnevezése</string>
     <string name="action_delete_list">Lista törlése</string>
-    <string name="action_edit_list">Lista szerkesztése</string>
     <string name="title_domain_mutes">Rejtett domainek</string>
     <string name="action_unreblog">Megtolás visszavonása</string>
     <string name="action_view_domain_mutes">Rejtett domainek</string>
