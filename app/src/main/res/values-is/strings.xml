@@ -292,7 +292,6 @@
     <string name="action_create_list">Búa til lista</string>
     <string name="action_rename_list">Endurnefna listann</string>
     <string name="action_delete_list">Eyða listanum</string>
-    <string name="action_edit_list">Sýsla með listann</string>
     <string name="hint_search_people_list">Leita að fólki sem þú fylgist með</string>
     <string name="action_add_to_list">Bæta notandaaðgangi á listann</string>
     <string name="action_remove_from_list">Fjarlægja notandaaðganginn af listanum</string>
