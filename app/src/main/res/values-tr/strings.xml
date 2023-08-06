@@ -339,7 +339,6 @@
     <string name="action_create_list">Liste oluştur</string>
     <string name="action_rename_list">Listeyi yeniden adlandır</string>
     <string name="action_delete_list">Listeyi sil</string>
-    <string name="action_edit_list">Listeyi düzenle</string>
     <string name="hint_search_people_list">Takip ettiğim kişilerde ara</string>
     <string name="action_add_to_list">Listeye hesap ekle</string>
     <string name="action_remove_from_list">Hesabı listeden kaldır</string>
