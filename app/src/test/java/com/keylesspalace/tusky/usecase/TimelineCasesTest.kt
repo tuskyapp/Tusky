@@ -19,7 +19,7 @@ import org.mockito.kotlin.stub
 import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
-import java.util.*
+import java.util.Date
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)

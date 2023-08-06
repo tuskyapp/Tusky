@@ -51,10 +51,10 @@ class ViewEditsAdapter(
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
     /** Size of large text in this theme, in px */
-    var largeTextSizePx: Float = 0f
+    private var largeTextSizePx: Float = 0f
 
     /** Size of medium text in this theme, in px */
-    var mediumTextSizePx: Float = 0f
+    private var mediumTextSizePx: Float = 0f
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

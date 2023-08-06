@@ -129,7 +129,7 @@ class AnnouncementsActivity :
                 is Error -> {
                     binding.progressBar.hide()
                     binding.swipeRefreshLayout.isRefreshing = false
-                    binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                    binding.errorMessageView.setup(R.drawable.errorphant_error, R.string.error_generic) {
                         refreshAnnouncements()
                     }
                     binding.errorMessageView.show()

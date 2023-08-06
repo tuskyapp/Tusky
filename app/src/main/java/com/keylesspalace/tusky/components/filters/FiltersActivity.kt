@@ -60,18 +60,19 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                 when (state.loadingState) {
                     FiltersViewModel.LoadingState.INITIAL, FiltersViewModel.LoadingState.LOADING -> binding.messageView.hide()
                     FiltersViewModel.LoadingState.ERROR_NETWORK -> {
-                        binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                        binding.messageView.setup(R.drawable.errorphant_offline, R.string.error_network) {
                             loadFilters()
                         }
                         binding.messageView.show()
                     }
                     FiltersViewModel.LoadingState.ERROR_OTHER -> {
-                        binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                        binding.messageView.setup(R.drawable.errorphant_error, R.string.error_generic) {
                             loadFilters()
                         }
                         binding.messageView.show()
                     }
                     FiltersViewModel.LoadingState.LOADED -> {
+                        binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         if (state.filters.isEmpty()) {
                             binding.messageView.setup(
                                 R.drawable.elephant_friend_empty,
@@ -81,7 +82,6 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                             binding.messageView.show()
                         } else {
                             binding.messageView.hide()
-                            binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         }
                     }
                 }

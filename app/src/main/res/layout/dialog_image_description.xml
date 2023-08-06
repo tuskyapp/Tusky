@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingBottom="0dp">
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <com.ortiz.touchview.TouchImageView
         android:id="@+id/imageDescriptionView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
