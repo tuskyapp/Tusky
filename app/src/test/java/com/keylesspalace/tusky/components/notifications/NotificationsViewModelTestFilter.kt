@@ -21,7 +21,6 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Notification
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.argumentCaptor
@@ -33,7 +32,6 @@ import org.mockito.kotlin.verify
  * - Is the [UiState] updated correctly?
  * - Are the correct [AccountManager] functions called, with the correct arguments?
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestFilter : NotificationsViewModelTestBase() {
 
     @Test
