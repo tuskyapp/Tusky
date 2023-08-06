@@ -24,7 +24,7 @@
         android:src="@android:color/transparent"
         android:visibility="gone"
         android:layout_gravity="center"
-        tools:src="@drawable/elephant_error"
+        tools:src="@drawable/errorphant_error"
         tools:visibility="visible" />
 
     <include
