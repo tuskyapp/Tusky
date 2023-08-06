@@ -516,7 +516,7 @@ class ViewThreadViewModel @Inject constructor(
 
 sealed interface ThreadUiState {
     /** The initial load of the detailed status for this thread */
-    object Loading : ThreadUiState
+    data object Loading : ThreadUiState
 
     /** Loading the detailed status has completed, now loading ancestors/descendants */
     data class LoadingThread(
@@ -535,7 +535,7 @@ sealed interface ThreadUiState {
     ) : ThreadUiState
 
     /** Refreshing the thread with a swipe */
-    object Refreshing : ThreadUiState
+    data object Refreshing : ThreadUiState
 }
 
 enum class RevealButtonState {

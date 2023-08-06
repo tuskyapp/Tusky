@@ -1,0 +1,6 @@
+Tusky 22.0 beta 5 
+ 
+Fikser: 
+ 
+- Tilbakestillt APNG-bibliotek for å fikse ødelagte animerte emoji 
+- Lagre lokal kopi av varslingsmerker hvis serveren ikke støtter APIet

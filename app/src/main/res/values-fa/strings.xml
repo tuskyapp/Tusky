@@ -202,10 +202,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">پایگاه وب پروژه :
-\n https://tusky.app</string>
+    <string name="about_project_site">پایگاه وب پروژه: https://tusky.app</string>
     <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">نمایهٔ تاسکی</string>
     <string name="post_share_content">هم‌رسانی محتوای فرسته</string>
     <string name="post_share_link">هم‌رسانی پیوند فرسته</string>
@@ -272,7 +271,7 @@
     <string name="label_remote_account">ممکن است اطلاعات زیر نمایهٔ کاربر را ناقص نشان دهد. برای گشودن نمایهٔ کامل در مرورگر، لمس کنید.</string>
     <string name="unpin_action">برداشتن سنجاق</string>
     <string name="pin_action">سنجاق کردن</string>
-    <string name="error_network">یک خطای شبکه رخ داد! لطفا اتصال خود را بررسی و دوباره تلاش کنید!</string>
+    <string name="error_network">خطای شبکه‌ای رخ داد. لطفاً اتصالتان را بررسی و دوباره تلاش کنید.</string>
     <string name="title_direct_messages">پیام‌های مستقیم</string>
     <string name="title_tab_preferences">زبانه‌ها</string>
     <string name="title_posts_pinned">سنجاق شده</string>
@@ -517,7 +516,7 @@
     <string name="notification_update_description">آگاهی‌ها هنگام ویرایش فرسته‌هایی که با آن‌ها تعامل داشته‌اید</string>
     <string name="action_unbookmark">برداشن نشانک</string>
     <string name="dialog_push_notification_migration_other_accounts">برای اعطای اجازهٔ اشتراک آگاهی‌های ارسالی به تاسکی، دوباره به حسابتان وارد شدید. با این حال هنوز حساب‌هایی دیگر دارید که این‌گونه مهاجرت داده نشده‌اند. به آن‌ها رفته و برای به کار انداختن پشتیبانی آگاهی‌های UnifiedPush یکی‌یکی دوباره وارد شوید.</string>
-    <string name="action_logout_confirm">مطمئنید که می‌خواهید از حساب %1$s خارج شوید؟</string>
+    <string name="action_logout_confirm">مطمئنید که می‌خواهید از %1$s خارج شوید؟ این کار تمامی داده‌های محلی از جمله پیش‌نویس‌ها و ترجیحات را حذف خواهد کرد.</string>
     <string name="duration_14_days">۱۴ روز</string>
     <string name="duration_30_days">۳۰ روز</string>
     <string name="duration_60_days">۶۰ روز</string>
@@ -595,8 +594,8 @@
     <string name="pref_summary_http_proxy_invalid">&lt;نامعتبر&gt;</string>
     <string name="pref_title_reading_order">ترتیب خواندن</string>
     <string name="pref_reading_order_newest_first">نخست جدیدترین</string>
-    <string name="status_edit_info">%1$s را ویراست</string>
-    <string name="status_created_info">%1$s  را ایجاد کرد</string>
+    <string name="status_edit_info">ویراسته: %1$s</string>
+    <string name="status_created_info">ایجاد شده: %1$s</string>
     <string name="action_post_failed">بارگذاری شکست خورد</string>
     <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
     <string name="action_post_failed_do_nothing">رد کردن</string>
@@ -669,4 +668,19 @@
     <string name="error_missing_edits">کارسازتان می‌داند که این فرسته ویرایش شده؛ ولی رونوشتی از ویرایش‌ها ندارد. پس نمی‌توانند نشانتان داده شوند.
 \n
 \nاین <a href="https://github.com/mastodon/mastodon/issues/25398">نکتهٔ ماستودون</a> را ببینید.</string>
+    <string name="pref_ui_text_size">اندازهٔ متن میانای کاربری</string>
+    <string name="notification_listenable_worker_name">فعّالیت پس‌زمینه</string>
+    <string name="notification_listenable_worker_description">آگاهی‌ها هنگامی که تاسکی در پس‌زمینه کار می‌کند</string>
+    <string name="notification_notification_worker">واکشی آگاهی‌ها…</string>
+    <string name="notification_prune_cache">نگه‌داری انباره…</string>
+    <string name="error_media_upload_sending_fmt">بارگذاری شکست خورد: %s</string>
+    <string name="about_account_info_title">حسابتان</string>
+    <string name="about_device_info_title">افزاره‌تان</string>
+    <string name="about_device_info">%s %s
+\nنگارش اندروید: %s
+\nنگارش SDK‏: %d</string>
+    <string name="about_account_info">‎@%s@%s
+\nنگارش: %s</string>
+    <string name="about_copy">رونوشت از اطّلاعات افزاره و نگارش</string>
+    <string name="about_copied">اطّلاعات افزاره و نگارش رونوشت شد</string>
 </resources>

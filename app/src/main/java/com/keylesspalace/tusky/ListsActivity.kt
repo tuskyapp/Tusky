@@ -174,13 +174,13 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             INITIAL, LOADING -> binding.messageView.hide()
             ERROR_NETWORK -> {
                 binding.messageView.show()
-                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                binding.messageView.setup(R.drawable.errorphant_offline, R.string.error_network) {
                     viewModel.retryLoading()
                 }
             }
             ERROR_OTHER -> {
                 binding.messageView.show()
-                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                binding.messageView.setup(R.drawable.errorphant_error, R.string.error_generic) {
                     viewModel.retryLoading()
                 }
             }

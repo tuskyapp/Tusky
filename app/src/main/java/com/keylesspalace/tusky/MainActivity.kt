@@ -158,7 +158,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private lateinit var header: AccountHeaderView
 
-    private var notificationTabPosition = 0
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
     private var unreadAnnouncementsCount = 0
@@ -166,8 +165,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private lateinit var glide: RequestManager
-
-    private var accountLocked: Boolean = false
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
@@ -236,7 +233,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
                 if (intent.getStringExtra(NotificationHelper.TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
-                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = true)
+                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS)
                     startActivityWithSlideInAnimation(intent)
                 } else {
                     showNotificationTab = true
@@ -538,7 +535,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     nameRes = R.string.action_view_follow_requests
                     iconicsIcon = GoogleMaterial.Icon.gmd_person_add
                     onClick = {
-                        val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+                        val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS)
                         startActivityWithSlideInAnimation(intent)
                     }
                 },
@@ -756,8 +753,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             activeTabLayout.addOnTabSelectedListener(it)
         }
 
-        val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
-        supportActionBar?.title = tabs[activeTabPosition].title(this@MainActivity)
+        supportActionBar?.title = tabs[position].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
             (tabAdapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
@@ -871,8 +867,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         } else {
             disableAllNotifications(this, accountManager)
         }
-
-        accountLocked = me.locked
 
         updateProfiles()
         updateShortcut(this, accountManager.activeAccount!!)
