@@ -539,7 +539,7 @@ interface MastodonApi {
     @POST("api/v1/lists")
     suspend fun createList(
         @Field("title") title: String,
-        @Field("exclusive") exclusive: Boolean?,
+        @Field("exclusive") exclusive: Boolean?
     ): NetworkResult<MastoList>
 
     @FormUrlEncoded
