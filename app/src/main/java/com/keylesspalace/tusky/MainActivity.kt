@@ -1076,7 +1076,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val NOTIFICATION_ID = "notificationId"
 
         /**
-         * switches the active account to the provided accountId and then stays on MainActivity
+         * Switches the active account to the provided accountId and then stays on MainActivity
          */
         @JvmStatic
         fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent {
