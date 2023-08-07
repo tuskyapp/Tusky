@@ -175,7 +175,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
      */
     private fun updateMuteTagMenuItems() {
         val tag = hashtag ?: return
-        val hashedTag = if (tag.startsWith('#')) tag else "#$tag"
+        val hashedTag = "#$tag"
 
         muteTagItem?.isVisible = true
         muteTagItem?.isEnabled = false
@@ -230,7 +230,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         lifecycleScope.launch {
             var filterCreateSuccess = false
-            val hashedTag = if (tag.startsWith('#')) tag else "#$tag"
+            val hashedTag = "#$tag"
 
             mastodonApi.createFilter(
                 title = "#$tag",
