@@ -174,7 +174,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     override fun onTabAdded(tab: TabViewData) {
-
         if (currentTabs.size >= MAX_TAB_COUNT) {
             return
         }
@@ -236,7 +235,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showAddHashtagDialog(tab: TabViewData? = null, tabPosition: Int = 0) {
-
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)

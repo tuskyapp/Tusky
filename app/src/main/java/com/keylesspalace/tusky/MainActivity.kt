@@ -290,7 +290,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TabKind.TRENDING),
+                            addTrendingButton = !event.newTabs.hasTab(TabKind.TRENDING)
                         )
 
                         setupTabs(false)

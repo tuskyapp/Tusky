@@ -92,7 +92,7 @@ data class ConversationStatusEntity(
     val collapsed: Boolean,
     val muted: Boolean,
     val poll: Poll?,
-    val language: String?,
+    val language: String?
 )
 
 fun Status.toEntity(

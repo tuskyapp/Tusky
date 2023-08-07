@@ -21,12 +21,16 @@ import com.google.gson.annotations.SerializedName
 
 enum class StatusVisibility(val num: Int) {
     UNKNOWN(0),
+
     @SerializedName("public")
     PUBLIC(1),
+
     @SerializedName("unlisted")
     UNLISTED(2),
+
     @SerializedName("private")
     PRIVATE(3),
+
     @SerializedName("direct")
     DIRECT(4);
 

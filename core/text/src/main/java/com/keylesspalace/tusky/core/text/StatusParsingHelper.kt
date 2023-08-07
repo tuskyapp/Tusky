@@ -16,6 +16,7 @@
  */
 
 @file:JvmName("StatusParsingHelper")
+
 package com.keylesspalace.tusky.core.text
 
 import android.text.Html.TagHandler
