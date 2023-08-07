@@ -126,7 +126,6 @@
     <string name="action_create_list">Snulfu-d tabdart</string>
     <string name="action_rename_list">Snifel isem n tabdart</string>
     <string name="action_delete_list">Kkes tabdart-a</string>
-    <string name="action_edit_list">Ẓreg tabdart-a</string>
     <string name="action_add_to_list">Rnu yiwen umiḍan ɣer tabdart</string>
     <string name="action_remove_from_list">Kkes amiḍan seg tabdart</string>
     <string name="profile_metadata_add">Rnu isefka</string>
