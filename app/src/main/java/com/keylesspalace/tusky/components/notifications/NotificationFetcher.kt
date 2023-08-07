@@ -90,21 +90,21 @@ class NotificationFetcher @Inject constructor(
                         }
                     }
 
-                    val notificationsGrouped = notifications.groupBy { it.type }
+                    val notificationsByType = notifications.groupBy { it.type }
 
                     // Make and send the new notifications
                     // TODO: Use the batch notification API available in NotificationManagerCompat
                     // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
                     // when it is released.
 
-                    notificationsGrouped.forEach { notificationListEntry ->
-                        notificationListEntry.value.forEach { notification ->
+                    notificationsByType.forEach { notificationGroup ->
+                        notificationGroup.value.forEach { notification ->
                             val androidNotification = NotificationHelper.make(
                                 context,
                                 notificationManager,
                                 notification,
                                 account,
-                                notificationListEntry.value.size == 1
+                                notificationGroup.value.size == 1
                             )
                             notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
 
