@@ -78,11 +78,13 @@ import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.components.trending.TrendingActivity
+import com.keylesspalace.tusky.core.database.model.Account
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.TabKind
+import com.keylesspalace.tusky.core.database.model.hasTab
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.FabFragment
@@ -263,7 +265,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING)
+            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TabKind.TRENDING)
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -288,7 +290,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TRENDING)
+                            addTrendingButton = !event.newTabs.hasTab(TabKind.TRENDING)
                         )
 
                         setupTabs(false)
@@ -694,7 +696,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // Save the previous tab so it can be restored later
         val previousTab = tabAdapter.tabs.getOrNull(binding.viewPager.currentItem)
 
-        val tabs = accountManager.activeAccount!!.tabPreferences
+        val tabs = accountManager.activeAccount!!.tabPreferences.map { TabViewData.from(it) }
 
         // Detach any existing mediator before changing tab contents and attaching a new mediator
         tabLayoutMediator?.detach()
@@ -705,8 +707,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
                 tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
-            tab.contentDescription = when (tabs[position].id) {
-                LIST -> tabs[position].arguments[1]
+            tab.contentDescription = when (tabs[position].kind) {
+                TabKind.LIST -> tabs[position].arguments[1]
                 else -> getString(tabs[position].text)
             }
         }.also { it.attach() }
@@ -716,7 +718,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // - The previously selected tab (if it hasn't been removed)
         // - Left-most tab
         val position = if (selectNotificationTab) {
-            tabs.indexOfFirst { it.id == NOTIFICATIONS }
+            tabs.indexOfFirst { it.kind == TabKind.NOTIFICATIONS }
         } else {
             previousTab?.let { tabs.indexOfFirst { it == previousTab } }
         }.takeIf { it != -1 } ?: 0

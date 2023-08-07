@@ -29,8 +29,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.components.report.adapter.StatusesPagingSource
 import com.keylesspalace.tusky.components.report.model.StatusViewState
-import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Relationship
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading

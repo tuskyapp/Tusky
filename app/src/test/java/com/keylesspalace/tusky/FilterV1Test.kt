@@ -18,13 +18,12 @@
 package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.keylesspalace.tusky.components.filters.EditFilterActivity
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterV1
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.PollOption
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.FilterV1
+import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.PollOption
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.network.FilterModel
 import org.junit.Assert.assertEquals
 import org.junit.Before

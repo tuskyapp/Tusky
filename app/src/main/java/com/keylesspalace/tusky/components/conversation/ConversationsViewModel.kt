@@ -24,8 +24,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.model.ConversationEntity
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
@@ -55,7 +56,7 @@ class ConversationsViewModel @Inject constructor(
     )
         .flow
         .map { pagingData ->
-            pagingData.map { conversation -> conversation.toViewData() }
+            pagingData.map { conversation -> ConversationViewData.from(conversation) }
         }
         .cachedIn(viewModelScope)
 

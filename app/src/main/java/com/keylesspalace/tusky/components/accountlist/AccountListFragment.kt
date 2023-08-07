@@ -44,11 +44,11 @@ import com.keylesspalace.tusky.components.accountlist.adapter.FollowAdapter
 import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsAdapter
 import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsHeaderAdapter
 import com.keylesspalace.tusky.components.accountlist.adapter.MutesAdapter
+import com.keylesspalace.tusky.core.database.model.Relationship
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi

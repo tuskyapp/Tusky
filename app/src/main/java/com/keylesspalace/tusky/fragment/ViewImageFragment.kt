@@ -37,8 +37,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
+import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
-import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible

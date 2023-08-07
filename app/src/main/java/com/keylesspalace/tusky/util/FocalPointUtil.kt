@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.util
 
 import android.graphics.Matrix
-import com.keylesspalace.tusky.entity.Attachment.Focus
+import com.keylesspalace.tusky.core.database.model.Attachment.Focus
 
 /**
  * Calculates the image matrix needed to maintain the correct cropping for image views based on

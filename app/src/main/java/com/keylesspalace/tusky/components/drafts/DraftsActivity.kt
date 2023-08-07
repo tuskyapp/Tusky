@@ -31,11 +31,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.core.database.model.DraftEntity
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
-import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -93,7 +93,8 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
     }
 
     override fun onOpenDraft(draft: DraftEntity) {
-        if (draft.inReplyToId == null) {
+        val inReplyToId = draft.inReplyToId
+        if (inReplyToId == null) {
             openDraftWithoutReply(draft)
             return
         }
@@ -102,14 +103,14 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
         lifecycleScope.launch {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-            viewModel.getStatus(draft.inReplyToId)
+            viewModel.getStatus(inReplyToId)
                 .fold(
                     { status ->
                         val composeOptions = ComposeActivity.ComposeOptions(
                             draftId = draft.id,
                             content = draft.content,
                             contentWarning = draft.contentWarning,
-                            inReplyToId = draft.inReplyToId,
+                            inReplyToId = inReplyToId,
                             replyingStatusContent = status.content.parseAsMastodonHtml().toString(),
                             replyingStatusAuthor = status.account.localUsername,
                             draftAttachments = draft.attachments,

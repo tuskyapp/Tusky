@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky.appstore
 
-import com.keylesspalace.tusky.TabData
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Account
+import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.TabData
 
 data class FavoriteEvent(val statusId: String, val favourite: Boolean) : Event
 data class ReblogEvent(val statusId: String, val reblog: Boolean) : Event

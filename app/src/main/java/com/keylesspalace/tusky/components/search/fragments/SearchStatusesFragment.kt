@@ -47,11 +47,12 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.Status.Mention
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -251,17 +252,16 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             val menu = popup.menu
             menu.findItem(R.id.status_open_as).isVisible = !statusUrl.isNullOrBlank()
             when (status.visibility) {
-                Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
+                StatusVisibility.PUBLIC, StatusVisibility.UNLISTED -> {
                     val textId = getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action)
                     menu.add(0, R.id.pin, 1, textId)
                 }
-                Status.Visibility.PRIVATE -> {
-                    var reblogged = status.reblogged
-                    if (status.reblog != null) reblogged = status.reblog.reblogged
+                StatusVisibility.PRIVATE -> {
+                    val reblogged = status.reblog?.reblogged ?: status.reblogged
                     menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
                     menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
                 }
-                Status.Visibility.UNKNOWN, Status.Visibility.DIRECT -> {
+                StatusVisibility.UNKNOWN, StatusVisibility.DIRECT -> {
                 } // Ignore
             }
         } else {

@@ -17,7 +17,8 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.core.database.model.Status;
+import com.keylesspalace.tusky.core.database.model.StatusVisibility;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
@@ -47,7 +48,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
         Status status = statusViewData.getActionable();
 
-        Status.Visibility visibility = status.getVisibility();
+        StatusVisibility visibility = status.getVisibility();
         Context context = metaInfo.getContext();
 
         Drawable visibilityIcon = getVisibilityIcon(visibility);
@@ -172,7 +173,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
         }
     }
 
-    private @Nullable Drawable getVisibilityIcon(@Nullable Status.Visibility visibility) {
+    private @Nullable Drawable getVisibilityIcon(@Nullable StatusVisibility visibility) {
 
         if (visibility == null) {
             return null;

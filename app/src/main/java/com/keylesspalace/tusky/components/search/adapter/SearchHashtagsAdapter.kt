@@ -19,8 +19,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.databinding.ItemHashtagBinding
-import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.BindingHolder
 

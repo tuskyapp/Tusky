@@ -23,7 +23,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusDetailedViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData

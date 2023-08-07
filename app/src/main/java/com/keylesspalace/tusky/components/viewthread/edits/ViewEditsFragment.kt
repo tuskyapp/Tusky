@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
+import com.keylesspalace.tusky.core.text.unicodeWrap
 import com.keylesspalace.tusky.databinding.FragmentViewEditsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -46,7 +47,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial

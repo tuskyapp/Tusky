@@ -20,8 +20,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.adapter.AccountViewHolder
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.databinding.ItemAccountBinding
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.LinkListener
 
 class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean, private val showBotOverlay: Boolean) :

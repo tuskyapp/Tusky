@@ -22,14 +22,14 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.notifications.NotificationActionListener
 import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
+import com.keylesspalace.tusky.core.database.model.Report
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
+import com.keylesspalace.tusky.core.text.unicodeWrap
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
-import com.keylesspalace.tusky.entity.Report
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import java.util.Date
 

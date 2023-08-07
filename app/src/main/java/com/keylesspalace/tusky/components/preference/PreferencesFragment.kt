@@ -19,9 +19,9 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Notification
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.emojiPreference

@@ -25,10 +25,10 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.DeletedStatus
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.DeletedStatus
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData

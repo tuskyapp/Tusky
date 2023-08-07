@@ -1,6 +1,6 @@
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import okhttp3.OkHttpClient
 import okhttp3.Request

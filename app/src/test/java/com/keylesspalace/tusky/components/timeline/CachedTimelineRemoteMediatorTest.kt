@@ -12,11 +12,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.Converters
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.TimelineStatusWithAccount
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody

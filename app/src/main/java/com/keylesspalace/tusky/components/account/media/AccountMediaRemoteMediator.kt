@@ -20,7 +20,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import retrofit2.HttpException

@@ -39,15 +39,17 @@ import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewMediaActivity;
-import com.keylesspalace.tusky.entity.Attachment;
-import com.keylesspalace.tusky.entity.Attachment.Focus;
-import com.keylesspalace.tusky.entity.Attachment.MetaData;
-import com.keylesspalace.tusky.entity.Card;
-import com.keylesspalace.tusky.entity.Emoji;
-import com.keylesspalace.tusky.entity.Filter;
-import com.keylesspalace.tusky.entity.FilterResult;
-import com.keylesspalace.tusky.entity.HashTag;
-import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.core.database.model.Attachment;
+import com.keylesspalace.tusky.core.database.model.Attachment.Focus;
+import com.keylesspalace.tusky.core.database.model.Attachment.MetaData;
+import com.keylesspalace.tusky.core.database.model.Card;
+import com.keylesspalace.tusky.core.database.model.Emoji;
+import com.keylesspalace.tusky.core.database.model.Filter;
+import com.keylesspalace.tusky.core.database.model.Filter.Action;
+import com.keylesspalace.tusky.core.database.model.FilterResult;
+import com.keylesspalace.tusky.core.database.model.HashTag;
+import com.keylesspalace.tusky.core.database.model.Status;
+import com.keylesspalace.tusky.core.database.model.StatusVisibility;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
@@ -411,13 +413,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     // This should only be called after setReblogged, in order to override the tint correctly.
-    private void setRebloggingEnabled(boolean enabled, Status.Visibility visibility) {
-        reblogButton.setEnabled(enabled && visibility != Status.Visibility.PRIVATE);
+    private void setRebloggingEnabled(boolean enabled, StatusVisibility visibility) {
+        reblogButton.setEnabled(enabled && visibility != StatusVisibility.PRIVATE);
 
         if (enabled) {
             int inactiveId;
             int activeId;
-            if (visibility == Status.Visibility.PRIVATE) {
+            if (visibility == StatusVisibility.PRIVATE) {
                 inactiveId = R.drawable.ic_reblog_private_24dp;
                 activeId = R.drawable.ic_reblog_private_active_24dp;
             } else {
@@ -428,7 +430,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             reblogButton.setActiveImage(activeId);
         } else {
             int disabledId;
-            if (visibility == Status.Visibility.DIRECT) {
+            if (visibility == StatusVisibility.DIRECT) {
                 disabledId = R.drawable.ic_reblog_direct_24dp;
             } else {
                 disabledId = R.drawable.ic_reblog_private_24dp;
@@ -820,7 +822,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setupFilterPlaceholder(StatusViewData.Concrete status, StatusActionListener listener, StatusDisplayOptions displayOptions) {
-        if (status.getFilterAction() != Filter.Action.WARN) {
+        if (status.getFilterAction() != Action.WARN) {
             showFilteredPlaceholder(false);
             return;
         }
@@ -831,7 +833,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         for (FilterResult result : status.getActionable().getFiltered()) {
             Filter filter = result.getFilter();
-            if (filter.getAction() == Filter.Action.WARN) {
+            if (filter.getAction() == Action.WARN) {
                 matchedFilter = filter;
                 break;
             }
@@ -916,7 +918,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    protected static CharSequence getVisibilityDescription(Context context, Status.Visibility visibility) {
+    protected static CharSequence getVisibilityDescription(Context context, StatusVisibility visibility) {
 
         if (visibility == null) {
             return "";

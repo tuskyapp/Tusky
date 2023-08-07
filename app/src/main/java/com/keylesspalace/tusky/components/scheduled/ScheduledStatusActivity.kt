@@ -34,10 +34,10 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.core.database.model.ScheduledStatus
 import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding

@@ -5,7 +5,8 @@ import app.cash.turbine.test
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -92,7 +93,7 @@ class TimelineCasesTest {
             bookmarked = false,
             sensitive = false,
             spoilerText = "",
-            visibility = Status.Visibility.PUBLIC,
+            visibility = StatusVisibility.PUBLIC,
             attachments = arrayListOf(),
             mentions = listOf(),
             tags = listOf(),

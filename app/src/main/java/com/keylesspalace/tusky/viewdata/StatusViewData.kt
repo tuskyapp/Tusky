@@ -16,10 +16,12 @@ package com.keylesspalace.tusky.viewdata
 
 import android.os.Build
 import android.text.Spanned
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import com.keylesspalace.tusky.util.replaceCrashingCharacters
+import com.keylesspalace.tusky.core.database.model.ConversationStatusEntity
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
+import com.keylesspalace.tusky.core.text.replaceCrashingCharacters
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
 /**
@@ -106,4 +108,43 @@ sealed class StatusViewData {
     fun asStatusOrNull() = this as? Concrete
 
     fun asPlaceholderOrNull() = this as? Placeholder
+
+    companion object {
+        fun from(entity: ConversationStatusEntity) = StatusViewData.Concrete(
+            status = Status(
+                id = entity.id,
+                url = entity.url,
+                account = entity.account.toAccount(),
+                inReplyToId = entity.inReplyToId,
+                inReplyToAccountId = entity.inReplyToAccountId,
+                content = entity.content,
+                reblog = null,
+                createdAt = entity.createdAt,
+                editedAt = entity.editedAt,
+                emojis = entity.emojis,
+                reblogsCount = 0,
+                favouritesCount = entity.favouritesCount,
+                repliesCount = entity.repliesCount,
+                reblogged = false,
+                favourited = entity.favourited,
+                bookmarked = entity.bookmarked,
+                sensitive = entity.sensitive,
+                spoilerText = entity.spoilerText,
+                visibility = StatusVisibility.DIRECT,
+                attachments = entity.attachments,
+                mentions = entity.mentions,
+                tags = entity.tags,
+                application = null,
+                pinned = false,
+                muted = entity.muted,
+                poll = entity.poll,
+                card = null,
+                language = entity.language,
+                filtered = emptyList()
+            ),
+            isExpanded = entity.expanded,
+            isShowingContent = entity.showingHiddenContent,
+            isCollapsed = entity.collapsed
+        )
+    }
 }

@@ -47,9 +47,11 @@ import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.core.database.model.MastoList
+import com.keylesspalace.tusky.core.database.model.TabData
+import com.keylesspalace.tusky.core.database.model.TabKind
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
@@ -75,7 +77,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
-    private lateinit var currentTabs: MutableList<TabData>
+    private lateinit var currentTabs: MutableList<TabViewData>
     private lateinit var currentTabsAdapter: TabAdapter
     private lateinit var touchHelper: ItemTouchHelper
     private lateinit var addTabAdapter: TabAdapter
@@ -105,13 +107,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             setDisplayShowHomeEnabled(true)
         }
 
-        currentTabs = accountManager.activeAccount?.tabPreferences.orEmpty().toMutableList()
+        currentTabs = accountManager.activeAccount?.tabPreferences.orEmpty().map { TabViewData.from(it) }.toMutableList()
         currentTabsAdapter = TabAdapter(currentTabs, false, this, currentTabs.size <= MIN_TAB_COUNT)
         binding.currentTabsRecyclerView.adapter = currentTabsAdapter
         binding.currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
-        addTabAdapter = TabAdapter(listOf(createTabDataFromId(DIRECT)), true, this)
+        addTabAdapter = TabAdapter(listOf(TabViewData.from(TabKind.DIRECT)), true, this)
         binding.addTabRecyclerView.adapter = addTabAdapter
         binding.addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -171,19 +173,19 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         onBackPressedDispatcher.addCallback(onFabDismissedCallback)
     }
 
-    override fun onTabAdded(tab: TabData) {
+    override fun onTabAdded(tab: TabViewData) {
         if (currentTabs.size >= MAX_TAB_COUNT) {
             return
         }
 
         toggleFab(false)
 
-        if (tab.id == HASHTAG) {
+        if (tab.kind == TabKind.HASHTAG) {
             showAddHashtagDialog()
             return
         }
 
-        if (tab.id == LIST) {
+        if (tab.kind == TabKind.LIST) {
             showSelectListDialog()
             return
         }
@@ -201,13 +203,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         saveTabs()
     }
 
-    override fun onActionChipClicked(tab: TabData, tabPosition: Int) {
+    override fun onActionChipClicked(tab: TabViewData, tabPosition: Int) {
         showAddHashtagDialog(tab, tabPosition)
     }
 
-    override fun onChipClicked(tab: TabData, tabPosition: Int, chipPosition: Int) {
+    override fun onChipClicked(tab: TabViewData, tabPosition: Int, chipPosition: Int) {
         val newArguments = tab.arguments.filterIndexed { i, _ -> i != chipPosition }
-        val newTab = tab.copy(arguments = newArguments)
+        val newTab = tab.copy(tabData = tab.tabData.copy(arguments = newArguments))
         currentTabs[tabPosition] = newTab
         saveTabs()
 
@@ -232,7 +234,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         onFabDismissedCallback.isEnabled = expand
     }
 
-    private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
+    private fun showAddHashtagDialog(tab: TabViewData? = null, tabPosition: Int = 0) {
         val frameLayout = FrameLayout(this)
         val padding = Utils.dpToPx(this, 8)
         frameLayout.updatePadding(left = padding, right = padding)
@@ -249,11 +251,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             .setPositiveButton(R.string.action_save) { _, _ ->
                 val input = editText.text.toString().trim()
                 if (tab == null) {
-                    val newTab = createTabDataFromId(HASHTAG, listOf(input))
+                    val newTab = TabViewData.from(TabData(TabKind.HASHTAG, listOf(input)))
                     currentTabs.add(newTab)
                     currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                 } else {
-                    val newTab = tab.copy(arguments = tab.arguments + input)
+                    val newTab = tab.copy(tabData = tab.tabData.copy(arguments = tab.arguments + input))
                     currentTabs[tabPosition] = newTab
 
                     currentTabsAdapter.notifyItemChanged(tabPosition)
@@ -306,8 +308,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             .setNegativeButton(android.R.string.cancel, null)
             .setView(statusLayout)
             .setAdapter(adapter) { _, position ->
-                adapter.getItem(position)?.let { item ->
-                    val newTab = createTabDataFromId(LIST, listOf(item.id, item.title))
+                adapter.getItem(position)?.let { list ->
+                    val newTab = TabViewData.from(TabData(TabKind.LIST, listOf(list.id, list.title)))
                     currentTabs.add(newTab)
                     currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
                     updateAvailableTabs()
@@ -356,35 +358,35 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun updateAvailableTabs() {
-        val addableTabs: MutableList<TabData> = mutableListOf()
+        val addableTabs: MutableList<TabViewData> = mutableListOf()
 
-        val homeTab = createTabDataFromId(HOME)
+        val homeTab = TabViewData.from(TabKind.HOME)
         if (!currentTabs.contains(homeTab)) {
             addableTabs.add(homeTab)
         }
-        val notificationTab = createTabDataFromId(NOTIFICATIONS)
+        val notificationTab = TabViewData.from(TabKind.NOTIFICATIONS)
         if (!currentTabs.contains(notificationTab)) {
             addableTabs.add(notificationTab)
         }
-        val localTab = createTabDataFromId(LOCAL)
+        val localTab = TabViewData.from(TabKind.LOCAL)
         if (!currentTabs.contains(localTab)) {
             addableTabs.add(localTab)
         }
-        val federatedTab = createTabDataFromId(FEDERATED)
+        val federatedTab = TabViewData.from(TabKind.FEDERATED)
         if (!currentTabs.contains(federatedTab)) {
             addableTabs.add(federatedTab)
         }
-        val directMessagesTab = createTabDataFromId(DIRECT)
+        val directMessagesTab = TabViewData.from(TabKind.DIRECT)
         if (!currentTabs.contains(directMessagesTab)) {
             addableTabs.add(directMessagesTab)
         }
-        val trendingTab = createTabDataFromId(TRENDING)
+        val trendingTab = TabViewData.from(TabKind.TRENDING)
         if (!currentTabs.contains(trendingTab)) {
             addableTabs.add(trendingTab)
         }
 
-        addableTabs.add(createTabDataFromId(HASHTAG))
-        addableTabs.add(createTabDataFromId(LIST))
+        addableTabs.add(TabViewData.from(TabKind.HASHTAG))
+        addableTabs.add(TabViewData.from(TabKind.LIST))
 
         addTabAdapter.updateData(addableTabs)
 
@@ -403,7 +405,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     private fun saveTabs() {
         accountManager.activeAccount?.let {
             lifecycleScope.launch(Dispatchers.IO) {
-                it.tabPreferences = currentTabs
+                it.tabPreferences = currentTabs.map { it.tabData }
                 accountManager.saveAccount(it)
             }
         }
@@ -414,7 +416,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         super.onPause()
         if (tabsChanged) {
             lifecycleScope.launch {
-                eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+                eventHub.dispatch(MainTabsChangedEvent(currentTabs.map { it.tabData }))
             }
         }
     }

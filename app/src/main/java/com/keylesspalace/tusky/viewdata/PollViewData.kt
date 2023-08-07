@@ -20,8 +20,8 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import androidx.core.text.parseAsHtml
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.PollOption
+import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.PollOption
 import java.util.Date
 import kotlin.math.roundToInt
 

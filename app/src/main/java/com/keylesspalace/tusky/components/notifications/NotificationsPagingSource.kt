@@ -21,7 +21,8 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.gson.Gson
-import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.core.database.model.Error
+import com.keylesspalace.tusky.core.database.model.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import kotlinx.coroutines.async
@@ -80,7 +81,7 @@ class NotificationsPagingSource @Inject constructor(
                     if (errorBody.isBlank()) return@let "no reason given"
 
                     val error = try {
-                        gson.fromJson(errorBody, com.keylesspalace.tusky.entity.Error::class.java)
+                        gson.fromJson(errorBody, Error::class.java)
                     } catch (e: Exception) {
                         return@let "$errorBody ($e)"
                     }

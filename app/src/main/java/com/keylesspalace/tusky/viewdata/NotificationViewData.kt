@@ -30,9 +30,9 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.viewdata
 
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Report
-import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.Report
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 
 data class NotificationViewData(
     val type: Notification.Type,

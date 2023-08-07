@@ -36,9 +36,10 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.text.unicodeWrap
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
@@ -48,7 +49,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date

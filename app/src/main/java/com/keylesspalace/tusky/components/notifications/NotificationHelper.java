@@ -17,7 +17,7 @@
 package com.keylesspalace.tusky.components.notifications;
 
 import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
-import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
+import static com.keylesspalace.tusky.core.text.StatusParsingHelper.parseAsMastodonHtml;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
 import android.app.NotificationChannel;
@@ -55,14 +55,15 @@ import com.bumptech.glide.request.FutureTarget;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
-import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.core.database.model.AccountEntity;
+import com.keylesspalace.tusky.core.database.model.Notification;
+import com.keylesspalace.tusky.core.database.model.Poll;
+import com.keylesspalace.tusky.core.database.model.PollOption;
+import com.keylesspalace.tusky.core.database.model.Status;
+import com.keylesspalace.tusky.core.database.model.StatusVisibility;
+import com.keylesspalace.tusky.core.text.StringUtils;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.entity.Notification;
-import com.keylesspalace.tusky.entity.Poll;
-import com.keylesspalace.tusky.entity.PollOption;
-import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver;
-import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.worker.NotificationWorker;
 
@@ -406,7 +407,7 @@ public class NotificationHelper {
 
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
-        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        StatusVisibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         List<Status.Mention> mentions = actionableStatus.getMentions();
         List<String> mentionedUsernames = new ArrayList<>();
@@ -441,7 +442,7 @@ public class NotificationHelper {
         String citedText = parseAsMastodonHtml(status.getContent()).toString();
         String inReplyToId = status.getId();
         Status actionableStatus = status.getActionableStatus();
-        Status.Visibility replyVisibility = actionableStatus.getVisibility();
+        StatusVisibility replyVisibility = actionableStatus.getVisibility();
         String contentWarning = actionableStatus.getSpoilerText();
         List<Status.Mention> mentions = actionableStatus.getMentions();
         Set<String> mentionedUsernames = new LinkedHashSet<>();

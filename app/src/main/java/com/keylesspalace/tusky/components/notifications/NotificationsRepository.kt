@@ -24,7 +24,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.google.gson.Gson
-import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.core.database.model.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody

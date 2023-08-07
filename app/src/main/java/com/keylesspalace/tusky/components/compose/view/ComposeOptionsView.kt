@@ -19,7 +19,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.RadioGroup
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 
 class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RadioGroup(context, attrs) {
 
@@ -31,29 +31,29 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
         setOnCheckedChangeListener { _, checkedId ->
             val visibility = when (checkedId) {
                 R.id.publicRadioButton ->
-                    Status.Visibility.PUBLIC
+                    StatusVisibility.PUBLIC
                 R.id.unlistedRadioButton ->
-                    Status.Visibility.UNLISTED
+                    StatusVisibility.UNLISTED
                 R.id.privateRadioButton ->
-                    Status.Visibility.PRIVATE
+                    StatusVisibility.PRIVATE
                 R.id.directRadioButton ->
-                    Status.Visibility.DIRECT
+                    StatusVisibility.DIRECT
                 else ->
-                    Status.Visibility.PUBLIC
+                    StatusVisibility.PUBLIC
             }
             listener?.onVisibilityChanged(visibility)
         }
     }
 
-    fun setStatusVisibility(visibility: Status.Visibility) {
+    fun setStatusVisibility(visibility: StatusVisibility) {
         val selectedButton = when (visibility) {
-            Status.Visibility.PUBLIC ->
+            StatusVisibility.PUBLIC ->
                 R.id.publicRadioButton
-            Status.Visibility.UNLISTED ->
+            StatusVisibility.UNLISTED ->
                 R.id.unlistedRadioButton
-            Status.Visibility.PRIVATE ->
+            StatusVisibility.PRIVATE ->
                 R.id.privateRadioButton
-            Status.Visibility.DIRECT ->
+            StatusVisibility.DIRECT ->
                 R.id.directRadioButton
             else ->
                 R.id.directRadioButton
@@ -64,5 +64,5 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
 }
 
 interface ComposeOptionsListener {
-    fun onVisibilityChanged(visibility: Status.Visibility)
+    fun onVisibilityChanged(visibility: StatusVisibility)
 }

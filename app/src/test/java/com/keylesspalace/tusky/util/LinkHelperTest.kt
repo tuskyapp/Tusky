@@ -6,8 +6,8 @@ import android.text.style.URLSpan
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 import org.junit.Assert
 import org.junit.Test

@@ -9,7 +9,7 @@ import androidx.paging.RemoteMediator
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.runBlocking

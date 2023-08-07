@@ -6,9 +6,9 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding

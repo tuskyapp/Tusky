@@ -2,8 +2,8 @@ package com.keylesspalace.tusky.usecase
 
 import android.util.Log
 import androidx.room.withTransaction
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineDao
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.dao.TimelineDao
 import javax.inject.Inject
 
 /**

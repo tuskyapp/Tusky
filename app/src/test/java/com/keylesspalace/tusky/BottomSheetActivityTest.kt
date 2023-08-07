@@ -16,9 +16,10 @@
 package com.keylesspalace.tusky
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.keylesspalace.tusky.entity.SearchResult
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.SearchResult
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.core.Single
@@ -81,7 +82,7 @@ class BottomSheetActivityTest {
         bookmarked = false,
         sensitive = false,
         spoilerText = "",
-        visibility = Status.Visibility.PUBLIC,
+        visibility = StatusVisibility.PUBLIC,
         attachments = ArrayList(),
         mentions = emptyList(),
         tags = emptyList(),

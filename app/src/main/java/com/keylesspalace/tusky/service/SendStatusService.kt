@@ -28,13 +28,13 @@ import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.compose.UploadEvent
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.MediaAttribute
+import com.keylesspalace.tusky.core.database.model.NewPoll
+import com.keylesspalace.tusky.core.database.model.NewStatus
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.MediaAttribute
-import com.keylesspalace.tusky.entity.NewPoll
-import com.keylesspalace.tusky.entity.NewStatus
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.unsafeLazy
 import dagger.android.AndroidInjection
@@ -349,7 +349,7 @@ class SendStatusService : Service(), Injectable {
             content = status.text,
             contentWarning = status.warningText,
             sensitive = status.sensitive,
-            visibility = Status.Visibility.byString(status.visibility),
+            visibility = StatusVisibility.byString(status.visibility),
             mediaUris = status.media.map { it.uri },
             mediaDescriptions = status.media.map { it.description },
             mediaFocus = status.media.map { it.focus },

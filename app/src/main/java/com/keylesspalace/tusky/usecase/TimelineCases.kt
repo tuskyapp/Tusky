@@ -30,10 +30,10 @@ import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.entity.DeletedStatus
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Relationship
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.DeletedStatus
+import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.Relationship
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single

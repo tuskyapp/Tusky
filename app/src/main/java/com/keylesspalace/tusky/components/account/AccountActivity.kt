@@ -64,12 +64,13 @@ import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
+import com.keylesspalace.tusky.core.database.model.Account
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.Relationship
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -82,7 +83,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
@@ -656,9 +656,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 viewModel.changeSubscribingState()
             }
             if (relation.notifying != null) {
-                subscribing = relation.notifying
+                subscribing = relation.notifying!!
             } else if (relation.subscribing != null) {
-                subscribing = relation.subscribing
+                subscribing = relation.subscribing!!
             }
         }
 

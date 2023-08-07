@@ -85,15 +85,15 @@ import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
 import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.DraftAttachment
+import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.NewPoll
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.databinding.ActivityComposeBinding
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.DraftAttachment
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.NewPoll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.MentionSpan
@@ -290,7 +290,7 @@ class ComposeActivity :
         savedInstanceState?.let {
             photoUploadUri = BundleCompat.getParcelable(it, PHOTO_UPLOAD_URI_KEY, Uri::class.java)
 
-            (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
+            (it.getSerializable(VISIBILITY_KEY) as StatusVisibility).apply {
                 setStatusVisibility(this)
             }
 
@@ -748,15 +748,15 @@ class ComposeActivity :
         binding.composeTootButton.isEnabled = enable
     }
 
-    private fun setStatusVisibility(visibility: Status.Visibility) {
+    private fun setStatusVisibility(visibility: StatusVisibility) {
         binding.composeOptionsBottomSheet.setStatusVisibility(visibility)
         binding.composeTootButton.setStatusVisibility(visibility)
 
         val iconRes = when (visibility) {
-            Status.Visibility.PUBLIC -> R.drawable.ic_public_24dp
-            Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
-            Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
-            Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
+            StatusVisibility.PUBLIC -> R.drawable.ic_public_24dp
+            StatusVisibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
+            StatusVisibility.DIRECT -> R.drawable.ic_email_24dp
+            StatusVisibility.UNLISTED -> R.drawable.ic_lock_open_24dp
             else -> R.drawable.ic_lock_open_24dp
         }
         binding.composeToggleVisibilityButton.setImageResource(iconRes)
@@ -894,7 +894,7 @@ class ComposeActivity :
         binding.pollPreview.hide()
     }
 
-    override fun onVisibilityChanged(visibility: Status.Visibility) {
+    override fun onVisibilityChanged(visibility: StatusVisibility) {
         composeOptionsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         viewModel.statusVisibility.value = visibility
     }
@@ -1334,8 +1334,8 @@ class ComposeActivity :
         var mediaDescriptions: List<String>? = null,
         var mentionedUsernames: Set<String>? = null,
         var inReplyToId: String? = null,
-        var replyVisibility: Status.Visibility? = null,
-        var visibility: Status.Visibility? = null,
+        var replyVisibility: StatusVisibility? = null,
+        var visibility: StatusVisibility? = null,
         var contentWarning: String? = null,
         var replyingStatusAuthor: String? = null,
         var replyingStatusContent: String? = null,

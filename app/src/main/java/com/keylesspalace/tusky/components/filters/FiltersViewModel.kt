@@ -7,7 +7,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

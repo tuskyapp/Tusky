@@ -10,7 +10,7 @@ import android.graphics.Point
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.core.database.model.Attachment
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min

@@ -28,7 +28,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.core.database.model.Emoji
 import java.lang.ref.WeakReference
 import java.util.regex.Pattern
 

@@ -1,0 +1,53 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+}
+
+android {
+    namespace 'com.keylesspalace.tusky.core.database'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+}
+
+dependencies {
+    implementation(project(':core:network'))
+    implementation(project(':core:text'))
+
+    implementation libs.gson
+    implementation libs.bundles.androidx
+    implementation libs.bundles.room
+    ksp libs.androidx.room.compiler
+
+    implementation libs.bundles.dagger
+    kapt libs.bundles.dagger.processors
+
+    testImplementation libs.androidx.test.junit
+
+    androidTestImplementation libs.androidx.test.junit
+}

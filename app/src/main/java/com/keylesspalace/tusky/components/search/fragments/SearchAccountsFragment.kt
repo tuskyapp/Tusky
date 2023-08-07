@@ -22,7 +22,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
-import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import kotlinx.coroutines.flow.Flow
 

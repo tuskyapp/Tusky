@@ -22,8 +22,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar

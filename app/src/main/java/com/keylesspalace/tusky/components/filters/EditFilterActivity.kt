@@ -18,11 +18,11 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.FilterKeyword
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible

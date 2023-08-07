@@ -19,7 +19,7 @@ import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.settings.PrefKeys

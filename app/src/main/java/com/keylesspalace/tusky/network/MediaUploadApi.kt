@@ -1,6 +1,6 @@
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.entity.MediaUploadResult
+import com.keylesspalace.tusky.core.database.model.MediaUploadResult
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Multipart

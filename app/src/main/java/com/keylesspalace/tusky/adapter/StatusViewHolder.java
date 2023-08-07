@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky.adapter;
 
+import static com.keylesspalace.tusky.core.text.StringUtils.unicodeWrap;
+
 import android.content.Context;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -27,15 +29,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Emoji;
-import com.keylesspalace.tusky.entity.Filter;
-import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.core.database.model.Emoji;
+import com.keylesspalace.tusky.core.database.model.Filter;
+import com.keylesspalace.tusky.core.database.model.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.List;
@@ -95,7 +96,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                                            final List<Emoji> accountEmoji,
                                            final StatusDisplayOptions statusDisplayOptions) {
         Context context = statusInfo.getContext();
-        CharSequence wrappedName = StringUtils.unicodeWrap(name);
+        CharSequence wrappedName = unicodeWrap(name);
         CharSequence boostedText = context.getString(R.string.post_boosted_format, wrappedName);
         CharSequence emojifiedText = CustomEmojiHelper.emojify(
                 boostedText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()

@@ -23,8 +23,8 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.databinding.DialogAddPollBinding
-import com.keylesspalace.tusky.entity.NewPoll
 
 fun showAddPollDialog(
     context: Context,

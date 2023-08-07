@@ -24,8 +24,8 @@ import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
-import com.keylesspalace.tusky.entity.Announcement
-import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.core.database.model.Announcement
+import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading

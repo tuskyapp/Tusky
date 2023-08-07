@@ -38,11 +38,11 @@ import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.TimelineStatusWithAccount
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases

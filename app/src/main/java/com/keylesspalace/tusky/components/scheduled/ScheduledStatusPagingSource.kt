@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.components.scheduled
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.core.database.model.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.rx3.await
 

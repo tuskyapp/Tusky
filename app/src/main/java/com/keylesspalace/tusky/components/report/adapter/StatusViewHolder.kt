@@ -21,10 +21,10 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.model.StatusViewState
+import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.databinding.ItemReportStatusBinding
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.StatusDisplayOptions

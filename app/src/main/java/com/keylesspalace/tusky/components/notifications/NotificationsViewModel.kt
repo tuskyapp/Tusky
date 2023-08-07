@@ -33,9 +33,9 @@ import com.keylesspalace.tusky.appstore.MuteConversationEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions

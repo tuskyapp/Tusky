@@ -5,8 +5,10 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.model.ConversationEntity
+import com.keylesspalace.tusky.core.database.model.toEntity
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import retrofit2.HttpException

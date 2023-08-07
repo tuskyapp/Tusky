@@ -43,12 +43,12 @@ import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.components.report.adapter.AdapterHandler
 import com.keylesspalace.tusky.components.report.adapter.StatusesAdapter
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.databinding.FragmentReportStatusesBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions

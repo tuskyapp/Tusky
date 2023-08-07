@@ -33,9 +33,9 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.AccessToken
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
 import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab

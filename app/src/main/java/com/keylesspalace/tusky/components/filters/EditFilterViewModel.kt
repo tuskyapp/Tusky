@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterKeyword
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext

@@ -22,12 +22,12 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
-import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftAttachment
-import com.keylesspalace.tusky.db.DraftEntity
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.NewPoll
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.DraftAttachment
+import com.keylesspalace.tusky.core.database.model.DraftEntity
+import com.keylesspalace.tusky.core.database.model.NewPoll
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.util.copyToFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -57,7 +57,7 @@ class DraftHelper @Inject constructor(
         content: String?,
         contentWarning: String?,
         sensitive: Boolean,
-        visibility: Status.Visibility,
+        visibility: StatusVisibility,
         mediaUris: List<String>,
         mediaDescriptions: List<String?>,
         mediaFocus: List<Attachment.Focus?>,

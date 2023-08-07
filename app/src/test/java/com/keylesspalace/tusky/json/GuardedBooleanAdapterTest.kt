@@ -1,7 +1,7 @@
 package com.keylesspalace.tusky.json
 
 import com.google.gson.Gson
-import com.keylesspalace.tusky.entity.Relationship
+import com.keylesspalace.tusky.core.database.model.Relationship
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

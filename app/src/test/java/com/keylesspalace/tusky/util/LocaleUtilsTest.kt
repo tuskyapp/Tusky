@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.util
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -20,7 +20,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import com.google.android.material.button.MaterialButton
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -46,19 +46,19 @@ class TootButton
         setPadding(padding, 0, padding, 0)
     }
 
-    fun setStatusVisibility(visibility: Status.Visibility) {
+    fun setStatusVisibility(visibility: StatusVisibility) {
         if (!smallStyle) {
             icon = when (visibility) {
-                Status.Visibility.PUBLIC -> {
+                StatusVisibility.PUBLIC -> {
                     setText(R.string.action_send_public)
                     null
                 }
-                Status.Visibility.UNLISTED -> {
+                StatusVisibility.UNLISTED -> {
                     setText(R.string.action_send)
                     null
                 }
-                Status.Visibility.PRIVATE,
-                Status.Visibility.DIRECT -> {
+                StatusVisibility.PRIVATE,
+                StatusVisibility.DIRECT -> {
                     setText(R.string.action_send)
                     IconicsDrawable(context, GoogleMaterial.Icon.gmd_lock).apply { sizeDp = 18; colorInt = Color.WHITE }
                 }

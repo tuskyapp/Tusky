@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.databinding.ItemRemovableBinding
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 
@@ -32,7 +32,7 @@ class FiltersAdapter(val listener: FiltersListener, val filters: List<Filter>) :
             context.getString(
                 R.string.filter_expiration_format,
                 filter.title,
-                getRelativeTimeSpanString(binding.root.context, filter.expiresAt.time, System.currentTimeMillis())
+                getRelativeTimeSpanString(binding.root.context, filter.expiresAt!!.time, System.currentTimeMillis())
             )
         }
         binding.textSecondary.text = context.getString(

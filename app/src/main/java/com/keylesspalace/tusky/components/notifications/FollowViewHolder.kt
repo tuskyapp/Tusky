@@ -19,16 +19,16 @@ package com.keylesspalace.tusky.components.notifications
 
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
+import com.keylesspalace.tusky.core.text.unicodeWrap
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowViewHolder(

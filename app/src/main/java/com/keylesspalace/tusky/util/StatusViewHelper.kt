@@ -27,9 +27,9 @@ import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.model.Attachment
+import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 import com.keylesspalace.tusky.viewdata.PollViewData
 import com.keylesspalace.tusky.viewdata.buildDescription
@@ -109,10 +109,9 @@ class StatusViewHelper(private val itemView: View) {
                     .centerInside()
                     .into(mediaPreviews[i])
             } else {
-                val placeholder = if (attachment.blurhash != null) {
-                    decodeBlurHash(context, attachment.blurhash)
-                } else {
-                    mediaPreviewUnloaded
+                val placeholder = when (val blurhash = attachment.blurhash) {
+                    null -> mediaPreviewUnloaded
+                    else -> decodeBlurHash(context, blurhash)
                 }
                 val meta = attachment.meta
                 val focus = meta?.focus
@@ -137,12 +136,14 @@ class StatusViewHelper(private val itemView: View) {
                     }
                 } else {
                     mediaPreviews[i].removeFocalPoint()
-                    if (statusDisplayOptions.useBlurhash && attachment.blurhash != null) {
-                        val blurhashBitmap = decodeBlurHash(context, attachment.blurhash)
-                        mediaPreviews[i].setImageDrawable(blurhashBitmap)
-                    } else {
-                        mediaPreviews[i].setImageDrawable(mediaPreviewUnloaded)
-                    }
+                    val drawable = attachment.blurhash?.let { blurhash ->
+                        if (statusDisplayOptions.useBlurhash) {
+                            decodeBlurHash(context, blurhash)
+                        } else {
+                            mediaPreviewUnloaded
+                        }
+                    } ?: mediaPreviewUnloaded
+                    mediaPreviews[i].setImageDrawable(drawable)
                 }
             }
 

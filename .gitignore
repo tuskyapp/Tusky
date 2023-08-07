@@ -6,5 +6,6 @@
 build
 /captures
 .externalNativeBuild
+gradle-user-home/
 app/release
 app-release.apk

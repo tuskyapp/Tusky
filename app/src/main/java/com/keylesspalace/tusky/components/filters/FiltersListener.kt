@@ -1,6 +1,6 @@
 package com.keylesspalace.tusky.components.filters
 
-import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.core.database.model.Filter
 
 interface FiltersListener {
     fun deleteFilter(filter: Filter)

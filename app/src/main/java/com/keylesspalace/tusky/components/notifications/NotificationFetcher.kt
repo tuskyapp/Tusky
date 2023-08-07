@@ -5,12 +5,12 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.WorkerThread
 import com.keylesspalace.tusky.components.notifications.NotificationHelper.filterNotification
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.Marker
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.text.isLessThan
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Marker
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.isLessThan
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.min

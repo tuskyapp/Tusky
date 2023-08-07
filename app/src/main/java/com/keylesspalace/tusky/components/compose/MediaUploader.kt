@@ -29,13 +29,13 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
+import com.keylesspalace.tusky.core.text.randomAlphanumericString
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.network.ProgressRequestBody
 import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
 import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getServerErrorMessage
-import com.keylesspalace.tusky.util.randomAlphanumericString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -40,8 +40,8 @@ import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.entity.Status.Mention
+import com.keylesspalace.tusky.core.database.model.HashTag
+import com.keylesspalace.tusky.core.database.model.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
 import java.net.URI
 import java.net.URISyntaxException

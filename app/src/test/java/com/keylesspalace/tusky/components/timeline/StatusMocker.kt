@@ -1,9 +1,10 @@
 package com.keylesspalace.tusky.components.timeline
 
 import com.google.gson.Gson
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
+import com.keylesspalace.tusky.core.database.model.TimelineStatusWithAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
@@ -44,7 +45,7 @@ fun mockStatus(
     bookmarked = bookmarked,
     sensitive = true,
     spoilerText = spoilerText,
-    visibility = Status.Visibility.PUBLIC,
+    visibility = StatusVisibility.PUBLIC,
     attachments = ArrayList(),
     mentions = emptyList(),
     tags = emptyList(),

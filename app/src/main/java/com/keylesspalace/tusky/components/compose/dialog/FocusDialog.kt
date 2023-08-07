@@ -30,8 +30,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Attachment.Focus
 import com.keylesspalace.tusky.databinding.DialogFocusBinding
-import com.keylesspalace.tusky.entity.Attachment.Focus
 import kotlinx.coroutines.launch
 
 fun <T> T.makeFocusDialog(

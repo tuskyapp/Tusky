@@ -23,9 +23,10 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PollAdapter
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.MULTIPLE
 import com.keylesspalace.tusky.adapter.PollAdapter.Companion.SINGLE
+import com.keylesspalace.tusky.core.database.model.Attachment.Focus
+import com.keylesspalace.tusky.core.database.model.StatusEdit
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import com.keylesspalace.tusky.databinding.ItemStatusEditBinding
-import com.keylesspalace.tusky.entity.Attachment.Focus
-import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.BindingHolder
@@ -33,7 +34,6 @@ import com.keylesspalace.tusky.util.aspectRatios
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
@@ -123,34 +123,37 @@ class ViewEditsAdapter(
 
         setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
 
-        if (edit.poll == null) {
-            binding.statusEditPollOptions.hide()
-            binding.statusEditPollDescription.hide()
-        } else {
-            binding.statusEditPollOptions.show()
+        when (val poll = edit.poll) {
+            null -> {
+                binding.statusEditPollOptions.hide()
+                binding.statusEditPollDescription.hide()
+            }
+            else -> {
+                binding.statusEditPollOptions.show()
 
-            // not used for now since not reported by the api
-            // https://github.com/mastodon/mastodon/issues/22571
-            // binding.statusEditPollDescription.show()
+                // not used for now since not reported by the api
+                // https://github.com/mastodon/mastodon/issues/22571
+                // binding.statusEditPollDescription.show()
 
-            val pollAdapter = PollAdapter()
-            binding.statusEditPollOptions.adapter = pollAdapter
-            binding.statusEditPollOptions.layoutManager = LinearLayoutManager(context)
+                val pollAdapter = PollAdapter()
+                binding.statusEditPollOptions.adapter = pollAdapter
+                binding.statusEditPollOptions.layoutManager = LinearLayoutManager(context)
 
-            pollAdapter.setup(
-                options = edit.poll.options.map { it.toViewData(false) },
-                voteCount = 0,
-                votersCount = null,
-                emojis = edit.emojis,
-                mode = if (edit.poll.multiple) { // not reported by the api
-                    MULTIPLE
-                } else {
-                    SINGLE
-                },
-                resultClickListener = null,
-                animateEmojis = animateEmojis,
-                enabled = false
-            )
+                pollAdapter.setup(
+                    options = poll.options.map { it.toViewData(false) },
+                    voteCount = 0,
+                    votersCount = null,
+                    emojis = edit.emojis,
+                    mode = if (poll.multiple) { // not reported by the api
+                        MULTIPLE
+                    } else {
+                        SINGLE
+                    },
+                    resultClickListener = null,
+                    animateEmojis = animateEmojis,
+                    enabled = false
+                )
+            }
         }
 
         if (edit.mediaAttachments.isEmpty()) {

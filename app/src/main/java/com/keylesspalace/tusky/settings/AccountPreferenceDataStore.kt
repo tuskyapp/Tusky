@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.settings
 import androidx.preference.PreferenceDataStore
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.core.database.model.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope

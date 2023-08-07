@@ -24,11 +24,11 @@ import android.widget.Filterable
 import androidx.annotation.WorkerThread
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.TimelineAccount
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
 import com.keylesspalace.tusky.databinding.ItemAutocompleteEmojiBinding
 import com.keylesspalace.tusky.databinding.ItemAutocompleteHashtagBinding
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.visible

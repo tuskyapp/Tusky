@@ -20,8 +20,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.core.database.model.Emoji
 import com.keylesspalace.tusky.databinding.ItemPollBinding
-import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.visible

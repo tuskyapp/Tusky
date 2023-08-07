@@ -18,8 +18,11 @@ package com.keylesspalace.tusky.db
 import android.content.Context
 import android.util.Log
 import androidx.preference.PreferenceManager
-import com.keylesspalace.tusky.entity.Account
-import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.core.database.AppDatabase
+import com.keylesspalace.tusky.core.database.dao.AccountDao
+import com.keylesspalace.tusky.core.database.model.Account
+import com.keylesspalace.tusky.core.database.model.AccountEntity
+import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.settings.PrefKeys
 import java.util.Locale
 import javax.inject.Inject
@@ -152,7 +155,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.username = account.username
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
-            it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+            it.defaultPostPrivacy = account.source?.privacy ?: StatusVisibility.PUBLIC
             it.defaultPostLanguage = account.source?.language.orEmpty()
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
             it.emojis = account.emojis.orEmpty()

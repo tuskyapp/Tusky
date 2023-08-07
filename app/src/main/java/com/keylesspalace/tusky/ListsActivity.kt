@@ -38,11 +38,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.core.database.model.MastoList
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.databinding.DialogListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -151,7 +151,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             if (it.exclusive == null) {
                 binding.exclusiveCheckbox.visible(false)
             } else {
-                binding.exclusiveCheckbox.isChecked = it.exclusive
+                binding.exclusiveCheckbox.isChecked = it.exclusive!!
             }
         }
     }

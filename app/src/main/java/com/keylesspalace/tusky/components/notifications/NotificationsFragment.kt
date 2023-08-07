@@ -51,11 +51,11 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -666,6 +666,20 @@ class NotificationsFragment :
     }
 }
 
+fun Notification.Type.getUiString() = when (this) {
+    Notification.Type.UNKNOWN -> R.string.notification_unknown_name
+    Notification.Type.MENTION -> R.string.notification_mention_name
+    Notification.Type.REBLOG -> R.string.notification_boost_name
+    Notification.Type.FAVOURITE -> R.string.notification_favourite_name
+    Notification.Type.FOLLOW -> R.string.notification_follow_name
+    Notification.Type.FOLLOW_REQUEST -> R.string.notification_follow_request_name
+    Notification.Type.POLL -> R.string.notification_poll_name
+    Notification.Type.STATUS -> R.string.notification_subscription_name
+    Notification.Type.SIGN_UP -> R.string.notification_sign_up_name
+    Notification.Type.UPDATE -> R.string.notification_update_name
+    Notification.Type.REPORT -> R.string.notification_report_name
+}
+
 class FilterDialogFragment(
     private val activeFilter: Set<Notification.Type>,
     private val listener: ((filter: Set<Notification.Type>) -> Unit)
@@ -673,7 +687,7 @@ class FilterDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = requireContext()
 
-        val items = Notification.Type.visibleTypes.map { getString(it.uiString) }.toTypedArray()
+        val items = Notification.Type.visibleTypes.map { getString(it.getUiString()) }.toTypedArray()
         val checkedItems = Notification.Type.visibleTypes.map {
             !activeFilter.contains(it)
         }.toBooleanArray()

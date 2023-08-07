@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterV1
-import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.FilterV1
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
 import java.util.Date
 import java.util.regex.Pattern
 import javax.inject.Inject

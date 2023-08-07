@@ -29,16 +29,16 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.core.database.model.Filter
+import com.keylesspalace.tusky.core.database.model.Poll
+import com.keylesspalace.tusky.core.database.model.Status
+import com.keylesspalace.tusky.core.text.isLessThan
+import com.keylesspalace.tusky.core.text.isLessThanOrEqual
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.getDomain
-import com.keylesspalace.tusky.util.isLessThan
-import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
@@ -333,10 +333,9 @@ class NetworkTimelineViewModel @Inject constructor(
         val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
         if (pos == -1) return
         updateViewDataAt(pos) { vd ->
-            if (vd.status.reblog != null) {
-                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
-            } else {
-                vd.copy(status = updater(vd.status))
+            when (val reblog = vd.status.reblog) {
+                null -> vd.copy(status = updater(vd.status))
+                else -> vd.copy(status = vd.status.copy(reblog = reblog))
             }
         }
     }

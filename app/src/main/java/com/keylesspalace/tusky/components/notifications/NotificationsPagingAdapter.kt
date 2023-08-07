@@ -24,14 +24,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
 import com.keylesspalace.tusky.adapter.ReportNotificationViewHolder
+import com.keylesspalace.tusky.core.database.model.Notification
+import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.SimpleListItem1Binding
-import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
