@@ -19,6 +19,7 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.getDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -40,6 +41,7 @@ class AccountViewModel @Inject constructor(
 
     lateinit var accountId: String
     var isSelf = false
+    var isFromOwnDomain = false
 
     private var noteUpdateJob: Job? = null
 
@@ -65,6 +67,8 @@ class AccountViewModel @Inject constructor(
                             accountData.postValue(Success(account))
                             isDataLoading = false
                             isRefreshing.postValue(false)
+
+                            isFromOwnDomain = getDomain(account.url) == accountManager.activeAccount?.domain
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
