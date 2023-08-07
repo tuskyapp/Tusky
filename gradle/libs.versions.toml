@@ -60,7 +60,7 @@ google-ksp = "com.google.devtools.ksp:1.9.0-1.0.13"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ktlint = "org.jlleitschuh.gradle.ktlint:11.5.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.5.1"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
