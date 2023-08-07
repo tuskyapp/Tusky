@@ -135,7 +135,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         followTagItem?.isVisible = false
                         unfollowTagItem?.isVisible = true
 
-                        Snackbar.make(binding.root, getString(R.string.following_hashtag_success_format, tag), Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, getString(R.string.following_hashtag_success_format, tag), Snackbar.LENGTH_SHORT).show()
                     },
                     {
                         Snackbar.make(binding.root, getString(R.string.error_following_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
