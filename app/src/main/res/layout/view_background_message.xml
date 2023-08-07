@@ -33,7 +33,7 @@
             android:layout_marginTop="4dp"
             android:contentDescription="@null"
             android:scaleType="centerInside"
-            android:src="@drawable/elephant_offline" />
+            android:src="@drawable/errorphant_offline" />
 
         <com.keylesspalace.tusky.view.ClickableSpanTextView
             android:id="@+id/messageTextView"

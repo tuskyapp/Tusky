@@ -418,13 +418,13 @@ class NotificationsFragment :
                             when ((loadState.refresh as LoadState.Error).error) {
                                 is IOException -> {
                                     binding.statusView.setup(
-                                        R.drawable.elephant_offline,
+                                        R.drawable.errorphant_offline,
                                         R.string.error_network
                                     ) { adapter.retry() }
                                 }
                                 else -> {
                                     binding.statusView.setup(
-                                        R.drawable.elephant_error,
+                                        R.drawable.errorphant_error,
                                         R.string.error_generic
                                     ) { adapter.retry() }
                                 }
