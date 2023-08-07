@@ -43,9 +43,11 @@ data class StatusViewData(
      * @return Whether the status is collapsed or fully expanded.
      */
     val isCollapsed: Boolean,
-    val isDetailed: Boolean = false
-) {
+    val isDetailed: Boolean = false,
+
+    /** Whether this status should be filtered, and if so, how */
     var filterAction: Filter.Action = Filter.Action.NONE
+) {
     val id: String
         get() = status.id
 

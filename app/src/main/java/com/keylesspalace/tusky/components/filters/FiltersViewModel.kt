@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,5 +85,16 @@ class FiltersViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    companion object {
+        /** Preference keys that, if changed, indicate that a filter preference has changed */
+        public val FILTER_PREF_KEYS = setOf(
+            FilterV1.HOME,
+            FilterV1.NOTIFICATIONS,
+            FilterV1.THREAD,
+            FilterV1.PUBLIC,
+            FilterV1.ACCOUNT
+        )
     }
 }

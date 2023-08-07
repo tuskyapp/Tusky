@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.components.timeline.TimelineLoadStateAdapter
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
@@ -547,6 +548,11 @@ class NotificationsFragment :
     }
 
     override fun clearWarningAction(position: Int) {
+        val notificationViewData = adapter.snapshot()[position] ?: return
+        notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(
+            filterAction = Filter.Action.NONE
+        )
+        adapter.notifyItemChanged(position)
     }
 
     private fun clearNotifications() {

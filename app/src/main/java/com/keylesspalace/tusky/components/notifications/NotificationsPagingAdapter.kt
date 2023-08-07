@@ -17,6 +17,7 @@
 
 package com.keylesspalace.tusky.components.notifications
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -29,7 +30,9 @@ import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
+import com.keylesspalace.tusky.databinding.ItemStatusWrapperBinding
 import com.keylesspalace.tusky.databinding.SimpleListItem1Binding
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountActionListener
@@ -42,6 +45,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 enum class NotificationViewKind {
     /** View as the original status */
     STATUS,
+    STATUS_FILTERED,
 
     /** View as the original status, with the interaction type above */
     NOTIFICATION,
@@ -118,6 +122,11 @@ class NotificationsPagingAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        if (item?.statusViewData?.filterAction == Filter.Action.WARN) {
+            return NotificationViewKind.STATUS_FILTERED.ordinal
+        }
+
         return NotificationViewKind.from(getItem(position)?.type).ordinal
     }
 
@@ -128,6 +137,13 @@ class NotificationsPagingAdapter(
             NotificationViewKind.STATUS -> {
                 StatusViewHolder(
                     ItemStatusBinding.inflate(inflater, parent, false),
+                    statusActionListener,
+                    accountId
+                )
+            }
+            NotificationViewKind.STATUS_FILTERED -> {
+                StatusViewHolder(
+                    ItemStatusWrapperBinding.inflate(inflater, parent, false),
                     statusActionListener,
                     accountId
                 )
@@ -203,5 +219,10 @@ class NotificationsPagingAdapter(
         ) {
             binding.text1.text = viewData.statusViewData?.content
         }
+    }
+
+    companion object {
+        @SuppressLint("unused")
+        private const val TAG = "NotificationsPagingAdapter"
     }
 }

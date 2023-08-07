@@ -39,13 +39,13 @@ import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
+import com.keylesspalace.tusky.components.filters.FiltersViewModel.Companion.FILTER_PREF_KEYS
 import com.keylesspalace.tusky.components.timeline.FilterKind
 import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
@@ -645,15 +645,6 @@ abstract class TimelineViewModel(
     companion object {
         private const val TAG = "TimelineViewModel"
         private val THROTTLE_TIMEOUT = 500.milliseconds
-
-        /** Preference keys that, if changed, indicate that a filter preference has changed */
-        private val FILTER_PREF_KEYS = setOf(
-            FilterV1.HOME,
-            FilterV1.NOTIFICATIONS,
-            FilterV1.THREAD,
-            FilterV1.PUBLIC,
-            FilterV1.ACCOUNT
-        )
 
         fun filterContextMatchesKind(
             timelineKind: TimelineKind,

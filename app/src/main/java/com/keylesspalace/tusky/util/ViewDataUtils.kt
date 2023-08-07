@@ -33,6 +33,7 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.util
 
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
@@ -44,27 +45,35 @@ fun Status.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean,
-    isDetailed: Boolean = false
+    isDetailed: Boolean = false,
+    filterAction: Filter.Action = Filter.Action.NONE
 ): StatusViewData {
     return StatusViewData(
         status = this,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
-        isDetailed = isDetailed
+        isDetailed = isDetailed,
+        filterAction = filterAction
     )
 }
 
 fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
-    isCollapsed: Boolean
+    isCollapsed: Boolean,
+    filterAction: Filter.Action
 ): NotificationViewData {
     return NotificationViewData(
         this.type,
         this.id,
         this.account,
-        this.status?.toViewData(isShowingContent, isExpanded, isCollapsed),
+        this.status?.toViewData(
+            isShowingContent,
+            isExpanded,
+            isCollapsed,
+            filterAction = filterAction
+        ),
         this.report
     )
 }

@@ -21,8 +21,10 @@ import android.content.SharedPreferences
 import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import kotlinx.coroutines.Dispatchers
@@ -70,6 +72,8 @@ abstract class NotificationsViewModelTestBase {
     protected lateinit var timelineCases: TimelineCases
     protected lateinit var eventHub: EventHub
     protected lateinit var viewModel: NotificationsViewModel
+    protected lateinit var filtersRepository: FiltersRepository
+    protected lateinit var filterModel: FilterModel
 
     /** Empty success response, for API calls that return one */
     protected var emptySuccess: Response<ResponseBody> = Response.success("".toResponseBody())
@@ -124,13 +128,17 @@ abstract class NotificationsViewModelTestBase {
         }
         eventHub = EventHub()
         timelineCases = mock()
+        filtersRepository = mock()
+        filterModel = mock()
 
         viewModel = NotificationsViewModel(
             notificationsRepository,
             sharedPreferences,
             accountManager,
             timelineCases,
-            eventHub
+            eventHub,
+            filtersRepository,
+            filterModel
         )
     }
 }
