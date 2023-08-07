@@ -465,15 +465,6 @@ abstract class TimelineViewModel(
 
         viewModelScope.launch {
             eventHub.events
-                .filterIsInstance<PreferenceChangedEvent>()
-                .filter { FILTER_PREF_KEYS.contains(it.preferenceKey) }
-                .distinctUntilChanged()
-                .map { getFilters() }
-                .onStart { getFilters() }
-        }
-
-        viewModelScope.launch {
-            eventHub.events
                 .collect { event -> handleEvent(event) }
         }
     }
