@@ -644,9 +644,7 @@
     <string name="filter_description_format">%s : %s</string>
     <string name="label_filter_keywords">Mots clau o frasas de filtrar</string>
     <string name="post_media_image">Imatge</string>
-    <string name="select_list_empty">Avètz pas encara de lista</string>
     <string name="select_list_manage">Gerir las listas</string>
-    <string name="error_list_load">Error en cargant las litas</string>
     <string name="ui_error_favourite">Fracàs de la mes en favorit : %s</string>
     <string name="ui_error_reblog">Fracàs en partejant : %s</string>
     <string name="ui_error_vote">Fracàs del vòt : %s</string>

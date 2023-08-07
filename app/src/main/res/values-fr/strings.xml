@@ -647,9 +647,7 @@
     <string name="mute_notifications_switch">Masquer les notifications</string>
     <string name="compose_unsaved_changes">Il y a des modifications non enregistrées.</string>
     <string name="description_post_edited">Modifié</string>
-    <string name="select_list_empty">Vous n\'avez pas encore de liste</string>
     <string name="select_list_manage">Gérer les listes</string>
-    <string name="error_list_load">Erreur de chargement des listes</string>
     <string name="report_category_violation">Règle enfreinte</string>
     <string name="error_status_source_load">Le texte d\'origine du statut n\'a pas pu être chargé.</string>
     <string name="ui_error_unknown">raison inconnue</string>

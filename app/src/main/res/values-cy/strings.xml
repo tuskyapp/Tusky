@@ -692,9 +692,7 @@
     <string name="filter_edit_keyword_title">Golygu allweddair</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="post_media_image">Delwedd</string>
-    <string name="select_list_empty">Does gennyt ti ddim rhestrau, eto</string>
     <string name="select_list_manage">Rheoli rhestrau</string>
-    <string name="error_list_load">Gwall wrth lwytho rhestrau</string>
     <string name="help_empty_home">Dyma dy <b>ffrwd cartref</b>. Mae\'n dangos negeseuon diweddar y cyfrifon rwyt ti\'n eu dilyn.
 \n
 \nEr mwyn archwilio cyfrifon galli di ddod o hyd iddyn o fewn un o\'r ffrydiau eraill. Er enghraifft, ffrwd dy weinydd [iconics gmd_group]. Neu galli di eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwiliwch am Tusky i ddod o hyd ein cyfrif Mastodon.</string>
@@ -751,3 +749,4 @@
     <string name="pref_title_show_self_boosts">Dangos hunan-hybiau</string>
     <string name="pref_title_show_self_boosts_description">Rhywun yn hybu ei neges ei hunan</string>
 </resources>
+
