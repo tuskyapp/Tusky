@@ -367,7 +367,9 @@ class LinkHelperTest {
                     arrayOf("https://pixelfed.social/connyduck", true),
                     arrayOf("https://gts.foo.bar/@goblin/statuses/01GH9XANCJ0TA8Y95VE9H3Y0Q2", true),
                     arrayOf("https://gts.foo.bar/@goblin", true),
-                    arrayOf("https://foo.microblog.pub/o/5b64045effd24f48a27d7059f6cb38f5", true)
+                    arrayOf("https://foo.microblog.pub/o/5b64045effd24f48a27d7059f6cb38f5", true),
+                    arrayOf("https://bookwyrm.foo.bar/user/User", true),
+                    arrayOf("https://bookwyrm.foo.bar/user/User/comment/123456", true)
                 )
             }
         }
