@@ -26,7 +26,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -386,74 +385,59 @@ class TimelineFragment :
                 adapter.loadStateFlow
                     .withPresentationState()
                     .collect { (loadState, presentationState) ->
-                        Log.d(TAG, "loadState: $loadState")
-                        Log.d(TAG, "presentationState: $presentationState")
-                        Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
-                        Log.d(TAG, "  isRefreshing: ${binding.swipeRefreshLayout.isRefreshing}")
-
-                        // Only show the progress bar if:
-                        //
-                        // - The load hasn't errored
-                        // - The list hasn't been presented
-                        // - The swipe-refresh progress spinner isn't showing
-                        // - The adapter count is 0
-                        //
-                        // The last one is because there appears to be a race condition between the
-                        // presentation state changing and isRefreshing changing to true.
-                        binding.progressBar.isVisible = presentationState != PresentationState.ERROR &&
-                            presentationState != PresentationState.PRESENTED &&
-                            binding.swipeRefreshLayout.isRefreshing == false &&
-                            adapter.itemCount == 0
-                        Log.d(TAG, "progressBar.isVisible: ${binding.progressBar.isVisible}")
-
-                        if (binding.swipeRefreshLayout.isRefreshing && (presentationState == PresentationState.PRESENTED || loadState.refresh is LoadState.Error)) {
-                            binding.swipeRefreshLayout.isRefreshing = false
-                        }
-
-                        if (adapter.itemCount != 0 && presentationState == PresentationState.PRESENTED) {
-                            binding.recyclerView.show()
-                            binding.statusView.hide()
-                        }
-
-                        if (adapter.itemCount == 0 && presentationState == PresentationState.PRESENTED) {
-                            Log.d(TAG, "Showing empty state")
-                            binding.statusView.setup(
-                                R.drawable.elephant_friend_empty,
-                                R.string.message_empty
-                            )
-                            if (timelineKind == TimelineKind.Home) {
-                                binding.statusView.showHelp(R.string.help_empty_home)
-                            }
-                            binding.statusView.show()
-                            binding.recyclerView.hide()
-                        } else {
-                            Log.d(TAG, "Not showing empty state")
-                            binding.statusView.hide()
-                        }
-
-                        if (presentationState == PresentationState.ERROR) {
-                            val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
-
-                            // Show errors as a snackbar if there is existing content to show
-                            // (either cached, or in the adapter), or as a full screen error
-                            // otherwise.
-                            if (adapter.itemCount > 0) {
-                                snackbar = Snackbar.make(
-                                    (activity as ActionButtonActivity).actionButton ?: binding.root,
-                                    message,
-                                    Snackbar.LENGTH_INDEFINITE
-                                )
-                                    .setTextMaxLines(5)
-                                    .setAction(R.string.action_retry) { adapter.retry() }
-                                snackbar!!.show()
-                            } else {
-                                val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
-                                binding.statusView.setup(drawableRes, message) {
-                                    snackbar?.dismiss()
-                                    adapter.retry()
+                        when (presentationState) {
+                            PresentationState.INITIAL -> { }
+                            PresentationState.REMOTE_LOADING -> {
+                                if (adapter.itemCount == 0 && !binding.swipeRefreshLayout.isRefreshing) {
+                                    binding.progressBar.show()
                                 }
-                                binding.statusView.show()
-                                binding.recyclerView.hide()
+                            }
+                            PresentationState.SOURCE_LOADING -> { }
+                            PresentationState.ERROR -> {
+                                binding.progressBar.hide()
+                                binding.swipeRefreshLayout.isRefreshing = false
+                                val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
+
+                                // Show errors as a snackbar if there is existing content to show
+                                // (either cached, or in the adapter), or as a full screen error
+                                // otherwise.
+                                if (adapter.itemCount > 0) {
+                                    snackbar = Snackbar.make(
+                                        (activity as ActionButtonActivity).actionButton ?: binding.root,
+                                        message,
+                                        Snackbar.LENGTH_INDEFINITE
+                                    )
+                                        .setTextMaxLines(5)
+                                        .setAction(R.string.action_retry) { adapter.retry() }
+                                    snackbar!!.show()
+                                } else {
+                                    val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
+                                    binding.statusView.setup(drawableRes, message) {
+                                        snackbar?.dismiss()
+                                        adapter.retry()
+                                    }
+                                    binding.statusView.show()
+                                    binding.recyclerView.hide()
+                                }
+                            }
+                            PresentationState.PRESENTED -> {
+                                binding.progressBar.hide()
+                                binding.swipeRefreshLayout.isRefreshing = false
+
+                                if (adapter.itemCount == 0) {
+                                    binding.statusView.setup(
+                                        R.drawable.elephant_friend_empty,
+                                        R.string.message_empty
+                                    )
+                                    if (timelineKind == TimelineKind.Home) {
+                                        binding.statusView.showHelp(R.string.help_empty_home)
+                                    }
+                                    binding.statusView.show()
+                                    binding.recyclerView.hide()
+                                } else {
+                                    binding.recyclerView.show()
+                                    binding.statusView.hide()
+                                }
                             }
                         }
                     }
