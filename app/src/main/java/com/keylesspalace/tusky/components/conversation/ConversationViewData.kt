@@ -100,6 +100,6 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         collapsed = collapsed,
         muted = muted,
         poll = poll,
-        language = status.language,
+        language = status.language
     )
 }

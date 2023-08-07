@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.core.database.model.Attachment
 import com.keylesspalace.tusky.core.database.model.ConversationAccountEntity
 import com.keylesspalace.tusky.core.database.model.DraftAttachment
 import com.keylesspalace.tusky.core.database.model.Emoji
+import com.keylesspalace.tusky.core.database.model.FilterResult
 import com.keylesspalace.tusky.core.database.model.HashTag
 import com.keylesspalace.tusky.core.database.model.NewPoll
 import com.keylesspalace.tusky.core.database.model.Poll
@@ -104,8 +105,8 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun jsonToAttachmentList(attachmentListJson: String?): ArrayList<Attachment>? {
-        return gson.fromJson(attachmentListJson, object : TypeToken<ArrayList<Attachment>>() {}.type)
+    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment>? {
+        return gson.fromJson(attachmentListJson, object : TypeToken<List<Attachment>>() {}.type)
     }
 
     @TypeConverter
@@ -166,5 +167,15 @@ class Converters @Inject constructor(
     @TypeConverter
     fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment>? {
         return gson.fromJson(draftAttachmentListJson, object : TypeToken<List<DraftAttachment>>() {}.type)
+    }
+
+    @TypeConverter
+    fun filterResultListToJson(filterResults: List<FilterResult>?): String? {
+        return gson.toJson(filterResults)
+    }
+
+    @TypeConverter
+    fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
+        return gson.fromJson(filterResultListJson, object : TypeToken<List<FilterResult>>() {}.type)
     }
 }

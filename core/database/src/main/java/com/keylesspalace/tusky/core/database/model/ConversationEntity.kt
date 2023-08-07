@@ -48,9 +48,10 @@ data class ConversationAccountEntity(
             localUsername = localUsername,
             username = username,
             displayName = displayName,
+            note = "",
             url = "",
             avatar = avatar,
-            emojis = emojis,
+            emojis = emojis
         )
     }
 
@@ -83,7 +84,7 @@ data class ConversationStatusEntity(
     val bookmarked: Boolean,
     val sensitive: Boolean,
     val spoilerText: String,
-    val attachments: ArrayList<Attachment>,
+    val attachments: List<Attachment>,
     val mentions: List<Status.Mention>,
     val tags: List<HashTag>?,
     val showingHiddenContent: Boolean,
@@ -123,7 +124,7 @@ fun Status.toEntity(
         collapsed = contentCollapsed,
         muted = muted ?: false,
         poll = poll,
-        language = language,
+        language = language
     )
 
 fun Conversation.toEntity(

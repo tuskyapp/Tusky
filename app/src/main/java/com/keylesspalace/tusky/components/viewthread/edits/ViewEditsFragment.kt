@@ -37,12 +37,15 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
-import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
+import com.keylesspalace.tusky.core.text.unicodeWrap
+import com.keylesspalace.tusky.databinding.FragmentViewEditsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
@@ -50,11 +53,10 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class ViewEditsFragment :
-    Fragment(R.layout.fragment_view_thread),
+    Fragment(R.layout.fragment_view_edits),
     LinkListener,
     OnRefreshListener,
     MenuProvider,
@@ -65,7 +67,7 @@ class ViewEditsFragment :
 
     private val viewModel: ViewEditsViewModel by viewModels { viewModelFactory }
 
-    private val binding by viewBinding(FragmentViewThreadBinding::bind)
+    private val binding by viewBinding(FragmentViewEditsBinding::bind)
 
     private lateinit var statusId: String
 
@@ -88,6 +90,7 @@ class ViewEditsFragment :
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
+        val avatarRadius: Int = requireContext().resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
@@ -107,13 +110,17 @@ class ViewEditsFragment :
                         binding.statusView.show()
                         binding.initialProgressBar.hide()
 
-                        if (uiState.throwable is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                viewModel.loadEdits(statusId, force = true)
+                        when (uiState.throwable) {
+                            is ViewEditsViewModel.MissingEditsException -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_friend_empty,
+                                    R.string.error_missing_edits
+                                )
                             }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                viewModel.loadEdits(statusId, force = true)
+                            else -> {
+                                binding.statusView.setup(uiState.throwable) {
+                                    viewModel.loadEdits(statusId, force = true)
+                                }
                             }
                         }
                     }
@@ -130,6 +137,15 @@ class ViewEditsFragment :
                             useBlurhash = useBlurhash,
                             listener = this@ViewEditsFragment
                         )
+
+                        // Focus on the most recent version
+                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(0)
+
+                        val account = uiState.edits.first().account
+                        loadAvatar(account.avatar, binding.statusAvatar, avatarRadius, animateAvatars)
+
+                        binding.statusDisplayName.text = account.name.unicodeWrap().emojify(account.emojis, binding.statusDisplayName, animateEmojis)
+                        binding.statusUsername.text = account.username
                     }
                 }
             }

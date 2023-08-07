@@ -42,6 +42,7 @@ abstract class ViewMediaFragment : Fragment() {
 
         @JvmStatic
         protected val ARG_ATTACHMENT = "attach"
+
         @JvmStatic
         protected val ARG_SINGLE_IMAGE_URL = "singleImageUrl"
 

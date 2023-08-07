@@ -51,18 +51,20 @@ class DraftMediaAdapter(
                 holder.imageView.clearFocus()
                 holder.imageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
             } else {
-                if (attachment.focus != null)
+                if (attachment.focus != null) {
                     holder.imageView.setFocalPoint(attachment.focus)
-                else
+                } else {
                     holder.imageView.clearFocus()
+                }
                 var glide = Glide.with(holder.itemView.context)
                     .load(attachment.uri)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .dontAnimate()
                     .centerInside()
 
-                if (attachment.focus != null)
+                if (attachment.focus != null) {
                     glide = glide.addListener(holder.imageView)
+                }
 
                 glide.into(holder.imageView)
             }

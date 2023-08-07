@@ -87,7 +87,6 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
     var inSampleSize = 1
 
     if (height > reqHeight || width > reqWidth) {
-
         val halfHeight = height / 2
         val halfWidth = width / 2
 
@@ -130,8 +129,13 @@ fun reorientBitmap(bitmap: Bitmap?, orientation: Int): Bitmap? {
 
     return try {
         val result = Bitmap.createBitmap(
-            bitmap, 0, 0, bitmap.width,
-            bitmap.height, matrix, true
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
         )
         if (!bitmap.sameAs(result)) {
             bitmap.recycle()

@@ -17,34 +17,45 @@
 
 package com.keylesspalace.tusky.core.database.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.util.Date
 
+@Parcelize
 data class Filter(
     val id: String,
-    val phrase: String,
+    val title: String,
     val context: List<String>,
     @SerializedName("expires_at") val expiresAt: Date?,
-    val irreversible: Boolean,
-    @SerializedName("whole_word") val wholeWord: Boolean
-) {
-    companion object {
-        const val HOME = "home"
-        const val NOTIFICATIONS = "notifications"
-        const val PUBLIC = "public"
-        const val THREAD = "thread"
-        const val ACCOUNT = "account"
-    }
+    @SerializedName("filter_action") private val filterAction: String,
+    val keywords: List<FilterKeyword>
+    // val statuses: List<FilterStatus>,
+) : Parcelable {
+    enum class Action(val action: String) {
+        NONE("none"),
+        WARN("warn"),
+        HIDE("hide");
 
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Filter) {
-            return false
+        companion object {
+            fun from(action: String): Action = values().firstOrNull { it.action == action } ?: WARN
         }
-        val filter = other as Filter?
-        return filter?.id.equals(id)
     }
+    enum class Kind(val kind: String) {
+        HOME("home"),
+        NOTIFICATIONS("notifications"),
+        PUBLIC("public"),
+        THREAD("thread"),
+        ACCOUNT("account");
+
+        companion object {
+            fun from(kind: String): Kind = values().firstOrNull { it.kind == kind } ?: PUBLIC
+        }
+    }
+
+    val action: Action
+        get() = Action.from(filterAction)
+
+    val kinds: List<Kind>
+        get() = context.map { Kind.from(it) }
 }

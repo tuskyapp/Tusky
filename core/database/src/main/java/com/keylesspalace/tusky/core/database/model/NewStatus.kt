@@ -31,7 +31,7 @@ data class NewStatus(
     @SerializedName("media_attributes") val mediaAttributes: List<MediaAttribute>?,
     @SerializedName("scheduled_at") val scheduledAt: String?,
     val poll: NewPoll?,
-    val language: String?,
+    val language: String?
 )
 
 @Parcelize
@@ -48,5 +48,5 @@ data class MediaAttribute(
     val id: String,
     val description: String?,
     val focus: String?,
-    val thumbnail: String?,
+    val thumbnail: String?
 ) : Parcelable

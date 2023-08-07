@@ -87,7 +87,7 @@ abstract class BottomSheetActivity : BaseActivity() {
                         viewThread(statuses[0].id, statuses[0].url)
                         return@subscribe
                     }
-                    accounts.firstOrNull { it.url == url }?.let { account ->
+                    accounts.firstOrNull { it.url.equals(url, ignoreCase = true) }?.let { account ->
                         // Some servers return (unrelated) accounts for url searches (#2804)
                         // Verify that the account's url matches the query
                         viewAccount(account.id)
@@ -177,5 +177,5 @@ abstract class BottomSheetActivity : BaseActivity() {
 
 enum class PostLookupFallbackBehavior {
     OPEN_IN_BROWSER,
-    DISPLAY_ERROR,
+    DISPLAY_ERROR
 }

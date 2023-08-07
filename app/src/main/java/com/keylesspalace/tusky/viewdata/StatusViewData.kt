@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.viewdata
 import android.os.Build
 import android.text.Spanned
 import com.keylesspalace.tusky.core.database.model.ConversationStatusEntity
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.database.model.StatusVisibility
 import com.keylesspalace.tusky.core.text.parseAsMastodonHtml
@@ -31,6 +32,7 @@ import com.keylesspalace.tusky.util.shouldTrimStatus
  */
 sealed class StatusViewData {
     abstract val id: String
+    var filterAction: Filter.Action = Filter.Action.NONE
 
     data class Concrete(
         val status: Status,
@@ -93,21 +95,6 @@ sealed class StatusViewData {
         }
 
         /** Helper for Java */
-        fun copyWithStatus(status: Status): Concrete {
-            return copy(status = status)
-        }
-
-        /** Helper for Java */
-        fun copyWithExpanded(isExpanded: Boolean): Concrete {
-            return copy(isExpanded = isExpanded)
-        }
-
-        /** Helper for Java */
-        fun copyWithShowingContent(isShowingContent: Boolean): Concrete {
-            return copy(isShowingContent = isShowingContent)
-        }
-
-        /** Helper for Java */
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
         }
@@ -153,6 +140,7 @@ sealed class StatusViewData {
                 poll = entity.poll,
                 card = null,
                 language = entity.language,
+                filtered = emptyList()
             ),
             isExpanded = entity.expanded,
             isShowingContent = entity.showingHiddenContent,

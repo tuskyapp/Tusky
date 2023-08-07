@@ -43,7 +43,7 @@ data class Status(
     val sensitive: Boolean,
     @SerializedName("spoiler_text") val spoilerText: String,
     val visibility: StatusVisibility,
-    @SerializedName("media_attachments") val attachments: ArrayList<Attachment>,
+    @SerializedName("media_attachments") val attachments: List<Attachment>,
     val mentions: List<Mention>,
     val tags: List<HashTag>?,
     val application: Application?,
@@ -52,6 +52,7 @@ data class Status(
     val poll: Poll?,
     val card: Card?,
     val language: String?,
+    val filtered: List<FilterResult>?
 ) {
 
     val actionableId: String
@@ -85,7 +86,7 @@ data class Status(
             attachments = attachments,
             poll = poll,
             createdAt = createdAt,
-            language = language,
+            language = language
         )
     }
 

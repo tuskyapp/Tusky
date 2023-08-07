@@ -6,7 +6,6 @@ import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
-import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -14,6 +13,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
+import com.keylesspalace.tusky.view.SliderPreference
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 
 class PreferenceParent(
@@ -38,6 +38,15 @@ inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): 
 inline fun <A> PreferenceParent.emojiPreference(activity: A, builder: EmojiPickerPreference.() -> Unit): EmojiPickerPreference
     where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
     val pref = EmojiPickerPreference.get(activity)
+    builder(pref)
+    addPref(pref)
+    return pref
+}
+
+inline fun PreferenceParent.sliderPreference(
+    builder: SliderPreference.() -> Unit
+): SliderPreference {
+    val pref = SliderPreference(context)
     builder(pref)
     addPref(pref)
     return pref
@@ -71,15 +80,6 @@ inline fun PreferenceParent.validatedEditTextPreference(
             }
         }
     }
-    builder(pref)
-    addPref(pref)
-    return pref
-}
-
-inline fun PreferenceParent.checkBoxPreference(
-    builder: CheckBoxPreference.() -> Unit
-): CheckBoxPreference {
-    val pref = CheckBoxPreference(context)
     builder(pref)
     addPref(pref)
     return pref

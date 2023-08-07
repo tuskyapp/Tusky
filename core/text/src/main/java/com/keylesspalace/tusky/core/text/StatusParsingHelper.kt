@@ -18,6 +18,7 @@
 @file:JvmName("StatusParsingHelper")
 package com.keylesspalace.tusky.core.text
 
+import android.text.Html.TagHandler
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import androidx.core.text.parseAsHtml
@@ -25,12 +26,13 @@ import androidx.core.text.parseAsHtml
 /**
  * parse a String containing html from the Mastodon api to Spanned
  */
-fun String.parseAsMastodonHtml(): Spanned {
+@JvmOverloads
+fun String.parseAsMastodonHtml(tagHandler: TagHandler? = null): Spanned {
     return this.replace("<br> ", "<br>&nbsp;")
         .replace("<br /> ", "<br />&nbsp;")
         .replace("<br/> ", "<br/>&nbsp;")
         .replace("  ", "&nbsp;&nbsp;")
-        .parseAsHtml()
+        .parseAsHtml(tagHandler = tagHandler)
         /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
          * most status contents do, so it should be trimmed. */
         .trimTrailingWhitespace()

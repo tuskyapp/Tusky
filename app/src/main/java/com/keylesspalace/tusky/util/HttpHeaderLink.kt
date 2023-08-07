@@ -24,7 +24,9 @@ import androidx.core.net.toUri
  *
  * @see [RFC5988](https://tools.ietf.org/html/rfc5988)
  */
-class HttpHeaderLink @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE) constructor(
+class HttpHeaderLink
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+constructor(
     uri: String
 ) {
     data class Parameter(val name: String, val value: String?)

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Ett fel har uppstått.</string>
-    <string name="error_network">Ett nätverksfel inträffade. Kontrollera att du är ansluten till internet och försök igen.</string>
+    <string name="error_network">Ett nätverksfel uppstod. Kontrollera din anslutning och försök igen.</string>
     <string name="error_empty">Detta kan inte vara tomt.</string>
     <string name="error_invalid_domain">Ogiltig domän angiven</string>
-    <string name="error_failed_app_registration">Misslyckades att autentisera med denna instans. Om problemet kvarstår, försök att logga in via webbläsare från menyn.</string>
+    <string name="error_failed_app_registration">Misslyckades att autentisera med den instansen. Om detta kvarstår, försök Logga in i webbläsaren från menyn.</string>
     <string name="error_no_web_browser_found">Det gick inte att hitta en webbläsare.</string>
-    <string name="error_authorization_unknown">Ett oidentifierat behörighetsfel inträffade. Om problemet kvarstår, försök att logga in via webbläsare från menyn.</string>
-    <string name="error_authorization_denied">Ingen behörighet. Om du är säker på att användarnamn och lösenord är korrekt, försök att logga in via webbläsare från menyn.</string>
-    <string name="error_retrieving_oauth_token">Misslyckades med att få en inloggnings-token.</string>
+    <string name="error_authorization_unknown">Ett oidentifierat auktoriseringsfel inträffade. Om detta kvarstår, försök Logga in i webbläsaren från menyn.</string>
+    <string name="error_authorization_denied">Auktorisering nekades. Om du är säker på att du har angett rätt referenser, prova Logga in i webbläsaren från menyn.</string>
+    <string name="error_retrieving_oauth_token">Misslyckades med att hämta en inloggningstoken. Om detta kvarstår, försök Logga in i webbläsaren från menyn.</string>
     <string name="error_compose_character_limit">Inlägget är för långt!</string>
     <string name="error_media_upload_type">Den typen av fil kan inte laddas upp.</string>
     <string name="error_media_upload_opening">Den filen kunde inte öppnas.</string>
@@ -138,11 +138,11 @@
     <string name="label_header">Bakgrundsbild</string>
     <string name="link_whats_an_instance">Vad är en instans?</string>
     <string name="login_connection">Ansluter…</string>
-    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges 
-		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och 
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges
+		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och
         <a href="https://instances.social"> mer! </a>
         \n\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
-        \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, 
+        \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser,
         som om du var på samma sajt.
         \n\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.
     </string>
@@ -203,7 +203,7 @@
     <string name="post_text_size_medium">Mellan</string>
     <string name="post_text_size_large">Stor</string>
     <string name="post_text_size_largest">Största</string>
-    <string name="notification_mention_name">Nya omnämnanden</string>
+    <string name="notification_mention_name">Nya omnämningar</string>
     <string name="notification_mention_descriptions">Aviseringar om nya omnämnanden</string>
     <string name="notification_follow_name">Nya följare</string>
     <string name="notification_follow_description">Aviseringar på nya följare</string>
@@ -259,8 +259,8 @@
     <string name="load_more_placeholder_text">ladda mer</string>
     <string name="pref_title_public_filter_keywords">Offentliga tidslinjer</string>
     <string name="pref_title_thread_filter_keywords">Konversationer</string>
-    <string name="filter_addition_dialog_title">Lägg till filter</string>
-    <string name="filter_edit_dialog_title">Redigera filter</string>
+    <string name="filter_addition_title">Lägg till filter</string>
+    <string name="filter_edit_title">Redigera filter</string>
     <string name="filter_dialog_remove_button">Ta bort</string>
     <string name="filter_dialog_update_button">Uppdatera</string>
     <string name="filter_add_description">Filtrera fras</string>
@@ -274,17 +274,13 @@
     <string name="action_create_list">Skapa en lista</string>
     <string name="action_rename_list">Byt namn på listan</string>
     <string name="action_delete_list">Ta bort listan</string>
-    <string name="action_edit_list">Redigera lista</string>
     <string name="hint_search_people_list">Sök efter personer du följer</string>
     <string name="action_add_to_list">Lägg till konto i listan</string>
     <string name="action_remove_from_list">Ta bort kontot från listan</string>
     <string name="compose_active_account_description">Publicerar som %1$s</string>
-    <string name="error_failed_set_caption">Misslyckades med att ange bildtext</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Beskriv för synskadade
-\n(max %d tecken)</item>
-        <item quantity="other">Beskriv för synskadade
-\n(max %d tecken)</item>
+        <item quantity="one">Beskriv innehåll för synskadade (max %d tecken)</item>
+        <item quantity="other">Beskriv innehåll för synskadade (max %d tecken)</item>
     </plurals>
     <string name="action_set_caption">Ange bildtext</string>
     <string name="action_remove">Ta bort</string>
@@ -534,7 +530,7 @@
     <string name="duration_90_days">90 dagar</string>
     <string name="duration_no_change">(Ingen ändring)</string>
     <string name="pref_title_show_self_username">Visa användarnamn i verktygsrader</string>
-    <string name="pref_title_confirm_favourites">Visa bekräftelsedialog före favoritmarkering</string>
+    <string name="pref_title_confirm_favourites">Visa bekräftelse före favoritmarkering</string>
     <string name="dialog_delete_list_warning">Vill du verkligen radera listan %s\?</string>
     <string name="drafts_post_failed_to_send">Det här inlägget kunde inte skickas!</string>
     <string name="drafts_failed_loading_reply">Kunde inte ladda information om svar</string>
@@ -550,7 +546,6 @@
     <string name="error_image_edit_failed">Bilden kunde inte redigeras.</string>
     <string name="duration_365_days">365 dagar</string>
     <string name="duration_180_days">180 dagar</string>
-    <string name="error_failed_set_focus">Kunde inte sätta fokuspunkt</string>
     <string name="action_set_focus">Sätt fokuspunkt</string>
     <string name="error_following_hashtag_format">Kunde inte följa #%s</string>
     <string name="notification_sign_up_format">%s registrerade sig</string>
@@ -604,13 +599,13 @@
     <string name="a11y_label_loading_thread">Laddar tråd</string>
     <string name="mute_notifications_switch">Tysta notiser</string>
     <string name="title_edits">Redigeringar</string>
-    <string name="status_edit_info">%1$s redigerade %2$s</string>
+    <string name="status_edit_info">%1$s redigerade</string>
     <string name="action_share_account_link">Dela länk med konto</string>
     <string name="action_share_account_username">Dela användarnamn för konto</string>
     <string name="send_account_link_to">Dela konto-URL med…</string>
     <string name="send_account_username_to">Dela kontots användarnamn med…</string>
     <string name="account_username_copied">Kopierade användarnamn</string>
-    <string name="status_created_info">%1$s skapade %2$s</string>
+    <string name="status_created_info">%1$s skapade</string>
     <string name="action_discard">Förkasta ändringar</string>
     <string name="action_continue_edit">Fortsätt redigera</string>
     <string name="compose_unsaved_changes">Du har ändringar som inte sparats.</string>
@@ -619,7 +614,7 @@
 \n
 \nAntingen kunde servern inte kontaktas, eller så nekades uppladdningen.</string>
     <string name="action_post_failed_show_drafts">Visa utkast</string>
-    <string name="action_browser_login">Logga in via webbläsare</string>
+    <string name="action_browser_login">Inloggning via webbläsaren</string>
     <string name="pref_summary_http_proxy_disabled">Inaktiverad</string>
     <string name="pref_summary_http_proxy_missing">&lt;ej angiven&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;felaktig&gt;</string>
@@ -628,4 +623,63 @@
 \nAntingen kunde inte servern nås eller så har uppladdningen nekats.</string>
     <string name="action_post_failed_do_nothing">Stäng</string>
     <string name="description_login">Fungerar i de flesta fallen. Ingen information läcker till andra applikationer.</string>
+    <string name="pref_reading_order_oldest_first">Äldsta först</string>
+    <string name="pref_reading_order_newest_first">Nyaste först</string>
+    <string name="dialog_follow_hashtag_title">Följ hashtagg</string>
+    <string name="dialog_follow_hashtag_hint">#hashtagg</string>
+    <string name="accessibility_talking_about_tag">%1$d personer pratar om hashtagg %2$s</string>
+    <string name="total_usage">Total användning</string>
+    <string name="total_accounts">Totala konton</string>
+    <string name="hint_description">Beskrivning</string>
+    <string name="post_media_image">Bild</string>
+    <string name="description_browser_login">Kan stödja ytterligare autentiseringsmetoder, men kräver en webbläsare som stöds.</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="filter_keyword_addition_title">Lägg till nyckelord</string>
+    <string name="filter_edit_keyword_title">Redigera nyckelord</string>
+    <string name="notification_unknown_name">Okänd</string>
+    <string name="socket_timeout_exception">Att kontakta din server tog för lång tid</string>
+    <string name="ui_error_unknown">okänd anledning</string>
+    <string name="ui_success_accepted_follow_request">Följ begäran accepterad</string>
+    <string name="ui_success_rejected_follow_request">Följ begäran blockerad</string>
+    <string name="select_list_manage">Hantera listor</string>
+    <string name="select_list_empty">Du har inga listor, än</string>
+    <string name="status_filtered_show_anyway">Visa allafall</string>
+    <string name="status_filter_placeholder_label_format">Filtrerad: %s</string>
+    <string name="pref_title_account_filter_keywords">Profiler</string>
+    <string name="label_filter_action">Filteråtgärd</string>
+    <string name="label_filter_keywords">Nyckelord eller fraser att filtrera</string>
+    <string name="pref_title_show_stat_inline">Visa post statistik i tidslinje</string>
+    <string name="hint_filter_title">Mitt filter</string>
+    <string name="label_filter_title">Titel</string>
+    <string name="filter_action_warn">Varna</string>
+    <string name="filter_action_hide">Dölj</string>
+    <string name="filter_description_warn">Dölj med en varning</string>
+    <string name="filter_description_hide">Dölj helt</string>
+    <string name="action_add">Lägg till</string>
+    <string name="filter_keyword_display_format">%s (helt ord)</string>
+    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer.
+\n
+\nFör att utforska konton kan du antingen upptäcka dem i någon av de andra tidslinjerna. Till exempel den lokala tidslinjen för din instans [iconics gmd_group]. Eller så kan du söka efter dem efter namn [ikonics gmd_search]; sök till exempel efter Tusky för att hitta vårt Mastodon-konto.</string>
+    <string name="pref_ui_text_size">UI textstorlek</string>
+    <string name="notification_listenable_worker_name">Bakgrundsaktivitet</string>
+    <string name="notification_listenable_worker_description">Aviseringar när Tusky arbetar i bakgrunden</string>
+    <string name="notification_notification_worker">Hämtar aviseringar…</string>
+    <string name="notification_prune_cache">Cacheunderhåll…</string>
+    <string name="action_refresh">Uppdatera</string>
+    <string name="ui_error_reblog">Att knuffa inlägg misslyckades: %s</string>
+    <string name="ui_error_vote">Rösta i omröstning misslyckades: %s</string>
+    <string name="ui_error_accept_follow_request">Acceptera följarförfrågan misslyckades: %s</string>
+    <string name="pref_title_reading_order">Läsordning</string>
+    <string name="ui_error_bookmark">Att bokmärka inlägg misslyckades: %s</string>
+    <string name="ui_error_clear_notifications">Rensing av aviseringar misslyckades: %s</string>
+    <string name="ui_error_favourite">Att favoritmarkera inlägg misslyckades: %s</string>
+    <string name="error_list_load">Fel vid laddning av listor</string>
+    <string name="ui_error_reject_follow_request">Avacceptera följarförgrågan misslyckades: %s</string>
+    <string name="label_filter_context">Filtrera sammanhang</string>
+    <string name="title_public_trending_hashtags">Populära hashtaggar</string>
+    <string name="load_newest_notifications">Ladda de nyaste aviseringarna</string>
+    <string name="compose_delete_draft">Ta bort utkast\?</string>
+    <string name="error_missing_edits">Din server vet att det här inlägget har redigerats, men har ingen kopia av ändringarna, så de kan inte visas för dig.
+\n
+\nDet är <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon problem #25398</a>.</string>
 </resources>

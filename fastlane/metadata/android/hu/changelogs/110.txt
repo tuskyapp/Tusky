@@ -1,0 +1,20 @@
+Tusky 22.0
+
+Új funkciók:
+
+- Felkapott hashtag-ek mutatása
+- Új hashtag-ek bekövetése
+- Jobb sorrendezés nyelvek választásakor
+- Bejegyzésverziók közötti különbségek mutatása
+- Mastodon v4 szűrők támogatása
+- Lehetőség bejegyzés-statisztikák mutatására az idővonalon
+- És sok más...
+
+Javítások:
+
+- Kiválasztott fül és pozíció megjegyzése
+- Értesítések megtartása az elolvasásig
+- Kevert balról jobbra és jobbról balra szöveg helyes mutatása a profilon
+- Bejegyzéshossz kiszámításának javítása
+- Képfeliratok publikálása minden esetben
+- És sok más..

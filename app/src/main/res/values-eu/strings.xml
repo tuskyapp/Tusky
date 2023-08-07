@@ -234,7 +234,6 @@
     <string name="action_lists">Zerrendak</string>
     <string name="title_lists">Zerrendak</string>
     <string name="compose_active_account_description">%1$s kontuarekin tut egiten</string>
-    <string name="error_failed_set_caption">Akatsa deskribapena eranstean</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Ikusmen urritasuna dutenentzat deskribapena\n(%d karaktereko muga)</item>
     </plurals>
@@ -329,8 +328,8 @@
     <string name="abbreviated_seconds_ago">%ds</string>
     <string name="pref_title_alway_open_spoiler">Beti zabaldu edukien abisuekin markatutako tootak</string>
     <string name="pref_title_thread_filter_keywords">Elkarrizketak</string>
-    <string name="filter_addition_dialog_title">Gehitu iragazkia</string>
-    <string name="filter_edit_dialog_title">Editatu iragazkia</string>
+    <string name="filter_addition_title">Gehitu iragazkia</string>
+    <string name="filter_edit_title">Editatu iragazkia</string>
     <string name="filter_dialog_remove_button">Ezabatu</string>
     <string name="filter_dialog_update_button">Eguneratu</string>
     <string name="filter_dialog_whole_word">Hitz osoa</string>
@@ -342,7 +341,6 @@
     <string name="action_create_list">Zerrenda sortu</string>
     <string name="action_rename_list">Zerrenda berrizendatu</string>
     <string name="action_delete_list">Ezabatu zerrenda</string>
-    <string name="action_edit_list">Editatu zerrenda</string>
     <string name="hint_search_people_list">Bilatu jarraitzen dituzun pertsonak</string>
     <string name="action_add_to_list">Gehitu kontua zerrendan</string>
     <string name="action_remove_from_list">Kendu kontua zerrendatik</string>
@@ -509,7 +507,7 @@
 \n
 \n - Gogokoak, bultzadak eta jarraitzaileen jakinarazpenak
 \n - Tutetan gogokoen eta bultzaden kopurua
-\n - Profiletan jarraitzaileen eta argitalpenen estatistikak 
+\n - Profiletan jarraitzaileen eta argitalpenen estatistikak
 \n
 \nPush-jakinarazpenek ez dute eraginik izango, baina jakinarazpenen hobespenak eskuz berrikus ditzakezu.</string>
     <string name="wellbeing_hide_stats_posts">Mezuetan estatistika kuantitatiboak ezkutatu</string>

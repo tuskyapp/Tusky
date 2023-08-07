@@ -127,7 +127,6 @@
     <string name="lock_account_label_description">ต้องอนุมัติผู้ติดตามด้วยตัวเอง</string>
     <string name="lock_account_label">ล็อกบัญชี</string>
     <string name="action_remove">ลบ</string>
-    <string name="error_failed_set_caption">ตั้งคำอธิบายล้มเหลว</string>
     <string name="action_set_caption">ตั้งคำอธิบาย</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">อธิบายเพื่อผู้บกพร่องทางสายตา
@@ -137,7 +136,6 @@
     <string name="action_remove_from_list">ลบบัญชีออกจากรายการ</string>
     <string name="action_add_to_list">เพิ่มบัญชีไปใส่รายการ</string>
     <string name="hint_search_people_list">ค้นหาผู้ติดตาม</string>
-    <string name="action_edit_list">แก้ไขรายการ</string>
     <string name="action_delete_list">ลบรายการ</string>
     <string name="action_rename_list">เปลี่ยนชื่อรายการ</string>
     <string name="action_create_list">สร้างรายการ</string>
@@ -151,8 +149,8 @@
     <string name="filter_dialog_whole_word">ทั้งคำ</string>
     <string name="filter_dialog_update_button">อัปเดต</string>
     <string name="filter_dialog_remove_button">ลบ</string>
-    <string name="filter_edit_dialog_title">แก้ไขตัวคัดกรอง</string>
-    <string name="filter_addition_dialog_title">เพิ่มตัวคัดกรอง</string>
+    <string name="filter_edit_title">แก้ไขตัวคัดกรอง</string>
+    <string name="filter_addition_title">เพิ่มตัวคัดกรอง</string>
     <string name="pref_title_thread_filter_keywords">การสนทนา</string>
     <string name="pref_title_public_filter_keywords">ไทม์ไลน์สาธารณะ</string>
     <string name="load_more_placeholder_text">โหลดเพิ่ม</string>
@@ -271,11 +269,11 @@
     <string name="dialog_message_uploading_media">กำลังอัปโหลด…</string>
     <string name="dialog_title_finishing_media_upload">กำลังอัปโหลดสื่อใกล้เสร็จ</string>
     <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a>
-\n 
-\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น 
-\n 
-\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน 
-\n 
+\n
+\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น
+\n
+\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน
+\n
 \nพบข้อมูลเพิ่มเติมได้ที่ <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="label_header">ภาพหัวบน</string>
     <string name="login_connection">กำลังเชื่อมต่อ…</string>
@@ -458,7 +456,7 @@
     <string name="wellbeing_mode_notice">ข้อมูลบางอย่างที่อาจส่งผลต่อสุขภาพจิตของคุณจะถูกซ่อนไว้ซึ่งรวมถึง:
 \n
 \n- การแจ้งเตือน ชื่นชอบ/ดัน/ติดตาม
-\n- จำนวนการ ชื่นชอบ/ดัน บนโพสต์ 
+\n- จำนวนการ ชื่นชอบ/ดัน บนโพสต์
 \n- สถิติ ผู้ติดตาม/โพสต์ ในโปรไฟล์
 \n
 \n การแจ้งเตือนแบบพุชจะไม่ได้รับผลกระทบ แต่คุณสามารถตรวจสอบการตั้งค่าการแจ้งเตือนได้ด้วยตนเอง</string>

@@ -11,8 +11,7 @@
     android:lines="1"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:textColor="?android:attr/textColorSecondary"
-    android:textSize="?attr/status_text_large"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
     app:drawableStartCompat="@drawable/ic_home_24dp"
     app:drawableTint="?android:attr/textColorSecondary" />
 

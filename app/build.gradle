@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
@@ -28,8 +29,8 @@ android {
         namespace "com.keylesspalace.tusky"
         minSdk 23
         targetSdk 33
-        versionCode 100
-        versionName "21.0"
+        versionCode 113
+        versionName "23.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -58,8 +59,11 @@ android {
     }
 
     lint {
-        disable 'MissingTranslation'
+        lintConfig file("lint.xml")
+        // Regenerate by running `./gradlew app:newLintBaseline`
+        baseline = file("lint-baseline.xml")
     }
+
     buildFeatures {
         buildConfig true
         resValues true
@@ -98,8 +102,8 @@ android {
     // Can remove this once https://issuetracker.google.com/issues/260059413 is fixed.
     // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
@@ -107,6 +111,13 @@ android {
                 "${variant.flavorName}_${buildType.name}.apk"
         }
     }
+}
+
+configurations {
+    // JNI-only libraries don't play nicely with Robolectric
+    // see https://github.com/tuskyapp/Tusky/pull/3367
+    testImplementation.exclude group: "org.conscrypt", module: "conscrypt-android"
+    testRuntime.exclude group: "org.conscrypt", module: "conscrypt-android"
 }
 
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
@@ -133,7 +144,7 @@ dependencies {
     implementation libs.conscrypt.android
 
     implementation libs.bundles.glide
-    kapt libs.glide.compiler
+    ksp libs.glide.compiler
 
     implementation libs.bundles.rxjava3
 
@@ -144,7 +155,7 @@ dependencies {
 
     implementation libs.sparkbutton
 
-    implementation libs.photoview
+    implementation libs.touchimageview
 
     implementation libs.bundles.material.drawer
     implementation libs.material.typeface
@@ -156,6 +167,8 @@ dependencies {
     implementation libs.bouncycastle
     implementation libs.unified.push
 
+    implementation libs.bundles.xmldiff
+
     testImplementation libs.androidx.test.junit
     testImplementation libs.robolectric
     testImplementation libs.bundles.mockito
@@ -163,8 +176,25 @@ dependencies {
     testImplementation libs.androidx.core.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
+    testImplementation libs.truth
+    testImplementation libs.turbine
 
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
+}
+
+tasks.register("newLintBaseline") {
+    description 'Deletes and then recreates the lint baseline'
+
+    // This task should always run, irrespective of caching
+    notCompatibleWithConfigurationCache("Is always out of date")
+    outputs.upToDateWhen { false }
+
+    doLast {
+        delete android.lint.baseline.path
+    }
+
+    // Regenerate the lint baseline
+    it.finalizedBy tasks.named("lintBlueDebug")
 }

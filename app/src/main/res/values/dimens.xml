@@ -61,4 +61,6 @@
     <dimen name="preview_image_spacing">4dp</dimen>
 
     <dimen name="graph_line_thickness">1dp</dimen>
+
+    <dimen name="minimum_touch_target">48dp</dimen>
 </resources>

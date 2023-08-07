@@ -1,61 +1,67 @@
 [versions]
-agp = "7.4.2"
-androidx-activity = "1.6.1"
+agp = "8.0.2"
+androidx-activity = "1.7.2"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.5.0"
 androidx-cardview = "1.0.0"
 androidx-constraintlayout = "2.1.4"
-androidx-core = "1.9.0"
+androidx-core = "1.10.1"
 androidx-exifinterface = "1.3.6"
-androidx-fragment = "1.5.5"
+androidx-fragment = "1.6.1"
 androidx-junit = "1.1.5"
-androidx-paging = "3.1.1"
+androidx-lifecycle = "2.6.1"
+androidx-paging = "3.2.0"
 androidx-preference = "1.2.0"
-androidx-recyclerview = "1.2.1"
+androidx-recyclerview = "1.3.0"
 androidx-sharetarget = "1.2.0"
-androidx-splashscreen = "1.0.0"
+androidx-splashscreen = "1.0.1"
 androidx-swiperefresh-layout = "1.1.0"
 androidx-testing = "2.2.0"
 androidx-viewpager2 = "1.0.0"
-androidx-work = "2.8.0"
-androidx-room = "2.5.0"
+androidx-work = "2.8.1"
+androidx-room = "2.5.2"
 autodispose = "2.1.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
-coroutines = "1.6.4"
-dagger = "2.45"
-emoji2 = "1.2.0"
+coroutines = "1.7.3"
+dagger = "2.47"
+diffx = "1.1.1"
+emoji2 = "1.3.0"
 espresso = "3.5.1"
 filemoji-compat = "3.2.7"
-glide = "4.15.0"
-glide-animation-plugin = "2.24.0"
+glide = "4.15.1"
+# Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
+glide-animation-plugin = "2.23.0"
 gson = "2.10.1"
-kotlin = "1.8.10"
+kotlin = "1.9.0"
 image-cropper = "4.3.2"
-lifecycle = "2.5.1"
-material = "1.8.0"
+material = "1.9.0"
 material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
-mockito-inline = "5.1.1"
-mockito-kotlin = "4.1.0"
+mockito-inline = "5.2.0"
+mockito-kotlin = "5.0.0"
 networkresult-calladapter = "1.0.0"
-okhttp = "4.10.0"
+okhttp = "4.11.0"
 retrofit = "2.9.0"
-robolectric = "4.8.1"
+robolectric = "4.10.3"
 rxandroid3 = "3.0.2"
 rxjava3 = "3.1.6"
 rxkotlin3 = "3.0.1"
-photoview = "2.3.0"
 sparkbutton = "4.1.0"
+touchimageview = "3.5"
+truth = "1.1.5"
+turbine = "1.0.0"
 unified-push = "2.1.1"
+xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+google-ksp = "com.google.devtools.ksp:1.9.0-1.0.13"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.5.0"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -72,10 +78,10 @@ androidx-emoji2-views-core = { module = "androidx.emoji2:emoji2-views", version.
 androidx-emoji2-view-helper = { module = "androidx.emoji2:emoji2-views-helper", version.ref = "emoji2" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
-androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "androidx-paging" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
@@ -87,7 +93,7 @@ androidx-sharetarget = { module = "androidx.sharetarget:sharetarget", version.re
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefresh-layout" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
-androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 autodispose-android-lifecycle = { module = "com.uber.autodispose2:autodispose-androidx-lifecycle", version.ref = "autodispose" }
 autodispose-core = { module = "com.uber.autodispose2:autodispose", version.ref = "autodispose" }
@@ -98,16 +104,16 @@ dagger-android-processor = { module = "com.google.dagger:dagger-android-processo
 dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dagger-core = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+diffx = { module = "org.pageseeder.diffx:pso-diffx", version.ref = "diffx" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filemoji-compat" }
 filemojicompat-defaults = { module = "de.c1710:filemojicompat-defaults", version.ref = "filemoji-compat" }
 filemojicompat-ui = { module = "de.c1710:filemojicompat-ui", version.ref = "filemoji-compat" }
 glide-animation-plugin = { module = "com.github.penfeizhou.android.animation:glide-plugin", version.ref = "glide-animation-plugin" }
-glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -121,7 +127,6 @@ mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-photoview = { module = "com.github.chrisbanes:PhotoView", version.ref = "photoview" }
 retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -130,14 +135,18 @@ rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rx
 rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
+touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
+xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }
 
 [bundles]
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",
     "androidx-recyclerview", "androidx-exifinterface", "androidx-cardview", "androidx-preference-ktx", "androidx-sharetarget",
     "androidx-emoji2-core", "androidx-emoji2-views-core", "androidx-emoji2-view-helper", "androidx-lifecycle-viewmodel-ktx",
     "androidx-lifecycle-livedata-ktx", "androidx-lifecycle-common-java8", "androidx-lifecycle-reactivestreams-ktx",
-    "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime",
+    "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime-ktx",
     "androidx-core-splashscreen", "androidx-activity"]
 autodispose = ["autodispose-core", "autodispose-android-lifecycle"]
 dagger = ["dagger-core", "dagger-android-core", "dagger-android-support"]
@@ -150,3 +159,4 @@ okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
 retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
+xmldiff = ["diffx", "xmlwriter"]

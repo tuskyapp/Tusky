@@ -24,7 +24,7 @@
     <string name="error_compose_character_limit">Допис задовгий!</string>
     <string name="error_no_web_browser_found">Не вдалося знайти браузер, який можна використати.</string>
     <string name="error_empty">Не може бути порожнім.</string>
-    <string name="error_network">Сталася помилка мережі! Перевірте інтернет-з\'єднання та спробуйте знову!</string>
+    <string name="error_network">Сталася помилка мережі. Перевірте інтернет-з\'єднання та спробуйте знову.</string>
     <string name="title_lists">Списки</string>
     <string name="action_lists">Списки</string>
     <string name="about_title_activity">Про застосунок</string>
@@ -85,7 +85,7 @@
     <string name="action_block">Заблокувати</string>
     <string name="action_unfollow">Відписатися</string>
     <string name="action_follow">Підписатися</string>
-    <string name="action_logout_confirm">Ви впевнені, що хочете вийти з облікового запису %1$s\?</string>
+    <string name="action_logout_confirm">Ви впевнені, що хочете вийти %1$s\? Це призведе до видалення всіх локальних даних облікового запису, включно з чернетками та вподобаннями.</string>
     <string name="action_compose">Написати</string>
     <string name="action_unfavourite">Не подобається</string>
     <string name="action_bookmark">Додати в закладки</string>
@@ -181,16 +181,11 @@
     <string name="lock_account_label_description">Вимагає затвердження підписників власноруч</string>
     <string name="action_set_caption">Додати підпис</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Опис для людей з вадами зору
-\n(обмеження %d символ)</item>
-        <item quantity="few">Опис для людей з вадами зору
-\n(обмеження %d символи)</item>
-        <item quantity="many">Опис для людей з вадами зору
-\n(обмеження %d символів)</item>
-        <item quantity="other">Опис для людей з вадами зору
-\n(обмеження %d символів)</item>
+        <item quantity="one">Опис матеріалів для людей з вадами зору (обмеження %d символ)</item>
+        <item quantity="few">Опис матеріалів для людей з вадами зору (обмеження %d символи)</item>
+        <item quantity="many">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
+        <item quantity="other">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
     </plurals>
-    <string name="error_failed_set_caption">Не вдалося додати підпис</string>
     <string name="action_unsubscribe_account">Відписатися</string>
     <string name="action_subscribe_account">Підписатися</string>
     <string name="account_note_saved">Збережено!</string>
@@ -279,7 +274,6 @@
     <string name="action_remove_from_list">Вилучити обліковий запис зі списку</string>
     <string name="action_add_to_list">Додати обліковий запис до списку</string>
     <string name="hint_search_people_list">Пошук серед тих, на кого ви підписані</string>
-    <string name="action_edit_list">Змінити список</string>
     <string name="action_delete_list">Видалити список</string>
     <string name="action_rename_list">Змінити назву списку</string>
     <string name="action_create_list">Створити список</string>
@@ -295,8 +289,8 @@
     <string name="lock_account_label">Заблокувати обліковий запис</string>
     <string name="action_remove">Вилучити</string>
     <string name="filter_dialog_remove_button">Вилучити</string>
-    <string name="filter_edit_dialog_title">Редагувати фільтр</string>
-    <string name="filter_addition_dialog_title">Додати фільтр</string>
+    <string name="filter_edit_title">Редагувати фільтр</string>
+    <string name="filter_addition_title">Додати фільтр</string>
     <string name="pref_title_thread_filter_keywords">Розмови</string>
     <string name="pref_title_public_filter_keywords">Загальнодоступні стрічки</string>
     <string name="load_more_placeholder_text">завантажити ще</string>
@@ -424,7 +418,7 @@
     <string name="dialog_download_image">Завантаження</string>
     <string name="dialog_message_uploading_media">Відвантаження…</string>
     <string name="dialog_title_finishing_media_upload">Завершення відвантаження медіа</string>
-    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a> 
+    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a>
 \n
 \nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис.
 \n
@@ -569,7 +563,6 @@
     <string name="description_post_language">Мова допису</string>
     <string name="duration_no_change">(Не змінено)</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="error_failed_set_focus">Не вдалося налаштувати точку фокусування</string>
     <string name="action_set_focus">Налаштувати точку фокусування</string>
     <string name="pref_show_self_username_always">Завжди</string>
     <string name="set_focus_description">Торкніться або перетягніть коло, щоб вибрати точку фокусування, яку завжди буде видно на мініатюрах.</string>
@@ -616,8 +609,8 @@
     <string name="action_continue_edit">Продовжити редагування</string>
     <string name="mute_notifications_switch">Беззвучні сповіщення</string>
     <string name="title_edits">Редагування</string>
-    <string name="status_edit_info">%1$s редагує %2$s</string>
-    <string name="status_created_info">%1$s створює %2$s</string>
+    <string name="status_edit_info">%1$s редагує</string>
+    <string name="status_created_info">%1$s створює</string>
     <string name="a11y_label_loading_thread">Завантаження стрічки</string>
     <string name="action_share_account_link">Поділитися посиланням на обліковий запис</string>
     <string name="action_share_account_username">Поділитися іменем користувача облікового запису</string>
@@ -648,4 +641,54 @@
     <string name="total_accounts">Усього облікових записів</string>
     <string name="dialog_follow_hashtag_title">Стежити за хештегом</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="action_refresh">Оновити</string>
+    <string name="notification_unknown_name">Невідомо</string>
+    <string name="socket_timeout_exception">Надто тривала спроба з\'єднання з вашим сервером</string>
+    <string name="ui_error_unknown">невідома причина</string>
+    <string name="ui_error_bookmark">Не вдалося додати допис до закладок: %s</string>
+    <string name="ui_error_clear_notifications">Не вдалося очистити сповіщення: %s</string>
+    <string name="ui_error_favourite">Не вдалося вподобати допис: %s</string>
+    <string name="ui_error_reblog">Не вдалося поширити допис: %s</string>
+    <string name="ui_error_vote">Не вдалося проголосувати: %s</string>
+    <string name="ui_error_accept_follow_request">Не вдалося погодити запит на стеження: %s</string>
+    <string name="ui_error_reject_follow_request">Не вдалося відхилити запит на стеження: %s</string>
+    <string name="ui_success_accepted_follow_request">Запит на стеження погоджено</string>
+    <string name="ui_success_rejected_follow_request">Запит на стеження заблоковано</string>
+    <string name="status_filtered_show_anyway">Усе одно показати</string>
+    <string name="status_filter_placeholder_label_format">Відфільтровано: %s</string>
+    <string name="pref_title_account_filter_keywords">Профілі</string>
+    <string name="label_filter_title">Заголовок</string>
+    <string name="filter_action_warn">Попередження</string>
+    <string name="filter_action_hide">Сховати</string>
+    <string name="filter_description_warn">Сховати з попередженням</string>
+    <string name="filter_description_hide">Сховати повністю</string>
+    <string name="label_filter_action">Фільтрувати дію</string>
+    <string name="label_filter_context">Фільтрувати контексти</string>
+    <string name="label_filter_keywords">Ключові слова або фрази для фільтрування</string>
+    <string name="action_add">Додати</string>
+    <string name="filter_keyword_display_format">%s (ціле слово)</string>
+    <string name="filter_keyword_addition_title">Додати ключове слово</string>
+    <string name="filter_edit_keyword_title">Змінити ключове слово</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="hint_filter_title">Мій фільтр</string>
+    <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
+    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
+\n
+\nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
+    <string name="hint_description">Опис</string>
+    <string name="post_media_image">Зображення</string>
+    <string name="error_list_load">Помилка завантаження списків</string>
+    <string name="select_list_empty">У вас ще немає списків</string>
+    <string name="select_list_manage">Керувати списками</string>
+    <string name="pref_ui_text_size">Розмір шрифту інтерфейсу</string>
+    <string name="notification_listenable_worker_name">Фонова діяльність</string>
+    <string name="notification_listenable_worker_description">Сповіщення, коли Tusky працює у фоновому режимі</string>
+    <string name="notification_notification_worker">Отримання сповіщень…</string>
+    <string name="notification_prune_cache">Обслуговування кешу…</string>
+    <string name="load_newest_notifications">Завантажити найновіші сповіщення</string>
+    <string name="compose_delete_draft">Видалити чернетку\?</string>
+    <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому вони не можуть бути вам показані.
+\n
+\nЦе <a href="https://github.com/mastodon/mastodon/issues/25398">помилка #25398 у Mastodon</a>.</string>
+    <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %s</string>
 </resources>

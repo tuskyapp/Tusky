@@ -40,7 +40,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
+class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider, SearchView.OnQueryTextListener {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -75,7 +75,7 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
         binding.pages.isUserInputEnabled = enableSwipeForTabs
 
         TabLayoutMediator(binding.tabs, binding.pages) {
-            tab, position ->
+                tab, position ->
             tab.text = getPageTitle(position)
         }.attach()
     }
@@ -91,8 +91,6 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
         searchViewMenuItem.expandActionView()
         val searchView = searchViewMenuItem.actionView as SearchView
         setupSearchView(searchView)
-
-        searchView.setQuery(viewModel.currentQuery, false)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -150,7 +148,21 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider {
         val pxBuffer = ((48 * 2) * resources.displayMetrics.density).toInt()
         searchView.maxWidth = pxScreenWidth - pxBuffer
 
+        // Keep text that was entered also when switching to a different tab (before the search is executed)
+        searchView.setOnQueryTextListener(this)
+        searchView.setQuery(viewModel.currentSearchFieldContent ?: "", false)
+
         searchView.requestFocus()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.currentSearchFieldContent = newText
+
+        return false
     }
 
     override fun androidInjector() = androidInjector

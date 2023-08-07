@@ -56,19 +56,19 @@ data class PollConfiguration(
     @SerializedName("max_option_chars") val maxOptionChars: Int?,
     @SerializedName("max_characters_per_option") val maxCharactersPerOption: Int?,
     @SerializedName("min_expiration") val minExpiration: Int?,
-    @SerializedName("max_expiration") val maxExpiration: Int?,
+    @SerializedName("max_expiration") val maxExpiration: Int?
 )
 
 data class InstanceConfiguration(
     val statuses: StatusConfiguration?,
     @SerializedName("media_attachments") val mediaAttachments: MediaAttachmentConfiguration?,
-    val polls: PollConfiguration?,
+    val polls: PollConfiguration?
 )
 
 data class StatusConfiguration(
     @SerializedName("max_characters") val maxCharacters: Int?,
     @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
-    @SerializedName("characters_reserved_per_url") val charactersReservedPerUrl: Int?,
+    @SerializedName("characters_reserved_per_url") val charactersReservedPerUrl: Int?
 )
 
 data class MediaAttachmentConfiguration(
@@ -77,7 +77,7 @@ data class MediaAttachmentConfiguration(
     @SerializedName("image_matrix_limit") val imageMatrixLimit: Int?,
     @SerializedName("video_size_limit") val videoSizeLimit: Int?,
     @SerializedName("video_frame_rate_limit") val videoFrameRateLimit: Int?,
-    @SerializedName("video_matrix_limit") val videoMatrixLimit: Int?,
+    @SerializedName("video_matrix_limit") val videoMatrixLimit: Int?
 )
 
 data class PleromaConfiguration(

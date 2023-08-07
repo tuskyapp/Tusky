@@ -35,23 +35,23 @@ import javax.inject.Inject
 
 data class AccountListState(
     val list: MastoList,
-    val includesAccount: Boolean,
+    val includesAccount: Boolean
 )
 
 data class ActionError(
     val error: Throwable,
     val type: Type,
-    val listId: String,
+    val listId: String
 ) : Throwable(error) {
     enum class Type {
         ADD,
-        REMOVE,
+        REMOVE
     }
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ListsForAccountViewModel @Inject constructor(
-    private val mastodonApi: MastodonApi,
+    private val mastodonApi: MastodonApi
 ) : ViewModel() {
 
     private lateinit var accountId: String
@@ -75,14 +75,14 @@ class ListsForAccountViewModel @Inject constructor(
             runCatching {
                 val (all, includes) = listOf(
                     async { mastodonApi.getLists() },
-                    async { mastodonApi.getListsIncludesAccount(accountId) },
+                    async { mastodonApi.getListsIncludesAccount(accountId) }
                 ).awaitAll()
 
                 _states.emit(
                     all.getOrThrow().map { list ->
                         AccountListState(
                             list = list,
-                            includesAccount = includes.getOrThrow().any { it.id == list.id },
+                            includesAccount = includes.getOrThrow().any { it.id == list.id }
                         )
                     }
                 )

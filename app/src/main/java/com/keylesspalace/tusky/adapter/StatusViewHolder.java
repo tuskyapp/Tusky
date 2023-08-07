@@ -30,9 +30,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.core.database.model.Emoji;
+import com.keylesspalace.tusky.core.database.model.Filter;
 import com.keylesspalace.tusky.core.database.model.Status;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
+import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
@@ -47,11 +49,15 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     private final TextView statusInfo;
     private final Button contentCollapseButton;
+    private final TextView favouritedCountLabel;
+    private final TextView reblogsCountLabel;
 
     public StatusViewHolder(View itemView) {
         super(itemView);
         statusInfo = itemView.findViewById(R.id.status_info);
         contentCollapseButton = itemView.findViewById(R.id.button_toggle_content);
+        favouritedCountLabel = itemView.findViewById(R.id.status_favourites_count);
+        reblogsCountLabel = itemView.findViewById(R.id.status_insets);
     }
 
     @Override
@@ -67,7 +73,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             setupCollapsedState(sensitive, expanded, status, listener);
 
             Status reblogging = status.getRebloggingStatus();
-            if (reblogging == null) {
+            if (reblogging == null || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
                 String rebloggedByDisplayName = reblogging.getAccount().getName();
@@ -77,6 +83,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             }
 
         }
+
+        reblogsCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        favouritedCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
+        setFavouritedCount(status.getActionable().getFavouritesCount());
+        setReblogsCount(status.getActionable().getReblogsCount());
+
         super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
     }
 
@@ -94,7 +106,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     // don't use this on the same ViewHolder as setRebloggedByDisplayName, will cause recycling issues as paddings are changed
-    void setPollInfo(final boolean ownPoll) {
+    protected void setPollInfo(final boolean ownPoll) {
         statusInfo.setText(ownPoll ? R.string.poll_ended_created : R.string.poll_ended_voted);
         statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0);
         statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.getContext(), 10));
@@ -102,7 +114,15 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setVisibility(View.VISIBLE);
     }
 
-    void hideStatusInfo() {
+    protected void setReblogsCount(int reblogsCount) {
+        reblogsCountLabel.setText(NumberUtils.formatNumber(reblogsCount, 1000));
+    }
+
+    protected void setFavouritedCount(int favouritedCount) {
+        favouritedCountLabel.setText(NumberUtils.formatNumber(favouritedCount, 1000));
+    }
+
+    protected void hideStatusInfo() {
         statusInfo.setVisibility(View.GONE);
     }
 

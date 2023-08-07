@@ -22,5 +22,6 @@ package com.keylesspalace.tusky.core.database.model
 
 data class MastoList(
     val id: String,
-    val title: String
+    val title: String,
+    val exclusive: Boolean?
 )

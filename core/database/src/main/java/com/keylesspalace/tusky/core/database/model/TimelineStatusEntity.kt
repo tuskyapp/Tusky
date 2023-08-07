@@ -86,6 +86,7 @@ data class TimelineStatusEntity(
     val pinned: Boolean,
     val card: String?,
     val language: String?,
+    val filtered: List<FilterResult>?
 ) {
     val isPlaceholder: Boolean
         get() = this.authorServerId == null

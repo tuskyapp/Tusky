@@ -49,7 +49,6 @@ class CachedTimelineRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, TimelineStatusWithAccount>
     ): MediatorResult {
-
         if (!activeAccount.isLoggedIn()) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }

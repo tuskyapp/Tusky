@@ -63,12 +63,10 @@
         <item quantity="other">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
 \n(%d অক্ষর সীমা)</item>
     </plurals>
-    <string name="error_failed_set_caption">ক্যাপশন সেট করতে ব্যর্থ</string>
     <string name="compose_active_account_description">অ্যাকাউন্ট %1$s থেকে পোস্ট করা হচ্ছে</string>
     <string name="action_remove_from_list">তালিকা থেকে অ্যাকাউন্ট সরান</string>
     <string name="action_add_to_list">তালিকায় অ্যাকাউন্ট যোগ করুন</string>
     <string name="hint_search_people_list">আপনি অনুসরণ মানুষের জন্য অনুসন্ধান করুন</string>
-    <string name="action_edit_list">তালিকা সম্পাদনা করুন</string>
     <string name="action_delete_list">তালিকা মুছে দিন</string>
     <string name="action_rename_list">তালিকা পুনঃ নামকরণ কর</string>
     <string name="action_create_list">একটি তালিকা তৈরি করুন</string>
@@ -82,8 +80,8 @@
     <string name="filter_add_description">বাক্য ফিল্টার কর</string>
     <string name="filter_dialog_update_button">আপডেট</string>
     <string name="filter_dialog_remove_button">সরাও</string>
-    <string name="filter_edit_dialog_title">ফিল্টার সম্পাদনা করুন</string>
-    <string name="filter_addition_dialog_title">ফিল্টার যোগ করুন</string>
+    <string name="filter_edit_title">ফিল্টার সম্পাদনা করুন</string>
+    <string name="filter_addition_title">ফিল্টার যোগ করুন</string>
     <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
     <string name="pref_title_public_filter_keywords">পাবলিক টাইমলাইন</string>
     <string name="load_more_placeholder_text">আরো লোড কর</string>
@@ -102,9 +100,9 @@
     <string name="post_share_link">টুট এর সাথে লিংক ভাগ করুন</string>
     <string name="post_share_content">টুট এর কন্টেন্ট ভাগ করুন</string>
     <string name="about_tusky_account">টাস্কির প্রোফাইল</string>
-    <string name="about_bug_feature_request_site">বাগ রিপোর্ট এবং বৈশিষ্ট্য অনুরোধ: 
+    <string name="about_bug_feature_request_site">বাগ রিপোর্ট এবং বৈশিষ্ট্য অনুরোধ:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">প্রকল্প ওয়েবসাইট: 
+    <string name="about_project_site">প্রকল্প ওয়েবসাইট:
 \nhttps://tusky.app</string>
     <string name="about_tusky_license">টাস্কি মুক্ত এবং ওপেন সোর্স সফ্টওয়্যার। এটি GNU জেনারেল পাবলিক লাইসেন্স সংস্করণ 3 এর অধীনে লাইসেন্সযুক্ত। আপনি এখানে লাইসেন্স দেখতে পারেন: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_tusky_version">টাস্কি %s</string>
@@ -181,15 +179,15 @@
     <string name="dialog_download_image">ডাউনলোড</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
-    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &lt;a href=\"https://instances.social\"&gt; আরও! &lt;/a&gt; 
-\n 
-\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন। 
+    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &lt;a href=\"https://instances.social\"&gt; আরও! &lt;/a&gt;
 \n
-\n 
+\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন।
 \n
-\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন। 
 \n
-\n 
+\n
+\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন।
+\n
+\n
 \n
 \nআরো তথ্য &lt;a href=\"https://joinmastodon.org\"&gt; joinmastodon.org &lt;/a&gt; এ পাওয়া যেতে পারে। <a href="https://instances.social">more!</a>
 \n

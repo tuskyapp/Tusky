@@ -139,12 +139,10 @@
         <item quantity="other">Опишете за хора със зрителни увреждания
 \n(%d ограничение на знаците)</item>
     </plurals>
-    <string name="error_failed_set_caption">Неуспешно задаване на надпис</string>
     <string name="compose_active_account_description">Публикуване с акаунт %1$s</string>
     <string name="action_remove_from_list">Премахване на акаунт от списъка</string>
     <string name="action_add_to_list">Добавяне на акаунт към списъка</string>
     <string name="hint_search_people_list">Търсене на хора, които следвате</string>
-    <string name="action_edit_list">Редакция на списъка</string>
     <string name="action_delete_list">Изтриване на списъка</string>
     <string name="action_rename_list">Преименуване на списъка</string>
     <string name="action_create_list">Създаване на списък</string>
@@ -160,8 +158,8 @@
     <string name="filter_dialog_whole_word">Цяла дума</string>
     <string name="filter_dialog_update_button">Актуализиране</string>
     <string name="filter_dialog_remove_button">Премахване</string>
-    <string name="filter_edit_dialog_title">Редакция на филтър</string>
-    <string name="filter_addition_dialog_title">Добавяне на филтър</string>
+    <string name="filter_edit_title">Редакция на филтър</string>
+    <string name="filter_addition_title">Добавяне на филтър</string>
     <string name="pref_title_thread_filter_keywords">Разговори</string>
     <string name="pref_title_public_filter_keywords">Публични емисии</string>
     <string name="load_more_placeholder_text">зареждане на още</string>

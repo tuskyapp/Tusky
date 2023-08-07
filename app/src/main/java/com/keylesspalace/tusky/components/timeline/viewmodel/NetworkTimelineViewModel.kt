@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.core.database.model.Filter
 import com.keylesspalace.tusky.core.database.model.Poll
 import com.keylesspalace.tusky.core.database.model.Status
 import com.keylesspalace.tusky.core.text.isLessThan
@@ -82,7 +83,7 @@ class NetworkTimelineViewModel @Inject constructor(
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
@@ -182,7 +183,7 @@ class NetworkTimelineViewModel @Inject constructor(
                                     .copy(
                                         isShowingContent = oldStatus!!.isShowingContent,
                                         isExpanded = oldStatus.isExpanded,
-                                        isCollapsed = oldStatus.isCollapsed,
+                                        isCollapsed = oldStatus.isCollapsed
                                     )
                             }
 
@@ -246,6 +247,16 @@ class NetworkTimelineViewModel @Inject constructor(
         nextKey = statusData.firstOrNull { it is StatusViewData.Concrete }?.asStatusOrNull()?.id
         statusData.clear()
         currentSource?.invalidate()
+    }
+
+    override fun clearWarning(status: StatusViewData.Concrete) {
+        updateActionableStatusById(status.actionableId) {
+            it.copy(filtered = null)
+        }
+    }
+
+    override fun saveReadingPosition(statusId: String) {
+        /** Does nothing for non-cached timelines */
     }
 
     override suspend fun invalidate() {

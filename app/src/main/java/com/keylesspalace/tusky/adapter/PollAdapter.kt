@@ -75,7 +75,6 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
     override fun getItemCount() = pollOptions.size
 
     override fun onBindViewHolder(holder: BindingHolder<ItemPollBinding>, position: Int) {
-
         val option = pollOptions[position]
 
         val resultTextView = holder.binding.statusPollOptionResult

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Er deed zich een fout voor.</string>
-    <string name="error_network">Er deed zich een netwerkfout voor! Controleer je verbinding en probeer opnieuw!</string>
+    <string name="error_network">Er deed zich een netwerkfout voor. Controleer je verbinding en probeer opnieuw.</string>
     <string name="error_empty">Dit mag niet leeg zijn.</string>
     <string name="error_invalid_domain">Ongeldige domeinnaam ingevoerd</string>
-    <string name="error_failed_app_registration">Authenticatie met die server is mislukt.</string>
+    <string name="error_failed_app_registration">Authenticatie met die server is mislukt. Als het probleem blijft, probeer dan de browser login via het menu.</string>
     <string name="error_no_web_browser_found">Kon geen bruikbare webbrowser vinden.</string>
-    <string name="error_authorization_unknown">Er deed zich een onbekende autorisatiefout voor.</string>
-    <string name="error_authorization_denied">Autorisatie werd geweigerd.</string>
-    <string name="error_retrieving_oauth_token">Kon geen inlogsleutel verkrijgen.</string>
+    <string name="error_authorization_unknown">Er deed zich een onbekende autorisatiefout voor. Als dit blijft, probeer dan “ Via de browser inloggen” in het menu.</string>
+    <string name="error_authorization_denied">Autorisatie werd geweigerd. Als u zeker weet dat u de correcte gegevens heeft ingevoerd, probeer dan in te loggen in de browser via het menu.</string>
+    <string name="error_retrieving_oauth_token">Kon geen inlogsleutel verkrijgen. Als het probleem zich blijft herhalen; probeer dan de browser login via menu.</string>
     <string name="error_compose_character_limit">Tekst van dit bericht is te lang!</string>
-    <string name="error_media_upload_type">Bestandstype kan niet worden geüpload.</string>
+    <string name="error_media_upload_type">Bestandstype wordt niet ondersteund.</string>
     <string name="error_media_upload_opening">Bestand kon niet worden geopend.</string>
     <string name="error_media_upload_permission">Er is toestemming nodig om deze media te lezen.</string>
     <string name="error_media_download_permission">Er is toestemming nodig om media op te slaan.</string>
-    <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet allebei aan hetzelfde bericht worden toegevoegd.</string>
+    <string name="error_media_upload_image_or_video">Afbeeldingen en video\'s kunnen niet samen aan hetzelfde bericht worden toegevoegd.</string>
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
     <string name="error_sender_account_gone">Fout tijdens verzenden bericht.</string>
     <string name="title_home">Start</string>
-    <string name="title_notifications">Meldingen</string>
+    <string name="title_notifications">Notificaties</string>
     <string name="title_public_local">Lokaal</string>
     <string name="title_public_federated">Globaal</string>
     <string name="title_direct_messages">Directe berichten</string>
@@ -47,7 +47,7 @@
     <string name="post_content_show_less">Inklappen</string>
     <string name="message_empty">Hier is niets.</string>
     <string name="footer_empty">Niets te zien. Swipe naar beneden om te verversen!</string>
-    <string name="notification_reblog_format">%s boostte jouw bericht</string>
+    <string name="notification_reblog_format">%s boostte jou bericht</string>
     <string name="notification_favourite_format">%s markeerde jouw bericht als favoriet</string>
     <string name="notification_follow_format">%s volgt jou</string>
     <string name="report_username_format">Rapporteer @%s</string>
@@ -60,9 +60,9 @@
     <string name="action_unfavourite">Favoriet verwijderen</string>
     <string name="action_more">Meer</string>
     <string name="action_compose">Bericht schrijven</string>
-    <string name="action_login">Aanmelden met Mastodon</string>
-    <string name="action_logout">Afmelden</string>
-    <string name="action_logout_confirm">Ben je er zeker van dat je het account %1$s wil afmelden?</string>
+    <string name="action_login">Aanmelden met Tusky</string>
+    <string name="action_logout">Uitloggen</string>
+    <string name="action_logout_confirm">Weet je zeker dat je %1$s wil afmelden\? Dit verwijdert alle lokale gegevens van het account, inclusief conceptberichten en voorkeuren.</string>
     <string name="action_follow">Volgen</string>
     <string name="action_unfollow">Ontvolgen</string>
     <string name="action_block">Blokkeren</string>
@@ -138,12 +138,12 @@
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een Mastodonserver?</string>
     <string name="login_connection">Aan het verbinden…</string>
-    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a> 
-\n 
-\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. 
-\n 
-\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
-\n 
+    <string name="dialog_whats_an_instance">Het adres of domein van elke Mastodonserver kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, octodon.social en <a href="https://instances.social">nog veel meer!</a>
+\n
+\nWanneer je nog geen account hebt, kun je de naam van de Mastodonserver waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken.
+\n
+\nEen Mastodonserver (Engels: instance) is een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten.
+\n
 \n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
@@ -258,7 +258,6 @@
     <string name="action_lists">Lijsten</string>
     <string name="title_lists">Lijsten</string>
     <string name="compose_active_account_description">Berichten plaatsen als %1$s</string>
-    <string name="error_failed_set_caption">Toevoegen van beschrijving mislukt</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one"/>
         <item quantity="other">Omschrijf dit voor mensen met een visuele beperking
@@ -337,8 +336,8 @@
     <string name="pref_title_timeline_filters">Filters</string>
     <string name="pref_title_public_filter_keywords">Openbare tijdlijnen</string>
     <string name="pref_title_thread_filter_keywords">Gesprekken</string>
-    <string name="filter_addition_dialog_title">Filter toevoegen</string>
-    <string name="filter_edit_dialog_title">Filter bewerken</string>
+    <string name="filter_addition_title">Filter toevoegen</string>
+    <string name="filter_edit_title">Filter bewerken</string>
     <string name="filter_dialog_remove_button">Verwijderen</string>
     <string name="filter_dialog_update_button">Bijwerken</string>
     <string name="filter_add_description">Zinsdeel om te filteren</string>
@@ -348,7 +347,6 @@
     <string name="action_create_list">Lijst aanmaken</string>
     <string name="action_rename_list">Lijst hernoemen</string>
     <string name="action_delete_list">Lijst verwijderen</string>
-    <string name="action_edit_list">Lijst bewerken</string>
     <string name="hint_search_people_list">Naar mensen zoeken die je volgt</string>
     <string name="action_add_to_list">Account aan de lijst toevoegen</string>
     <string name="action_remove_from_list">Account uit de lijst verwijderen</string>
@@ -465,7 +463,7 @@
     <string name="account_note_hint">Jouw eigen opmerking over dit account</string>
     <string name="pref_title_wellbeing_mode">Welzijn</string>
     <string name="pref_title_hide_top_toolbar">De bovenste werkbalk verbergen</string>
-    <string name="pref_title_confirm_reblogs">Vraag voor het boosten van een bericht een bevestiging</string>
+    <string name="pref_title_confirm_reblogs">Vraag bevestiging voor het boosten</string>
     <string name="pref_title_show_cards_in_timelines">Linkpreviews in tijdlijnen weergeven</string>
     <string name="no_announcements">Er zijn geen aankondigingen.</string>
     <string name="duration_indefinite">Oneindig</string>
@@ -535,7 +533,7 @@
     <string name="duration_90_days">90 dagen</string>
     <string name="duration_180_days">180 dagen</string>
     <string name="duration_365_days">365 dagen</string>
-    <string name="pref_title_confirm_favourites">Vraag voor het markeren als favoriet een bevestiging</string>
+    <string name="pref_title_confirm_favourites">Vraag bevestiging voor het markeren als favoriet</string>
     <string name="tusky_compose_post_quicksetting_label">Bericht schrijven</string>
     <string name="account_date_joined">Geregistreerd in %1$s</string>
     <string name="saving_draft">Concept wordt opgeslagen…</string>
@@ -553,7 +551,6 @@
     <string name="pref_show_self_username_never">Nooit</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="action_set_focus">Focuspunt instellen</string>
-    <string name="error_failed_set_focus">Instellen van focuspunt mislukt</string>
     <string name="error_following_hashtag_format">Fout tijdens het volgen van #%s</string>
     <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%s</string>
     <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen\?</string>
@@ -571,8 +568,8 @@
     <string name="pref_default_post_language">Standaardtaal van berichten</string>
     <string name="notification_report_name">Rapporten</string>
     <string name="description_post_edited">Bewerkt</string>
-    <string name="status_edit_info">%1$s bewerkte %2$s</string>
-    <string name="status_created_info">%1$s maakte %2$s</string>
+    <string name="status_edit_info">%1$s bewerkte</string>
+    <string name="status_created_info">%1$s maakte</string>
     <string name="instance_rule_info">Door in te loggen ben je het eens met de regels van %s.</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Overig</string>
@@ -592,4 +589,65 @@
     <string name="account_username_copied">Gebruikersnaam gekopieerd</string>
     <string name="confirmation_hashtag_unfollowed">#%s ontvolgd</string>
     <string name="title_followed_hashtags">Gevolgde hashtags</string>
+    <string name="dialog_follow_hashtag_title">Volg hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="hint_description">Beschrijving</string>
+    <string name="action_post_failed">Upload mislukt</string>
+    <string name="action_post_failed_detail">Je bericht kan niet worden geüpload en is opgeslagen in concepten.
+\n
+\nEr kon geen contact worden opgenomen met de server, of het bericht werd geweigerd.</string>
+    <string name="action_post_failed_detail_plural">Je berichten kunnen niet worden geüpload en zijn opgeslagen in concepten.
+\n
+\nEr kon geen contact worden opgenomen met de server of de berichten werden geweigerd.</string>
+    <string name="action_post_failed_do_nothing">Afwijzen</string>
+    <string name="action_post_failed_show_drafts">Concepten tonen</string>
+    <string name="error_unmuting_hashtag_format">Fout bij unmuting #%s</string>
+    <string name="action_browser_login">Inloggen met een Browser</string>
+    <string name="action_add_reaction">reactie toevoegen</string>
+    <string name="action_discard">Veranderingen ongedaan maken</string>
+    <string name="post_edited">Bewerkt %s</string>
+    <string name="notification_header_report_format">%s gerapporteerd %s</string>
+    <string name="notification_summary_report_format">%s · %d berichten bijgevoegd</string>
+    <string name="action_share_account_link">Link naar account delen</string>
+    <string name="action_share_account_username">Deel de gebruikersnaam van het account</string>
+    <string name="send_account_username_to">Accountgebruikersnaam delen om…</string>
+    <string name="send_account_link_to">Account-URL delen met…</string>
+    <string name="error_following_hashtags_unsupported">Deze instance ondersteunt niet het volgen van hashtags.</string>
+    <string name="error_status_source_load">Fout bij het laden van de statusbron van server.</string>
+    <string name="title_public_trending_hashtags">Trending hashtags</string>
+    <string name="pref_summary_http_proxy_missing">&lt;niet ingesteld&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;ongeldig&gt;</string>
+    <string name="action_refresh">Ververs</string>
+    <string name="post_media_image">Afbeelding</string>
+    <string name="ui_error_reblog">Boosten bericht mislukt: %s</string>
+    <string name="ui_error_vote">Stemmen in peiling mislukt: %s</string>
+    <string name="pref_title_http_proxy_port_message">Poort moet liggen tussen %d en %d</string>
+    <string name="notification_unknown_name">Onbekend</string>
+    <string name="ui_error_clear_notifications">Wissen meldingen mislukt: %s</string>
+    <string name="ui_success_accepted_follow_request">Volgverzoek geaccepteerd</string>
+    <string name="error_list_load">Fout bij laden lijsten</string>
+    <string name="select_list_empty">Je hebt nog geen lijsten</string>
+    <string name="select_list_manage">Lijsten beheren</string>
+    <string name="pref_title_account_filter_keywords">Profielen</string>
+    <string name="status_filtered_show_anyway">Toch tonen</string>
+    <string name="status_filter_placeholder_label_format">Gefilterd: %s</string>
+    <string name="hint_filter_title">Mijn filter</string>
+    <string name="label_filter_action">Filteractie</string>
+    <string name="filter_action_warn">Waarschuwen</string>
+    <string name="filter_action_hide">Verbergen</string>
+    <string name="filter_description_warn">Verberg met een waarschuwing</string>
+    <string name="filter_description_hide">Verberg helemaal</string>
+    <string name="action_add">Toevoegen</string>
+    <string name="filter_keyword_display_format">%s (heel woord)</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="accessibility_talking_about_tag">%1$d mensen bespreken hashtag %2$s</string>
+    <string name="total_usage">Totaal gebruik</string>
+    <string name="total_accounts">Totaal accounts</string>
+    <string name="ui_error_reject_follow_request">Afwijzen volgverzoek mislukt: %s</string>
+    <string name="pref_title_show_stat_inline">Toon bericht statistieken in tijdlijn</string>
+    <string name="ui_error_unknown">onbekende reden</string>
+    <string name="ui_error_accept_follow_request">Accepteren volgverzoek mislukt: %s</string>
+    <string name="label_filter_title">Titel</string>
+    <string name="load_newest_notifications">Laad nieuwste meldingen</string>
+    <string name="compose_delete_draft">Verwijder concept\?</string>
 </resources>

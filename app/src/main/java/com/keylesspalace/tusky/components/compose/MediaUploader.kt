@@ -159,7 +159,6 @@ class MediaUploader @Inject constructor(
         try {
             when (inUri.scheme) {
                 ContentResolver.SCHEME_CONTENT -> {
-
                     mimeType = contentResolver.getType(uri)
 
                     val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
@@ -278,7 +277,8 @@ class MediaUploader @Inject constructor(
 
             var lastProgress = -1
             val fileBody = ProgressRequestBody(
-                stream!!, media.mediaSize,
+                stream!!,
+                media.mediaSize,
                 mimeType.toMediaTypeOrNull()!!
             ) { percentage ->
                 if (percentage != lastProgress) {

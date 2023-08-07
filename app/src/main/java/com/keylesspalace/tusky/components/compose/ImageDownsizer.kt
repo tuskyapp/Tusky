@@ -41,7 +41,6 @@ fun downsizeImage(
     contentResolver: ContentResolver,
     tempFile: File
 ): Boolean {
-
     val decodeBoundsInputStream = try {
         contentResolver.openInputStream(uri)
     } catch (e: FileNotFoundException) {

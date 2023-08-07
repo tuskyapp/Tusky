@@ -27,6 +27,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
@@ -43,12 +44,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.androidx.lifecycle.autoDispose
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -61,7 +60,6 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
-import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
@@ -135,7 +133,6 @@ import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -163,7 +160,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private lateinit var header: AccountHeaderView
 
-    private var notificationTabPosition = 0
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
     private var unreadAnnouncementsCount = 0
@@ -171,8 +167,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private lateinit var glide: RequestManager
-
-    private var accountLocked: Boolean = false
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
@@ -217,7 +211,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 } else {
                     // No account was provided, show the chooser
                     showAccountChooserDialog(
-                        getString(R.string.action_share_as), true,
+                        getString(R.string.action_share_as),
+                        true,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
                                 val requestedId = account.id
@@ -240,7 +235,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
                 if (intent.getStringExtra(NotificationHelper.TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
-                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = true)
+                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS)
                     startActivityWithSlideInAnimation(intent)
                 } else {
                     showNotificationTab = true
@@ -288,10 +283,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupTabs(showNotificationTab)
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-            .subscribe { event: Event? ->
+        lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 when (event) {
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                     is MainTabsChangedEvent -> {
@@ -309,6 +302,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 }
             }
+        }
 
         Schedulers.io().scheduleDirect {
             // Flush old media that was cached for sharing
@@ -409,7 +403,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             // FIXME: blackberry keyONE raises SHIFT key event even CTRL IS PRESSED
             when (keyCode) {
                 KeyEvent.KEYCODE_N -> {
-
                     // open compose activity by pressing SHIFT + N (or CTRL + N)
                     val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
                     startActivity(composeIntent)
@@ -446,7 +439,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         addSearchButton: Boolean,
         addTrendingButton: Boolean
     ) {
-
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)
@@ -470,6 +462,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             dividerBelowHeader = false
             closeDrawerOnProfileListClick = true
         }
+
+        header.currentProfileName.maxLines = 1
+        header.currentProfileName.ellipsize = TextUtils.TruncateAt.END
 
         header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(MaterialColors.getColor(header, R.attr.colorBackgroundAccent))
@@ -542,7 +537,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     nameRes = R.string.action_view_follow_requests
                     iconicsIcon = GoogleMaterial.Icon.gmd_person_add
                     onClick = {
-                        val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS, accountLocked = accountLocked)
+                        val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS)
                         startActivityWithSlideInAnimation(intent)
                     }
                 },
@@ -710,7 +705,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         tabAdapter.notifyItemRangeChanged(0, tabs.size)
 
         tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
-            tab: TabLayout.Tab, position: Int ->
+                tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
             tab.contentDescription = when (tabs[position].kind) {
                 TabKind.LIST -> tabs[position].arguments[1]
@@ -741,7 +736,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.mainToolbar.title = tabs[tab.position].title(this@MainActivity)
+                binding.mainToolbar.title = tab.contentDescription
 
                 refreshComposeButtonState(tabAdapter, tab.position)
             }
@@ -760,8 +755,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             activeTabLayout.addOnTabSelectedListener(it)
         }
 
-        val activeTabPosition = if (selectNotificationTab) notificationTabPosition else 0
-        supportActionBar?.title = tabs[activeTabPosition].title(this@MainActivity)
+        supportActionBar?.title = tabs[position].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
             (tabAdapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
         }
@@ -876,14 +870,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             disableAllNotifications(this, accountManager)
         }
 
-        accountLocked = me.locked
-
         updateProfiles()
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
-
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
@@ -911,7 +902,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     .into(avatarView)
             }
         } else {
-
             binding.bottomNavAvatar.hide()
             binding.topNavAvatar.hide()
 
@@ -1042,7 +1032,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.setActiveProfile(accountManager.activeAccount!!.id)
         binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername(this)) {
             accountManager.activeAccount!!.fullName
-        } else null
+        } else {
+            null
+        }
     }
 
     override fun getActionButton() = binding.composeButton

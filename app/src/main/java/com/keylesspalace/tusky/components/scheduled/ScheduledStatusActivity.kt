@@ -28,7 +28,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -46,7 +45,6 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -100,10 +98,10 @@ class ScheduledStatusActivity :
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Error) {
                 binding.progressBar.hide()
-                binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    refreshStatuses()
-                }
                 binding.errorMessageView.show()
+
+                val errorState = loadState.refresh as LoadState.Error
+                binding.errorMessageView.setup(errorState.error) { refreshStatuses() }
             }
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -119,14 +117,13 @@ class ScheduledStatusActivity :
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this)
-            .subscribe { event ->
+        lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 if (event is StatusScheduledEvent) {
                     adapter.refresh()
                 }
             }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

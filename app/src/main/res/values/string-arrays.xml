@@ -29,4 +29,16 @@
         <item>@string/pref_show_self_username_never</item>
     </string-array>
 
+    <string-array name="filter_contexts">
+        <item>@string/title_home</item>
+        <item>@string/title_notifications</item>
+        <item>@string/pref_title_public_filter_keywords</item>
+        <item>@string/pref_title_thread_filter_keywords</item>
+        <item>@string/pref_title_account_filter_keywords</item>
+    </string-array>
+
+    <string-array name="filter_actions">
+        <item>@string/filter_action_warn</item>
+        <item>@string/filter_action_hide</item>
+    </string-array>
 </resources>

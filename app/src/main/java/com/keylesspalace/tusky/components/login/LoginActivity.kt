@@ -99,7 +99,8 @@ class LoginActivity : BaseActivity(), Injectable {
         }
 
         preferences = getSharedPreferences(
-            getString(R.string.preferences_file_key), Context.MODE_PRIVATE
+            getString(R.string.preferences_file_key),
+            Context.MODE_PRIVATE
         )
 
         binding.loginButton.setOnClickListener { onLoginClick(true) }
@@ -168,8 +169,11 @@ class LoginActivity : BaseActivity(), Injectable {
 
         lifecycleScope.launch {
             mastodonApi.authenticateApp(
-                domain, getString(R.string.app_name), oauthRedirectUri,
-                OAUTH_SCOPES, getString(R.string.tusky_website)
+                domain,
+                getString(R.string.app_name),
+                oauthRedirectUri,
+                OAUTH_SCOPES,
+                getString(R.string.tusky_website)
             ).fold(
                 { credentials ->
                     // Before we open browser page we save the data.
@@ -273,7 +277,12 @@ class LoginActivity : BaseActivity(), Injectable {
         setLoading(true)
 
         mastodonApi.fetchOAuthToken(
-            domain, clientId, clientSecret, oauthRedirectUri, code, "authorization_code"
+            domain,
+            clientId,
+            clientSecret,
+            oauthRedirectUri,
+            code,
+            "authorization_code"
         ).fold(
             { accessToken ->
                 fetchAccountDetails(accessToken, domain, clientId, clientSecret)
@@ -293,7 +302,6 @@ class LoginActivity : BaseActivity(), Injectable {
         clientId: String,
         clientSecret: String
     ) {
-
         mastodonApi.accountVerifyCredentials(
             domain = domain,
             auth = "Bearer ${accessToken.accessToken}"
@@ -349,6 +357,7 @@ class LoginActivity : BaseActivity(), Injectable {
 
         const val MODE_DEFAULT = 0
         const val MODE_ADDITIONAL_LOGIN = 1
+
         // "Migration" is used to update the OAuth scope granted to the client
         const val MODE_MIGRATION = 2
 

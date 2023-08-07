@@ -20,12 +20,12 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
+import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.trending.TrendingFragment
 import com.keylesspalace.tusky.core.database.model.TabData
 import com.keylesspalace.tusky.core.database.model.TabKind
-import com.keylesspalace.tusky.fragment.NotificationsFragment
 
 /**
  * Wrap a [TabData] with additional information to display a tab with that data.

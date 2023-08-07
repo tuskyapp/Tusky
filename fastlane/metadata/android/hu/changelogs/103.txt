@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Új funkciók:
+
+- Trendi hashtag-ek megtekintése
+- Képleírás és fókuszpont szerkesztése
+- "Frissítés" menü az elérhetőségért
+- Mastodon v4 szűrők támogatása
+- Részletes különbségek mutatása, amikor egy bejegyzést szerkesztettek
+- Opció bejegyzés-statisztikák idővonalon való megjelenítésére
+
+Javítások:
+
+- Lejátszó vezérlőinek mutatása hangvisszajátszás közben
+- Bejegyzés hosszkalkuláció javítása
+- Mindig közzétesszük a képfeliratokat
+
+és még sok más

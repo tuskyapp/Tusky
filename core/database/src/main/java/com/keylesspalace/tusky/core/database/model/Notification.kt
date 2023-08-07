@@ -28,35 +28,57 @@ data class Notification(
     val id: String,
     val account: TimelineAccount,
     val status: Status?,
-    val report: Report?,
+    val report: Report?
 ) {
 
+    /** From https://docs.joinmastodon.org/entities/Notification/#type */
     @JsonAdapter(NotificationTypeAdapter::class)
     enum class Type(val presentation: String) {
         UNKNOWN("unknown"),
+
+        /** Someone mentioned you */
         MENTION("mention"),
+
+        /** Someone boosted one of your statuses */
         REBLOG("reblog"),
+
+        /** Someone favourited one of your statuses */
         FAVOURITE("favourite"),
+
+        /** Someone followed you */
         FOLLOW("follow"),
+
+        /** Someone requested to follow you */
         FOLLOW_REQUEST("follow_request"),
+
+        /** A poll you have voted in or created has ended */
         POLL("poll"),
+
+        /** Someone you enabled notifications for has posted a status */
         STATUS("status"),
+
+        /** Someone signed up (optionally sent to admins) */
         SIGN_UP("admin.sign_up"),
+
+        /** A status you interacted with has been updated */
         UPDATE("update"),
-        REPORT("admin.report"),
-        ;
+
+        /** A new report has been filed */
+        REPORT("admin.report");
 
         companion object {
-
             @JvmStatic
             fun byString(s: String): Type {
                 values().forEach {
-                    if (s == it.presentation)
+                    if (s == it.presentation) {
                         return it
+                    }
                 }
                 return UNKNOWN
             }
-            val asList = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
+
+            /** Notification types for UI display (omits UNKNOWN) */
+            val visibleTypes = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
         }
 
         override fun toString(): String {
@@ -88,16 +110,17 @@ data class Notification(
         }
     }
 
-    /** Helper for Java */
-    fun copyWithStatus(status: Status?): Notification = copy(status = status)
-
     // for Pleroma compatibility that uses Mention type
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
         if (type == Type.MENTION && status != null) {
             return if (status.mentions.any {
                 it.id == accountId
             }
-            ) this else copy(type = Type.STATUS)
+            ) {
+                this
+            } else {
+                copy(type = Type.STATUS)
+            }
         }
         return this
     }

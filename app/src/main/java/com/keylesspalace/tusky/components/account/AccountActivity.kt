@@ -24,7 +24,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -42,6 +42,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
+import androidx.core.widget.doAfterTextChanged
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -75,7 +76,6 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.DefaultTextWatcher
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
@@ -107,8 +107,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     @Inject
     lateinit var draftsAlert: DraftsAlert
 
@@ -134,14 +136,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     // fields for scroll animation
     private var hideFab: Boolean = false
     private var oldOffset: Int = 0
+
     @ColorInt
     private var toolbarColor: Int = 0
+
     @ColorInt
     private var statusBarColorTransparent: Int = 0
+
     @ColorInt
     private var statusBarColorOpaque: Int = 0
 
     private var avatarSize: Float = 0f
+
     @Px
     private var titleVisibleHeight: Int = 0
     private lateinit var domain: String
@@ -153,6 +159,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     }
 
     private lateinit var adapter: AccountPagerAdapter
+
+    private var noteWatcher: TextWatcher? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -340,7 +348,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         binding.accountAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
 
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-
                 if (verticalOffset == oldOffset) {
                     return
                 }
@@ -648,10 +655,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             binding.accountSubscribeButton.setOnClickListener {
                 viewModel.changeSubscribingState()
             }
-            if (relation.notifying != null)
+            if (relation.notifying != null) {
                 subscribing = relation.notifying!!
-            else if (relation.subscribing != null)
+            } else if (relation.subscribing != null) {
                 subscribing = relation.subscribing!!
+            }
         }
 
         // remove the listener so it doesn't fire on non-user changes
@@ -660,15 +668,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         binding.accountNoteTextInputLayout.visible(relation.note != null)
         binding.accountNoteTextInputLayout.editText?.setText(relation.note)
 
-        binding.accountNoteTextInputLayout.editText?.addTextChangedListener(noteWatcher)
-
-        updateButtons()
-    }
-
-    private val noteWatcher = object : DefaultTextWatcher() {
-        override fun afterTextChanged(s: Editable) {
+        noteWatcher = binding.accountNoteTextInputLayout.editText?.doAfterTextChanged { s ->
             viewModel.noteChanged(s.toString())
         }
+
+        updateButtons()
     }
 
     private fun updateFollowButton() {
@@ -719,7 +723,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         invalidateOptionsMenu()
 
         if (loadedAccount?.moved == null) {
-
             binding.accountFollowButton.show()
             updateFollowButton()
             updateSubscribeButton()
@@ -752,7 +755,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         }
 
         if (!viewModel.isSelf) {
-
             val block = menu.findItem(R.id.action_block)
             block.title = if (blocking) {
                 getString(R.string.action_unblock)
@@ -910,7 +912,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             R.id.action_open_as -> {
                 loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
-                        item.title, false,
+                        item.title,
+                        false,
                         object : AccountSelectionListener {
                             override fun onAccountSelected(account: AccountEntity) {
                                 openAsAccount(loadedAccount.url, account)
@@ -981,7 +984,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     override fun getActionButton(): FloatingActionButton? {
         return if (!blocking) {
             binding.accountFloatingActionButton
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun getFullUsername(account: Account): String {

@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Fixar inkluderar:
+
+- Förbättrad aviseringshastighet
+- Återställ visar 0/1/1+ för svar
+- Visa filtertitlar, inte filtersökord, på filtrerade inlägg
+- Fixade en bugg där öppnande av en status kunde öppna en orelaterade länk
+- Visa "Lägg till"-knappen på rätt plats när det inte finns några filter
+- Fixade diverse krascher

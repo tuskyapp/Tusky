@@ -26,6 +26,7 @@ fun mockStatus(
         localUsername = "connyduck",
         username = "connyduck@mastodon.example",
         displayName = "Conny Duck",
+        note = "This is their bio",
         url = "https://mastodon.example/@ConnyDuck",
         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
     ),
@@ -54,6 +55,7 @@ fun mockStatus(
     poll = null,
     card = null,
     language = null,
+    filtered = null
 )
 
 fun mockStatusViewData(
@@ -109,7 +111,7 @@ fun mockStatusEntityWithAccount(
 
 fun mockPlaceholderEntityWithAccount(
     id: String,
-    userId: Long = 1,
+    userId: Long = 1
 ): TimelineStatusWithAccount {
     return TimelineStatusWithAccount(
         status = Placeholder(id, false).toEntity(userId)

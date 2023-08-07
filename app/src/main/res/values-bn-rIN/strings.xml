@@ -141,12 +141,12 @@
     <string name="label_header">হেডার</string>
     <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
-    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a> 
-\n 
-\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন। 
-\n 
-\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন। 
-\n 
+    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a>
+\n
+\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন।
+\n
+\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন।
+\n
 \nআরো তথ্য <a href="https://joinmastodon.org"> joinmastodon.org </a> এ পাওয়া যেতে পারে। </string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
@@ -264,8 +264,8 @@
     <string name="load_more_placeholder_text">আরো লোড কর</string>
     <string name="pref_title_public_filter_keywords">পাবলিক টাইমলাইন</string>
     <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
-    <string name="filter_addition_dialog_title">ফিল্টার যোগ করুন</string>
-    <string name="filter_edit_dialog_title">ফিল্টার সম্পাদনা করুন</string>
+    <string name="filter_addition_title">ফিল্টার যোগ করুন</string>
+    <string name="filter_edit_title">ফিল্টার সম্পাদনা করুন</string>
     <string name="filter_dialog_remove_button">সরাও</string>
     <string name="filter_dialog_update_button">আপডেট</string>
     <string name="filter_add_description">বাক্য ফিল্টার কর</string>
@@ -279,12 +279,10 @@
     <string name="action_create_list">একটি তালিকা তৈরি করুন</string>
     <string name="action_rename_list">তালিকা পুনঃ নামকরণ কর</string>
     <string name="action_delete_list">তালিকা মুছে দিন</string>
-    <string name="action_edit_list">তালিকা সম্পাদনা করুন</string>
     <string name="hint_search_people_list">আপনি অনুসরণ মানুষের জন্য অনুসন্ধান করুন</string>
     <string name="action_add_to_list">তালিকায় অ্যাকাউন্ট যোগ করুন</string>
     <string name="action_remove_from_list">তালিকা থেকে অ্যাকাউন্ট সরান</string>
     <string name="compose_active_account_description">অ্যাকাউন্ট %1$s থেকে পোস্ট করা হচ্ছে</string>
-    <string name="error_failed_set_caption">ক্যাপশন সেট করতে ব্যর্থ</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
 \n(%d অক্ষর সীমা)</item>

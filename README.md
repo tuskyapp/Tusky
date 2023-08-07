@@ -31,11 +31,5 @@ If you have any bug reports, feature requests or questions please open an issue 
 ### Contributing
 We always welcome new contributors! Please read our [contribution guide](https://github.com/tuskyapp/Tusky/blob/develop/CONTRIBUTING.md) to get started.
 
-### Head of development
-
-This app was developed by [Vavassor@mastodon.social](https://mastodon.social/@Vavassor).
-The current maintainer is [ConnyDuck@chaos.social](https://chaos.social/@ConnyDuck).
-
 ### Development chatroom
 https://riot.im/app/#/room/#Tusky:matrix.org
-

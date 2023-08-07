@@ -265,8 +265,8 @@
     <string name="load_more_placeholder_text">načíst více</string>
     <string name="pref_title_public_filter_keywords">Veřejné časové osy</string>
     <string name="pref_title_thread_filter_keywords">Konverzace</string>
-    <string name="filter_addition_dialog_title">Přidat filtr</string>
-    <string name="filter_edit_dialog_title">Upravit filtr</string>
+    <string name="filter_addition_title">Přidat filtr</string>
+    <string name="filter_edit_title">Upravit filtr</string>
     <string name="filter_dialog_remove_button">Odstranit</string>
     <string name="filter_dialog_update_button">Aktualizovat</string>
     <string name="filter_add_description">Fráze k filtrování</string>
@@ -280,12 +280,10 @@
     <string name="action_create_list">Vytvořit seznam</string>
     <string name="action_rename_list">Přejmenovat seznam</string>
     <string name="action_delete_list">Smazat seznam</string>
-    <string name="action_edit_list">Upravit seznam</string>
     <string name="hint_search_people_list">Hledejte mezi lidmi, které sledujete</string>
     <string name="action_add_to_list">Přidat účet na seznam</string>
     <string name="action_remove_from_list">Odstranit účet ze seznamu</string>
     <string name="compose_active_account_description">Píšete jako %1$s</string>
-    <string name="error_failed_set_caption">Nastavení popisku selhalo</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Popis pro zrakově postižené
 \n(limit %d znak)</item>
@@ -539,7 +537,6 @@
     <string name="drafts_post_reply_removed">Příspěvek, na který jste připravili odpověď, byl odstraněn</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Nastavit bod zaostření</string>
-    <string name="error_failed_set_focus">Nepodařilo se nastavit zaostřovací bod</string>
     <string name="tips_push_notification_migration">Znovu se přihlaste ke všem účtům, abyste povolili podporu push oznámení.</string>
     <string name="dialog_push_notification_migration">Aby bylo možné používat push oznámení prostřednictvím UnifiedPush, Tusky potřebuje oprávnění k odběru oznámení na vašem serveru Mastodon. To vyžaduje opětovné přihlášení ke změně rozsahů OAuth udělených aplikaci Tusky. Použitím možnosti opětovného přihlášení zde nebo v předvolbách účtu zachováte všechny vaše místní koncepty a mezipaměť.</string>
     <string name="action_add_reaction">přidat reakci</string>

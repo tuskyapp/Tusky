@@ -119,9 +119,12 @@ open class MediaPreviewImageView
         if (drawable != null && focus != null && focalMatrix != null) {
             scaleType = ScaleType.MATRIX
             FocalPointUtil.updateFocalPointMatrix(
-                width.toFloat(), height.toFloat(),
-                drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat(),
-                focus as Attachment.Focus, focalMatrix as Matrix
+                width.toFloat(),
+                height.toFloat(),
+                drawable.intrinsicWidth.toFloat(),
+                drawable.intrinsicHeight.toFloat(),
+                focus as Attachment.Focus,
+                focalMatrix as Matrix
             )
             imageMatrix = focalMatrix
         }
