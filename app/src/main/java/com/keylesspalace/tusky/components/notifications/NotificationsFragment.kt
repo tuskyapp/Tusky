@@ -518,7 +518,11 @@ class NotificationsFragment :
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = adapter.peek(position)?.statusViewData?.status ?: return
-        super.viewMedia(attachmentIndex, list(status), view)
+        super.viewMedia(
+            attachmentIndex,
+            list(status, viewModel.statusDisplayOptions.value.showSensitiveMedia),
+            view
+        )
     }
 
     override fun onViewThread(position: Int) {
