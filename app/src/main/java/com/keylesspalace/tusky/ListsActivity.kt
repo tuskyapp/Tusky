@@ -23,9 +23,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -36,10 +33,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
+import com.keylesspalace.tusky.databinding.DialogListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
