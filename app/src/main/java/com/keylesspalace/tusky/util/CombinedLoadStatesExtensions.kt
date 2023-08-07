@@ -60,7 +60,7 @@ enum class PresentationState {
                 else -> this
             }
 
-            SOURCE_LOADING -> when (loadState.source.refresh) {
+            SOURCE_LOADING -> when (loadState.refresh) {
                 is LoadState.NotLoading -> PRESENTED
                 else -> this
             }

@@ -389,6 +389,7 @@ class TimelineFragment :
                         Log.d(TAG, "loadState: $loadState")
                         Log.d(TAG, "presentationState: $presentationState")
                         Log.d(TAG, "  adapter.itemCount: ${adapter.itemCount}")
+                        Log.d(TAG, "  isRefreshing: ${binding.swipeRefreshLayout.isRefreshing}")
 
                         // Only show the progress bar if:
                         //
@@ -403,6 +404,7 @@ class TimelineFragment :
                             presentationState != PresentationState.PRESENTED &&
                             binding.swipeRefreshLayout.isRefreshing == false &&
                             adapter.itemCount == 0
+                        Log.d(TAG, "progressBar.isVisible: ${binding.progressBar.isVisible}")
 
                         if (binding.swipeRefreshLayout.isRefreshing && (presentationState == PresentationState.PRESENTED || loadState.refresh is LoadState.Error)) {
                             binding.swipeRefreshLayout.isRefreshing = false
@@ -426,9 +428,10 @@ class TimelineFragment :
                             binding.recyclerView.hide()
                         } else {
                             Log.d(TAG, "Not showing empty state")
+                            binding.statusView.hide()
                         }
 
-                        if (loadState.refresh is LoadState.Error) {
+                        if (presentationState == PresentationState.ERROR) {
                             val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
 
                             // Show errors as a snackbar if there is existing content to show
