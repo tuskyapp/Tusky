@@ -97,14 +97,14 @@ class NotificationFetcher @Inject constructor(
                     // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
                     // when it is released.
 
-                    notificationsByType.forEach { notificationGroup ->
-                        notificationGroup.value.forEach { notification ->
+                    notificationsByType.forEach { notificationsGroup ->
+                        notificationsGroup.value.forEach { notification ->
                             val androidNotification = NotificationHelper.make(
                                 context,
                                 notificationManager,
                                 notification,
                                 account,
-                                notificationGroup.value.size == 1
+                                notificationsGroup.value.size == 1
                             )
                             notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
 
