@@ -494,7 +494,7 @@ class NotificationsFragment :
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val statusViewData = adapter.peek(position)?.statusViewData ?: return
-        val poll = statusViewData.status.poll ?: return
+        val poll = statusViewData.actionable.poll ?: return
         viewModel.accept(StatusAction.VoteInPoll(poll, choices, statusViewData))
     }
 
