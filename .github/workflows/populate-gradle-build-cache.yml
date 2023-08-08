@@ -1,19 +1,19 @@
-name: CI
+# Build the app on each push to `develop`, populating the build cache to speed
+# up CI on PRs.
+
+name: Populate build cache
 
 on:
   push:
-    tags:
-      - '*'
-  pull_request:
-  workflow_dispatch:
+    branches:
+      - develop
 
 jobs:
   build:
-    name: Build
+    name: app:buildGreenDebug
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-java@v3
         with:
@@ -26,19 +26,9 @@ jobs:
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Gradle Build Action
-        uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
-      - name: ktlint
-        run: ./gradlew clean ktlintCheck
-
-      - name: Regular lint
-        run: ./gradlew app:lintGreenDebug
-
-      - name: Test
-        run: ./gradlew app:testGreenDebugUnitTest
-
-      - name: Build
+      - name: Run app:buildGreenDebug
         run: ./gradlew app:buildGreenDebug

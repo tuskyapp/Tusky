@@ -89,6 +89,7 @@
         android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorPrimary"
+        android:textIsSelectable="true"
         android:textSize="?attr/status_text_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

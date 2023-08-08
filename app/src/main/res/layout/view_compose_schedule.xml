@@ -23,7 +23,7 @@
         android:paddingBottom="16dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        app:drawableTint="?android:attr/textColorTertiary"
+        app:drawableTint="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/invalidScheduleWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
