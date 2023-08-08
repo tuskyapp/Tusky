@@ -560,7 +560,7 @@ class TimelineFragment :
             ).show()
             null
         } ?: return
-        val poll = statusViewData.status.poll ?: run {
+        val poll = statusViewData.actionable.poll ?: run {
             Snackbar.make(
                 binding.root,
                 "statusViewData had null poll",
