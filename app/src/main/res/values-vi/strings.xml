@@ -21,7 +21,7 @@
     <string name="error_no_custom_emojis">Máy chủ %s không có emoji tùy chỉnh</string>
     <string name="send_post_notification_error_title">Lỗi đăng tút</string>
     <string name="error_delete_list">Không thể xóa danh sách</string>
-    <string name="error_rename_list">Không thể đổi tên danh sách</string>
+    <string name="error_rename_list">Không thể cập nhật danh sách</string>
     <string name="error_create_list">Không thể tạo danh sách</string>
     <string name="error_sender_account_gone">Xảy ra lỗi khi đăng tút.</string>
     <string name="error_media_upload_sending">Tải lên không thành công.</string>
@@ -440,7 +440,7 @@
     <string name="action_remove_from_list">Xóa người này khỏi danh sách</string>
     <string name="hint_search_people_list">Tìm người để theo dõi</string>
     <string name="action_delete_list">Xóa danh sách</string>
-    <string name="action_rename_list">Đổi tên danh sách</string>
+    <string name="action_rename_list">Cập nhật danh sách</string>
     <string name="action_create_list">Tạo danh sách</string>
     <string name="add_account_description">Thêm tài khoản Mastodon</string>
     <string name="add_account_name">Thêm tài khoản</string>
@@ -572,8 +572,8 @@
     <string name="action_continue_edit">Tiếp tục sửa</string>
     <string name="compose_unsaved_changes">Thay đổi chưa được lưu.</string>
     <string name="mute_notifications_switch">Ẩn thông báo</string>
-    <string name="status_edit_info">%1$s sửa</string>
-    <string name="status_created_info">%1$s đăng</string>
+    <string name="status_edit_info">Sửa %1$s</string>
+    <string name="status_created_info">Đăng %1$s</string>
     <string name="title_edits">Những lượt sửa tút</string>
     <string name="a11y_label_loading_thread">Đang tải thảo luận</string>
     <string name="action_share_account_link">Chia sẻ URL người dùng</string>
@@ -664,4 +664,5 @@
     <string name="about_copy">Sao chép phiên bản và thông tin thiết bị</string>
     <string name="about_copied">Đã sao chép phiên bản và thông tin thiết bị</string>
     <string name="about_device_info_title">Thiết bị của bạn</string>
+    <string name="list_exclusive_label">Ẩn khỏi bảng tin</string>
 </resources>
