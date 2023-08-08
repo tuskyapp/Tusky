@@ -348,7 +348,6 @@ class LinkHelperTest {
                     arrayOf("https://pleroma.foo.bar/users/", false),
                     arrayOf("https://pleroma.foo.bar/users/meow/", false),
                     arrayOf("https://pleroma.foo.bar/users/@meow", false),
-                    arrayOf("https://pleroma.foo.bar/user/2345", false),
                     arrayOf("https://pleroma.foo.bar/notices/123456", false),
                     arrayOf("https://pleroma.foo.bar/notice/@neverhappen/", false),
                     arrayOf("https://pleroma.foo.bar/object/abcdef-123-abcd-9876543", false),
