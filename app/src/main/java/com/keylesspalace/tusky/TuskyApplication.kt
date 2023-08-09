@@ -17,6 +17,9 @@ package com.keylesspalace.tusky
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
+import android.os.Process
 import android.util.Log
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -39,6 +42,7 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
+import java.lang.Thread.UncaughtExceptionHandler
 import java.security.Security
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -114,6 +118,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
             ExistingPeriodicWorkPolicy.KEEP,
             pruneCacheWorker
         )
+
+        if (BuildConfig.DEBUG) loopAndCatchExceptions()
     }
 
     override fun androidInjector() = androidInjector
@@ -133,6 +139,37 @@ class TuskyApplication : Application(), HasAndroidInjector {
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }
+
+    private fun loopAndCatchExceptions() {
+        val handler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler(UncaughtHandler(Handler()))
+
+        while (true) {
+            try {
+                Log.v(TAG, "starting crash catching looper")
+                Looper.loop()
+                Thread.setDefaultUncaughtExceptionHandler(handler)
+                throw RuntimeException("main thread loop exited unexpectedly")
+            } catch (e: BackgroundException) {
+                Log.w(TAG, "Caught background exception: $e")
+                startActivity(CrashReportActivity.getIntent(this, e.cause!!))
+            } catch (e: Throwable) {
+                Log.w(TAG, "Caught throwable: $e")
+                startActivity(CrashReportActivity.getIntent(this, e))
+            }
+        }
+    }
+
+    class UncaughtHandler(val handler: Handler) : UncaughtExceptionHandler {
+        override fun uncaughtException(t: Thread, e: Throwable) {
+            Log.v(TAG, "caught exception in background thread $t, moving to UI thread: e")
+            val tid = Process.myTid()
+            val threadName = t.name
+            handler.post { throw BackgroundException(e, tid, threadName) }
+        }
+    }
+
+    class BackgroundException(e: Throwable, val tid: Int, val threadName: String) : RuntimeException(e)
 
     companion object {
         private const val TAG = "TuskyApplication"

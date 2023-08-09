@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
+import com.keylesspalace.tusky.network.RecordResponseInterceptor
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_SERVER
@@ -105,6 +106,7 @@ class NetworkModule {
                 addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                 if (BuildConfig.DEBUG) {
                     addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+                    addInterceptor(RecordResponseInterceptor)
                 }
             }
             .build()
