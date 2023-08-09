@@ -26,7 +26,7 @@ You do not have to restrict yourself to just working on one of those issues, but
 ### Best practices for working on an issue
 
 - Post a comment to the issue, saying that you plan on working on it
-- Join the developer chat room, https://riot.im/app/#/room/#Tusky:matrix.org, 
+- Join the developer chat room, https://matrix.to/#/#Tusky-General:matrix.org, 
 
 ### Best practices for creating PRs
 
