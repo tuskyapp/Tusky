@@ -144,7 +144,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             ImageView avatarView = avatars[i];
             if (i < accounts.size()) {
                 ImageLoadingHelper.loadAvatar(accounts.get(i).getAvatar(), avatarView,
-                        avatarRadius48dp, statusDisplayOptions.animateAvatars());
+                        avatarRadius48dp, statusDisplayOptions.animateAvatars(), null);
                 avatarView.setVisibility(View.VISIBLE);
             } else {
                 avatarView.setVisibility(View.GONE);

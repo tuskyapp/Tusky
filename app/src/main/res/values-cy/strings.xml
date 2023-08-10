@@ -285,7 +285,7 @@
     <string name="title_links_dialog">Dolenni</string>
     <string name="action_open_reblogged_by">Dangos hybiau</string>
     <string name="notification_follow_request_name">Ceisiadau i\'ch dilyn</string>
-    <string name="action_bookmark">Ychwanegu i\'ch nodau tudalen</string>
+    <string name="action_bookmark">Tudalnodi</string>
     <string name="action_edit">Golygu</string>
     <string name="edit_poll">Golygu</string>
     <string name="compose_shortcut_short_label">Creu</string>
@@ -312,7 +312,7 @@
     <string name="action_unmute_domain">Dad-dewi %s</string>
     <string name="notification_subscription_format">Postiodd %s</string>
     <string name="action_delete_conversation">Dileu\'r sgwrs</string>
-    <string name="action_view_bookmarks">Nodau tudalen</string>
+    <string name="action_view_bookmarks">Tudalnodau</string>
     <string name="action_add_poll">Ychwanegu pôl</string>
     <string name="confirmation_domain_unmuted">%s wedi ei amlygu</string>
     <string name="action_access_scheduled_posts">Negeseuon a amserlennwyd</string>
@@ -342,11 +342,11 @@
     <string name="filter_add_description">Ymadrodd i\'w hidlo</string>
     <string name="action_open_as">Agor fel %s</string>
     <string name="action_reset_schedule">Ailosod</string>
-    <string name="title_bookmarks">Nodau tudalen</string>
+    <string name="title_bookmarks">Tudalnodau</string>
     <string name="notification_follow_request_format">Ceisiodd %s i\'ch dilyn chi</string>
     <string name="title_login">Mewngofnodi</string>
     <string name="notification_sign_up_format">Cofrestrodd %s</string>
-    <string name="action_unbookmark">Tynnu\'r nod tudalen</string>
+    <string name="action_unbookmark">Tynnu\'r tudalnod</string>
     <string name="action_unmute_desc">Dad-dewi %s</string>
     <string name="title_migration_relogin">Mewngofnodwch eto i gael hysbysiadau gwthio</string>
     <string name="title_announcements">Cyhoeddiadau</string>
@@ -394,7 +394,7 @@
     <string name="pref_show_self_username_always">Bob tro</string>
     <string name="post_media_attachments">Atodiadau</string>
     <string name="action_create_list">Creu rhestr</string>
-    <string name="action_rename_list">Ailenwi\'r rhestr</string>
+    <string name="action_rename_list">Diweddaru\'r rhestr</string>
     <string name="hint_search_people_list">Chwilio am bobl rydych chi\'n eu dilyn</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -488,9 +488,9 @@
     <string name="failed_to_pin">Wedi methu pinio</string>
     <string name="failed_to_unpin">Wedi methu dadbinio</string>
     <string name="pref_title_http_proxy_port_message">Dylai\'r porth fod rhwng %d a %d</string>
-    <string name="error_rename_list">Methu ailenwi\'r rhestr</string>
+    <string name="error_rename_list">Methu diweddaru\'r rhestr</string>
     <string name="pref_default_post_language">Iaith bostio ragosodedig</string>
-    <string name="description_post_bookmarked">Nod Tudalen</string>
+    <string name="description_post_bookmarked">Tudalnodiwyd</string>
     <string name="select_list_title">Dewiswch restr</string>
     <string name="button_done">Wedi gorffen</string>
     <string name="report_sent_success">Wedi adrodd ar @%s yn llwyddiannus</string>
@@ -674,8 +674,8 @@
     <string name="pref_title_account_filter_keywords">Proffiliau</string>
     <string name="socket_timeout_exception">Cymrodd hi\'n rhy hir i gysylltu â\'ch gweinydd</string>
     <string name="ui_error_unknown">rheswm anhysbys</string>
-    <string name="ui_error_bookmark">Methodd gosod y nod tudalen: %s</string>
-    <string name="ui_error_clear_notifications">Methodd clirio\'r hysbysiad: %s</string>
+    <string name="ui_error_bookmark">Methodd tudalnodi\'r neges: %s</string>
+    <string name="ui_error_clear_notifications">Methodd clirio hysbysiadau: %s</string>
     <string name="ui_error_favourite">Methodd hoffi\'r neges: %s</string>
     <string name="ui_error_reblog">Methodd hybu\'r neges: %s</string>
     <string name="ui_error_vote">Methodd y pleidleisio: %s</string>
@@ -699,7 +699,7 @@
     <string name="filter_description_format">%s: %s</string>
     <string name="hint_description">Disgrifiad</string>
     <string name="post_media_image">Delwedd</string>
-    <string name="select_list_empty">Nid oes gennych retrau, eto</string>
+    <string name="select_list_empty">Nid oes gennych restrau, eto</string>
     <string name="select_list_manage">Rheoli rhestrau</string>
     <string name="error_list_load">Gwall wrth lwytho rhestrau</string>
     <string name="help_empty_home">Hwn yw\'ch <b>ffrwd cartref</b>. Mae’n dangos negeseuon diweddar y cyfrifon rydych yn eu dilyn.
@@ -714,7 +714,7 @@
     <string name="error_missing_edits">Mae\'ch gweinydd yn gwybod fod y neges hon wedi ei olygu, ond nid oes ganddo gopi o\'r golygiadau, felly nid oes modd eu dangos i chi.
 \n
 \nHwn yw <a href="https://github.com/mastodon/mastodon/issues/25398">mater Mastodon #25398</a>.</string>
-    <string name="load_newest_notifications">Llwytho\'r hysbys diweddaraf</string>
+    <string name="load_newest_notifications">Llwytho hysbysiadau diweddaraf</string>
     <string name="compose_delete_draft">Dileu\'r drafft\?</string>
     <string name="error_media_upload_sending_fmt">Methodd y lanlwytho: %s</string>
     <string name="about_device_info_title">Eich dyfais</string>
@@ -726,4 +726,5 @@
 \nFersiwn: %s</string>
     <string name="about_copy">Copïo fersiwn a gwybodaeth dyfais</string>
     <string name="about_copied">Copïwyd fersiwn a gwybodaeth dyfais</string>
+    <string name="list_exclusive_label">Cuddio o\'r ffrwd cartref</string>
 </resources>

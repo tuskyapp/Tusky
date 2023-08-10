@@ -60,8 +60,7 @@ android {
 
     lint {
         lintConfig file("lint.xml")
-        // Regenerate by deleting app/lint-baseline.xml, then run:
-        //   ./gradlew lintBlueDebug
+        // Regenerate by running `./gradlew app:newLintBaseline`
         baseline = file("lint-baseline.xml")
     }
 
@@ -185,4 +184,19 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.androidx.room.testing
     androidTestImplementation libs.androidx.test.junit
+}
+
+tasks.register("newLintBaseline") {
+    description 'Deletes and then recreates the lint baseline'
+
+    // This task should always run, irrespective of caching
+    notCompatibleWithConfigurationCache("Is always out of date")
+    outputs.upToDateWhen { false }
+
+    doLast {
+        delete android.lint.baseline.path
+    }
+
+    // Regenerate the lint baseline
+    it.finalizedBy tasks.named("lintBlueDebug")
 }

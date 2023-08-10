@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
 import com.keylesspalace.tusky.util.CardViewMode;
+import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
@@ -68,6 +69,7 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -329,14 +331,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
             ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp,
-                    statusDisplayOptions.animateAvatars());
+                    statusDisplayOptions.animateAvatars(), null);
 
             avatarRadius = avatarRadius36dp;
         }
 
         ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius,
-                statusDisplayOptions.animateAvatars());
-
+            statusDisplayOptions.animateAvatars(),
+            Collections.singletonList(new CompositeWithOpaqueBackground(avatar)));
     }
 
     protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
