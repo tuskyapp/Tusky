@@ -817,4 +817,5 @@
     <string name="load_newest_notifications">Load newest notifications</string>
     <string name="about_copy">Copy version and device information</string>
     <string name="about_copied">Copied version and device information</string>
+    <string name="error_media_playback">Playback failed: %s</string>
 </resources>
