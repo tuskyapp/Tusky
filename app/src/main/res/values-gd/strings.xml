@@ -257,10 +257,10 @@
     <string name="action_add_to_list">Cuir cunntas ris an liosta</string>
     <string name="hint_search_people_list">Lorg daoine air a leanas tu</string>
     <string name="action_delete_list">Sguab às an liosta</string>
-    <string name="action_rename_list">Thoir ainm ùr air an liosta</string>
+    <string name="action_rename_list">Ùraich an liosta</string>
     <string name="action_create_list">Cruthaich liosta</string>
     <string name="error_delete_list">Cha b’ urrainn dhuinn an liosta a sguabadh às</string>
-    <string name="error_rename_list">Cha b’ urrainn dhut ainm ùr a thoirt air an liosta</string>
+    <string name="error_rename_list">Cha b’ urrainn dhuinn an liosta ùrachadh</string>
     <string name="error_create_list">Cha b’ urrainn dhuinn an liosta a chruthachadh</string>
     <string name="add_account_description">Cuir cunntas Mastodon ùr ris</string>
     <string name="add_account_name">Cuir cunntas ris</string>
@@ -324,9 +324,8 @@
     <string name="post_media_images">Dealbhan</string>
     <string name="about_tusky_account">Pròifil Tusky</string>
     <string name="about_bug_feature_request_site">Aithrisean air bugaichean ⁊ iarrtasan air gleusan:
-\n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">Làrach-lìn a’ phròiseict:
-\n https://tusky.app</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Làrach-lìn a’ phròiseict: https://tusky.app</string>
     <string name="about_powered_by_tusky">Le cumhachd Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="description_account_locked">Cunntas glaiste</string>
@@ -690,4 +689,15 @@
     <string name="notification_listenable_worker_description">Brathan nuair a bhios Tusky ag obair sa chùlaibh</string>
     <string name="notification_notification_worker">A’ faighinn nam brathan…</string>
     <string name="notification_prune_cache">Obair-ghlèidhidh air an tasgadan…</string>
+    <string name="about_device_info_title">An t-uidheam agad</string>
+    <string name="about_device_info">%s %s
+\nTionndadh dhe Android: %s
+\nTionndadh dhen SDK: %d</string>
+    <string name="about_account_info_title">An cunntas agad</string>
+    <string name="about_account_info">\@%s@%s
+\nTionndadh: %s</string>
+    <string name="about_copy">Dèan lethbhreac de thionndadh is fiosrachadh an uidheim</string>
+    <string name="about_copied">Chaidh lethbhreac de thionndadh is fiosrachadh an uidheim a dhèanamh</string>
+    <string name="list_exclusive_label">Falaich o loidhne-ama na dachaigh</string>
+    <string name="error_media_upload_sending_fmt">Dh’fhàillig leis an luchdadh suas: %s</string>
 </resources>

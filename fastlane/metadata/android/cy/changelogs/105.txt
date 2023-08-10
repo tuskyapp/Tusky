@@ -1,0 +1,11 @@
+Tusky 22.0 beta 3
+
+Cywiriadau sydd yn ychwanegu:
+
+- Cywirwyd chwalfa wrth weld trywydd
+- Cywirwyd chwalfa wrth brosesu hidlydd Mastodon
+- Gallwch glicio dolennau ym mywgraffiadau hysbysiadau dilyn / ceisiadau i'ch dilyn
+- Diweddariadau Hysbysiadau Android:
+  - Dylai hysbysiad Android ar gyfer hysbysiad Mastodon yn cael ei ddangos unwaith
+  - Mae hysbysiadau Android yn cael ei grwpio gan ddull hysbysiad Mastodon (dilyn, crybwyll, hybu, ac ati)
+  - Cywirwyd posibilrwydd hysbysiadau coll
