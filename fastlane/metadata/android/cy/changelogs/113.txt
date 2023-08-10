@@ -1,0 +1,15 @@
+Tusky 23.0
+
+Nodweddion newydd:
+
+- Opsiwn newydd i newid maint testun y rhyngwyneb
+
+Cywiriadau:
+
+- Cadw gwybodaeth cyfrif yn gywir
+- Hysbysiadau "tynnu" ar ddyfeisiau sydd yn defnyddio fersiwn Android <= 11
+- Gwall Android lle gall maes testun yn "anghofio" y gallan nhw gopïo neu gludo
+- Fydd weld newidiadau yn yr hanes golygu ddim yn mynd y tu hwnt i ymyl y sgrin
+- Fydd yr ap ddim yn chwalu os nad oes gan eich gweinydd unrhyw hanes golygu
+- Dangos emoji nad yw'n sgwâr yn gywir
+- Chwalu posibl wrth olygu meysydd proffil
