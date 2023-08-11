@@ -17,7 +17,6 @@
 
 package com.keylesspalace.tusky.util
 
-import android.util.Log
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.keylesspalace.tusky.util.PresentationState.INITIAL
@@ -26,6 +25,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.scan
 
+/**
+ * Each [CombinedLoadStates] state does not contain enough information to understand the actual
+ * state unless previous states have been observed.
+ *
+ * This tracks those states and provides a [PresentationState] that describes whether the most
+ * recent refresh has presented the data via the associated adapter.
+ */
 enum class PresentationState {
     /** Initial state, nothing is known about the load state */
     INITIAL,
@@ -76,19 +82,10 @@ enum class PresentationState {
 }
 
 /**
- * [CombinedLoadStates] are stateful -- you can't fully interpret the meaning of the state unless
- * previous states have been observed. This tracks those states and provides a [PresentationState]
- * that describes whether the most recent refresh has presented the data via the associated adapter.
- *
- * @return Flow that combines the load state with its associated presentation state
+ * @return Flow that combines the [CombinedLoadStates] with its associated [PresentationState].
  */
 fun Flow<CombinedLoadStates>.withPresentationState(): Flow<Pair<CombinedLoadStates, PresentationState>> {
-    val TAG = "WithPresentationState"
-
     val presentationStateFlow = scan(INITIAL) { state, loadState ->
-        Log.d(TAG, "state: $state")
-        Log.d(TAG, "loadState.mediator.refresh: ${loadState.mediator?.refresh}")
-        Log.d(TAG, "loadState.source.refresh: ${loadState.source.refresh}")
         state.next(loadState)
     }
         .distinctUntilChanged()
@@ -96,4 +93,109 @@ fun Flow<CombinedLoadStates>.withPresentationState(): Flow<Pair<CombinedLoadStat
     return this.combine(presentationStateFlow) { loadState, presentationState ->
         Pair(loadState, presentationState)
     }
+}
+
+/**
+ * Each [CombinedLoadStates] state does not contain enough information to understand the actual
+ * state unless previous states have been observed.
+ *
+ * This tracks those states and provides a [RefreshState] that describes whether the most recent
+ * [Refresh][androidx.paging.PagingSource.LoadParams.Refresh] and its associated first
+ * [Prepend][androidx.paging.PagingSource.LoadParams.Prepend] operation has completed.
+ */
+enum class RefreshState {
+    /** No active refresh, waiting for one to start */
+    WAITING_FOR_REFRESH,
+
+    /** A refresh is underway */
+    ACTIVE_REFRESH,
+
+    /** A refresh has completed, there may be a followup prepend operations */
+    REFRESH_COMPLETE,
+
+    /** The first prepend after a refresh has completed. There may be followup prepend operations */
+    PREPEND_COMPLETE,
+
+    /** A refresh or prepend operation was [LoadState.Error] */
+    ERROR;
+
+    fun next(loadState: CombinedLoadStates): RefreshState {
+        if (loadState.refresh is LoadState.Error) return ERROR
+        if (loadState.prepend is LoadState.Error) return ERROR
+
+        return when (this) {
+            WAITING_FOR_REFRESH -> when (loadState.refresh) {
+                is LoadState.Loading -> ACTIVE_REFRESH
+                else -> this
+            }
+            ACTIVE_REFRESH -> when (loadState.refresh) {
+                is LoadState.NotLoading -> when (loadState.prepend) {
+                    is LoadState.NotLoading -> PREPEND_COMPLETE
+                    is LoadState.Loading -> REFRESH_COMPLETE
+                    else -> this
+                }
+                else -> this
+            }
+            REFRESH_COMPLETE -> when (loadState.prepend) {
+                is LoadState.NotLoading -> PREPEND_COMPLETE
+                else -> this
+            }
+            PREPEND_COMPLETE -> when (loadState.refresh) {
+                is LoadState.Loading -> ACTIVE_REFRESH
+                else -> this
+            }
+            ERROR -> WAITING_FOR_REFRESH.next(loadState)
+        }
+    }
+}
+
+fun Flow<CombinedLoadStates>.asRefreshState(): Flow<RefreshState> {
+    return scan(RefreshState.WAITING_FOR_REFRESH) { state, loadState ->
+        state.next(loadState)
+    }
+        .distinctUntilChanged()
+}
+
+/**
+ * Debug helper that generates a string showing the effective difference between two [CombinedLoadStates].
+ *
+ * @param prev the value to compare against
+ * @return A (possibly multi-line) string showing the fields that differed
+ */
+fun CombinedLoadStates.diff(prev: CombinedLoadStates?): String {
+    prev ?: return ""
+
+    val result = mutableListOf<String>()
+
+    if (prev.refresh != refresh) {
+        result.add(".refresh ${prev.refresh} -> $refresh")
+    }
+    if (prev.source.refresh != source.refresh) {
+        result.add("\n  .source.refresh ${prev.source.refresh} -> ${source.refresh}")
+    }
+    if (prev.mediator?.refresh != mediator?.refresh) {
+        result.add("\n  .mediator.refresh ${prev.mediator?.refresh} -> ${mediator?.refresh}")
+    }
+
+    if (prev.prepend != prepend) {
+        result.add(".prepend ${prev.prepend} -> $prepend")
+    }
+    if (prev.source.prepend != source.prepend) {
+        result.add("\n  .source.prepend ${prev.source.prepend} -> ${source.prepend}")
+    }
+    if (prev.mediator?.prepend != mediator?.prepend) {
+        result.add("\n  .mediator.prepend ${prev.mediator?.prepend} -> ${mediator?.prepend}")
+    }
+
+    if (prev.append != append) {
+        result.add(".append ${prev.append} -> $append")
+    }
+    if (prev.source.append != source.append) {
+        result.add("\n  .source.append ${prev.source.append} -> ${source.append}")
+    }
+    if (prev.mediator?.append != mediator?.append) {
+        result.add("\n  .mediator.append ${prev.mediator?.append} -> ${mediator?.append}")
+    }
+
+    return result.joinToString("\n")
 }

@@ -115,21 +115,33 @@ class NetworkTimelinePagingSource @Inject constructor(
             return INVALID
         }
 
-        return LoadResult.Page(page?.data ?: emptyList(), nextKey = page?.nextKey, prevKey = page?.prevKey)
+        // Calculate itemsBefore and itemsAfter values to include in the returned Page.
+        // If you do not do this (and this is not documented anywhere) then the anchorPosition
+        // in the PagingState (used in getRefreshKey) is bogus, and refreshing the list can
+        // result in large jumps in the user's position.
+        //
+        // The items are calculated relative to the local cache, not the remote data source.
+        val itemsBefore = page?.let {
+            pageCache.tailMap(it.data.first().id).values.fold(0) { sum, p -> sum + p.data.size }
+        } ?: 0
+        val itemsAfter = page?.let {
+            pageCache.headMap(it.data.first().id).values.fold(0) { sum, p -> sum + p.data.size }
+        } ?: 0
+
+        return LoadResult.Page(
+            page?.data ?: emptyList(),
+            nextKey = page?.nextKey,
+            prevKey = page?.prevKey,
+            itemsAfter = itemsAfter,
+            itemsBefore = itemsBefore
+        )
     }
 
     override fun getRefreshKey(state: PagingState<String, Status>): String? {
-        val refreshKey = if (state.anchorPosition != null) {
-            // In testing, state.anchorPosition always seems to be off by 2. I suspect that might
-            // be because of the load state header and footer that are on the list. If this is
-            // not corrected here then the user's reading position is *not* maintained as they
-            // scroll over a page boundary, and the list jumps up by two posts. Adding 2 here
-            // corrects for this.
-            state.closestItemToPosition(state.anchorPosition!! + 2)?.id
-        } else {
-            pageCache.firstEntry()?.value?.data?.let { data ->
-                data.getOrNull(data.size / 2)?.id
-            }
+        val refreshKey = state.anchorPosition?.let {
+            state.closestItemToPosition(it)?.id
+        } ?: pageCache.firstEntry()?.value?.data?.let {
+            it.getOrNull(it.size / 2)?.id
         }
 
         Log.d(TAG, "- getRefreshKey(), state.anchorPosition = ${state.anchorPosition}, return $refreshKey")

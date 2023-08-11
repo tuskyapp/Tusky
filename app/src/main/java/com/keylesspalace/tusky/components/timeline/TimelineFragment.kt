@@ -30,7 +30,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,6 +63,8 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PresentationState
+import com.keylesspalace.tusky.util.RefreshState
+import com.keylesspalace.tusky.util.asRefreshState
 import com.keylesspalace.tusky.util.getDrawableRes
 import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.hide
@@ -345,102 +346,129 @@ class TimelineFragment :
                     }
                 }
 
-                // Scroll the list down if a refresh has completely finished. A refresh is
+                /** Flow of RefreshState, derived from the adapter's CombinedLoadState */
+                val refreshState = adapter.loadStateFlow.asRefreshState()
+
+                // Scroll the list down (peek) if a refresh has completely finished. A refresh is
                 // finished when both the initial refresh is complete and any prepends have
-                // finished (so that DiffUtil has had a chance to process the data). See
-                // https://github.com/googlecodelabs/android-paging/issues/149
+                // finished (so that DiffUtil has had a chance to process the data).
                 launch {
-                    var previousLoadState: CombinedLoadStates? = null
-                    var activeRefresh = false
+                    if (!isSwipeToRefreshEnabled) return@launch
 
-                    if (isSwipeToRefreshEnabled) {
-                        adapter.loadStateFlow
-                            .withPresentationState()
-                            .collect { (loadState, presentationState) ->
-                                if (previousLoadState == null) {
-                                    previousLoadState = loadState
-                                    return@collect
-                                }
+                    /** True if the previous prepend resulted in a peek, false otherwise */
+                    var peeked = false
 
-                                if (presentationState != PresentationState.PRESENTED) {
-                                    activeRefresh = true
-                                }
+                    /** ID of the item that was first in the adapter before the refresh */
+                    var previousFirstId: String? = null
 
-                                if (presentationState == PresentationState.PRESENTED && activeRefresh) {
-                                    if (previousLoadState?.prepend is LoadState.Loading && loadState.prepend is LoadState.NotLoading) {
-                                        Log.d("loadState", "mediator.prepend=NotLoading, scrolling to peek")
-                                        binding.recyclerView.post {
-                                            getView() ?: return@post
-                                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                                        }
-                                        activeRefresh = false
-                                    }
-                                }
-                                previousLoadState = loadState
+                    refreshState.collect {
+                        when (it) {
+                            // Refresh has started, reset peeked, and save the ID of the first item
+                            // in the adapter
+                            RefreshState.ACTIVE_REFRESH -> {
+                                peeked = false
+                                if (adapter.itemCount != 0) previousFirstId = adapter.peek(0)?.id
                             }
+
+                            // Refresh has finished, pages are being prepended.
+                            RefreshState.PREPEND_COMPLETE -> {
+                                // There might be multiple prepends after a refresh, only continue
+                                // if one them has not already caused a peek.
+                                if (peeked) return@collect
+
+                                // Compare the ID of the current first item with the previous first
+                                // item. If they're the same then this prepend did not add any new
+                                // items, and can be ignored.
+                                val firstId = if (adapter.itemCount != 0) adapter.peek(0)?.id else null
+                                if (previousFirstId == firstId) return@collect
+
+                                // New items were added and haven't peeked for this refresh. Schedule
+                                // a scroll to disclose that new items are available.
+                                binding.recyclerView.post {
+                                    getView() ?: return@post
+                                    binding.recyclerView.smoothScrollBy(
+                                        0,
+                                        Utils.dpToPx(requireContext(), -30)
+                                    )
+                                }
+                                peeked = true
+                            }
+                            else -> { /* nothing to do */ }
+                        }
                     }
                 }
 
-                // Update the UI from the combined load state
-                adapter.loadStateFlow
-                    .withPresentationState()
-                    .collect { (loadState, presentationState) ->
-                        when (presentationState) {
-                            PresentationState.INITIAL -> { }
-                            PresentationState.REMOTE_LOADING -> {
+                // Manage the display of progress bars. Rather than hide them as soon as the
+                // Refresh portion completes, hide them when then first Prepend completes. This
+                // is a better signal to the user that it is now possible to scroll up and see
+                // new content.
+                launch {
+                    refreshState.collect {
+                        when (it) {
+                            RefreshState.ACTIVE_REFRESH -> {
                                 if (adapter.itemCount == 0 && !binding.swipeRefreshLayout.isRefreshing) {
                                     binding.progressBar.show()
                                 }
                             }
-                            PresentationState.SOURCE_LOADING -> { }
-                            PresentationState.ERROR -> {
+                            RefreshState.PREPEND_COMPLETE, RefreshState.ERROR -> {
                                 binding.progressBar.hide()
                                 binding.swipeRefreshLayout.isRefreshing = false
-                                val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
-
-                                // Show errors as a snackbar if there is existing content to show
-                                // (either cached, or in the adapter), or as a full screen error
-                                // otherwise.
-                                if (adapter.itemCount > 0) {
-                                    snackbar = Snackbar.make(
-                                        (activity as ActionButtonActivity).actionButton ?: binding.root,
-                                        message,
-                                        Snackbar.LENGTH_INDEFINITE
-                                    )
-                                        .setTextMaxLines(5)
-                                        .setAction(R.string.action_retry) { adapter.retry() }
-                                    snackbar!!.show()
-                                } else {
-                                    val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
-                                    binding.statusView.setup(drawableRes, message) {
-                                        snackbar?.dismiss()
-                                        adapter.retry()
-                                    }
-                                    binding.statusView.show()
-                                    binding.recyclerView.hide()
-                                }
                             }
-                            PresentationState.PRESENTED -> {
-                                binding.progressBar.hide()
-                                binding.swipeRefreshLayout.isRefreshing = false
-
-                                if (adapter.itemCount == 0) {
-                                    binding.statusView.setup(
-                                        R.drawable.elephant_friend_empty,
-                                        R.string.message_empty
-                                    )
-                                    if (timelineKind == TimelineKind.Home) {
-                                        binding.statusView.showHelp(R.string.help_empty_home)
-                                    }
-                                    binding.statusView.show()
-                                    binding.recyclerView.hide()
-                                } else {
-                                    binding.recyclerView.show()
-                                    binding.statusView.hide()
-                                }
-                            }
+                            else -> { /* nothing to do */ }
                         }
                     }
+                }
+
+                // Update the UI from the combined load state
+                adapter.loadStateFlow.withPresentationState().collect { (loadState, presentationState) ->
+                    when (presentationState) {
+                        PresentationState.ERROR -> {
+                            val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
+
+                            // Show errors as a snackbar if there is existing content to show
+                            // (either cached, or in the adapter), or as a full screen error
+                            // otherwise.
+                            if (adapter.itemCount > 0) {
+                                snackbar = Snackbar.make(
+                                    (activity as ActionButtonActivity).actionButton ?: binding.root,
+                                    message,
+                                    Snackbar.LENGTH_INDEFINITE
+                                )
+                                    .setTextMaxLines(5)
+                                    .setAction(R.string.action_retry) { adapter.retry() }
+                                snackbar!!.show()
+                            } else {
+                                val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
+                                binding.statusView.setup(drawableRes, message) {
+                                    snackbar?.dismiss()
+                                    adapter.retry()
+                                }
+                                binding.statusView.show()
+                                binding.recyclerView.hide()
+                            }
+                        }
+                        PresentationState.PRESENTED -> {
+                            if (adapter.itemCount == 0) {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_friend_empty,
+                                    R.string.message_empty
+                                )
+                                if (timelineKind == TimelineKind.Home) {
+                                    binding.statusView.showHelp(R.string.help_empty_home)
+                                }
+                                binding.statusView.show()
+                                binding.recyclerView.hide()
+                            } else {
+                                binding.recyclerView.show()
+                                binding.statusView.hide()
+                            }
+                        }
+                        else -> {
+                            // Nothing to do -- show/hiding the progress bars in non-error states
+                            // is handled via refreshState.
+                        }
+                    }
+                }
             }
         }
     }
