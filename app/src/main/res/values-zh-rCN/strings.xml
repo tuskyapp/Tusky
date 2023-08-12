@@ -271,10 +271,10 @@
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
     <string name="error_create_list">无法新建列表</string>
-    <string name="error_rename_list">无法重命名列表</string>
+    <string name="error_rename_list">无法更新列表</string>
     <string name="error_delete_list">无法删除列表</string>
     <string name="action_create_list">新建列表</string>
-    <string name="action_rename_list">重命名列表</string>
+    <string name="action_rename_list">更新列表</string>
     <string name="action_delete_list">删除列表</string>
     <string name="hint_search_people_list">搜索已关注的用户</string>
     <string name="action_add_to_list">添加用户到列表</string>
@@ -678,4 +678,6 @@
 \nAndroid 系统版本: %s
 \nSDK 版本: %d</string>
     <string name="about_copy">复制版本及设备信息</string>
+    <string name="list_exclusive_label">不出现在首页时间线中</string>
+    <string name="error_media_playback">播放失败了：%s</string>
 </resources>
