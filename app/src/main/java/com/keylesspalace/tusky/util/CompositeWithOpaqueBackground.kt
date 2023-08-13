@@ -79,7 +79,6 @@ class CompositeWithOpaqueBackground(val view: View) : BitmapTransformation() {
         // If the input bitmap has no alpha channel then there's nothing to do
         if (!toTransform.hasAlpha()) return toTransform
 
-        Log.d(TAG, "toTransform: ${toTransform.width} ${toTransform.height}")
         // Get the background drawable for this view, falling back to the given attribute
         val backgroundDrawable = view.getFirstNonNullBackgroundOrAttr(android.R.attr.colorBackground)
         backgroundDrawable ?: return toTransform
