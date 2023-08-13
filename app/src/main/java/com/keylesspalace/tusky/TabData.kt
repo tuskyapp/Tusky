@@ -103,6 +103,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             text = R.string.hashtags,
             icon = R.drawable.ic_hashtag,
             fragment = { args -> TimelineFragment.newInstance(TimelineKind.Tag(args)) },
+            arguments = arguments,
             title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
         )
         LIST -> TabData(
