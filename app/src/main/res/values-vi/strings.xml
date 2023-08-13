@@ -306,7 +306,7 @@
     <string name="post_share_link">URL tút</string>
     <string name="post_share_content">Nội dung tút</string>
     <string name="about_tusky_account">Trang hồ sơ Tusky</string>
-    <string name="pref_title_confirm_reblogs">Xác nhận trước khi đăng lại</string>
+    <string name="pref_title_confirm_reblogs">Hỏi trước khi đăng lại tút</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
     <string name="no_scheduled_posts">Bạn không có tút đã lên lịch.</string>
@@ -489,7 +489,7 @@
     <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên duyệt thủ công yêu cầu theo dõi từ những người lạ.</string>
     <string name="dialog_delete_conversation_warning">Xóa cuộc thảo luận này\?</string>
     <string name="action_delete_conversation">Xóa thảo luận</string>
-    <string name="pref_title_confirm_favourites">Xác nhận trước khi thích</string>
+    <string name="pref_title_confirm_favourites">Hỏi trước khi thích tút</string>
     <string name="action_unbookmark">Bỏ lưu</string>
     <string name="duration_14_days">14 ngày</string>
     <string name="duration_30_days">30 ngày</string>
