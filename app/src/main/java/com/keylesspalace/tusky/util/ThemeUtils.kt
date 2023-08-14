@@ -17,13 +17,17 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.util.DisplayMetrics
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.use
 import com.google.android.material.color.MaterialColors
+import org.bouncycastle.crypto.params.Blake3Parameters.context
+
 
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
@@ -35,6 +39,7 @@ private const val THEME_DAY = "day"
 private const val THEME_BLACK = "black"
 private const val THEME_AUTO = "auto"
 private const val THEME_SYSTEM = "auto_system"
+private const val THEME_SYSTEM_BLACK = "auto_system_black"
 const val APP_THEME_DEFAULT = THEME_NIGHT
 
 fun getDimension(context: Context, @AttrRes attribute: Int): Int {
@@ -59,9 +64,21 @@ fun setAppNightMode(flavor: String?) {
         THEME_AUTO -> AppCompatDelegate.setDefaultNightMode(
             AppCompatDelegate.MODE_NIGHT_AUTO_TIME
         )
-        THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(
+        THEME_SYSTEM, THEME_SYSTEM_BLACK -> AppCompatDelegate.setDefaultNightMode(
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         )
         else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
+}
+
+fun isBlack(config: Configuration, theme: String?): Boolean {
+    return when (theme) {
+        THEME_BLACK -> true
+        THEME_SYSTEM_BLACK -> when (config.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_NO -> false
+                Configuration.UI_MODE_NIGHT_YES -> true
+                else -> false
+            }
+        else -> false
     }
 }

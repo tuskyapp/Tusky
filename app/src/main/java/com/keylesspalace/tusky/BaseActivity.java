@@ -15,6 +15,8 @@
 
 package com.keylesspalace.tusky;
 
+import static com.keylesspalace.tusky.util.ThemeUtils.isBlack;
+
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -76,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
          * views are created. */
         String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
         Log.d("activeTheme", theme);
-        if (theme.equals("black")) {
+        if (isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
         }
 

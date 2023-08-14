@@ -5,7 +5,8 @@ enum class AppTheme(val value: String) {
     DAY("day"),
     BLACK("black"),
     AUTO("auto"),
-    AUTO_SYSTEM("auto_system");
+    AUTO_SYSTEM("auto_system"),
+    AUTO_SYSTEM_BLACK("auto_system_black");
 
     companion object {
         fun stringValues() = values().map { it.value }.toTypedArray()
