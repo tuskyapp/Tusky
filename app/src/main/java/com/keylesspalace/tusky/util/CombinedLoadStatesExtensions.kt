@@ -17,12 +17,15 @@
 
 package com.keylesspalace.tusky.util
 
+import android.util.Log
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.util.PresentationState.INITIAL
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.scan
 
 /**
@@ -96,75 +99,133 @@ fun Flow<CombinedLoadStates>.withPresentationState(): Flow<Pair<CombinedLoadStat
 }
 
 /**
- * Each [CombinedLoadStates] state does not contain enough information to understand the actual
- * state unless previous states have been observed.
+ * The state of the refresh from the user's perspective. A refresh is "complete" for a user if
+ * the refresh has completed, **and** the first prepend triggered by that refresh has also
+ * completed.
  *
- * This tracks those states and provides a [RefreshState] that describes whether the most recent
- * [Refresh][androidx.paging.PagingSource.LoadParams.Refresh] and its associated first
- * [Prepend][androidx.paging.PagingSource.LoadParams.Prepend] operation has completed.
+ * This means that new data has been loaded and (if the prepend found new data) the user can
+ * start scrolling up to see it. Any progress indicators can be removed, and the UI can scroll
+ * to disclose new content.
  */
-enum class RefreshState {
+enum class UserRefreshState {
     /** No active refresh, waiting for one to start */
-    WAITING_FOR_REFRESH,
+    WAITING,
 
-    /** A refresh is underway */
-    ACTIVE_REFRESH,
+    /** A refresh (and possibly the first prepend) is underway */
+    ACTIVE,
 
-    /** A refresh has completed, there may be a followup prepend operations */
-    REFRESH_COMPLETE,
-
-    /** The first prepend is underway */
-    ACTIVE_PREPEND,
-
-    /** The first prepend after a refresh has completed. There may be followup prepend operations */
-    PREPEND_COMPLETE,
+    /** The refresh and the first prepend after a refresh has completed */
+    COMPLETE,
 
     /** A refresh or prepend operation was [LoadState.Error] */
     ERROR;
-
-    fun next(loadState: CombinedLoadStates): RefreshState {
-        if (loadState.refresh is LoadState.Error) return ERROR
-        if (loadState.prepend is LoadState.Error) return ERROR
-
-        return when (this) {
-            WAITING_FOR_REFRESH -> when (loadState.refresh) {
-                is LoadState.Loading -> ACTIVE_REFRESH
-                else -> this
-            }
-            ACTIVE_REFRESH -> when (loadState.refresh) {
-                is LoadState.NotLoading -> when (loadState.prepend) {
-                    is LoadState.Loading -> REFRESH_COMPLETE
-                    // If prepend.endOfPaginationReached then the prepend is complete too.
-                    // Otherwise, wait for the prepend to finish.
-                    is LoadState.NotLoading -> if (loadState.prepend.endOfPaginationReached) {
-                        PREPEND_COMPLETE
-                    } else {
-                        REFRESH_COMPLETE
-                    }
-                    else -> this
-                }
-                else -> this
-            }
-            REFRESH_COMPLETE -> when (loadState.prepend) {
-                is LoadState.Loading -> ACTIVE_PREPEND
-                else -> this
-            }
-            ACTIVE_PREPEND -> when (loadState.prepend) {
-                is LoadState.NotLoading -> PREPEND_COMPLETE
-                else -> this
-            }
-            PREPEND_COMPLETE -> when (loadState.refresh) {
-                is LoadState.Loading -> ACTIVE_REFRESH
-                else -> this
-            }
-            ERROR -> WAITING_FOR_REFRESH.next(loadState)
-        }
-    }
 }
 
-fun Flow<CombinedLoadStates>.asRefreshState(): Flow<RefreshState> {
-    return scan(RefreshState.WAITING_FOR_REFRESH) { state, loadState ->
-        state.next(loadState)
+/**
+ * Each [CombinedLoadStates] state does not contain enough information to understand the actual
+ * state unless previous states have been observed.
+ *
+ * This tracks those states and provides a [UserRefreshState] that describes whether the most recent
+ * [Refresh][androidx.paging.PagingSource.LoadParams.Refresh] and its associated first
+ * [Prepend][androidx.paging.PagingSource.LoadParams.Prepend] operation has completed.
+ */
+fun Flow<CombinedLoadStates>.asRefreshState(): Flow<UserRefreshState> {
+    // Can't use CombinedLoadStates.refresh and .prepend on their own. In testing I've observed
+    // situations where:
+    //
+    // - the refresh completes before the prepend starts
+    // - the prepend starts before the refresh completes
+    // - the prepend *ends* before the refresh completes (but after the refresh starts)
+    //
+    // So you need to track the state of both the refresh and the prepend actions, and merge them
+    // in to a single state that answers the question "Has the refresh, and the first prepend
+    // started by that refresh, finished?"
+    //
+    // In addition, a prepend operation might involve both the mediator and the source, or only
+    // one of them. Since loadState.prepend tracks the mediator property this means a prepend that
+    // only modifies loadState.source will not be reflected in loadState.prepend.
+    //
+    // So the code also has to track whether the prepend transition was initiated by the mediator
+    // or the source property, and look for the end of the transition on the same property.
+
+    /** The state of the "refresh" portion of the user refresh */
+    var refresh = UserRefreshState.WAITING
+
+    /** The state of the "prepend" portion of the user refresh */
+    var prepend = UserRefreshState.WAITING
+
+    /** True if the state of the prepend portion is derived from the mediator property */
+    var usePrependMediator = false
+
+    var previousLoadState: CombinedLoadStates? = null
+
+    return map { loadState ->
+        // Debug helper, show the differences between successive load states.
+        if (BuildConfig.DEBUG) {
+            previousLoadState?.let {
+                val loadStateDiff = loadState.diff(previousLoadState)
+                Log.d("RefreshState", "Current state: $refresh $prepend")
+                if (loadStateDiff.isNotEmpty()) Log.d("RefreshState", loadStateDiff)
+            }
+            previousLoadState = loadState
+        }
+
+        // Bail early on errors
+        if (loadState.refresh is LoadState.Error || loadState.prepend is LoadState.Error) {
+            refresh = UserRefreshState.WAITING
+            prepend = UserRefreshState.WAITING
+            return@map UserRefreshState.ERROR
+        }
+
+        // Handling loadState.refresh is straightforward
+        refresh = when (loadState.refresh) {
+            is LoadState.Loading -> if (refresh == UserRefreshState.WAITING) UserRefreshState.ACTIVE else refresh
+            is LoadState.NotLoading -> if (refresh == UserRefreshState.ACTIVE) UserRefreshState.COMPLETE else refresh
+            else -> { throw IllegalStateException("can't happen, LoadState.Error is already handled") }
+        }
+
+        // Prepend can only transition to active if there is an active or complete refresh
+        // (i.e., the refresh is not WAITING).
+        if (refresh != UserRefreshState.WAITING && prepend == UserRefreshState.WAITING) {
+            if (loadState.mediator?.prepend is LoadState.Loading) {
+                usePrependMediator = true
+                prepend = UserRefreshState.ACTIVE
+            }
+            if (loadState.source.prepend is LoadState.Loading) {
+                usePrependMediator = false
+                prepend = UserRefreshState.ACTIVE
+            }
+        }
+
+        if (prepend == UserRefreshState.ACTIVE) {
+            if (usePrependMediator && loadState.mediator?.prepend is LoadState.NotLoading) {
+                prepend = UserRefreshState.COMPLETE
+            }
+            if (!usePrependMediator && loadState.source.prepend is LoadState.NotLoading) {
+                prepend = UserRefreshState.COMPLETE
+            }
+        }
+
+        // Determine the new user refresh state by combining the refresh and prepend states
+        //
+        // - If refresh and prepend are identical use the refresh value
+        // - If refresh is WAITING then the state is WAITING (waiting for a refresh implies waiting
+        //   for a prepend too)
+        // - Otherwise, one of them is active (doesn't matter which), so the state is ACTIVE
+        val newUserRefreshState = when (refresh) {
+            prepend -> refresh
+            UserRefreshState.WAITING -> UserRefreshState.WAITING
+            else -> UserRefreshState.ACTIVE
+        }
+
+        // If the new state is COMPLETE reset the individual states back to WAITING, ready for
+        // the next user refresh.
+        if (newUserRefreshState == UserRefreshState.COMPLETE) {
+            refresh = UserRefreshState.WAITING
+            prepend = UserRefreshState.WAITING
+        }
+
+        return@map newUserRefreshState
     }
         .distinctUntilChanged()
 }

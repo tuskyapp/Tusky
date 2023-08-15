@@ -63,7 +63,7 @@ import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.PresentationState
-import com.keylesspalace.tusky.util.RefreshState
+import com.keylesspalace.tusky.util.UserRefreshState
 import com.keylesspalace.tusky.util.asRefreshState
 import com.keylesspalace.tusky.util.getDrawableRes
 import com.keylesspalace.tusky.util.getErrorString
@@ -84,6 +84,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -346,8 +347,10 @@ class TimelineFragment :
                     }
                 }
 
-                /** Flow of RefreshState, derived from the adapter's CombinedLoadState */
-                val refreshState = adapter.loadStateFlow.asRefreshState()
+                /**
+                 *  StateFlow (to allow multiple consumers) of RefreshState, derived from the adapter's CombinedLoadState.
+                 */
+                val refreshState = adapter.loadStateFlow.asRefreshState().stateIn(lifecycleScope)
 
                 // Scroll the list down (peek) if a refresh has completely finished. A refresh is
                 // finished when both the initial refresh is complete and any prepends have
@@ -362,10 +365,10 @@ class TimelineFragment :
                         when (it) {
                             // Refresh has started, reset peeked, and save the ID of the first item
                             // in the adapter
-                            RefreshState.ACTIVE_REFRESH -> peeked = false
+                            UserRefreshState.ACTIVE -> peeked = false
 
                             // Refresh has finished, pages are being prepended.
-                            RefreshState.PREPEND_COMPLETE -> {
+                            UserRefreshState.COMPLETE -> {
                                 // There might be multiple prepends after a refresh, only continue
                                 // if one them has not already caused a peek.
                                 if (peeked) return@collect
@@ -374,6 +377,7 @@ class TimelineFragment :
                                 // a scroll to disclose that new items are available.
                                 binding.recyclerView.post {
                                     getView() ?: return@post
+                                    Log.d("RefreshState", "***peeking**")
                                     binding.recyclerView.smoothScrollBy(
                                         0,
                                         Utils.dpToPx(requireContext(), -30)
@@ -393,12 +397,12 @@ class TimelineFragment :
                 launch {
                     refreshState.collect {
                         when (it) {
-                            RefreshState.ACTIVE_REFRESH -> {
+                            UserRefreshState.ACTIVE -> {
                                 if (adapter.itemCount == 0 && !binding.swipeRefreshLayout.isRefreshing) {
                                     binding.progressBar.show()
                                 }
                             }
-                            RefreshState.PREPEND_COMPLETE, RefreshState.ERROR -> {
+                            UserRefreshState.COMPLETE, UserRefreshState.ERROR -> {
                                 binding.progressBar.hide()
                                 binding.swipeRefreshLayout.isRefreshing = false
                             }
