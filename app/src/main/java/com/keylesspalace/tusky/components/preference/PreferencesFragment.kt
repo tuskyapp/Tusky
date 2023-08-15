@@ -305,9 +305,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             }
 
             if (pushNotificationManager.canEnablePushNotifications()) {
-                // TODO this should enable a selection;
-                //   and maybe also allow to choose not to use any push distributor?
-
                 preferenceCategory(R.string.pref_title_push_notifications) {
                     preference {
                         setTitle(R.string.pref_title_push_notifications_distributor)
