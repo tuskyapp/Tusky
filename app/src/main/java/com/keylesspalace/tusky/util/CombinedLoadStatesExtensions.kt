@@ -113,6 +113,9 @@ enum class RefreshState {
     /** A refresh has completed, there may be a followup prepend operations */
     REFRESH_COMPLETE,
 
+    /** The first prepend is underway */
+    ACTIVE_PREPEND,
+
     /** The first prepend after a refresh has completed. There may be followup prepend operations */
     PREPEND_COMPLETE,
 
@@ -130,13 +133,23 @@ enum class RefreshState {
             }
             ACTIVE_REFRESH -> when (loadState.refresh) {
                 is LoadState.NotLoading -> when (loadState.prepend) {
-                    is LoadState.NotLoading -> PREPEND_COMPLETE
                     is LoadState.Loading -> REFRESH_COMPLETE
+                    // If prepend.endOfPaginationReached then the prepend is complete too.
+                    // Otherwise, wait for the prepend to finish.
+                    is LoadState.NotLoading -> if (loadState.prepend.endOfPaginationReached) {
+                        PREPEND_COMPLETE
+                    } else {
+                        REFRESH_COMPLETE
+                    }
                     else -> this
                 }
                 else -> this
             }
             REFRESH_COMPLETE -> when (loadState.prepend) {
+                is LoadState.Loading -> ACTIVE_PREPEND
+                else -> this
+            }
+            ACTIVE_PREPEND -> when (loadState.prepend) {
                 is LoadState.NotLoading -> PREPEND_COMPLETE
                 else -> this
             }
