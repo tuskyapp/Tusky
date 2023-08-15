@@ -44,7 +44,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:visibility="gone"
-                    tools:src="@drawable/elephant_error"
+                    tools:src="@drawable/errorphant_error"
                     tools:visibility="visible" />
             </FrameLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

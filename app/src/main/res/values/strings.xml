@@ -391,6 +391,10 @@
 
     <string name="about_title_activity">About</string>
     <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_device_info_title">Your device</string>
+    <string name="about_device_info">%s %s\nAndroid version: %s\nSDK version: %d</string>
+    <string name="about_account_info_title">Your account</string>
+    <string name="about_account_info">\@%s\@%s\nVersion: %s</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_license">Tusky is free and open-source software.
         It is licensed under the GNU General Public License Version 3.
@@ -401,14 +405,8 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">
-        Project website:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">
-        Bug reports &amp; feature requests:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Project website: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Bug reports &amp; feature requests:\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s Profile</string>
 
     <string name="post_share_content">Share content of post</string>
@@ -462,12 +460,11 @@
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
     <string name="error_create_list">Could not create list</string>
-    <string name="error_rename_list">Could not rename list</string>
+    <string name="error_rename_list">Could not update list</string>
     <string name="error_delete_list">Could not delete list</string>
     <string name="action_create_list">Create a list</string>
-    <string name="action_rename_list">Rename the list</string>
+    <string name="action_rename_list">Update the list</string>
     <string name="action_delete_list">Delete the list</string>
-    <string name="action_edit_list">Edit the list</string>
     <string name="hint_search_people_list">Search for people you follow</string>
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
@@ -611,6 +608,7 @@
     <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
     <string name="error_list_load">Error loading lists</string>
+    <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
     <string name="notifications_clear">Clear</string>
     <string name="notifications_apply_filter">Filter</string>
@@ -817,4 +815,7 @@
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
     <string name="load_newest_notifications">Load newest notifications</string>
+    <string name="about_copy">Copy version and device information</string>
+    <string name="about_copied">Copied version and device information</string>
+    <string name="error_media_playback">Playback failed: %s</string>
 </resources>
