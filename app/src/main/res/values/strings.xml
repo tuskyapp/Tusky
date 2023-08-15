@@ -54,6 +54,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_trending_hashtags">Trending hashtags</string>
+    <string name="title_public_trending_statuses">Trending posts</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_direct_messages">Direct messages</string>
     <string name="title_tab_preferences">Tabs</string>

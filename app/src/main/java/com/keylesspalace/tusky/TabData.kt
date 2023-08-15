@@ -34,6 +34,7 @@ const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
 const val TRENDING_TAGS = "TrendingTags"
+const val TRENDING_STATUSES = "TrendingStatuses"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
 const val BOOKMARKS = "Bookmarks"
@@ -98,6 +99,12 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             text = R.string.title_public_trending_hashtags,
             icon = R.drawable.ic_trending_up_24px,
             fragment = { TrendingTagsFragment.newInstance() }
+        )
+        TRENDING_STATUSES -> TabData(
+            id = TRENDING_STATUSES,
+            text = R.string.title_public_trending_statuses,
+            icon = R.drawable.ic_hot_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES) }
         )
         HASHTAG -> TabData(
             id = HASHTAG,
