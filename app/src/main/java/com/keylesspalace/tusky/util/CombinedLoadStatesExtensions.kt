@@ -184,30 +184,30 @@ fun CombinedLoadStates.diff(prev: CombinedLoadStates?): String {
         result.add(".refresh ${prev.refresh} -> $refresh")
     }
     if (prev.source.refresh != source.refresh) {
-        result.add("\n  .source.refresh ${prev.source.refresh} -> ${source.refresh}")
+        result.add("  .source.refresh ${prev.source.refresh} -> ${source.refresh}")
     }
     if (prev.mediator?.refresh != mediator?.refresh) {
-        result.add("\n  .mediator.refresh ${prev.mediator?.refresh} -> ${mediator?.refresh}")
+        result.add("  .mediator.refresh ${prev.mediator?.refresh} -> ${mediator?.refresh}")
     }
 
     if (prev.prepend != prepend) {
         result.add(".prepend ${prev.prepend} -> $prepend")
     }
     if (prev.source.prepend != source.prepend) {
-        result.add("\n  .source.prepend ${prev.source.prepend} -> ${source.prepend}")
+        result.add("  .source.prepend ${prev.source.prepend} -> ${source.prepend}")
     }
     if (prev.mediator?.prepend != mediator?.prepend) {
-        result.add("\n  .mediator.prepend ${prev.mediator?.prepend} -> ${mediator?.prepend}")
+        result.add("  .mediator.prepend ${prev.mediator?.prepend} -> ${mediator?.prepend}")
     }
 
     if (prev.append != append) {
         result.add(".append ${prev.append} -> $append")
     }
     if (prev.source.append != source.append) {
-        result.add("\n  .source.append ${prev.source.append} -> ${source.append}")
+        result.add("  .source.append ${prev.source.append} -> ${source.append}")
     }
     if (prev.mediator?.append != mediator?.append) {
-        result.add("\n  .mediator.append ${prev.mediator?.append} -> ${mediator?.append}")
+        result.add("  .mediator.append ${prev.mediator?.append} -> ${mediator?.append}")
     }
 
     return result.joinToString("\n")
