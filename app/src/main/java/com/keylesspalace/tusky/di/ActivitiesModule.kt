@@ -94,7 +94,7 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesPreferencesActivity(): PreferencesActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesViewMediaActivity(): ViewMediaActivity
 
     @ContributesAndroidInjector

@@ -171,7 +171,7 @@
     <string name="post_content_warning_show_less">Thu gọn</string>
     <string name="post_content_warning_show_more">Mở rộng</string>
     <string name="post_sensitive_media_directions">Hiển thị</string>
-    <string name="post_media_hidden_title">Nội dung bị ẩn</string>
+    <string name="post_media_hidden_title">Media bị ẩn</string>
     <string name="post_sensitive_media_title">Nhạy cảm</string>
     <string name="post_boosted_format">%s đăng lại</string>
     <string name="post_username_format">\@%s</string>
@@ -194,7 +194,7 @@
     <string name="title_public_federated">Liên hợp</string>
     <string name="title_public_local">Máy chủ</string>
     <string name="title_notifications">Thông báo</string>
-    <string name="title_home">Bảng tin</string>
+    <string name="title_home">Trang chính</string>
     <string name="title_drafts">Những tút nháp</string>
     <string name="title_favourites">Những tút đã thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
@@ -305,7 +305,7 @@
     <string name="post_share_link">URL tút</string>
     <string name="post_share_content">Nội dung tút</string>
     <string name="about_tusky_account">Trang hồ sơ Tusky</string>
-    <string name="pref_title_confirm_reblogs">Xác nhận trước khi đăng lại</string>
+    <string name="pref_title_confirm_reblogs">Hỏi trước khi đăng lại tút</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
     <string name="no_scheduled_posts">Bạn không có tút đã lên lịch.</string>
@@ -488,7 +488,7 @@
     <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên duyệt thủ công yêu cầu theo dõi từ những người lạ.</string>
     <string name="dialog_delete_conversation_warning">Xóa cuộc thảo luận này\?</string>
     <string name="action_delete_conversation">Xóa thảo luận</string>
-    <string name="pref_title_confirm_favourites">Xác nhận trước khi thích</string>
+    <string name="pref_title_confirm_favourites">Hỏi trước khi thích tút</string>
     <string name="action_unbookmark">Bỏ lưu</string>
     <string name="duration_14_days">14 ngày</string>
     <string name="duration_30_days">30 ngày</string>
@@ -661,4 +661,5 @@
     <string name="about_copied">Đã sao chép phiên bản và thông tin thiết bị</string>
     <string name="about_device_info_title">Thiết bị của bạn</string>
     <string name="list_exclusive_label">Ẩn khỏi bảng tin</string>
+    <string name="error_media_playback">Không thể phát: %s</string>
 </resources>
