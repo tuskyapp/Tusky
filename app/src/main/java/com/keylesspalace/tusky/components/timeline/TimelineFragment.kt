@@ -361,17 +361,29 @@ class TimelineFragment :
                     /** True if the previous prepend resulted in a peek, false otherwise */
                     var peeked = false
 
+                    /** ID of the item that was first in the adapter before the refresh */
+                    var previousFirstId: String? = null
+
                     refreshState.collect {
                         when (it) {
                             // Refresh has started, reset peeked, and save the ID of the first item
                             // in the adapter
-                            UserRefreshState.ACTIVE -> peeked = false
+                            UserRefreshState.ACTIVE -> {
+                                peeked = false
+                                if (adapter.itemCount != 0) previousFirstId = adapter.peek(0)?.id
+                            }
 
                             // Refresh has finished, pages are being prepended.
                             UserRefreshState.COMPLETE -> {
                                 // There might be multiple prepends after a refresh, only continue
                                 // if one them has not already caused a peek.
                                 if (peeked) return@collect
+
+                                // Compare the ID of the current first item with the previous first
+                                // item. If they're the same then this prepend did not add any new
+                                // items, and can be ignored.
+                                val firstId = if (adapter.itemCount != 0) adapter.peek(0)?.id else null
+                                if (previousFirstId == firstId) return@collect
 
                                 // New items were added and haven't peeked for this refresh. Schedule
                                 // a scroll to disclose that new items are available.
