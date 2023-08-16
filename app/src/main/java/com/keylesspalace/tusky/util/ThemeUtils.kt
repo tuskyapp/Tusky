@@ -21,12 +21,10 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.util.DisplayMetrics
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.use
 import com.google.android.material.color.MaterialColors
-import org.bouncycastle.crypto.params.Blake3Parameters.context
 
 
 /**
@@ -75,10 +73,10 @@ fun isBlack(config: Configuration, theme: String?): Boolean {
     return when (theme) {
         THEME_BLACK -> true
         THEME_SYSTEM_BLACK -> when (config.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_NO -> false
-                Configuration.UI_MODE_NIGHT_YES -> true
-                else -> false
-            }
+            Configuration.UI_MODE_NIGHT_NO -> false
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
         else -> false
     }
 }
