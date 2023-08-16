@@ -7,11 +7,13 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.{java,kt}]
 # Disable wildcard imports
-[*.{java, kt}]
 ij_kotlin_name_count_to_use_star_import = 999
 ij_kotlin_name_count_to_use_star_import_for_members = 999
 ij_java_class_count_to_use_import_on_demand = 999
+# Enable trailing comma
+ktlint_disabled_rules=trailing-comma-on-call-site,trailing-comma-on-declaration-site
 
 [*.{yml,yaml}]
 indent_size = 2
