@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -82,44 +81,7 @@ class NetworkTimelineRemoteMediator(
             Log.d(TAG, "- load(), type = $loadType, key = $key")
 
             val response = fetchStatusPageByKind(loadType, key, state.config.initialLoadSize)
-            var page = Page.tryFrom(response).getOrElse { return MediatorResult.Error(it) }
-
-            // If doing a refresh with a known key Paging3 wants you to load "around" the requested
-            // key, so that it can show the item with the key in the view as well as context before
-            // and after it.
-            //
-            // To ensure that the first page loaded after a refresh is big enough load the page
-            // immediately before and the page immediately after as well, and merge the three of
-            // them in to one large page.
-            if (loadType == LoadType.REFRESH && key != null) {
-                Log.d(TAG, "  Refresh with non-null key, creating huge page")
-                val prevPageJob = viewModelScope.async {
-                    page.prevKey?.let { key ->
-                        fetchStatusPageByKind(LoadType.PREPEND, key, state.config.initialLoadSize)
-                    }
-                }
-                val nextPageJob = viewModelScope.async {
-                    page.nextKey?.let { key ->
-                        fetchStatusPageByKind(LoadType.APPEND, key, state.config.initialLoadSize)
-                    }
-                }
-                val prevPage = prevPageJob.await()
-                    ?.let { Page.tryFrom(it).getOrElse { return MediatorResult.Error(it) } }
-                val nextPage = nextPageJob.await()
-                    ?.let { Page.tryFrom(it).getOrElse { return MediatorResult.Error(it) } }
-                Log.d(TAG, "    prevPage: $prevPage")
-                Log.d(TAG, "     midPage: $page")
-                Log.d(TAG, "    nextPage: $nextPage")
-                page = page.merge(prevPage, nextPage)
-
-                if (BuildConfig.DEBUG) {
-                    // Verify page contains the expected key
-                    state.anchorPosition?.let { state.closestItemToPosition(it) }?.id?.let { itemId ->
-                        page.data.find { it.id == itemId }
-                            ?: throw IllegalStateException("Fetched page with $key, it does not contain $itemId")
-                    }
-                }
-            }
+            val page = Page.tryFrom(response).getOrElse { return MediatorResult.Error(it) }
 
             val endOfPaginationReached = page.data.isEmpty()
             if (!endOfPaginationReached) {
