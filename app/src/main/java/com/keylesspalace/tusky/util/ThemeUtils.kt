@@ -26,7 +26,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.use
 import com.google.android.material.color.MaterialColors
 
-
 /**
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
