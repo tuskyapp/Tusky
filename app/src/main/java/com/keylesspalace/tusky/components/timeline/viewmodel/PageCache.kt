@@ -157,12 +157,14 @@ class PageCache : TreeMap<String, Page>(compareBy({ it.length }, { it })) {
      * Logs the current state of the cache
      */
     fun debug() {
-        Log.d(TAG, "Page cache state:")
-        if (this.isEmpty()) {
-            Log.d(TAG, "  ** empty **")
-        } else {
-            this.onEachIndexed { index, entry ->
-                Log.d(TAG, "  $index: ${entry.value}")
+        if (BuildConfig.DEBUG) {  // Makes it easier for Proguard to optimise this out
+            Log.d(TAG, "Page cache state:")
+            if (this.isEmpty()) {
+                Log.d(TAG, "  ** empty **")
+            } else {
+                this.onEachIndexed { index, entry ->
+                    Log.d(TAG, "  $index: ${entry.value}")
+                }
             }
         }
     }
