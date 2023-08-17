@@ -63,6 +63,8 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.UserRefreshState
+import com.keylesspalace.tusky.util.asRefreshState
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
@@ -79,6 +81,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -221,21 +224,7 @@ class NotificationsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
 
-        // Signal the user that a refresh has loaded new items above their current position
-        // by scrolling up slightly to disclose the new content
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
-                    binding.recyclerView.post {
-                        if (getView() != null) {
-                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                        }
-                    }
-                }
-            }
-        })
-
-        // update post timestamps
+        // Update post timestamps
         val updateTimestampFlow = flow {
             while (true) {
                 delay(60000)
@@ -391,15 +380,80 @@ class NotificationsFragment :
                         }
                 }
 
+                /** StateFlow (to allow multiple consumers) of UserRefreshState */
+                val refreshState = adapter.loadStateFlow.asRefreshState().stateIn(lifecycleScope)
+
+                // Scroll the list down (peek) if a refresh has completely finished. A refresh is
+                // finished when both the initial refresh is complete and any prepends have
+                // finished (so that DiffUtil has had a chance to process the data).
+                launch {
+                    /** True if the previous prepend resulted in a peek, false otherwise */
+                    var peeked = false
+
+                    /** ID of the item that was first in the adapter before the refresh */
+                    var previousFirstId: String? = null
+
+                    refreshState.collect {
+                        when (it) {
+                            // Refresh has started, reset peeked, and save the ID of the first item
+                            // in the adapter
+                            UserRefreshState.ACTIVE -> {
+                                peeked = false
+                                if (adapter.itemCount != 0) previousFirstId = adapter.peek(0)?.id
+                            }
+
+                            // Refresh has finished, pages are being prepended.
+                            UserRefreshState.COMPLETE -> {
+                                // There might be multiple prepends after a refresh, only continue
+                                // if one them has not already caused a peek.
+                                if (peeked) return@collect
+
+                                // Compare the ID of the current first item with the previous first
+                                // item. If they're the same then this prepend did not add any new
+                                // items, and can be ignored.
+                                val firstId = if (adapter.itemCount != 0) adapter.peek(0)?.id else null
+                                if (previousFirstId == firstId) return@collect
+
+                                // New items were added and haven't peeked for this refresh. Schedule
+                                // a scroll to disclose that new items are available.
+                                binding.recyclerView.post {
+                                    getView() ?: return@post
+                                    binding.recyclerView.smoothScrollBy(
+                                        0,
+                                        Utils.dpToPx(requireContext(), -30)
+                                    )
+                                }
+                                peeked = true
+                            }
+                            else -> { /* nothing to do */ }
+                        }
+                    }
+                }
+
+                // Manage the display of progress bars. Rather than hide them as soon as the
+                // Refresh portion completes, hide them when then first Prepend completes. This
+                // is a better signal to the user that it is now possible to scroll up and see
+                // new content.
+                launch {
+                    refreshState.collect {
+                        when (it) {
+                            UserRefreshState.ACTIVE -> {
+                                if (adapter.itemCount == 0 && !binding.swipeRefreshLayout.isRefreshing) {
+                                    binding.progressBar.show()
+                                }
+                            }
+                            UserRefreshState.COMPLETE, UserRefreshState.ERROR -> {
+                                binding.progressBar.hide()
+                                binding.swipeRefreshLayout.isRefreshing = false
+                            }
+                            else -> { /* nothing to do */ }
+                        }
+                    }
+                }
+
                 // Update the UI from the loadState
                 adapter.loadStateFlow
                     .collect { loadState ->
-                        binding.recyclerView.show()
-                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
-                            !binding.swipeRefreshLayout.isRefreshing
-                        binding.swipeRefreshLayout.isRefreshing =
-                            loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
-
                         binding.statusView.hide()
                         if (loadState.refresh is LoadState.NotLoading) {
                             if (adapter.itemCount == 0) {

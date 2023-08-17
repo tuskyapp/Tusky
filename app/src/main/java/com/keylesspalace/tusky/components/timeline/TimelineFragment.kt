@@ -345,9 +345,7 @@ class TimelineFragment :
                     }
                 }
 
-                /**
-                 *  StateFlow (to allow multiple consumers) of RefreshState, derived from the adapter's CombinedLoadState.
-                 */
+                /** StateFlow (to allow multiple consumers) of UserRefreshState */
                 val refreshState = adapter.loadStateFlow.asRefreshState().stateIn(lifecycleScope)
 
                 // Scroll the list down (peek) if a refresh has completely finished. A refresh is
@@ -387,7 +385,6 @@ class TimelineFragment :
                                 // a scroll to disclose that new items are available.
                                 binding.recyclerView.post {
                                     getView() ?: return@post
-                                    Log.d("RefreshState", "***peeking**")
                                     binding.recyclerView.smoothScrollBy(
                                         0,
                                         Utils.dpToPx(requireContext(), -30)
