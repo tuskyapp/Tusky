@@ -29,43 +29,24 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationContentDescription="@string/action_open_drawer" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/topNav"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/topNavAvatar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:contentDescription="@string/action_open_drawer"
-                    app:shapeAppearance="@style/ShapeAppearance.Avatar"
-                    tools:src="@drawable/avatar_default" />
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:navigationContentDescription="@string/action_open_drawer">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     style="@style/TuskyTabAppearance"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     app:tabGravity="fill"
                     app:tabMaxWidth="0dp"
                     app:tabMode="fixed" />
-
-                <!-- contentDescription is set in code -->
-                <ImageButton
-                    android:id="@+id/topNavOptionsMenu"
-                    style="@style/Widget.AppCompat.ActionButton.Overflow"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -83,43 +64,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
             app:fabAlignmentMode="end">
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/bottomTabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/bottomNavAvatar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:contentDescription="@string/action_open_drawer"
-                    app:shapeAppearance="@style/ShapeAppearance.Avatar"
-                    tools:src="@drawable/avatar_default" />
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/bottomTabLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_weight="1"
-                    app:tabGravity="fill"
-                    app:tabIndicator="@null"
-                    app:tabMode="fixed" />
-
-                <!-- contentDescription is set in code -->
-                <ImageButton
-                    android:id="@+id/bottomNavOptionsMenu"
-                    style="@style/Widget.AppCompat.ActionButton.Overflow"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
+                android:layout_height="?attr/actionBarSize"
+                app:tabGravity="fill"
+                app:tabIndicatorGravity="top"
+                app:tabMode="fixed" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
