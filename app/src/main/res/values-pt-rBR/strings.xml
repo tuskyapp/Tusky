@@ -321,7 +321,6 @@
     <string name="action_create_list">Criar uma lista</string>
     <string name="action_rename_list">Renomear lista</string>
     <string name="action_delete_list">Excluir lista</string>
-    <string name="action_edit_list">Editar lista</string>
     <string name="hint_search_people_list">Pesquisar pessoas que você segue</string>
     <string name="action_add_to_list">Adicionar conta à lista</string>
     <string name="action_remove_from_list">Remover conta da lista</string>

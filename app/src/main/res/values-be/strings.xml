@@ -377,7 +377,6 @@
     <string name="conversation_more_recipients">%1$s, %2$s і яшчэ %3$d</string>
     <string name="action_discard">Скасаваць змены</string>
     <string name="action_continue_edit">Працягнуць рэдагаванне</string>
-    <string name="action_edit_list">Змяніць спіс</string>
     <string name="hint_search_people_list">Пошук сярод вашых падпісак</string>
     <string name="add_account_name">Дадаць уліковы запіс</string>
     <string name="action_remove_from_list">Выдаліць уліковы запіс са спіса</string>

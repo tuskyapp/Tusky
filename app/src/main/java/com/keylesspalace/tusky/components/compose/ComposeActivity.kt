@@ -485,7 +485,12 @@ class ComposeActivity :
                 if (throwable is UploadServerError) {
                     displayTransientMessage(throwable.errorMessage)
                 } else {
-                    displayTransientMessage(R.string.error_media_upload_sending)
+                    displayTransientMessage(
+                        getString(
+                            R.string.error_media_upload_sending_fmt,
+                            throwable.message
+                        )
+                    )
                 }
             }
         }

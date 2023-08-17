@@ -133,7 +133,6 @@
     <string name="action_create_list">Buat daftar</string>
     <string name="action_rename_list">Ubah nama daftar</string>
     <string name="action_delete_list">Hapus daftar</string>
-    <string name="action_edit_list">Ubah daftar</string>
     <string name="lock_account_label">Kunci akun</string>
     <string name="system_default">Bawaan sistem</string>
     <string name="action_compose_shortcut">Tulis</string>

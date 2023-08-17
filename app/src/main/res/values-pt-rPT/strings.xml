@@ -10,7 +10,6 @@
         <item quantity="other">%d novas interações</item>
     </plurals>
     <string name="replying_to">A responder a @%s</string>
-    <string name="action_edit_list">Editar a lista</string>
     <string name="lock_account_label_description">Necessita de aprovar manualmente os seguidores</string>
     <string name="compose_save_draft">Guardar rascunho\?</string>
     <string name="later">Depois</string>

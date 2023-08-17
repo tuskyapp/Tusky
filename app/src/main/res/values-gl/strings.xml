@@ -261,7 +261,6 @@
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
     <string name="hint_search_people_list">Atopar persoas ás que segues</string>
-    <string name="action_edit_list">Editar a listaxe</string>
     <string name="action_delete_list">Eliminar a listaxe</string>
     <string name="action_rename_list">Renomear a listaxe</string>
     <string name="action_create_list">Crear unha listaxe</string>
@@ -666,4 +665,5 @@
     <string name="notification_listenable_worker_description">Notificacións cando Tusky está a funcionar en segundo plano</string>
     <string name="notification_notification_worker">Obtendo as notificacións…</string>
     <string name="notification_prune_cache">Mantemento da caché…</string>
+    <string name="error_media_upload_sending_fmt">Fallou a subida: %s</string>
 </resources>

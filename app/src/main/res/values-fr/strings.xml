@@ -280,7 +280,6 @@
     <string name="action_create_list">Créer une liste</string>
     <string name="action_rename_list">Renommer la liste</string>
     <string name="action_delete_list">Supprimer la liste</string>
-    <string name="action_edit_list">Modifier la liste</string>
     <string name="hint_search_people_list">Chercher des personnes que vous suivez</string>
     <string name="action_add_to_list">Ajouter un compte à la liste</string>
     <string name="action_remove_from_list">Supprimer un compte de la liste</string>

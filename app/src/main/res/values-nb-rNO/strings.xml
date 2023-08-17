@@ -246,7 +246,6 @@
     <string name="action_create_list">Opprett en liste</string>
     <string name="action_rename_list">Gi listen nytt navn</string>
     <string name="action_delete_list">Fjern listen</string>
-    <string name="action_edit_list">Endre listen</string>
     <string name="hint_search_people_list">Søk etter personer du følger</string>
     <string name="action_add_to_list">Legg til konto i listen</string>
     <string name="action_remove_from_list">Fjern konto fra listen</string>

@@ -389,7 +389,6 @@
     <string name="error_rename_list">No se pudo renombrar la lista</string>
     <string name="error_delete_list">No se pudo eliminar la lista</string>
     <string name="action_delete_list">Eliminar la lista</string>
-    <string name="action_edit_list">Editar la lista</string>
     <string name="hint_search_people_list">Buscar personas que sigues</string>
     <string name="description_post_media">Contenido: %s</string>
     <string name="description_post_cw">Aviso de contenido: %s</string>

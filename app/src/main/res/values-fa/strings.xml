@@ -202,10 +202,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">پایگاه وب پروژه :
-\n https://tusky.app</string>
+    <string name="about_project_site">پایگاه وب پروژه: https://tusky.app</string>
     <string name="about_bug_feature_request_site">گزارش مشکلات و درخواست ویژگی‌ها:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">نمایهٔ تاسکی</string>
     <string name="post_share_content">هم‌رسانی محتوای فرسته</string>
     <string name="post_share_link">هم‌رسانی پیوند فرسته</string>
@@ -225,8 +224,8 @@
     <string name="load_more_placeholder_text">بار کردن بیش‌تر</string>
     <string name="add_account_name">افزودن حساب</string>
     <string name="add_account_description">افزودن حساب ماستودون جدید</string>
-    <string name="action_lists">فهرست‌ها</string>
-    <string name="title_lists">فهرست‌ها</string>
+    <string name="action_lists">سیاهه‌ها</string>
+    <string name="title_lists">سیاهه‌ها</string>
     <string name="compose_active_account_description">فرستادن از طرف %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">توصیف محتوا برای کم‌بینایان (کران ۱ نویسه)</item>
@@ -325,16 +324,15 @@
     <string name="filter_dialog_remove_button">برداشتن</string>
     <string name="filter_dialog_update_button">به‌روز رسانی</string>
     <string name="filter_dialog_whole_word">تمام واژه</string>
-    <string name="error_create_list">ناتوانی در ایجاد فهرست</string>
-    <string name="error_rename_list">ناتوانی در تغییر نام فهرست</string>
-    <string name="error_delete_list">ناتوانی در حذف فهرست</string>
-    <string name="action_create_list">ایجاد یک فهرست</string>
-    <string name="action_rename_list">تغییر نام فهرست</string>
-    <string name="action_delete_list">حذف فهرست</string>
-    <string name="action_edit_list">ویرایش فهرست</string>
+    <string name="error_create_list">نتوانست سیاهه را ایجاد کند</string>
+    <string name="error_rename_list">نتوانست سیاهه را به‌روز کند</string>
+    <string name="error_delete_list">نتوانست سیاهه را حذف کند</string>
+    <string name="action_create_list">ایجاد سیاهه</string>
+    <string name="action_rename_list">به‌روز رسانی‌سیاهه</string>
+    <string name="action_delete_list">حذف سیاهه</string>
     <string name="hint_search_people_list">جست‌وجوی افرادی که پی می‌گیرید</string>
-    <string name="action_add_to_list">افزودن حساب به فهرست</string>
-    <string name="action_remove_from_list">برداشتن حساب از فهرست</string>
+    <string name="action_add_to_list">افزودن حساب به سیاهه</string>
+    <string name="action_remove_from_list">برداشتن حساب از سیاهه</string>
     <string name="caption_notoemoji">مجموعه اموجی کنونی گوگل</string>
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
@@ -365,7 +363,7 @@
     <string name="description_visibility_private">پی‌گیران</string>
     <string name="description_visibility_direct">مستقیم</string>
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
-    <string name="hint_list_name">نام فهرست</string>
+    <string name="hint_list_name">نام سیاهه</string>
     <string name="edit_hashtag_hint">برچسب بدون #</string>
     <string name="notifications_clear">پاک‌سازی</string>
     <string name="notifications_apply_filter">پالایش</string>
@@ -429,8 +427,8 @@
     <string name="action_bookmark">نشانک</string>
     <string name="action_view_bookmarks">نشانک‌ها</string>
     <string name="description_post_bookmarked">نشان‌شده</string>
-    <string name="select_list_title">گزینش فهرست</string>
-    <string name="list">فهرست</string>
+    <string name="select_list_title">گزینش سیاهه</string>
+    <string name="list">سیاهه</string>
     <string name="no_drafts">هیچ پیش‌نویسی ندارید.</string>
     <string name="no_scheduled_posts">هیچ فرستهٔ زمان‌بسته‌ای ندارید.</string>
     <string name="warning_scheduling_interval">ماستودون، بازهٔ زمان‌بندی‌ای با کمینهٔ ۵ دقیقه دارد.</string>
@@ -498,7 +496,7 @@
 \n - آمار پی‌گیر و فرسته روی نمایه‌ها
 \n
 \n فرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
-    <string name="dialog_delete_list_warning">واقعاً می‌خواهید فهرست %s را حذف کنید؟</string>
+    <string name="dialog_delete_list_warning">واقعاً می‌خواهید سیاههٔ %s را حذف کنید؟</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
         <item quantity="other">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
@@ -673,4 +671,16 @@
     <string name="notification_listenable_worker_description">آگاهی‌ها هنگامی که تاسکی در پس‌زمینه کار می‌کند</string>
     <string name="notification_notification_worker">واکشی آگاهی‌ها…</string>
     <string name="notification_prune_cache">نگه‌داری انباره…</string>
+    <string name="error_media_upload_sending_fmt">بارگذاری شکست خورد: %s</string>
+    <string name="about_account_info_title">حسابتان</string>
+    <string name="about_device_info_title">افزاره‌تان</string>
+    <string name="about_device_info">%s %s
+\nنگارش اندروید: %s
+\nنگارش SDK‏: %d</string>
+    <string name="about_account_info">‎@%s@%s
+\nنگارش: %s</string>
+    <string name="about_copy">رونوشت از اطّلاعات افزاره و نگارش</string>
+    <string name="about_copied">اطّلاعات افزاره و نگارش رونوشت شد</string>
+    <string name="list_exclusive_label">نهفتن از خط زمانی خانگی</string>
+    <string name="error_media_playback">پخش شکست خورد: %s</string>
 </resources>

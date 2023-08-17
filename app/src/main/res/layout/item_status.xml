@@ -33,10 +33,10 @@
 
     <ImageView
         android:id="@+id/status_avatar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/timeline_status_avatar_width"
+        android:layout_height="@dimen/timeline_status_avatar_height"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="@dimen/account_avatar_margin"
         android:contentDescription="@string/action_view_profile"
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"

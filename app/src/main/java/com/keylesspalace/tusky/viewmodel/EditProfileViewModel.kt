@@ -35,7 +35,6 @@ import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asFlow
@@ -64,7 +63,6 @@ class EditProfileViewModel @Inject constructor(
     val headerData = MutableLiveData<Uri>()
     val saveData = MutableLiveData<Resource<Nothing>>()
 
-    @OptIn(FlowPreview::class)
     val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 

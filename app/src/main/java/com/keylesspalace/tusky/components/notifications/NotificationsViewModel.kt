@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -70,7 +69,6 @@ import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.ExperimentalTime
 
 data class UiState(
     /** Filtered notification types */
@@ -98,7 +96,7 @@ sealed class UiAction
 /** Actions the user can trigger from the UI. These actions may fail. */
 sealed class FallibleUiAction : UiAction() {
     /** Clear all notifications */
-    object ClearNotifications : FallibleUiAction()
+    data object ClearNotifications : FallibleUiAction()
 }
 
 /**
@@ -124,7 +122,7 @@ sealed class InfallibleUiAction : UiAction() {
     // Resets the account's `lastNotificationId`, which can't fail, which is why this is
     // infallible. Reloading the data may fail, but that's handled by the paging system /
     // adapter refresh logic.
-    object LoadNewest : InfallibleUiAction()
+    data object LoadNewest : InfallibleUiAction()
 }
 
 /** Actions the user can trigger on an individual notification. These may fail. */
@@ -141,13 +139,13 @@ sealed class UiSuccess {
     // of these three should trigger the UI to refresh.
 
     /** A user was blocked */
-    object Block : UiSuccess()
+    data object Block : UiSuccess()
 
     /** A user was muted */
-    object Mute : UiSuccess()
+    data object Mute : UiSuccess()
 
     /** A conversation was muted */
-    object MuteConversation : UiSuccess()
+    data object MuteConversation : UiSuccess()
 }
 
 /** The result of a successful action on a notification */
@@ -281,7 +279,7 @@ sealed class UiError(
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
     private val preferences: SharedPreferences,
