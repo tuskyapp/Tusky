@@ -15,14 +15,20 @@
 
 package com.keylesspalace.tusky.components.trending
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -30,11 +36,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
-import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
-import com.keylesspalace.tusky.databinding.FragmentTrendingBinding
+import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
+import com.keylesspalace.tusky.databinding.FragmentTrendingTagsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -44,25 +51,30 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TrendingFragment :
-    Fragment(R.layout.fragment_trending),
+class TrendingTagsFragment :
+    Fragment(R.layout.fragment_trending_tags),
     OnRefreshListener,
     Injectable,
     ReselectableFragment,
-    RefreshableFragment {
+    RefreshableFragment,
+    MenuProvider {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: TrendingViewModel by viewModels { viewModelFactory }
+    private val viewModel: TrendingTagsViewModel by viewModels { viewModelFactory }
 
-    private val binding by viewBinding(FragmentTrendingBinding::bind)
+    private val binding by viewBinding(FragmentTrendingTagsBinding::bind)
 
-    private val adapter = TrendingAdapter(::onViewTag)
+    private val adapter = TrendingTagsAdapter(::onViewTag)
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -72,10 +84,13 @@ class TrendingFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         setupSwipeRefreshLayout()
         setupRecyclerView()
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            @SuppressLint("SyntheticAccessor")
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
@@ -96,9 +111,7 @@ class TrendingFragment :
             }
         }
 
-        if (activity is ActionButtonActivity) {
-            (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
-        }
+        (activity as? ActionButtonActivity)?.actionButton?.hide()
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -111,8 +124,8 @@ class TrendingFragment :
             spanSizeLookup = object : SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (adapter.getItemViewType(position)) {
-                        TrendingAdapter.VIEW_TYPE_HEADER -> columnCount
-                        TrendingAdapter.VIEW_TYPE_TAG -> 1
+                        TrendingTagsAdapter.VIEW_TYPE_HEADER -> columnCount
+                        TrendingTagsAdapter.VIEW_TYPE_TAG -> 1
                         else -> -1
                     }
                 }
@@ -131,6 +144,28 @@ class TrendingFragment :
         binding.recyclerView.adapter = adapter
     }
 
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_trending_tags, menu)
+        menu.findItem(R.id.action_refresh)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                sizeDp = 20
+                colorInt =
+                    MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshContent()
+                true
+            }
+            else -> false
+        }
+    }
+
     override fun onRefresh() {
         viewModel.invalidate(true)
     }
@@ -139,15 +174,15 @@ class TrendingFragment :
         (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
     }
 
-    private fun processViewState(uiState: TrendingViewModel.TrendingUiState) {
+    private fun processViewState(uiState: TrendingTagsViewModel.TrendingTagsUiState) {
         Log.d(TAG, uiState.loadingState.name)
         when (uiState.loadingState) {
-            TrendingViewModel.LoadingState.INITIAL -> clearLoadingState()
-            TrendingViewModel.LoadingState.LOADING -> applyLoadingState()
-            TrendingViewModel.LoadingState.REFRESHING -> applyRefreshingState()
-            TrendingViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
-            TrendingViewModel.LoadingState.ERROR_NETWORK -> networkError()
-            TrendingViewModel.LoadingState.ERROR_OTHER -> otherError()
+            TrendingTagsViewModel.LoadingState.INITIAL -> clearLoadingState()
+            TrendingTagsViewModel.LoadingState.LOADING -> applyLoadingState()
+            TrendingTagsViewModel.LoadingState.REFRESHING -> applyRefreshingState()
+            TrendingTagsViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
+            TrendingTagsViewModel.LoadingState.ERROR_NETWORK -> networkError()
+            TrendingTagsViewModel.LoadingState.ERROR_OTHER -> otherError()
         }
     }
 
@@ -247,8 +282,8 @@ class TrendingFragment :
     }
 
     companion object {
-        private const val TAG = "TrendingFragment"
+        private const val TAG = "TrendingTagsFragment"
 
-        fun newInstance() = TrendingFragment()
+        fun newInstance() = TrendingTagsFragment()
     }
 }

@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-class TrendingViewModel @Inject constructor(
+class TrendingTagsViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
 ) : ViewModel() {
@@ -43,13 +43,13 @@ class TrendingViewModel @Inject constructor(
         INITIAL, LOADING, REFRESHING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
 
-    data class TrendingUiState(
+    data class TrendingTagsUiState(
         val trendingViewData: List<TrendingViewData>,
         val loadingState: LoadingState
     )
 
-    val uiState: Flow<TrendingUiState> get() = _uiState
-    private val _uiState = MutableStateFlow(TrendingUiState(listOf(), LoadingState.INITIAL))
+    val uiState: Flow<TrendingTagsUiState> get() = _uiState
+    private val _uiState = MutableStateFlow(TrendingTagsUiState(listOf(), LoadingState.INITIAL))
 
     init {
         invalidate()
@@ -73,9 +73,9 @@ class TrendingViewModel @Inject constructor(
      */
     fun invalidate(refresh: Boolean = false) = viewModelScope.launch {
         if (refresh) {
-            _uiState.value = TrendingUiState(emptyList(), LoadingState.REFRESHING)
+            _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.REFRESHING)
         } else {
-            _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
+            _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.LOADING)
         }
 
         val deferredFilters = async { mastodonApi.getFilters() }
@@ -85,7 +85,7 @@ class TrendingViewModel @Inject constructor(
 
                 val firstTag = tagResponse.firstOrNull()
                 _uiState.value = if (firstTag == null) {
-                    TrendingUiState(emptyList(), LoadingState.LOADED)
+                    TrendingTagsUiState(emptyList(), LoadingState.LOADED)
                 } else {
                     val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
                         filter.context.contains(Filter.Kind.HOME.kind)
@@ -100,15 +100,15 @@ class TrendingViewModel @Inject constructor(
                         .toViewData()
 
                     val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
-                    TrendingUiState(listOf(header) + tags, LoadingState.LOADED)
+                    TrendingTagsUiState(listOf(header) + tags, LoadingState.LOADED)
                 }
             },
             { error ->
                 Log.w(TAG, "failed loading trending tags", error)
                 if (error is IOException) {
-                    _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
+                    _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.ERROR_NETWORK)
                 } else {
-                    _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_OTHER)
+                    _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.ERROR_OTHER)
                 }
             }
         )

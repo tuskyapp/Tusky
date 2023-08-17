@@ -1531,7 +1531,7 @@
         errorLine1="    android:background=&quot;?android:attr/colorBackground&quot;>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/res/layout/fragment_trending.xml"
+            file="src/main/res/layout/fragment_trending_tags.xml"
             line="7"
             column="5"/>
     </issue>
@@ -3991,22 +3991,22 @@
 
     <issue
         id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TrendingFragment` requires synthetic accessor"
+        message="Access to `private` method `getBinding` of class `TrendingTagsFragment` requires synthetic accessor"
         errorLine1="                    binding.recyclerView.post {"
         errorLine2="                    ~~~~~~~">
         <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
+            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagsFragment.kt"
             line="81"
             column="21"/>
     </issue>
 
     <issue
         id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TrendingFragment` requires synthetic accessor"
+        message="Access to `private` method `getBinding` of class `TrendingTagsFragment` requires synthetic accessor"
         errorLine1="                            binding.recyclerView.scrollBy("
         errorLine2="                            ~~~~~~~">
         <location
-            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt"
+            file="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagsFragment.kt"
             line="83"
             column="29"/>
     </issue>

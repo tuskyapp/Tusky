@@ -262,8 +262,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupDrawer(
             savedInstanceState,
-            addSearchButton = hideTopToolbar,
-            addTrendingButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING)
+            addSearchButton = hideTopToolbar
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -287,8 +286,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
-                            addSearchButton = hideTopToolbar,
-                            addTrendingButton = !event.newTabs.hasTab(TRENDING)
+                            addSearchButton = hideTopToolbar
                         )
 
                         setupTabs(false)
@@ -434,8 +432,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun setupDrawer(
         savedInstanceState: Bundle?,
-        addSearchButton: Boolean,
-        addTrendingButton: Boolean
+        addSearchButton: Boolean
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -496,12 +493,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
-            refreshMainDrawerItems(addSearchButton, addTrendingButton)
+            refreshMainDrawerItems(addSearchButton)
             setSavedInstance(savedInstanceState)
         }
     }
 
-    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingButton: Boolean) {
+    private fun refreshMainDrawerItems(addSearchButton: Boolean) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
             tintStatusBar = true
@@ -618,18 +615,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 )
             }
 
-            if (addTrendingButton) {
-                binding.mainDrawer.addItemsAtPosition(
-                    5,
-                    primaryDrawerItem {
-                        nameRes = R.string.title_public_trending_hashtags
-                        iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
-                        onClick = {
-                            startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
-                        }
+            binding.mainDrawer.addItemsAtPosition(
+                5,
+                primaryDrawerItem {
+                    nameRes = R.string.title_public_trending
+                    iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
+                    onClick = {
+                        startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
                     }
-                )
-            }
+                }
+            )
         }
 
         if (BuildConfig.DEBUG) {

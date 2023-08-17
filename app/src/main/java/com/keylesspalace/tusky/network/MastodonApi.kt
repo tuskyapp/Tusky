@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.entity.TrendingTag
+import com.keylesspalace.tusky.entity.TrendsLink
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -785,4 +786,10 @@ interface MastodonApi {
 
     @GET("api/v1/trends/tags")
     suspend fun trendingTags(): NetworkResult<List<TrendingTag>>
+
+    @GET("api/v1/trends/links")
+    suspend fun trendingLinks(): NetworkResult<List<TrendsLink>>
+
+    @GET("api/v1/trends/statuses")
+    suspend fun trendingStatuses(): Response<List<Status>>
 }

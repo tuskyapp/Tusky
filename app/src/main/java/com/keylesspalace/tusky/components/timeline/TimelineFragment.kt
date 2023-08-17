@@ -549,7 +549,8 @@ class TimelineFragment :
             TimelineViewModel.Kind.FAVOURITES,
             TimelineViewModel.Kind.LIST,
             TimelineViewModel.Kind.BOOKMARKS,
-            TimelineViewModel.Kind.USER_PINNED -> return
+            TimelineViewModel.Kind.USER_PINNED,
+            TimelineViewModel.Kind.TRENDING_STATUSES -> return
         }
     }
 
@@ -562,6 +563,7 @@ class TimelineFragment :
         return viewModel.kind != TimelineViewModel.Kind.TAG &&
             viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
             viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
+            viewModel.kind != TimelineViewModel.Kind.TRENDING_STATUSES &&
             activity is ActionButtonActivity
     }
 

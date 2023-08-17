@@ -23,7 +23,8 @@ import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
-import com.keylesspalace.tusky.components.trending.TrendingFragment
+import com.keylesspalace.tusky.components.trending.TrendingLinksFragment
+import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
 import java.util.Objects
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
@@ -33,7 +34,9 @@ const val NOTIFICATIONS = "Notifications"
 const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
-const val TRENDING = "Trending"
+const val TRENDING_TAGS = "TrendingTags"
+const val TRENDING_LINKS = "TrendingLinks"
+const val TRENDING_STATUSES = "TrendingStatuses"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
 
@@ -92,11 +95,23 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             icon = R.drawable.ic_reblog_direct_24dp,
             fragment = { ConversationsFragment.newInstance() }
         )
-        TRENDING -> TabData(
-            id = TRENDING,
+        TRENDING_TAGS -> TabData(
+            id = TRENDING_TAGS,
             text = R.string.title_public_trending_hashtags,
             icon = R.drawable.ic_trending_up_24px,
-            fragment = { TrendingFragment.newInstance() }
+            fragment = { TrendingTagsFragment.newInstance() }
+        )
+        TRENDING_LINKS -> TabData(
+            id = TRENDING_LINKS,
+            text = R.string.title_public_trending_links,
+            icon = R.drawable.ic_trending_up_24px,
+            fragment = { TrendingLinksFragment.newInstance() }
+        )
+        TRENDING_STATUSES -> TabData(
+            id = TRENDING_STATUSES,
+            text = R.string.title_public_trending_statuses,
+            icon = R.drawable.ic_trending_up_24px,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.TRENDING_STATUSES) }
         )
         HASHTAG -> TabData(
             id = HASHTAG,

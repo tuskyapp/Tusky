@@ -321,7 +321,7 @@ abstract class TimelineViewModel(
     }
 
     enum class Kind {
-        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS;
+        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS, TRENDING_STATUSES;
 
         fun toFilterKind(): Filter.Kind {
             return when (valueOf(name)) {
