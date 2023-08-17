@@ -1,9 +1,9 @@
 package com.keylesspalace.tusky.components.filters
 
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -105,13 +105,11 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     }
 
     override fun deleteFilter(filter: Filter) {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.filter_delete_title)
-            .setMessage(getString(R.string.filter_delete_text, filter.title))
-            .setPositiveButton(R.string.filter_delete_positive_action) { _, _ -> viewModel.deleteFilter(filter, binding.root) }
-            .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
-            .setCancelable(true)
-            .show()
+        lifecycleScope.launch {
+            if (showDeleteFilterDialog(filter.title) == BUTTON_POSITIVE) {
+                viewModel.deleteFilter(filter,binding.root)
+            }
+        }
     }
 
     override fun updateFilter(updatedFilter: Filter) {
