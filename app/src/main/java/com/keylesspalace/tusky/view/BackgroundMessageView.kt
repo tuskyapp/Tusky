@@ -33,7 +33,7 @@ class BackgroundMessageView @JvmOverloads constructor(
         orientation = VERTICAL
 
         if (isInEditMode) {
-            setup(R.drawable.elephant_offline, R.string.error_network) {}
+            setup(R.drawable.errorphant_offline, R.string.error_network) {}
         }
     }
 

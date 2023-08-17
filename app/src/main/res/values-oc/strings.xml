@@ -315,7 +315,6 @@
     <string name="action_create_list">Crear una lista</string>
     <string name="action_rename_list">Renomenar la lista</string>
     <string name="action_delete_list">Suprimir la lista</string>
-    <string name="action_edit_list">Modificar la lista</string>
     <string name="hint_search_people_list">Cercar lo monde que seguètz</string>
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
@@ -671,4 +670,17 @@
 \nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
     <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
     <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
+    <string name="pref_ui_text_size">talha tèxte UI</string>
+    <string name="notification_listenable_worker_name">activitat en rèireplan</string>
+    <string name="notification_listenable_worker_description">Notificacions quand Tuska s’executa en rèireplan</string>
+    <string name="notification_notification_worker">Recuperacion de las notificacions…</string>
+    <string name="notification_prune_cache">Manteniment del cache…</string>
+    <string name="about_device_info_title">Vòstre aparelh</string>
+    <string name="about_device_info">%s %s
+\nversion d’Android : %s
+\nversion del SDK : %d</string>
+    <string name="about_account_info_title">Vòstre compte</string>
+    <string name="about_account_info">\@%s@%s
+\nVersion : %s</string>
+    <string name="error_media_upload_sending_fmt">Fracàs del mandadís : %s</string>
 </resources>

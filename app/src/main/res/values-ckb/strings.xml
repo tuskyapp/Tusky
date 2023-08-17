@@ -390,7 +390,6 @@
     <string name="action_remove_from_list">لابردنی ئەژمێر لە لیستەکە</string>
     <string name="action_add_to_list">زیادکردنی ئەژمێر بۆ لیستەکە</string>
     <string name="hint_search_people_list">گەڕان بەدوای ئەو کەسانەی کە پەیڕەوی ان دەکەیت</string>
-    <string name="action_edit_list">دەستکاریکردنی لیستەکە</string>
     <string name="action_delete_list">سڕینەوەی لیستەکە</string>
     <string name="action_rename_list">ناونانەوەی لیستەکە</string>
     <string name="action_create_list">دروستکردنی لیستێک</string>

@@ -21,104 +21,190 @@
             android:layout_gravity="center"
             android:textDirection="anyRtl">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp">
 
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
                 <TextView
                     android:id="@+id/versionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:drawableStart="@mipmap/ic_launcher"
-                    android:drawablePadding="16dp"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="12dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textIsSelectable="true"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/logo"
+                    tools:text="Tusky Test" />
+
+                <TextView
+                    android:id="@+id/deviceInfoTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="@dimen/text_content_margin"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    android:lineSpacingMultiplier="1.1"
+                    android:text="@string/about_device_info_title"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textIsSelectable="true"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/versionTextView"
+                    tools:text="Your device" />
+
+                <TextView
+                    android:id="@+id/deviceInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textIsSelectable="true"
+                    app:layout_constraintEnd_toEndOf="@+id/deviceInfoTitle"
+                    app:layout_constraintStart_toStartOf="@+id/deviceInfoTitle"
+                    app:layout_constraintTop_toBottomOf="@id/deviceInfoTitle" />
+
+                <TextView
+                    android:id="@+id/accountInfoTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingMultiplier="1.1"
+                    android:text="@string/about_account_info_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textIsSelectable="true"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/copyDeviceInfo"
+                    app:layout_constraintStart_toStartOf="@+id/deviceInfo"
+                    app:layout_constraintTop_toBottomOf="@id/deviceInfo"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/accountInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textIsSelectable="true"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/accountInfoTitle"
+                    app:layout_constraintStart_toStartOf="@+id/accountInfoTitle"
+                    app:layout_constraintTop_toBottomOf="@id/accountInfoTitle"
+                    tools:text="\@Tusky@mastodon.social\nVersion: xxx"
+                    tools:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/copyDeviceInfo"
+                    style="@style/TuskyImageButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/about_copy"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountInfo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_content_copy_24" />
 
                 <TextView
                     android:id="@+id/aboutPoweredByTusky"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:drawablePadding="16dp"
-                    android:gravity="center_vertical"
-                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/about_powered_by_tusky"
-                    android:textStyle="bold" />
-
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
+                    app:layout_constraintStart_toStartOf="@+id/deviceInfo"
+                    app:layout_constraintTop_toBottomOf="@+id/accountInfo" />
 
                 <com.keylesspalace.tusky.view.ClickableSpanTextView
                     android:id="@+id/aboutLicenseInfoTextView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:hyphenationFrequency="full"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingStart="@dimen/text_content_margin"
-                    android:paddingEnd="@dimen/text_content_margin"
-                    android:textAlignment="center"
                     android:textIsSelectable="true"
-                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
+                    app:layout_constraintStart_toStartOf="@+id/accountInfo"
+                    app:layout_constraintTop_toBottomOf="@id/aboutPoweredByTusky"
                     tools:text="@string/about_tusky_license" />
 
                 <com.keylesspalace.tusky.view.ClickableSpanTextView
                     android:id="@+id/aboutWebsiteInfoTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingStart="@dimen/text_content_margin"
-                    android:paddingEnd="@dimen/text_content_margin"
-                    android:textAlignment="center"
                     android:textIsSelectable="true"
-                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/aboutLicenseInfoTextView"
+                    app:layout_constraintStart_toStartOf="@+id/aboutLicenseInfoTextView"
+                    app:layout_constraintTop_toBottomOf="@id/aboutLicenseInfoTextView"
                     tools:text="@string/about_project_site" />
 
                 <com.keylesspalace.tusky.view.ClickableSpanTextView
                     android:id="@+id/aboutBugsFeaturesInfoTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:paddingStart="@dimen/text_content_margin"
-                    android:paddingEnd="@dimen/text_content_margin"
                     android:text="@string/about_bug_feature_request_site"
-                    android:textAlignment="center"
                     android:textIsSelectable="true"
-                    android:textSize="16sp" />
+                    app:layout_constraintEnd_toEndOf="@+id/aboutWebsiteInfoTextView"
+                    app:layout_constraintStart_toStartOf="@+id/aboutWebsiteInfoTextView"
+                    app:layout_constraintTop_toBottomOf="@id/aboutWebsiteInfoTextView" />
 
                 <Button
                     android:id="@+id/tuskyProfileButton"
                     style="@style/TuskyButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingMultiplier="1.2"
+                    android:maxWidth="320dp"
                     android:text="@string/about_tusky_account"
                     android:textAllCaps="false"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    app:layout_constraintEnd_toStartOf="@+id/aboutLicensesButton"
+                    app:layout_constraintStart_toStartOf="@+id/aboutBugsFeaturesInfoTextView"
+                    app:layout_constraintTop_toBottomOf="@id/aboutBugsFeaturesInfoTextView" />
 
                 <Button
                     android:id="@+id/aboutLicensesButton"
                     style="@style/TuskyButton.Outlined"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:lineSpacingMultiplier="1.2"
+                    android:maxWidth="320dp"
                     android:text="@string/title_licenses"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tuskyProfileButton"
+                    app:layout_constraintTop_toTopOf="@+id/tuskyProfileButton" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>

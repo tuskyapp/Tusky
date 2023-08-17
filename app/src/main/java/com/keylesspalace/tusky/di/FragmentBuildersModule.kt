@@ -36,12 +36,9 @@ import com.keylesspalace.tusky.components.trending.TrendingLinksFragment
 import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
 import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
+import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-
-/**
- * Created by charlag on 3/24/18.
- */
 
 @Module
 abstract class FragmentBuildersModule {
@@ -104,7 +101,9 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun trendingTagsFragment(): TrendingTagsFragment
-
     @ContributesAndroidInjector
     abstract fun trendingLinksFragment(): TrendingLinksFragment
+
+    @ContributesAndroidInjector
+    abstract fun viewVideoFragment(): ViewVideoFragment
 }

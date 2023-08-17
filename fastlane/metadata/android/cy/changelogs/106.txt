@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4
+
+Cywiriadau:
+
+- Cywirwyd y nôl niferus o hysbysiadau os ydy'r ap yn cael ei ffurfweddu gyda chyfrifon amryfal
