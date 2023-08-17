@@ -64,15 +64,9 @@ class CachedTimelineRemoteMediator(
         return try {
             val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    val rke = db.withTransaction {
-                        remoteKeyDao.remoteKeyForKind(
-                            activeAccount.id,
-                            TIMELINE_ID,
-                            RemoteKeyKind.PREV
-                        )
-                    }
-                    Log.d(TAG, "Loading from remoteKey: $rke")
-                    api.homeTimeline(minId = rke?.key, limit = state.config.pageSize)
+                    val key = state.anchorPosition?.let { state.closestItemToPosition(it) }?.status?.serverId
+                    Log.d(TAG, "Loading from item close to current position: $key")
+                    api.homeTimeline(minId = key, limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
                     val rke = db.withTransaction {
