@@ -107,7 +107,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     override fun deleteFilter(filter: Filter) {
         lifecycleScope.launch {
             if (showDeleteFilterDialog(filter.title) == BUTTON_POSITIVE) {
-                viewModel.deleteFilter(filter,binding.root)
+                viewModel.deleteFilter(filter, binding.root)
             }
         }
     }
