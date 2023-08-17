@@ -30,15 +30,15 @@ fun Throwable.getServerErrorMessage(): String? {
 
 /** @return A drawable resource to accompany the error message for this throwable */
 fun Throwable.getDrawableRes(): Int = when (this) {
-    is IOException -> R.drawable.elephant_offline
+    is IOException -> R.drawable.errorphant_offline
     is HttpException -> {
         if (this.code() == 404) {
             R.drawable.elephant_friend_empty
         } else {
-            R.drawable.elephant_offline
+            R.drawable.errorphant_offline
         }
     }
-    else -> R.drawable.elephant_error
+    else -> R.drawable.errorphant_error
 }
 
 /** @return A string error message for this throwable */

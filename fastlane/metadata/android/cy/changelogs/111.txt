@@ -1,0 +1,15 @@
+Tusky 23.0 beta 1
+
+Nodwedd newydd:
+
+- Opsiwn newydd i newid testun y rhyngwyneb
+
+Cywiriadau:
+
+- Cadw gwybodaeth cyfrif yn gywir
+- Hysbysiadau "tynnu" ar ddyfeisiau sydd yn defnyddio fersiwn Android <= 11
+- Gweithio o gwmpas gwall Android yn perthyn i'r gallu maes testun i "anghofio" y gallan nhw gopïo neu gludo
+- Fydd weld gwahaniaethau yn yr hanes golygu ddim yn mynd y tu hwnt i ymyl y sgrin
+- Fydd yr ap ddim yn chwalu os nad oes gan eich gweinydd unrhyw hanes golygu
+- Ychwanegu botwm "Dileu" wrth olygu hidlydd
+- Dangos emoji nad yw'n sgwâr yn gywir
