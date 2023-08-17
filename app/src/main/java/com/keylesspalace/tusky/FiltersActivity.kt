@@ -75,7 +75,7 @@ class FiltersActivity : BaseActivity() {
     }
 
     fun attemptToDeleteFilter(itemIndex: Int) {
-        val filter: Filter = filters[itemIndex]
+        val filter = filters[itemIndex]
         if (filter.context.size == 1) {
             // This is the only context for this filter; ask and delete it
             showDeleteFilterConfirmationDialog(itemIndex, filter.phrase)
