@@ -1,10 +1,3 @@
-package com.keylesspalace.tusky.components.filters
-
-import android.app.Activity
-import androidx.appcompat.app.AlertDialog
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.util.await
-
 /*
  * Copyright 2023 Tusky Contributors
  *
@@ -21,6 +14,13 @@ import com.keylesspalace.tusky.util.await
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>.
  */
+
+package com.keylesspalace.tusky.components.filters
+
+import android.app.Activity
+import androidx.appcompat.app.AlertDialog
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.util.await
 
 internal suspend fun Activity.showDeleteFilterDialog(filterTitle: String) = AlertDialog.Builder(this)
     .setMessage(getString(R.string.dialog_delete_filter_text, filterTitle))
