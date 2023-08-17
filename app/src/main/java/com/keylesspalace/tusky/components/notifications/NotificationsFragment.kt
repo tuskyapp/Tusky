@@ -350,10 +350,10 @@ class NotificationsFragment :
                     }
                 }
 
-                // Collec the uiState. Nothing is done with it, but if you don't collect it then
+                // Collect the uiState. Nothing is done with it, but if you don't collect it then
                 // accessing viewModel.uiState.value (e.g., when the filter dialog is created)
                 // returns an empty object.
-                launch { viewModel.uiState.collectLatest { } }
+                launch { viewModel.uiState.collect() }
 
                 // Update status display from statusDisplayOptions. If the new options request
                 // relative time display collect the flow to periodically update the timestamp in the list gui elements.
