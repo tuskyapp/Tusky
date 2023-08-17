@@ -199,107 +199,105 @@ class TimelineFragment :
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.statuses.collectLatest { pagingData ->
-                            adapter.submitData(pagingData)
-                        }
+                    viewModel.statuses.collectLatest { pagingData ->
+                        adapter.submitData(pagingData)
                     }
+                }
 
-                    // Show errors from the view model as snack bars.
-                    //
-                    // Errors are shown:
-                    // - Indefinitely, so the user has a chance to read and understand
-                    //   the message
-                    // - With a max of 5 text lines, to allow space for longer errors.
-                    //   E.g., on a typical device, an error message like "Bookmarking
-                    //   post failed: Unable to resolve host 'mastodon.social': No
-                    //   address associated with hostname" is 3 lines.
-                    // - With a "Retry" option if the error included a UiAction to retry.
-                    // TODO: Very similar to same code in NotificationsFragment
-                    launch {
-                        viewModel.uiError.collect { error ->
-                            Log.d(TAG, error.toString())
-                            val message = getString(
-                                error.message,
-                                error.throwable.localizedMessage
-                                    ?: getString(R.string.ui_error_unknown)
-                            )
-                            snackbar = Snackbar.make(
-                                // Without this the FAB will not move out of the way
-                                (activity as ActionButtonActivity).actionButton ?: binding.root,
-                                message,
-                                Snackbar.LENGTH_INDEFINITE
-                            ).setTextMaxLines(5)
-                            error.action?.let { action ->
-                                snackbar!!.setAction(R.string.action_retry) {
-                                    viewModel.accept(action)
-                                }
-                            }
-                            snackbar!!.show()
-
-                            // The status view has pre-emptively updated its state to show
-                            // that the action succeeded. Since it hasn't, re-bind the view
-                            // to show the correct data.
-                            error.action?.let { action ->
-                                if (action !is StatusAction) return@let
-
-                                adapter.snapshot()
-                                    .indexOfFirst { it?.id == action.statusViewData.id }
-                                    .takeIf { it != RecyclerView.NO_POSITION }
-                                    ?.let { adapter.notifyItemChanged(it) }
+                // Show errors from the view model as snack bars.
+                //
+                // Errors are shown:
+                // - Indefinitely, so the user has a chance to read and understand
+                //   the message
+                // - With a max of 5 text lines, to allow space for longer errors.
+                //   E.g., on a typical device, an error message like "Bookmarking
+                //   post failed: Unable to resolve host 'mastodon.social': No
+                //   address associated with hostname" is 3 lines.
+                // - With a "Retry" option if the error included a UiAction to retry.
+                // TODO: Very similar to same code in NotificationsFragment
+                launch {
+                    viewModel.uiError.collect { error ->
+                        Log.d(TAG, error.toString())
+                        val message = getString(
+                            error.message,
+                            error.throwable.localizedMessage
+                                ?: getString(R.string.ui_error_unknown)
+                        )
+                        snackbar = Snackbar.make(
+                            // Without this the FAB will not move out of the way
+                            (activity as ActionButtonActivity).actionButton ?: binding.root,
+                            message,
+                            Snackbar.LENGTH_INDEFINITE
+                        ).setTextMaxLines(5)
+                        error.action?.let { action ->
+                            snackbar!!.setAction(R.string.action_retry) {
+                                viewModel.accept(action)
                             }
                         }
+                        snackbar!!.show()
+
+                        // The status view has pre-emptively updated its state to show
+                        // that the action succeeded. Since it hasn't, re-bind the view
+                        // to show the correct data.
+                        error.action?.let { action ->
+                            if (action !is StatusAction) return@let
+
+                            adapter.snapshot()
+                                .indexOfFirst { it?.id == action.statusViewData.id }
+                                .takeIf { it != RecyclerView.NO_POSITION }
+                                ?.let { adapter.notifyItemChanged(it) }
+                        }
                     }
+                }
 
-                    // Update adapter data when status actions are successful, and re-bind to update
-                    // the UI.
-                    launch {
-                        viewModel.uiSuccess
-                            .filterIsInstance<StatusActionSuccess>()
-                            .collect {
-                                val indexedViewData = adapter.snapshot()
-                                    .withIndex()
-                                    .firstOrNull { indexed ->
-                                        indexed.value?.id == it.action.statusViewData.id
-                                    } ?: return@collect
+                // Update adapter data when status actions are successful, and re-bind to update
+                // the UI.
+                launch {
+                    viewModel.uiSuccess
+                        .filterIsInstance<StatusActionSuccess>()
+                        .collect {
+                            val indexedViewData = adapter.snapshot()
+                                .withIndex()
+                                .firstOrNull { indexed ->
+                                    indexed.value?.id == it.action.statusViewData.id
+                                } ?: return@collect
 
-                                val statusViewData =
-                                    indexedViewData.value ?: return@collect
+                            val statusViewData =
+                                indexedViewData.value ?: return@collect
 
-                                val status = when (it) {
-                                    is StatusActionSuccess.Bookmark ->
-                                        statusViewData.status.copy(bookmarked = it.action.state)
-                                    is StatusActionSuccess.Favourite ->
-                                        statusViewData.status.copy(favourited = it.action.state)
-                                    is StatusActionSuccess.Reblog ->
-                                        statusViewData.status.copy(reblogged = it.action.state)
-                                    is StatusActionSuccess.VoteInPoll ->
-                                        statusViewData.status.copy(
-                                            poll = it.action.poll.votedCopy(it.action.choices)
-                                        )
-                                }
-                                (indexedViewData.value as StatusViewData).status = status
-
-                                adapter.notifyItemChanged(indexedViewData.index)
+                            val status = when (it) {
+                                is StatusActionSuccess.Bookmark ->
+                                    statusViewData.status.copy(bookmarked = it.action.state)
+                                is StatusActionSuccess.Favourite ->
+                                    statusViewData.status.copy(favourited = it.action.state)
+                                is StatusActionSuccess.Reblog ->
+                                    statusViewData.status.copy(reblogged = it.action.state)
+                                is StatusActionSuccess.VoteInPoll ->
+                                    statusViewData.status.copy(
+                                        poll = it.action.poll.votedCopy(it.action.choices)
+                                    )
                             }
-                    }
+                            (indexedViewData.value as StatusViewData).status = status
 
-                    // Refresh adapter on mutes and blocks
-                    launch {
-                        viewModel.uiSuccess.collectLatest {
-                            when (it) {
-                                is UiSuccess.Block,
-                                is UiSuccess.Mute,
-                                is UiSuccess.MuteConversation ->
-                                    adapter.refresh()
+                            adapter.notifyItemChanged(indexedViewData.index)
+                        }
+                }
 
-                                is UiSuccess.StatusSent -> handleStatusSentOrEdit(it.status)
-                                is UiSuccess.StatusEdited -> handleStatusSentOrEdit(it.status)
+                // Refresh adapter on mutes and blocks
+                launch {
+                    viewModel.uiSuccess.collectLatest {
+                        when (it) {
+                            is UiSuccess.Block,
+                            is UiSuccess.Mute,
+                            is UiSuccess.MuteConversation ->
+                                adapter.refresh()
 
-                                else -> { /* nothing to do */ }
-                            }
+                            is UiSuccess.StatusSent -> handleStatusSentOrEdit(it.status)
+                            is UiSuccess.StatusEdited -> handleStatusSentOrEdit(it.status)
+
+                            else -> { /* nothing to do */ }
                         }
                     }
                 }
@@ -424,54 +422,64 @@ class TimelineFragment :
                 }
 
                 // Update the UI from the combined load state
-                adapter.loadStateFlow.withPresentationState().collect { (loadState, presentationState) ->
-                    when (presentationState) {
-                        PresentationState.ERROR -> {
-                            val message = (loadState.refresh as LoadState.Error).error.getErrorString(requireContext())
+                launch {
+                    adapter.loadStateFlow.withPresentationState()
+                        .collect { (loadState, presentationState) ->
+                            when (presentationState) {
+                                PresentationState.ERROR -> {
+                                    val message =
+                                        (loadState.refresh as LoadState.Error).error.getErrorString(
+                                            requireContext()
+                                        )
 
-                            // Show errors as a snackbar if there is existing content to show
-                            // (either cached, or in the adapter), or as a full screen error
-                            // otherwise.
-                            if (adapter.itemCount > 0) {
-                                snackbar = Snackbar.make(
-                                    (activity as ActionButtonActivity).actionButton ?: binding.root,
-                                    message,
-                                    Snackbar.LENGTH_INDEFINITE
-                                )
-                                    .setTextMaxLines(5)
-                                    .setAction(R.string.action_retry) { adapter.retry() }
-                                snackbar!!.show()
-                            } else {
-                                val drawableRes = (loadState.refresh as LoadState.Error).error.getDrawableRes()
-                                binding.statusView.setup(drawableRes, message) {
-                                    snackbar?.dismiss()
-                                    adapter.retry()
+                                    // Show errors as a snackbar if there is existing content to show
+                                    // (either cached, or in the adapter), or as a full screen error
+                                    // otherwise.
+                                    if (adapter.itemCount > 0) {
+                                        snackbar = Snackbar.make(
+                                            (activity as ActionButtonActivity).actionButton
+                                                ?: binding.root,
+                                            message,
+                                            Snackbar.LENGTH_INDEFINITE
+                                        )
+                                            .setTextMaxLines(5)
+                                            .setAction(R.string.action_retry) { adapter.retry() }
+                                        snackbar!!.show()
+                                    } else {
+                                        val drawableRes =
+                                            (loadState.refresh as LoadState.Error).error.getDrawableRes()
+                                        binding.statusView.setup(drawableRes, message) {
+                                            snackbar?.dismiss()
+                                            adapter.retry()
+                                        }
+                                        binding.statusView.show()
+                                        binding.recyclerView.hide()
+                                    }
                                 }
-                                binding.statusView.show()
-                                binding.recyclerView.hide()
+
+                                PresentationState.PRESENTED -> {
+                                    if (adapter.itemCount == 0) {
+                                        binding.statusView.setup(
+                                            R.drawable.elephant_friend_empty,
+                                            R.string.message_empty
+                                        )
+                                        if (timelineKind == TimelineKind.Home) {
+                                            binding.statusView.showHelp(R.string.help_empty_home)
+                                        }
+                                        binding.statusView.show()
+                                        binding.recyclerView.hide()
+                                    } else {
+                                        binding.recyclerView.show()
+                                        binding.statusView.hide()
+                                    }
+                                }
+
+                                else -> {
+                                    // Nothing to do -- show/hiding the progress bars in non-error states
+                                    // is handled via refreshState.
+                                }
                             }
                         }
-                        PresentationState.PRESENTED -> {
-                            if (adapter.itemCount == 0) {
-                                binding.statusView.setup(
-                                    R.drawable.elephant_friend_empty,
-                                    R.string.message_empty
-                                )
-                                if (timelineKind == TimelineKind.Home) {
-                                    binding.statusView.showHelp(R.string.help_empty_home)
-                                }
-                                binding.statusView.show()
-                                binding.recyclerView.hide()
-                            } else {
-                                binding.recyclerView.show()
-                                binding.statusView.hide()
-                            }
-                        }
-                        else -> {
-                            // Nothing to do -- show/hiding the progress bars in non-error states
-                            // is handled via refreshState.
-                        }
-                    }
                 }
             }
         }
