@@ -15,10 +15,6 @@
 
 package com.keylesspalace.tusky.db;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.AutoMigration;
@@ -686,32 +682,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_52_53 = new Migration(52, 53) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.beginTransaction();
-            try {
-                Cursor cursor = database.query("SELECT id, tabPreferences FROM AccountEntity");
-                while (cursor.moveToNext()) {
-                    String id = cursor.getString(0);
-                    String tabPreferences = cursor.getString(1);
-                    if (tabPreferences == null || !tabPreferences.contains("Trending")) continue;
-
-                    String newTabPreferences = tabPreferences.replace("Trending", "TrendingTags");
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("id", id);
-                    contentValues.put("tabPreferences", newTabPreferences);
-                    String[] selectionArgs = { id };
-
-                    database.update(
-                        "AccountEntity",
-                        SQLiteDatabase.CONFLICT_IGNORE,
-                        contentValues,
-                        " id = ?",
-                        selectionArgs
-                    );
-                }
-                database.setTransactionSuccessful();
-            } finally {
-                database.endTransaction();
-            }
+            database.execSQL("UPDATE `AccountEntity` SET `tabpreferences` = REPLACE(tabpreferences, 'Trending:', 'TrendingTags:')");
         }
     };
 }
