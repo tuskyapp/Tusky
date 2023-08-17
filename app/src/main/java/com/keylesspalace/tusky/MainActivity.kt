@@ -37,10 +37,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
-import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.PopupMenu
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -262,13 +262,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         if (hideTopToolbar) {
             val navOnBottom = preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom"
             val view = if (navOnBottom) binding.bottomNavOptionsMenu else binding.topNavOptionsMenu
-            val popup = PopupMenu(this, view)
-            popup.setOnMenuItemClickListener {
-                this@MainActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, it)
-            }
             view.contentDescription = binding.mainToolbar.navigationContentDescription
-            view.setOnClickListener {
-                popup.menu.clear()
+            view.setOnClickListener { v: View ->
+                val popup = PopupMenu(supportActionBar?.themedContext ?: v.context, v)
+                popup.setOnMenuItemClickListener {
+                    this@MainActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, it)
+                }
                 onCreatePanelMenu(Window.FEATURE_OPTIONS_PANEL, popup.menu)
                 onPreparePanel(Window.FEATURE_OPTIONS_PANEL, view, popup.menu)
                 popup.show()
