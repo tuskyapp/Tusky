@@ -5,6 +5,7 @@ import android.text.format.DateUtils
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
@@ -73,22 +74,11 @@ class FiltersActivity : BaseActivity() {
         }
     }
 
-    fun deleteFilter(itemIndex: Int) {
-        val filter = filters[itemIndex]
+    fun attemptToDeleteFilter(itemIndex: Int) {
+        val filter: Filter = filters[itemIndex]
         if (filter.context.size == 1) {
-            lifecycleScope.launch {
-                // This is the only context for this filter; delete it
-                api.deleteFilter(filters[itemIndex].id).fold(
-                    {
-                        filters.removeAt(itemIndex)
-                        refreshFilterDisplay()
-                        eventHub.dispatch(PreferenceChangedEvent(context))
-                    },
-                    {
-                        Toast.makeText(this@FiltersActivity, "Error deleting filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
-                    }
-                )
-            }
+            // This is the only context for this filter; ask and delete it
+            showDeleteFilterConfirmationDialog(itemIndex, filter.phrase)
         } else {
             // Keep the filter, but remove it from this context
             val oldFilter = filters[itemIndex]
@@ -176,6 +166,28 @@ class FiltersActivity : BaseActivity() {
             binding.addFilterButton.show()
             binding.filterProgressBar.hide()
         }
+    }
+
+    private fun showDeleteFilterConfirmationDialog(itemIndex: Int, phrase: String) {
+        AlertDialog.Builder(this)
+                .setMessage(getString(R.string.filter_delete_text, phrase))
+                .setPositiveButton(getString(R.string.filter_delete_positive_action)) { _, _ -> deleteFilter(itemIndex) }
+                .setNegativeButton(getString(R.string.filter_delete_negative_action)) { dialog, _ -> dialog.cancel() }
+                .setCancelable(true)
+                .show()
+    }
+
+    private fun deleteFilter(itemIndex: Int) = lifecycleScope.launch {
+        api.deleteFilter(filters[itemIndex].id).fold(
+                {
+                    filters.removeAt(itemIndex)
+                    refreshFilterDisplay()
+                    eventHub.dispatch(PreferenceChangedEvent(context))
+                },
+                {
+                    Toast.makeText(this@FiltersActivity, "Error deleting filter '${filters[itemIndex].phrase}'", Toast.LENGTH_SHORT).show()
+                }
+        )
     }
 
     companion object {

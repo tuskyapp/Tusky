@@ -56,7 +56,7 @@ fun setupEditDialogForFilter(activity: FiltersActivity, filter: Filter, itemInde
             )
         }
         .setNegativeButton(R.string.filter_dialog_remove_button) { _, _ ->
-            activity.deleteFilter(itemIndex)
+            activity.attemptToDeleteFilter(itemIndex)
         }
         .setNeutralButton(android.R.string.cancel, null)
         .show()

@@ -657,6 +657,9 @@
     <string name="tips_push_notification_migration">Re-login all accounts to enable push notification support.</string>
     <string name="dialog_push_notification_migration">In order to use push notifications via UnifiedPush, Tusky needs permission to subscribe to notifications on your Mastodon server. This requires a re-login to change the OAuth scopes granted to Tusky. Using the re-login option here or in Account Preferences will preserve all of your local drafts and cache.</string>
     <string name="dialog_push_notification_migration_other_accounts">You have re-logged into your current account to grant push subscription permission to Tusky. However, you still have other accounts that have not been migrated this way. Switch to them and re-login one by one in order to enable UnifiedPush notifications support.</string>
+    <string name="filter_delete_text">Are you sure you want to remove the filter \'%1$s\'?</string>
+    <string name="filter_delete_positive_action">Yes, remove</string>
+    <string name="filter_delete_negative_action">No, cancel</string>
 
 
 </resources>
