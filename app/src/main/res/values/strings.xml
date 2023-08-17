@@ -610,8 +610,8 @@
     <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
-    <string name="notifications_clear">Clear</string>
-    <string name="notifications_apply_filter">Filter</string>
+    <string name="notifications_clear">Delete notifications</string>
+    <string name="notifications_apply_filter">Filter notifications</string>
     <string name="filter_apply">Apply</string>
 
     <string name="compose_shortcut_long_label">Compose post</string>
