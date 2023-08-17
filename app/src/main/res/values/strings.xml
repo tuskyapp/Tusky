@@ -818,4 +818,7 @@
     <string name="about_copy">Copy version and device information</string>
     <string name="about_copied">Copied version and device information</string>
     <string name="error_media_playback">Playback failed: %s</string>
+    <string name="filter_delete_title">Delete Filter</string>
+    <string name="filter_delete_text">Are you sure you want to delete the filter \'%1$s\'?</string>
+    <string name="filter_delete_positive_action">Yes, delete</string>
 </resources>

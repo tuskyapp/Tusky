@@ -81,7 +81,7 @@ class EditFilterActivity : BaseActivity() {
 
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }
-        binding.filterDeleteButton.setOnClickListener { deleteFilter() }
+        binding.filterDeleteButton.setOnClickListener { showDeleteFilterDialog() }
         binding.filterDeleteButton.visible(originalFilter != null)
 
         for (switch in contextSwitches.keys) {
@@ -246,6 +246,16 @@ class EditFilterActivity : BaseActivity() {
                 )
             }
             .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun showDeleteFilterDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.filter_delete_title)
+            .setMessage(getString(R.string.filter_delete_text, filter.title))
+            .setPositiveButton(R.string.filter_delete_positive_action) { _, _ -> deleteFilter() }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
+            .setCancelable(true)
             .show()
     }
 
