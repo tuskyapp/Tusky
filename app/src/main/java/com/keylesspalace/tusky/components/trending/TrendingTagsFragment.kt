@@ -194,7 +194,7 @@ class TrendingTagsFragment :
 
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
-            R.drawable.elephant_offline,
+            R.drawable.errorphant_offline,
             R.string.error_network
         ) { refreshContent() }
     }
@@ -206,7 +206,7 @@ class TrendingTagsFragment :
 
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
-            R.drawable.elephant_error,
+            R.drawable.errorphant_error,
             R.string.error_generic
         ) { refreshContent() }
     }

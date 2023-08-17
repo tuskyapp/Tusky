@@ -1,0 +1,10 @@
+Tusky 22.0 beta 7
+
+Cywiriadau:
+
+
+### Cywiriadau gwall pwysig
+
+- Wrth greu hysbysiadau Android, nôl pob hysbysiadau Mastodon dyledus
+- Byddai clicio "Creu" o hysbysiad yn dewis y cyfrif anghywir
+- Sicrhau mae'r "ID hysbysiad wedi'i ddarllen yn ddiweddaraf" yn cael ei gadw i'r cyfrif cywir
