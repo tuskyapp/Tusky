@@ -1090,7 +1090,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         /**
-         * switches the active account to the accountId and then opens the ComposeActivity with the provided options
+         * Switches the active account to the accountId and then opens ComposeActivity with the provided options
          * @param tuskyAccountId the id of the Tusky account to open the screen with. Set to -1 for current account.
          * @param notificationId optional id of the notification that should be cancelled when this intent is opened
          * @param notificationTag optional tag of the notification that should be cancelled when this intent is opened
