@@ -18,7 +18,9 @@
 <resources>
 
     <string name="error_generic">An error occurred.</string>
+    <string name="error_generic_fmt">An error occurred: %s</string>
     <string name="error_network">A network error occurred. Please check your connection and try again.</string>
+    <string name="error_network_fmt">A network error occurred: %s</string>
     <string name="error_empty">This cannot be empty.</string>
     <string name="error_invalid_domain">Invalid domain entered</string>
     <string name="error_failed_app_registration">Failed authenticating with that instance. If this persists, try "Login in Browser" from the menu.</string>
@@ -440,7 +442,6 @@
     <string name="pref_title_alway_open_spoiler">Always expand posts marked with content warnings</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%s</string>
-    <string name="load_more_placeholder_text">load more</string>
 
     <string name="pref_title_public_filter_keywords">Public timelines</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
@@ -764,9 +765,6 @@
     <string name="mute_notifications_switch">Mute notifications</string>
 
     <!-- Reading order preference -->
-    <string name="pref_title_reading_order">Reading order</string>
-    <string name="pref_reading_order_oldest_first">Oldest first</string>
-    <string name="pref_reading_order_newest_first">Newest first</string>
 
     <string name="status_edit_info">Edited: %1$s</string>
     <string name="status_created_info">Created: %1$s</string>
@@ -790,6 +788,7 @@
     <string name="ui_error_vote">Voting in poll failed: %s</string>
     <string name="ui_error_accept_follow_request">Accepting follow request failed: %s</string>
     <string name="ui_error_reject_follow_request">Rejecting follow request failed: %s</string>
+    <string name="ui_error_filter_v1_load">Loading filters failed: %s</string>
 
     <!-- Success messages, displayed in snackbars, when an action succeeded -->
     <string name="ui_success_accepted_follow_request">Follow request accepted</string>
@@ -815,6 +814,7 @@
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
     <string name="load_newest_notifications">Load newest notifications</string>
+    <string name="load_newest_statuses">Load newest posts</string>    
     <string name="about_copy">Copy version and device information</string>
     <string name="about_copied">Copied version and device information</string>
     <string name="error_media_playback">Playback failed: %s</string>

@@ -51,26 +51,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
-    enum class ReadingOrder {
-        /** User scrolls up, reading statuses oldest to newest */
-        OLDEST_FIRST,
-
-        /** User scrolls down, reading statuses newest to oldest. Default behaviour. */
-        NEWEST_FIRST;
-
-        companion object {
-            fun from(s: String?): ReadingOrder {
-                s ?: return NEWEST_FIRST
-
-                return try {
-                    valueOf(s.uppercase())
-                } catch (_: Throwable) {
-                    NEWEST_FIRST
-                }
-            }
-        }
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
             preferenceCategory(R.string.pref_title_appearance_settings) {
@@ -121,16 +101,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_post_text_size)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
-                }
-
-                listPreference {
-                    setDefaultValue(ReadingOrder.NEWEST_FIRST.name)
-                    setEntries(R.array.reading_order_names)
-                    setEntryValues(R.array.reading_order_values)
-                    key = PrefKeys.READING_ORDER
-                    setSummaryProvider { entry }
-                    setTitle(R.string.pref_title_reading_order)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_sort)
                 }
 
                 listPreference {

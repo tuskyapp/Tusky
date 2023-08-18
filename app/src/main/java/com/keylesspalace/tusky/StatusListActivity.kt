@@ -28,7 +28,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
@@ -48,7 +48,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     lateinit var eventHub: EventHub
 
     private val binding: ActivityStatuslistBinding by viewBinding(ActivityStatuslistBinding::inflate)
-    private lateinit var kind: Kind
+    private lateinit var timelineKind: TimelineKind
     private var hashtag: String? = null
     private var followTagItem: MenuItem? = null
     private var unfollowTagItem: MenuItem? = null
@@ -66,15 +66,17 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         setSupportActionBar(binding.includedToolbar.toolbar)
 
-        kind = Kind.valueOf(intent.getStringExtra(EXTRA_KIND)!!)
-        val listId = intent.getStringExtra(EXTRA_LIST_ID)
-        hashtag = intent.getStringExtra(EXTRA_HASHTAG)
+        timelineKind = intent.getParcelableExtra(EXTRA_KIND)!!
 
-        val title = when (kind) {
-            Kind.FAVOURITES -> getString(R.string.title_favourites)
-            Kind.BOOKMARKS -> getString(R.string.title_bookmarks)
-            Kind.TAG -> getString(R.string.title_tag).format(hashtag)
-            else -> intent.getStringExtra(EXTRA_LIST_TITLE)
+        val title = when (timelineKind) {
+            is TimelineKind.Favourites -> getString(R.string.title_favourites)
+            is TimelineKind.Bookmarks -> getString(R.string.title_bookmarks)
+            is TimelineKind.Tag -> {
+                hashtag = (timelineKind as TimelineKind.Tag).tags.first()
+                getString(R.string.title_tag).format(hashtag)
+            }
+            is TimelineKind.UserList -> (timelineKind as TimelineKind.UserList).title
+            else -> "Missing title!!!"
         }
 
         supportActionBar?.run {
@@ -85,11 +87,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
             supportFragmentManager.commit {
-                val fragment = if (kind == Kind.TAG) {
-                    TimelineFragment.newHashtagInstance(listOf(hashtag!!))
-                } else {
-                    TimelineFragment.newInstance(kind, listId)
-                }
+                val fragment = TimelineFragment.newInstance(timelineKind)
                 replace(R.id.fragmentContainer, fragment)
             }
         }
@@ -97,7 +95,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val tag = hashtag
-        if (kind == Kind.TAG && tag != null) {
+        if (timelineKind is TimelineKind.Tag && tag != null) {
             lifecycleScope.launch {
                 mastodonApi.tag(tag).fold(
                     { tagEntity ->
@@ -321,35 +319,28 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
-
         private const val EXTRA_KIND = "kind"
-        private const val EXTRA_LIST_ID = "id"
-        private const val EXTRA_LIST_TITLE = "title"
-        private const val EXTRA_HASHTAG = "tag"
-        const val TAG = "StatusListActivity"
+        private const val TAG = "StatusListActivity"
 
         fun newFavouritesIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.FAVOURITES.name)
+                putExtra(EXTRA_KIND, TimelineKind.Favourites)
             }
 
         fun newBookmarksIntent(context: Context) =
             Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
+                putExtra(EXTRA_KIND, TimelineKind.Bookmarks)
             }
 
         fun newListIntent(context: Context, listId: String, listTitle: String) =
             Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.LIST.name)
-                putExtra(EXTRA_LIST_ID, listId)
-                putExtra(EXTRA_LIST_TITLE, listTitle)
+                putExtra(EXTRA_KIND, TimelineKind.UserList(listId, listTitle))
             }
 
         @JvmStatic
         fun newHashtagIntent(context: Context, hashtag: String) =
             Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.TAG.name)
-                putExtra(EXTRA_HASHTAG, hashtag)
+                putExtra(EXTRA_KIND, TimelineKind.Tag(listOf(hashtag)))
             }
     }
 }

@@ -338,7 +338,6 @@
     <string name="replying_to">Адказ для @%s</string>
     <string name="pref_title_public_filter_keywords">Публічныя стужкі</string>
     <string name="pref_title_thread_filter_keywords">Размовы</string>
-    <string name="load_more_placeholder_text">загрузіць больш</string>
     <string name="about_tusky_license">Tusky — свабодная праграма з адкрытым зыходным кодам. Зроблена пад GNU General Public License Version 3. Вы можаце паглядзець ліцэнзію тут: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_bug_feature_request_site">Справаздачы аб памылках і пажаданні:
 \n https://github.com/tuskyapp/Tusky/issues</string>
@@ -617,12 +616,9 @@
     <string name="tips_push_notification_migration">Увайдзіце зноў на ўсіх уліковых запісах, каб push-апавяшчэнні запрацавалі.</string>
     <string name="mute_notifications_switch">Бязгучныя апавяшчэнні</string>
     <string name="warning_scheduling_interval">Найменшы час планавання ў Mastodon складае 5 хвілін.</string>
-    <string name="pref_reading_order_oldest_first">Спачатку старэйшыя</string>
-    <string name="pref_title_reading_order">Кірунак чытання</string>
     <string name="pref_summary_http_proxy_disabled">Адключана</string>
     <string name="pref_summary_http_proxy_invalid">&lt;нядзейсны&gt;</string>
     <string name="pref_summary_http_proxy_missing">&lt;не задана&gt;</string>
-    <string name="pref_reading_order_newest_first">Спачатку навейшыя</string>
     <string name="dialog_follow_hashtag_title">Падпісацца на хэштэг</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_post_failed">Не атрымалася запампаваць</string>

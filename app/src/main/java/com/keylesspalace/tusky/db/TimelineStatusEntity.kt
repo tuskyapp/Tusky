@@ -54,7 +54,7 @@ data class TimelineStatusEntity(
     val url: String?,
     // our local id for the logged in user in case there are multiple accounts per instance
     val timelineUserId: Long,
-    val authorServerId: String?,
+    val authorServerId: String,
     val inReplyToId: String?,
     val inReplyToAccountId: String?,
     val content: String?,
@@ -78,7 +78,6 @@ data class TimelineStatusEntity(
     val reblogAccountId: String?,
     val poll: String?,
     val muted: Boolean?,
-    /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
     val expanded: Boolean,
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
@@ -86,10 +85,7 @@ data class TimelineStatusEntity(
     val card: String?,
     val language: String?,
     val filtered: List<FilterResult>?
-) {
-    val isPlaceholder: Boolean
-        get() = this.authorServerId == null
-}
+)
 
 @Entity(
     primaryKeys = ["serverId", "timelineUserId"]
@@ -110,7 +106,7 @@ data class TimelineStatusWithAccount(
     @Embedded
     val status: TimelineStatusEntity,
     @Embedded(prefix = "a_")
-    val account: TimelineAccountEntity? = null, // null when placeholder
+    val account: TimelineAccountEntity,
     @Embedded(prefix = "rb_")
     val reblogAccount: TimelineAccountEntity? = null // null when no reblog
 )

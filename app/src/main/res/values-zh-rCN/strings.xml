@@ -258,7 +258,6 @@
     <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>
     <string name="title_media">媒体</string>
     <string name="replying_to">回复 @%s</string>
-    <string name="load_more_placeholder_text">加载更多</string>
     <string name="pref_title_public_filter_keywords">公共时间轴</string>
     <string name="pref_title_thread_filter_keywords">对话</string>
     <string name="filter_addition_title">添加新的过滤器</string>
@@ -595,12 +594,9 @@
     <string name="send_account_link_to">分享账户链接到…</string>
     <string name="send_account_username_to">分享账户用户名到…</string>
     <string name="account_username_copied">已复制用户名</string>
-    <string name="pref_title_reading_order">阅读顺序</string>
     <string name="pref_summary_http_proxy_disabled">已禁用</string>
     <string name="pref_summary_http_proxy_missing">&lt;未设置&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;无效&gt;</string>
-    <string name="pref_reading_order_newest_first">从新到旧</string>
-    <string name="pref_reading_order_oldest_first">从旧到新</string>
     <string name="action_browser_login">用浏览器登录</string>
     <string name="description_login">多数情况下有效。没有数据泄露给其他应用。</string>
     <string name="description_browser_login">可能支持额外的验证方法但需要受支持的浏览器。</string>

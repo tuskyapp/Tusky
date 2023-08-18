@@ -19,7 +19,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="918"
+            line="925"
             column="29"/>
     </issue>
 
@@ -30,7 +30,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="956"
+            line="963"
             column="29"/>
     </issue>
 
@@ -41,7 +41,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="335"
+            line="334"
             column="25"/>
     </issue>
 
@@ -82,6 +82,17 @@
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
             line="278"
             column="21"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
+        errorLine1="        targetSdk 33"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="31"
+            column="9"/>
     </issue>
 
     <issue
@@ -146,19 +157,8 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="492"
+            line="491"
             column="28"/>
-    </issue>
-
-    <issue
-        id="UseCompatTextViewDrawableXml"
-        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
-        errorLine1="                    android:drawableStart=&quot;@mipmap/ic_launcher&quot;"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_about.xml"
-            line="38"
-            column="21"/>
     </issue>
 
     <issue
@@ -278,7 +278,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bg/strings.xml"
-            line="199"
+            line="198"
             column="5"/>
     </issue>
 
@@ -322,7 +322,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-eu/strings.xml"
-            line="237"
+            line="236"
             column="5"/>
     </issue>
 
@@ -333,7 +333,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-sl/strings.xml"
-            line="259"
+            line="258"
             column="5"/>
     </issue>
 
@@ -344,7 +344,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-hi/strings.xml"
-            line="279"
+            line="278"
             column="5"/>
     </issue>
 
@@ -355,7 +355,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bn-rIN/strings.xml"
-            line="287"
+            line="286"
             column="5"/>
     </issue>
 
@@ -366,7 +366,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="288"
+            line="287"
             column="5"/>
     </issue>
 
@@ -377,7 +377,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-ga/strings.xml"
-            line="290"
+            line="289"
             column="5"/>
     </issue>
 
@@ -388,7 +388,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-ru/strings.xml"
-            line="308"
+            line="307"
             column="5"/>
     </issue>
 
@@ -399,7 +399,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-hi/strings.xml"
-            line="310"
+            line="309"
             column="5"/>
     </issue>
 
@@ -410,7 +410,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-sl/strings.xml"
-            line="316"
+            line="315"
             column="5"/>
     </issue>
 
@@ -421,7 +421,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-ga/strings.xml"
-            line="319"
+            line="318"
             column="5"/>
     </issue>
 
@@ -432,7 +432,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="338"
+            line="337"
             column="5"/>
     </issue>
 
@@ -443,7 +443,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="343"
+            line="342"
             column="5"/>
     </issue>
 
@@ -454,7 +454,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bn-rIN/strings.xml"
-            line="347"
+            line="346"
             column="5"/>
     </issue>
 
@@ -465,7 +465,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="353"
+            line="352"
             column="5"/>
     </issue>
 
@@ -476,7 +476,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="379"
+            line="378"
             column="5"/>
     </issue>
 
@@ -487,7 +487,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="393"
+            line="392"
             column="5"/>
     </issue>
 
@@ -498,7 +498,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="398"
+            line="397"
             column="5"/>
     </issue>
 
@@ -509,7 +509,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="403"
+            line="402"
             column="5"/>
     </issue>
 
@@ -520,7 +520,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-bg/strings.xml"
-            line="439"
+            line="438"
             column="5"/>
     </issue>
 
@@ -531,7 +531,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="491"
+            line="490"
             column="5"/>
     </issue>
 
@@ -542,7 +542,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="496"
+            line="495"
             column="5"/>
     </issue>
 
@@ -553,7 +553,7 @@
         errorLine2="    ^">
         <location
             file="src/main/res/values-cs/strings.xml"
-            line="501"
+            line="500"
             column="5"/>
     </issue>
 
@@ -740,7 +740,7 @@
         errorLine2="                ^">
         <location
             file="src/main/res/values-es/strings.xml"
-            line="257"
+            line="256"
             column="17"/>
     </issue>
 
@@ -751,7 +751,7 @@
         errorLine2="                                          ^">
         <location
             file="src/main/res/values-nb-rNO/strings.xml"
-            line="326"
+            line="325"
             column="43"/>
     </issue>
 
@@ -762,7 +762,7 @@
         errorLine2="                                                                                                                 ^">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="439"
+            line="438"
             column="114"/>
     </issue>
 
@@ -773,7 +773,7 @@
         errorLine2="                                                                                     ^">
         <location
             file="src/main/res/values-nb-rNO/strings.xml"
-            line="460"
+            line="459"
             column="86"/>
     </issue>
 
@@ -784,7 +784,7 @@
         errorLine2="                                                                                                                                                                                                                                                                                                    ^">
         <location
             file="src/main/res/values-tr/strings.xml"
-            line="579"
+            line="578"
             column="293"/>
     </issue>
 
@@ -795,7 +795,7 @@
         errorLine2="                                                  ^">
         <location
             file="src/main/res/values-nb-rNO/strings.xml"
-            line="604"
+            line="600"
             column="51"/>
     </issue>
 
@@ -817,7 +817,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-fa/strings.xml"
-            line="232"
+            line="230"
             column="9"/>
     </issue>
 
@@ -828,7 +828,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="106"
+            line="108"
             column="5"/>
     </issue>
 
@@ -839,7 +839,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="322"
+            line="324"
             column="5"/>
     </issue>
 
@@ -850,7 +850,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="380"
+            line="382"
             column="5"/>
     </issue>
 
@@ -861,7 +861,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="559"
+            line="558"
             column="5"/>
     </issue>
 
@@ -872,7 +872,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="779"
+            line="775"
             column="5"/>
     </issue>
 
@@ -1631,7 +1631,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="263"
+            line="253"
             column="19"/>
     </issue>
 
@@ -1642,7 +1642,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/donottranslate.xml"
-            line="268"
+            line="258"
             column="19"/>
     </issue>
 
@@ -1774,7 +1774,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="25"
+            line="27"
             column="13"/>
     </issue>
 
@@ -1785,7 +1785,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="35"
+            line="37"
             column="13"/>
     </issue>
 
@@ -1796,7 +1796,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="45"
+            line="47"
             column="13"/>
     </issue>
 
@@ -1807,7 +1807,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="87"
+            line="89"
             column="13"/>
     </issue>
 
@@ -1818,7 +1818,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="95"
+            line="97"
             column="13"/>
     </issue>
 
@@ -1829,7 +1829,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="109"
+            line="111"
             column="13"/>
     </issue>
 
@@ -1840,7 +1840,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="118"
+            line="120"
             column="13"/>
     </issue>
 
@@ -1851,7 +1851,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="156"
+            line="158"
             column="13"/>
     </issue>
 
@@ -1862,7 +1862,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="219"
+            line="221"
             column="13"/>
     </issue>
 
@@ -1873,7 +1873,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="256"
+            line="258"
             column="13"/>
     </issue>
 
@@ -1884,7 +1884,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="257"
+            line="259"
             column="13"/>
     </issue>
 
@@ -1895,7 +1895,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="282"
+            line="284"
             column="13"/>
     </issue>
 
@@ -1906,7 +1906,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="312"
+            line="314"
             column="13"/>
     </issue>
 
@@ -1917,7 +1917,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="393"
+            line="395"
             column="13"/>
     </issue>
 
@@ -1928,7 +1928,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="452"
+            line="451"
             column="13"/>
     </issue>
 
@@ -1939,7 +1939,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="504"
+            line="503"
             column="13"/>
     </issue>
 
@@ -1950,7 +1950,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="508"
+            line="507"
             column="13"/>
     </issue>
 
@@ -1961,7 +1961,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="509"
+            line="508"
             column="13"/>
     </issue>
 
@@ -1972,7 +1972,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="510"
+            line="509"
             column="13"/>
     </issue>
 
@@ -1983,7 +1983,7 @@
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="511"
+            line="510"
             column="13"/>
     </issue>
 
@@ -1994,7 +1994,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="512"
+            line="511"
             column="13"/>
     </issue>
 
@@ -2005,7 +2005,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="513"
+            line="512"
             column="13"/>
     </issue>
 
@@ -2016,7 +2016,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="514"
+            line="513"
             column="13"/>
     </issue>
 
@@ -2027,7 +2027,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="515"
+            line="514"
             column="13"/>
     </issue>
 
@@ -2038,7 +2038,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="517"
+            line="516"
             column="13"/>
     </issue>
 
@@ -2049,7 +2049,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="602"
+            line="601"
             column="13"/>
     </issue>
 
@@ -2060,7 +2060,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="603"
+            line="602"
             column="13"/>
     </issue>
 
@@ -2071,7 +2071,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="617"
+            line="616"
             column="13"/>
     </issue>
 
@@ -2082,7 +2082,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="619"
+            line="618"
             column="13"/>
     </issue>
 
@@ -2093,7 +2093,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="620"
+            line="619"
             column="13"/>
     </issue>
 
@@ -2104,7 +2104,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="623"
+            line="622"
             column="13"/>
     </issue>
 
@@ -2115,7 +2115,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="668"
+            line="667"
             column="13"/>
     </issue>
 
@@ -2126,7 +2126,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="717"
+            line="716"
             column="13"/>
     </issue>
 
@@ -2137,7 +2137,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="723"
+            line="722"
             column="13"/>
     </issue>
 
@@ -2148,7 +2148,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="764"
+            line="763"
             column="13"/>
     </issue>
 
@@ -2159,8 +2159,19 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="800"
+            line="797"
             column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.TuskyButton_TextButton_Icon` appears to be unused"
+        errorLine1="    &lt;style name=&quot;TuskyButton.TextButton.Icon&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="136"
+            column="12"/>
     </issue>
 
     <issue
@@ -2175,13 +2186,24 @@
     </issue>
 
     <issue
+        id="UnusedResources"
+        message="The resource `R.color.dividerColorOther` appears to be unused"
+        errorLine1="    &lt;color name=&quot;dividerColorOther&quot;>@color/tusky_grey_90&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/theme_colors.xml"
+            line="20"
+            column="12"/>
+    </issue>
+
+    <issue
         id="SyntheticAccessor"
         message="Access to `private` method `setClickableTextWithoutUnderlines` of class `AboutActivityKt` requires synthetic accessor"
         errorLine1="        binding.aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license)"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AboutActivity.kt"
-            line="39"
+            line="73"
             column="9"/>
     </issue>
 
@@ -2192,7 +2214,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AboutActivity.kt"
-            line="40"
+            line="74"
             column="9"/>
     </issue>
 
@@ -2203,7 +2225,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/AboutActivity.kt"
-            line="41"
+            line="75"
             column="9"/>
     </issue>
 
@@ -3127,7 +3149,7 @@
         errorLine2="                                    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="220"
+            line="219"
             column="37"/>
     </issue>
 
@@ -3138,7 +3160,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="224"
+            line="223"
             column="37"/>
     </issue>
 
@@ -3149,7 +3171,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="318"
+            line="317"
             column="25"/>
     </issue>
 
@@ -3160,7 +3182,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="319"
+            line="318"
             column="29"/>
     </issue>
 
@@ -3171,7 +3193,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="321"
+            line="320"
             column="25"/>
     </issue>
 
@@ -3182,7 +3204,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="322"
+            line="321"
             column="29"/>
     </issue>
 
@@ -3193,7 +3215,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="510"
+            line="509"
             column="17"/>
     </issue>
 
@@ -3204,7 +3226,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="513"
+            line="512"
             column="21"/>
     </issue>
 
@@ -3215,7 +3237,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="518"
+            line="517"
             column="17"/>
     </issue>
 
@@ -3226,7 +3248,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="522"
+            line="521"
             column="21"/>
     </issue>
 
@@ -3237,7 +3259,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="527"
+            line="526"
             column="17"/>
     </issue>
 
@@ -3248,7 +3270,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="530"
+            line="529"
             column="21"/>
     </issue>
 
@@ -3259,7 +3281,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="535"
+            line="534"
             column="17"/>
     </issue>
 
@@ -3270,7 +3292,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="538"
+            line="537"
             column="21"/>
     </issue>
 
@@ -3281,7 +3303,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="543"
+            line="542"
             column="17"/>
     </issue>
 
@@ -3292,7 +3314,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="546"
+            line="545"
             column="21"/>
     </issue>
 
@@ -3303,7 +3325,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="550"
+            line="549"
             column="17"/>
     </issue>
 
@@ -3314,7 +3336,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="553"
+            line="552"
             column="21"/>
     </issue>
 
@@ -3325,7 +3347,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="558"
+            line="557"
             column="17"/>
     </issue>
 
@@ -3336,7 +3358,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="561"
+            line="560"
             column="21"/>
     </issue>
 
@@ -3347,7 +3369,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="565"
+            line="564"
             column="17"/>
     </issue>
 
@@ -3358,7 +3380,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="569"
+            line="568"
             column="21"/>
     </issue>
 
@@ -3369,7 +3391,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="578"
+            line="577"
             column="17"/>
     </issue>
 
@@ -3380,7 +3402,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="581"
+            line="580"
             column="21"/>
     </issue>
 
@@ -3391,7 +3413,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="586"
+            line="585"
             column="17"/>
     </issue>
 
@@ -3402,7 +3424,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="589"
+            line="588"
             column="21"/>
     </issue>
 
@@ -3413,7 +3435,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="594"
+            line="593"
             column="17"/>
     </issue>
 
@@ -3424,7 +3446,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="597"
+            line="596"
             column="21"/>
     </issue>
 
@@ -3435,7 +3457,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="602"
+            line="601"
             column="17"/>
     </issue>
 
@@ -3446,7 +3468,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="605"
+            line="604"
             column="21"/>
     </issue>
 
@@ -3457,7 +3479,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="612"
+            line="611"
             column="21"/>
     </issue>
 
@@ -3468,7 +3490,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="615"
+            line="614"
             column="25"/>
     </issue>
 
@@ -3479,7 +3501,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="625"
+            line="624"
             column="21"/>
     </issue>
 
@@ -3490,7 +3512,7 @@
         errorLine2="                        ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="628"
+            line="627"
             column="25"/>
     </issue>
 
@@ -3501,7 +3523,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="642"
+            line="641"
             column="17"/>
     </issue>
 
@@ -3512,7 +3534,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="646"
+            line="645"
             column="21"/>
     </issue>
 
@@ -3523,7 +3545,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="738"
+            line="746"
             column="17"/>
     </issue>
 
@@ -3534,7 +3556,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="740"
+            line="748"
             column="17"/>
     </issue>
 
@@ -3545,7 +3567,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="751"
+            line="759"
             column="17"/>
     </issue>
 
@@ -3556,7 +3578,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="925"
+            line="932"
             column="33"/>
     </issue>
 
@@ -3567,7 +3589,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="937"
+            line="944"
             column="29"/>
     </issue>
 
@@ -3578,7 +3600,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="943"
+            line="950"
             column="33"/>
     </issue>
 
@@ -3589,7 +3611,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="963"
+            line="970"
             column="33"/>
     </issue>
 
@@ -3600,7 +3622,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="972"
+            line="979"
             column="29"/>
     </issue>
 
@@ -3611,7 +3633,7 @@
         errorLine2="                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="981"
+            line="988"
             column="33"/>
     </issue>
 
@@ -3842,7 +3864,7 @@
         errorLine2="                         ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="187"
+            line="188"
             column="26"/>
     </issue>
 
@@ -3853,7 +3875,7 @@
         errorLine2="                    ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="228"
+            line="229"
             column="21"/>
     </issue>
 
@@ -3864,7 +3886,7 @@
         errorLine2="                            ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt"
-            line="230"
+            line="231"
             column="29"/>
     </issue>
 
@@ -3947,46 +3969,13 @@
 
     <issue
         id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TimelineFragment` requires synthetic accessor"
-        errorLine1="                    binding.recyclerView.post {"
-        errorLine2="                    ~~~~~~~">
+        message="Access to `private` method `getViewModel` of class `TimelineFragment` requires synthetic accessor"
+        errorLine1="                        if (!viewModel.uiState.value.showFabWhileScrolling) {"
+        errorLine2="                             ~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="256"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TimelineFragment` requires synthetic accessor"
-        errorLine1="                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))"
-        errorLine2="                                ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="259"
-            column="33"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `getBinding` of class `TimelineFragment` requires synthetic accessor"
-        errorLine1="                                binding.recyclerView.scrollToPosition(0)"
-        errorLine2="                                ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="261"
-            column="33"/>
-    </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `updateReadingPositionForOldestFirst` of class `TimelineFragment` requires synthetic accessor"
-        errorLine1="                    updateReadingPositionForOldestFirst()"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt"
-            line="267"
-            column="21"/>
+            line="170"
+            column="30"/>
     </issue>
 
     <issue
@@ -4161,7 +4150,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-ja/strings.xml"
-            line="286"
+            line="285"
             column="37"/>
     </issue>
 
@@ -4172,7 +4161,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-sl/strings.xml"
-            line="286"
+            line="285"
             column="37"/>
     </issue>
 
@@ -4183,7 +4172,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-it/strings.xml"
-            line="313"
+            line="312"
             column="37"/>
     </issue>
 
@@ -4194,7 +4183,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-ga/strings.xml"
-            line="344"
+            line="343"
             column="37"/>
     </issue>
 
@@ -4238,7 +4227,7 @@
         errorLine2="                                                     ~~~~~~~~~~">
         <location
             file="src/main/res/values-ko/strings.xml"
-            line="373"
+            line="372"
             column="54"/>
     </issue>
 
@@ -4783,6 +4772,17 @@
         errorLine1="    &lt;TextView"
         errorLine2="     ~~~~~~~~">
         <location
+            file="src/main/res/layout/item_load_state_footer_view.xml"
+            line="30"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="SelectableText"
+        message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
+        errorLine1="    &lt;TextView"
+        errorLine2="     ~~~~~~~~">
+        <location
             file="src/main/res/layout/item_muted_domain.xml"
             line="27"
             column="6"/>
@@ -4818,17 +4818,6 @@
         <location
             file="src/main/res/layout/item_network_state.xml"
             line="8"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="SelectableText"
-        message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
-        errorLine1="    &lt;TextView"
-        errorLine2="     ~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_notifications_load_state_footer_view.xml"
-            line="30"
             column="6"/>
     </issue>
 
@@ -6192,7 +6181,7 @@
         errorLine2="                                   ~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="131"
+            line="132"
             column="36"/>
     </issue>
 
@@ -6203,7 +6192,7 @@
         errorLine2="                                  ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="192"
+            line="193"
             column="35"/>
     </issue>
 
@@ -6214,7 +6203,7 @@
         errorLine2="                                               ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="192"
+            line="193"
             column="48"/>
     </issue>
 
@@ -6225,7 +6214,7 @@
         errorLine2="                                                                         ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="192"
+            line="193"
             column="74"/>
     </issue>
 
@@ -6236,7 +6225,7 @@
         errorLine2="                               ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="199"
+            line="200"
             column="32"/>
     </issue>
 
@@ -6247,41 +6236,41 @@
         errorLine2="                                              ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="211"
+            line="212"
             column="47"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
-        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
+        errorLine2="                               ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="341"
+            line="342"
             column="32"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
-        errorLine2="                                                                       ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
+        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="341"
-            column="72"/>
+            line="342"
+            column="63"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
-        errorLine2="                                                                                                                  ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
+        errorLine2="                                                                                                         ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="341"
-            column="115"/>
+            line="342"
+            column="106"/>
     </issue>
 
     <issue
@@ -6291,7 +6280,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="492"
+            line="493"
             column="19"/>
     </issue>
 
@@ -6302,7 +6291,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="494"
+            line="495"
             column="19"/>
     </issue>
 
@@ -6313,7 +6302,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="585"
+            line="586"
             column="34"/>
     </issue>
 
@@ -6324,7 +6313,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="586"
+            line="587"
             column="40"/>
     </issue>
 
@@ -6335,7 +6324,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="631"
+            line="632"
             column="39"/>
     </issue>
 
@@ -6346,7 +6335,7 @@
         errorLine2="                                      ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="632"
+            line="633"
             column="39"/>
     </issue>
 
@@ -6357,7 +6346,7 @@
         errorLine2="                                      ~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="633"
+            line="634"
             column="39"/>
     </issue>
 
@@ -6368,30 +6357,30 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="634"
+            line="635"
             column="33"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,"
-        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    public void setupWithStatus(StatusViewData status, final StatusActionListener listener,"
+        errorLine2="                                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="753"
+            line="754"
             column="33"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,"
-        errorLine2="                                                                      ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    public void setupWithStatus(StatusViewData status, final StatusActionListener listener,"
+        errorLine2="                                                             ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="753"
-            column="71"/>
+            line="754"
+            column="62"/>
     </issue>
 
     <issue
@@ -6401,7 +6390,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="754"
+            line="755"
             column="33"/>
     </issue>
 
@@ -6412,7 +6401,7 @@
         errorLine2="                                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="844"
+            line="845"
             column="55"/>
     </issue>
 
@@ -6423,7 +6412,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="920"
             column="22"/>
     </issue>
 
@@ -6434,7 +6423,7 @@
         errorLine2="                                                           ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="920"
             column="60"/>
     </issue>
 
@@ -6445,7 +6434,7 @@
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="919"
+            line="920"
             column="77"/>
     </issue>
 
@@ -6456,7 +6445,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="969"
             column="15"/>
     </issue>
 
@@ -6467,7 +6456,7 @@
         errorLine2="                                       ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="968"
+            line="969"
             column="40"/>
     </issue>
 
@@ -6478,7 +6467,7 @@
         errorLine2="              ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="978"
             column="15"/>
     </issue>
 
@@ -6489,18 +6478,18 @@
         errorLine2="                                          ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="977"
+            line="978"
             column="43"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="            final StatusViewData.Concrete status,"
-        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="            final StatusViewData status,"
+        errorLine2="                  ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1078"
+            line="1086"
             column="19"/>
     </issue>
 
@@ -6511,7 +6500,7 @@
         errorLine2="                  ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1080"
+            line="1088"
             column="19"/>
     </issue>
 
@@ -6522,7 +6511,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1081"
+            line="1089"
             column="19"/>
     </issue>
 
@@ -6533,7 +6522,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusBaseViewHolder.java"
-            line="1082"
+            line="1090"
             column="19"/>
     </issue>
 
@@ -6551,8 +6540,8 @@
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
-        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
+        errorLine2="                               ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusDetailedViewHolder.java"
             line="46"
@@ -6562,23 +6551,23 @@
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
-        errorLine2="                                                                       ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
+        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusDetailedViewHolder.java"
             line="46"
-            column="72"/>
+            column="63"/>
     </issue>
 
     <issue
         id="UnknownNullness"
         message="Unknown nullability; explicitly declare as `@Nullable` or `@NonNull` to improve Kotlin interoperability; see https://developer.android.com/kotlin/interop#nullability_annotations"
-        errorLine1="    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
-        errorLine2="                                                                                                                  ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {"
+        errorLine2="                                                                                                         ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusDetailedViewHolder.java"
             line="46"
-            column="115"/>
+            column="106"/>
     </issue>
 
     <issue

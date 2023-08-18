@@ -252,7 +252,6 @@
     <string name="pref_title_alway_show_sensitive_media">Altijd gevoelige inhoud (nsfw) tonen</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Aan het reageren op @%s</string>
-    <string name="load_more_placeholder_text">meer laden</string>
     <string name="add_account_name">Account toevoegen</string>
     <string name="add_account_description">Een nieuw Mastodonaccount toevoegen</string>
     <string name="action_lists">Lijsten</string>
@@ -555,9 +554,6 @@
     <string name="error_following_hashtag_format">Fout tijdens het volgen van #%s</string>
     <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%s</string>
     <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen\?</string>
-    <string name="pref_title_reading_order">Leesvolgorde</string>
-    <string name="pref_reading_order_oldest_first">Oudste eerst</string>
-    <string name="pref_reading_order_newest_first">Nieuwste eerst</string>
     <string name="failed_to_add_to_list">Account toevoegen aan de lijst is mislukt</string>
     <string name="action_add_or_remove_from_list">Toevoegen of verwijderen van lijst</string>
     <string name="failed_to_pin">Kan niet vastmaken</string>

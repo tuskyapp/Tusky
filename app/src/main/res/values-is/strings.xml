@@ -274,7 +274,6 @@
     <string name="pref_title_alway_open_spoiler">Alltaf fletta út færslum sem eru með aðvörun vegna efnis</string>
     <string name="title_media">Gagnaskrár</string>
     <string name="replying_to">Svar til @%s</string>
-    <string name="load_more_placeholder_text">hlaða inn fleiru</string>
     <string name="pref_title_public_filter_keywords">Opinberar tímalínur</string>
     <string name="pref_title_thread_filter_keywords">Samtöl</string>
     <string name="filter_addition_title">Bæta við síu</string>
@@ -580,9 +579,6 @@
     <string name="pref_title_http_proxy_port_message">Gáttin ætti að vera á milli %d og %d</string>
     <string name="error_status_source_load">Mistókst að hlaða inn uppruna stöðufærslu af netþjóninum.</string>
     <string name="a11y_label_loading_thread">Hleð inn þræði</string>
-    <string name="pref_title_reading_order">Lestrarröð</string>
-    <string name="pref_reading_order_oldest_first">Elsta fyrst</string>
-    <string name="pref_reading_order_newest_first">Nýjasta fyrst</string>
     <string name="compose_unsaved_changes">Þú ert með óvistaðar breytingar.</string>
     <string name="pref_summary_http_proxy_disabled">Óvirkt</string>
     <string name="pref_summary_http_proxy_missing">&lt;ekki stillt&gt;</string>

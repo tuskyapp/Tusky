@@ -255,7 +255,6 @@
     <string name="pref_title_alway_show_sensitive_media">أظهر دائما المحتوى الحساس</string>
     <string name="title_media">الوسائط</string>
     <string name="replying_to">ردًا على @%s</string>
-    <string name="load_more_placeholder_text">حمِّل المزيد</string>
     <string name="pref_title_public_filter_keywords">الخطوط الزمنية العمومية</string>
     <string name="pref_title_thread_filter_keywords">المحادثات</string>
     <string name="filter_addition_title">إضافة عامل تصفية</string>
@@ -657,10 +656,7 @@
     <string name="action_post_failed">فشل التحميل</string>
     <string name="action_post_failed_show_drafts">إظهار المسودات</string>
     <string name="action_post_failed_do_nothing">تخطي</string>
-    <string name="pref_title_reading_order">ترتيب القراءة</string>
     <string name="pref_summary_http_proxy_disabled">مُعطَّل</string>
-    <string name="pref_reading_order_oldest_first">الأقدم أولاً</string>
-    <string name="pref_reading_order_newest_first">الأحدث أولاً</string>
     <string name="action_browser_login">الولوج باستخدام متصفح</string>
     <string name="title_public_trending_hashtags">الوسوم المتداولة</string>
     <string name="accessibility_talking_about_tag">هناك %1$d أشخاص يتحدثون عن الوسم %2$s</string>

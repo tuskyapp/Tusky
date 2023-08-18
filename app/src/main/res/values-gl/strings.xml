@@ -281,7 +281,6 @@
     <string name="filter_addition_title">Engadir filtro</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="pref_title_public_filter_keywords">Cronoloxías públicas</string>
-    <string name="load_more_placeholder_text">cargar máis</string>
     <string name="replying_to">Respondendo a @%s</string>
     <string name="title_media">Multimedia</string>
     <string name="pref_title_alway_open_spoiler">Despregar sempre publicacións marcadas con avisos sobre o contido</string>
@@ -593,9 +592,6 @@
     <string name="send_account_link_to">Compartir URL da conta en…</string>
     <string name="send_account_username_to">Compartir identificador da conta en…</string>
     <string name="account_username_copied">Identificador copiado</string>
-    <string name="pref_title_reading_order">Orde de lectura</string>
-    <string name="pref_reading_order_oldest_first">Antigo primeiro</string>
-    <string name="pref_reading_order_newest_first">Novidades primeiro</string>
     <string name="pref_summary_http_proxy_missing">&lt;non establecido&gt;</string>
     <string name="pref_summary_http_proxy_disabled">Desactivado</string>
     <string name="pref_summary_http_proxy_invalid">&lt;non válido&gt;</string>

@@ -47,7 +47,7 @@ class ListStatusAccessibilityDelegate(
 
             val pos = recyclerView.getChildAdapterPosition(host)
             val status = statusProvider.getStatus(pos) ?: return
-            if (status is StatusViewData.Concrete) {
+            if (status is StatusViewData) {
                 if (status.spoilerText.isNotEmpty()) {
                     info.addAction(if (status.isExpanded) collapseCwAction else expandCwAction)
                 }
@@ -114,7 +114,7 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_open_profile -> {
                     interrupt()
                     statusActionListener.onViewAccount(
-                        (statusProvider.getStatus(pos) as StatusViewData.Concrete).actionable.account.id
+                        (statusProvider.getStatus(pos) as StatusViewData).actionable.account.id
                     )
                 }
                 R.id.action_open_media_1 -> {
@@ -171,7 +171,7 @@ class ListStatusAccessibilityDelegate(
         }
 
         private fun showLinksDialog(host: View) {
-            val status = getStatus(host) as? StatusViewData.Concrete ?: return
+            val status = getStatus(host) as? StatusViewData ?: return
             val links = getLinks(status).toList()
             val textLinks = links.map { item -> item.link }
             AlertDialog.Builder(host.context)
@@ -188,7 +188,7 @@ class ListStatusAccessibilityDelegate(
         }
 
         private fun showMentionsDialog(host: View) {
-            val status = getStatus(host) as? StatusViewData.Concrete ?: return
+            val status = getStatus(host) as? StatusViewData ?: return
             val mentions = status.actionable.mentions
             val stringMentions = mentions.map { it.username }
             AlertDialog.Builder(host.context)
@@ -207,7 +207,7 @@ class ListStatusAccessibilityDelegate(
         }
 
         private fun showHashtagsDialog(host: View) {
-            val status = getStatus(host) as? StatusViewData.Concrete ?: return
+            val status = getStatus(host) as? StatusViewData ?: return
             val tags = getHashtags(status).map { it.subSequence(1, it.length) }.toList()
             AlertDialog.Builder(host.context)
                 .setTitle(R.string.title_hashtags_dialog)
@@ -229,7 +229,7 @@ class ListStatusAccessibilityDelegate(
         }
     }
 
-    private fun getLinks(status: StatusViewData.Concrete): Sequence<LinkSpanInfo> {
+    private fun getLinks(status: StatusViewData): Sequence<LinkSpanInfo> {
         val content = status.content
         return if (content is Spannable) {
             content.getSpans(0, content.length, URLSpan::class.java)
@@ -247,7 +247,7 @@ class ListStatusAccessibilityDelegate(
         }
     }
 
-    private fun getHashtags(status: StatusViewData.Concrete): Sequence<CharSequence> {
+    private fun getHashtags(status: StatusViewData): Sequence<CharSequence> {
         val content = status.content
         return content.getSpans(0, content.length, Object::class.java)
             .asSequence()

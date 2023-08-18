@@ -191,7 +191,6 @@
     <string name="pref_title_alway_show_sensitive_media">Mostra el contingut no apte (NSFW)</string>
     <string name="title_media">Multimèdia</string>
     <string name="replying_to">En resposta a @%s</string>
-    <string name="load_more_placeholder_text">carrega\'n més</string>
     <string name="poll_vote">Vota</string>
     <string name="error_sender_account_gone">S\'ha produït un error en publicar.</string>
     <string name="title_tab_preferences">Pestanyes</string>
@@ -579,9 +578,6 @@
     <string name="duration_14_days">14 dies</string>
     <string name="follow_requests_info">Tot i que el vostre compte no està bloquejat, el personal de %1$s va pensar que potser voldreu revisar les sol·licituds de seguiment d\'aquests comptes manualment.</string>
     <string name="report_category_other">Altres</string>
-    <string name="pref_title_reading_order">Ordre de lectura</string>
-    <string name="pref_reading_order_oldest_first">El més vell primer</string>
-    <string name="pref_reading_order_newest_first">El més nou primer</string>
     <string name="duration_30_days">30 dies</string>
     <string name="failed_to_remove_from_list">No s\'ha pogut eliminar el compte de la llista</string>
     <string name="duration_60_days">60 dies</string>

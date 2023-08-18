@@ -247,7 +247,6 @@
     <string name="pref_title_alway_show_sensitive_media">閲覧注意のメディアを常に表示</string>
     <string name="title_media">メディア</string>
     <string name="replying_to">\@%sに返信</string>
-    <string name="load_more_placeholder_text">さらに読み込む</string>
     <string name="filter_addition_title">フィルターを追加</string>
     <string name="filter_edit_title">フィルターを編集</string>
     <string name="add_account_name">アカウントを追加</string>
@@ -580,9 +579,6 @@
     <string name="send_account_username_to">アカウントのユーザー名を共有…</string>
     <string name="account_username_copied">ユーザー名がコピーされました</string>
     <string name="a11y_label_loading_thread">スレッドの読み込み中</string>
-    <string name="pref_reading_order_newest_first">新しい順</string>
-    <string name="pref_title_reading_order">読む順番</string>
-    <string name="pref_reading_order_oldest_first">古い順</string>
     <string name="set_focus_description">サムネイル画像で常に表示される中心点を設定するには、円をタップまたはドラッグして中してくだだい。</string>
     <string name="mute_notifications_switch">通知のミュート</string>
     <string name="account_date_joined">%1$s に参加</string>

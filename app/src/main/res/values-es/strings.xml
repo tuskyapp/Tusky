@@ -246,7 +246,6 @@
     <string name="pref_title_alway_show_sensitive_media">Mostrar contenido NSFW</string>
     <string name="title_media">Multimedia</string>
     <string name="replying_to">Respondiendo a @%s</string>
-    <string name="load_more_placeholder_text">cargar más</string>
     <string name="add_account_name">Añadir cuenta</string>
     <string name="add_account_description">Añadir cuenta de Mastodon</string>
     <string name="action_lists">Listas</string>
@@ -617,9 +616,6 @@
     <string name="action_browser_login">Iniciar sesión con el navegador</string>
     <string name="a11y_label_loading_thread">Cargando hilo</string>
     <string name="mute_notifications_switch">Silenciar notificaciones</string>
-    <string name="pref_title_reading_order">Orden de lectura</string>
-    <string name="pref_reading_order_oldest_first">Más antiguas primero</string>
-    <string name="pref_reading_order_newest_first">Más recientes primero</string>
     <string name="status_edit_info">%1$s ha editado</string>
     <string name="status_created_info">%1$s ha editado</string>
     <string name="pref_summary_http_proxy_disabled">Desactivado</string>

@@ -236,7 +236,6 @@
     <string name="follows_you">Seni takip ediyor</string>
     <string name="pref_title_alway_show_sensitive_media">Her zaman hassas içerikleri göster</string>
     <string name="title_media">Medya</string>
-    <string name="load_more_placeholder_text">daha fazlası</string>
     <string name="add_account_name">Hesap Ekle</string>
     <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
     <string name="action_lists">Listeler</string>
@@ -589,10 +588,7 @@
     <string name="a11y_label_loading_thread">Konu yükleniyor</string>
     <string name="help_empty_home">Bu senin <b>ana ağ akışın</b>. Takip ettiğin hesapların son gönderileri burada yer alacak.
 \n
-\nTakip edebileceğin hesapları diğer ağ akışlarından keşfedebilirsin, örneğin kendi sunucunun yerel zaman tünelinden [iconics gmd_group]. Veya hesapları adlarıyla arayabilirsin [iconics gmd_search], örneğin Mastodon hesabımızı bulmak için Tusky adıyla araman yeterli.</string>
-    <string name="pref_title_reading_order">Okuma sırası</string>
-    <string name="pref_reading_order_oldest_first">Önce en eski</string>
-    <string name="pref_reading_order_newest_first">Önce en yeni</string>
+\nTakip edebileceğin hesapları diğer zaman tünellerinden keşfedebilirsin, örneğin kendi sunucunun yerel zaman tünelinden [iconics gmd_group]. Veya hesapları adlarıyla arayabilirsin [iconics gmd_search], örneğin Mastodon hesabımızı bulmak için Tusky adıyla araman yeterli.</string>
     <string name="pref_summary_http_proxy_missing">&lt;ayarlanmadı&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;geçersiz&gt;</string>
     <string name="pref_summary_http_proxy_disabled">Etkisizleştirildi</string>

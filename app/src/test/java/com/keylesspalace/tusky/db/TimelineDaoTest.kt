@@ -5,13 +5,10 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
-import com.keylesspalace.tusky.components.timeline.Placeholder
-import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.entity.Status
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -274,96 +271,6 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun `should return null as topId when db is empty`() = runBlocking {
-        assertNull(timelineDao.getTopId(1))
-    }
-
-    @Test
-    fun `should return correct topId`() = runBlocking {
-        val statusData = listOf(
-            makeStatus(
-                statusId = 4,
-                accountId = 1,
-                domain = "mastodon.test",
-                authorServerId = "1"
-            ),
-            makeStatus(
-                statusId = 33,
-                accountId = 1,
-                domain = "mastodon.test",
-                authorServerId = "2"
-            ),
-            makeStatus(
-                statusId = 22,
-                accountId = 1,
-                domain = "mastodon.test",
-                authorServerId = "2"
-            )
-        )
-
-        for ((status, author, reblogAuthor) in statusData) {
-            timelineDao.insertAccount(author)
-            reblogAuthor?.let {
-                timelineDao.insertAccount(it)
-            }
-            timelineDao.insertStatus(status)
-        }
-
-        assertEquals("33", timelineDao.getTopId(1))
-    }
-
-    @Test
-    fun `should return correct placeholderId after other ids`() = runBlocking {
-        val statusData = listOf(
-            makeStatus(statusId = 1000),
-            makePlaceholder(id = 99),
-            makeStatus(statusId = 97),
-            makeStatus(statusId = 95),
-            makePlaceholder(id = 94),
-            makeStatus(statusId = 90)
-        )
-
-        for ((status, author, reblogAuthor) in statusData) {
-            author?.let {
-                timelineDao.insertAccount(it)
-            }
-            reblogAuthor?.let {
-                timelineDao.insertAccount(it)
-            }
-            timelineDao.insertStatus(status)
-        }
-
-        assertEquals("99", timelineDao.getNextPlaceholderIdAfter(1, "1000"))
-        assertEquals("94", timelineDao.getNextPlaceholderIdAfter(1, "99"))
-        assertNull(timelineDao.getNextPlaceholderIdAfter(1, "90"))
-    }
-
-    @Test
-    fun `should return correct top placeholderId`() = runBlocking {
-        val statusData = listOf(
-            makeStatus(statusId = 1000),
-            makePlaceholder(id = 99),
-            makeStatus(statusId = 97),
-            makePlaceholder(id = 96),
-            makeStatus(statusId = 90),
-            makePlaceholder(id = 80),
-            makeStatus(statusId = 77)
-        )
-
-        for ((status, author, reblogAuthor) in statusData) {
-            author?.let {
-                timelineDao.insertAccount(it)
-            }
-            reblogAuthor?.let {
-                timelineDao.insertAccount(it)
-            }
-            timelineDao.insertStatus(status)
-        }
-
-        assertEquals("99", timelineDao.getTopPlaceholderId(1))
-    }
-
-    @Test
     fun `preview card survives roundtrip`() = runBlocking {
         val setOne = makeStatus(statusId = 3, cardUrl = "https://foo.bar")
 
@@ -464,14 +371,6 @@ class TimelineDaoTest {
             filtered = null
         )
         return Triple(status, author, reblogAuthor)
-    }
-
-    private fun makePlaceholder(
-        accountId: Long = 1,
-        id: Long
-    ): Triple<TimelineStatusEntity, TimelineAccountEntity?, TimelineAccountEntity?> {
-        val placeholder = Placeholder(id.toString(), false).toEntity(accountId)
-        return Triple(placeholder, null, null)
     }
 
     private fun assertStatuses(

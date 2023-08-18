@@ -130,6 +130,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
         }
 
+        if (oldVersion < 2023042601) {
+            // Deleting the "Reading order" preference, as the need to "Load more" has been
+            // removed.
+            editor.remove(PrefKeys.DEPRECATED_READING_ORDER)
+        }
+
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }

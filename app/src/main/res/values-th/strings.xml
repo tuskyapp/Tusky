@@ -153,7 +153,6 @@
     <string name="filter_addition_title">เพิ่มตัวคัดกรอง</string>
     <string name="pref_title_thread_filter_keywords">การสนทนา</string>
     <string name="pref_title_public_filter_keywords">ไทม์ไลน์สาธารณะ</string>
-    <string name="load_more_placeholder_text">โหลดเพิ่ม</string>
     <string name="replying_to">ตอบกลับไป @%s</string>
     <string name="title_media">สื่อ</string>
     <string name="pref_title_alway_open_spoiler">ขยาย Toot ที่มีเครื่องหมายเนื้อหาอ่อนไหวเสมอ</string>

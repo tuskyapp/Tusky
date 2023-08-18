@@ -100,8 +100,8 @@ data class ConversationStatusEntity(
     val language: String?
 ) {
 
-    fun toViewData(): StatusViewData.Concrete {
-        return StatusViewData.Concrete(
+    fun toViewData(): StatusViewData {
+        return StatusViewData(
             status = Status(
                 id = id,
                 url = url,

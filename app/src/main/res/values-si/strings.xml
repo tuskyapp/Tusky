@@ -110,7 +110,6 @@
     <string name="title_direct_messages">සෘජු පණිවිඩ</string>
     <string name="downloading_media">මාධ්‍ය බාගත වෙමින්</string>
     <string name="pref_title_show_media_preview">මාධ්‍ය පෙරදසුන් බාගන්න</string>
-    <string name="load_more_placeholder_text">තව පූරණය</string>
     <string name="dialog_download_image">බාගන්න</string>
     <string name="title_mentions_dialog">සඳැහුම්</string>
     <string name="action_reply">පිළිතුර</string>

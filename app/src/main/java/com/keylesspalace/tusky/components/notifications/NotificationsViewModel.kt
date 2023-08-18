@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.R
@@ -32,10 +33,15 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.filters.FiltersViewModel.Companion.FILTER_PREF_KEYS
+import com.keylesspalace.tusky.components.timeline.FilterKind
+import com.keylesspalace.tusky.components.timeline.FiltersRepository
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -52,6 +58,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -179,25 +186,25 @@ sealed class NotificationActionSuccess(
 
 /** Actions the user can trigger on an individual status */
 sealed class StatusAction(
-    open val statusViewData: StatusViewData.Concrete
+    open val statusViewData: StatusViewData
 ) : FallibleUiAction() {
     /** Set the bookmark state for a status */
-    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Bookmark(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Set the favourite state for a status */
-    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Favourite(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Set the reblog state for a status */
-    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData.Concrete) :
+    data class Reblog(val state: Boolean, override val statusViewData: StatusViewData) :
         StatusAction(statusViewData)
 
     /** Vote in a poll */
     data class VoteInPoll(
         val poll: Poll,
         val choices: List<Int>,
-        override val statusViewData: StatusViewData.Concrete
+        override val statusViewData: StatusViewData
     ) : StatusAction(statusViewData)
 }
 
@@ -271,6 +278,10 @@ sealed class UiError(
         override val action: NotificationAction.RejectFollowRequest
     ) : UiError(throwable, R.string.ui_error_reject_follow_request, action)
 
+    data class GetFilters(
+        override val throwable: Throwable
+    ) : UiError(throwable, R.string.ui_error_filter_v1_load, null)
+
     companion object {
         fun make(throwable: Throwable, action: FallibleUiAction) = when (action) {
             is StatusAction.Bookmark -> Bookmark(throwable, action)
@@ -290,7 +301,9 @@ class NotificationsViewModel @Inject constructor(
     private val preferences: SharedPreferences,
     private val accountManager: AccountManager,
     private val timelineCases: TimelineCases,
-    private val eventHub: EventHub
+    private val eventHub: EventHub,
+    private val filtersRepository: FiltersRepository,
+    private val filterModel: FilterModel
 ) : ViewModel() {
     /** The account to display notifications for */
     val account = accountManager.activeAccount!!
@@ -331,6 +344,8 @@ class NotificationsViewModel @Inject constructor(
     }
 
     init {
+        filterModel.kind = Filter.Kind.NOTIFICATIONS
+
         // Handle changes to notification filters
         val notificationFilter = uiAction
             .filterIsInstance<InfallibleUiAction.ApplyFilter>()
@@ -474,6 +489,17 @@ class NotificationsViewModel @Inject constructor(
                 }
         }
 
+        // Fetch the status filters
+        viewModelScope.launch {
+            eventHub.events
+                .filterIsInstance<PreferenceChangedEvent>()
+                .filter { FILTER_PREF_KEYS.contains(it.preferenceKey) }
+                .distinctUntilChanged()
+                .map { getFilters() }
+                .onStart { getFilters() }
+                .collect()
+        }
+
         // Handle events that should refresh the list
         viewModelScope.launch {
             eventHub.events.collectLatest {
@@ -509,17 +535,47 @@ class NotificationsViewModel @Inject constructor(
         filters: Set<Notification.Type>,
         initialKey: String? = null
     ): Flow<PagingData<NotificationViewData>> {
+        Log.d(TAG, "getNotifications: $initialKey")
         return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
                 pagingData.map { notification ->
+                    val filterAction = notification.status?.actionableStatus?.let { filterModel.shouldFilterStatus(it) } ?: Filter.Action.NONE
                     notification.toViewData(
                         isShowingContent = statusDisplayOptions.value.showSensitiveMedia ||
                             !(notification.status?.actionableStatus?.sensitive ?: false),
                         isExpanded = statusDisplayOptions.value.openSpoiler,
-                        isCollapsed = true
+                        isCollapsed = true,
+                        filterAction = filterAction
                     )
+                }.filter {
+                    it.statusViewData?.filterAction != Filter.Action.HIDE
                 }
             }
+    }
+
+    /**
+     * Gets the current filters from the repository. Applies them locally if they are
+     * v1 filters.
+     *
+     * Whatever the filter kind, the current timeline is invalidated, so it updates with the
+     * most recent filters.
+     */
+    private fun getFilters() = viewModelScope.launch {
+        try {
+            when (val filters = filtersRepository.getFilters()) {
+                is FilterKind.V1 -> {
+                    filterModel.initWithFilters(
+                        filters.filters.filter {
+                            it.context.contains("notifications")
+                        }
+                    )
+                    repository.invalidate()
+                }
+                is FilterKind.V2 -> repository.invalidate()
+            }
+        } catch (throwable: Throwable) {
+            _uiErrorChannel.send(UiError.GetFilters(throwable))
+        }
     }
 
     // The database stores "0" as the last notification ID if notifications have not been

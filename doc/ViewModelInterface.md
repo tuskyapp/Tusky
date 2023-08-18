@@ -16,7 +16,7 @@ After reading this document you should understand:
 Before reading this document you should:
 
 - Understand Kotlin flows
-- Read [Guide to app architecture / UI layer](https://developer.android.com/topic/architecture/ui-layer) 
+- Read [Guide to app architecture / UI layer](https://developer.android.com/topic/architecture/ui-layer)
 
 ## Action and UiState flows
 
@@ -43,7 +43,7 @@ something.
 The view model does **not** tell the fragment to do something.
 
 State always flows from right to left. The view model tells the fragment
-"Here's the new state, it up to you how to display it."
+"Here's the new state, it's up to you how to display it."
 
 Not shown on this diagram, but implicit, is these actions are asynchronous,
 and the view model may be making one or more requests to other components to
@@ -108,7 +108,7 @@ fun onViewCreated(...) {
 }
 ```
 
-This is a good start, but it can be me significantly improved.
+This is a good start, but it can be improved.
 
 ### Model actions with sealed classes
 
@@ -138,7 +138,7 @@ the UI are:
 
 > NOTE: The user can also interact with items in the list of the
 > notifications.
-> 
+>
 > That is handled a little differently because of how code outside
 > `NotificationsFragment` is currently written. It will be adjusted at
 > a later time.
@@ -156,7 +156,7 @@ sealed class UiAction {
 
 This has multiple benefits:
 
-- The actions the view model can act on are defined in a single place
+- The actions the view model can perform are defined in a single place
 - Each action clearly describes the information it carries with it
 - Each action is strongly typed; it is impossible to create an action
   of the wrong type
@@ -173,11 +173,11 @@ val actionFlow = MutableSharedFlow<UiAction>() // As before
 
 init {
     // ...
-    
+
     handleApplyFilter()
     handleClearNotifications()
     handleSaveVisibleId()
-    
+
     // ...
 }
 
@@ -194,7 +194,7 @@ fun handleClearNotifications() = viewModelScope.launch {
     actionFlow
         .filterIsInstance<UiAction.ClearNotifications>()
         .distinctUntilChanged()
-        .collect { action -> 
+        .collect { action ->
             // Clear notifications, update state
         }
 }
@@ -236,7 +236,8 @@ val accept: (UiAction) -> Unit = { action ->
 }
 ```
 
-When the Fragment wants to send a `UiAction` to the view model it:
+When the Fragment wants to send a `UiAction` to the view model it can call this
+function.
 
 ```kotlin
 // In the Fragment
@@ -293,7 +294,7 @@ sealed class NotificationAction : FallibleUiAction() {
 }
 
 sealed class StatusAction(
-    open val statusViewData: StatusViewData.Concrete
+    open val statusViewData: StatusViewData
 ) : FallibleUiAction() {
     // subclasses here
 }
@@ -337,7 +338,7 @@ classDiagram
   StatusAction <|-- Favourite
   StatusAction <|-- Reblog
   StatusAction <|-- VoteInPoll
-  
+
 ```
 
 ### Multiple output flows
@@ -378,6 +379,7 @@ to process them.
 - `UiSuccess` show a brief snackbar without disturbing the rest
   of the UI
 - `UiError` show a fixed snackbar with a "Retry" option
+  (if the operation can be retried)
 
 They also have different statefulness requirements, which makes separating
 them in to different flows a sensible approach.
@@ -385,11 +387,44 @@ them in to different flows a sensible approach.
 `PagingData`, `UiState`, and `StatusDisplayOptions` are stateful -- if the
 Fragment disconnects from the flow and then reconnects (e.g., because of a
 configuration change) the Fragment should receive the most recent state of
-each of these.
+each of these. So they are modeled as a `StateFlow`.
 
-`UiSuccess` and `UiError` are not stateful. The success and error messages are
-transient; if one has been shown, and there is a subsequent configuration
-change the user should not see the success or error message again.
+`UiSuccess` is not stateful. The success messages are transient; if one has
+been shown, and there is a subsequent configuration change the user should
+not see the success message again. So this is modeled as a `SharedFlow`.
+
+`UiError` is not stateful, but it must be hot, otherwise error messages can
+be lost, so it is implemented as a channel and exposed as a flow.
+
+It may be easier to explain what happens if you do not do this.
+
+Suppose `UiError` is a `SharedFlow`. The view model initialises and performs
+some fallible operations, such as loading data from a repository that involves
+a network request.
+
+This operation fails, so an error is sent to `uiError`. However, the
+fragment or activity has not yet started collecting from that flow. So as a
+`SharedFlow` the error is lost and not displayed to the user.
+
+If `UiError` was implemented as a `StateFlow` this problem would not occur.
+However, the flow would need an initial value (an empty `StateFlow` is not
+possible) and there would need to be a mechanism to dismiss errors from the
+state.
+
+Instead, the error flow is backed by a private channel and exposed as a flow.
+If an error is sent by the view model before the UI has collected from the
+flow the error will be persisted. And once the error has been collected it
+will not persist in the channel.
+
+The implementation looks like this:
+
+```kotlin
+private val _uiErrorChannel = Channel<UiError>()
+val uiError = _uiErrorChannel.receiveAsFlow()
+
+// Later, to send an error
+_uiErrorChannel.send(UiError.SomeError(/* ... */))
+```
 
 ### Modelling success and failure for fallible actions
 
@@ -413,11 +448,55 @@ Fragment saying "Here is the action I want to be performed" and the `action`
 in `UiSuccess` is the View Model saying "Here is the action that was carried
 out."
 
+Including the original action in the successful response allows the UI to be
+updated in response to the success.
+
 Unsurprisingly, this is modelled with a `UiSuccess` class, and per-action
 subclasses.
 
+This shows typical code for a success class, in this case, bookmarking a
+status has succeeded.
+
+```kotlin
+sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess () {
+    data class Bookmark(override val action: StatusAction.Bookmark) :
+        StatusActionSuccess(action)
+
+    // ... other action successes here
+
+    companion object {
+        fun from (action: StatusAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(action)
+            // ... other actions here
+        }
+    }
+}
+```
+
 Failures are modelled similarly, with a `UiError` class. However, details
 about the error are included, as well as the original action.
+
+```kotlin
+sealed class UiError(
+    open val throwable: Throwable,
+    @StringRes val message: Int,
+    open val action: UiAction? = null
+) {
+    data class Bookmark(
+      override val throwable: Throwable,
+      override val action: StatusAction.Bookmark
+    ) : UiError(throwable, R.string.ui_error_bookmark, action)
+
+    // ... other action errors here
+
+    companion object {
+        fun make(throwable: Throwable, action: FallibleUiAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(throwable, action)
+            // other actions here
+      }
+    }
+}
+```
 
 So each fallible action has three associated classes; one for the action,
 one to represent the action succeeding, and one to represent the action
@@ -429,22 +508,22 @@ looks like this:
 ```kotlin
 // In the View Model
 sealed class StatusAction(
-    open val statusViewData: StatusViewData.Concrete
+    open val statusViewData: StatusViewData
 ) : FallibleUiAction() {
     data class Bookmark(
         val state: Boolean,
-        override val statusViewData: StatusViewData.Concrete
+        override val statusViewData: StatusViewData
     ) : StatusAction(statusViewData)
-  
+
     // ... other actions here
 }
 
 sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess () {
     data class Bookmark(override val action: StatusAction.Bookmark) :
         StatusActionSuccess(action)
-  
+
     // ... other action successes here
-  
+
     companion object {
         fun from (action: StatusAction) = when (action) {
             is StatusAction.Bookmark -> Bookmark(action)
@@ -454,22 +533,22 @@ sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess () {
 }
 
 sealed class UiError(
-    open val exception: Exception,
+    open val throwable: Throwable,
     @StringRes val message: Int,
     open val action: UiAction? = null
 ) {
     data class Bookmark(
-      override val exception: Exception,
-      override val action: StatusAction.Bookmark
-    ) : UiError(exception, R.string.ui_error_bookmark, action)
-  
+        override val throwable: Throwable,
+        override val action: StatusAction.Bookmark
+    ) : UiError(throwable, R.string.ui_error_bookmark, action)
+
     // ... other action errors here
 
     companion object {
-        fun make(exception: Exception, action: FallibleUiAction) = when (action) {
-            is StatusAction.Bookmark -> Bookmark(exception, action)
+        fun make(throwable: Throwable, action: FallibleUiAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(throwable, action)
             // other actions here
-      }
+        }
     }
 }
 ```
@@ -536,10 +615,11 @@ lifecycleScope.launch {
 
 ### Supporting "retry" semantics
 
-This approach has an extremely helpful benefit. By including the original
-action in the `UiError` response, implementing a "retry" function is as
-simple as re-sending the original action (included in the error) back to
-the view model.
+Including the original action in the `UiError` response means implementing a
+"retry" function is as simple as re-sending the original action (included in
+the error) back to the view model.
+
+The previous code can be amended like so:
 
 ```kotlin
 lifecycleScope.launch {
@@ -552,7 +632,9 @@ lifecycleScope.launch {
                 getString(error.message),
                 LENGTH_LONG
             )
-            error.action?.let { action -> 
+            // New code here -- add a button to the snackbar to retry
+            // the operation by resending the action that failed.
+            error.action?.let { action ->
                 snackbar.setAction("Retry") { viewModel.accept(action) }
             }
             snackbar.show()
@@ -579,7 +661,7 @@ sequenceDiagram
       activate ui
       ui->>ui: collect UiState, update UI
       deactivate ui
-      
+
     else Update StatusDisplayOptions?
       vm->>vm: emit(StatusDisplayOptions(...))
       vm-->>ui: StatusDisplayOption(...)
@@ -607,9 +689,9 @@ sequenceDiagram
       deactivate ui
       activate vm
       vm->>vm: Perform action, emit response...
-      deactivate vm 
+      deactivate vm
     end
     note over ui,vm: Type of UI change depends on type of object emitted<br>UiState, StatusDisplayOptions, UiSuccess, UiError
-      
+
     ui-->>user: Observes changes
 ```

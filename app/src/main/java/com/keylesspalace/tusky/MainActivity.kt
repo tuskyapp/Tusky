@@ -654,17 +654,26 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         return AlertDialog.Builder(this)
             .setTitle("Developer Tools")
             .setItems(
-                arrayOf("Create \"Load more\" gap")
+                arrayOf(
+                    "Clear home timeline cache",
+                    "Remove first 40 statuses"
+                )
             ) { _, which ->
                 Log.d(TAG, "Developer tools: $which")
                 when (which) {
                     0 -> {
-                        Log.d(TAG, "Creating \"Load more\" gap")
+                        Log.d(TAG, "Clearing home timeline cache")
                         lifecycleScope.launch {
                             accountManager.activeAccount?.let {
-                                developerToolsUseCase.createLoadMoreGap(
-                                    it.id
-                                )
+                                developerToolsUseCase.clearHomeTimelineCache(it.id)
+                            }
+                        }
+                    }
+                    1 -> {
+                        Log.d(TAG, "Removing most recent 40 statuses")
+                        lifecycleScope.launch {
+                            accountManager.activeAccount?.let {
+                                developerToolsUseCase.deleteFirstKStatuses(it.id, 40)
                             }
                         }
                     }

@@ -13,6 +13,9 @@ data class UnfollowEvent(val accountId: String) : Event
 data class BlockEvent(val accountId: String) : Event
 data class MuteEvent(val accountId: String) : Event
 data class StatusDeletedEvent(val statusId: String) : Event
+
+/** A status the user wrote was successfully sent */
+// TODO: Rename, calling it "Composed" does imply anything about the sent state
 data class StatusComposedEvent(val status: Status) : Event
 data class StatusScheduledEvent(val status: Status) : Event
 data class StatusEditedEvent(val originalId: String, val status: Status) : Event

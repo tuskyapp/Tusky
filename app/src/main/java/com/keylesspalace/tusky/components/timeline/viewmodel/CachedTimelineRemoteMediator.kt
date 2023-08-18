@@ -11,38 +11,44 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.google.gson.Gson
-import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.RemoteKeyEntity
+import com.keylesspalace.tusky.db.RemoteKeyKind
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.Links
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
+import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class CachedTimelineRemoteMediator(
-    accountManager: AccountManager,
     private val api: MastodonApi,
+    accountManager: AccountManager,
+    private val factory: InvalidatingPagingSourceFactory<Int, TimelineStatusWithAccount>,
     private val db: AppDatabase,
     private val gson: Gson
 ) : RemoteMediator<Int, TimelineStatusWithAccount>() {
 
-    private var initialRefresh = false
-
     private val timelineDao = db.timelineDao()
+    private val remoteKeyDao = db.remoteKeyDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
@@ -53,72 +59,115 @@ class CachedTimelineRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = true)
         }
 
-        try {
-            var dbEmpty = false
+        Log.d(TAG, "load(), LoadType = $loadType")
 
-            val topPlaceholderId = if (loadType == LoadType.REFRESH) {
-                timelineDao.getTopPlaceholderId(activeAccount.id)
-            } else {
-                null // don't execute the query if it is not needed
-            }
-
-            if (!initialRefresh && loadType == LoadType.REFRESH) {
-                val topId = timelineDao.getTopId(activeAccount.id)
-                topId?.let { cachedTopId ->
-                    val statusResponse = api.homeTimeline(
-                        maxId = cachedTopId,
-                        sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
-                        limit = state.config.pageSize
-                    )
-
-                    val statuses = statusResponse.body()
-                    if (statusResponse.isSuccessful && statuses != null) {
-                        db.withTransaction {
-                            replaceStatusRange(statuses, state)
-                        }
-                    }
-                }
-                initialRefresh = true
-                dbEmpty = topId == null
-            }
-
-            val statusResponse = when (loadType) {
+        return try {
+            val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.homeTimeline(sinceId = topPlaceholderId, limit = state.config.pageSize)
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
+                    val rke = db.withTransaction {
+                        remoteKeyDao.remoteKeyForKind(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.PREV
+                        )
+                    }
+                    Log.d(TAG, "Loading from remoteKey: $rke")
+                    api.homeTimeline(minId = rke?.key, limit = state.config.pageSize)
                 }
                 LoadType.APPEND -> {
-                    val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.status?.serverId
-                    api.homeTimeline(maxId = maxId, limit = state.config.pageSize)
+                    val rke = db.withTransaction {
+                        remoteKeyDao.remoteKeyForKind(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.NEXT
+                        )
+                    } ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.d(TAG, "Loading from remoteKey: $rke")
+                    api.homeTimeline(maxId = rke.key, limit = state.config.pageSize)
+                }
+                LoadType.PREPEND -> {
+                    val rke = db.withTransaction {
+                        remoteKeyDao.remoteKeyForKind(
+                            activeAccount.id,
+                            TIMELINE_ID,
+                            RemoteKeyKind.PREV
+                        )
+                    } ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.d(TAG, "Loading from remoteKey: $rke")
+                    api.homeTimeline(minId = rke.key, limit = state.config.pageSize)
                 }
             }
 
-            val statuses = statusResponse.body()
-            if (!statusResponse.isSuccessful || statuses == null) {
-                return MediatorResult.Error(HttpException(statusResponse))
+            val statuses = response.body()
+            if (!response.isSuccessful || statuses == null) {
+                return MediatorResult.Error(HttpException(response))
             }
 
+            Log.d(TAG, "${statuses.size} - # statuses loaded")
+
+            // This request succeeded with no new data, and pagination ends (unless this is a
+            // REFRESH, which must always set endOfPaginationReached to false).
+            if (statuses.isEmpty()) {
+                factory.invalidate()
+                return MediatorResult.Success(endOfPaginationReached = loadType != LoadType.REFRESH)
+            }
+
+            Log.d(TAG, "  ${statuses.first().id}..${statuses.last().id}")
+
+            val links = Links.from(response.headers()["link"])
             db.withTransaction {
-                val overlappedStatuses = replaceStatusRange(statuses, state)
-
-                /* In case we loaded a whole page and there was no overlap with existing statuses,
-                   we insert a placeholder because there might be even more unknown statuses */
-                if (loadType == LoadType.REFRESH && overlappedStatuses == 0 && statuses.size == state.config.pageSize && !dbEmpty) {
-                    /* This overrides the last of the newly loaded statuses with a placeholder
-                       to guarantee the placeholder has an id that exists on the server as not all
-                       servers handle client generated ids as expected */
-                    timelineDao.insertStatus(
-                        Placeholder(statuses.last().id, loading = false).toEntity(activeAccount.id)
-                    )
+                when (loadType) {
+                    LoadType.REFRESH -> {
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.NEXT,
+                                links.next
+                            )
+                        )
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.PREV,
+                                links.prev
+                            )
+                        )
+                    }
+                    // links.prev may be null if there are no statuses, only set if non-null,
+                    // https://github.com/mastodon/mastodon/issues/25760
+                    LoadType.PREPEND -> links.prev?.let { prev ->
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.PREV,
+                                prev
+                            )
+                        )
+                    }
+                    // links.next may be null if there are no statuses, only set if non-null,
+                    // https://github.com/mastodon/mastodon/issues/25760
+                    LoadType.APPEND -> links.next?.let { next ->
+                        remoteKeyDao.upsert(
+                            RemoteKeyEntity(
+                                activeAccount.id,
+                                TIMELINE_ID,
+                                RemoteKeyKind.NEXT,
+                                next
+                            )
+                        )
+                    }
                 }
+                replaceStatusRange(statuses, state)
             }
-            return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
-        } catch (e: Exception) {
-            return ifExpected(e) {
-                MediatorResult.Error(e)
-            }
+
+            return MediatorResult.Success(endOfPaginationReached = false)
+        } catch (e: IOException) {
+            MediatorResult.Error(e)
+        } catch (e: HttpException) {
+            MediatorResult.Error(e)
         }
     }
 
@@ -152,14 +201,7 @@ class CachedTimelineRemoteMediator(
                 if (oldStatus != null) break
             }
 
-            // The "expanded" property for Placeholders determines whether or not they are
-            // in the "loading" state, and should not be affected by the account's
-            // "alwaysOpenSpoiler" preference
-            val expanded = if (oldStatus?.isPlaceholder == true) {
-                oldStatus.expanded
-            } else {
-                oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
-            }
+            val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
             val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
             val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
@@ -174,5 +216,12 @@ class CachedTimelineRemoteMediator(
             )
         }
         return overlappedStatuses
+    }
+
+    companion object {
+        private const val TAG = "CachedTimelineRemoteMediator"
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        const val TIMELINE_ID = "HOME"
     }
 }

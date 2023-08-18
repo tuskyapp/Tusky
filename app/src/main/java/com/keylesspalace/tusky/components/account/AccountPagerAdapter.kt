@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.components.account.media.AccountMediaFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
-import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
@@ -32,9 +32,9 @@ class AccountPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> TimelineFragment.newInstance(TimelineViewModel.Kind.USER, accountId, false)
-            1 -> TimelineFragment.newInstance(TimelineViewModel.Kind.USER_WITH_REPLIES, accountId, false)
-            2 -> TimelineFragment.newInstance(TimelineViewModel.Kind.USER_PINNED, accountId, false)
+            0 -> TimelineFragment.newInstance(TimelineKind.User.Posts(accountId), false)
+            1 -> TimelineFragment.newInstance(TimelineKind.User.Replies(accountId), false)
+            2 -> TimelineFragment.newInstance(TimelineKind.User.Pinned(accountId), false)
             3 -> AccountMediaFragment.newInstance(accountId)
             else -> throw AssertionError("Page $position is out of AccountPagerAdapter bounds")
         }

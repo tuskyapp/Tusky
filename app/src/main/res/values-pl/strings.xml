@@ -223,7 +223,6 @@
     <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj wrażliwą zawartość</string>
     <string name="title_media">Zawartość multimedialna</string>
     <string name="replying_to">Odpowiadasz na wpis autorstwa @%s</string>
-    <string name="load_more_placeholder_text">załaduj więcej</string>
     <string name="add_account_name">Dodaj konto</string>
     <string name="add_account_description">Dodaj nowe Konto Mastodon</string>
     <string name="action_lists">Listy</string>
@@ -597,8 +596,6 @@
     <string name="title_followed_hashtags">Obserwowane hashtagi</string>
     <string name="a11y_label_loading_thread">Ładowanie wątku</string>
     <string name="instance_rule_info">Logując się akceptujesz regulamin %s.</string>
-    <string name="pref_reading_order_oldest_first">Najpierw najstarsze</string>
-    <string name="pref_reading_order_newest_first">Najpierw najnowsze</string>
     <string name="no_lists">Nie masz żadnych list.</string>
     <string name="mute_notifications_switch">Wycisz powiadomienia</string>
     <string name="status_edit_info">%1$s edytował</string>
@@ -620,7 +617,6 @@
     <string name="report_category_other">Inne</string>
     <string name="post_edited">Edytowano %s</string>
     <string name="delete_scheduled_post_warning">Usunąć ten zaplanowany wpis\?</string>
-    <string name="pref_title_reading_order">Kolejność czytania</string>
     <string name="pref_summary_http_proxy_missing">&lt;nieustawiony&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;niepoprawny&gt;</string>
     <string name="pref_title_http_proxy_port_message">Port powinien być pomiędzy %d a %d</string>

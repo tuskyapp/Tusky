@@ -240,7 +240,6 @@
     <string name="pref_title_alway_show_sensitive_media">Sempre mostrar mídia sensível</string>
     <string name="title_media">Mídia</string>
     <string name="replying_to">Respondendo @%s</string>
-    <string name="load_more_placeholder_text">carregar mais</string>
     <string name="add_account_name">Adicionar conta</string>
     <string name="add_account_description">Adicionar nova conta Mastodon</string>
     <string name="action_lists">Listas</string>
@@ -551,7 +550,6 @@
     <string name="error_loading_account_details">Falha ao carregar detalhes da conta</string>
     <string name="a11y_label_loading_thread">Carregando fio</string>
     <string name="instance_rule_info">Ao entrar, você concorda com as regras de %s.</string>
-    <string name="pref_title_reading_order">Ordem de leitura</string>
     <string name="set_focus_description">Toque ou arraste o círculo para escolher o ponto focal que estará sempre visível nas miniaturas.</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="action_add_or_remove_from_list">Adicionar ou remover da lista</string>
@@ -578,10 +576,8 @@
     <string name="status_created_at_now">agora</string>
     <string name="action_post_failed">Falha ao enviar</string>
     <string name="action_post_failed_show_drafts">Mostrar rascunhos</string>
-    <string name="pref_reading_order_newest_first">Mais recentes primeiro</string>
     <string name="account_date_joined">Entrou em %1$s</string>
     <string name="mute_notifications_switch">Silenciar notificações</string>
-    <string name="pref_reading_order_oldest_first">Mais antigos primeiro</string>
     <string name="failed_to_add_to_list">Falha ao adicionar a conta à lista</string>
     <string name="description_login">Funciona na maioria dos casos. Nenhum dado é vazado para outros aplicativos.</string>
     <string name="description_browser_login">Pode oferecer suporte a métodos de autenticação adicionais, mas requer um navegador compatível.</string>

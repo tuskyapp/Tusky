@@ -17,10 +17,10 @@ package com.keylesspalace.tusky.interfaces;
 
 import android.view.View;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 public interface StatusActionListener extends LinkListener {
     void onReply(int position);
@@ -38,7 +38,6 @@ public interface StatusActionListener extends LinkListener {
     void onOpenReblog(int position);
     void onExpandedChange(boolean expanded, int position);
     void onContentHiddenChange(boolean isShowing, int position);
-    void onLoadMore(int position);
 
     /**
      * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
@@ -64,7 +63,7 @@ public interface StatusActionListener extends LinkListener {
     void onVoteInPoll(int position, @NonNull List<Integer> choices);
 
     default void onShowEdits(int position) {}
-    
+
     void clearWarningAction(int position);
 
 }

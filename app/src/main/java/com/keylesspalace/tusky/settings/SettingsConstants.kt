@@ -41,7 +41,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023022701
+const val SCHEMA_VERSION = 2023042601
 
 object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give
@@ -53,7 +53,9 @@ object PrefKeys {
     const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"
-    const val READING_ORDER = "readingOrder"
+
+    /** Deprecated reading order preference key */
+    const val DEPRECATED_READING_ORDER = "readingOrder"
     const val MAIN_NAV_POSITION = "mainNavPosition"
     const val HIDE_TOP_TOOLBAR = "hideTopToolbar"
     const val ABSOLUTE_TIME_VIEW = "absoluteTimeView"

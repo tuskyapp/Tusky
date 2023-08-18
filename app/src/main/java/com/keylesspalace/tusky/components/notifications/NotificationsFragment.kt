@@ -51,9 +51,11 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.components.timeline.TimelineLoadStateAdapter
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
@@ -62,7 +64,9 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -73,12 +77,10 @@ import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class NotificationsFragment :
@@ -211,8 +213,8 @@ class NotificationsFragment :
         })
 
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = NotificationsLoadStateAdapter { adapter.retry() },
-            footer = NotificationsLoadStateAdapter { adapter.retry() }
+            header = TimelineLoadStateAdapter { adapter.retry() },
+            footer = TimelineLoadStateAdapter { adapter.retry() }
         )
 
         binding.buttonClear.setOnClickListener { confirmClearNotifications() }
@@ -288,10 +290,10 @@ class NotificationsFragment :
                         // that the action succeeded. Since it hasn't, re-bind the view
                         // to show the correct data.
                         error.action?.let { action ->
-                            action is StatusAction || return@let
+                            if (action !is StatusAction) return@let
 
                             val position = adapter.snapshot().indexOfFirst {
-                                it?.statusViewData?.status?.id == (action as StatusAction).statusViewData.id
+                                it?.statusViewData?.status?.id == action.statusViewData.id
                             }
                             if (position != NO_POSITION) {
                                 adapter.notifyItemChanged(position)
@@ -392,45 +394,31 @@ class NotificationsFragment :
 
                 // Update the UI from the loadState
                 adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
-                        binding.recyclerView.isVisible = true
+                        binding.recyclerView.show()
                         binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
                             !binding.swipeRefreshLayout.isRefreshing
                         binding.swipeRefreshLayout.isRefreshing =
                             loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
 
-                        binding.statusView.isVisible = false
+                        binding.statusView.hide()
                         if (loadState.refresh is LoadState.NotLoading) {
                             if (adapter.itemCount == 0) {
                                 binding.statusView.setup(
                                     R.drawable.elephant_friend_empty,
                                     R.string.message_empty
                                 )
-                                binding.recyclerView.isVisible = false
-                                binding.statusView.isVisible = true
+                                binding.recyclerView.hide()
+                                binding.statusView.show()
                             } else {
-                                binding.statusView.isVisible = false
+                                binding.statusView.hide()
                             }
                         }
 
                         if (loadState.refresh is LoadState.Error) {
-                            when ((loadState.refresh as LoadState.Error).error) {
-                                is IOException -> {
-                                    binding.statusView.setup(
-                                        R.drawable.errorphant_offline,
-                                        R.string.error_network
-                                    ) { adapter.retry() }
-                                }
-                                else -> {
-                                    binding.statusView.setup(
-                                        R.drawable.errorphant_error,
-                                        R.string.error_generic
-                                    ) { adapter.retry() }
-                                }
-                            }
-                            binding.recyclerView.isVisible = false
-                            binding.statusView.isVisible = true
+                            binding.statusView.setup((loadState.refresh as LoadState.Error).error) { adapter.retry() }
+                            binding.recyclerView.hide()
+                            binding.statusView.show()
                         }
                     }
             }
@@ -551,10 +539,6 @@ class NotificationsFragment :
         adapter.notifyItemChanged(position)
     }
 
-    override fun onLoadMore(position: Int) {
-        // Empty -- this fragment doesn't show placeholders
-    }
-
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         val notificationViewData = adapter.snapshot()[position] ?: return
         notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(
@@ -568,6 +552,11 @@ class NotificationsFragment :
     }
 
     override fun clearWarningAction(position: Int) {
+        val notificationViewData = adapter.snapshot()[position] ?: return
+        notificationViewData.statusViewData = notificationViewData.statusViewData?.copy(
+            filterAction = Filter.Action.NONE
+        )
+        adapter.notifyItemChanged(position)
     }
 
     private fun clearNotifications() {

@@ -250,7 +250,6 @@
     <string name="filter_edit_title">फ़िल्टर संपादित करें</string>
     <string name="filter_addition_title">फिल्टर लगाएं</string>
     <string name="pref_title_public_filter_keywords">सार्वजनिक टाइमलाइन</string>
-    <string name="load_more_placeholder_text">और लोड करें</string>
     <string name="pref_title_show_cards_in_timelines">टाइमलाइन में लिंक प्रीव्यू दिखाएं</string>
     <string name="warning_scheduling_interval">मास्टोडन का न्यूनतम शेड्यूलिंग अंतराल 5 मिनट है।</string>
     <string name="no_drafts">आपके पास कोई ड्राफ्ट नहीं है।</string>

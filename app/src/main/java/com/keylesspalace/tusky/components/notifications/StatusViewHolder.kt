@@ -17,15 +17,15 @@
 
 package com.keylesspalace.tusky.components.notifications
 
+import androidx.viewbinding.ViewBinding
 import com.keylesspalace.tusky.adapter.StatusViewHolder
-import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 internal class StatusViewHolder(
-    binding: ItemStatusBinding,
+    binding: ViewBinding,
     private val statusActionListener: StatusActionListener,
     private val accountId: String
 ) : NotificationsPagingAdapter.ViewHolder, StatusViewHolder(binding.root) {

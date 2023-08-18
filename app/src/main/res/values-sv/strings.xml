@@ -256,7 +256,6 @@
     <string name="pref_title_alway_show_sensitive_media">Visa alltid allt innehåll (inkl. känsligt)</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Svarar till @%s</string>
-    <string name="load_more_placeholder_text">ladda mer</string>
     <string name="pref_title_public_filter_keywords">Offentliga tidslinjer</string>
     <string name="pref_title_thread_filter_keywords">Konversationer</string>
     <string name="filter_addition_title">Lägg till filter</string>
@@ -623,8 +622,6 @@
 \nAntingen kunde inte servern nås eller så har uppladdningen nekats.</string>
     <string name="action_post_failed_do_nothing">Stäng</string>
     <string name="description_login">Fungerar i de flesta fallen. Ingen information läcker till andra applikationer.</string>
-    <string name="pref_reading_order_oldest_first">Äldsta först</string>
-    <string name="pref_reading_order_newest_first">Nyaste först</string>
     <string name="dialog_follow_hashtag_title">Följ hashtagg</string>
     <string name="dialog_follow_hashtag_hint">#hashtagg</string>
     <string name="accessibility_talking_about_tag">%1$d personer pratar om hashtagg %2$s</string>
@@ -669,7 +666,6 @@
     <string name="ui_error_reblog">Att knuffa inlägg misslyckades: %s</string>
     <string name="ui_error_vote">Rösta i omröstning misslyckades: %s</string>
     <string name="ui_error_accept_follow_request">Acceptera följarförfrågan misslyckades: %s</string>
-    <string name="pref_title_reading_order">Läsordning</string>
     <string name="ui_error_bookmark">Att bokmärka inlägg misslyckades: %s</string>
     <string name="ui_error_clear_notifications">Rensing av aviseringar misslyckades: %s</string>
     <string name="ui_error_favourite">Att favoritmarkera inlägg misslyckades: %s</string>

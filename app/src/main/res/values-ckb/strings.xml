@@ -408,7 +408,6 @@
     <string name="filter_addition_title">زیادکردنی فلتەر</string>
     <string name="pref_title_thread_filter_keywords">گفتوگۆکان</string>
     <string name="pref_title_public_filter_keywords">هێڵی کاتی گشتی</string>
-    <string name="load_more_placeholder_text">بارکردنی زیاتر</string>
     <string name="replying_to">وەڵام دانەوە بۆ @%s</string>
     <string name="title_media">میدیا</string>
     <string name="pref_title_alway_open_spoiler">هەمیشە ئەو توتانەی کە بە ئاگادارکردنەوەکانی ناوەڕۆکەوە نیشانەکراون فراوان بکە</string>

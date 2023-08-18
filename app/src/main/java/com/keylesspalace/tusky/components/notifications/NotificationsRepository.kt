@@ -24,8 +24,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.google.gson.Gson
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -33,7 +36,8 @@ import javax.inject.Inject
 
 class NotificationsRepository @Inject constructor(
     private val mastodonApi: MastodonApi,
-    private val gson: Gson
+    private val gson: Gson,
+    @ApplicationScope private val externalScope: CoroutineScope
 ) {
     private var factory: InvalidatingPagingSourceFactory<String, Notification>? = null
 
@@ -65,9 +69,9 @@ class NotificationsRepository @Inject constructor(
     }
 
     /** Clear notifications */
-    suspend fun clearNotifications(): Response<ResponseBody> {
-        return mastodonApi.clearNotifications()
-    }
+    suspend fun clearNotifications(): Response<ResponseBody> = externalScope.async {
+        return@async mastodonApi.clearNotifications()
+    }.await()
 
     companion object {
         private const val TAG = "NotificationsRepository"

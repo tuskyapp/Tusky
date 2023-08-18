@@ -284,7 +284,6 @@
     <string name="filter_addition_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Thảo luận</string>
     <string name="pref_title_public_filter_keywords">Liên hợp</string>
-    <string name="load_more_placeholder_text">hiện những tút chưa đọc</string>
     <string name="replying_to">Trả lời @%s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
@@ -581,9 +580,6 @@
     <string name="action_share_account_username">Chia sẻ tên người này</string>
     <string name="send_account_username_to">Chia sẻ tên người này…</string>
     <string name="account_username_copied">Đã sao chép tên người này</string>
-    <string name="pref_title_reading_order">Thứ tự đọc</string>
-    <string name="pref_reading_order_oldest_first">Cũ nhất trước</string>
-    <string name="pref_reading_order_newest_first">Mới nhất trước</string>
     <string name="pref_summary_http_proxy_disabled">Tắt</string>
     <string name="pref_summary_http_proxy_missing">&lt;không đặt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;không hợp lệ&gt;</string>
