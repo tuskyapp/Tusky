@@ -1,5 +1,6 @@
 package com.keylesspalace.tusky.components.filters
 
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -104,7 +105,11 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     }
 
     override fun deleteFilter(filter: Filter) {
-        viewModel.deleteFilter(filter, binding.root)
+        lifecycleScope.launch {
+            if (showDeleteFilterDialog(filter.title) == BUTTON_POSITIVE) {
+                viewModel.deleteFilter(filter, binding.root)
+            }
+        }
     }
 
     override fun updateFilter(updatedFilter: Filter) {
